@@ -472,7 +472,37 @@ $scope.getAuctionTime = function(date){
     }
 }
 
-
+$scope.registernewsletter = function(email){
+           alert(email);
+           // return false;
+//             userService.registernewsletter(email).then(function(response) {
+//		//console.log(response.Ack);
+//		$scope.isExists=1;
+//		if(response.Ack == '1') {
+//                    console.log(response);
+//                   // alert('Added Successfully.');
+//                   // $window.location.reload()
+//                    $scope.isExists=1;
+//                  //  $scope.user='';
+//		$scope.subcategorylist=response.subcategorylist;
+//               // $scope.user_idd=$scope.user_id;
+//		//console.log($scope.alljobs);	
+//		
+//		} else {
+//                    console.log('ppp');	
+//                    $scope.isExists=0;
+//		}
+//	
+//	
+//	
+//				   
+//	}, function(err) {
+//	console.log(err); 
+//	});     
+        
+       
+        
+}
 
 });
 
