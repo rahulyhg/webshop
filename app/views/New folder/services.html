@@ -1,0 +1,178 @@
+<section class="banner banner-inner" style="background-image: url(app/assets/images/banner.jpg)" data-ng-model="serviceSettings">
+			<div class="banner-text">
+				<h2>{{serviceSettings.banner_name}}</h2>
+				<h4>{{serviceSettings.banner_caption}}</h4>
+			</div>
+		</section>
+		<section class="massage-type">
+			<div class="container">
+				<div class="row">
+                                    <div class="col-sm-6" ng-repeat="msgcat in massageCategoryList">
+						<div class="media">
+						  <div class="media-left">
+						    <a href="#">
+						      <img class="media-object" src="{{msgcat.image}}" alt="...">
+						    </a>
+						  </div>
+						  <div class="media-body">
+						    <h4 class="media-heading">{{msgcat.name}}</h4>
+						    <p>
+						    {{msgcat.description}}
+						    </p>
+						  </div>
+						</div>
+					</div>
+                                    
+                                    
+                                    <!--
+					<div class="col-sm-6">
+						<div class="media">
+						  <div class="media-left">
+						    <a href="#">
+						      <img class="media-object" src="app/assets/images/icon-2.png" alt="...">
+						    </a>
+						  </div>
+						  <div class="media-body">
+						    <h4 class="media-heading">Couple Massage</h4>
+						    <p>
+						    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took.
+						    </p>
+						  </div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="media">
+						  <div class="media-left">
+						    <a href="#">
+						      <img class="media-object" src="app/assets/images/icon-3.png" alt="...">
+						    </a>
+						  </div>
+						  <div class="media-body">
+						    <h4 class="media-heading">Couple Massage</h4>
+						    <p>
+						    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took.
+						    </p>
+						  </div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="media">
+						  <div class="media-left">
+						    <a href="#">
+						      <img class="media-object" src="app/assets/images/icon-4.png" alt="...">
+						    </a>
+						  </div>
+						  <div class="media-body">
+						    <h4 class="media-heading">Couple Massage</h4>
+						    <p>
+						    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took.
+						    </p>
+						  </div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="media">
+						  <div class="media-left">
+						    <a href="#">
+						      <img class="media-object" src="app/assets/images/icon-5.png" alt="...">
+						    </a>
+						  </div>
+						  <div class="media-body">
+						    <h4 class="media-heading">Couple Massage</h4>
+						    <p>
+						    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took.
+						    </p>
+						  </div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="media">
+						  <div class="media-left">
+						    <a href="#">
+						      <img class="media-object" src="app/assets/images/icon-6.png" alt="...">
+						    </a>
+						  </div>
+						  <div class="media-body">
+						    <h4 class="media-heading">Couple Massage</h4>
+						    <p>
+						    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took.
+						    </p>
+						  </div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="media">
+						  <div class="media-left">
+						    <a href="#">
+						      <img class="media-object" src="app/assets/images/icon-7.png" alt="...">
+						    </a>
+						  </div>
+						  <div class="media-body">
+						    <h4 class="media-heading">Couple Massage</h4>
+						    <p>
+						    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took.
+						    </p>
+						  </div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="media">
+						  <div class="media-left">
+						    <a href="#">
+						      <img class="media-object" src="app/assets/images/icon-8.png" alt="...">
+						    </a>
+						  </div>
+						  <div class="media-body">
+						    <h4 class="media-heading">Couple Massage</h4>
+						    <p>
+						    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took.
+						    </p>
+						  </div>
+						</div>
+					</div>
+                                    
+                                    -->
+                                    
+                                    
+                                    
+				</div>
+			</div>
+		</section>
+		<section class="download-app2" data-ng-model="homeSettings">
+			<div class="container">
+				<h2>Download the 7SEVEN Massage <br/>app</h2>
+				<p>Effortlessly book a massage from your phone.</p>
+				<ul>
+					<li><a href=""><img src="app/assets/images/googlepay.png" alt="" /></a></li>
+					<li><a href=""><img src="app/assets/images/appstore.png" alt="" /></a></li>
+				</ul>		
+			</div>
+		</section>	
+		<section class="become-therapist" data-ng-model="homeSettings">
+			<div class="therapist-child-left"></div>
+			<div class="therapist-child-right">
+				<h2>Our Pricing & Plans</h2>
+					<ul>
+						<li>							
+							<b>Massage Name (Time Dur: 40 - 60 Mins)</b>
+							<p>Explain to you how all this mistaken idea of denouncing pleasure and praising pain was born will give complete.</p>
+							<button class="btn btn-sm btn-default">Book now</button>
+						</li>
+						<li>							
+							<b>Massage Name (Time Dur: 40 - 60 Mins)</b>
+							<p>Explain to you how all this mistaken idea of denouncing pleasure and praising pain was born will give complete.</p>
+							<button class="btn btn-sm btn-default">Book now</button>
+						</li>
+						<li>							
+							<b>Massage Name (Time Dur: 40 - 60 Mins)</b>
+							<p>Explain to you how all this mistaken idea of denouncing pleasure and praising pain was born will give complete.</p>
+							<button class="btn btn-sm btn-default">Book now</button>
+						</li>
+						<li>							
+							<b>Massage Name (Time Dur: 40 - 60 Mins)</b>
+							<p>Explain to you how all this mistaken idea of denouncing pleasure and praising pain was born will give complete.</p>
+							<button class="btn btn-sm btn-default">Book now</button>
+						</li>
+					</ul>
+			</div>
+		</section>

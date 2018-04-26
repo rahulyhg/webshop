@@ -1,0 +1,275 @@
+<section data-ng-model="GymDetails">
+	<div class="container">
+		<div class="dtlHd">
+			<img src="{{GymDetails.gym_image[0].gym_image}}" >
+			<div class="txt">
+				<h3>{{GymDetails.name}}</h3>
+				<p style="margin-bottom: 0">{{GymDetails.address}}</p>
+				<!--<div class="star-ratings-css">
+				  <div class="star-ratings-css-top" style="width: 84%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+				  <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+				</div>-->
+			</div>
+		</div>
+	</div>
+</section>
+
+<section>
+	<div class="container">
+		<div class="gymDtl">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="gymDetails">             
+						<section class="slider">
+							<div id="slider" class="flexslider">
+								<ul class="slides">                  
+									<li ng-repeat="gmimg in GymDetails.gym_image"><img src="{{gmimg.gym_image}}" /></li>
+									<!--<li><img src="app/assets/images/kitchen_adventurer_cheesecake_brownie.jpg" /></li>
+									<li><img src="app/assets/images/kitchen_adventurer_lemon.jpg"/></li>
+									<li><img src="app/assets/images/kitchen_adventurer_donut.jpg"/></li>
+									<li><img src="app/assets/images/kitchen_adventurer_caramel.jpg"/></li>
+									<li><img src="app/assets/images/kitchen_adventurer_cheesecake_brownie.jpg"/></li>
+									<li><img src="app/assets/images/kitchen_adventurer_lemon.jpg"/></li>
+									<li><img src="app/assets/images/kitchen_adventurer_donut.jpg"/></li>
+									<li><img src="app/assets/images/kitchen_adventurer_caramel.jpg"/></li>
+									<li><img src="app/assets/images/kitchen_adventurer_cheesecake_brownie.jpg"/></li>
+									<li><img src="app/assets/images/kitchen_adventurer_lemon.jpg"/></li>
+									<li><img src="app/assets/images/kitchen_adventurer_donut.jpg"/></li>
+									<li><img src="app/assets/images/kitchen_adventurer_caramel.jpg"/></li>-->
+								</ul>
+							</div>
+					        <div id="carousel" class="flexslider">
+                                                        <ul class="slides">
+                                                            <li ng-repeat="gmimg in GymDetails.gym_image"><img src="{{gmimg.gym_image}}" /></li>
+                                                            
+                                                            
+                                                            <!--<li><img src="app/assets/images/kitchen_adventurer_cheesecake_brownie.jpg" /></li>
+                                                            <li><img src="app/assets/images/kitchen_adventurer_lemon.jpg"/></li>
+                                                            <li><img src="app/assets/images/kitchen_adventurer_donut.jpg"/></li>
+                                                            <li><img src="app/assets/images/kitchen_adventurer_caramel.jpg"/></li>
+                                                    <li><img src="app/assets/images/kitchen_adventurer_cheesecake_brownie.jpg" /></li>
+                                                            <li><img src="app/assets/images/kitchen_adventurer_lemon.jpg"/></li>
+                                                            <li><img src="app/assets/images/kitchen_adventurer_donut.jpg"/></li>
+                                                            <li><img src="app/assets/images/kitchen_adventurer_caramel.jpg"/></li>
+                                                    <li><img src="app/assets/images/kitchen_adventurer_cheesecake_brownie.jpg" /></li>
+                                                            <li><img src="app/assets/images/kitchen_adventurer_lemon.jpg"/></li>
+                                                            <li><img src="app/assets/images/kitchen_adventurer_donut.jpg"/></li>
+                                                            <li><img src="app/assets/images/kitchen_adventurer_caramel.jpg"/></li>-->
+					          	</ul>
+							</div>
+						</section>               
+						<p class="description" data-ng-model="GymDetails">{{GymDetails.description}}</p>
+					</div>
+				</div>
+				<div class="col-md-6" data-ng-model="GymDetails">
+					<div class="opningDtls">
+					<h4>Opening Time</h4>
+					<div class="row">
+						<div class="col-sm-6 col-xs-6"><P>Sunday</P></div>
+						<div class="col-sm-6 col-xs-6"><p>{{GymDetails.sundaytime}}</p></div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6 col-xs-6"><p>Monday</p></div>
+						<div class="col-sm-6 col-xs-6"><p>{{GymDetails.mondaytime}}</p></div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6 col-xs-6"><p>Tuesday</p></div>
+						<div class="col-sm-6 col-xs-6"><p>{{GymDetails.tuesdaytime}}</p></div>
+                                                <!--<div class="col-sm-6 col-xs-6"><p class="closeGym">Close</p></div>-->
+					</div>
+					<div class="row">
+						<div class="col-sm-6 col-xs-6"><p>Wednesday</p></div>
+						<div class="col-sm-6 col-xs-6"><p>{{GymDetails.wednesdaytime}}</p></div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6 col-xs-6"><p> Thursday</p></div>
+						<div class="col-sm-6 col-xs-6"><p>{{GymDetails.thursdaytime}}</p></div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6 col-xs-6"><p> Friday</p></div>
+						<div class="col-sm-6 col-xs-6"><p>{{GymDetails.fridaytime}}</p></div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6 col-xs-6"><p>Saturday</p></div>
+						<div class="col-sm-6 col-xs-6"><p>{{GymDetails.saturdaytime}}</p></div>
+					</div>
+				</div>
+				<div class="cnt">
+						<h4>Contact Us</h4>
+						<ul>
+							<li><i class="fa fa-phone" aria-hidden="true"></i> {{GymDetails.phone}}</li>
+							<li><i class="fa fa-envelope-o" aria-hidden="true"></i> {{GymDetails.email}}</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</section>
+
+
+<section class="trainer-list">
+    <div class="container">
+        <h1 class="text-center">Our Trainer</h1><br>
+        <h4 align="center" ng-show="!GymDetails.all_trainer.length" style="font-weight: bold;">No Trainer found</h4>
+        <div class="row">            
+            <div class="col-lg-3 col-md-4 col-xs-6 col-trainer" ng-repeat="gymtrainer in GymDetails.all_trainer">
+                <figure class="trainer-box">
+                    <div class="trainer-pic">
+                        <img src="{{gymtrainer.profile_image}}" alt="">
+                    </div>
+                    <figcaption class="p-3 text-white">
+                        <h4><span class="zilla">{{gymtrainer.full_name}}</span> <!--<span class="pull-right text-danger">$26/hour</span>--></h4>
+                        <!--<p class="font-14">Strength Training, Bootcamp,
+Weight Loos</p>-->
+                        <p class="font-14">{{gymtrainer.phone}}</p>
+                    </figcaption>
+                </figure>
+            </div>
+            
+            
+            <!--<div class="col-lg-3 col-md-4 col-xs-6 col-trainer">
+                <figure class="trainer-box">
+                    <div class="trainer-pic">
+                        <img src="app/assets/images/trainer/2.jpg" alt="">
+                    </div>
+                    <figcaption class="p-3 text-white">
+                        <h4><span class="zilla">Jhon Parker</span> <span class="pull-right text-danger">$26/hour</span></h4>
+                        <p class="font-14">Strength Training, Bootcamp,
+Weight Loos</p>
+                    </figcaption>
+                </figure>
+            </div>
+            <div class="col-lg-3 col-md-4 col-xs-6 col-trainer">
+                <figure class="trainer-box">
+                    <div class="trainer-pic">
+                        <img src="app/assets/images/trainer/3.jpg" alt="">
+                    </div>
+                    <figcaption class="p-3 text-white">
+                        <h4><span class="zilla">Jhon Parker</span> <span class="pull-right text-danger">$26/hour</span></h4>
+                        <p class="font-14">Strength Training, Bootcamp,
+Weight Loos</p>
+                    </figcaption>
+                </figure>
+            </div>
+            <div class="col-lg-3 col-md-4 col-xs-6 col-trainer">
+                <figure class="trainer-box">
+                    <div class="trainer-pic">
+                        <img src="app/assets/images/trainer/4.jpg" alt="">
+                    </div>
+                    <figcaption class="p-3 text-white">
+                        <h4><span class="zilla">Jhon Parker</span> <span class="pull-right text-danger">$26/hour</span></h4>
+                        <p class="font-14">Strength Training, Bootcamp,
+Weight Loos</p>
+                    </figcaption>
+                </figure>
+            </div>-->
+            
+            
+        </div>
+    </div>
+</section>
+
+
+<section class="trainer-schedule">
+    <div class="container">
+        <h1 class="text-center">Gym Schedule</h1>
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a data-target="#tab1" role="tab" data-toggle="tab">Sunday</a></li>
+            <li role="presentation"><a data-target="#tab2" role="tab" data-toggle="tab">Monday</a></li>
+            <li role="presentation"><a data-target="#tab3" role="tab" data-toggle="tab">Tuesday</a></li>
+            <li role="presentation"><a data-target="#tab4" role="tab" data-toggle="tab">Wednesday</a></li>
+            <li role="presentation"><a data-target="#tab5" role="tab" data-toggle="tab">Thursday</a></li>
+            <li role="presentation"><a data-target="#tab6" role="tab" data-toggle="tab">Friday</a></li>
+            <li role="presentation"><a data-target="#tab7" role="tab" data-toggle="tab">Saturday</a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="tab1">
+                <h5 align="center" ng-show="!GymDetails.sunday_class.length" style="font-weight: bold;">No Schedule found</h5>
+                <ul ng-repeat="gymsunday in GymDetails.sunday_class">
+                    <li>{{gymsunday.trainer_name}}</li>
+                    <li>{{gymsunday.start_time}}</li>
+                    <li>{{gymsunday.end_time}}</li>
+                      <li ng-if="current_user_login!='1'"><a  ng-click="checklogin()" class="btn">Join Now!</a></li>
+                        
+                         <li ng-if="current_user_login=='1' && current_user_type=='1' "><a  ng-click="getgymdetails(gymsunday.trainer_id,gymsunday.trainer_name,gymsunday.class_id,gymsunday.start_time,gymsunday.end_time,'Sunday')" class="btn">Join Now!</a></li>
+                </ul>                
+            </div>
+            <div role="tabpanel" class="tab-pane" id="tab2">
+                <h5 align="center" ng-show="!GymDetails.monday_class.length" style="font-weight: bold;">No Schedule found</h5>
+                <ul ng-repeat="gymmonday in GymDetails.monday_class">
+                    <li>{{gymmonday.trainer_name}}</li>
+                    <li>{{gymmonday.start_time}}</li>
+                    <li>{{gymmonday.end_time}}</li>
+                   <li ng-if="current_user_login!='1'"><a  ng-click="checklogin()" class="btn">Join Now!</a></li>
+                         <li ng-if="current_user_login=='1' && current_user_type=='1' "><a  ng-click="getgymdetails(gymmonday.trainer_id,gymmonday.trainer_name,gymmonday.class_id,gymmonday.start_time,gymmonday.end_time,'Monday')" class="btn">Join Now!</a></li>
+                </ul>                
+            </div>
+              <div role="tabpanel" class="tab-pane" id="tab3">
+                  <h5 align="center" ng-show="!GymDetails.tuesday_class.length" style="font-weight: bold;">No Schedule found</h5>
+                  <ul ng-repeat="gymtuesday in GymDetails.tuesday_class">
+                    <li>{{gymtuesday.trainer_name}}</li>
+                    <li>{{gymtuesday.start_time}}</li>
+                    <li>{{gymtuesday.end_time}}</li>
+                   <li ng-if="current_user_login!='1'"><a  ng-click="checklogin()" class="btn">Join Now!</a></li>
+                    <li ng-if="current_user_login=='1' && current_user_type=='1' "><a  ng-click="getgymdetails(gymtuesday.trainer_id,gymtuesday.trainer_name,gymtuesday.class_id,gymtuesday.start_time,gymtuesday.end_time,'Tuesday')" class="btn">Join Now!</a></li>
+                        <!--<li ng-if="current_user_login=='1'"><a  href="#/details" class="btn">Join Now!</a></li>-->
+                </ul>
+              </div>
+              <div role="tabpanel" class="tab-pane" id="tab4">
+                  <h5 align="center" ng-show="!GymDetails.wednesday_class.length" style="font-weight: bold;">No Schedule found</h5>
+                  <ul ng-repeat="gymwednesday in GymDetails.wednesday_class">
+                    <li>{{gymwednesday.trainer_name}}</li>
+                    <li>{{gymwednesday.start_time}}</li>
+                    <li>{{gymwednesday.end_time}}</li>
+                    <li ng-if="current_user_login!='1'"><a  ng-click="checklogin()" class="btn">Join Now!</a></li>
+                        <li ng-if="current_user_login=='1' && current_user_type=='1' "><a  ng-click="getgymdetails(gymwednesday.trainer_id,gymwednesday.trainer_name,gymwednesday.id,gymwednesday.start_time,gymwednesday.end_time,'Wednesday')" class="btn">Join Now!</a></li>
+                        </ul>
+              </div>
+            <div role="tabpanel" class="tab-pane" id="tab5">
+                <h5 align="center" ng-show="!GymDetails.thursday_class.length" style="font-weight: bold;">No Schedule found</h5>
+                <ul ng-repeat="gymthursday in GymDetails.thursday_class">
+                    <li>{{gymthursday.trainer_name}}</li>
+                    <li>{{gymthursday.start_time}}</li>
+                    <li>{{gymthursday.end_time}}</li>
+                    <li ng-if="current_user_login!='1'"><a  ng-click="checklogin()" class="btn">Join Now!</a></li>
+                        <!--<li ng-if="current_user_login=='1'"><a  href="#/details" class="btn">Join Now!</a></li>-->
+                        <li ng-if="current_user_login=='1' && current_user_type=='1' "><a  ng-click="getgymdetails(gymthursday.trainer_id,gymthursday.trainer_name,gymthursday.class_id,gymthursday.start_time,gymthursday.end_time,'Thursday')" class="btn">Join Now!</a></li>
+                
+                </ul>                
+            </div>
+              <div role="tabpanel" class="tab-pane" id="tab6">
+                  <h5 align="center" ng-show="!GymDetails.friday_class.length" style="font-weight: bold;">No Schedule found</h5>
+                  <ul ng-repeat="gymfriday in GymDetails.friday_class">
+                    <li>{{gymfriday.trainer_name}}</li>
+                    <li>{{gymfriday.start_time}}</li>
+                    <li>{{gymfriday.end_time}}</li>
+                     <li ng-if="current_user_login!='1'"><a  ng-click="checklogin()" class="btn">Join Now!</a></li>
+                         <li ng-if="current_user_login=='1' && current_user_type=='1' "><a  ng-click="getgymdetails(gymfriday.trainer_id,gymfriday.trainer_name,gymfriday.class_id,gymfriday.start_time,gymfriday.end_time,'Friday')" class="btn">Join Now!</a></li>
+                </ul>
+              </div>
+              <div role="tabpanel" class="tab-pane" id="tab7">
+                  <h5 align="center" ng-show="!GymDetails.saturday_class.length" style="font-weight: bold;">No Schedule found</h5>
+                  <ul ng-repeat="gymsaturday in GymDetails.saturday_class">
+                    <li>{{gymsaturday.trainer_name}}</li>
+                    <li>{{gymsaturday.start_time}}</li>
+                    <li>{{gymsaturday.end_time}}</li>
+                    <li ng-if="current_user_login!='1'"><a  ng-click="checklogin()" class="btn">Join Now!</a></li>
+                    <li ng-if="current_user_login=='1' && current_user_type=='1' "><a  ng-click="getgymdetails(gymsaturday.trainer_id,gymsaturday.trainer_name,gymsaturday.class_id,gymsaturday.start_time,gymsaturday.end_time,'Saturday')" class="btn">Join Now!</a></li>
+                    
+                </ul>
+              </div>
+          </div>
+        <!--<table class="table table-hover table-responsive">
+            <thead>
+                <th>Trainer name</th>
+            </thead>
+        </table>-->
+    </div>
+</section>
+
+

@@ -1,0 +1,126 @@
+<section>
+<div class="container">
+	<div class="gymList">
+		<h1>Auction List</h1>
+		 <div class="row">
+                     
+                     
+		  <div class="col-sm-4" ng-repeat="all_auctions in all_auction">
+		    <div class="thumbnail">
+		      <div class="lst">
+		        <div class="img">
+		      		<img src="{{all_auctions.image}}" alt="Nature" >
+		      		<!--<div class="rate">$50/day</div>-->
+                    <div class="offer-area">
+                        <p class="price-offer"><span>Price:</span> <span class="pre-price">${{all_auctions.price}}/day</span> <b>${{all_auctions.offer_price}}/day</b></p>
+                        <p><span>Offer End:</span> {{all_auctions.end_date| date:'MMM d, y'}}</p>
+                        <!--<p class="offer-timer" id="timer">
+                            <span id="timer1"></span>
+                            <span id="timer2"></span>
+                            <span id="timer3"></span>
+                            <span id="timer4"></span>
+                        </p>-->
+                        <p class="offer-timer" id="timer">
+                            <span id="timer1" ng-show="all_auctions.is_expire==1">EXPIRED</span>
+                        </p>
+                    </div>
+		      		<div class="name">{{all_auctions.title}}</div>
+		      	</div>
+		        <div class="caption">
+		          <p>{{all_auctions.description}}</p>
+                          <a class="ag" href="#/gymlistofferdetails/{{all_auctions.auction_id}}"><button class="btn btn-danger">see More</button></a>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+                     
+                     
+		  <!--<div class="col-sm-4">
+		    <div class="thumbnail">
+		      <div class="lst">
+		      	<div class="img">
+		      		<img src="app/assets/images/images5.png" >
+		      		<div class="rate">$500/90 day</div>
+		      		<div class="name"><div></div>FN Fitness</div>
+		      	</div>
+		        <div class="caption">
+		          <p>Is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</p>
+		          <button class="btn btn-danger">see More</button>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="col-sm-4">
+		    <div class="thumbnail">
+		      <div class="lst">
+		        <div class="img">
+		      		<img src="app/assets/images/images6.png" alt="Nature" >
+		      		<div class="rate">$100/day</div>
+		      		<div class="name">FN Fitness</div>
+		      	</div>
+		        <div class="caption">
+		          <p>Is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</p>
+		          <button class="btn btn-danger">see More</button>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="col-sm-4">
+		    <div class="thumbnail">
+		      <div class="lst">
+		        <div class="img">
+		      		<img src="app/assets/images/images5.png" alt="Nature" >
+		      		<div class="rate">$100/day</div>
+		      		<div class="name">FN Fitness</div>
+		      	</div>
+		        <div class="caption">
+		          <p>Is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</p>
+		          <button class="btn btn-danger">see More</button>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="col-sm-4">
+		    <div class="thumbnail">
+		      <div class="lst">
+		        <div class="img">
+		      		<img src="app/assets/images/images6.png" alt="Nature" >
+		      		<div class="rate">$100/day</div>
+		      		<div class="name">FN Fitness</div>
+		      	</div>
+		        <div class="caption">
+		          <p>Is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</p>
+		          <button class="btn btn-danger">see More</button>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="col-sm-4">
+		    <div class="thumbnail">
+		      <div class="lst">
+		        <div class="img">
+		      		<img src="app/assets/images/images6.png" alt="Nature" >
+		      		<div class="rate">$100/day</div>
+		      		<div class="name">FN Fitness</div>
+		      	</div>
+		        <div class="caption">
+		          <p>Is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</p>
+		          <button class="btn btn-danger">see More</button>
+		        </div>
+		      </div>
+		    </div>
+		  </div>-->
+                     
+                     
+                     
+                     
+		</div>
+	</div>
+</div>
+</section>
+
+<style>
+    a.ag{
+        text-decoration: none !important;
+    }    
+</style>

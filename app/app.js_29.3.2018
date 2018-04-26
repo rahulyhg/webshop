@@ -1,0 +1,648 @@
+var app = angular.module("angularblank", ['oc.lazyLoad','ncy-angular-breadcrumb','ui.router','ngRoute','ngTouch',
+        'ngSanitize','ngFileUpload','ngMap']);
+app.run(['$rootScope', '$state', '$stateParams',
+    function ($rootScope, $state, $stateParams) {
+        // Attach Fastclick for eliminating the 300ms delay between a physical tap and the firing of a click event on mobile browsers
+      // FastClick.attach(document.body);
+
+        // Set some reference to access them from any scope
+        $rootScope.$state = $state;
+        $rootScope.$stateParams = $stateParams;
+
+        // GLOBAL APP SCOPE
+        // set below basic information
+
+        $rootScope.serviceurl = "http://111.93.169.90/team1/webshop/webservice/frontend/";
+        $rootScope.siteurl = "http://111.93.169.90/team1/webshop/webservice/frontend/";
+        $rootScope.app = {
+            name: 'Insulationez', // name of your project
+            author: '', // author's name or company name
+            description:'Insulationez',
+            keywords:'Insulationez',
+            version: '1.0', // current version
+            year: ((new Date()).getFullYear()), // automatic current year (for copyright information)
+            isMobile: (function () {// true if the browser is a mobile device
+                var check = false;
+                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    check = true;
+                };
+                return check;
+            })()
+        };
+
+    }]);
+
+angular.module('angularblank').run(['$http',function($http){
+   $http.defaults.headers.common.responsetype = 'json';
+}])
+
+angular.module('angularblank').filter('tel', function () {
+    return function (tel) {
+        if (!tel) { return ''; }
+
+        var value = tel.toString().trim().replace(/^\+/, '');
+
+        if (value.match(/[^0-9]/)) {
+            return tel;
+        }
+
+        var country, city, number;
+
+        switch (value.length) {
+            case 10: // +1PPP####### -> C (PPP) ###-####
+                country = 1;
+                city = value.slice(0, 3);
+                number = value.slice(3);
+                break;
+
+            case 11: // +CPPP####### -> CCC (PP) ###-####
+                country = value[0];
+                city = value.slice(1, 4);
+                number = value.slice(4);
+                break;
+
+            case 12: // +CCCPP####### -> CCC (PP) ###-####
+                country = value.slice(0, 3);
+                city = value.slice(3, 5);
+                number = value.slice(5);
+                break;
+
+            default:
+                return tel;
+        }
+
+        if (country == 1) {
+            country = "";
+        }
+
+        number = number.slice(0, 3) + '-' + number.slice(3);
+
+        return (country + " (" + city + ") " + number).trim();
+    };
+});
+
+
+
+
+app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$compileProvider', '$filterProvider', '$provide', '$ocLazyLoadProvider', 'JS_REQUIRES','$locationProvider',
+    function ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvider, $filterProvider, $provide, $ocLazyLoadProvider, jsRequires,$locationProvider) {
+
+     app.controller = $controllerProvider.register;
+     app.directive = $compileProvider.directive;
+     app.filter = $filterProvider.register;
+     app.factory = $provide.factory;
+     app.service = $provide.service;
+     app.constant = $provide.constant;
+     app.value = $provide.value;
+
+        // LAZY MODULES
+        $ocLazyLoadProvider.config({
+            debug: false,
+            events: true,
+            modules: jsRequires.modules
+        });
+
+///Remove Hash from URL//////
+ //$locationProvider.html5Mode(true).hashPrefix('');
+ $locationProvider.hashPrefix('');
+
+    // APPLICATION ROUTES
+    // -----------------------------------
+    // For any unmatched url, redirect to /app/dashboard
+        $urlRouterProvider.otherwise("/home");
+
+    //
+    // Set up the states
+
+        $stateProvider
+        //Login state
+            .state('frontend', {
+                url: '',
+                templateUrl: 'app/views/app.html',
+                abstract :true,
+                //resolve: loadSequence('footer')
+
+            })
+
+
+
+         .state('frontend.login', {
+                url: '/login',
+                templateUrl: 'app/views/login.html',
+                title: 'Login',
+		controller: 'loginCtrl',
+                ncyBreadcrumb: {
+                    label: 'Login page'
+                },
+                resolve: loadSequence('login')
+            })
+
+
+
+
+            .state('frontend.forgot_password', {
+                url: '/forgot_password',
+                templateUrl: 'app/views/forgot_password.html',
+                title: 'forgot_password',
+		controller: 'forgot_passwordCtrl',
+                ncyBreadcrumb: {
+                    label: 'Forgot Password page'
+                },
+                resolve: loadSequence('forgot_password')
+            })
+
+
+
+
+	         .state('frontend.cms', {
+                url: '/cms/:id',
+                templateUrl: 'app/views/cms.html',
+                title: 'Login',
+		controller: 'cmsCtrl',
+                ncyBreadcrumb: {
+                    label: 'CMS page'
+                },
+                resolve: loadSequence('cms')
+            })
+
+
+            .state('frontend.notifications', {
+                           url: '/notifications',
+                           templateUrl: 'app/views/notifications.html',
+                           title: 'Notification',
+                                           controller: 'notificationsCtrl',
+                           ncyBreadcrumb: {
+                               label: 'Services page'
+                           },
+                           resolve: loadSequence('notifications')
+                       })
+
+              .state('frontend.notificationSetting', {
+                           url: '/notification_settings',
+                           templateUrl: 'app/views/notificationSetting.html',
+                           title: 'Notification Setting',
+                                           controller: 'NotificationSettingCtrl',
+                           ncyBreadcrumb: {
+                               label: 'Notification Setting'
+                           },
+                           resolve: loadSequence('notification_settings')
+                       })           
+
+
+            .state('frontend.failure', {
+                url: '/failure',
+                templateUrl: 'app/views/failure.html',
+                title: 'failure',
+		controller: 'failureCtrl',
+                ncyBreadcrumb: {
+                    label: 'failure page'
+                },
+                resolve: loadSequence('failure')
+            })
+
+
+
+
+	         .state('frontend.cart', {
+                url: '/cart',
+                templateUrl: 'app/views/cart.html',
+                title: 'Cart',
+		controller: 'cartCtrl',
+                ncyBreadcrumb: {
+                    label: 'Cart page'
+                },
+                resolve: loadSequence('cart')
+            })
+
+
+	         .state('frontend.vendordashboard', {
+                url: '/vendordashboard',
+                templateUrl: 'app/views/vendordashboard.html',
+                title: 'Vendor dashboard',
+		controller: 'vendordashboardCtrl',
+                ncyBreadcrumb: {
+                    label: 'Vendordashboard page'
+                },
+                resolve: loadSequence('vendordashboard')
+            })
+
+
+            .state('frontend.checkout', {
+                url: '/checkout',
+                templateUrl: 'app/views/checkout.html',
+                title: 'checkout',
+		controller: 'checkoutCtrl',
+                ncyBreadcrumb: {
+                    label: 'checkout page'
+                },
+                resolve: loadSequence('checkout')
+            })
+
+             .state('frontend.payment_success', {
+                url: '/payment_success',
+                templateUrl: 'app/views/payment_success.html',
+                title: 'payment_success',
+		controller: 'payment_successCtrl',
+                ncyBreadcrumb: {
+                    label: 'Payment success page'
+                },
+                resolve: loadSequence('payment_success')
+            })
+
+            .state('frontend.order_details', {
+                url: '/order_details/:id',
+                templateUrl: 'app/views/order_details.html',
+                title: 'orderdetails',
+		controller: 'order_detailsCtrl',
+                ncyBreadcrumb: {
+                    label: 'Order details page'
+                },
+                resolve: loadSequence('order_details')
+            })
+
+            .state('frontend.signup', {
+                url: '/signup',
+                templateUrl: 'app/views/signup.html',
+                title: 'Signup',
+				controller: 'signupCtrl',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('signup')
+            })
+
+           .state('frontend.invites', {
+                url: '/invites',
+                templateUrl: 'app/views/invites.html',
+                title: 'My Account',
+				controller: 'invitesCtrl',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('invites')
+            })
+
+
+
+
+            .state('frontend.pay_success', {
+                url: '/pay_success',
+                templateUrl: 'app/views/pay_success.html',
+                title: 'awaiting',
+				controller: 'paySuccessCtrl',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('pay_success')
+            })
+
+
+
+             .state('frontend.inbox', {
+                url: '/inbox',
+                templateUrl: 'app/views/inbox.html',
+                title: 'Inbox',
+				controller: 'inboxCtrl',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('inbox')
+            })
+
+
+             .state('frontend.ListOrderSeller', {
+                url: '/ListOrderSeller',
+                templateUrl: 'app/views/ListOrderSeller.html',
+                title: 'ListOrderSeller',
+				controller: 'ListOrderSellerCtrl',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('ListOrderSeller')
+            })
+
+              .state('frontend.ListOrderBuyer', {
+                url: '/ListOrderBuyer',
+                templateUrl: 'app/views/ListOrderBuyer.html',
+                title: 'ListOrderBuyer',
+				controller: 'ListOrderBuyerCtrl',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('ListOrderBuyer')
+            })
+
+
+
+
+
+
+
+           .state('frontend.notification_settings', {
+                url: '/notification_settings',
+                templateUrl: 'app/views/notification_settings.html',
+                title: 'Notification Settings',
+				controller: 'NotificationSettingCtrl',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('notification_settings')
+            })
+
+		   .state('frontend.accepted', {
+                url: '/accepted',
+                templateUrl: 'app/views/accepted.html',
+                title: 'My Account',
+				controller: 'acceptedCtrl',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('accepted')
+            })
+
+
+		   .state('frontend.contact_us', {
+                url: '/contact_us',
+                templateUrl: 'app/views/contact_us.html',
+                title: 'My Account',
+				controller: 'contactUsCtrl',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('contact_us')
+            })
+
+		   .state('frontend.change_password', {
+                url: '/change_password',
+                templateUrl: 'app/views/change_password.html',
+                title: 'My Account',
+				controller: 'changePasswordCtrl',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('change_password')
+            })
+
+
+		   .state('frontend.waitlisted', {
+                url: '/waitlisted',
+                templateUrl: 'app/views/waitlisted.html',
+                title: 'My Account',
+				controller: 'waitlistedCtrl',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('waitlisted')
+            })
+
+              .state('frontend.wishlist', {
+                url: '/wishlist',
+                templateUrl: 'app/views/wishlist.html',
+                title: 'My Account',
+				controller: 'wishlistCtrl',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('wishlist')
+            })
+
+
+
+		   .state('frontend.reviews', {
+                url: '/reviews',
+                templateUrl: 'app/views/reviews.html',
+                title: 'My Account',
+				controller: 'reviewsCtrl',
+                ncyBreadcrumb: {
+                    label: 'Reviews'
+                },
+                resolve: loadSequence('reviews')
+            })
+
+		   .state('frontend.invoices', {
+                url: '/invoices',
+                templateUrl: 'app/views/invoices.html',
+                title: 'Invoices',
+				controller: 'invoicesCtrl',
+                ncyBreadcrumb: {
+                    label: 'Invoices'
+                },
+                resolve: loadSequence('invoices')
+            })
+
+
+            .state('frontend.allmessage', {
+                url: '/allmessage',
+                templateUrl: 'app/views/allmessage.html',
+                title: 'All Message',
+				controller: 'allmessageCtrl',
+                ncyBreadcrumb: {
+                    label: 'All Message page'
+                },
+                resolve: loadSequence('allmessage')
+            })
+
+
+		.state('frontend.message', {
+                url: '/message/:id1/:id2',
+                templateUrl: 'app/views/message.html',
+                title: 'Message',
+				controller: 'messageCtrl',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('message')
+            })
+
+		    .state('frontend.my_account', {
+                url: '/my_account',
+                templateUrl: 'app/views/my-account.html',
+                title: 'My Account',
+				controller: 'myAccountCtrl',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('my_account')
+            })
+
+
+            .state('frontend.addProduct', {
+                url: '/addProduct',
+                templateUrl: 'app/views/addProduct.html',
+                title: 'Add Product',
+				controller: 'addProductCtrl',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('addProduct')
+            })
+
+             .state('frontend.addAuction', {
+                url: '/addAuction',
+                templateUrl: 'app/views/addAuction.html',
+                title: 'Add Auction',
+                controller: 'addAuctionCtrl',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('addAuction')
+            })
+
+               .state('frontend.addAuction2', {
+                url: '/addAuction2',
+                templateUrl: 'app/views/addAuction2.html',
+                title: 'Add Auction',
+                controller: 'addAuctionCtrl2',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('addAuction2')
+            })
+
+            .state('frontend.myProduct', {
+                url: '/myProduct',
+                templateUrl: 'app/views/myProduct.html',
+                title: 'myProduct',
+				controller: 'myProductCtrl',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('myProduct')
+            })
+
+            .state('frontend.myAuction', {
+                url: '/myAuction',
+                templateUrl: 'app/views/myAuction.html',
+                title: 'myAuction',
+                controller: 'myAuctionCtrl',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('myAuction')
+            })
+
+
+            .state('frontend.home', {
+                url: '/home',
+                templateUrl: 'app/views/home.html',
+                title: 'Home',
+				controller: 'homeCtrl',
+                ncyBreadcrumb: {
+                    label: 'Home page'
+                },
+                resolve: loadSequence('home')
+            })
+
+              .state('frontend.pay_now', {
+                url: '/pay_now/:id',
+                templateUrl: 'app/views/pay_now.html',
+                title: 'Paynow',
+				controller: 'payNowCtrl',
+                ncyBreadcrumb: {
+                    label: 'Payment page'
+                },
+                resolve: loadSequence('pay_now')
+            })
+
+
+             .state('frontend.searchListing', {
+                url: '/searchListing/:brand',
+                templateUrl: 'app/views/searchListing.html',
+                title: 'searchListing',
+				controller: 'searchListingCtrl',
+                ncyBreadcrumb: {
+                    label: 'Search listing page'
+                },
+                resolve: loadSequence('searchListing')
+            })
+
+            .state('frontend.productDetails', {
+                url: '/productDetails/:id',
+                templateUrl: 'app/views/productDetails.html',
+                title: 'productDetails',
+				controller: 'productDetailsCtrl',
+                ncyBreadcrumb: {
+                    label: 'Product Details page'
+                },
+                resolve: loadSequence('productDetails')
+            })
+
+
+             .state('frontend.auctionDetails', {
+                url: '/auctionDetails/:id',
+                templateUrl: 'app/views/auctionDetails.html',
+                title: 'auctionDetails',
+                controller: 'auctionDetailsCtrl',
+                ncyBreadcrumb: {
+                    label: 'Auction Details page'
+                },
+                resolve: loadSequence('auctionDetails')
+            })
+
+              .state('frontend.emailverify', {
+                url: '/emailverify/:id',
+                templateUrl: 'app/views/emailverify.html',
+                title: 'emailverify',
+                controller: 'emailVerifyCtrl',
+                ncyBreadcrumb: {
+                    label: 'Email Verify page'
+                },
+               resolve: loadSequence('emailverify')
+            })
+          
+               .state('frontend.sendForAuction', {
+                url: '/sendForAuction/:product_id',
+                templateUrl: 'app/views/sendForAuction.html',
+                title: 'sendForAuction',
+                controller: 'sendForAuctionCtrl',
+                ncyBreadcrumb: {
+                    label: 'Services page'
+                },
+                resolve: loadSequence('sendForAuction')
+            })
+
+          /*   .state('frontend.test', {
+                url: '/test',
+                templateUrl: 'app/views/test.html',
+                title: 'Home',
+                ncyBreadcrumb: {
+                    label: 'test page'
+                },
+                resolve: loadSequence('home')
+            }); */
+
+function loadSequence() {
+            var _args = arguments;
+            return {
+                deps: ['$ocLazyLoad', '$q',
+                    function ($ocLL, $q) {
+                        var promise = $q.when(1);
+                        for (var i = 0, len = _args.length; i < len; i++) {
+                            promise = promiseThen(_args[i]);
+                        }
+                        return promise;
+
+                        function promiseThen(_arg) {
+                            if (typeof _arg == 'function')
+                                return promise.then(_arg);
+                            else
+                                return promise.then(function () {
+                                    var nowLoad = requiredData(_arg);
+                                    if (!nowLoad)
+                                        return $.error('Route resolve: Bad resource name [' + _arg + ']');
+                                    return $ocLL.load(nowLoad);
+                                });
+                        }
+
+                        function requiredData(name) {
+                            if (jsRequires.modules)
+                                for (var m in jsRequires.modules)
+                                    if (jsRequires.modules[m].name && jsRequires.modules[m].name === name)
+                                        return jsRequires.modules[m];
+                            return jsRequires.scripts && jsRequires.scripts[name];
+                        }
+                    }]
+            };
+        }
+
+  }]);

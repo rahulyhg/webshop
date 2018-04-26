@@ -1,0 +1,57 @@
+
+	<section class="innerbody" ng-init="myproduct()">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-md-7 mb-2">
+					<h5 class="common-title p-3 mb-0">Card Details and Shipping Details.</h5>
+					<div class="edit-pro p-4">
+						<form name="cardPayment" ng-submit="cardpay(user)">
+                        	
+	                        <div class="form-group">
+	                            <label>Shipping Name</label>
+	                            <input type="text" class="form-control" name="shipping_name" ng-model="user.shipping_name" required>
+	                        </div>
+	                        <div class="form-group">
+	                            <label>Shipping Address</label>
+	                            <input type="text" class="form-control" name="shipping_address" ng-model="user.shipping_address" required>
+	                        </div>
+	                        <div class="row">
+	                      
+                                    	                        	<div class="form-group col-4">
+	                                <button id="checkout" class="btn btn-primary">Pay Now</button>
+                                         <img src='app/assets/images/25.gif' style="margin: 0 auto;  display:none" id='loadingmessage' class="text-center"/>
+	                            </div>
+                    		</div>
+                    	</form>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-5">
+					<div class="edit-pro p-3">
+						<!--<div class="OrderSummary">
+							<div class="sub_total_box01">
+								<div class="st_title">Product Cost</div>
+								<div class="st_total"><i class="fa fa-inr"></i>51384.12</div>
+								<div class="c"></div>
+							</div>
+							<div class="sub_total_box">
+								<div class="st_title">Total</div>
+								<div class="gt_total"><i class="fa fa-inr"></i>51384.12</div>
+								<div class="c"></div>
+							</div>
+							<div class="wrapper w-100">
+								<button class="btn btn-checkout full-btn">PROCEED TO CHECKOUT<div class="ch_arrow"></div></button>
+							</div>
+						</div>-->
+						<ul class="pay-list list-unstyled mt-5">
+                            <li class="d-flex justify-content-between">
+                              <b>Amount Payble.</b>
+                              <b class="ng-binding">${{grandtotal}}</b>
+							</li>
+                        </ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	

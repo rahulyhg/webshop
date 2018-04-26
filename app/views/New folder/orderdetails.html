@@ -1,0 +1,33 @@
+<section>
+	<section class="profile signUp">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4" >
+                <div data-ng-include=" 'app/views/partials/sidebar.html' " ></div>                                    
+				</div>
+				<div class="col-sm-8" data-ng-model="OrderDetailsGeneralUser">
+				    <div class="list-details">
+				    	<div class="row">
+				    		<div class="col-md-7">
+				    			<h3>{{OrderDetailsGeneralUser.gym_name}}</h3>
+				    			<p>{{OrderDetailsGeneralUser.gym_description}}</p>
+				    			<span>Order date : {{OrderDetailsGeneralUser.order_date| dateToISO | date:'MMM d, y h:mm a'}}</span>
+				    			<h4>Price ${{OrderDetailsGeneralUser.order_price}}</h4>
+								<ul class="training-times">
+									<li><h4>Training time</h4></li>
+									<li><b>{{OrderDetailsGeneralUser.gym_day}}</b>	<span>{{OrderDetailsGeneralUser.gym_start_time}} - {{OrderDetailsGeneralUser.gym_end_time}}</span></li>
+									<!--<li><b>Monday</b>	<span>10:30 AM - 7:30PM</span></li>
+									<li><b>Tuesday</b>	<span>10:30 AM - 7:30PM</span></li>
+									<li><b>Wednesday</b>	<span>10:30 AM - 7:30PM</span></li>-->
+								</ul>
+				    		</div>
+				    		<div class="col-md-5">
+				    			<div class="details-image"><img src="{{OrderDetailsGeneralUser.gym_image[0].images}}" class="img-responsive"></div>
+				    		</div>
+				    	</div>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</section>
+</section>

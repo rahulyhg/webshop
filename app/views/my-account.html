@@ -1,0 +1,72 @@
+
+	<section class="innerbody">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-4" data-ng-include=" 'app/views/partials/sidebar.html' " ></div>
+				<div class="col-lg-9 col-md-8">
+					<h5 class="common-title p-3 mb-0">Edit Profile</h5>
+					<div class="edit-pro p-3">
+						<div class="row">
+							<div class="col-lg-7 col-md-12">
+								<form name="myaccountForm" ng-submit="updateProfile(user)" novalidate>
+									<div class="form-group" ng-if="current_user_type=='2'">
+										<label for="staticEmail">Shop or individual</label>
+										<select class="form-control" ng-model="user.business_type" name="business_type">
+											<option value="1">Individual</option>
+                                                                                        <option value="2">Shop</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="staticEmail">First Name</label>
+										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user.fname" name="fname" required>
+									</div>
+                                                                    <div class="form-group">
+										<label for="staticEmail">Last Name</label>
+										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user.lname" name="lname" required>
+									</div>
+									<div class="form-group">
+										<label for="staticEmail">Gender</label>
+										<select class="form-control" ng-model="user.gender" name="gender">
+											<option value="Male">Male</option>
+											<option value="Female">Female</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="staticEmail">Mobile Number</label>
+										<input type="text" class="form-control" id="" value="" placeholder="9831635919" ng-model="user.phone" name="phone" required>
+									</div>
+									<div class="form-group">
+										<label for="staticEmail">Email</label>
+										<input type="text" class="form-control" id="" value="" placeholder="christnknight@gmail.com" ng-model="user.email" name="email" required>
+									</div>
+									<div class="form-group">
+										<label for="staticEmail">Address</label>
+										<input type="text" class="form-control" id="" value="" placeholder="California, CA, United States" ng-model="user.address" name="address" required>
+									</div>
+                                                   
+                                          <!--   hidden by puja as on 12.3.2018    -->              
+                                                                  <!--   <div class="form-group" ng-if="current_user_type=='2'">
+										<label for="staticEmail">Secret Key</label>
+										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user.secret_key" name="secret_key" required>
+									</div>
+                                                                    
+                                                                    <div class="form-group" ng-if="current_user_type=='2'">
+										<label for="staticEmail">Publish Key</label>
+										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user.publish_key" name="publish_key" required>
+									</div> -->
+
+								<!-- 	hide section end as on 12.3.2018 -->
+									<!--<div class="form-group">
+										<label for="staticEmail">Civil ID Attachment</label>
+										<input type="text" class="form-control" id="" value="" placeholder="ED5846L">
+									</div>-->
+									<button class="btn btn-primary">Save Changes</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+		

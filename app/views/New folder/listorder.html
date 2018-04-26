@@ -1,0 +1,109 @@
+
+
+
+<section ng-init="trainerList()">
+	<section class="profile signUp">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4" >
+					
+                                    <div data-ng-include=" 'app/views/partials/sidebar.html' " ></div>
+                                    
+				</div>
+
+                            
+                            
+                            
+                            
+<div class="col-sm-8">
+        <div class="RHS">
+                <div class="well">
+                        <div class="mdl">
+                        <h2>My Order List</h2>
+                        <div class="listingProfile">
+                                <div class="table-responsive">          
+                                  <table class="table .table-striped">
+                                    <thead>
+                                      <tr>
+                                        <th class="profImgTd">Trainer Image</th>
+                                        <th>Trainer Name</th>
+                                        <th >Gym Name</th>
+                                         <th>Plan Type</th>
+                                          <th>Price</th>
+                                          <th>Action </th>
+
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                    
+                                    <tr ng-show="!orderList.length">
+                                        <td colspan="6"><h4 align="center" >No Records Found</h4></td>
+                                    </tr>
+                                      <tr  ng-repeat="list in orderList">
+                                        <td class="profImgTd">
+                                                <div class="profImg">
+                                                        <img src="{{list.trainer_image}}"/>
+                                                </div>
+                                        </td>
+                                        <td>
+                                                <div class="">{{list.trainer_name}}</div>
+                                                
+                                        </td>
+                                        <td>
+                                                <div class="">{{list.gym_name}}</div>
+                                                
+                                        </td>
+                                        <td>
+                                                <div class="">{{list.plantype}}</div>
+                                                
+                                        </td>
+                                        <td>
+                                                <div class="">${{list.price}}</div>
+                                                
+                                        </td>
+                                        <td class="action">                                            
+                                             
+                                                <a href="#/orderdetails/{{list.id}}" class="btn btn-success">Booking Details</a>
+                                        </td>
+                                      </tr>
+                                      <!--<tr>
+                                        <td class="profImgTd">
+                                                <div class="profImg">
+                                                        <img src="app/assets/images/images10.jpg"/>
+                                                </div>
+                                        </td>
+                                        <td>
+                                                <div class="name">Jone Stive</div>
+                                                <div>Stockholm, UK</div>
+                                                <div>Age: 25</div>
+                                        </td>
+                                        <td class="action">
+                                                <a href="#" class="delete"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                <a href="#" class="edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                        </td>
+                                      </tr>-->
+                                    </tbody>
+                                  </table>
+                                </div>
+                        </div>
+                </div>
+                </div>
+        </div>
+</div>                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+			</div>
+		</div>
+	</section>
+</section>

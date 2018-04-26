@@ -1,0 +1,1054 @@
+<?php
+
+//error_reporting(1);
+require_once("class/class.phpmailer.php");
+require 'vendor/autoload.php';
+
+require 'config.php';
+include('routs.php');
+include('crud.php');
+//include('Stripe.php');
+
+date_default_timezone_set('UTC');
+
+function userSignup() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    
+    $fname = isset($body->fname) ? $body->fname : '';
+    $lname = isset($body->lname) ? $body->lname : '';
+    $email = isset($body->email) ? $body->email : '';
+    $password = isset($body->password) ? $body->password : '';    
+    $device_type = isset($body->devicetype) ? $body->devicetype : '';
+    $device_token_id = isset($body->devicetoken) ? $body->devicetoken : '';
+    $address = isset($body->address) ? $body->address : '';
+    $lat = isset($body->lat) ? $body->lat : '';
+    $long = isset($body->long) ? $body->long : '';
+    $phone = isset($body->phone) ? $body->phone : '';
+    $city = isset($body->city) ? $body->city : '';
+    $type=isset($body->type) ? $body->type : '';
+    $add_date = date('Y-m-d');
+    
+
+    $db = getConnection();
+
+    $sql = "SELECT * FROM  webshop_user WHERE  email=:email OR phone=:phone";
+    $stmt = $db->prepare($sql);
+
+    $stmt->bindParam("email", $email);
+    $stmt->bindParam("phone", $phone);
+    $stmt->execute();
+    $usersCount = $stmt->rowCount();
+
+    if ($usersCount == 0) {
+
+        $newpass = md5($password);
+		$status=1;
+
+        $sql = "INSERT INTO  webshop_user (fname,lname, email, password, type, device_type, device_token_id, add_date, status,address, my_latitude,my_longitude,city,phone) VALUES (:fname,:lname, :email, :password, :type, :device_type, :device_token_id, :add_date, :status, :address, :my_latitude, :my_longitude, :city, :phone)";
+        try {
+
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam("fname", $fname);
+             $stmt->bindParam("lname", $lname);
+            $stmt->bindParam("email", $email);
+            $stmt->bindParam("password", $newpass);
+            $stmt->bindParam("type", $type);
+             $stmt->bindParam("device_type", $device_type);
+              $stmt->bindParam("device_token_id", $device_token_id);
+            $stmt->bindParam("add_date", $add_date);
+            $stmt->bindParam("status", $status);
+             $stmt->bindParam("address", $address);
+              $stmt->bindParam("my_latitude", $lat);
+               $stmt->bindParam("my_longitude", $long);
+                $stmt->bindParam("city", $city);
+                 $stmt->bindParam("phone", $phone);
+            $stmt->execute();
+  
+
+            $lastID = $db->lastInsertId();
+            $data['last_id'] = $lastID;
+            $data['Ack'] = '1';
+            $data['msg'] = 'Registered Successfully...';
+
+
+            $sql = "SELECT * FROM  webshop_user WHERE id=:id ";
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam("id", $lastID);
+            $stmt->execute();
+            $getUserdetails = $stmt->fetchObject();
+
+            if ($getUserdetails->image != '') {
+                $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
+            } else {
+                $profile_image =SITE_URL . 'upload/nouser.jpg';
+            }
+
+
+            $data['UserDetails'] = array(
+                "user_id" => stripslashes($getUserdetails->id),
+                "fname" => stripslashes($getUserdetails->fname),
+                "type" => stripslashes($getUserdetails->type),
+                  "lname" => stripslashes($getUserdetails->lname),
+                "email" => stripslashes($getUserdetails->email),
+                "address" => stripslashes($getUserdetails->address),
+                "my_latitude" => stripslashes($getUserdetails->my_latitude),
+                "my_longitude" => stripslashes($getUserdetails->my_longitude),
+                "city" => stripslashes($getUserdetails->city),
+                "phone" => stripslashes($getUserdetails->phone),
+                "add_date" => stripslashes($getUserdetails->add_date),
+                "profile_image" => stripslashes($profile_image));
+
+            
+            $MailTo = $email;
+        
+            $MailFrom = 'webshop.com';
+            $subject = "webshop.com- Thank you for registering";
+
+            $TemplateMessage = "Welcome and thank you for registering at webshop.com!<br />";
+            $TemplateMessage .= "Your account has now been created and you can login using your email address and password by visiting our App<br />";            
+
+            $TemplateMessage .= "Thanks,<br />";
+            $TemplateMessage .= "webshop.com<br />";
+
+
+		$mail = new PHPMailer(true);	
+			
+			$IsMailType='SMTP';  
+	
+	$MailFrom='palashsaharana@gmail.com';    //  Your email password
+
+    $MailFromName='Webshop';
+	$MailToName='';
+
+    $YourEamilPassword="lsnspyrcimuffblr";   //Your email password from which email you send.
+
+ 
+	// If you use SMTP. Please configure the bellow settings.
+	
+	$SmtpHost             = "smtp.gmail.com"; // sets the SMTP server
+	$SmtpDebug            = 0;                     // enables SMTP debug information (for testing)
+	$SmtpAuthentication   = true;                  // enable SMTP authentication
+	$SmtpPort             = 587;                    // set the SMTP port for the GMAIL server
+	$SmtpUsername       = $MailFrom; // SMTP account username
+	$SmtpPassword       = $YourEamilPassword;        // SMTP account password
+	
+	$mail->IsSMTP();  // telling the class to use SMTP
+	$mail->SMTPDebug  = $SmtpDebug;
+	$mail->SMTPAuth   =  $SmtpAuthentication;     // enable SMTP authentication
+	$mail->Port       = $SmtpPort;             // set the SMTP port
+	$mail->Host       = $SmtpHost;           // SMTP server
+	$mail->Username   =  $SmtpUsername; // SMTP account username
+	$mail->Password   = $SmtpPassword; // SMTP account password
+	
+	if ( $MailFromName != '' ) {
+	$mail->AddReplyTo($MailFrom,$MailFromName);
+	$mail->From       = $MailFrom;
+	$mail->FromName   = $MailFromName;
+	} else {
+	$mail->AddReplyTo($MailFrom);
+	$mail->From       = $MailFrom;
+	$mail->FromName   = $MailFrom;
+	}
+	
+	if ( $MailToName != '' ) {
+	$mail->AddAddress($MailTo,$MailToName);
+	} else {
+	$mail->AddAddress($MailTo);
+	}
+	
+	$mail->SMTPSecure = 'tls';
+	$mail->Subject  = $subject;	
+	
+	$mail->MsgHTML($TemplateMessage);
+	
+	try{
+	$mail->Send();
+	}
+	catch(phpmailerException $e)
+	{
+	echo $e->errorMessage(); //Pretty error messages from PHPMailer
+	}
+            
+            
+            
+            $data['Ack'] = '1';
+            $app->response->setStatus(200);
+
+            $db = null;
+
+        } catch (PDOException $e) {
+
+            $data['user_id'] = '';
+            $data['Ack'] = '0';
+            $data['msg'] = $e->getMessage();
+
+            $app->response->setStatus(401);
+        }
+    } else {
+        $data['user_id'] = '';
+        $data['Ack'] = '0';
+        $data['msg'] = 'User already exists';
+        $app->response->setStatus(200);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+function userlogin() {
+
+    $data = array();
+    
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);    
+    
+     $email = isset($body->email) ? $body->email : '';
+    $password = isset($body->password) ? $body->password : ''; 
+    $password=md5($password);
+    $status = 1;
+
+    $sql = "SELECT * FROM webshop_user WHERE email='".$email."' AND password='".$password."' AND status='".$status."'";
+
+    try {
+        
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $user = $stmt->fetchObject();
+        $userCount = $stmt->rowCount();
+        
+        if ($userCount == 0) {
+            $data['Ack'] = '0';
+            $data['msg'] = 'Username Or Password Is Invalid !!!';
+            $app->response->setStatus(200);
+            
+        } else {
+
+            if ($user->status == 0) {
+                $data['Ack'] = '0';
+                $data['msg'] = 'Account Is Not Activated yet';
+                $app->response->setStatus(200);
+                
+            } else {
+                
+                $data['Ack'] = '1';
+                $data['msg'] = 'Loggedin Successfully';
+                
+                
+                if ($user->image != '') {
+                $user_image = SITE_URL . 'upload/user_image/' . $user->image;
+                } else {
+                $user_image =  SITE_URL . 'webservice/no-user.png';
+                }
+                
+
+                $data['UserDetails'] = array(
+                    "user_id" => stripslashes($user->id),
+                    "email" => stripslashes($user->email),
+                    "fname" => stripslashes($user->fname),
+                    "lname" => stripslashes($user->lname),
+					"user_type" => stripslashes($user->type),
+                    "user_image" => stripslashes($user_image)
+                    );
+                $app->response->setStatus(200);
+            }
+        }
+
+        $db = null;
+    } catch (PDOException $e) {
+        print_r($e);        
+        $data['Ack'] = '0';
+        $data['msg'] = 'Login Error!!!';
+
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+
+function forgetpassword() {
+
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    $email = $body->email;
+
+
+    $byeamil = findByConditionArray(array('email' => $email), ' webshop_user');
+    if (!empty($byeamil)) {
+
+
+
+        $sql = "SELECT * FROM  webshop_user WHERE email=:email ";
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("email", $email);
+        $stmt->execute();
+        $getUserdetails = $stmt->fetchObject();
+
+        $to = $email;
+        $password=rand(1111, 9999);
+        $forgot_pass_otp = md5($password);
+
+
+     $sql = "UPDATE  webshop_user SET password=:password WHERE email=:email";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("password", $forgot_pass_otp);
+        $stmt->bindParam("email", $email);
+        $stmt->execute();
+             
+        
+            $MailTo = $email;
+        
+            $MailFrom = 'info@webshop.com';
+            $subject = "webshop.com- Your Password Request";
+
+            $TemplateMessage = "Hello " . $getUserdetails->fname ."<br /><br / >";
+            $TemplateMessage .= "You have asked for your new password. Your Password is OTP below :<br />";
+            $TemplateMessage .= "<br />Password :" . $password;
+
+            $TemplateMessage .= "<br /><br />Thanks,<br />";
+            $TemplateMessage .= "webshop.com<br />";
+
+
+        $mail = new PHPMailer(true);    
+            
+            $IsMailType='SMTP';  
+    
+    $MailFrom='palashsaharana@gmail.com';    //  Your email password
+
+    $MailFromName='Webshop';
+    $MailToName='';
+
+    $YourEamilPassword="lsnspyrcimuffblr";   //Your email password from which email you send.
+
+ 
+    // If you use SMTP. Please configure the bellow settings.
+    
+    $SmtpHost             = "smtp.gmail.com"; // sets the SMTP server
+    $SmtpDebug            = 0;                     // enables SMTP debug information (for testing)
+    $SmtpAuthentication   = true;                  // enable SMTP authentication
+    $SmtpPort             = 587;                    // set the SMTP port for the GMAIL server
+    $SmtpUsername       = $MailFrom; // SMTP account username
+    $SmtpPassword       = $YourEamilPassword;        // SMTP account password
+    
+    $mail->IsSMTP();  // telling the class to use SMTP
+    $mail->SMTPDebug  = $SmtpDebug;
+    $mail->SMTPAuth   =  $SmtpAuthentication;     // enable SMTP authentication
+    $mail->Port       = $SmtpPort;             // set the SMTP port
+    $mail->Host       = $SmtpHost;           // SMTP server
+    $mail->Username   =  $SmtpUsername; // SMTP account username
+    $mail->Password   = $SmtpPassword; // SMTP account password
+    
+    if ( $MailFromName != '' ) {
+    $mail->AddReplyTo($MailFrom,$MailFromName);
+    $mail->From       = $MailFrom;
+    $mail->FromName   = $MailFromName;
+    } else {
+    $mail->AddReplyTo($MailFrom);
+    $mail->From       = $MailFrom;
+    $mail->FromName   = $MailFrom;
+    }
+    
+    if ( $MailToName != '' ) {
+    $mail->AddAddress($MailTo,$MailToName);
+    } else {
+    $mail->AddAddress($MailTo);
+    }
+    
+    $mail->SMTPSecure = 'tls';
+    $mail->Subject  = $subject; 
+    
+    $mail->MsgHTML($TemplateMessage);
+    
+    try{
+    $mail->Send();
+    }
+    catch(phpmailerException $e)
+    {
+    echo $e->errorMessage(); //Pretty error messages from PHPMailer
+    }
+        
+        $db = null;
+        $data['Ack'] = '1';
+        $data['msg'] = 'Mail Send Successfully';
+        $app->response->setStatus(200);
+    } else {
+        $data['last_id'] = '';
+        $data['Ack'] = '0';
+        $data['msg'] = 'Email not found in our database';
+        $app->response->setStatus(200);
+    }
+
+
+    $app->response->write(json_encode($data));
+}
+
+function changepwd() {
+    $data = array();
+    
+    $app = \Slim\Slim::getInstance();
+    
+    
+    $request = $app->request();
+    
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    $old_pwd = $body->old_pwd;
+    $new_pwd = $body->new_pwd;
+    $user_id = $body->user_id;
+
+    $old_password = md5($old_pwd);
+
+    $db = getConnection();
+    
+    $sql_exists = "SELECT * from  webshop_user WHERE id=:id and password = :old_password";
+    
+    $stmtexists = $db->prepare($sql_exists);
+    $stmtexists->bindParam("id", $user_id);
+    $stmtexists->bindParam("old_password", $old_password);
+    $stmtexists->execute();
+    $count = $stmtexists->rowCount();
+    if ($count > 0) {
+    
+    
+    
+    $sql = "SELECT * FROM  webshop_user WHERE id=:id";
+    
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("id", $user_id);
+    $stmt->execute();
+    $getUserdetails = $stmt->fetchObject();
+    
+    $to = $getUserdetails->email;
+    
+    $password_for_db = md5($new_pwd);
+    
+    $sqlupd = "UPDATE  webshop_user SET password=:password WHERE id=:id";
+    $stmtupd = $db->prepare($sqlupd);
+    $stmtupd->bindParam("password", $password_for_db);
+    $stmtupd->bindParam("id", $user_id);
+    $stmtupd->execute();
+    
+    $MailTo = $to;
+        
+            $subject = "webshop.com- Your Password Request";
+    $TemplateMessage = "Hello " . $getUserdetails->fname . "<br />";
+    $TemplateMessage .= "You have Successfully changed your password. Your new password is  as follows :<br />";
+    $TemplateMessage .= "Password :" . $new_pwd . "<br />";
+    
+    $TemplateMessage .= "Thanks,<br />";
+    $TemplateMessage .= "webshop.com<br />";
+
+        $mail = new PHPMailer(true);    
+            
+            $IsMailType='SMTP';  
+    
+    $MailFrom='palashsaharana@gmail.com';    //  Your email password
+
+    $MailFromName='Webshop';
+    $MailToName='';
+
+    $YourEamilPassword="lsnspyrcimuffblr";   //Your email password from which email you send.
+
+ 
+    // If you use SMTP. Please configure the bellow settings.
+    
+    $SmtpHost             = "smtp.gmail.com"; // sets the SMTP server
+    $SmtpDebug            = 0;                     // enables SMTP debug information (for testing)
+    $SmtpAuthentication   = true;                  // enable SMTP authentication
+    $SmtpPort             = 587;                    // set the SMTP port for the GMAIL server
+    $SmtpUsername       = $MailFrom; // SMTP account username
+    $SmtpPassword       = $YourEamilPassword;        // SMTP account password
+    
+    $mail->IsSMTP();  // telling the class to use SMTP
+    $mail->SMTPDebug  = $SmtpDebug;
+    $mail->SMTPAuth   =  $SmtpAuthentication;     // enable SMTP authentication
+    $mail->Port       = $SmtpPort;             // set the SMTP port
+    $mail->Host       = $SmtpHost;           // SMTP server
+    $mail->Username   =  $SmtpUsername; // SMTP account username
+    $mail->Password   = $SmtpPassword; // SMTP account password
+    
+    if ( $MailFromName != '' ) {
+    $mail->AddReplyTo($MailFrom,$MailFromName);
+    $mail->From       = $MailFrom;
+    $mail->FromName   = $MailFromName;
+    } else {
+    $mail->AddReplyTo($MailFrom);
+    $mail->From       = $MailFrom;
+    $mail->FromName   = $MailFrom;
+    }
+    
+    if ( $MailToName != '' ) {
+    $mail->AddAddress($MailTo,$MailToName);
+    } else {
+    $mail->AddAddress($MailTo);
+    }
+    
+    $mail->SMTPSecure = 'tls';
+    $mail->Subject  = $subject; 
+    
+    $mail->MsgHTML($TemplateMessage);
+    
+    try{
+    $mail->Send();
+    }
+    catch(phpmailerException $e)
+    {
+    echo $e->errorMessage(); //Pretty error messages from PHPMailer
+    }
+        
+    
+    $db = null;
+    $data['Ack'] = '1';
+    $data['msg'] = 'Password updated and Mail Send Successfully';
+    } else {
+    $data['last_id'] = '';
+    $data['Ack'] = '0';
+    $data['msg'] = 'User not found in our database';
+    }
+    $app->response->write(json_encode($data));
+}
+
+
+
+function updateProfile() {
+
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+
+    $user_id = $body["user_id"];   
+    $fname = isset($body["fname"]) ? $body["fname"] : '';
+    $lname = isset($body["lname"]) ? $body["lname"] : '';
+    $address =isset($body["address"]) ? $body["address"] : '';
+    $phone = isset($body["phone"]) ? $body["phone"] : '';
+     $email = isset($body["email"]) ? $body["email"] : '';
+       $business_type = isset($body["business_type"]) ? $body["business_type"] : '';
+       $gender = isset($body["gender"]) ? $body["gender"] : '';
+          
+     // $dob = date("Y-m-d", strtotime($dob));
+
+    
+    $date = date('Y-m-d');   
+
+   
+    $sql = "UPDATE webshop_user set fname=:fname,lname=:lname ,email=:email,address=:address,phone=:phone,gender=:gender,business_type=:business_type WHERE id=:id";    
+    try {
+        
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("fname", $fname);
+        $stmt->bindParam("lname", $lname);
+       $stmt->bindParam("phone", $phone);
+        $stmt->bindParam("email", $email);
+        $stmt->bindParam("business_type", $business_type);
+		$stmt->bindParam("address", $address);
+                $stmt->bindParam("gender", $gender);
+               
+            $stmt->bindParam("id", $user_id);
+          
+        $stmt->execute();
+        
+        
+        
+        
+        
+        if (@$_FILES['profile_image']['tmp_name'] != '') {
+		//	$id = $request->post("user_id");
+		
+		$target_path = "../upload/user_image/";
+		
+		//	$target_path = "user_images/";
+		$userfile_name = $_FILES['profile_image']['name'];
+		$userfile_tmp = $_FILES['profile_image']['tmp_name'];
+		$image = time() . $userfile_name;
+		$img = $target_path . $image;
+		move_uploaded_file($userfile_tmp, $img);
+		
+		$sqlimg = "UPDATE webshop_user SET image=:image WHERE id=:id";
+		$stmt1 = $db->prepare($sqlimg);
+		$stmt1->bindParam("id", $user_id);
+		$stmt1->bindParam("image", $image);
+		$stmt1->execute();
+		}
+        
+        
+
+        $data['last_id'] = $user_id;
+        $data['Ack'] = '1';
+        $data['msg'] = 'Profile Updated Successfully...';
+
+
+        $app->response->setStatus(200);
+        $db = null;
+
+    } catch (PDOException $e) {
+        $data['last_id'] = '';
+        $data['Ack'] = '0';
+        $data['msg'] = 'Updation Error !!!';
+        echo '{"error":{"text":' . $e->getMessage() . '}}';
+        $app->response->setStatus(401);
+    }
+
+ $app->response->write(json_encode($data));
+}       
+ 
+function userprofile() {
+    
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+// $email = $body['email'];
+    $user_id = $body->user_id;
+
+    try {
+        $db = getConnection();
+
+
+        $sql = "SELECT * FROM  webshop_user WHERE id=:id ";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("id", $user_id);
+        $stmt->execute();
+        $getUserdetails = $stmt->fetchObject();
+
+        if ($getUserdetails->image != '') {
+            $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
+        } else {
+          $profile_image =  SITE_URL . 'webservice/no-user.png';
+        }
+
+
+
+        $data['UserDetails'] = array(
+            "user_id" => stripslashes($getUserdetails->id),            
+            "fname" => stripslashes($getUserdetails->fname),
+            "lname" => stripslashes($getUserdetails->lname),
+            "description" => stripslashes($getUserdetails->description),
+             "gender" => stripslashes($getUserdetails->gender),           
+            "user_type" => stripslashes($getUserdetails->type),
+             "business_type" => stripslashes($getUserdetails->business_type),
+            "email" => stripslashes($getUserdetails->email),
+            "address" => stripslashes($getUserdetails->address),
+            
+         
+            "phone" => stripslashes($getUserdetails->phone),
+            "dob" => stripslashes($getUserdetails->dob),
+                   
+            "image" => stripslashes($profile_image),
+            "device_type" => stripslashes($getUserdetails->device_type),
+            "device_token_id" => stripslashes($getUserdetails->device_token_id),
+            "my_latitude" => stripslashes($getUserdetails->my_latitude),
+            "my_longitude" => stripslashes($getUserdetails->my_longitude),
+            "add_date" => stripslashes($getUserdetails->add_date));
+
+
+        $data['Ack'] = '1';
+        $data['msg'] = 'Success';
+        $app->response->setStatus(200);
+
+
+        $db = null;
+    } catch (PDOException $e) {
+        $data['id'] = '';
+        $data['Ack'] = '0';
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+    $app->response->write(json_encode($data));
+}
+
+
+function listProducts() {
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    
+    
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    
+    $sql = "SELECT * from  webshop_products WHERE 1 order by id desc";
+    $db = getConnection();
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+    $getAllProducts = $stmt->fetchAll(PDO::FETCH_OBJ);
+    
+    if (!empty($getAllProducts)) {
+    foreach ($getAllProducts as $product) {
+
+
+            if ($product->image != '') {
+                $image = SITE_URL . 'upload/product_image/' .$product->image;
+            } else {
+                $image =  SITE_URL . 'webservice/not-available.jpg';
+            }
+
+            
+            $sql2 = "SELECT * FROM  webshop_category WHERE id=:id ";
+                    $stmt2 = $db->prepare($sql2);
+                    $stmt2->bindParam("id", $product->cat_id);
+                    $stmt2->execute();
+                    $getcategory = $stmt2->fetchObject();
+                    if(!empty($getcategory))
+                    {
+                        $categoryname=$getcategory->name;
+                    }
+                    
+                    
+                    
+                      $sql3 = "SELECT * FROM  webshop_subcategory WHERE id=:id ";
+                    $stmt3 = $db->prepare($sql3);
+                    $stmt3->bindParam("id", $product->subcat_id);
+                    $stmt3->execute();
+                    $getsubcategory = $stmt3->fetchObject();
+                    if(!empty($getsubcategory))
+                    {
+                        $subcategoryname=$getsubcategory->name;
+                    }
+    
+    $data['productList'][] = array(
+    "id" => stripslashes($product->id),
+    "image" => stripslashes($image),
+         "price" => stripslashes($product->price),
+         "description" => stripslashes($product->description),
+         "category_name" => $categoryname,
+        "subcategory_name" => $subcategoryname,
+    "productname" => stripslashes($product->name)
+        );
+    }
+    
+    
+    $data['Ack'] = '1';
+    $app->response->setStatus(200);
+    } else {
+    $data = array();
+    $data['productList']=array();
+    $data['Ack'] = '0';
+    $app->response->setStatus(200);
+    }
+
+ $app->response->write(json_encode($data));
+}
+
+function ProductsDetails() {
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    
+    
+    $product_id = isset($body->product_id) ? $body->product_id : '';
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    
+    $sql = "SELECT * from  webshop_products WHERE id=:id order by id desc";
+    $db = getConnection();
+    $stmt = $db->prepare($sql);
+     $stmt->bindParam("id", $product_id);
+    $stmt->execute();
+    $product = $stmt->fetchObject();
+    
+    if (!empty($product)) {
+ 
+
+
+            if ($product->image != '') {
+                $image = SITE_URL . 'upload/product_image/' .$product->image;
+            } else {
+                $image =  SITE_URL . 'webservice/not-available.jpg';
+            }
+
+            
+            $sql2 = "SELECT * FROM  webshop_category WHERE id=:id ";
+                    $stmt2 = $db->prepare($sql2);
+                    $stmt2->bindParam("id", $product->cat_id);
+                    $stmt2->execute();
+                    $getcategory = $stmt2->fetchObject();
+                    if(!empty($getcategory))
+                    {
+                        $categoryname=$getcategory->name;
+                    }
+                    
+                    
+                    
+                      $sql3 = "SELECT * FROM  webshop_subcategory WHERE id=:id ";
+                    $stmt3 = $db->prepare($sql3);
+                    $stmt3->bindParam("id", $product->subcat_id);
+                    $stmt3->execute();
+                    $getsubcategory = $stmt3->fetchObject();
+                    if(!empty($getsubcategory))
+                    {
+                        $subcategoryname=$getsubcategory->name;
+                    }
+                    
+                    
+                     //Seller Information
+                    
+                    $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
+                    $stmt1 = $db->prepare($sql1);
+                    $stmt1->bindParam("id", $product->uploader_id);
+                    $stmt1->execute();
+                    $getUserdetails = $stmt1->fetchObject();
+                     
+                     if(!empty($getUserdetails))
+                     {                    
+                        $seller_name=$getUserdetails->fname.' '.$getUserdetails->lname;
+                         $seller_address=$getUserdetails->address;
+                          $seller_phone=$getUserdetails->phone;
+                        $email=$getUserdetails->email;
+                    
+                        if ($getUserdetails->image != '') {
+                            $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
+                        } else {
+                          $profile_image =  SITE_URL . 'webservice/no-user.png';
+                        }                        
+                        
+                     }
+                     else
+                     {
+                       $profile_image='';  
+                     }
+    
+    $data['productList'][] = array(
+    "id" => stripslashes($product->id),
+    "image" => stripslashes($image),
+         "price" => stripslashes($product->price),
+         "description" => stripslashes($product->description),
+         "category_name" => stripslashes($categoryname),
+        "subcategory_name" => stripslashes($subcategoryname),
+         "seller_id" => stripslashes($product->uploader_id),
+         "seller_image" => $profile_image,
+           "seller_name" => stripslashes($seller_name),
+         "seller_address" => stripslashes($seller_address),
+          "seller_phone" => stripslashes($seller_phone),
+    "productname" => stripslashes($product->name)
+        );
+    
+    
+    
+    $data['Ack'] = '1';
+    $app->response->setStatus(200);
+    } else {
+    $data = array();
+    $data['productList']=array();
+    $data['Ack'] = '0';
+    $app->response->setStatus(200);
+    }
+
+ $app->response->write(json_encode($data));
+}
+
+function addFavoriteProduct() {
+
+    $data = array();
+     $getuserdetails = array();
+  
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+
+
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    
+      $user_id = isset($body->user_id) ? $body->user_id : '';
+
+      $product_id = isset($body->product_id) ? $body->product_id : '';
+       $seller_id = isset($body->seller_id) ? $body->seller_id : '';
+   
+    //$pro_id = $body->pro_id;
+    $status=1;
+    $date=date('Y-m-d');
+    $db = getConnection();
+
+
+    $sql = "SELECT * FROM  webshop_favourite WHERE product_id=:product_id AND user_id=:user_id";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("product_id", $product_id);
+    $stmt->bindParam("user_id", $user_id);
+    $stmt->execute();
+    $contactdetails= $stmt->fetchObject();
+    $count = $stmt->rowCount();
+
+    if ($count == 0) {
+
+        //    echo $paramValue = $app->request->post('fname');
+        $sql = "INSERT INTO  webshop_favourite (product_id, user_id,seller_id, status, date) VALUES (:product_id, :user_id,:seller_id, :status, :date)";
+
+       
+
+        try {
+
+
+            //$resturant_id = $resturantDetails->id;
+
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam("product_id", $product_id);
+            $stmt->bindParam("user_id", $user_id);
+             $stmt->bindParam("seller_id", $seller_id);
+            $stmt->bindParam("status", $status);
+            $stmt->bindParam("date", $date);
+           
+            $stmt->execute();
+            //   
+
+            $sql2 = "SELECT * FROM  webshop_user WHERE id='".$user_id."'";
+            $stmtcat = $db->prepare($sql2);
+            $stmtcat->execute();
+            $getUserdetails = $stmtcat->fetchObject();
+            
+            $full_name=$getUserdetails->fname." ".$getUserdetails->lname;
+
+           // $stmt2->execute();
+
+            $lastID = $db->lastInsertId();
+            $data['last_id'] = $lastID;
+            $data['Ack'] = '1';
+            $data['msg'] = 'Added Successfully...';
+
+
+        
+
+
+            $app->response->setStatus(200);
+
+            $db = null;
+            //echo json_encode($user);
+        } catch (PDOException $e) {
+            //error_log($e->getMessage(), 3, '/var/tmp/php.log');
+            $data['user_id'] = '';
+            $data['Ack'] = '0';
+            $data['msg'] = $e->getMessage();
+            //echo '{"error":{"text":'. $e->getMessage() .'}}';
+            $app->response->setStatus(401);
+        }
+    } else {
+        $data['Ack'] = '0';
+        $data['msg'] = 'Already Added in your wishlist';
+    }
+
+
+
+    $app->response->write(json_encode($data));
+}
+
+
+
+function myFavoriteProduct() {
+    $data = array();
+    $favouriteUserDetails = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $status = 1;
+
+    
+    $favorite_sql = "SELECT * from webshop_favourite WHERE user_id =:user_id AND status =:status";
+    $db = getConnection();
+    $stmt = $db->prepare($favorite_sql);
+    $stmt->bindParam("user_id",$user_id);
+    $stmt->bindParam("status",$status);
+    $stmt->execute();
+
+    //echo $favorite_sql;
+    //exit;
+    
+    $getFavouriteListing = $stmt->fetchAll(PDO::FETCH_OBJ);
+    
+   //print_r($getFavouriteListing);
+    //exit;
+
+    if (!empty($getFavouriteListing)) {
+    foreach ($getFavouriteListing as $favourites) {
+    
+    // $sqlUserDetails = "SELECT * FROM doori_user WHERE id='".$favourites->pro_id."'";
+        $sqlUserDetails = "SELECT * FROM webshop_user WHERE id='".$favourites->user_id."'";
+    //echo $sqlUserDetails;
+    //exit;
+    $stmt = $db->prepare($sqlUserDetails);
+    $stmt->execute();
+    $getUserdetails = $stmt->fetchObject();
+
+    //if (!empty($getUserdetails)) {
+
+
+
+if ($getUserdetails->image != '') {
+        $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
+       
+        } else {
+            $profile_image =  SITE_URL . 'webservice/no-user.png';
+        } 
+
+
+ $sqlproductDetails = "SELECT * FROM webshop_products WHERE id='".$favourites->product_id."'";
+    //echo $sqlUserDetails;
+    //exit;
+    $stmt1 = $db->prepare($sqlproductDetails);
+    $stmt1->execute();
+    $productdetails = $stmt1->fetchObject();
+
+  if ($productdetails->image != '') {
+            $pro_image = SITE_URL . 'upload/product_image/' . $productdetails->image;
+        } else {
+          $pro_image =  SITE_URL . 'webservice/not-available.jpg';
+        }  
+       
+
+     $favouriteProductList[] = array(
+        //"clinic_id" => stripslashes($favourites->favorite_clinicid),
+        "user_id" => stripslashes($favourites->user_id),
+        "favourite_pro_id" =>stripslashes($favourites->product_id),
+        "fullname" => stripslashes($getUserdetails->fname)." ".stripslashes($getUserdetails->lname),
+        "pro_name"=>stripslashes($productdetails->name),
+        "id"=>stripslashes($favourites->id),
+        "pro_price"=>stripslashes($productdetails->price),
+              "quantity"=>stripslashes($productdetails->quantity),
+         "product_id"=>stripslashes($productdetails->id),
+         "user_image" => $profile_image,
+          "pro_image" => $pro_image
+        );
+    
+    }
+
+    
+
+    $data['favouriteProductList'] = $favouriteProductList;
+    $data['Ack'] = 1;
+    $data['msg'] = "Record Found";
+    $app->response->setStatus(200);
+    //  }
+}
+     else {
+    $data['favouriteProductList'] = array();
+    $data['Ack'] = 0;
+    $data['msg'] = "Record Not Found";
+    $app->response->setStatus(200);
+    }
+
+    $app->response->write(json_encode($data));
+} 
+
+$app->run();
+?>

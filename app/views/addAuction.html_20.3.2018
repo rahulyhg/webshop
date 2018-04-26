@@ -1,0 +1,83 @@
+
+	<section class="innerbody">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-4" data-ng-include=" 'app/views/partials/sidebar.html' " ></div>
+				<div class="col-lg-9 col-md-8">
+					<h5 class="common-title p-3 mb-0">Add Auction</h5>
+					<div class="edit-pro p-3">
+						<div class="row">
+							<div class="col-lg-7 col-md-12">
+								<form name="addProductForm" ng-submit="addAuction(user2)" novalidate>
+                                                                    
+                                                                    <div class="form-group">
+										<label for="staticEmail">Brand</label>
+										<select class="form-control" name="category" ng-model="user2.brand"  required>
+											<option  ng-repeat="brandlists in brandlist" value="{{brandlists.id}}">{{brandlists.name}}</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="staticEmail">Category</label>
+										<select class="form-control" name="category" ng-model="user2.cat_id" ng-change="sub(user2.cat_id)" required>
+											<option  ng-repeat="categorylists in categorylist" value="{{categorylists.id}}">{{categorylists.name}}</option>
+										</select>
+									</div>
+                                                                    
+                                                                    <div class="form-group">
+										<label for="staticEmail">Subcategory</label>
+										<select class="form-control" name="subcategory" ng-model="user2.subcat_id">
+											<option  value="">Please Select</option>  
+                                                                                        
+                                                                                       <option  ng-repeat="subcategorylists in subcategorylist" value="{{subcategorylists.subcat_id}}">{{subcategorylists.name}}</option>  
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="staticEmail">Currency</label>
+										<select class="form-control" name="currency" ng-model="user2.currency"  required>
+											<option  ng-repeat="currencylists in currencylist" value="{{currencylists.code}}">{{currencylists.name}}</option>
+										</select>
+									</div>
+                                                                    <div class="form-group">
+										<label for="staticEmail"> Name</label>
+										<input type="text" class="form-control" id="" value="" ng-model="user2.name" name="name" required>
+									</div>
+									
+									<div class="form-group">
+										<label for="staticEmail">Description</label>
+                                                                                <textarea type="text" class="form-control" id=""  ng-model="user2.description" name="description" required></textarea>
+									</div>
+									<div class="form-group">
+										<label for="staticEmail">Price</label>
+										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user2.price" name="price" required>
+									</div>
+                                                                    <div class="form-group">
+										<label for="staticEmail">Quantity</label>
+										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user2.quantity" name="quantity" required>
+									</div>
+
+									<div class="form-group">
+										<label for="staticEmail">Start Date</label>
+										<input type="date" class="form-control" id="" value="" placeholder="" ng-model="user2.auction_start_date" name="auction_start_date" required>
+									</div>
+
+									<div class="form-group">
+										<label for="staticEmail">End Date</label>
+										<input type="date" class="form-control" id="" value="" placeholder="" ng-model="user2.auction_end_date" name="auction_end_date" required>
+									</div>
+
+									<div class="form-group">
+										<label for="staticEmail">Special Price</label>
+										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user2.special_price" name="special_price" required>
+									</div>
+                                                                    
+									
+									<button class="btn btn-primary">NEXT</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	

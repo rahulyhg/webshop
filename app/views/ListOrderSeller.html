@@ -1,0 +1,56 @@
+
+	<section class="innerbody" ng-init="mySold();">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-4" data-ng-include=" 'app/views/partials/sidebar.html' " ></div>
+				<div class="col-lg-9 col-md-8">
+					<h5 class="common-title p-3 mb-0">My Orders</h5>
+					<div class="edit-pro p-3">
+					
+                        <h4 style="text-align: center;" ng-if="isExists==0">No Records Found.</h4>
+                        
+                        <table class="table" ng-if="isExists==1">
+							<thead class="thead-inverse">
+								<tr>
+								  <th scope="col">#Order No.</th>
+								  <th scope="col">Order Date</th>
+                                                                  <th scope="col">Total Amount</th>
+								  <th scope="col" class="text-center">Order Details</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="allorder in allorders">
+								  <th scope="row">#{{allorder.order_id}}</th>
+								  <td>{{allorder.order_date | browserSupportedDateFormat:'MMM d, y h:mm a'}}</td>
+                                                                  <th scope="row">#{{allorder.total_price}}</th>
+								  <td class="text-center">
+								  <a href="#/order_details/{{allorder.id}}" class="btn btn-primary btn-sm">View Details</a>
+								  </td>
+								</tr>
+								<!--<tr>
+								  <th scope="row">#1519989211</th>
+								  <td>Mar 2, 2018 4:43 PM</td>
+								  <td class="text-center">
+								  <a href="">
+								  	<img class="square-img" src="http://111.93.169.90/team1/udesign/upload/product_image/5.jpg">
+								  </a>
+								  </td>
+								</tr>
+								<tr>
+								  <th scope="row">#1519989211</th>
+								  <td>Mar 2, 2018 4:43 PM</td>
+								  <td class="text-center">
+								  <a href="">
+								  	<img class="square-img" src="http://111.93.169.90/team1/udesign/upload/product_image/5.jpg">
+								  </a>
+								  </td>
+								</tr>-->
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	

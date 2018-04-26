@@ -1,0 +1,84 @@
+<section>
+	<section class="profile signUp">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4" >
+					
+                                    <div data-ng-include=" 'app/views/partials/sidebar.html' " ></div>
+                                    
+				</div>
+
+                            
+                            
+                            
+                            
+<div class="col-sm-8">
+        <div class="RHS">
+                <div class="well">
+                        <div class="mdl">
+                        <h2>Message List</h2>
+                        <div class="listingProfile">
+                                <div class="table-responsive">          
+                                  <table class="table .table-striped">
+                                    <thead>
+                                      <tr>
+                                        <th class="profImgTd">Profile</th>
+                                        <th>To Name</th>
+                                        <th>Message</th>
+                                        <th class="action">Action Title</th>
+                                        <th>Date</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr ng-repeat="msglst in MessageList">
+                                        <td class="profImgTd">
+                                                <div class="profImg">
+                                                        <img src="{{msglst.to_image}}"/>
+                                                </div>
+                                        </td>
+                                        <td>
+                                                <div class="name">{{msglst.to_name}}</div>                                                
+                                        </td>
+                                        <td>
+                                                <div>{{msglst.msg}}</div>
+                                        </td>
+                                        <td>
+                                                <div class="name">{{msglst.auction_name}}</div>
+                                        </td>
+                                        <td>
+                                                <div>{{msglst.date | date:'MMM d, y'}}</div>
+                                        </td>
+                                      </tr>
+                                      
+                                      
+                                      <!--<tr>
+                                        <td class="profImgTd">
+                                                <div class="profImg">
+                                                        <img src="app/assets/images/images10.jpg"/>
+                                                </div>
+                                        </td>
+                                        <td>
+                                                <div class="name">Jone Stive</div>
+                                                <div>Stockholm, UK</div>
+                                                <div>Age: 25</div>
+                                        </td>                                        
+                                      </tr>-->
+                                    </tbody>
+                                  </table>
+                                </div>
+                        </div>
+                </div>
+                </div>
+        </div>
+</div>                                                        
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+			</div>
+		</div>
+	</section>
+</section>

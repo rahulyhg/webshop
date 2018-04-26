@@ -1,0 +1,760 @@
+<?php
+
+//error_reporting(1);
+require_once("class/class.phpmailer.php");
+require 'vendor/autoload.php';
+
+require 'config.php';
+include('routs.php');
+include('crud.php');
+//include('Stripe.php');
+
+date_default_timezone_set('UTC');
+
+function msort($array, $key, $sort_flags = SORT_REGULAR) {
+
+    if (is_array($array) && count($array) > 0) {
+        if (!empty($key)) {
+            $mapping = array();
+            foreach ($array as $k => $v) {
+                $sort_key = '';
+                if (!is_array($key)) {
+                    $sort_key = $v[$key];
+                } else {
+
+                    // @TODO This should be fixed, now it will be sorted as string
+
+                    foreach ($key as $key_key) {
+                        $sort_key .= $v[$key_key];
+                    }
+                    $sort_flags = SORT_STRING;
+                }
+
+                $mapping[$k] = $sort_key;
+            }
+
+            asort($mapping, $sort_flags);
+            $sorted = array();
+            foreach ($mapping as $k => $v) {
+                $sorted[] = $array[$k];
+            }
+            return $sorted;
+        }
+    }
+    return $array;
+}
+
+
+function userSignup() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    
+    $name = isset($body->name) ? $body->name : '';
+    $email = isset($body->email) ? $body->email : '';
+    $password = isset($body->password) ? $body->password : '';    
+    $device_type = isset($body->devicetype) ? $body->devicetype : '';
+    $device_token_id = isset($body->devicetoken) ? $body->devicetoken : '';
+    $address = isset($body->address) ? $body->address : '';
+    $lat = isset($body->lat) ? $body->lat : '';
+    $long = isset($body->long) ? $body->long : '';
+    $phone = isset($body->phone) ? $body->phone : '';
+    $city = isset($body->city) ? $body->city : '';
+    $add_date = date('Y-m-d');
+    
+
+    $db = getConnection();
+
+    $sql = "SELECT * FROM deliveryapp_user WHERE  email=:email OR phone=:phone";
+    $stmt = $db->prepare($sql);
+
+    $stmt->bindParam("email", $email);
+    $stmt->bindParam("phone", $phone);
+    $stmt->execute();
+    $usersCount = $stmt->rowCount();
+
+    if ($usersCount == 0) {
+
+        $newpass = md5($password);
+		$status=1;
+
+        $sql = "INSERT INTO deliveryapp_user (name, email, password, type, device_type, device_token_id, add_date, status,address, my_latitude,my_longitude,city,phone) VALUES (:name, :email, :password, :type, :device_type, :device_token_id, :add_date, :status, :address, :my_latitude, :my_longitude, :city, :phone)";
+        try {
+
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam("name", $name);
+            $stmt->bindParam("email", $email);
+            $stmt->bindParam("password", $newpass);
+            $stmt->bindParam("type", $type);
+             $stmt->bindParam("device_type", $device_type);
+              $stmt->bindParam("device_token_id", $device_token_id);
+            $stmt->bindParam("add_date", $add_date);
+            $stmt->bindParam("status", $status);
+             $stmt->bindParam("address", $address);
+              $stmt->bindParam("my_latitude", $lat);
+               $stmt->bindParam("my_longitude", $long);
+                $stmt->bindParam("city", $city);
+                 $stmt->bindParam("phone", $phone);
+            $stmt->execute();
+  
+
+            $lastID = $db->lastInsertId();
+            $data['last_id'] = $lastID;
+            $data['Ack'] = '1';
+            $data['msg'] = 'Registered Successfully...';
+
+
+            $sql = "SELECT * FROM deliveryapp_user WHERE id=:id ";
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam("id", $lastID);
+            $stmt->execute();
+            $getUserdetails = $stmt->fetchObject();
+
+            if ($getUserdetails->image != '') {
+                $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
+            } else {
+                $profile_image =SITE_URL . 'upload/nouser.jpg';
+            }
+
+
+            $data['UserDetails'] = array(
+                "user_id" => stripslashes($getUserdetails->id),
+                "name" => stripslashes($getUserdetails->name),
+                "email" => stripslashes($getUserdetails->email),
+                "address" => stripslashes($getUserdetails->address),
+                "my_latitude" => stripslashes($getUserdetails->my_latitude),
+                "my_longitude" => stripslashes($getUserdetails->my_longitude),
+                "city" => stripslashes($getUserdetails->city),
+                "phone" => stripslashes($getUserdetails->phone),
+                "add_date" => stripslashes($getUserdetails->add_date),
+                "profile_image" => stripslashes($profile_image));
+
+            
+            $MailTo = $email;
+        
+            $MailFrom = 'info@deliveryapp.com';
+            $subject = "deliveryapp.com- Thank you for registering";
+
+            $TemplateMessage = "Welcome and thank you for registering at deliveryapp.com!<br />";
+            $TemplateMessage .= "Your account has now been created and you can login using your email address and password by visiting our App<br />";            
+
+            $TemplateMessage .= "Thanks,<br />";
+            $TemplateMessage .= "deliveryapp.com<br />";
+
+
+		$mail = new PHPMailer(true);	
+			
+			$IsMailType='SMTP';  
+	
+	$MailFrom='palashsaharana@gmail.com';    //  Your email password
+
+    $MailFromName='Delivery App';
+	$MailToName='';
+
+    $YourEamilPassword="lsnspyrcimuffblr";   //Your email password from which email you send.
+
+ 
+	// If you use SMTP. Please configure the bellow settings.
+	
+	$SmtpHost             = "smtp.gmail.com"; // sets the SMTP server
+	$SmtpDebug            = 0;                     // enables SMTP debug information (for testing)
+	$SmtpAuthentication   = true;                  // enable SMTP authentication
+	$SmtpPort             = 587;                    // set the SMTP port for the GMAIL server
+	$SmtpUsername       = $MailFrom; // SMTP account username
+	$SmtpPassword       = $YourEamilPassword;        // SMTP account password
+	
+	$mail->IsSMTP();  // telling the class to use SMTP
+	$mail->SMTPDebug  = $SmtpDebug;
+	$mail->SMTPAuth   =  $SmtpAuthentication;     // enable SMTP authentication
+	$mail->Port       = $SmtpPort;             // set the SMTP port
+	$mail->Host       = $SmtpHost;           // SMTP server
+	$mail->Username   =  $SmtpUsername; // SMTP account username
+	$mail->Password   = $SmtpPassword; // SMTP account password
+	
+	if ( $MailFromName != '' ) {
+	$mail->AddReplyTo($MailFrom,$MailFromName);
+	$mail->From       = $MailFrom;
+	$mail->FromName   = $MailFromName;
+	} else {
+	$mail->AddReplyTo($MailFrom);
+	$mail->From       = $MailFrom;
+	$mail->FromName   = $MailFrom;
+	}
+	
+	if ( $MailToName != '' ) {
+	$mail->AddAddress($MailTo,$MailToName);
+	} else {
+	$mail->AddAddress($MailTo);
+	}
+	
+	$mail->SMTPSecure = 'tls';
+	$mail->Subject  = $subject;	
+	
+	$mail->MsgHTML($TemplateMessage);
+	
+	try{
+	$mail->Send();
+	}
+	catch(phpmailerException $e)
+	{
+	echo $e->errorMessage(); //Pretty error messages from PHPMailer
+	}
+            
+            
+            
+            $data['Ack'] = '1';
+            $app->response->setStatus(200);
+
+            $db = null;
+
+        } catch (PDOException $e) {
+
+            $data['user_id'] = '';
+            $data['Ack'] = '0';
+            $data['msg'] = $e->getMessage();
+
+            $app->response->setStatus(401);
+        }
+    } else {
+        $data['user_id'] = '';
+        $data['Ack'] = '0';
+        $data['msg'] = 'User already exists';
+        $app->response->setStatus(200);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+function userLogin() {
+
+    $data = array();    
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+
+
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    
+    $email = isset($body->email) ? $body->email : '';    
+    $password = isset($body->password) ? $body->password : '';
+    $device_type = isset($body->devicetype) ? $body->devicetype : '';
+    $device_token_id = isset($body->devicetoken) ? $body->devicetoken : '';
+    $address = isset($body->address) ? $body->address : '';
+    $lat = isset($body->lat) ? $body->lat : '';
+    $long = isset($body->long) ? $body->long : '';
+    $city = isset($body->city) ? $body->city : '';
+    $status = 1;
+
+
+    $sql = "SELECT * FROM deliveryapp_user WHERE email=:email AND password=:password AND status=:status";
+
+    try {
+
+        $pass = md5($password);
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("email", $email);        
+        $stmt->bindParam("password", $pass);
+        $stmt->bindParam("status", $status);        
+        $stmt->execute();
+        $stmt->queryString;
+
+        $user = $stmt->fetchObject();
+        $userCount = $stmt->rowCount();
+        if ($userCount == 0) {
+            $data['user_id'] = '';
+            $data['Ack'] = '0';
+            $data['msg'] = 'Username Or Password Is Invalid !!!';
+
+            $app->response->setStatus(200);
+        } else {
+
+            if ($user->status == 0) {
+                $data['user_id'] = '';
+                $data['Ack'] = '0';
+                $data['msg'] = 'Your Account Is Not Activated yet';
+
+                $app->response->setStatus(200);
+            } else {
+               
+                $data['user_id'] = $user->id;
+                $data['Ack'] = '1';
+                $data['msg'] = 'Loggedin Successfully';
+
+
+                $sql = "SELECT * FROM deliveryapp_user WHERE id=:id ";
+                $stmt = $db->prepare($sql);
+                $stmt->bindParam("id", $user->id);
+                $stmt->execute();
+                $getUserdetails1 = $stmt->fetchObject();
+                  
+
+                // $data['UserDetails'] = array(
+                //     "user_id" => stripslashes($getUserdetails->id),
+                //     "name" => stripslashes($getUserdetails->name),
+                //     "email" => stripslashes($getUserdetails->email),
+                //     "image" => stripslashes($profile_image),
+                //     "device_type" => stripslashes($getUserdetails->device_type),
+                //     "device_token_id" => stripslashes($getUserdetails->device_token_id),
+                //     "add_date" => stripslashes($getUserdetails->add_date));
+
+
+
+                $userID = $getUserdetails1->id;
+                $is_loggedin = 1;
+                $sqlUserUpdate = "UPDATE deliveryapp_user SET device_type=:device_type, device_token_id=:device_token_id, is_loggedin=:is_loggedin,address=:address,my_latitude=:my_latitude,my_longitude=:my_longitude,city=:city WHERE id=:id";
+                $stmt1 = $db->prepare($sqlUserUpdate);
+                $stmt1->bindParam("device_type", $device_type);
+                $stmt1->bindParam("device_token_id", $device_token_id);
+                $stmt1->bindParam("is_loggedin", $is_loggedin);
+                $stmt1->bindParam("address", $address);
+                $stmt1->bindParam("my_latitude", $lat);
+                $stmt1->bindParam("my_longitude", $long);
+                $stmt1->bindParam("city", $city);
+                $stmt1->bindParam("id", $userID);
+                $stmt1->execute();
+
+                $sql = "SELECT * FROM deliveryapp_user WHERE id=:id ";
+                $stmt = $db->prepare($sql);
+                $stmt->bindParam("id", $userID);
+                $stmt->execute();
+                $getUserdetails = $stmt->fetchObject();
+
+                if ($getUserdetails->image != '') {
+                    $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
+                } else {
+                    $profile_image = SITE_URL . 'upload/nouser.jpg';
+                }
+
+                $data['UserDetails'] = array(
+                    "user_id" => stripslashes($getUserdetails->id),
+                    "name" => stripslashes($getUserdetails->name),
+                    "email" => stripslashes($getUserdetails->email),
+                    "image" => stripslashes($profile_image),
+                    "device_type" => stripslashes($getUserdetails->device_type),
+                    "device_token_id" => stripslashes($getUserdetails->device_token_id),
+                    "address" => stripslashes($getUserdetails->address),
+                    "my_latitude" => stripslashes($getUserdetails->my_latitude),
+                "my_longitude" => stripslashes($getUserdetails->my_longitude),
+                    "city" => stripslashes($getUserdetails->city),
+                    "add_date" => stripslashes($getUserdetails->add_date));
+
+
+                $app->response->setStatus(200);
+            }
+        }
+
+        $db = null;
+    } catch (PDOException $e) {
+        print_r($e);
+        $data['user_id'] = '';
+        $data['Ack'] = '0';
+        $data['msg'] = 'Login Error!!!';
+
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+
+}
+
+function forgetpassword() {
+
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    $email = $body->email;
+
+
+    $byeamil = findByConditionArray(array('email' => $email), 'deliveryapp_user');
+    if (!empty($byeamil)) {
+
+
+
+        $sql = "SELECT * FROM deliveryapp_user WHERE email=:email ";
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("email", $email);
+        $stmt->execute();
+        $getUserdetails = $stmt->fetchObject();
+
+        $to = $email;
+        $password=rand(1111, 9999);
+        $forgot_pass_otp = md5($password);
+
+
+     $sql = "UPDATE deliveryapp_user SET password=:password WHERE email=:email";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("password", $forgot_pass_otp);
+        $stmt->bindParam("email", $email);
+        $stmt->execute();
+             
+        
+            $MailTo = $email;
+        
+            $MailFrom = 'info@deliveryapp.com';
+            $subject = "deliveryapp.com- Your Password Request";
+
+            $TemplateMessage = "Hello " . $getUserdetails->name ."<br /><br / >";
+            $TemplateMessage .= "You have asked for your new password. Your Password is OTP below :<br />";
+            $TemplateMessage .= "<br />Password :" . $password;
+
+            $TemplateMessage .= "<br /><br />Thanks,<br />";
+            $TemplateMessage .= "deliveryapp.com<br />";
+
+
+        $mail = new PHPMailer(true);    
+            
+            $IsMailType='SMTP';  
+    
+    $MailFrom='palashsaharana@gmail.com';    //  Your email password
+
+    $MailFromName='DeliveryApp';
+    $MailToName='';
+
+    $YourEamilPassword="lsnspyrcimuffblr";   //Your email password from which email you send.
+
+ 
+    // If you use SMTP. Please configure the bellow settings.
+    
+    $SmtpHost             = "smtp.gmail.com"; // sets the SMTP server
+    $SmtpDebug            = 0;                     // enables SMTP debug information (for testing)
+    $SmtpAuthentication   = true;                  // enable SMTP authentication
+    $SmtpPort             = 587;                    // set the SMTP port for the GMAIL server
+    $SmtpUsername       = $MailFrom; // SMTP account username
+    $SmtpPassword       = $YourEamilPassword;        // SMTP account password
+    
+    $mail->IsSMTP();  // telling the class to use SMTP
+    $mail->SMTPDebug  = $SmtpDebug;
+    $mail->SMTPAuth   =  $SmtpAuthentication;     // enable SMTP authentication
+    $mail->Port       = $SmtpPort;             // set the SMTP port
+    $mail->Host       = $SmtpHost;           // SMTP server
+    $mail->Username   =  $SmtpUsername; // SMTP account username
+    $mail->Password   = $SmtpPassword; // SMTP account password
+    
+    if ( $MailFromName != '' ) {
+    $mail->AddReplyTo($MailFrom,$MailFromName);
+    $mail->From       = $MailFrom;
+    $mail->FromName   = $MailFromName;
+    } else {
+    $mail->AddReplyTo($MailFrom);
+    $mail->From       = $MailFrom;
+    $mail->FromName   = $MailFrom;
+    }
+    
+    if ( $MailToName != '' ) {
+    $mail->AddAddress($MailTo,$MailToName);
+    } else {
+    $mail->AddAddress($MailTo);
+    }
+    
+    $mail->SMTPSecure = 'tls';
+    $mail->Subject  = $subject; 
+    
+    $mail->MsgHTML($TemplateMessage);
+    
+    try{
+    $mail->Send();
+    }
+    catch(phpmailerException $e)
+    {
+    echo $e->errorMessage(); //Pretty error messages from PHPMailer
+    }
+        
+        $db = null;
+        $data['Ack'] = '1';
+        $data['msg'] = 'Mail Send Successfully';
+        $app->response->setStatus(200);
+    } else {
+        $data['last_id'] = '';
+        $data['Ack'] = '0';
+        $data['msg'] = 'Email not found in our database';
+        $app->response->setStatus(200);
+    }
+
+
+    $app->response->write(json_encode($data));
+}
+
+function changepwd() {
+    $data = array();
+    
+    $app = \Slim\Slim::getInstance();
+    
+    
+    $request = $app->request();
+    
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    $old_pwd = $body->old_pwd;
+    $new_pwd = $body->new_pwd;
+    $user_id = $body->user_id;
+
+    $old_password = md5($old_pwd);
+
+    $db = getConnection();
+    
+    $sql_exists = "SELECT * from deliveryapp_user WHERE id=:id and password = :old_password";
+    
+    $stmtexists = $db->prepare($sql_exists);
+    $stmtexists->bindParam("id", $user_id);
+    $stmtexists->bindParam("old_password", $old_password);
+    $stmtexists->execute();
+    $count = $stmtexists->rowCount();
+    if ($count > 0) {
+    
+    
+    
+    $sql = "SELECT * FROM deliveryapp_user WHERE id=:id";
+    
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("id", $user_id);
+    $stmt->execute();
+    $getUserdetails = $stmt->fetchObject();
+    
+    $to = $getUserdetails->email;
+    
+    $password_for_db = md5($new_pwd);
+    
+    $sqlupd = "UPDATE deliveryapp_user SET password=:password WHERE id=:id";
+    $stmtupd = $db->prepare($sqlupd);
+    $stmtupd->bindParam("password", $password_for_db);
+    $stmtupd->bindParam("id", $user_id);
+    $stmtupd->execute();
+    
+    $MailTo = $to;
+        
+            $subject = "deliveryapp.com- Your Password Request";
+    $TemplateMessage = "Hello " . $getUserdetails->name . "<br />";
+    $TemplateMessage .= "You have Successfully changed your password. Your new password is  as follows :<br />";
+    $TemplateMessage .= "Password :" . $new_pwd . "<br />";
+    
+    $TemplateMessage .= "Thanks,<br />";
+    $TemplateMessage .= "deliveryapp.com<br />";
+
+        $mail = new PHPMailer(true);    
+            
+            $IsMailType='SMTP';  
+    
+    $MailFrom='palashsaharana@gmail.com';    //  Your email password
+
+    $MailFromName='Delivery App';
+    $MailToName='';
+
+    $YourEamilPassword="lsnspyrcimuffblr";   //Your email password from which email you send.
+
+ 
+    // If you use SMTP. Please configure the bellow settings.
+    
+    $SmtpHost             = "smtp.gmail.com"; // sets the SMTP server
+    $SmtpDebug            = 0;                     // enables SMTP debug information (for testing)
+    $SmtpAuthentication   = true;                  // enable SMTP authentication
+    $SmtpPort             = 587;                    // set the SMTP port for the GMAIL server
+    $SmtpUsername       = $MailFrom; // SMTP account username
+    $SmtpPassword       = $YourEamilPassword;        // SMTP account password
+    
+    $mail->IsSMTP();  // telling the class to use SMTP
+    $mail->SMTPDebug  = $SmtpDebug;
+    $mail->SMTPAuth   =  $SmtpAuthentication;     // enable SMTP authentication
+    $mail->Port       = $SmtpPort;             // set the SMTP port
+    $mail->Host       = $SmtpHost;           // SMTP server
+    $mail->Username   =  $SmtpUsername; // SMTP account username
+    $mail->Password   = $SmtpPassword; // SMTP account password
+    
+    if ( $MailFromName != '' ) {
+    $mail->AddReplyTo($MailFrom,$MailFromName);
+    $mail->From       = $MailFrom;
+    $mail->FromName   = $MailFromName;
+    } else {
+    $mail->AddReplyTo($MailFrom);
+    $mail->From       = $MailFrom;
+    $mail->FromName   = $MailFrom;
+    }
+    
+    if ( $MailToName != '' ) {
+    $mail->AddAddress($MailTo,$MailToName);
+    } else {
+    $mail->AddAddress($MailTo);
+    }
+    
+    $mail->SMTPSecure = 'tls';
+    $mail->Subject  = $subject; 
+    
+    $mail->MsgHTML($TemplateMessage);
+    
+    try{
+    $mail->Send();
+    }
+    catch(phpmailerException $e)
+    {
+    echo $e->errorMessage(); //Pretty error messages from PHPMailer
+    }
+        
+    
+    $db = null;
+    $data['Ack'] = '1';
+    $data['msg'] = 'Password updated and Mail Send Successfully';
+    } else {
+    $data['last_id'] = '';
+    $data['Ack'] = '0';
+    $data['msg'] = 'User not found in our database';
+    }
+    $app->response->write(json_encode($data));
+}
+
+function listCategory(){
+
+       $data = array();
+
+        $app = \Slim\Slim::getInstance();
+        $request = $app->request();
+        $body2 = $app->request->getBody();
+        $body = json_decode($body2);
+
+         $db = getConnection();
+
+        try{
+
+        $sql = "SELECT * from deliveryapp_category";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $getCategory = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        foreach ($getCategory as $category){
+
+              if ($category->image != '') {
+                    $category_image = SITE_URL . 'upload/category_image/' . $category->image;
+                } else {
+                    $category_image = SITE_URL . 'upload/nouser.jpg';
+                }
+
+            $allcategory[] = array(
+                "id" =>stripslashes($category->id),
+                "name" => stripslashes($category->name),
+                "category_image" => stripslashes($category_image),
+                );
+        }
+
+        $data['categorylist'] = $allcategory;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200); 
+
+
+        } catch (PDOException $e) {
+        
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();        
+        $app->response->setStatus(401);
+        }
+        
+   $app->response->write(json_encode($data));
+
+}
+
+function listRestaurants(){
+
+       $data = array();
+
+        $app = \Slim\Slim::getInstance();
+        $request = $app->request();
+        $body2 = $app->request->getBody();
+        $body = json_decode($body2);
+
+         $db = getConnection();
+
+          $cat_id = isset($body->cat_id) ? $body->cat_id : '';
+          $city = isset($body->city) ? $body->city : '';
+          $city = strtolower($city);
+
+        try{
+
+        if($cat_id !='' and $city ==''){
+
+            $sql = "SELECT * from deliveryapp_restaurants where cat_id=:cat_id";
+             $stmt = $db->prepare($sql);
+            $stmt->bindParam("cat_id", $cat_id);
+            $stmt->execute();
+            $getCategory = $stmt->fetchAll(PDO::FETCH_OBJ);
+            $getCount = $stmt->rowCount();
+        } else if($cat_id =='' and $city !=''){
+
+            $sql = "SELECT * from deliveryapp_restaurants where city=:city";
+             $stmt = $db->prepare($sql);
+            $stmt->bindParam("city", $city);
+            $stmt->execute();
+            $getCategory = $stmt->fetchAll(PDO::FETCH_OBJ);
+            $getCount = $stmt->rowCount();
+        }else if($cat_id !='' and $city !=''){
+
+            $sql = "SELECT * from deliveryapp_restaurants where city=:city and cat_id =:cat_id";
+             $stmt = $db->prepare($sql);
+            $stmt->bindParam("city", $city);
+            $stmt->bindParam("cat_id", $cat_id);
+            $stmt->execute();
+            $getCategory = $stmt->fetchAll(PDO::FETCH_OBJ);
+            $getCount = $stmt->rowCount();
+        }else{
+
+             $sql = "SELECT * from deliveryapp_restaurants";
+             $stmt = $db->prepare($sql);
+            $stmt->execute();
+            $getCategory = $stmt->fetchAll(PDO::FETCH_OBJ);
+            $getCount = $stmt->rowCount();
+        }
+        
+       
+
+        if($getCount > 0){
+
+
+             foreach ($getCategory as $category){
+
+                if ($category->image != '') {
+                $restaurant_image = SITE_URL . 'upload/restaurant_image/' . $category->image;
+            } else {
+               $restaurant_image =  SITE_URL . 'upload/nouser.jpg';
+            }
+
+
+            $categoryrestaurant[] = array(
+                "id" =>stripslashes($category->id),
+                "cat_id" =>stripslashes($category->cat_id),
+                "name" => stripslashes($category->name),
+                "city" => stripslashes($category->city),
+                "restaurant_image" => stripslashes($restaurant_image),
+                );
+        }
+
+        $data['restaurantlist'] = $categoryrestaurant;
+         $data['Ack'] = '1';
+        $app->response->setStatus(200); 
+        }else{
+
+        $data['restaurantlist'] = '';
+        $data['msg'] = "Records not found";
+        $data['Ack'] = '0';
+        $app->response->setStatus(200); 
+        }
+
+        } catch (PDOException $e) {
+        
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();        
+        $app->response->setStatus(401);
+        }
+        
+   $app->response->write(json_encode($data));
+
+}
+$app->run();
+?>

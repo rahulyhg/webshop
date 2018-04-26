@@ -1,0 +1,286 @@
+
+	<section class="innerbody search-list" ng-init="Showdetails();">
+		<div class="container">
+			<nav aria-label="breadcrumb">
+			  <ol class="breadcrumb">
+			    <li class="breadcrumb-item"><a href="#">Home</a></li>
+			    <li class="breadcrumb-item active">Watches</li>
+			  </ol>
+			</nav>
+			<div class="details-wrap p-3">
+				<div class="details-top p-3 mb-3 position-relative">
+					<div class="like"><p class="m-0"><i class="ion-thumbsup"></i> 18</p></div>
+					<img src="{{productLists.image}}" style="height:300px;width:300px;" class="ml-auto mr-auto d-block img-fluid">
+				</div>
+				<div class="row">
+					<div class="col-lg-9 col-md-9 col-sm-8">
+						<div class="details-left" ng-if="productLists">
+							<h4>{{productLists.productname}}</h4>
+							<p class="text-secondary">Web ID/SKU: 108037599</p>
+							<p><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)<a href="" class="d-inline-block pl-3" ng-if="productLists.seller_id!=user_id">Write a review</a></p>
+							<hr>
+							<h5>Product Description</h5>
+
+							<p>{{productLists.description}}</p>
+                                                        
+                                                        <hr>
+                                                        <div ng-if="productLists.seller_id!=user_id">
+							<h5>Total No Of Bid</h5>
+
+							<p>{{productLists.bidcount}}</p>
+                                                        </div>
+                                                        <hr>
+                                                        <div ng-if="productLists.seller_id!=user_id">
+							<h5>Your Maximum Bid</h5>
+                                                        <p ng-if="!productLists.maxbid">You have not bid yet</p>
+							<p ng-if="productLists.maxbid">{{productLists.maxbid}}</p>
+                                                        </div>
+                                                        <hr>
+							<h5>Time Remaining</h5>
+                                                       
+							  <div class='time-to' ng-if="productLists.preferred_date">
+ 
+   <p countdown='' date='{{productLists.preferred_date}}' style="color:red">&nbsp;</p>
+  </div>
+							<!--
+							<hr>
+                                                        <h5>Product Base Auction Price</h5>
+							<p>{{productLists.currency_code}} {{productLists.baseauctionprice}}</p>
+							-->
+							
+                                                        <hr>
+                                                        <h5>Product Threshold Price</h5>
+                                                        
+							<p ng-if="productLists.lastbidvalue >= productLists.thresholdprice" style="color:red">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
+                                                        <p ng-if="productLists.lastbidvalue < productLists.thresholdprice" style="color:green">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
+							
+							<hr>
+                                                        
+							<div class="row">
+								<div class="col-sm-6 col-6 py-1">
+									<h4 class="m-0">{{productLists.price}} {{productLists.currency_code}}</h4>
+								</div>
+								<div class="col-sm-6 col-6 py-1">
+									<ul class="like-links list-unstyled p-0 float-right m-0">
+										<li class="d-inline-block mr-2"><a href="" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>
+										<li class="d-inline-block mr-2"><a ng-if="current_user_login=='1' && current_user_type=='1' && quantity!='0'" ng-click="addTocart(productLists.id,productLists.cartquantity)" class="d-block rounded-circle"><i class="ion-android-cart"></i></a></li>
+                                                                                <li class="d-inline-block mr-2"><a ng-if="current_user_login!='1'  && quantity!='0'" ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-android-cart"></i></a></li>
+										<li class="d-inline-block"><a ng-if="current_user_login=='1' && current_user_type=='1'" ng-click="addwishlist(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
+                                                                                <li ng-if="current_user_login!='1'" class="d-inline-block"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
+									</ul>
+								</div>
+							</div>
+							<hr>
+							
+							<p class="mb-4" ng-if="loader1 && productLists.seller_id!=user_id"><a href="" class="btn btn-primary" ng-click="emailtothevendorinterest(productLists.seller_id)">I am Interested</a></p>
+                                                        <p ng-if="!loader1" class="loader"></p>
+                                                        <p class="mb-4" ng-if="productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Bid Here</a></p>
+                                                        
+                                                       
+                                                        
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-4">
+						<div class="share-prod mb-2">Share this product : <a href="" class="d-inline-block text-secondary"><i class="fa fa-facebook"></i></a> <a href="" class="d-inline-block mx-2 text-secondary"><i class="fa fa-twitter"></i></a><a href="" class="d-inline-block text-secondary"><i class="fa fa-google-plus"></i></a></div>
+						<div class="seller-info p-3 border-secondary border rounded mb-3"  ng-if="productLists.seller_id!=user_id">
+							<h6>Seller Info:</h6>
+							<p class="mb-1">{{productLists.seller_name}}</p>
+							<p class="text-secondary mb-0"><i class="fa fa-map-marker"></i> {{productLists.seller_address}}</p>
+							<p class="text-secondary mb-2"><i class="fa fa-phone"></i> {{productLists.seller_address}}</p>
+							<h5><b>{{productLists.currency_code}} {{productLists.price}} </b></h5>
+							<p class="text-success">{{productLists.quantity}}pcs. Available. </p>
+                                                        <p ng-if="productLists.quantity=='0'" class="text-success">Out of stock.</p>
+							<hr>
+							<button ng-if="loader" type="button" ng-click="emailtothevendor(productLists.seller_id)" class="btn btn-primary btn-block">Contact Seller</button>
+                                                        
+
+
+
+<div ng-if="!loader" class="loader"></div>
+
+
+
+
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12">
+						<div id="accordion" class="accordion mt-2">
+					        <div class="card mb-0">
+					            <div class="card-header collapsed" data-toggle="collapse" href="#collapseOne">
+					                <a class="card-title">Related Products</a>
+					            </div>
+					            <div id="collapseOne" class="card-body collapse" data-parent="#accordion" >
+					                First collapse
+					                
+					                <div id="cControls" class="carousel slide" data-ride="carousel">
+										<div class="carousel-inner">
+											<div class="carousel-item active">
+												<div class="main-image p-2">
+													<img src="app/assets/images/user.jpg">
+												</div>
+												<div class="content-hold pb-2 pl-2 pr-2">
+													<h6 class="mb-1">Rolex Daytona</h6>
+													<p class="mb-0">Seller: Unimax Bros.</p>
+												</div>
+											</div>
+											<div class="carousel-item">
+												<div class="main-image p-2">
+													<img src="app/assets/images/user.jpg">
+												</div>
+												<div class="content-hold pb-2 pl-2 pr-2">
+													<h6 class="mb-1">Rolex Daytona</h6>
+													<p class="mb-0">Seller: Unimax Bros.</p>
+												</div>
+											</div>
+											<div class="carousel-item">
+												<div class="main-image p-2">
+													<img src="app/assets/images/user.jpg">
+												</div>
+												<div class="content-hold pb-2 pl-2 pr-2">
+													<h6 class="mb-1">Rolex Daytona</h6>
+													<p class="mb-0">Seller: Unimax Bros.</p>
+												</div>
+											</div>
+											<div class="carousel-item">
+												<div class="main-image p-2">
+													<img src="app/assets/images/user.jpg">
+												</div>
+												<div class="content-hold pb-2 pl-2 pr-2">
+													<h6 class="mb-1">Rolex Daytona</h6>
+													<p class="mb-0">Seller: Unimax Bros.</p>
+												</div>
+											</div>
+
+											
+										</div>
+										<a class="carousel-control-prev" href="#cControls" role="button" data-slide="prev">
+											<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+											<span class="sr-only">Previous</span>
+										</a>
+										<a class="carousel-control-next" href="#cControls" role="button" data-slide="next">
+											<span class="carousel-control-next-icon" aria-hidden="true"></span>
+											<span class="sr-only">Next</span>
+										</a>
+									</div>
+
+					            </div>
+					            <div class="card-header collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+					                <a class="card-title">Reviews</a>
+					            </div>
+												            																									<div id="collapseTwo" class="card-body collapse" data-parent="#accordion" >
+					                <div class="reviews-holder">
+										<div class="media">
+											<div class="media-left mr-2">
+												<a href="#">
+													<img class="media-object" src="app/assets/images/user2.jpg" alt="">
+												</a>
+											</div>
+											<div class="media-body">
+												<h6 class="media-heading"><span class="rating d-inline-block mr-2"><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i></span>Louise Gregory <span class="date d-inline-block ml-2">- 2 months ago</span></h6>
+												<p class="mb-2">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+												<p><i class="fa fa-check"></i> Yes, I recommend this product. </p>
+												
+											</div>
+										</div>
+										<div class="media">
+											<div class="media-left mr-2">
+												<a href="#">
+													<img class="media-object" src="app/assets/images/user2.jpg" alt="">
+												</a>
+											</div>
+											<div class="media-body">
+												<h6 class="media-heading"><span class="rating d-inline-block mr-2"><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i></span>Louise Gregory <span class="date d-inline-block ml-2">- 2 months ago</span></h6>
+												<p class="mb-2">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+												<p><i class="fa fa-check"></i> Yes, I recommend this product. </p>
+												
+											</div>
+										</div>
+										<p class="text-right"><a href="" class="btn btn-primary">Add Review</a></p>
+									</div>
+					            </div>
+					        </div>
+					    </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+<form class="modal-content animate" ng-submit="addbid(bid)">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+       <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+        <h4 class="modal-title"></h4>
+      </div>
+         
+      <div class="modal-body">
+         
+         <hr>
+          <h5>Last Auction Price</h5>
+							<p>{{productLists.lastbidvalue}}</p>
+							
+							<hr>
+          <h5>Your Minimum Bid</h5>
+							<p ng-if="productLists.nextbidprice > 0">{{productLists.currency_code}}&nbsp;{{productLists.nextbidprice}}</p>
+                                                        <p ng-if="productLists.nextbidprice <= 0">{{productLists.currency_code}}&nbsp;{{productLists.baseauctionprice}}</p>
+							<hr>
+                                                        <h5>Your Price</h5>                                         
+                                                        {{productLists.currency_code}}<input type="number" class="form-control" id="" value="" placeholder="" ng-model="bid.bidprice" name="bidprice" capitalize required>
+                                                        <input type="hidden" class="form-control" id="" value="" placeholder="" ng-model="bid.uploaderid=productLists.uploader_id" name="uploaderid" required>
+                                                        <input type="hidden" class="form-control" id="" placeholder="" ng-model="productLists.id" name="productid" required>
+                                                        <hr>
+                                                        <div ng-if="productLists.nextbidprice <= 0">
+                                                          
+                                                           <div ng-if="bid.bidprice >= productLists.baseauctionprice">
+<input type="submit" value="Submit" >
+</div> 
+                                                        </div>
+                                                         <div ng-if="productLists.nextbidprice > 0">
+                                                            
+                                                        <div ng-if="bid.bidprice >= productLists.nextbidprice">
+<input type="submit" value="Submit" >
+</div>
+                                                         </div>                                                  
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+</form>
+  </div>
+</div>
+
+<style>
+ .loader {
+  height: 4px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #ddd;
+}
+.loader:before{
+  display: block;
+  position: absolute;
+  content: "";
+  left: -200px;
+  width: 200px;
+  height: 4px;
+  background-color: #2980b9;
+  animation: loading 2s linear infinite;
+}
+
+@keyframes loading {
+    from {left: -200px; width: 30%;}
+    50% {width: 30%;}
+    70% {width: 70%;}
+    80% { left: 50%;}
+    95% {left: 120%;}
+    to {left: 100%;}
+}  
+</style>

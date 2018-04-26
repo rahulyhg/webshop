@@ -1,0 +1,89 @@
+
+	<section class="innerbody" ng-init="myCarts()">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-md-7 mb-2">
+					<h5 class="common-title p-3 mb-0">Shopping Bag</h5>
+					<div class="edit-pro p-4">
+						<div class="cart-list">
+							<div class="row mb-3 pb-2" ng-if="isExists==1" ng-repeat="all_cart_product in all_cart_products">
+								<div class="col-lg-2 col-md-3 mb-1">
+									<img src="{{all_cart_product.itemImage}}" alt="" class="img-fluid">
+								</div>
+								<div class="col-lg-10 col-md-9">
+									<div class="all-info pr-3 position-relative">
+										<p>{{all_cart_product.name}}</p>
+										
+										<p>Price : <b>${{all_cart_product.seller_price}}</b></p>
+										<div class="qty">
+											<span style="float: left;">Quantity</span>
+											<div class="qut_box">                                      	
+												<div class="qtysectionbox">
+													<div class="qtysectionunit l"><input type="hidden" name="cartquantity">{{all_cart_product.quantity}}</div>
+													<div class="qtysectionnav l">
+														<div class="qtysectionnavplus l"><a ng-click="increaseQuantity(all_cart_product);" style="cursor: pointer">+</a></div>
+														<div class="qtysectionnavminus l"><a style="cursor:pointer;" ng-click="decreaseQuantity(all_cart_product);">-</a></div>
+													</div>
+												</div>
+											</div>       
+										</div>
+                                                                                  <img src='app/assets/images/25.gif' style="margin: 0 auto;  display:none" id='loadingmessage' class="text-center"/>
+										
+										<a class="cancel" ng-click="deletecart(all_cart_product.cart_id)"><i class="ion-close-circled"></i></a>
+									</div>
+								</div>
+							</div>
+                                                     <h4 style="text-align: center;" ng-if="isExists==0">Your cart is empty.</h4>
+							<!--<div class="row mb-3 pb-2">
+								<div class="col-lg-2 col-md-3 mb-1">
+									<img src="https://www.bygoods.com/media/catalog/product/cache/1/image/650x/1dd3c1054c06760f44f47a9755af505d/i/l/il_570xn.442310580_q27l_1.jpg" alt="" class="img-fluid">
+								</div>
+								<div class="col-lg-10 col-md-9">
+									<div class="all-info pr-3 position-relative">
+										<p>Designer Wedding Wear Cream And Fancy Embroidered Lehenga</p>
+										<p>Quantity : 3</p>
+										<p>Price : <b>$452</b></p>
+										<div class="qty">
+											<span style="float: left;">Quantity</span>
+											<div class="qut_box">                                      	
+												<div class="qtysectionbox">
+													<div class="qtysectionunit l"><input type="hidden">2</div>
+													<div class="qtysectionnav l">
+														<div class="qtysectionnavplus l"><a style="cursor: pointer">+</a></div>
+														<div class="qtysectionnavminus l"><a style="cursor: pointer">-</a></div>
+													</div>
+												</div>
+											</div>       
+										</div>
+										<p><a href="#" class="btn btn-primary btn-sm">Proceed to Purchase</a></p>
+										<a class="cancel" href="#"><i class="ion-close-circled"></i></a>
+									</div>
+								</div>
+							</div>-->
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-5">
+					<div class="edit-pro p-3" style="overflow: hidden">
+						<div class="OrderSummary">
+							<div class="sub_total_box01">
+								<div class="st_title">Product Cost</div>
+								<div class="st_total"><i class="fa fa-inr"></i>{{sub_total}}</div>
+								<div class="c"></div>
+							</div>
+							<div class="sub_total_box">
+								<div class="st_title">Total(Including Service tax {{service_percent}}%)</div>
+								<div class="gt_total"><i class="fa fa-inr"></i>{{grand_total}}</div>
+								<div class="c"></div>
+							</div>
+							<div class="wrapper w-100">
+								<button ng-if="isExists==1 && current_user_login!=''" ng-click="goToCheckout();" class="btn btn-checkout full-btn">PROCEED TO CHECKOUT<div class="ch_arrow"></div></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	

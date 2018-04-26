@@ -1,0 +1,46 @@
+
+	<section class="innerbody">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-4" data-ng-include=" 'app/views/partials/sidebar.html' " ></div>
+				<div class="col-lg-9 col-md-8">
+					<h5 class="common-title p-3 mb-0">Notification List</h5>
+					<div class="edit-pro p-3">
+						<ul class="wish-list">
+							<li style="max-width:100% !important;" class="p-3 d-flex" ng-if="isExists==1" ng-repeat="allnoti in all_notifications">
+								<div class="wishlist-image mr-3">
+									<img src="{{allnoti.from_userimg}}" alt="">
+								</div>
+								<div class="wishlist-content">
+									<h6>{{allnoti.message}} <span><i class=""></i></span></h6>
+									
+									<b class="d-block mb-2">From : {{allnoti.fromName}}</b>
+									 <p ng-if="allnoti.type=='Product for Auction Approved'">
+									<a href="" ng-click="auctionFeesPayment(allnoti.type,allnoti.last_id)">Pay Now</a></p>
+                                                                        <p class="mb-1">Posted on : {{allnoti.date| dateToISO | date:'MMM d, y'}}</p>
+									<!--<p><button type="button" class="btn btn-primary"><i class="ion-android-cart"></i> Buy It</button>-->
+									
+								</div>
+							</li>
+							<!--<li class="p-3 d-flex">
+								<div class="wishlist-image mr-3">
+									<img src="images/watch.jpg" alt="">
+								</div>
+								<div class="wishlist-content">
+									<h6>Rolex Cosmograph Daytona <span><i class="ion-heart"></i></span></h6>
+									<p class="mb-1">Lorem Ipsum is simply dumy text of the  watch printing and typeseing industry. Lorem Ipsum
+is simply dumy text of the  watch printing and typesetting industry.</p>
+									<b class="d-block mb-2">$ 27.25</b>
+									<p><button type="button" class="btn btn-primary"><i class="ion-android-cart"></i> Buy It</button>
+									<button type="button" class="btn btn-primary btn-dark"><i class="ion-trash-a"></i> Delete</button></p>
+								</div>
+							</li>-->
+						</ul>
+                                             <h4 style="text-align: center;" ng-if="isExists==0">No Records Found.</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	

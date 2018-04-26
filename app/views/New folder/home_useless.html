@@ -1,0 +1,145 @@
+<section class="banner" style="background-image: url(app/assets/images/banner.jpg)" data-ng-model="homeSettings">
+			<div class="banner-text">
+				<img src="{{homeSettings.site_logo}}" alt="" />
+				<h4>{{homeSettings.banner_caption}}</h4>
+				 <button class="btn btn-default btn-lg">Get A Massage</button>
+                              <!--   <a href="#/services"><button class="btn btn-default btn-lg">Get A Massage</button></a> -->
+			</div>
+		</section>
+		<section class="download" data-ng-model="homeSettings" style="background-color: #fff;" >
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-sm-6 flex-parant">
+						<div class="flex-center">
+							<h2>{{homeSettings.app_caption}}</h2>
+							<p>{{homeSettings.app_subcaption}}</p>
+							<label>Text me the link to download The <a href="">7seven</a> Message App.</label>
+							<form class="form-inline">
+							  <div class="form-group">						    
+							    <div class="input-group">
+							      <input type="text" class="form-control" id="exampleInputAmount" placeholder="222 333 4444 5555">
+							    </div>
+							  </div>
+							  <button type="submit" class="btn btn-sm btn-default">Text Me</button>
+							</form>
+							<ul>
+								<li><a href=""><img src="app/assets/images/googlepay.png" alt="" /></a></li>
+								<li><a href=""><img src="app/assets/images/appstore.png" alt="" /></a></li>
+							</ul>		
+						</div>		
+					</div>
+					<div class="col-md-6 col-sm-6">
+						<img src="{{homeSettings.app_image}}" alt="" class="img-responsive"/>
+					</div>
+				</div>				
+			</div>
+		</section>
+		<section class="expert" data-ng-model="homeSettings">		
+				<div class="expert-child-left"></div>
+				<div class="expert-child-right">
+					<!--<h2>An Expert Massage At <br/>Your Convenience</h2>-->
+                                        <h2>{{homeSettings.block2_heading}}</h2>
+						<ul>
+							<li>
+								<b>{{homeSettings.block2_sub_heading}}</b>
+								<p>{{homeSettings.block2_description}}</p>
+							</li>
+							<li>
+								<b>{{homeSettings.block2_sub_heading2}}</b>
+								<p>{{homeSettings.block2_description2}}</p>
+							</li>
+							<li>
+								<b>{{homeSettings.block2_sub_heading3}}</b>
+								<p>{{homeSettings.block2_description3}}</p>
+							</li>
+						</ul>
+						 <button type="submit" class="btn btn-sm btn-primary">Book Now</button>
+                                        <!-- <a href="#/services"><button type="submit" class="btn btn-sm btn-primary">Book Now</button></a> -->
+				</div>
+		</section>		
+		<section class="card" data-ng-model="homeSettings" style="background-color: #fff;">
+			<div class="container">
+				<h2>{{homeSettings.giftCard_title}}</h2>
+				<span>{{homeSettings.giftCard_description}}</span>
+				<img src="app/assets/images/gift-card.png" alt="" />
+				<a href="">BUY 7SEVEN GIFT CARD</a>
+			</div>	
+		</section>	
+		<section class="download-app2" data-ng-model="homeSettings">
+			<div class="container">
+				<h2>{{homeSettings.block4_heading}}</h2>
+				<p>{{homeSettings.block4_decsription}}</p>
+				<ul>
+					<li><a href=""><img src="app/assets/images/googlepay.png" alt="" /></a></li>
+					<li><a href=""><img src="app/assets/images/appstore.png" alt="" /></a></li>
+				</ul>		
+			</div>
+		</section>	
+		<section class="become-therapist" data-ng-model="homeSettings">
+			<div class="therapist-child-left"></div>
+			<div class="therapist-child-right">
+				<h2>{{homeSettings.block5_heading}}</h2>
+					<ul>
+						<li>
+							<b><i class="fa fa-file-text-o"></i>{{homeSettings.block5_sub_heading}}</b>
+							<p>{{homeSettings.block5_sub_heading_description}}</p>
+						</li>
+						<li>
+							<b><i class="fa fa-map-o"></i>{{homeSettings.block5_sub_heading2}}</b>
+							<p>{{homeSettings.block5_sub_heading2_description}}</p>
+						</li>
+						<li>
+							<b><i class="fa fa-user"></i>{{homeSettings.block5_sub_heading3}}</b>
+							<p>{{homeSettings.block5_sub_heading3_description}}</p>
+						</li>
+						<li>
+							<b><i class="fa fa-bed"></i>{{homeSettings.block5_sub_heading4}}</b>
+							<p>{{homeSettings.block5_sub_heading4_description}}</p>
+						</li>
+						<li>
+							<b><i class="fa fa-map-marker"></i>{{homeSettings.block5_sub_heading5}}</b>
+							<p>{{homeSettings.block5_sub_heading5_description}}</p>
+						</li>
+					</ul>
+			</div>
+		</section>	
+		<section class="partner-with-us" data-ng-model="homeSettings">
+			<div class="container">
+				<h2>{{homeSettings.footer_above_title}}</h2>
+				<div class="row">
+					<div class="col-md-4 col-sm-12">
+						<div class="media">
+						  <div class="media-left">
+						    <a href="#" class="ion-ios-clock-outline"></a>
+						  </div>
+						  <div class="media-body">
+						    <h4 class="media-heading">{{homeSettings.footer_above_subheading}}</h4>
+						    <p>{{homeSettings.footer_above_description}}</p>
+						  </div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-12">
+						<div class="media">
+						  <div class="media-left">
+						    <a href="#" class="ion-social-dribbble-outline"></a>
+						  </div>
+						  <div class="media-body">
+						    <h4 class="media-heading">{{homeSettings.footer_above_subheading2}}</h4>
+						    <p>{{homeSettings.footer_above_description2}}</p>
+						  </div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-12">
+						<div class="media">
+						  <div class="media-left">
+						    <a href="#" class="ion-headphone"></a>
+						  </div>
+						  <div class="media-body">
+						    <h4 class="media-heading">{{homeSettings.footer_above_subheading3}}</h4>
+						    <p>{{homeSettings.footer_above_description3}}</p>
+						  </div>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</section>

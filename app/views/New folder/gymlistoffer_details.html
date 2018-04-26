@@ -1,0 +1,259 @@
+<section data-ng-model="auctionDetails">
+	<div class="container">
+		<div class="dtlHd">
+			<img src="{{auctionDetails.auction_image}}" >
+			<div class="txt">
+				<h3>{{auctionDetails.name}}</h3>
+                                <p style="margin-bottom: 0">Regular Price: ${{auctionDetails.price}}</p>
+				<p style="margin-bottom: 0">Offer Price: ${{auctionDetails.offer_price}}</p>
+				<div class="star-ratings-css">
+				  <!--<div class="star-ratings-css-top" style="width: 84%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+				  <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+				</div>-->
+			</div>
+		</div>		
+	</div>
+</section>
+
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-7 col-sm-7">
+						<div class="new-auction-details" data-ng-model="auctionDetails">
+							<div class="media">
+								<div class="media-left">
+									<div class="gym-center-image">
+										<img src="{{auctionDetails.gym_images[0].images}}"/>
+									</div>
+								</div>
+								<div class="media-body">
+									<h4 class="center-name">{{auctionDetails.gym_name}}</h4>
+									<p class="opening-time">Contact: <span>{{auctionDetails.gym_phone}}</span></p>
+									<p class="opening-time">Email: <span>{{auctionDetails.gym_email}}</span></p>
+								</div>
+							</div>
+						</div>
+                                            
+                                            
+                                            
+						<div class="new-auction-details comment-listing">
+                                                    <h4 align="center" ng-show="!auctionDetails.messagedet.length" style="font-weight: bold;">No Message found</h4>
+							<div class="media" ng-repeat="allm in auctionDetails.messagedet">
+								<!--<div class="media-left">
+									<img src="app/assets/images/kitchen_adventurer_lemon.jpg"/>
+								</div>-->
+								<div class="media-body">
+									<h4 class="author-name">{{allm.messager_name}}</h4>
+									<p class="comment-body">{{allm.messager_text}}</p>
+									<!--<p class="comment-date">2days ago</p>-->
+								</div>
+							</div>
+                                                    
+                                                    
+							<!--<div class="media">
+								<div class="media-left">
+									<img src="app/assets/images/kitchen_adventurer_lemon.jpg"/>
+								</div>
+								<div class="media-body">
+									<h4 class="author-name">Rozer anderson</h4>
+									<p class="comment-body">consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo conse</p>
+									<p class="comment-date">2days ago</p>
+								</div>
+							</div>
+							<div class="media">
+								<div class="media-left">
+									<img src="app/assets/images/kitchen_adventurer_lemon.jpg"/>
+								</div>
+								<div class="media-body">
+									<h4 class="author-name">Rozer anderson</h4>
+									<p class="comment-body">consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo conse</p>
+									<p class="comment-date">2days ago</p>
+								</div>
+							</div>
+							<div class="media">
+								<div class="media-left">
+									<img src="app/assets/images/kitchen_adventurer_lemon.jpg"/>
+								</div>
+								<div class="media-body">
+									<h4 class="author-name">Rozer anderson</h4>
+									<p class="comment-body">consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo conse</p>
+									<p class="comment-date">2days ago</p>
+								</div>
+							</div>-->
+						</div>
+                                            
+                                            
+                                            
+                                            
+					</div>
+					<div class="col-md-5 col-sm-5">
+						<div class="new-auction-details" data-ng-model="auctionDetails">
+							<h2>Auction Details</h2>
+							<ul>
+									<li>
+										<p>Title:</p>
+										<b>{{auctionDetails.name}}</b>
+									</li>
+									<li>
+										<p>Auction Description:</p>
+										<b>{{auctionDetails.description}}</b>
+									</li>
+									<li>
+										<p>Price:</p>
+										<b>${{auctionDetails.price}}</b>
+									</li>
+									<li>
+										<p>Offer Price:</p>
+										<b>${{auctionDetails.offer_price}}</b>
+									</li>
+									<li>
+										<p>Start Date:</p>
+										<b>{{auctionDetails.start_date | date:'MMM d, y'}}</b>
+									</li>
+									<li>
+										<p>End Date:</p>
+										<b>{{auctionDetails.end_date | date:'MMM d, y'}}</b>
+									</li>
+                                                                        <form ng-submit="sendmessage(user)" ng-if="current_user_login==1 && current_user_type!='3'">
+                                                                        <li>
+										<p>Name:</p>
+										<b><input type="text" class="form-control" name="message_name" placeholder="Enter your Name" ng-model="user.message_name" required="required"></b>
+									</li>    
+                                                                            
+									<li>
+										<p>Write your comment:</p>
+										<b><textarea class="form-control" rows="5" name="message" ng-model="user.message" required="required"></textarea></b>
+									</li>
+									<li>
+										<button type="submit" class="btn btn-primary">Submit</button>
+									</li>
+                                                                        </form>
+                                                                        
+                                                                        
+                                                                        <li ng-if="current_user_login!=1">
+                                                                            <a href="#/login"><button type="submit" class="btn btn-primary">Make your Comment</button></a>
+									</li>
+                                                                        
+                                                                        
+								</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<!--<section class="trainer-list">
+    <div class="container">
+        <h1 class="text-center">Our Trainer</h1>
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-xs-6 col-trainer">
+                <figure class="trainer-box">
+                    <div class="trainer-pic">
+                        <img src="app/assets/images/trainer/1.jpg" alt="">
+                    </div>
+                    <figcaption class="p-3 text-white">
+                        <h4><span class="zilla">Jhon Parker</span> <span class="pull-right text-danger">$26/hour</span></h4>
+                        <p class="font-14">Strength Training, Bootcamp,
+Weight Loos</p>
+                    </figcaption>
+                </figure>
+            </div>
+            <div class="col-lg-3 col-md-4 col-xs-6 col-trainer">
+                <figure class="trainer-box">
+                    <div class="trainer-pic">
+                        <img src="app/assets/images/trainer/2.jpg" alt="">
+                    </div>
+                    <figcaption class="p-3 text-white">
+                        <h4><span class="zilla">Jhon Parker</span> <span class="pull-right text-danger">$26/hour</span></h4>
+                        <p class="font-14">Strength Training, Bootcamp,
+Weight Loos</p>
+                    </figcaption>
+                </figure>
+            </div>
+            <div class="col-lg-3 col-md-4 col-xs-6 col-trainer">
+                <figure class="trainer-box">
+                    <div class="trainer-pic">
+                        <img src="app/assets/images/trainer/3.jpg" alt="">
+                    </div>
+                    <figcaption class="p-3 text-white">
+                        <h4><span class="zilla">Jhon Parker</span> <span class="pull-right text-danger">$26/hour</span></h4>
+                        <p class="font-14">Strength Training, Bootcamp,
+Weight Loos</p>
+                    </figcaption>
+                </figure>
+            </div>
+            <div class="col-lg-3 col-md-4 col-xs-6 col-trainer">
+                <figure class="trainer-box">
+                    <div class="trainer-pic">
+                        <img src="app/assets/images/trainer/4.jpg" alt="">
+                    </div>
+                    <figcaption class="p-3 text-white">
+                        <h4><span class="zilla">Jhon Parker</span> <span class="pull-right text-danger">$26/hour</span></h4>
+                        <p class="font-14">Strength Training, Bootcamp,
+Weight Loos</p>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="trainer-schedule">
+    <div class="container">
+        <h1 class="text-center">Gym Schedule</h1>
+
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a data-target="#tab1" role="tab" data-toggle="tab">Sunday</a></li>
+            <li role="presentation"><a data-target="#tab2" role="tab" data-toggle="tab">Monday</a></li>
+            <li role="presentation"><a data-target="#tab3" role="tab" data-toggle="tab">Tuesday</a></li>
+            <li role="presentation"><a data-target="#tab4" role="tab" data-toggle="tab">Wednesday</a></li>
+            <li role="presentation"><a data-target="#tab5" role="tab" data-toggle="tab">Thursday</a></li>
+            <li role="presentation"><a data-target="#tab6" role="tab" data-toggle="tab">Friday</a></li>
+            <li role="presentation"><a data-target="#tab7" role="tab" data-toggle="tab">Saturday</a></li>
+          </ul>
+
+
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="tab1">
+                <ul>
+                    <li>Karate</li><li>12:00am - 2:00am</li><li>David Fahim</li><li><a href="#" class="btn">Join Now!</a></li>
+                </ul>
+                <ul>
+                    <li>Body Building</li><li>1:30am - 3:30am</li><li>Jecy Deoko</li><li><a href="#" class="btn">Join Now!</a></li>
+                </ul>
+                <ul>
+                    <li>Running</li><li>12:00pm - 1:30pm</li><li>John Doe</li><li><a href="#" class="btn">Join Now!</a></li>
+                </ul>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="tab2">
+                <ul>
+                    <li>Karate</li><li>12:00am - 2:00am</li><li>David Fahim</li><li><a href="#" class="btn">Join Now!</a></li>
+                </ul>
+                <ul>
+                    <li>Body Building</li><li>1:30am - 3:30am</li><li>Jecy Deoko</li><li><a href="#" class="btn">Join Now!</a></li>
+                </ul>
+                <ul>
+                    <li>Running</li><li>12:00pm - 1:30pm</li><li>John Doe</li><li><a href="#" class="btn">Join Now!</a></li>
+                </ul>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="tab3">...</div>
+            <div role="tabpanel" class="tab-pane" id="tab4">...</div>
+            <div role="tabpanel" class="tab-pane" id="tab5">...</div>
+            <div role="tabpanel" class="tab-pane" id="tab6">...</div>
+            <div role="tabpanel" class="tab-pane" id="tab7">...</div>
+          </div>
+        <!--<table class="table table-hover table-responsive">
+            <thead>
+                <th>Trainer name</th>
+            </thead>
+        </table>
+    </div>
+</section>-->
+
+

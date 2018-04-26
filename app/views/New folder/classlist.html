@@ -1,0 +1,74 @@
+<section ng-init="classList()">
+	<section class="profile signUp">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4" >
+					
+                                    <div data-ng-include=" 'app/views/partials/sidebar.html' " ></div>
+                                    
+				</div>
+
+                            
+                            
+                            
+                            
+<div class="col-sm-8">
+        <div class="RHS">
+                <div class="well">
+                        <div class="mdl">
+                        <h2>My Class List</h2>
+                        <div class="listingProfile">
+                                <div class="table-responsive">          
+                                  <table class="table .table-striped">
+                                    <thead>
+                                      <tr>
+                                       <!-- <th class="profImgTd">Gym Image</th>-->
+                                        <th>Description</th>
+                                        <th class="action">Action</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr ng-repeat="all_trainers_class in all_trainer_class">
+                                        <!--<td class="profImgTd">
+                                                <div class="profImg">
+                                                        <img src="{{all_trainers_class.gym_image}}"/>
+                                                </div>
+                                        </td>-->
+                                        <td>
+                                                <div class="name">{{all_trainers_class.gym_name}}</div>
+                                                <div>Class Start Time: {{all_trainers_class.class_start_time}}</div>
+                                                <div>Class End Time: {{all_trainers_class.class_end_time}}</div>
+                                                <div>Class Day: {{all_trainers_class.class_day}}</div>
+                                        </td>
+                                        <td class="action">
+                                                <a  class="delete" ng-click="removeClass(all_trainers_class.id)" ng-confirm-click="Are you sure to Delete"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                <a href="#/editclass/{{all_trainers_class.id}}" class="edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                        </td>
+                                      </tr>
+                                     
+                                        
+                                    </tbody>
+                                  </table>
+                                </div>
+                        </div>
+                </div>
+                </div>
+        </div>
+</div>                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+			</div>
+		</div>
+	</section>
+</section>

@@ -1,0 +1,86 @@
+<section>
+	<div class="signUp">
+		<div class="hdPrt">
+			<a href="#/home"><img src="app/assets/images/logo3.png" /></a>
+			<h1>Join the Get FIT Pass Network</h1>
+			<p>Get new customers with our nationwide network of users. <a href="#"> Learn More</a></p>
+		</div>
+		<div>
+			<div class="container">
+				<div class="mdl">
+					<h2>Sign Up</h2>
+                                        <form class="form-horizontal" ng-submit="signup(user)">{{user.test}}
+					    
+					    <div class="form-group">
+					      <label class="control-label col-sm-4">Name:</label>
+					      <div class="col-sm-8">
+                                                  <input type="text" name="full_name" class="form-control" placeholder="Contact Name" ng-model="user.full_name" required="required">
+					      </div>
+					    </div>
+					    <div class="form-group">
+					      <label class="control-label col-sm-4">Contact Email:</label>
+					      <div class="col-sm-8">
+					        <input type="text" name="email" class="form-control" placeholder="Contact Email" ng-model="user.email" required="required">
+					      </div>
+					    </div>
+					    <div class="form-group">
+					      <label class="control-label col-sm-4">Address:</label>
+					      <div class="col-sm-8">
+					        <input type="text" name="address" class="form-control" placeholder="Street Number and Name" ng-model="user.address" required="required">
+					      </div>
+					    </div>
+					    
+					    
+					    
+					    <div class="form-group">
+					      <label class="control-label col-sm-4">Phone Number:</label>
+					      <div class="col-sm-8">
+					        <input type="text" name="phone" class="form-control" placeholder="Phone Number" ng-model="user.phone" required="required">
+					      </div>
+					    </div>
+					    
+					    <div class="form-group">
+					      <label class="control-label col-sm-4">User Name:</label>
+					      <div class="col-sm-8">
+					        <input type="text" name="username" class="form-control" placeholder="User Name" ng-model="user.username" required="required">
+					      </div>
+					    </div>
+					    <div class="form-group">
+					      <label class="control-label col-sm-4">User Password:</label>
+					      <div class="col-sm-8">
+					        <input type="password" name="password" class="form-control" placeholder="Enter password" ng-model="user.password" required="required">
+					      </div>
+					    </div>
+					    <div class="form-group">
+					      <div class="col-sm-offset-4 col-sm-8">
+					      	<label class="control-label qstn">Type of User</label>
+                                                
+					        <div class="radio">
+                                                    <label><input type="radio" name="user_type" value="1" ng-model="user.user_type">General User</label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label><input type="radio" name="user_type" value="3" ng-model="user.user_type">Gym User</label>
+                                                </div>                                                
+                                                
+					      </div>
+					    </div>
+					    <div class="form-group">        
+					      <div class="col-sm-offset-4 col-sm-8">
+					        <div class="checkbox">
+					          <label><input type="checkbox" class="cont">By clicking the box you agree to the <a href="#" class="cont">contract</a></label>
+					        </div>
+					      </div>
+					    </div>
+					    <div class="form-group">        
+					      <div class="col-sm-offset-4 col-sm-8">
+					        <button type="submit" class="btn btn-danger btn-lg">Submit</button> 
+					        <a href="#/login" style="font-size: 18px; text-decoration: none;"> Login </a>
+					      </div>
+					    </div>
+					  </form>
+				</div>
+			</div>
+		</div>
+		<div class="ftr">&#x00A9 Copyright 2017 Get Fit Pass. All Right Reserved</div>
+	</div>
+</section>

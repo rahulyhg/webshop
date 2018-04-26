@@ -1,0 +1,87 @@
+<section>
+	<div class="payment">
+	<div class="container">
+		<h3 style="padding-bottom: 20px;">Start Your Membership</h3>
+		<div class="row">
+			<div class="col-md-8">
+				<div class="billing">
+					<h4>Billing</h4>
+					<form name="cardPayment" ng-submit="cardpay(user)">
+						<div class="form-group">
+						  <label>Name on Card</label>
+						  <input type="text" class="form-control" placeholder="Name on Card" name="name" ng-model="user.name" required>
+						</div>
+						<div class="input-group">
+							<label>Card Number</label>
+						</div>
+						<div class="input-group" style="margin-bottom: 15px;">
+						    <span class="input-group-addon"><i class="fa fa-credit-card" aria-hidden="true"></i></span>
+						    <input type="text" class="form-control" placeholder="Card Number" name="cnumber" ng-model="user.credit_card" required>
+					  	</div>
+					  	<!--<div class="form-group">
+						  <label>Billing Zip Code</label>
+						  <input type="text" class="form-control" style="max-width: 300px;">
+						</div>-->
+					  <div class="row">
+					  	<div class="col-sm-8">
+					  		<label>Expiration Date</label>
+					  		<div class="row">
+					  			<div class="col-sm-6">
+					  				 <input type="text" class="form-control" placeholder="MM" name="expirymm" maxlength="2" ng-model="user.expirymm" required>
+					  			</div>
+					  			<div class="col-sm-6">
+					  				 <input type="text" class="form-control" placeholder="YYYY" maxlength="4" name="expiryyy" ng-model="user.expiryyy" required>
+					  			</div>
+					  		</div>
+					  	</div>
+					  	<div class="col-sm-4">
+					  		<div class="form-group">
+							  <label>CVC</label>
+							  <input type="text" placeholder="CVV Number" name="cvv" maxlength="3" ng-model="user.cvv"  class="form-control">
+							</div>
+					  	</div>
+					  </div>
+						<div class="form-group">
+						  <a href="#" class="link-color">Add a gift code</a>
+						</div>
+						<div class="form-group">
+						  <p>By purchasing, I understand my membership automatically renews at the monthly subscription rate and I can cancel on site at any time. I agree to the <a href="#" class="link-color">Terms of Use</a> and <a href="#" class="link-color"link-color>Privacy Policy</a></p>
+						</div>
+						<div class="form-group">
+					        <button type="submit" class="btn btn-danger btn-lg btn-block">Submit</button>
+					    </div>
+					</form>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="base">
+					<div class="hd">
+						<h4 class="pull-left">Base</h4>
+						<a class="pull-right link-color">Change</a>
+					</div>
+					<p style="padding: 0 15px;">New York Metro</p>
+					<div class="mdl">
+						<p class="pull-left">Monthly subscription</p>
+						<p class="pull-right">US$75.00 + Tax</p>
+					</div>
+					<div class="total">
+						<p class="pull-left">Due today</p>
+						<p class="pull-right">US$75.00</p>
+					</div>
+				</div>
+				<div class="bnft">
+				<div class="icon">
+					<img src="app/assets/images/growth.png"/>
+				</div>
+					<h4>ClassPass membership benefits:</h4>
+					<ul>
+						<li>Work out in any of our 39 cities, worldwide.</li>
+						<li>Work out in any of our 39 cities, worldwide.</li>
+						<li>Work out in any of our 39 cities, worldwide.</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</section>

@@ -1,0 +1,39 @@
+
+					<div class="left-bar mb-4">
+						<div class="p-3 p-lg-4 align-items-center left-bar-top">
+							<div class="user-image position-relative">
+								<img src="{{sidebar_image}}" alt="" class="rounded-circle" >
+                                                                 <input type="file" class="sidbar_upload"  style="display:none" ng-model="picFile" name="file" onchange="angular.element(this).scope().uploadFile(this.files)">
+                                                        
+								<div class="edit-button position-absolute rounded-circle">
+									<i class="ion-edit" ng-click="open_uploader()"></i>
+								</div>
+							</div>
+							<div class="user-info">
+								<h6 class="mb-0 mt-2 text-light">{{sidebar_fname}} {{sidebar_lname}}</h6>
+								<p class="mb-0 location"><i class="ion-location"></i> {{sidebar_address}}</p>
+							</div>
+						</div>
+						<ul class="sidebar-menu list-unstyled mb-0">
+							<li class="active"><a href="#/my_account"><span><i class="ion-ios-person"></i></span> My GMT24</a></li>
+                                                        <li><a href="#/change_password"><span><i class="ion-ios-person"></i></span> Change Password</a></li>
+                                                         <li ng-if="current_user_type=='2'"><a href="#/addProduct"><span><i class="ion-ios-person"></i></span> Add Product</a></li>
+                                                         <li  ng-if="current_user_type=='2'"><a href="#/myProduct"><span><i class="ion-android-watch"></i></span> My Products</a></li>
+                                                         <li ng-if="current_user_type=='1'"><a href="#/wishlist"><span><i class="ion-heart"></i></span> Favorite/Wishlist</a></li>
+							<li ng-if="current_user_type=='2'"><a href="#/addAuction"><span><i class="fa-gavel"></i></span> Add Auction</a></li>
+							<li  ng-if="current_user_type=='2'"><a href="#/myAuction"><span><i class="fa-gavel"></i></span> My Auction</a></li>
+                                                        <li ng-if="current_user_type=='2'"><a href="#/ListOrderSeller"><span><i class="fa-gavel"></i></span> List Order</a></li>
+                                                         <li ng-if="current_user_type=='1'"><a href="#/ListOrderBuyer"><span><i class="fa-gavel"></i></span> List Order</a></li>
+
+
+							<li><a href=""><span><i class="ion-thumbsup"></i></span> Interested in List</a></li>
+							
+							<li><a href=""><span><i class="ion-location"></i></span> Filter by Location</a></li>
+							<li><a href="#/notifications"><span><i class="ion-android-notifications"></i></span> Notifications</a></li>
+							<li><a href="#/notification_settings"><span><i class="ion-android-notifications"></i></span> Notification Setting</a></li>
+							<li><a href=""><span><i class="ion-ios-email"></i></span> Messages</a></li>
+							<li><a href=""><span><i class="ion-android-settings"></i></span> Settings</a></li>
+							<li><a ng-click="logout();"><span><i class="ion-log-out"></i></span> Log Out</a></li>
+						</ul>
+					</div>
+			

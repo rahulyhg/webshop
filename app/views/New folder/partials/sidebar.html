@@ -1,0 +1,84 @@
+<div class="LHS" ng-if="current_user_type=='1'">
+    <div class="well">
+        <div class="hdrPart">
+                <div class="img">
+                        <!--<img src="app/assets/images/images10.jpg"/>-->
+                        <img src="{{sidebar_image}}"/>
+                </div>
+                <!--<p class="name">General User</p>-->
+                <p class="name">{{user.full_name}}</p>
+                <p class="loc"><i class="fa fa-map-marker" aria-hidden="true"></i> {{user.address}}</p>	
+        </div>
+        <ul class="sattings_menu">
+                <li><a href="#/profile" class="active">Edit Profile</a></li>
+                
+                <!--<li><a href="#/">View All Gyms</a></li>
+                <li><a href="#/">View All Trainer</a></li>-->
+                
+                <li class="divider"><a href="#/changepass">Change Password</a></li>
+                 <li class="divider"><a href="#/listorder">List Order</a></li> 
+                   <li><a href="#/mymessagesend">Message</a></li>
+                <!--<li><a href="javascript:void();">Settings</a></li>-->
+                <li><a href="javascript:void();" ng-click="logout();">Logout</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="LHS" ng-if="current_user_type=='2'">
+    <div class="well">
+        <div class="hdrPart">
+                <div class="img">
+                        <img src="{{sidebar_image}}"/>
+                </div>
+                <!--<p class="name">Trainer</p>-->
+                <p class="name">{{user.full_name}}</p>
+                <p class="loc"><i class="fa fa-map-marker" aria-hidden="true"></i> {{user.address}}</p>	
+        </div>
+        <ul class="sattings_menu">
+                <li><a href="#/profile" class="active">Edit Profile</a></li>
+                  <li class="divider"><a href="#/changepass">Change Password</a></li>
+                <li><a href="#/newclass">Add Classes</a></li>
+                <li><a href="#/classlist">List Classes</a></li>
+                 <li><a href="#/listordertrainer">List Order</a></li>
+                  <li><a href="#/mymessagesend">Message</a></li>
+              
+               
+                <!--<li><a href="javascript:void();">Settings</a></li>-->
+                <li><a href="javascript:void();" ng-click="logout();">Logout</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="LHS" ng-if="current_user_type=='3'">
+    <div class="well">
+        <div class="hdrPart">
+                <div class="img">
+                        <img src="{{sidebar_image}}"/>
+                </div>
+                <!--<p class="name">Gym User</p>-->
+                <p class="name">{{user.full_name}}</p>
+                <p class="loc"><i class="fa fa-map-marker" aria-hidden="true"></i> {{user.address}}</p>	
+        </div>
+        <ul class="sattings_menu">
+                <li><a href="#/profile" class="active">Edit Profile</a></li>
+                  <li class="divider"><a href="#/changepass">Change Password</a></li>
+                 <li ng-if="sidebar_is_stripe=='1'"><a href="#/newgym">Manage Gym</a></li>
+                  <li ng-if="sidebar_is_stripe!='1'"><a href="#/addstripe">Manage Gym</a></li>
+                 <li><a href="#/managestripe">Manage Stripe Details</a></li>
+                
+                <li><a href="#/newtrainer">Add Trainer</a></li>
+                <li><a href="#/trainerlist">List Trainer</a></li>
+                
+                <li><a href="#/newauction">Add Auction</a></li>
+                <li><a href="#/auctionlist">List Auction</a></li>
+                
+                <li><a href="#/messagelist">Message</a></li>
+                  <li><a href="#/listordergym">List Order</a></li>
+                <li><a href="#/notification">Notification</a></li>
+                
+               
+                <!--<li><a href="javascript:void();">Settings</a></li>-->
+                <li><a href="javascript:void();" ng-click="logout();">Logout</a></li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,241 @@
+<section>
+	<div class="container">
+		<div class="bCum">
+				<h2>Get Fit Pass community</h2>
+                                <p><a style="color: #000;" href="#/home">Home</a> / Community</p>
+		</div>
+	</div>
+</section>
+
+<section>
+	<div class="container">
+		<div class="cmntHdPart" style="background: url('app/assets/images/cover3.png') no-repeat center center;">
+			<div class="txt">
+                            <h1><a href="#/communitydetails/{{FeaturedPosts.id}}" style="color: #fff">{{FeaturedPosts.title}}</a></h1>
+				<p>Posted on <a href="#/communitydetails/{{FeaturedPosts.id}}" style="color: #fff">{{FeaturedPosts.add_date| dateToISO | date:'MMM d, y'}} </a></p>
+			</div>
+		</div>
+	</div>
+</section>
+<section>
+	<div class="container">
+		<div class="communityBdy">
+			<div class="row">
+				<div class="col-md-8">
+					<h2>Recent articles</h2>
+					<div class="row">
+						<div class="col-sm-6" ng-repeat="recentarticle in ArticlesPosts | limitTo:4">
+							<div class="recArtl">
+                                                            <a href="#/communitydetails/{{recentarticle.id}}">
+								<img src="{{recentarticle.image}}" class="img-responsive"/>
+								<div class="txt">
+									<h3>{{recentarticle.title}}</h3>
+									<!--<p><i class="fa fa-pencil" aria-hidden="true"></i> 11 April 2017</p>-->
+                                                                        <p><i class="fa fa-pencil" aria-hidden="true"></i> {{recentarticle.add_date| dateToISO | date:'MMM d, y'}}</p>
+								</div>
+                                                            </a>
+							</div>
+						</div>
+                                            
+                                            
+                                            
+						<!--<div class="col-sm-6">
+							<div class="recArtl">
+                                                            <a href="#/communitydetails/5">
+								<img src="app/assets/images/images5.png" class="img-responsive"/>
+								<div class="txt">
+									<h3>Fitness Active Life</h3>
+									<p><i class="fa fa-pencil" aria-hidden="true"></i> 11 April 2017</p>
+								</div>
+                                                            </a>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="recArtl">
+                                                            <a href="#/communitydetails/5">
+								<img src="app/assets/images/images5.png" class="img-responsive"/>
+								<div class="txt">
+									<h3>Fitness Active Life</h3>
+									<p><i class="fa fa-pencil" aria-hidden="true"></i> 11 April 2017</p>
+								</div>
+                                                            </a>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="recArtl">
+                                                            <a href="#/communitydetails/5">
+								<img src="app/assets/images/images4.png" class="img-responsive"/>
+								<div class="txt">
+									<h3>Fitness Active Life</h3>
+									<p><i class="fa fa-pencil" aria-hidden="true"></i> 11 April 2017</p>
+								</div>
+                                                            </a>
+							</div>
+						</div>-->
+					</div>
+					<h2 style="margin-top: 20px;">Community Posts</h2>
+					<div class="comPst" ng-repeat="recentcommpost in CommunityPosts | limitTo:2">
+						<div class="row">
+                                                    <a href="#/communitydetails/{{recentcommpost.id}}">
+							<div class="col-md-6">
+								<img src="{{recentcommpost.image}}"/>
+							</div>
+							<div class="col-md-6">
+								<div class="inr">
+									<h3>{{recentcommpost.title}}</h3>
+									<span class="date"><i class="fa fa-pencil" aria-hidden="true"></i> {{recentcommpost.add_date| dateToISO | date:'MMM d, y'}}</span>
+									<!--<em class="name">Jessica Ambrose</em>-->
+									<p>{{recentcommpost.description}}</p>
+								</div>
+							</div>
+                                                    </a>
+						</div>
+					</div>
+                                        
+                                        
+                                        
+					<!--<div class="comPst">
+						<div class="row">
+							<div class="col-md-6">
+								<img src="app/assets/images/images6.png"/>
+							</div>
+							<div class="col-md-6">
+								<div class="inr">
+									<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
+									<span class="date"><i class="fa fa-pencil" aria-hidden="true"></i> 11 April 2017</span>
+									<em class="name">Jessica Ambrose</em>
+									<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident</p>
+								</div>
+							</div>
+						</div>
+					</div>-->
+				</div>
+				<div class="col-md-4">
+					<h2>Community Posts</h2>
+					<ul class="post">
+						<li ng-repeat="recentcommpostall in CommunityPosts | limitTo:5">
+                                                    <a href="#/communitydetails/{{recentcommpostall.id}}">
+							<div class="LHS">
+                                                            <img src="{{recentcommpostall.image}}" style="width: 113px; height: 113px;"/>
+							</div>
+							<div class="RHS">
+								<h4>{{recentcommpostall.title}}</h4>
+								<!--<p class="wrtBy">by Kath Webb</p>-->
+								<!--<span><i class="fa fa-eye" aria-hidden="true"></i> 105 Views </span><span><i class="fa fa-commenting" aria-hidden="true"></i> 5 Comments</span>-->
+							</div>
+                                                    </a>
+						</li>
+                                                
+                                                
+                                                
+                                                
+						<!--<li>
+							<div class="LHS">
+								<img src="app/assets/images/images8.png"/>
+							</div>
+							<div class="RHS">
+								<h4>Lorem ipsum dolor sit amet, consectetur adipis
+do eiusmod tempor</h4>
+								<p class="wrtBy">by Kath Webb</p>
+								<span><i class="fa fa-eye" aria-hidden="true"></i> 105 Views </span><span><i class="fa fa-commenting" aria-hidden="true"></i> 5 Comments</span>
+							</div>
+						</li>
+						<li>
+							<div class="LHS">
+								<img src="app/assets/images/images8.png"/>
+							</div>
+							<div class="RHS">
+								<h4>Lorem ipsum dolor sit amet, consectetur adipis
+do eiusmod tempor</h4>
+								<p class="wrtBy">by Kath Webb</p>
+								<span><i class="fa fa-eye" aria-hidden="true"></i> 105 Views </span><span><i class="fa fa-commenting" aria-hidden="true"></i> 5 Comments</span>
+							</div>
+						</li>
+						<li>
+							<div class="LHS">
+								<img src="app/assets/images/images8.png"/>
+							</div>
+							<div class="RHS">
+								<h4>Lorem ipsum dolor sit amet, consectetur adipis
+do eiusmod tempor</h4>
+								<p class="wrtBy">by Kath Webb</p>
+								<span><i class="fa fa-eye" aria-hidden="true"></i> 105 Views </span><span><i class="fa fa-commenting" aria-hidden="true"></i> 5 Comments</span>
+							</div>
+						</li>-->
+                                                
+                                                
+                                                
+                                                
+					</ul>
+					<h2>Latest Comments</h2>
+					<ul class="post LstCmd">
+						<li ng-repeat="getcommm in GetRecentComments | limitTo:5">
+							<div class="LHS">
+								<div class="pp">
+									<img src="{{getcommm.user_image}}"/>
+								</div>
+							</div>
+							<div class="RHS">
+								<h4>{{getcommm.comments}}</h4>
+								<p class="wrtBy">by {{getcommm.commenter_name}}</p>
+								<span>{{getcommm.add_date| dateToISO | date:'MMM d, y'}}</span>
+							</div>
+						</li>
+						<!--<li>
+							<div class="LHS">
+								<div class="pp">
+									<img src="app/assets/images/images10.jpg"/>
+								</div>
+							</div>
+							<div class="RHS">
+								<h4>Lorem ipsum dolor sit amet, consectetur adipis
+do eiusmod tempor</h4>
+								<p class="wrtBy">by Kath Webb</p>
+								<span>1 hour ago</span>
+							</div>
+						</li>
+						<li>
+							<div class="LHS">
+								<div class="pp">
+									<img src="app/assets/images/images9.jpg"/>
+								</div>
+							</div>
+							<div class="RHS">
+								<h4>Lorem ipsum dolor sit amet, consectetur adipis
+do eiusmod tempor</h4>
+								<p class="wrtBy">by Kath Webb</p>
+								<span>1 hour ago</span>
+							</div>
+						</li>
+						<li>
+							<div class="LHS">
+								<div class="pp">
+									<img src="app/assets/images/images10.jpg"/>
+								</div>
+							</div>
+							<div class="RHS">
+								<h4>Lorem ipsum dolor sit amet, consectetur adipis
+do eiusmod tempor</h4>
+								<p class="wrtBy">by Kath Webb</p>
+								<span>1 hour ago</span>
+							</div>
+						</li>
+						<li>
+							<div class="LHS">
+								<div class="pp">
+									<img src="app/assets/images/images10.jpg"/>
+								</div>
+							</div>
+							<div class="RHS">
+								<h4>Lorem ipsum dolor sit amet, consectetur adipis
+do eiusmod tempor</h4>
+								<p class="wrtBy">by Kath Webb</p>
+								<span>1 hour ago</span>
+							</div>
+						</li>-->
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

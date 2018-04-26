@@ -1,0 +1,84 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+require ('./vendor/autoload.php');
+$app = new \Slim\Slim(array(
+    'debug' => true
+        ));
+
+class AllCapsMiddleware extends \Slim\Middleware {
+
+    public function call() {
+        // Get reference to application
+        $app = $this->app;
+
+        $req = $app->request;
+
+        //print_r($req);exit;
+        // Run inner middleware and application
+        $this->next->call();
+
+        // Capitalize response body
+
+        $res = $app->response;
+        //$body = $res->getBody();
+        if ($req->headers->get('Token') != "123456") {
+            $res->setStatus(401);
+            $res->setBody("{\"msg\":\"not authorised\"}");
+        }
+    }
+
+}
+
+$corsOptions = array(
+    "origin" => "*",
+    "exposeHeaders" => array("Content-Type", "X-Requested-With", "X-authentication", "X-client"),
+    "allowMethods" => array('GET', 'POST', 'PUT', 'DELETE', 'OPTIONS')
+);
+$cors = new \CorsSlim\CorsSlim($corsOptions);
+
+$app->add($cors);
+
+
+
+//$app->add(new \CorsSlim\CorsSlim());
+//$app->add(new \AllCapsMiddleware());
+//$app->response->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+$app->response->headers->set('Content-Type', 'application/json');
+
+
+
+
+$app->group('/users', function () use ($app) {
+    
+
+	$app->post('/signup', 'userSignup');
+	$app->post('/login', 'userLogin');
+    $app->post('/forgotpassword', 'forgetpassword');        
+	$app->post('/changepassword', 'changepwd');
+    $app->post('/categorylist', 'listCategory');
+    $app->post('/homepagelist', 'listRestaurants');
+    $app->post('/userfavouritelist', 'userfavouritelist');
+	// $app->post('/logout', 'logout');
+	// $app->post('/userprofile', 'userprofile');
+ //    $app->post('/updateProfile', 'updateProfile');  
+ //    $app->post('/listNotification', 'listNotification'); 
+ //    $app->post('/countNotification', 'countNotification');
+ //     $app->post('/updateSetting', 'updateSetting');
+ //     $app->post('/listreviews', 'listreviews');
+ //     $app->post('/sendChat', 'sendChat');
+ //     $app->post('/chatDetails', 'chatDetails');
+ //     $app->post('/listsports', 'listsports');
+ //     $app->post('/postEvent', 'postEvent');
+ //     $app->post('/inbox', 'inbox');
+     
+     
+     //Suman
+     
+     // $app->post('/gymFullDetails', 'gymFullDetails');
+     // $app->post('/gymListing', 'gymListing');
+     
+     //Suman
+     
+});
+?>
