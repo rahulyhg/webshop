@@ -330,7 +330,7 @@ $scope.addProduct = function(user2){
 		console.log('htype',response);
 		$scope.isExists=1;
 		if(response.Ack == '1') {
-                    alert('Added Successfully.');
+                    alert(response.msg);
                     if(response.type == '1'){
                        // console.log('1');
                         //alert('1');
@@ -343,7 +343,12 @@ $scope.addProduct = function(user2){
                     $scope.isExists=1;
                 }
 		
-		} else {
+		}else if(response.Ack == '0'){
+                    
+                   alert(response.msg);
+                   
+                } else {
+                    
                     console.log('ppp');	
                     $scope.isExists=0;
 		}

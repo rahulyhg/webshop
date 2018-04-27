@@ -3167,6 +3167,19 @@ function addProductNew() {
     $stmt->execute();
     $getUserDetails = $stmt->fetchObject();
 
+    
+    //print_r($getUserDetails);exit;
+    
+    if($getUserDetails->expiry_date >= $date ){
+        
+        if($getUserDetails->slot_no > 0){
+    
+    if ($type == '1') {
+
+        $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,location,work_hours,status) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:location,:work_hours,:status)";
+    } else {
+
+
 
     if ($getUserDetails->expiry_date >= $date) {
 
