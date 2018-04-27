@@ -3857,8 +3857,71 @@ var getproductdetailsforedit = function(id) {
         });
     
 };
+var registernewsletter = function(email) {
 
+    return $q(function(resolve, reject) {
+       
+         var encodedString ='{"email":"'+ email +'"}';
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"newsleterRegister",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+         // console.log(response.data);
+          //console.log('hello',response.data.Ack);
+           if(response.data.Ack == "1") {
+        // alert('ok');
+              resolve(response.data); 
+           } else {
+          //alert('nok');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+              // alert(response);      //console.log(response);  
+          reject(response);
+            });
+        });
+    
+};
 
+var searchproductListing = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year) {
+    return $q(function(resolve, reject) {
+        
+        //var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'"}';
+        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'"}';
+         console.log('productlist',encodedString);
+         //return false;
+//var encodedString ='{"user_id":"'+ userInfo.user_id +'","name":"'+ user.name +'","description":"'+ user.description +'","email":"'+ user.email +'","phone":"'+ user.phone +'","price":"'+ user.price +'","address":"'+ user.address +'","sundaytime":"'+ user.sundaytime +'","mondaytime":"'+ user.mondaytime +'","tuesdaytime":"'+ user.tuesdaytime +'","wednesdaytime":"'+ user.wednesdaytime +'","thursdaytime":"'+ user.thursdaytime +'","fridaytime":"'+ user.fridaytime +'","saturdaytime":"'+ user.saturdaytime +'"}';
+
+    
+        // alert(encodedString);    
+    
+    
+    
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"ProductListSearch",
+   data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    //console.log('ok');
+    resolve(response.data); 
+    } else {
+    //console.log('ok2');
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    //console.log(response);  
+    reject(response);
+    });
+    });
+    };
  return {
      
        // homeSettingsSection:homeSettingsSection,
@@ -3982,7 +4045,9 @@ ChangePassword: ChangePassword,
            addbid:addbid,
            getauctiondetails:getauctiondetails,
            listAuctionDtates:listAuctionDtates,
-           listYears:listYears
+           listYears:listYears,
+           registernewsletter:registernewsletter,
+           searchproductListing:searchproductListing
 
 	
 };

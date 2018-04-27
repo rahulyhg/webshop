@@ -57,7 +57,7 @@ app.constant('JS_REQUIRES', {
            'sendForAuction': ['app/Controllers/sendForAuctionCtrl.js'], 
            'addProduct2': ['app/Controllers/addProductCtrl2.js'],
            'purchaseSubscription': ['app/Controllers/purchaseSubscriptionCtrl.js'],
-
+           'productlisting': ['app/Controllers/productlistingCtrl.js'],
 
 
 

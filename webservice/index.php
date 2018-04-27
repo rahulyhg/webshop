@@ -3167,10 +3167,9 @@ function addProductNew() {
     $stmt->execute();
     $getUserDetails = $stmt->fetchObject();
 
-    
+
     //print_r($getUserDetails);exit;
-    
-    
+
 
     if ($getUserDetails->expiry_date >= $date) {
 
@@ -4263,11 +4262,9 @@ function auctionListSearch() {
                 $stmt3->bindParam("id", $product->subcat_id);
                 $stmt3->execute();
                 $getsubcategory = $stmt3->fetchObject();
-                if (!empty($getsubcategory)) {
-                    $subcategoryname = $getsubcategory->name;
-                }
-
-
+//                if (!empty($getsubcategory)) {
+//                    $subcategoryname = $getsubcategory->name;
+//                }
                 //Seller Information
 
                 $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
@@ -4297,7 +4294,7 @@ function auctionListSearch() {
                     "price" => stripslashes($product->price),
                     "description" => strip_tags(stripslashes($product->description)),
                     "category_name" => $categoryname,
-                    "subcategory_name" => $subcategoryname,
+                    //"subcategory_name" => $subcategoryname,
                     "seller_id" => stripslashes($product->uploader_id),
                     "seller_image" => $profile_image,
                     "seller_name" => stripslashes($seller_name),
@@ -4854,6 +4851,268 @@ function getproductdetailsforedit() {
         //exit;
         $app->response->setStatus(200);
     } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+function newsleterRegister() {
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $email = isset($body->email) ? $body->email : '';
+    $sql = "SELECT * FROM  webshop_newsletter WHERE  email=:email";
+    $db = getConnection();
+    $stmt = $db->prepare($sql);
+
+    $stmt->bindParam("email", $email);
+    $stmt->execute();
+    $usersCount = $stmt->rowCount();
+
+    $sql1 = "INSERT INTO  webshop_newsletter (email) VALUES (:email)";
+
+    if ($usersCount == 0) {
+        try {
+            $stmt1 = $db->prepare($sql1);
+            $stmt1->bindParam("email", $email);
+
+            $stmt1->execute();
+            $data['Ack'] = '1';
+        } catch (PDOException $e) {
+
+            $data['user_id'] = '';
+            $data['Ack'] = '0';
+            $data['msg'] = $e->getMessage();
+
+            $app->response->setStatus(401);
+        }
+    } else {
+        $data['user_id'] = '';
+        $data['Ack'] = '2';
+        $data['message'] = 'Email already exists';
+    }
+    $app->response->write(json_encode($data));
+}
+
+function ProductListSearch() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+
+    $brand = isset($body->brand) ? $body->brand : '';
+    $brandListing = isset($body->brandList) ? $body->brandList : '';
+    $sellerListing = isset($body->sellerList) ? $body->sellerList : '';
+    $selected_value = isset($body->selected_value) ? $body->selected_value : '';
+    $amount_min = isset($body->amount_min) ? $body->amount_min : '';
+    $amount_max = isset($body->amount_max) ? $body->amount_max : '';
+
+    $gender = isset($body->gender) ? $body->gender : '';
+    $breslettype = isset($body->breslettype) ? $body->breslettype : '';
+    $year = isset($body->year) ? $body->year : '';
+    $preferred_date = isset($body->preferred_date) ? $body->preferred_date : '';
+
+    //print_r($body);
+
+    $productIds = array();
+
+    if ($selected_value == '4') {
+
+        $new_sql = "SELECT * from webshop_reviews order by rating desc";
+        $stmt2 = $db->prepare($new_sql);
+        $stmt2->execute();
+        $total_rows = $stmt2->rowCount();
+        $getIds = $stmt2->fetchAll(PDO::FETCH_OBJ);
+
+
+        if ($total_rows > 0) {
+
+            foreach ($getIds as $product) {
+
+                array_push($productIds, $product->product_id);
+            }
+        }
+
+        $productIds = array_unique($productIds);
+
+        // print_r($productIds);
+        // exit;
+
+        $productIds = implode(",", $productIds);
+
+
+        $sql = "SELECT * from webshop_products where status = 1 and type='1' and uploader_id !='" . $user_id . "' and id IN(" . $productIds . ")";
+    } else {
+
+
+        $sql = "SELECT * from  webshop_products where status=1 and type='1'  and uploader_id !='" . $user_id . "'";
+    }
+
+    if ($amount_min != '' && $amount_max != '') {
+
+        $sql .= " AND `price` BETWEEN " . $amount_min . " " . "AND" . " " . $amount_max . "";
+    } else if ($amount_min == '' && $amount_max != '') {
+        $amount_min = 0.00;
+        $sql .= " AND `price` BETWEEN " . $amount_min . " " . "AND" . " " . $amount_max . "";
+    } else if ($amount_min != '' && $amount_max == '') {
+        $amount_max = 10000.00;
+        $sql .= " AND `price` BETWEEN " . $amount_min . " " . "AND" . " " . $amount_max . "";
+    }
+
+    if ($brandListing != '') {
+
+        $sql .= " AND `brands` IN (" . $brandListing . ")";
+    }
+    if ($sellerListing != '') {
+
+        $sql .= " AND `uploader_id` IN (" . $sellerListing . ")";
+    }
+
+
+    //spandan
+
+    if ($gender != '') {
+
+        $sql .= " AND `gender`='" . $gender . "' ";
+    }
+
+    if ($brand != '') {
+
+        $sql .= " AND `brands` = '" . $brand . "'";
+    }
+    if ($breslettype != '') {
+
+        $sql .= " AND `breslet_type` = '" . $breslettype . "'";
+    }
+    if ($year != '') {
+
+        $sql .= " AND model_year = '" . $year . "'";
+    }
+    if ($preferred_date != '') {
+
+        $sql .= " AND preferred_date = '" . $preferred_date . "'";
+    }
+    //spandan end
+
+    if ($selected_value == '1') {
+
+        $sql .= " ORDER BY price ASC";
+    }
+    if ($selected_value == '2') {
+
+        $sql .= " ORDER BY price DESC";
+    }
+    if ($selected_value == '3') {
+
+        $sql .= " ORDER BY add_date DESC";
+    }
+
+
+
+//    echo($sql);
+//    exit;
+
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $getAllProducts = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+
+        if (!empty($getAllProducts)) {
+            foreach ($getAllProducts as $product) {
+
+                if ($product->image != '') {
+                    $image = SITE_URL . 'upload/product_image/' . $product->image;
+                } else {
+                    $image = SITE_URL . 'webservice/not-available.jpg';
+                }
+
+
+                $sql2 = "SELECT * FROM  webshop_category WHERE id=:id ";
+                $stmt2 = $db->prepare($sql2);
+                $stmt2->bindParam("id", $product->cat_id);
+                $stmt2->execute();
+                $getcategory = $stmt2->fetchObject();
+                if (!empty($getcategory)) {
+                    $categoryname = $getcategory->name;
+                }
+
+
+
+                $sql3 = "SELECT * FROM  webshop_subcategory WHERE id=:id ";
+                $stmt3 = $db->prepare($sql3);
+                $stmt3->bindParam("id", $product->subcat_id);
+                $stmt3->execute();
+                $getsubcategory = $stmt3->fetchObject();
+//                if (!empty($getsubcategory)) {
+//                    $subcategoryname = $getsubcategory->name;
+//                }
+                //Seller Information
+
+                $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
+                $stmt1 = $db->prepare($sql1);
+                $stmt1->bindParam("id", $product->uploader_id);
+                $stmt1->execute();
+                $getUserdetails = $stmt1->fetchObject();
+
+                if (!empty($getUserdetails)) {
+                    $seller_name = $getUserdetails->fname . ' ' . $getUserdetails->lname;
+                    $seller_address = $getUserdetails->address;
+                    $seller_phone = $getUserdetails->phone;
+                    $email = $getUserdetails->email;
+
+                    if ($getUserdetails->image != '') {
+                        $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
+                    } else {
+                        $profile_image = SITE_URL . 'webservice/no-user.png';
+                    }
+                } else {
+                    $profile_image = '';
+                }
+
+                $data['productList'][] = array(
+                    "id" => stripslashes($product->id),
+                    "image" => stripslashes($image),
+                    "price" => stripslashes($product->price),
+                    "description" => strip_tags(stripslashes($product->description)),
+                    "category_name" => $categoryname,
+                    // "subcategory_name" => $subcategoryname,
+                    "seller_id" => stripslashes($product->uploader_id),
+                    "seller_image" => $profile_image,
+                    "seller_name" => stripslashes($seller_name),
+                    "seller_address" => stripslashes($seller_address),
+                    "seller_phone" => stripslashes($seller_phone),
+                    "productname" => stripslashes($product->name)
+                );
+            }
+
+
+            $data['Ack'] = '1';
+            $app->response->setStatus(200);
+        } else {
+            $data = array();
+            $data['productList'] = array();
+            $data['Ack'] = '0';
+            $app->response->setStatus(200);
+        }
+    } catch (PDOException $e) {
+        print_r($e);
+        exit;
 
         $data['Ack'] = 0;
         $data['msg'] = $e->getMessage();

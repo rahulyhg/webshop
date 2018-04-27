@@ -12,8 +12,8 @@ app.run(['$rootScope', '$state', '$stateParams',
         // GLOBAL APP SCOPE
         // set below basic information
 
-  $rootScope.serviceurl = "http://localhost/webshop1/webshop/webservice/frontend/";
-        $rootScope.siteurl = "http://localhost/webshop1/webshop/webservice/frontend/";
+  $rootScope.serviceurl = "http://localhost/webshop/webservice/frontend/";
+        $rootScope.siteurl = "http://localhost/webshop/webservice/frontend/";
 
         $rootScope.app = {
             name: 'Insulationez', // name of your project
@@ -840,6 +840,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                 },
                 resolve: loadSequence('sendForAuction')
             })
+
             
             
             //spandan 27_04
@@ -858,6 +859,18 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
             
             
             
+
+            .state('frontend.productlisting', {
+                url: '/productlisting/:id',
+                templateUrl: 'app/views/productlisting.html',
+                title: 'productlisting',
+				controller: 'productlistingCtrl',
+                ncyBreadcrumb: {
+                    label: 'Search listing page'
+                },
+                resolve: loadSequence('productlisting')
+            })
+
 
           /*   .state('frontend.test', {
                 url: '/test',
