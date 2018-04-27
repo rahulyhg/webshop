@@ -244,7 +244,8 @@ function inactive(aa)
                 <th> Name</th>
                <th> Price</th> 
                 <th> Slots</th> 
-                <th> Duration</th>                 
+                <th> Duration</th> 
+                <th> Type</th> 
                 <th>Quick Links</th>
                 <th>Status</th>
               </tr>
@@ -281,7 +282,9 @@ function inactive(aa)
                   <?php echo stripslashes($subscription['duration']).' Days';?>
                 </td>
                 
-                
+                <td>
+                  <?php if($subscription['type']=='N'){echo 'Normal';}else{echo 'Offer';};?>
+                </td>
                 <td>
                   <a  href="add_subscription.php?id=<?php echo $subscription['id'] ?>&action=edit">
                   <i class="icon-edit"></i></a>

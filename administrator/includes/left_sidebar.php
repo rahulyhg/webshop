@@ -181,6 +181,29 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                 </ul>
             </li>
 
+            
+            <li class="sub-menu">
+                <a href="javascript:;" class="">
+                    <i class="icon-tasks"></i>
+                    <span>Offer Subscription</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub">
+
+                    <li>
+                        <a href="add_user_offer.php">
+                            Offer to users</a>
+                    </li>
+
+                </ul>
+            </li>
+            
+            
+            
+            
+            
+            
+            
 
             <li class="sub-menu">
                 <a href="javascript:;" class="">

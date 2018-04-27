@@ -3170,16 +3170,7 @@ function addProductNew() {
     
     //print_r($getUserDetails);exit;
     
-    if($getUserDetails->expiry_date >= $date ){
-        
-        if($getUserDetails->slot_no > 0){
     
-    if ($type == '1') {
-
-        $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,location,work_hours,status) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:location,:work_hours,:status)";
-    } else {
-
-
 
     if ($getUserDetails->expiry_date >= $date) {
 
@@ -3948,12 +3939,27 @@ function listSubscriptions() {
     $request = $app->request();
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
+    $user_id = isset($body->user_id) ? $body->user_id : '';
 
     $db = getConnection();
-
+    
+    $sql1 = "SELECT * from webshop_subscription where status = 1 and type='O' limit 1";
+    $stmt1 = $db->prepare($sql1);
+    $stmt1->execute();
+    $getDetails = $stmt1->fetchObject();
+    
+    $user_array=  explode(',', $getDetails->user_id);
+    $existsuser= in_array($user_id, $user_array);
+    
+    if($existsuser){
+    $sql = "SELECT * from webshop_subscription where status = 1";
+    }else{
+      $sql = "SELECT * from webshop_subscription where status = 1 and type='N'";  
+    }
+    
     try {
 
-        $sql = "SELECT * from webshop_subscription where status = 1";
+        
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $getSubscriptions = $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -4041,7 +4047,7 @@ function addUserSubscription() {
 
 
 
-    $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no WHERE id=:user_id";
+    $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no WHERE id=:user_id";
     $slot = $getSubscriptionDetails->slots;
     $stmt = $db->prepare($sql);
     $stmt->bindParam("subscription_id", $subscription_id);

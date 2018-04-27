@@ -64,10 +64,15 @@ app.constant('JS_REQUIRES', {
         //Suman
         'forgot_password': ['app/Controllers/forgot_passwordCtrl.js'],
        
-       
-        
-         
         //Suman
+        
+        
+        //spandan
+        
+        'SubscribedList': ['app/Controllers/SubscribedListCtrl.js'],
+        
+        
+        
 	
     },
 
