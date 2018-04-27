@@ -3856,6 +3856,8 @@ var getproductdetailsforedit = function(id) {
         });
     
 };
+
+
  return {
      
        // homeSettingsSection:homeSettingsSection,
