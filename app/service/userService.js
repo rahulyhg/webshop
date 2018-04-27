@@ -784,6 +784,42 @@ reject(response);
     });
     });
     };
+    
+    
+    
+    //spandan
+    
+    var subscribedlist = function() {
+    return $q(function(resolve, reject) {
+        var userInfo = JSON.parse($window.localStorage["userInfo"]);
+    var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+    
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"listSubscribed",
+    data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    resolve(response.data); 
+    } else {
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    reject(response);
+    });
+    });
+    };
+    
+    
+    
+    
+    
+    
+    
 
 
             var purchaseSubscription = function(subscription_id) {
@@ -4040,6 +4076,7 @@ ChangePassword: ChangePassword,
            interestedEmail:interestedEmail,
            auctionFees:auctionFees,
            subscriptions:subscriptions,
+           subscribedlist:subscribedlist,
            purchaseSubscription:purchaseSubscription,
            listshops:listshops,
            addbid:addbid,

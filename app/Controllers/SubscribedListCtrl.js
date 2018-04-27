@@ -30,12 +30,12 @@ $scope.isform1 =0;
  
 $scope.allsubscriptions = function(){
 
- userService.subscriptions().then(function(response) {
+ userService.subscribedlist().then(function(response) {
      
     
 		if(response.Ack == '1') {
                     $scope.exists=1;
-		$scope.subscriptionLists=response.subscriptionlist;
+		$scope.subscribedLists=response.subscribedLists;
 		
 		} else {
                     
@@ -51,7 +51,7 @@ $scope.allsubscriptions = function(){
 	
         }
    
-    $scope.purchase = function(subscription_id){
+    $scope.renew = function(subscription_id){
         
              userService.purchaseSubscription(subscription_id).then(function(response) {
 
