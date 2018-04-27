@@ -107,5 +107,7 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/listcuntry', 'listcuntry');
     $app->post('/liststatus', 'liststatus');
     $app->post('/getproductdetailsforedit', 'getproductdetailsforedit');
+    $app->post('/newsleterRegister', 'newsleterRegister');
+    $app->post('/ProductListSearch', 'ProductListSearch');
 });
 ?>

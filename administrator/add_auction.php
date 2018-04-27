@@ -3,7 +3,6 @@ include_once("./includes/config.php");
 include_once('includes/session.php');
 ?>
 <?php
-$priceerr = '';
 if (isset($_REQUEST['submit'])) {
     $price = isset($_POST['price']) ? $_POST['price'] : '';
     $movement = isset($_POST['movement']) ? $_POST['movement'] : '';
@@ -316,7 +315,7 @@ if ($num > 0) {
                                     <label class="control-label">Watch Status</label>
                                     <div class="controls">
                                         <input type="text" class="form-control" placeholder="Enter purchase date" value="<?php echo $categoryRowset['status_watch']; ?>" name="status_watch" required>
-                                        </br> <span id="mstatus_error" style="color: #FF0000;"class=""></span>
+
                                     </div>
                                 </div>
 
@@ -324,7 +323,7 @@ if ($num > 0) {
                                     <label class="control-label">Owner Number</label>
                                     <div class="controls">
                                         <input type="text" class="form-control" placeholder="Enter owner number" value="<?php echo $categoryRowset['owner_number']; ?>" name="owner_number" required>
-                                        </br> <span id="ownerno_error" style="color: #FF0000;"class=""></span>
+
                                     </div>
                                 </div>
 
@@ -332,7 +331,7 @@ if ($num > 0) {
                                     <label class="control-label">Country</label>
                                     <div class="controls">
                                         <input type="text" class="form-control" placeholder="Enter country" value="<?php echo $categoryRowset['country']; ?>" name="country" required>
-                                        </br> <span id="country_error" style="color: #FF0000;"class=""></span>
+
                                     </div>
                                 </div>
 
@@ -340,7 +339,7 @@ if ($num > 0) {
                                     <label class="control-label">Size</label>
                                     <div class="controls">
                                         <input type="text" class="form-control" placeholder="Enter size" value="<?php echo $categoryRowset['size']; ?>" name="size" required>
-                                        </br> <span id="size_error" style="color: #FF0000;"class=""></span>
+
                                     </div>
                                 </div>
 
@@ -355,7 +354,7 @@ if ($num > 0) {
                                 <div class="control-group">
                                     <label class="control-label">Base Auction Price</label>
                                     <div class="controls">
-                                        <input  type="text" class="form-control" placeholder="Enter base auction price" value="<?php echo $categoryRowset['baseauctionprice']; ?>" name="baseauctionprice" id="baseauctionprice" required>
+                                        <input  type="number" class="form-control" placeholder="Enter base auction price" value="<?php echo $categoryRowset['baseauctionprice']; ?>" name="baseauctionprice" id="baseauctionprice" required>
 
                                     </div>
                                 </div>
@@ -363,7 +362,7 @@ if ($num > 0) {
                                 <div class="control-group">
                                     <label class="control-label">Threshold Price</label>
                                     <div class="controls">
-                                        <input type="text" class="form-control" placeholder="Enter threshold price" value="<?php echo $categoryRowset['thresholdprice']; ?>" name="thresholdprice" required>
+                                        <input type="number" class="form-control" placeholder="Enter threshold price" value="<?php echo $categoryRowset['thresholdprice']; ?>" name="thresholdprice" required>
 
                                     </div>
                                 </div>
@@ -371,8 +370,8 @@ if ($num > 0) {
                                 <div class="control-group">
                                     <label class="control-label">Bid Increment</label>
                                     <div class="controls">
-                                        <input type="text" class="form-control" placeholder="Enter bid increment price" value="<?php echo $categoryRowset['bidincrement']; ?>" name="bidincrement" required>
-                                        </br> <span id="bidincrement_error" style="color: #FF0000;"class=""></span>
+                                        <input type="number" class="form-control" placeholder="Enter bid increment price" value="<?php echo $categoryRowset['bidincrement']; ?>" name="bidincrement" required>
+
                                     </div>
                                 </div>
 
@@ -380,7 +379,7 @@ if ($num > 0) {
                                     <label class="control-label">Preferred Date</label>
                                     <div class="controls">
                                         <input type="text" class="form-control" placeholder="Enter preferred_date" id="datepicker" value="<?php echo $categoryRowset['preferred_date']; ?>"  name="preferred_date" required>
-                                        </br> <span id="preferred_error" style="color: #FF0000;"class=""></span>
+
                                     </div>
                                 </div>
 
@@ -595,7 +594,8 @@ if ($num > 0) {
                 greaterNumber: '#price',
             },
             thresholdprice: {
-                required: true, positiveNumber: true,
+                required: true,
+                positiveNumber: true,
                 greaterNumber: '#baseauctionprice',
             },
             owner_number: {
