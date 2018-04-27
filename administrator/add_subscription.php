@@ -10,17 +10,19 @@ if(isset($_REQUEST['submit']))
 
   $name = isset($_POST['name']) ? $_POST['name'] : '';
   $price = isset($_POST['price']) ? $_POST['price'] : ''; 
-	$slots = isset($_POST['slots']) ? $_POST['slots'] : '';
+  $slots = isset($_POST['slots']) ? $_POST['slots'] : '';
   $duration = isset($_POST['duration']) ? $_POST['duration'] : '';
+  $type = isset($_POST['type']) ? $_POST['type'] : '';
 
   $add_date = date('Y-m-d'); 
 
 	 $fields = array(
     'price' => mysqli_real_escape_string($con,$price),
-	 	'name' => mysqli_real_escape_string($con,$name),
+    'name' => mysqli_real_escape_string($con,$name),
     'slots' => mysqli_real_escape_string($con,$slots),
     'duration' => mysqli_real_escape_string($con,$duration),
-    'add_date' =>mysqli_real_escape_string($con,$add_date)
+    'add_date' =>mysqli_real_escape_string($con,$add_date),
+     'type' =>mysqli_real_escape_string($con,$type)        
 	 	);
 
 	 $fieldsList =array();
@@ -173,6 +175,21 @@ $categoryRowset = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_s
                                     </div>
                                 </div>
                                
+                            
+                            
+                            
+                            <div class="control-group">
+                                    <label class="control-label">Subscription Type</label>
+                                    <div class="controls">
+                                        <select class="form-control" name="type">
+                                            <option value="N" <?php if($categoryRowset['type']=='N'){echo 'selected';}?>>Normal Package</option>
+                                            <option value="O" <?php if($categoryRowset['type']=='O'){echo 'selected';}?>>Offer Package</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            
+                            
+                            
                                
          <div class="form-actions">
                                     <button type="submit" class="btn blue" name="submit"><i class="icon-ok"></i> Save</button>

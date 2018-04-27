@@ -763,11 +763,12 @@ reject(response);
              var subscriptions = function() {
     return $q(function(resolve, reject) {
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
-    
+    var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
     
     $http({
     method: 'POST',
     url: $rootScope.serviceurl+"listSubscriptions",
+    data: encodedString,
     headers: {'Content-Type': 'application/json'}
     }).then(function (response) {
     

@@ -840,6 +840,26 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                 },
                 resolve: loadSequence('sendForAuction')
             })
+
+            
+            
+            //spandan 27_04
+            
+            .state('frontend.SubscribedList', {
+                url: '/SubscribedList',
+                templateUrl: 'app/views/SubscribedList.html',
+                title: 'Subscribed',
+		controller: 'SubscribedListCtrl',
+                ncyBreadcrumb: {
+                    label: 'SubscribedList page'
+                },
+                resolve: loadSequence('SubscribedList')
+            })
+            
+            
+            
+            
+
             .state('frontend.productlisting', {
                 url: '/productlisting/:id',
                 templateUrl: 'app/views/productlisting.html',
@@ -850,6 +870,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                 },
                 resolve: loadSequence('productlisting')
             })
+
 
           /*   .state('frontend.test', {
                 url: '/test',
