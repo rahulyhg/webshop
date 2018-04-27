@@ -52,24 +52,18 @@ $scope.isform1 =0;
     
 
 $scope.registernewsletter = function(email){
-           //alert(email);
-           // return false;
+        if(email){
              userService.registernewsletter(email).then(function(response) {
 		//console.log(response.Ack);
 		$scope.isExists=1;
 		if(response.Ack == '1') {
                     console.log(response);
-                   // alert('Added Successfully.');
-                   // $window.location.reload()
-                   // $scope.isExists=1;
-                  //  $scope.user='';
-		//$scope.subcategorylist=response.subcategorylist;
-               // $scope.user_idd=$scope.user_id;
-		//console.log($scope.alljobs);	
+                  alert('Email added successfully.');
+                 
 		
-		} else {
-                    console.log('ppp');	
-                    $scope.isExists=0;
+		} else if(response.Ack == '2') {
+                   alert(response.message );
+                    
 		}
 	
 	
@@ -78,7 +72,9 @@ $scope.registernewsletter = function(email){
 	}, function(err) {
 	console.log(err); 
 	});     
-        
+    }else{
+        alert('Please enter a emailid.');
+    }
        
         
 }

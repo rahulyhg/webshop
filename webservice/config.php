@@ -1,26 +1,24 @@
 <?php
 
-define('SITE_URL','http://localhost/webshop1/webshop/');
+define('SITE_URL', 'http://localhost/webshop/');
 
 function getConnection() {
 
-	$dbhost="localhost";
+    $dbhost = "localhost";
 
-	$dbuser="root";
+    $dbuser = "root";
 
-	$dbpass="root";
+    $dbpass = "root";
 
-	$dbname="webshop";
+    $dbname = "webshop";
 
-	$dbh = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);	
+    $dbh = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
 // print_r($dbh);
 // exit;
-	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-	return $dbh;
-
+    return $dbh;
 }
+
 //sp
-
-
 ?>
