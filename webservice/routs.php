@@ -109,5 +109,8 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/getproductdetailsforedit', 'getproductdetailsforedit');
     $app->post('/newsleterRegister', 'newsleterRegister');
     $app->post('/ProductListSearch', 'ProductListSearch');
+    
+    
+    $app->post('/listSubscribed', 'listSubscribed');
 });
 ?>

@@ -3987,6 +3987,66 @@ function listSubscriptions() {
     $app->response->write(json_encode($data));
 }
 
+
+//spandan
+
+
+function listSubscribed() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+
+    $db = getConnection();
+    
+    
+    try {
+
+        $sql = "SELECT w.id,w.name,w.slots,ws.price,ws.subscription_date,ws.expiry_date from webshop_subscribers as ws inner join webshop_subscription as w on w.id=ws.subscription_id where ws.user_id=:user_id"; 
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("user_id", $user_id);
+        $stmt->execute();
+        $getSubscriptions = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        foreach ($getSubscriptions as $subscription) {
+
+            $allsubscriptions[] = array(
+                "id" => stripslashes($subscription->id),
+                "name" => stripslashes($subscription->name),
+                "price" => stripslashes($subscription->price),
+                "slots" => stripslashes($subscription->slots),
+                "subscription_date" => date('d M, Y',strtotime($subscription->subscription_date)),
+                "expiry_date" => date('d M, Y',strtotime($subscription->expiry_date)),
+            );
+        }
+
+        $data['subscribedLists'] = $allsubscriptions;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+
+
+
+
+
+
+
+
+
+
 function addUserSubscription() {
 
     $data = array();
