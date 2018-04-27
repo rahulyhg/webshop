@@ -3167,6 +3167,7 @@ function addProductNew() {
     $stmt->execute();
     $getUserDetails = $stmt->fetchObject();
     
+    //print_r($getUserDetails);exit;
     
     if($getUserDetails->expiry_date >= $date ){
         
