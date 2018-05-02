@@ -4190,7 +4190,7 @@ function auctionListSearch() {
     $year = isset($body->year) ? $body->year : '';
     $preferred_date = isset($body->preferred_date) ? $body->preferred_date : '';
 
-    //print_r($body);
+    //print_r($body);exit;
 
     $productIds = array();
 
@@ -4355,6 +4355,7 @@ function auctionListSearch() {
                     "description" => strip_tags(stripslashes($product->description)),
                     "category_name" => $categoryname,
                     //"subcategory_name" => $subcategoryname,
+                   // "preferred_date" => $product->preferred_date,
                     "seller_id" => stripslashes($product->uploader_id),
                     "seller_image" => $profile_image,
                     "seller_name" => stripslashes($seller_name),

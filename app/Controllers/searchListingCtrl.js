@@ -133,7 +133,7 @@ if($scope.preferred_date){
 }
 
        
-
+//alert($scope.preferred_date);
 
  //spandan end     
 
