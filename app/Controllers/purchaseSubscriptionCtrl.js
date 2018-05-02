@@ -81,6 +81,25 @@ $scope.allsubscriptions = function(){
 
 
 
+ $scope.payment = function(id){
+     //alert(id);
+        
+           $state.go('frontend.payment',{subscription_id:id});
+
+              
+}
+
+
+
+
+
+
+
+
+
+
+
+
  $scope.sendforauction = function(id){
         
            $state.go('frontend.sendForAuction',{product_id:id});

@@ -856,7 +856,16 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                 resolve: loadSequence('SubscribedList')
             })
             
-            
+             .state('frontend.payment', {
+                url: '/payment/:subscription_id',
+                templateUrl: 'app/views/payment.html',
+                title: 'payment',
+		controller: 'paymentCtrl',
+                ncyBreadcrumb: {
+                    label: 'payment page'
+                },
+                resolve: loadSequence('payment')
+            })
             
             
 

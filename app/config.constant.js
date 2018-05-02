@@ -70,7 +70,7 @@ app.constant('JS_REQUIRES', {
         //spandan
         
         'SubscribedList': ['app/Controllers/SubscribedListCtrl.js'],
-        
+        'payment': ['app/Controllers/paymentCtrl.js'],
         
         
 	
