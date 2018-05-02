@@ -3958,6 +3958,36 @@ var searchproductListing = function(user_id,brand,brandList,sellerList,selected_
     });
     });
     };
+    
+    var listproductMessages = function(user_id) {
+    return $q(function(resolve, reject) {
+       // alert(user_id);
+         var encodedString ='{"user_id":"'+ user_id +'"}';
+        
+        // alert(encodedString);    
+    
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"listproductMessages",
+   data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    //console.log('ok');
+    resolve(response.data); 
+    } else {
+    //console.log('ok2');
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    //console.log(response);  
+    reject(response);
+    });
+    });
+    };
  return {
      
        // homeSettingsSection:homeSettingsSection,
@@ -4084,7 +4114,8 @@ ChangePassword: ChangePassword,
            listAuctionDtates:listAuctionDtates,
            listYears:listYears,
            registernewsletter:registernewsletter,
-           searchproductListing:searchproductListing
+           searchproductListing:searchproductListing,
+           listproductMessages:listproductMessages
 
 	
 };
