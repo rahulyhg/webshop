@@ -58,6 +58,8 @@ app.constant('JS_REQUIRES', {
            'addProduct2': ['app/Controllers/addProductCtrl2.js'],
            'purchaseSubscription': ['app/Controllers/purchaseSubscriptionCtrl.js'],
            'productlisting': ['app/Controllers/productlistingCtrl.js'],
+           'messagelisting': ['app/Controllers/messagelistingCtrl.js'],
+           'conatctuser': ['app/Controllers/conatctuserCtrl.js'],
 
 
 

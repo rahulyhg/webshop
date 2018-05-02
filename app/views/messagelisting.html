@@ -1,0 +1,46 @@
+
+	<section class="innerbody">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-4" data-ng-include=" 'app/views/partials/sidebar.html' " ></div>
+				<div class="col-lg-9 col-md-8">
+					<h5 class="common-title p-3 mb-0">Message Listing</h5>
+					<div class="message-list p-4">
+						<div class="row">
+							<div class="col-md-12">
+                                                            <div ng-repeat="message_list in message">
+								<div class="media mt-2 mb-3">
+								  <img class="mr-4" src="images/message-img1.jpg">
+								  <div class="media-body">
+								   <p>{{message_list.message}}</p>
+								    <p><span>1 Days ago<i class="ion-thumbsup"></i><i class="ion-android-happy"></i><i class="ion-heart"></i></span></p>
+								  </div>
+								</div>
+
+                                                             </div>
+                                                            <div class="page-bt">
+									<i class="ion-ios-arrow-left"></i><i class="ion-ios-arrow-right"></i>
+								</div>
+                                                            </div>
+							</div>
+						</div>
+					</div>
+
+					
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+<script>
+	$('.grid-list li').on('click',function(e) {
+    if ($(this).hasClass('grid')) {
+        $('.list-item').removeClass('list').addClass('grid');
+    }
+    else if($(this).hasClass('list')) {
+        $('.list-item').removeClass('grid').addClass('list');
+    }
+    //alert('ok');
+	});
+</script>

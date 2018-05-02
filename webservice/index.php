@@ -3130,7 +3130,7 @@ function addProductNew() {
     $gender = isset($body["gender"]) ? $body["gender"] : '';
     $reference = isset($body["reference"]) ? $body["reference"] : '';
     $date_of_purchase2 = isset($body["date_of_purchase"]) ? $body["date_of_purchase"] : '';
-    $status = isset($body["status"]) ? $body["status"] : '';
+    $status_watch = isset($body["status"]) ? $body["status"] : '';
     $owner_number = isset($body["owner_number"]) ? $body["owner_number"] : '';
     $country = isset($body["country"]) ? $body["country"] : '';
     $size = isset($body["size"]) ? $body["size"] : '';
@@ -3140,6 +3140,7 @@ function addProductNew() {
     $breslet_type = isset($body["breslet_type"]) ? $body["breslet_type"] : '';
     $time_slot_id = isset($body["time_slot_id"]) ? $body["time_slot_id"] : '';
     $get_status = '0';
+    $status = 0;
     // $baseauctionprice = isset($body["baseauctionprice"]) ? $body["baseauctionprice"] : '';
     //$thresholdprice = isset($body["thresholdprice"]) ? $body["thresholdprice"] : '';
 
@@ -3177,13 +3178,26 @@ function addProductNew() {
 
             if ($type == '1') {
 
-                $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,location,work_hours,status) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:location,:work_hours,:status)";
+                $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,status,size,location,work_hours) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:status,:size,:location,:work_hours)";
             } else {
 
                 $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id)";
             }
 
+            if ($type == '1') {
 
+                $sqlcheckcertifieduser = "SELECT * FROM webshop_user WHERE id =:user_id AND top_user_vendor='1'";
+                // $db = getConnection();
+                $stmtcheck = $db->prepare($sqlcheckcertifieduser);
+                $stmtcheck->bindParam("user_id", $user_id);
+                $stmtcheck->execute();
+                $count = $stmtcheck->rowCount();
+
+
+                if ($count > 0) {
+                    $get_status = "1";
+                }
+            }
 
             try {
 
@@ -3205,10 +3219,13 @@ function addProductNew() {
                 $stmt->bindParam("gender", $gender);
                 $stmt->bindParam("reference_number", $reference);
                 $stmt->bindParam("date_purchase", $date_of_purchase);
-                $stmt->bindParam("status_watch", $status);
+                $stmt->bindParam("status_watch", $status_watch);
                 $stmt->bindParam("owner_number", $owner_number);
                 $stmt->bindParam("country", $country);
                 $stmt->bindParam("size", $size);
+                //print_r($stmt->bindParam("status", $status));
+
+
                 if ($type == '2') {
 
                     $stmt->bindParam("preferred_date", $preferred_date);
@@ -3275,8 +3292,7 @@ function addProductNew() {
                 $data['Ack'] = 1;
                 $data['msg'] = 'Product added successfully.';
                 $data['type'] = $type;
-                //print_r($data);
-                //exit;
+
                 $app->response->setStatus(200);
                 $db = null;
             } catch (PDOException $e) {
@@ -3792,10 +3808,10 @@ function interestedEmailToVendor() {
 
     $MailFrom = 'info@webshop.com';
     $subject = "webshop.com- Product Interested";
-
+    $link = 'http://http://111.93.169.90/team1/webshop/#/conatctuser/' . $getUserdetails->id;
     $TemplateMessage = "Hello " . $getUserdetails->fname . ",<br /><br / >";
     $TemplateMessage .= $user . " is interested in your product " . $getproductdetails->name . " <br />";
-
+    $TemplateMessage .= "<br/>Click this link to verify to conact user <a href='" . $link . "'>" . $link . "</a><br/>";
     $TemplateMessage .= "<br /><br />Thanks,<br />";
     $TemplateMessage .= "webshop.com<br />";
 
@@ -3855,7 +3871,7 @@ function interestedEmailToVendor() {
     }
 
     /* Notification to the seller start */
-    $message = $user . " is interested in your product " . $getproductdetails->name . "";
+    $message = $user . " is interested in your product " . $getproductdetails->name . "To Contact user <a href='" . $link . "'>click</a>" . "";
     $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, msg, is_read,last_id) VALUES (:from_id, :to_id, :msg, :is_read,:last_id)";
 
     $is_read = '0';
@@ -3941,24 +3957,24 @@ function listSubscriptions() {
     $user_id = isset($body->user_id) ? $body->user_id : '';
 
     $db = getConnection();
-    
+
     $sql1 = "SELECT * from webshop_subscription where status = 1 and type='O' limit 1";
     $stmt1 = $db->prepare($sql1);
     $stmt1->execute();
     $getDetails = $stmt1->fetchObject();
-    
-    $user_array=  explode(',', $getDetails->user_id);
-    $existsuser= in_array($user_id, $user_array);
-    
-    if($existsuser){
-    $sql = "SELECT * from webshop_subscription where status = 1";
-    }else{
-      $sql = "SELECT * from webshop_subscription where status = 1 and type='N'";  
+
+    $user_array = explode(',', $getDetails->user_id);
+    $existsuser = in_array($user_id, $user_array);
+
+    if ($existsuser) {
+        $sql = "SELECT * from webshop_subscription where status = 1";
+    } else {
+        $sql = "SELECT * from webshop_subscription where status = 1 and type='N'";
     }
-    
+
     try {
 
-        
+
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $getSubscriptions = $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -3987,7 +4003,6 @@ function listSubscriptions() {
     $app->response->write(json_encode($data));
 }
 
-
 //spandan
 
 
@@ -4002,11 +4017,11 @@ function listSubscribed() {
     $user_id = isset($body->user_id) ? $body->user_id : '';
 
     $db = getConnection();
-    
-    
+
+
     try {
 
-        $sql = "SELECT w.id,w.name,w.slots,ws.price,ws.subscription_date,ws.expiry_date from webshop_subscribers as ws inner join webshop_subscription as w on w.id=ws.subscription_id where ws.user_id=:user_id"; 
+        $sql = "SELECT w.id,w.name,w.slots,ws.price,ws.subscription_date,ws.expiry_date from webshop_subscribers as ws inner join webshop_subscription as w on w.id=ws.subscription_id where ws.user_id=:user_id";
         $stmt = $db->prepare($sql);
         $stmt->bindParam("user_id", $user_id);
         $stmt->execute();
@@ -4019,8 +4034,8 @@ function listSubscribed() {
                 "name" => stripslashes($subscription->name),
                 "price" => stripslashes($subscription->price),
                 "slots" => stripslashes($subscription->slots),
-                "subscription_date" => date('d M, Y',strtotime($subscription->subscription_date)),
-                "expiry_date" => date('d M, Y',strtotime($subscription->expiry_date)),
+                "subscription_date" => date('d M, Y', strtotime($subscription->subscription_date)),
+                "expiry_date" => date('d M, Y', strtotime($subscription->expiry_date)),
             );
         }
 
@@ -4036,16 +4051,6 @@ function listSubscribed() {
 
     $app->response->write(json_encode($data));
 }
-
-
-
-
-
-
-
-
-
-
 
 function addUserSubscription() {
 
@@ -5174,6 +5179,57 @@ function ProductListSearch() {
     } catch (PDOException $e) {
         print_r($e);
         exit;
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+function listproductMessages() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    //print_r($body);
+    //exit;
+    $db = getConnection();
+    $to_id = isset($body->user_id) ? $body->user_id : '';
+//    exit;
+    try {
+
+        $sql = "SELECT * from webshop_message WHERE to_id=:to_id ";
+
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("to_id", $to_id);
+        $stmt->execute();
+        $getStatus = $stmt->fetchAll(PDO::FETCH_OBJ);
+        //print_r($getStatus);
+
+
+        foreach ($getStatus as $status) {
+
+
+            $allmeaage[] = array(
+                'message' => stripslashes($status->message),
+                'to_id' => stripslashes($status->to_id),
+                'from_id' => stripslashes($status->from_id),
+                'product_id' => stripslashes($status->to_id),
+            );
+        }
+        // print_r($allstatus);
+        //exit;
+        $data['message'] = $allmeaage;
+        $data['Ack'] = '1';
+        // print_r($data);
+        //exit;
+        $app->response->setStatus(200);
+    } catch (PDOException $e) {
 
         $data['Ack'] = 0;
         $data['msg'] = $e->getMessage();
