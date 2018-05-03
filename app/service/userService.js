@@ -822,7 +822,7 @@ reject(response);
     
 
 
-            var purchaseSubscription = function(subscription_id) {
+           /* var purchaseSubscription = function(subscription_id) {
     return $q(function(resolve, reject) {
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
     
@@ -846,7 +846,40 @@ reject(response);
     reject(response);
     });
     });
+    };*/
+
+
+    var purchaseSubscription = function(value) {
+    return $q(function(resolve, reject) {
+        var userInfo = JSON.parse($window.localStorage["userInfo"]);
+    
+     var encodedString ='{"user_id":"'+ userInfo.user_id +'","subscription_id":"'+ value.subscription_id +'","name":"'+ value.name +'","email":"'+ value.email +'","phone":"'+ value.phone +'"}';
+
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"addUserSubscription",
+    data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    resolve(response.data); 
+    } else {
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    reject(response);
+    });
+    });
     };
+
+
+
+
+
+
 
 
            var myauction = function() {
