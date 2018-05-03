@@ -60,6 +60,7 @@ app.constant('JS_REQUIRES', {
            'productlisting': ['app/Controllers/productlistingCtrl.js'],
            'messagelisting': ['app/Controllers/messagelistingCtrl.js'],
            'conatctuser': ['app/Controllers/conatctuserCtrl.js'],
+           'messageDetails': ['app/Controllers/messageDetailsCtrl.js'],
 
 
 
