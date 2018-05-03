@@ -1,0 +1,116 @@
+
+	<section class="innerbody">
+		<div class="container">
+			<div class="row">
+				
+					<div class="col-lg-3 col-md-4" data-ng-include=" 'app/views/partials/sidebar.html' " ></div>
+				
+				<div class="col-lg-9 col-md-8">
+					<h5 class="common-title p-3 mb-0">Message Listing Details</h5>
+					<div class="message-list p-4">
+						<div class="row">
+							<div class="col-md-12">
+								
+                                                            <img class="mr-3" src="images/message-img1.jpg" alt="Generic placeholder image">
+                                                            
+                                                            <div class="media" ng-repeat="message_list in fillmessage">
+								  
+                                                                 
+								  <div class="media-body">
+								    <p ng-if="user_id == message_list.to_id">{{message_list.message}}</p>
+                                                                    
+								    <div class="media mt-3" ng-if="user_id == message_list.from_id">
+								      <div class="media-body">
+								      <div class="message-bg mb-5">
+								      
+                                                                      <p >{{message_list.message}}</p>
+                                                                      
+                                                                      </div>
+                                                                         
+								      </div>
+								    </div>
+								  </div>
+                                                                 
+                                                                
+                                                                
+								</div>
+
+                                                             <form name="addProductForm" ng-submit="addmessage(message)" novalidate>
+								<div class="form-group mt-4">
+									<textarea class="form-control" placeholder="... Message Type Here" ng-model="message.message" name="message"></textarea> 
+                                                                        <input type="hidden" class="form-control" id="" ng-model="message.to_id" name="to_id" required>
+                                                                        <input type="hidden" class="form-control" ng-model="message.product_id" name="product_id" required>
+                                                                        <input type="hidden" class="form-control" ng-model="message.from_id" name="from_id" required>
+								
+								</div>
+								
+								<div class="form-group">
+									<button class="btn btn-primary">SUBMIT</button>
+								</div>
+                                                             </form>
+								
+							</div>
+						</div>
+					</div>
+
+					
+				</div>
+			</div>
+		</div>
+	</section>
+
+<script>
+	$('.grid-list li').on('click',function(e) {
+    if ($(this).hasClass('grid')) {
+        $('.list-item').removeClass('list').addClass('grid');
+    }
+    else if($(this).hasClass('list')) {
+        $('.list-item').removeClass('grid').addClass('list');
+    }
+    //alert('ok');
+	});
+</script>
+<style>
+    
+    .message-list{
+	border: 1px solid #ececec;
+    background: #fff;
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+}
+.message-list .media img{
+	border: 1px solid #d9d8d7 !important;
+}
+.message-list p span{
+	font-weight: 600;
+	color: #052c50;
+}
+.message-list p i{
+	font-size: 18px;
+	padding-left: 12px;
+	line-height: 0;
+	color: #d82a2a;
+	cursor: pointer;
+}
+.page-bt{
+	display: flex;
+    justify-content: center;
+}
+.page-bt i{
+	padding: 10px 20px;
+	font-size: 40px;
+	color: #afafae;
+	cursor: pointer;
+}
+.page-bt i:hover{
+	color: #001e3a;
+}
+.message-bg{
+	background: #f0f0f0;
+	border: 1px solid #dddddd;
+	border-radius: 8px;
+	padding: 15px 20px;
+	margin-left: 90px;
+    margin-top: 20;
+}
+</style>

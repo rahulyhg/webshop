@@ -13,6 +13,7 @@ $scope.checkboxstr=[];
  $scope.user.shop=[];
  var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 $scope.user_id=userInfo.user_id;
+
 userService.listproductMessages($scope.user_id).then(function(response) {
          // alert('hii');
 		//console.log('hello',response);
@@ -34,6 +35,8 @@ userService.listproductMessages($scope.user_id).then(function(response) {
 	}, function(err) {
 	console.log(err); 
 	});
+        
+   
 
 
 });

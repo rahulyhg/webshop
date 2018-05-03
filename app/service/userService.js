@@ -3988,6 +3988,129 @@ var searchproductListing = function(user_id,brand,brandList,sellerList,selected_
     });
     });
     };
+    
+    var getusercontact = function(to_id) {
+    return $q(function(resolve, reject) {
+        var userInfo = JSON.parse($window.localStorage["userInfo"]);
+        //alert(product_id);
+        var encodedString ='{"to_id":"'+ to_id +'"}';
+//var encodedString ='{"to_id":"'+ to_id +'","product_id":"'+ product_id +'"}';
+    
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"getusercontact",
+   data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    //console.log('ok');
+    resolve(response.data); 
+    } else {
+    //console.log('ok2');
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    //console.log(response);  
+    reject(response);
+    });
+    });
+    };
+    var getProductcontact = function(product_id) {
+    return $q(function(resolve, reject) {
+        //var userInfo = JSON.parse($window.localStorage["userInfo"]);
+       // alert(product_id);
+        var encodedString ='{"product_id":"'+ product_id +'"}';
+//var encodedString ='{"to_id":"'+ to_id +'","product_id":"'+ product_id +'"}';
+    
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"getProductcontact",
+   data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    //console.log('ok');
+    resolve(response.data); 
+    } else {
+    //console.log('ok2');
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    //console.log(response);  
+    reject(response);
+    });
+    });
+    };
+    
+    var addmessage = function(message) {
+    
+    
+return $q(function(resolve, reject) {
+    //console.log('newmessage',message);
+   // alert(user.product_image);
+    var encodedString ='{"to_id":"'+ message.to_id +'","from_id":"'+ message.from_id +'","message":"'+ message.message +'","product_id":"'+ message.product_id +'"}';					   
+
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"addmessage",
+   data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+              if(response.data.Ack == "1") {
+              resolve(response.data); 
+              // $window.location.href = '#/myjobs';
+           } else {
+                resolve(response.data);
+           }
+                  // $window.location.href = '#/waitlisted';
+
+            }, function (response) {
+                reject(response.data);
+        }); 
+
+//var encodedString ='{"full_name":"'+ user.name +'","email":"'+ user.email +'","password":"'+ user.password +'","phone":"'+ user.phone +'","device_type":"","device_token_id":"","lat":"","lang":"","user_id":"'+ user_id +'"}';					   
+	
+	//console.log(encodedString);
+	//return false;
+	
+	
+	});
+	};
+        
+        var getfullMessages = function(to_id,product_id,from_id) {
+        return $q(function(resolve, reject) {
+                
+//var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+var encodedString ='{"to_id":"'+ to_id +'","product_id":"'+ product_id +'","from_id":"'+ from_id +'"}';
+
+            //alert(encodedString);
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"getfullMessages",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           //console.log(response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           } else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+ };
  return {
      
        // homeSettingsSection:homeSettingsSection,
@@ -4115,7 +4238,11 @@ ChangePassword: ChangePassword,
            listYears:listYears,
            registernewsletter:registernewsletter,
            searchproductListing:searchproductListing,
-           listproductMessages:listproductMessages
+           listproductMessages:listproductMessages,
+           getusercontact:getusercontact,
+           getProductcontact:getProductcontact,
+           addmessage:addmessage,
+           getfullMessages:getfullMessages
 
 	
 };

@@ -110,6 +110,10 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/newsleterRegister', 'newsleterRegister');
     $app->post('/ProductListSearch', 'ProductListSearch');
     $app->post('/listproductMessages', 'listproductMessages');
+    $app->post('/getProductcontact', 'getProductcontact');
+    $app->post('/getusercontact', 'getusercontact');
+    $app->post('/addmessage', 'addmessage');
+    $app->post('/getfullMessages', 'getfullMessages');
 
 
     $app->post('/listSubscribed', 'listSubscribed');

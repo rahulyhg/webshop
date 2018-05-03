@@ -3808,7 +3808,7 @@ function interestedEmailToVendor() {
 
     $MailFrom = 'info@webshop.com';
     $subject = "webshop.com- Product Interested";
-    $link = 'http://http://111.93.169.90/team1/webshop/#/conatctuser/' . $getUserdetails->id;
+    $link = 'http://111.93.169.90/team1/webshop/#/conatctuser/' . $getdetails->id . '/' . $getproductdetails->id . '/' . $getUserdetails->id;
     $TemplateMessage = "Hello " . $getUserdetails->fname . ",<br /><br / >";
     $TemplateMessage .= $user . " is interested in your product " . $getproductdetails->name . " <br />";
     $TemplateMessage .= "<br/>Click this link to verify to conact user <a href='" . $link . "'>" . $link . "</a><br/>";
@@ -4360,7 +4360,7 @@ function auctionListSearch() {
                     "description" => strip_tags(stripslashes($product->description)),
                     "category_name" => $categoryname,
                     //"subcategory_name" => $subcategoryname,
-                   // "preferred_date" => $product->preferred_date,
+                    // "preferred_date" => $product->preferred_date,
                     "seller_id" => stripslashes($product->uploader_id),
                     "seller_image" => $profile_image,
                     "seller_name" => stripslashes($seller_name),
@@ -5203,7 +5203,76 @@ function listproductMessages() {
 //    exit;
     try {
 
-        $sql = "SELECT * from webshop_message WHERE to_id=:to_id ";
+        $sql = "SELECT * from webshop_message WHERE to_id=:to_id or from_id=:to_id  group by(from_id)";
+
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("to_id", $to_id);
+        $stmt->execute();
+        $getStatus = $stmt->fetchAll(PDO::FETCH_OBJ);
+        //print_r($getStatus);
+
+        $image = '';
+        $productname = '';
+        foreach ($getStatus as $status) {
+            $sql1 = "SELECT * from webshop_products WHERE id=:product_id ";
+            $product_id = $status->product_id;
+            $stmt1 = $db->prepare($sql1);
+            $stmt1->bindParam("product_id", $product_id);
+            $stmt1->execute();
+            $getStatus1 = $stmt1->fetchAll(PDO::FETCH_OBJ);
+            if ($getStatus1[0]->image != '') {
+                $image = SITE_URL . 'upload/product_image/' . $getStatus1[0]->image;
+            } else {
+                $image = SITE_URL . 'webservice/not-available.jpg';
+            }
+            $today = date_create(date('Y-m-d'));
+            $add_date = date_create($status->add_date);
+            $diff = date_diff($add_date, $today);
+            $date_diff = $diff->format("%a days");
+            $allmeaage[] = array(
+                'message' => stripslashes($status->message),
+                'to_id' => stripslashes($status->to_id),
+                'from_id' => stripslashes($status->from_id),
+                'product_id' => stripslashes($status->product_id),
+                'id' => stripslashes($status->id),
+                'image' => stripslashes($image),
+                'productname' => stripslashes($getStatus1[0]->name),
+                'date_diff' => $date_diff,
+            );
+        }
+        // print_r($allstatus);
+        //exit;
+        $data['message'] = $allmeaage;
+        $data['Ack'] = '1';
+        // print_r($data);
+        //exit;
+        $app->response->setStatus(200);
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+function getusercontact() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    //print_r($body);
+    //exit;
+    $db = getConnection();
+    $to_id = isset($body->to_id) ? $body->to_id : '';
+//    exit;
+    try {
+
+        $sql = "SELECT * from webshop_user WHERE id=:to_id ";
 
         $stmt = $db->prepare($sql);
         $stmt->bindParam("to_id", $to_id);
@@ -5215,16 +5284,170 @@ function listproductMessages() {
         foreach ($getStatus as $status) {
 
 
-            $allmeaage[] = array(
-                'message' => stripslashes($status->message),
-                'to_id' => stripslashes($status->to_id),
-                'from_id' => stripslashes($status->from_id),
-                'product_id' => stripslashes($status->to_id),
+            $allmeaage = array(
+                'name' => stripslashes($status->fname),
+                'id' => stripslashes($status->id),
             );
         }
         // print_r($allstatus);
         //exit;
-        $data['message'] = $allmeaage;
+        $data['userdetails'] = $allmeaage;
+        $data['Ack'] = '1';
+        // print_r($data);
+        //exit;
+        $app->response->setStatus(200);
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+function getProductcontact() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    //print_r($body);
+    //exit;
+    $db = getConnection();
+    $product_id = isset($body->product_id) ? $body->product_id : '';
+//    exit;
+    try {
+
+        $sql = "SELECT * from webshop_products WHERE id=:product_id ";
+
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("product_id", $product_id);
+        $stmt->execute();
+        $getStatus = $stmt->fetchAll(PDO::FETCH_OBJ);
+        //print_r($getStatus);
+
+
+        foreach ($getStatus as $status) {
+
+
+            $allmeaage = array(
+                'name' => stripslashes($status->name),
+                'id' => stripslashes($status->id),
+                'image' => stripslashes($status->image),
+            );
+        }
+        // print_r($allstatus);
+        //exit;
+        $data['productdetails'] = $allmeaage;
+        $data['Ack'] = '1';
+        // print_r($data);
+        //exit;
+        $app->response->setStatus(200);
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+function addmessage() {
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    //echo 'a';
+    //print_r($body);
+    $message = isset($body->message) ? $body->message : '';
+
+
+    $to_id = isset($body->to_id) ? $body->to_id : '';
+    $product_id = isset($body->product_id) ? $body->product_id : '';
+    $from_id = isset($body->from_id) ? $body->from_id : '';
+    $add_date = date('Y-m-d');
+    $is_read = '0';
+    //exit;
+    $db = getConnection();
+
+    $sql1 = "INSERT INTO  webshop_message (message,to_id,product_id,from_id,is_read,add_date) VALUES (:message,:to_id,:product_id,:from_id,:is_read,:add_date)";
+
+
+    try {
+        $stmt1 = $db->prepare($sql1);
+        $stmt1->bindParam("message", $message);
+        $stmt1->bindParam("to_id", $to_id);
+        $stmt1->bindParam("product_id", $product_id);
+        $stmt1->bindParam("from_id", $from_id);
+        $stmt1->bindParam("is_read", $is_read);
+        $stmt1->bindParam("add_date", $add_date);
+
+
+
+        $stmt1->execute();
+        $data['Ack'] = '1';
+    } catch (PDOException $e) {
+
+        $data['user_id'] = '';
+        $data['Ack'] = '0';
+        $data['msg'] = $e->getMessage();
+
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+function getfullMessages() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    // print_r($body);
+    //exit;
+    $db = getConnection();
+    $to_id = isset($body->to_id) ? $body->to_id : '';
+    $product_id = isset($body->product_id) ? $body->product_id : '';
+    $from_id = isset($body->from_id) ? $body->from_id : '';
+    // $allmeaage = '';
+//    exit;
+    try {
+
+        $sql = "SELECT * from webshop_message WHERE from_id=:from_id AND to_id=:to_id OR from_id=:to_id AND to_id=:from_id AND product_id=:product_id";
+
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("to_id", $to_id);
+        $stmt->bindParam("from_id", $from_id);
+        $stmt->bindParam("product_id", $product_id);
+        // print_r($stmt);
+        $stmt->execute();
+        $getStatus = $stmt->fetchAll(PDO::FETCH_OBJ);
+        //print_r($getStatus);
+        // print_r($stmt);
+        //exit;
+
+        foreach ($getStatus as $status) {
+
+
+            $allmeaage[] = array(
+                'message' => stripslashes($status->message),
+                'to_id' => stripslashes($status->to_id),
+                'from_id' => stripslashes($status->from_id),
+                'id' => stripslashes($status->id),
+            );
+        }
+        // print_r($allstatus);
+        //exit;
+        $data['fillmessage'] = $allmeaage;
         $data['Ack'] = '1';
         // print_r($data);
         //exit;

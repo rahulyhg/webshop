@@ -892,7 +892,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
             })
 
              .state('frontend.conatctuser', {
-                url: '/conatctuser/:id',
+                url: '/conatctuser/:id/:product_id/:from_id',
                 templateUrl: 'app/views/conatctuser.html',
                 title: 'messagelisting',
 				controller: 'conatctuserCtrl',
@@ -900,6 +900,16 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                     label: 'Message listing page'
                 },
                 resolve: loadSequence('conatctuser')
+            })
+            .state('frontend.messageDetails', {
+                url: '/messageDetails/:to_id/:product_id/:from_id',
+                templateUrl: 'app/views/messageDetails.html',
+                title: 'messageDetails',
+				controller: 'messageDetailsCtrl',
+                ncyBreadcrumb: {
+                    label: 'Message listing page'
+                },
+                resolve: loadSequence('messageDetails')
             })
 
           /*   .state('frontend.test', {
