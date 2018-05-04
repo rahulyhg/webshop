@@ -102,14 +102,14 @@ else {
              userService.purchaseSubscription(value).then(function(response) {
 
 		if(response.Ack == '1') {
-                     alert(response.msg);
+                    // alert(response.msg);
                     //console.log(response);
-                     $scope.new_subscriber = response.new_subscriber;
-                     $scope.subscription_id = response.subscription_id;
-                     $state.go('frontend.SubscribedList');
+                     //$scope.new_subscriber = response.new_subscriber;
+                     //$scope.subscription_id = response.subscription_id;
+                     $window.location.href = response.url;
                     $scope.exists=1;
 
-		$scope.allsubscriptions();
+		//$scope.allsubscriptions();
 		} else {
                     console.log('ppp');	
                     $scope.exists=0;

@@ -912,6 +912,36 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                 resolve: loadSequence('messageDetails')
             })
 
+
+
+
+
+
+            .state('frontend.success', {
+                url: '/success/:id/:oid',
+                templateUrl: 'app/views/success.html',
+                title: 'success',
+				controller: 'successCtrl',
+                ncyBreadcrumb: {
+                    label: 'success page'
+                },
+                resolve: loadSequence('success')
+            })
+
+            .state('frontend.cancel', {
+                url: '/cancel/:id',
+                templateUrl: 'app/views/cancel.html',
+                title: 'success',
+				controller: 'cancelCtrl',
+                ncyBreadcrumb: {
+                    label: 'cancel page'
+                },
+                resolve: loadSequence('cancel')
+            })
+            
+
+
+
           /*   .state('frontend.test', {
                 url: '/test',
                 templateUrl: 'app/views/test.html',

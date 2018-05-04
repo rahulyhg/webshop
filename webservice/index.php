@@ -1,3 +1,4 @@
+
 <?php
 
 //error_reporting(1);
@@ -4052,9 +4053,235 @@ function listSubscribed() {
     $app->response->write(json_encode($data));
 }
 
+
+
+
 //spandan 03_05
 
+function UserSubscriptionpayment() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $subscription_id = isset($body->subscription_id) ? $body->subscription_id : '';
+    
+    
+    $paymentId= base64_encode($subscription_id);
+
+    
+    $name = isset($body->name) ? $body->name : '';
+    $email = isset($body->email) ? $body->email : '';
+    $phone = isset($body->phone) ? $body->phone : '';
+    
+    $sql = "SELECT * from webshop_subscription where id =:subscription_id";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("subscription_id", $subscription_id);
+    $stmt->execute();
+    $getSubscriptionValue = $stmt->fetchObject();
+    
+    $subscriptionname=$getSubscriptionValue->name;
+    $subscriptionprice=$getSubscriptionValue->price;
+    //payment gateway
+    
+    $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
+    
+    $user = "testapi@myfatoorah.com"; // Will Be Provided by Myfatoorah
+    $password = "E55D0"; // Will Be Provided by Myfatoorah
+    $post_string = '<?xml version="1.0" encoding="windows-1256"?>
+<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+<soap12:Body>
+<PaymentRequest xmlns="http://tempuri.org/">
+<req>
+<CustomerDC>
+<Name>'.$name.'</Name>
+<Email>'.$email.'</Email>
+<Mobile>'.$phone.'</Mobile>
+</CustomerDC>
+<MerchantDC>
+<merchant_code>999999</merchant_code>
+<merchant_username>testapi@myfatoorah.com</merchant_username>
+<merchant_password>E55D0</merchant_password>
+<merchant_ReferenceID>201454542102</merchant_ReferenceID>
+<ReturnURL>http://localhost/webshop1/webshop/#/success/'.$paymentId.'/</ReturnURL>
+<merchant_error_url>http://localhost/webshop1/webshop/#/cancel</merchant_error_url>
+</MerchantDC>
+<lstProductDC>
+<ProductDC>
+<product_name>'.$subscriptionname.'</product_name>
+<unitPrice>'.$subscriptionprice.'</unitPrice>
+<qty>1</qty>
+</ProductDC>
+</lstProductDC>
+</req>
+</PaymentRequest>
+</soap12:Body>
+</soap12:Envelope>';
+$soap_do = curl_init();
+curl_setopt($soap_do, CURLOPT_URL,$url );
+curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 10);
+curl_setopt($soap_do, CURLOPT_TIMEOUT, 10);
+curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true );
+curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
+curl_setopt($soap_do, CURLOPT_POST, true );
+curl_setopt($soap_do, CURLOPT_POSTFIELDS, $post_string);
+curl_setopt($soap_do, CURLOPT_HTTPHEADER, array('Content-Type: text/xml; charset=utf-8', 'Content-Length:
+'.strlen($post_string) ));
+curl_setopt($soap_do, CURLOPT_USERPWD, $user . ":" . $password); //User Name, Password To be provided by Myfatoorah
+curl_setopt($soap_do, CURLOPT_HTTPHEADER, array(
+'Content-type: text/xml'
+));
+$result = curl_exec($soap_do);
+$err = curl_error($soap_do);
+//curl_close($soap_do);
+//print_r($result);exit;   
+$file_contents = htmlspecialchars(curl_exec($soap_do)); curl_close($soap_do);
+$doc = new DOMDocument();
+$doc->loadXML(html_entity_decode($file_contents));
+//echo $doc;exit;
+$ResponseCode = $doc->getElementsByTagName("ResponseCode");
+$ResponseCode = $ResponseCode->item(0)->nodeValue;
+//echo $ResponseCode;exit;
+$ResponseMessage = $doc->getElementsByTagName("ResponseMessage");
+$ResponseMessage = $ResponseMessage->item(0)->nodeValue;
+//echo $ResponseMessage;exit;
+if($ResponseCode == 0)
+{
+$paymentUrl = $doc->getElementsByTagName("paymentURL");
+$paymentUrl = $paymentUrl->item(0)->nodeValue; 
+//echo $paymentUrl;exit;
+  
+/*$OrderID = $doc->getElementsByTagName("OrderID");
+$OrderID = $OrderID->item(0)->nodeValue;    
+$Paymode = $doc->getElementsByTagName("Paymode");
+$Paymode = $Paymode->item(0)->nodeValue;
+$PayTxnID = $doc->getElementsByTagName("PayTxnID");
+$PayTxnID = $PayTxnID->item(0)->nodeValue;
+*/
+
+}
+    //end
+    
+    $data['url'] = $paymentUrl;
+    $data['Ack'] = 1;
+    
+    $app->response->setStatus(200);
+
+
+    $app->response->write(json_encode($data));
+}
+
+
+
+
+
+
+
 function addUserSubscription() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+    $sid=  base64_decode($body->subscription_id);
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $subscription_id = isset($sid) ? $sid : '';
+
+    
+    //$name = isset($body->name) ? $body->name : '';
+    //$email = isset($body->email) ? $body->email : '';
+    //$phone = isset($body->phone) ? $body->phone : '';
+    
+    
+    //payment gateway
+    
+    
+    
+    
+    //end
+    
+    
+    
+    
+    $sql2 = "SELECT * from webshop_user where id =:user_id";
+    $stmt2 = $db->prepare($sql2);
+    $stmt2->bindParam("user_id", $user_id);
+    $stmt2->execute();
+    $getSubscriptionValue = $stmt2->fetchObject();
+
+    if ($getSubscriptionValue->subscription_id == '0') {
+        $data['new_subscriber'] = '0'; // for new subscriber
+    } else {
+        $data['new_subscriber'] = '1'; // for old subscriber
+    }
+
+
+    $sql3 = "SELECT * from webshop_subscription where id =:subscription_id";
+    $stmt3 = $db->prepare($sql3);
+    $stmt3->bindParam("subscription_id", $subscription_id);
+    $stmt3->execute();
+    $getSubscriptionDetails = $stmt3->fetchObject();
+
+
+
+    $sql4 = "INSERT INTO  webshop_subscribers (user_id,subscription_id,price,subscription_date,expiry_date,transaction_id) VALUES (:user_id,:subscription_id,:price,:subscription_date,:expiry_date,:transaction_id)";
+
+
+    $days = $getSubscriptionDetails->duration;
+    $date = date('Y-m-d');
+    $cdate = date_create($date);
+    date_add($cdate, date_interval_create_from_date_string("$days days"));
+    $expiry_date = date_format($cdate, "Y-m-d");
+    $transaction_id = "pay-12376";
+
+
+    $stmt4 = $db->prepare($sql4);
+    $stmt4->bindParam("user_id", $user_id);
+    $stmt4->bindParam("subscription_id", $subscription_id);
+    $stmt4->bindParam("price", $getSubscriptionDetails->price);
+    $stmt4->bindParam("subscription_date", $date);
+    $stmt4->bindParam("expiry_date", $expiry_date);
+    $stmt4->bindParam("transaction_id", $transaction_id);
+    $stmt4->execute();
+
+
+
+    $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no WHERE id=:user_id";
+    $slot = $getSubscriptionDetails->slots;
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("subscription_id", $subscription_id);
+    $stmt->bindParam("slot_no", $slot);
+    $stmt->bindParam("user_id", $user_id);
+    $stmt->execute();
+
+
+    $data['subscription_id'] = $subscription_id;
+    $data['Ack'] = 1;
+    $data['msg'] = 'Your Subscription completed successfully.';
+    $app->response->setStatus(200);
+
+
+    $app->response->write(json_encode($data));
+}
+
+
+
+
+/*function addUserSubscription() {
 
     $data = array();
 
@@ -4069,240 +4296,74 @@ function addUserSubscription() {
     $user_id = isset($body->user_id) ? $body->user_id : '';
     $subscription_id = isset($body->subscription_id) ? $body->subscription_id : '';
 
-
+    
     $name = isset($body->name) ? $body->name : '';
     $email = isset($body->email) ? $body->email : '';
     $phone = isset($body->phone) ? $body->phone : '';
+    
+    
+    
+    $sql2 = "SELECT * from webshop_user where id =:user_id";
+    $stmt2 = $db->prepare($sql2);
+    $stmt2->bindParam("user_id", $user_id);
+    $stmt2->execute();
+    $getSubscriptionValue = $stmt2->fetchObject();
 
-
-    //payment gateway
-
-    $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
-    $user = "testapi@myfatoorah.com"; // Will Be Provided by Myfatoorah
-    $password = "E55D0"; // Will Be Provided by Myfatoorah
-    $post_string = '<?xml version="1.0" encoding="windows-1256"?>
-<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
-<soap12:Body>
-<PaymentRequest xmlns="http://tempuri.org/">
-<req>
-<CustomerDC>
-<Name>' . $name . '</Name>
-<Email>' . $email . '</Email>
-<Mobile>' . $phone . '</Mobile>
-</CustomerDC>
-<MerchantDC>
-<merchant_code>999999</merchant_code>
-<merchant_username>testapi@myfatoorah.com</merchant_username>
-<merchant_password>E55D0</merchant_password>
-<merchant_ReferenceID>201454542102</merchant_ReferenceID>
-<ReturnURL>"Success Url to be added by Merchant"</ReturnURL>
-<merchant_error_url>"Error Url to be added by Merchant"</merchant_error_url>
-</MerchantDC>
-<lstProductDC>
-<ProductDC>
-<product_name>"Product Name"</product_name>
-<unitPrice>10</unitPrice>
-<qty>1</qty>
-</ProductDC>
-</lstProductDC>
-</req>
-</PaymentRequest>
-</soap12:Body>
-</soap12:Envelope>';
-    $soap_do = curl_init();
-    curl_setopt($soap_do, CURLOPT_URL, $url);
-    curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 10);
-    curl_setopt($soap_do, CURLOPT_TIMEOUT, 10);
-    curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
-    curl_setopt($soap_do, CURLOPT_POST, true);
-    curl_setopt($soap_do, CURLOPT_POSTFIELDS, $post_string);
-    curl_setopt($soap_do, CURLOPT_HTTPHEADER, array('Content-Type: text/xml; charset=utf-8', 'Content-Length:
-' . strlen($post_string)));
-    curl_setopt($soap_do, CURLOPT_USERPWD, $user . ":" . $password); //User Name, Password To be provided by Myfatoorah
-    curl_setopt($soap_do, CURLOPT_HTTPHEADER, array(
-        'Content-type: text/xml'
-    ));
-    $result = curl_exec($soap_do);
-    $err = curl_error($soap_do);
-//curl_close($soap_do);
-//print_r($result);exit;   
-    $file_contents = htmlspecialchars(curl_exec($soap_do));
-    curl_close($soap_do);
-    $doc = new DOMDocument();
-    $doc->loadXML(html_entity_decode($file_contents));
-//print_r($doc);exit;
-    $ResponseCode = $doc->getElementsByTagName("ResponseCode");
-    $ResponseCode = $ResponseCode->item(0)->nodeValue;
-//echo $ResponseCode;exit;
-    $ResponseMessage = $doc->getElementsByTagName("ResponseMessage");
-    $ResponseMessage = $ResponseMessage->item(0)->nodeValue;
-    if ($ResponseCode == 0) {
-        /* $OrderID = $doc->getElementsByTagName("OrderID");
-          $OrderID = $OrderID->item(0)->nodeValue;
-          //echo $OrderID;exit;
-          $Paymode = $doc->getElementsByTagName("Paymode");
-          $Paymode = $Paymode->item(0)->nodeValue;
-
-          //echo $Paymode;exit;
-          $PayTxnID = $doc->getElementsByTagName("PayTxnID");
-          $PayTxnID = $PayTxnID->item(0)->nodeValue; */
-
-
-
-
-
-        //end
-
-
-
-
-        $sql2 = "SELECT * from webshop_user where id =:user_id";
-        $stmt2 = $db->prepare($sql2);
-        $stmt2->bindParam("user_id", $user_id);
-        $stmt2->execute();
-        $getSubscriptionValue = $stmt2->fetchObject();
-
-        if ($getSubscriptionValue->subscription_id == '0') {
-            $data['new_subscriber'] = '0'; // for new subscriber
-        } else {
-            $data['new_subscriber'] = '1'; // for old subscriber
-        }
-
-
-        $sql3 = "SELECT * from webshop_subscription where id =:subscription_id";
-        $stmt3 = $db->prepare($sql3);
-        $stmt3->bindParam("subscription_id", $subscription_id);
-        $stmt3->execute();
-        $getSubscriptionDetails = $stmt3->fetchObject();
-
-
-
-        $sql4 = "INSERT INTO  webshop_subscribers (user_id,subscription_id,price,subscription_date,expiry_date,transaction_id) VALUES (:user_id,:subscription_id,:price,:subscription_date,:expiry_date,:transaction_id)";
-
-
-        $days = $getSubscriptionDetails->duration;
-        $date = date('Y-m-d');
-        $cdate = date_create($date);
-        date_add($cdate, date_interval_create_from_date_string("$days days"));
-        $expiry_date = date_format($cdate, "Y-m-d");
-        $transaction_id = "pay-12376";
-
-
-        $stmt4 = $db->prepare($sql4);
-        $stmt4->bindParam("user_id", $user_id);
-        $stmt4->bindParam("subscription_id", $subscription_id);
-        $stmt4->bindParam("price", $getSubscriptionDetails->price);
-        $stmt4->bindParam("subscription_date", $date);
-        $stmt4->bindParam("expiry_date", $expiry_date);
-        $stmt4->bindParam("transaction_id", $transaction_id);
-        $stmt4->execute();
-
-
-
-        $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no WHERE id=:user_id";
-        $slot = $getSubscriptionDetails->slots;
-        $stmt = $db->prepare($sql);
-        $stmt->bindParam("subscription_id", $subscription_id);
-        $stmt->bindParam("slot_no", $slot);
-        $stmt->bindParam("user_id", $user_id);
-        $stmt->execute();
-
-
-        $data['subscription_id'] = $subscription_id;
-        $data['Ack'] = 1;
-        $data['msg'] = 'Your Subscription completed successfully.';
-        $app->response->setStatus(200);
+    if ($getSubscriptionValue->subscription_id == '0') {
+        $data['new_subscriber'] = '0'; // for new subscriber
+    } else {
+        $data['new_subscriber'] = '1'; // for old subscriber
     }
 
+
+
+    $sql3 = "SELECT * from webshop_subscription where id =:subscription_id";
+    $stmt3 = $db->prepare($sql3);
+    $stmt3->bindParam("subscription_id", $subscription_id);
+    $stmt3->execute();
+    $getSubscriptionDetails = $stmt3->fetchObject();
+
+
+
+    $sql4 = "INSERT INTO  webshop_subscribers (user_id,subscription_id,price,subscription_date,expiry_date,transaction_id) VALUES (:user_id,:subscription_id,:price,:subscription_date,:expiry_date,:transaction_id)";
+
+
+    $days = $getSubscriptionDetails->duration;
+    $date = date('Y-m-d');
+    $cdate = date_create($date);
+    date_add($cdate, date_interval_create_from_date_string("$days days"));
+    $expiry_date = date_format($cdate, "Y-m-d");
+    $transaction_id = "pay-12376";
+
+
+    $stmt4 = $db->prepare($sql4);
+    $stmt4->bindParam("user_id", $user_id);
+    $stmt4->bindParam("subscription_id", $subscription_id);
+    $stmt4->bindParam("price", $getSubscriptionDetails->price);
+    $stmt4->bindParam("subscription_date", $date);
+    $stmt4->bindParam("expiry_date", $expiry_date);
+    $stmt4->bindParam("transaction_id", $transaction_id);
+    $stmt4->execute();
+
+
+
+    $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no WHERE id=:user_id";
+    $slot = $getSubscriptionDetails->slots;
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("subscription_id", $subscription_id);
+    $stmt->bindParam("slot_no", $slot);
+    $stmt->bindParam("user_id", $user_id);
+    $stmt->execute();
+
+
+    $data['subscription_id'] = $subscription_id;
+    $data['Ack'] = 1;
+    $data['msg'] = 'Your Subscription completed successfully.';
+    $app->response->setStatus(200);
+
+
     $app->response->write(json_encode($data));
-}
-
-/* function addUserSubscription() {
-
-  $data = array();
-
-  $app = \Slim\Slim::getInstance();
-  $request = $app->request();
-  $body = ($request->post());
-  $body2 = $app->request->getBody();
-  $body = json_decode($body2);
-
-  $db = getConnection();
-
-  $user_id = isset($body->user_id) ? $body->user_id : '';
-  $subscription_id = isset($body->subscription_id) ? $body->subscription_id : '';
-
-
-  $name = isset($body->name) ? $body->name : '';
-  $email = isset($body->email) ? $body->email : '';
-  $phone = isset($body->phone) ? $body->phone : '';
-
-
-
-  $sql2 = "SELECT * from webshop_user where id =:user_id";
-  $stmt2 = $db->prepare($sql2);
-  $stmt2->bindParam("user_id", $user_id);
-  $stmt2->execute();
-  $getSubscriptionValue = $stmt2->fetchObject();
-
-  if ($getSubscriptionValue->subscription_id == '0') {
-  $data['new_subscriber'] = '0'; // for new subscriber
-  } else {
-  $data['new_subscriber'] = '1'; // for old subscriber
-  }
-
-
-
-  $sql3 = "SELECT * from webshop_subscription where id =:subscription_id";
-  $stmt3 = $db->prepare($sql3);
-  $stmt3->bindParam("subscription_id", $subscription_id);
-  $stmt3->execute();
-  $getSubscriptionDetails = $stmt3->fetchObject();
-
-
-
-  $sql4 = "INSERT INTO  webshop_subscribers (user_id,subscription_id,price,subscription_date,expiry_date,transaction_id) VALUES (:user_id,:subscription_id,:price,:subscription_date,:expiry_date,:transaction_id)";
-
-
-  $days = $getSubscriptionDetails->duration;
-  $date = date('Y-m-d');
-  $cdate = date_create($date);
-  date_add($cdate, date_interval_create_from_date_string("$days days"));
-  $expiry_date = date_format($cdate, "Y-m-d");
-  $transaction_id = "pay-12376";
-
-
-  $stmt4 = $db->prepare($sql4);
-  $stmt4->bindParam("user_id", $user_id);
-  $stmt4->bindParam("subscription_id", $subscription_id);
-  $stmt4->bindParam("price", $getSubscriptionDetails->price);
-  $stmt4->bindParam("subscription_date", $date);
-  $stmt4->bindParam("expiry_date", $expiry_date);
-  $stmt4->bindParam("transaction_id", $transaction_id);
-  $stmt4->execute();
-
-
-
-  $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no WHERE id=:user_id";
-  $slot = $getSubscriptionDetails->slots;
-  $stmt = $db->prepare($sql);
-  $stmt->bindParam("subscription_id", $subscription_id);
-  $stmt->bindParam("slot_no", $slot);
-  $stmt->bindParam("user_id", $user_id);
-  $stmt->execute();
-
-
-  $data['subscription_id'] = $subscription_id;
-  $data['Ack'] = 1;
-  $data['msg'] = 'Your Subscription completed successfully.';
-  $app->response->setStatus(200);
-
-
-  $app->response->write(json_encode($data));
-  } */
+}*/
 
 function getAuctionDates() {
 
@@ -5587,20 +5648,21 @@ function getfullMessages() {
     $request = $app->request();
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
-
+    // print_r($body);
+    //exit;
     $db = getConnection();
     $to_id = isset($body->to_id) ? $body->to_id : '';
     $product_id = isset($body->product_id) ? $body->product_id : '';
     $from_id = isset($body->from_id) ? $body->from_id : '';
     // $allmeaage = '';
-    //exit;
+//    exit;
     try {
 
         $sql = "SELECT * from webshop_message WHERE from_id=:from_id AND to_id=:to_id OR from_id=:to_id AND to_id=:from_id AND product_id=:product_id";
 
         $stmt = $db->prepare($sql);
-        $stmt->bindParam("to_id", $from_id);
-        $stmt->bindParam("from_id", $to_id);
+        $stmt->bindParam("to_id", $to_id);
+        $stmt->bindParam("from_id", $from_id);
         $stmt->bindParam("product_id", $product_id);
         // print_r($stmt);
         $stmt->execute();
@@ -5611,52 +5673,17 @@ function getfullMessages() {
 
         foreach ($getStatus as $status) {
 
-            /* user image */
-            $sql11 = "SELECT * from webshop_user WHERE id=:from_id";
-            $stmt11 = $db->prepare($sql11);
-            $stmt11->bindParam("from_id", $status->from_id);
-            $stmt11->execute();
-            $getStatus11 = $stmt11->fetchAll(PDO::FETCH_OBJ);
-            if (!empty($getStatus11)) {
-                if ($getStatus11[0]->image != '') {
-                    $profile_image = SITE_URL . 'upload/user_image/' . $getStatus11[0]->image;
-                } else {
-                    $profile_image = SITE_URL . 'upload/nouser.jpg';
-                }
-            }
-            /* user image */
-
-            /* product image */
-            $sql12 = "SELECT * from webshop_products WHERE id=:product_id";
-            $stmt12 = $db->prepare($sql12);
-            $stmt12->bindParam("product_id", $status->product_id);
-            $stmt12->execute();
-            $getStatus12 = $stmt12->fetchAll(PDO::FETCH_OBJ);
-            if (!empty($getStatus12)) {
-                if ($getStatus12[0]->image != '') {
-                    $image = SITE_URL . 'upload/product_image/' . $getStatus12[0]->image;
-                } else {
-                    $image = SITE_URL . 'webservice/not-available.jpg';
-                }
-            }
-
-            /* product image */
 
             $allmeaage[] = array(
                 'message' => stripslashes($status->message),
                 'to_id' => stripslashes($status->to_id),
                 'from_id' => stripslashes($status->from_id),
                 'id' => stripslashes($status->id),
-                'image' => $profile_image,
             );
-            $product_image = $image;
-            $product_name = $getStatus12[0]->name;
         }
         // print_r($allstatus);
         //exit;
         $data['fillmessage'] = $allmeaage;
-        $data['product_image'] = $product_image;
-        $data['product_name'] = $product_name;
         $data['Ack'] = '1';
         // print_r($data);
         //exit;
@@ -5672,4 +5699,3 @@ function getfullMessages() {
 }
 
 $app->run();
-?>

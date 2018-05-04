@@ -822,7 +822,7 @@ reject(response);
     
 
 
-           /* var purchaseSubscription = function(subscription_id) {
+         /*   var purchaseSubscription = function(subscription_id) {
     return $q(function(resolve, reject) {
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
     
@@ -849,6 +849,35 @@ reject(response);
     };*/
 
 
+     var addsubscription = function(id) {
+    return $q(function(resolve, reject) {
+        var userInfo = JSON.parse($window.localStorage["userInfo"]);
+    
+     var encodedString ='{"user_id":"'+ userInfo.user_id +'","subscription_id":"'+ id +'"}';
+
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"addUserSubscription",
+    data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    resolve(response.data); 
+    } else {
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    reject(response);
+    });
+    });
+    };
+
+
+
+
     var purchaseSubscription = function(value) {
     return $q(function(resolve, reject) {
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
@@ -857,7 +886,8 @@ reject(response);
 
     $http({
     method: 'POST',
-    url: $rootScope.serviceurl+"addUserSubscription",
+   // url: $rootScope.serviceurl+"addUserSubscription",
+    url: $rootScope.serviceurl+"UserSubscriptionpayment",
     data: encodedString,
     headers: {'Content-Type': 'application/json'}
     }).then(function (response) {
@@ -4275,8 +4305,8 @@ ChangePassword: ChangePassword,
            getusercontact:getusercontact,
            getProductcontact:getProductcontact,
            addmessage:addmessage,
-           getfullMessages:getfullMessages
-
+           getfullMessages:getfullMessages,
+           addsubscription:addsubscription
 	
 };
     
