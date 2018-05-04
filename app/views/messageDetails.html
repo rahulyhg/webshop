@@ -11,15 +11,16 @@
 						<div class="row">
 							<div class="col-md-12">
 								
-                                                            <img class="mr-3" src="images/message-img1.jpg" alt="Generic placeholder image">
+                                                            <img class="mr-3" src="{{product_image}}" alt="Generic placeholder image">{{product_name}}
                                                             
                                                             <div class="media" ng-repeat="message_list in fillmessage">
 								  
-                                                                 
+                                                                 <img ng-if="user_id == message_list.from_id" class="mr-3 image" src="{{message_list.image}}" alt="Generic placeholder image">
 								  <div class="media-body">
-								    <p ng-if="user_id == message_list.to_id">{{message_list.message}}</p>
+                                                                      
+								    <p ng-if="user_id == message_list.from_id">{{message_list.message}}</p>
                                                                     
-								    <div class="media mt-3" ng-if="user_id == message_list.from_id">
+								    <div class="media mt-3" ng-if="user_id == message_list.to_id">
 								      <div class="media-body">
 								      <div class="message-bg mb-5">
 								      
@@ -112,5 +113,12 @@
 	padding: 15px 20px;
 	margin-left: 90px;
     margin-top: 20;
+}
+
+.image {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    width: 150px;
 }
 </style>
