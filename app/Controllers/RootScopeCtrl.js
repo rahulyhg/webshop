@@ -590,7 +590,10 @@ $window.location.reload();
 
 
 
-
+  $scope.selectedlaguage = function(laguage){
+	
+    alert(laguage);	
+    }
 
 
 

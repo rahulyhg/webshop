@@ -13,12 +13,27 @@ $scope.checkboxstr=[];
  $scope.user.brand=[];
  $scope.checkboxstr2=[];
  $scope.user.shop=[];
- var userInfo = JSON.parse($window.localStorage["userInfo"]);	
-$scope.user_id=userInfo.user_id;
+if ($window.localStorage["userInfo"]) {
+var userInfo = JSON.parse($window.localStorage["userInfo"]);	
+	$scope.user_id=userInfo.user_id;
+        $scope.getCurrentUserType();
+}
+else {
+	var userInfo={};
+	userInfo.user_id ="";
+}
+
+$scope.isform1 =0;
+	$scope.form1 = function(user) {
+
+	$scope.isform1 =1;
+
+}
 $scope.to_id='';
-if($stateParams.to_id){
-$scope.message.to_id=$stateParams.to_id;
-//alert($scope.id);
+if($stateParams.from_id){
+    $scope.to_id=$stateParams.to_id;
+$scope.message.to_id=$stateParams.from_id;
+//alert($scope.to_id);
 }
 $scope.product_id='';
 if($stateParams.product_id){
@@ -39,17 +54,19 @@ else {
 $scope.from_id='';
 if($stateParams.from_id){
 $scope.from_id=$stateParams.from_id;
-$scope.message.from_id = $scope.from_id;
-//alert($scope.product_id);
+$scope.message.from_id = $scope.user_id;
+//alert($scope.from_id);
 }
 
-userService.getfullMessages($scope.user_id,$scope.product_id,$scope.from_id).then(function(response) {
-         // alert('hii');
+userService.getfullMessages($scope.to_id,$scope.product_id,$scope.from_id).then(function(response) {
+        //alert($scope.to_id);
 		//console.log('hello',response);
 		//$scope.isExists=1;
 		if(response.Ack == '1') {
                   //alert('hii');
 		$scope.fillmessage=response.fillmessage;
+                $scope.product_image = response.product_image;
+                $scope.product_name = response.product_name;
                // $scope.user_idd=$scope.user_id;
 		console.log('fillmessage',$scope.fillmessage);	
 		
