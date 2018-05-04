@@ -75,6 +75,8 @@ app.constant('JS_REQUIRES', {
         'SubscribedList': ['app/Controllers/SubscribedListCtrl.js'],
         'payment': ['app/Controllers/paymentCtrl.js'],
         
+        'success': ['app/Controllers/successCtrl.js'],
+        'cancel': ['app/Controllers/cancelCtrl.js'],
         
 	
     },

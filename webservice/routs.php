@@ -114,6 +114,8 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/getusercontact', 'getusercontact');
     $app->post('/addmessage', 'addmessage');
     $app->post('/getfullMessages', 'getfullMessages');
+    
+    $app->post('/UserSubscriptionpayment', 'UserSubscriptionpayment');
 
 
     $app->post('/listSubscribed', 'listSubscribed');

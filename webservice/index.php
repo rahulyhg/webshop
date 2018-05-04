@@ -4057,7 +4057,7 @@ function listSubscribed() {
 
 //spandan 03_05
 
-function addUserSubscription() {
+function UserSubscriptionpayment() {
 
     $data = array();
 
@@ -4071,16 +4071,27 @@ function addUserSubscription() {
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
     $subscription_id = isset($body->subscription_id) ? $body->subscription_id : '';
+    
+    
+    $paymentId= base64_encode($subscription_id);
 
     
     $name = isset($body->name) ? $body->name : '';
     $email = isset($body->email) ? $body->email : '';
     $phone = isset($body->phone) ? $body->phone : '';
     
+    $sql = "SELECT * from webshop_subscription where id =:subscription_id";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("subscription_id", $subscription_id);
+    $stmt->execute();
+    $getSubscriptionValue = $stmt->fetchObject();
     
+    $subscriptionname=$getSubscriptionValue->name;
+    $subscriptionprice=$getSubscriptionValue->price;
     //payment gateway
     
     $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
+    
     $user = "testapi@myfatoorah.com"; // Will Be Provided by Myfatoorah
     $password = "E55D0"; // Will Be Provided by Myfatoorah
     $post_string = '<?xml version="1.0" encoding="windows-1256"?>
@@ -4099,13 +4110,13 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
 <merchant_username>testapi@myfatoorah.com</merchant_username>
 <merchant_password>E55D0</merchant_password>
 <merchant_ReferenceID>201454542102</merchant_ReferenceID>
-<ReturnURL>"Success Url to be added by Merchant"</ReturnURL>
-<merchant_error_url>"Error Url to be added by Merchant"</merchant_error_url>
+<ReturnURL>http://localhost/webshop1/webshop/#/success/'.$paymentId.'/</ReturnURL>
+<merchant_error_url>http://localhost/webshop1/webshop/#/cancel</merchant_error_url>
 </MerchantDC>
 <lstProductDC>
 <ProductDC>
-<product_name>"Product Name"</product_name>
-<unitPrice>10</unitPrice>
+<product_name>'.$subscriptionname.'</product_name>
+<unitPrice>'.$subscriptionprice.'</unitPrice>
 <qty>1</qty>
 </ProductDC>
 </lstProductDC>
@@ -4135,26 +4146,69 @@ $err = curl_error($soap_do);
 $file_contents = htmlspecialchars(curl_exec($soap_do)); curl_close($soap_do);
 $doc = new DOMDocument();
 $doc->loadXML(html_entity_decode($file_contents));
-//print_r($doc);exit;
+//echo $doc;exit;
 $ResponseCode = $doc->getElementsByTagName("ResponseCode");
 $ResponseCode = $ResponseCode->item(0)->nodeValue;
 //echo $ResponseCode;exit;
 $ResponseMessage = $doc->getElementsByTagName("ResponseMessage");
-$ResponseMessage = $ResponseMessage->item(0)->nodeValue; 
+$ResponseMessage = $ResponseMessage->item(0)->nodeValue;
+//echo $ResponseMessage;exit;
 if($ResponseCode == 0)
 {
+$paymentUrl = $doc->getElementsByTagName("paymentURL");
+$paymentUrl = $paymentUrl->item(0)->nodeValue; 
+//echo $paymentUrl;exit;
+  
 /*$OrderID = $doc->getElementsByTagName("OrderID");
 $OrderID = $OrderID->item(0)->nodeValue;    
-  //echo $OrderID;exit;  
 $Paymode = $doc->getElementsByTagName("Paymode");
 $Paymode = $Paymode->item(0)->nodeValue;
-
-//echo $Paymode;exit;
 $PayTxnID = $doc->getElementsByTagName("PayTxnID");
-$PayTxnID = $PayTxnID->item(0)->nodeValue;*/
+$PayTxnID = $PayTxnID->item(0)->nodeValue;
+*/
+
+}
+    //end
+    
+    $data['url'] = $paymentUrl;
+    $data['Ack'] = 1;
+    
+    $app->response->setStatus(200);
 
 
- 
+    $app->response->write(json_encode($data));
+}
+
+
+
+
+
+
+
+function addUserSubscription() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+    $sid=  base64_decode($body->subscription_id);
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $subscription_id = isset($sid) ? $sid : '';
+
+    
+    //$name = isset($body->name) ? $body->name : '';
+    //$email = isset($body->email) ? $body->email : '';
+    //$phone = isset($body->phone) ? $body->phone : '';
+    
+    
+    //payment gateway
+    
+    
     
     
     //end
@@ -4218,7 +4272,7 @@ $PayTxnID = $PayTxnID->item(0)->nodeValue;*/
     $data['Ack'] = 1;
     $data['msg'] = 'Your Subscription completed successfully.';
     $app->response->setStatus(200);
-}
+
 
     $app->response->write(json_encode($data));
 }
