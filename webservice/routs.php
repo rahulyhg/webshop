@@ -116,7 +116,7 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/getfullMessages', 'getfullMessages');
 
     $app->post('/UserSubscriptionpayment', 'UserSubscriptionpayment');
-
+    $app->post('/markProduct', 'markProduct');
 
     $app->post('/listSubscribed', 'listSubscribed');
     $app->post('/changeLaguage', 'changeLaguage');

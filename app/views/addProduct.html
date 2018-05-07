@@ -18,8 +18,12 @@
 									<div class="form-group">
 										<label for="staticEmail">Please Select</label>
 										 <select class="form-control" id="cobSRQ2" ng-model="drpmodel" ng-change="cobchange()" required>
-   										<option value="1" selected="selected">{{language.product}}</option>
-   										<option value="2">{{language.auction}}</option>
+
+                                                                                <option value="0" selected="selected">Please select</option>
+   										<option value="1" >Product</option>
+   										<option value="2" ng-if="current_user_type=='2'">Auction</option>
+
+
 										</select>
                                                                                  
 									    </div>

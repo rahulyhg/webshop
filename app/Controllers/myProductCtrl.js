@@ -129,6 +129,47 @@ $scope.editProduct = function(id){
 
               
 }
+
+
+$scope.marksold = function(id){
+          // alert(cat_id);
+           // return false;
+             userService.markProduct(id).then(function(response) {
+		//console.log(response.Ack);
+	
+		if(response.Ack == '1') {
+                    console.log(response);
+                   // alert('Added Successfully.');
+                   // $window.location.reload()
+                    $scope.exists=1;
+                  //  $scope.user='';
+		$scope.myproduct();
+               // $scope.user_idd=$scope.user_id;
+		//console.log($scope.alljobs);	
+		
+		} else {
+                    console.log('ppp');	
+                    $scope.exists=0;
+		}
+	
+	
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});     
+        
+       
+        
+}
+
+
+
+
+
+
+
+
 	
 });
 
