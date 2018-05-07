@@ -242,30 +242,30 @@ if( $window.localStorage["breslet_type"])
 		
 	
 	
-
-	userService.listcategoryproduct().then(function(response) {
-		console.log(response.Ack);
-		$scope.isExists=1;
-		if(response.Ack == '1') {
-                   // alert('Added Successfully.');
-                   // $window.location.reload()
-                    $scope.isExists=1;
-                  //  $scope.user='';
-		$scope.categorylist=response.categorylist;
-               // $scope.user_idd=$scope.user_id;
-		//console.log($scope.alljobs);	
-		
-		} else {
-                    console.log('ppp');	
-                    $scope.isExists=0;
-		}
-	
-	
-	
-				   
-	}, function(err) {
-	console.log(err); 
-	}); 
+//
+//	userService.listcategoryproduct().then(function(response) {
+//		console.log(response.Ack);
+//		$scope.isExists=1;
+//		if(response.Ack == '1') {
+//                   // alert('Added Successfully.');
+//                   // $window.location.reload()
+//                    $scope.isExists=1;
+//                  //  $scope.user='';
+//		$scope.categorylist=response.categorylist;
+//               // $scope.user_idd=$scope.user_id;
+//		//console.log($scope.alljobs);	
+//		
+//		} else {
+//                    console.log('ppp');	
+//                    $scope.isExists=0;
+//		}
+//	
+//	
+//	
+//				   
+//	}, function(err) {
+//	console.log(err); 
+//	}); 
         
         userService.listcurrency().then(function(response) {
            // alert('hii');
@@ -355,7 +355,7 @@ if( $window.localStorage["breslet_type"])
                    // $window.location.reload()
                     $scope.isExists=1;
                   //  $scope.user='';
-		$scope.subcategorylist=response.subcategorylist;
+		$scope.categorylist=response.subcategorylist;
                // $scope.user_idd=$scope.user_id;
 		//console.log($scope.alljobs);	
 		
