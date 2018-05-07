@@ -1,39 +1,19 @@
 <?php
-include_once("./includes/session.php");
-//include_once("includes/config.php");
 include_once("./includes/config.php");
-$url = basename(__FILE__) . "?" . (isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : 'cc=cc');
+include_once('includes/session.php');
 ?>
+
 <?php
-//echo $_SESSION['myy'];
-
-CRYPT_BLOWFISH or die('No Blowfish found.');
-
-$sqlbrands = "select * from webshop_brands";
-$brands = mysqli_query($con, $sqlbrands);
-
-if ((!isset($_REQUEST['submit'])) && (!isset($_REQUEST['action']))) {
-
-    $sql = "select * from webshop_category  where id<>''";
-
-
-    $record = mysqli_query($con, $sql);
-}
-
 if (isset($_REQUEST['submit'])) {
-
-
-    $name = isset($_POST['name']) ? $_POST['name'] : '';
-    $brand_id = isset($_POST['brand_id']) ? $_POST['brand_id'] : '';
-    $status = 1;
-
+    $actual_word = isset($_POST['actual_word']) ? $_POST['actual_word'] : '';
+    $transleted_word = isset($_POST['transleted_word']) ? $_POST['transleted_word'] : '';
+    $language_id = isset($_POST['language_id']) ? $_POST['language_id'] : '';
 
 
     $fields = array(
-        //'user_id' => mysqli_real_escape_string($con,$user_id),
-        'name' => mysqli_real_escape_string($con, $name),
-        'brand_id' => mysqli_real_escape_string($con, $brand_id),
-        'status' => $status
+        'actual_word' => mysqli_real_escape_string($con, $actual_word),
+        'transleted_word' => mysqli_real_escape_string($con, $transleted_word),
+        'language_id' => mysqli_real_escape_string($con, $language_id),
     );
 
     $fieldsList = array();
@@ -42,99 +22,39 @@ if (isset($_REQUEST['submit'])) {
     }
 
     if ($_REQUEST['action'] == 'edit') {
-        $editQuery = "UPDATE `webshop_category` SET " . implode(', ', $fieldsList)
+        $editQuery = "UPDATE `webshop_language` SET " . implode(', ', $fieldsList)
                 . " WHERE `id` = '" . mysqli_real_escape_string($con, $_REQUEST['id']) . "'";
-
-
-
-        mysqli_query($con, $editQuery_user);
+        // exit;
 
         if (mysqli_query($con, $editQuery)) {
 
-            if ($_FILES['image']['tmp_name'] != '') {
-                $target_path = "../upload/category_image/";
-                $userfile_name = $_FILES['image']['name'];
-                $userfile_tmp = $_FILES['image']['tmp_name'];
-                $img_name = $userfile_name;
-                $img = $target_path . $img_name;
-                move_uploaded_file($userfile_tmp, $img);
 
-                $image = mysqli_query($con, "UPDATE `webshop_category` SET `image`='" . $img_name . "' WHERE `id` = '" . mysqli_real_escape_string($con, $_REQUEST['id']) . "'");
-            }
-
-
-            $_SESSION['msg'] = "Tool Updated Successfully";
+            $_SESSION['msg'] = "Category Updated Successfully";
         } else {
-            $_SESSION['msg'] = "Error occurred while updating Tool";
+            $_SESSION['msg'] = "Error occuried while updating Category";
         }
 
-        header('Location:list_category.php');
+        header('Location:list_english.php');
         exit();
     } else {
 
-        $addQuery = "INSERT INTO `webshop_category` (`" . implode('`,`', array_keys($fields)) . "`)"
+        $insertQuery = "INSERT INTO `webshop_language` (`" . implode('`,`', array_keys($fields)) . "`)"
                 . " VALUES ('" . implode("','", array_values($fields)) . "')";
-        //exit;
 
-        mysqli_query($con, $addQuery);
+        mysqli_query($con, $insertQuery);
         $last_id = mysqli_insert_id($con);
 
 
-
-//$last_id_user=mysqli_insert_id($con);
-        //exit;
-
-
-
-        if ($_FILES['image']['tmp_name'] != '') {
-            $target_path = "../upload/category_image/";
-            $userfile_name = $_FILES['image']['name'];
-            $userfile_tmp = $_FILES['image']['tmp_name'];
-            $img_name = $userfile_name;
-            $img = $target_path . $img_name;
-            move_uploaded_file($userfile_tmp, $img);
-
-            $image = mysqli_query($con, "UPDATE `webshop_category` SET `image`='" . $img_name . "' WHERE `id` = '" . $last_id . "'");
-        }
-
-        /* 		if (mysqli_query($con,$addQuery)) {
-
-          $_SESSION['msg'] = "Category Added Successfully";
-          }
-          else {
-          $_SESSION['msg'] = "Error occuried while adding Category";
-          }
-         */
-        header('Location:list_category.php');
+        header('Location:list_english.php');
         exit();
     }
 }
 
+
 if ($_REQUEST['action'] == 'edit') {
-    $categoryRowset = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `webshop_category` WHERE `id`='" . mysqli_real_escape_string($con, $_REQUEST['id']) . "'"));
-}
-
-
-/* Bulk Category Delete */
-if (isset($_REQUEST['bulk_delete_submit'])) {
-
-
-
-    $idArr = $_REQUEST['checked_id'];
-    foreach ($idArr as $id) {
-        //echo "UPDATE `makeoffer_banner` SET status='0' WHERE id=".$id;
-        mysqli_query($con, "DELETE FROM`webshop_category` WHERE id=" . $id);
-    }
-    $_SESSION['success_msg'] = 'Tools have been deleted successfully.';
-
-    //die();
-
-    header("Location:list_category.php");
+    $categoryRowset = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `webshop_language` WHERE `id`='" . mysqli_real_escape_string($con, $_REQUEST['id']) . "'"));
 }
 ?>
-
-
-
 
 <!-- Header Start -->
 <?php include ("includes/header.php"); ?>
@@ -170,7 +90,7 @@ if (isset($_REQUEST['bulk_delete_submit'])) {
                     <!-- END THEME CUSTOMIZER-->
                     <!-- BEGIN PAGE TITLE & BREADCRUMB-->
                     <h3 class="page-title">
-                        Category <small><?php echo $_REQUEST['action'] == 'edit' ? "Edit" : "Add"; ?> Category</small>
+                        Language <small><?php echo $_REQUEST['action'] == 'edit' ? "Edit" : "Add"; ?>  Language</small>
                     </h3>
                     <ul class="breadcrumb">
                         <li>
@@ -178,12 +98,12 @@ if (isset($_REQUEST['bulk_delete_submit'])) {
                             <span class="divider">/</span>
                         </li>
                         <li>
-                            <a href="#">Category</a>
+                            <a href="#"> Language</a>
                             <span class="divider">/</span>
                         </li>
 
                         <li>
-                            <span><?php echo $_REQUEST['action'] == 'edit' ? "Edit" : "Add"; ?> Category</span>
+                            <span><?php echo $_REQUEST['action'] == 'edit' ? "Edit" : "Add"; ?> Language</span>
 
                         </li>
 
@@ -202,9 +122,7 @@ if (isset($_REQUEST['bulk_delete_submit'])) {
                     <!-- BEGIN SAMPLE FORMPORTLET-->
                     <div class="widget green">
                         <div class="widget-title">
-                            <h4><i class="icon-reorder"></i>Add Category</h4>
-                            <!-- <a style="float:right;" class="btn blue" href="sampledownload.csv">Download Sample</a> -->
-                            <!--   <a style="float:right;" class="btn blue" href="upload_csv.php">Upload Csv</a> -->
+                            <h4><i class="icon-reorder"></i>Add Language</h4>
                             <span class="tools">
                                 <a href="javascript:;" class="icon-chevron-down"></a>
                                 <a href="javascript:;" class="icon-remove"></a>
@@ -212,36 +130,40 @@ if (isset($_REQUEST['bulk_delete_submit'])) {
                         </div>
                         <div class="widget-body">
                             <!-- BEGIN FORM-->
-                            <form class="form-horizontal" method="post" action="add_category.php" enctype="multipart/form-data">
+                            <form class="form-horizontal" method="post" enctype="multipart/form-data">
 
-                                <input type="hidden" name="id" value="<?php echo $_REQUEST['id']; ?>" />
-                                <input type="hidden" name="action" value="<?php echo $_REQUEST['action']; ?>" />  
                                 <div class="control-group">
-                                    <label class="control-label">Brands Name</label>
+                                    <label class="control-label">Actual Word </label>
                                     <div class="controls">
-                                        <select class="form-control" name="brand_id" required>
-                                            <option value=''></option>
-                                            <?php while ($tools_type = mysqli_fetch_array($brands)) { ?>
+                                        <input type="text" class="form-control" placeholder="Actual Word" value="<?php echo $categoryRowset['actual_word']; ?>" name="actual_word" required>
+                                    </div>
+                                </div>
 
-                                                <option value='<?php echo $tools_type['id']; ?>'><?php echo $tools_type['name']; ?></option>
-                                            <?php } ?>
+
+                                <div class="control-group">
+                                    <label class="control-label">Translated Word</label>
+                                    <div class="controls">
+                                        <input type="text" class="form-control" placeholder="Translated Word" value="<?php echo $categoryRowset['transleted_word']; ?>" name="transleted_word" required>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="control-group">
+                                    <label class="control-label">Language</label>
+                                    <div class="controls">
+                                        <select name="language_id" required>
+                                            <option value=''> Select Language</option>
+                                            <option value='1'  <?php if ('1' == $categoryRowset['language_id']) { ?> selected="selected"<?php } ?>>English</option>
+                                            <option value='2'  <?php if ('2' == $categoryRowset['language_id']) { ?> selected="selected"<?php } ?>>Arabic</option>
+
                                         </select>
                                     </div>
                                 </div>
-                                <div class="control-group">
-                                    <label class="control-label">Category Name</label>
-                                    <div class="controls">
-                                        <input type="text" class="form-control" placeholder="Enter text" value="<?php echo $categoryRowset['name']; ?>" name="name" required>
-                                    </div>
-                                </div>
 
-                                <div class="control-group">
-                                    <label class="control-label">Image Upload</label>
-                                    <div class="controls">
-                                        <input type="file" name="image" class=" btn blue"  >
 
-                                    </div>
-                                </div>
+
+
 
                                 <div class="form-actions">
                                     <button type="submit" class="btn blue" name="submit"><i class="icon-ok"></i> Save</button>
@@ -276,12 +198,12 @@ if (isset($_REQUEST['bulk_delete_submit'])) {
 <!-- BEGIN JAVASCRIPTS -->
 <!-- Load javascripts at bottom, this will reduce page load time -->
 <script src="js/jquery-1.8.3.min.js"></script>
-<script src="js/jquery.nicescroll.js" type="text/javascript"></script>
+<!--  <script src="js/jquery.nicescroll.js" type="text/javascript"></script> -->
 <script type="text/javascript" src="assets/jquery-slimscroll/jquery-ui-1.9.2.custom.min.js"></script>
 <script type="text/javascript" src="assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="assets/fullcalendar/fullcalendar/fullcalendar.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-
+<script src="assets/ckeditor/ckeditor.js" type="text/javascript"></script>
 <!-- ie8 fixes -->
 <!--[if lt IE 9]>
 <script src="js/excanvas.js"></script>
@@ -292,7 +214,8 @@ if (isset($_REQUEST['bulk_delete_submit'])) {
 <script src="js/jquery.sparkline.js" type="text/javascript"></script>
 <script src="assets/chart-master/Chart.js"></script>
 <script src="js/jquery.scrollTo.min.js"></script>
-
+<script src="js/jquery.datepicker.js"></script>
+<link href="css/jquery.datepicker.css" rel="stylesheet">
 
 <!--common script for all pages-->
 <script src="js/common-scripts.js"></script>
@@ -303,8 +226,28 @@ if (isset($_REQUEST['bulk_delete_submit'])) {
 <script src="js/sparkline-chart.js"></script>
 <script src="js/home-page-calender.js"></script>
 <script src="js/home-chartjs.js"></script>
-<script src="assets/ckeditor/ckeditor.js" type="text/javascript"></script>
-
+<script>
+    $(document).ready(function () {
+        $("#datepicker").datepicker({dateFormat: 'yy-mm-dd'});
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#datepickerr").datepicker({dateFormat: 'yy-mm-dd'});
+    });
+</script>
+<script>
+    function getSubCategory(val) {
+        $.ajax({
+            type: "POST",
+            url: "get_subcategory.php",
+            data: 'category_id=' + val,
+            success: function (data) {
+                $("#subcategory_list").html(data);
+            }
+        });
+    }
+</script>
 <!-- END JAVASCRIPTS -->   
 </body>
 <!-- END BODY -->

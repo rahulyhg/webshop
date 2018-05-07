@@ -19,11 +19,13 @@
 									</div>
 
 									 <div class="form-group">
-										<label for="staticEmail">Gender</label>
+										<label for="staticEmail">{{language.gender}}</label>
 			              		<input type="radio" class="input-field"  name="gender" value="Male" ng-model="user2.gender" required>
-			              		<span>Male</span>
+			              		<span>{{language.male}}</span>
 			              		<input type="radio" class="input-field"  name="gender" value="Female" ng-model="user2.gender" required>
-			              		<span>Female</span>
+			              		<span>{{language.female}}</span>
+                                                <input type="radio" class="input-field"  name="gender" value="Unisex" ng-model="user2.gender" required>
+			              		<span>Unisex</span>
 			              		
 			              		<span class="icon"></span>
                                                 </br><span style="color:Red" ng-show="submitted && addProductForm.gender.$error.required"> Please Choose Your Gender </span>
@@ -84,9 +86,9 @@
                                                                                 <span style="color:Red" ng-show="addProductForm.country.$dirty && addProductForm.country.$error.pattern">Only Letters Allowed</span>
 									</div>-->
                                                                     <div class="form-group">
-										<label for="staticEmail">Size(optional)</label>
-										<input type="text" class="form-control" id="" value="" ng-pattern="/^[0-9]/" placeholder="" ng-model="user2.size" name="size">
-                                                                                                                                                              
+										<label for="staticEmail">Size</label>
+										<input type="text" class="form-control" id="" value="" ng-pattern="/^[0-9]/" placeholder="" ng-model="user2.size" name="size" required>
+                                                                                    <span style="color:Red" ng-show="submitted && addProductForm.size.$error.required">This Field Is Required! </span>                                                                          
                                                                                 <span style="color:Red" ng-show="addProductForm.size.$dirty && addProductForm.size.$error.pattern">Only Number Allowed</span>
 									</div>
                                                                     
