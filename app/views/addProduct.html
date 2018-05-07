@@ -18,16 +18,19 @@
 									<div class="form-group">
 										<label for="staticEmail">Please Select</label>
 										 <select class="form-control" id="cobSRQ2" ng-model="drpmodel" ng-change="cobchange()" required>
+
                                                                                 <option value="0" selected="selected">Please select</option>
    										<option value="1" >Product</option>
    										<option value="2" ng-if="current_user_type=='2'">Auction</option>
+
+
 										</select>
                                                                                  
 									    </div>
                                                                     
                                                                     <div class="form-group">
 										<label for="staticEmail">Brand</label>
-										<select class="form-control" name="brand" ng-model="user2.brand"  required>
+										<select class="form-control" name="brand" ng-model="user2.brand" ng-change="sub(user2.brand)"  required>
 											<option  ng-repeat="brandlists in brandlist" value="{{brandlists.id}}">{{brandlists.name}}</option>
 										</select>
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.brand.$error.required"> Please Choose A Brand </span>
@@ -35,7 +38,7 @@
 									</div>
 									<div class="form-group">
 										<label for="staticEmail">Category</label>
-										<select class="form-control" name="category" ng-model="user2.cat_id" ng-change="sub(user2.cat_id)" required>
+										<select class="form-control" name="category" ng-model="user2.cat_id"  required>
 											<option  ng-repeat="categorylists in categorylist" value="{{categorylists.id}}">{{categorylists.name}}</option>
 										</select>
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.category.$error.required"> Please Choose A Category </span>
@@ -52,12 +55,12 @@
 									</div> -->
                                                                     
                                                                     <div class="form-group" ng-if="drpmodel=='2'">
-										<label for="staticEmail">Bracelet Type</label>
+										<label for="staticEmail">{{language.breslet}} Type</label>
 										<select class="form-control" name="breslet_type" ng-model="user2.breslet_type" required>
 											<option  value="">Please Select</option>  
                                                                                         
-                                                                                       <option   value="M">Metal</option>  
-                                                                                        <option   value="L">Leather</option>  
+                                                                                       <option   value="M">{{language.metal}}</option>  
+                                                                                        <option   value="L">{{language.leather}}</option>  
 										</select>
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.breslet_type.$error.required"> Please Choose A Bracelet Type </span>
 									</div>
@@ -79,7 +82,7 @@
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.currency.$error.required">Please Choose Currency</span>
 									</div>
                                                                     <div class="form-group" ng-if="drpmodel=='2'">
-										<label for="staticEmail">Auction Date</label>
+										<label for="staticEmail">{{language.auction}} Date</label>
 										<!--<input type="text" class="form-control" id="datepicker" value="" placeholder="" ng-model="user2.preferred_date" name="preferred_date" required>-->
                                                                                 <!--<input type="text" class="form-control" ng-model="user2.preferred_date" date="{{listAuctionDtates}}" name="preferred_date" required datepicker />-->
 <!--                                                                                <datepicker date-format="yyyy-MM-dd" selector="form-control" ng-click="getAuctionTime(user2.preferred_date)" date-enabled-dates="{{listAuctionDtates}}">-->
@@ -95,7 +98,7 @@
 									</div>
                                                                     <div>&nbsp;</div>
                                                                     <div class="form-group" ng-if="user2.preferred_date">
-										<label for="staticEmail"> Auction Timing</label>
+										<label for="staticEmail"> {{language.auction}} Timing</label>
                                                                                 <span>
                                                                                 <div ng-repeat="time in timeslot" >
                                                                                  <div ng-if="time.status== 0">   
@@ -110,14 +113,14 @@
                                                                                 
                                                                                 <span style="color:Red" ng-show="addProductForm.name.$dirty && addProductForm.name.$error.pattern">Only Letters Allowed</span>
 									</div>
-                                                                    <div class="form-group">
+<!--                                                                    <div class="form-group">
 										<label for="staticEmail"> Name</label>
 										<input type="text" class="form-control" id="" value="" ng-model="user2.name" name="name" ng-pattern="/^[a-z A-Z]+$/" required>
                                                                                 
                                                                                 <span style="color:Red" ng-show="addProductForm.name.$touched && addProductForm.name.$error.required"> This Field Is Required! </span>
                                                                                 
                                                                                 <span style="color:Red" ng-show="addProductForm.name.$dirty && addProductForm.name.$error.pattern">Only Letters Allowed</span>
-									</div>
+									</div>-->
 								 	
                                                                     
 									<div class="form-group">
@@ -127,19 +130,19 @@
                                                                                 
 									</div>
 									<div class="form-group">
-										<label for="staticEmail">Price</label>
+										<label for="staticEmail">{{language.price}}</label>
 										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user2.price" name="price" ng-pattern="/^[0-9]/" required>
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.price.$error.required">This Field Is Required! </span>
                                                                                 
                                                                                 <span style="color:Red" ng-show="addProductForm.price.$dirty && addProductForm.price.$error.pattern">Only Numbers Allowed</span>
 									</div>
                                                                     
-                                                                    <div class="form-group">
+<!--                                                                    <div class="form-group">
 										<label for="staticEmail">Quantity</label>
 										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user2.quantity" ng-pattern="/^[0-9]/" name="quantity" required>
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.quantity.$error.required">This Field Is Required! </span>
                                                                                 <span style="color:Red" ng-show="addProductForm.quantity.$dirty && addProductForm.quantity.$error.pattern">Only Numbers Allowed</span>
-									</div>
+									</div>-->
                                       
                                                                         
                                                                     

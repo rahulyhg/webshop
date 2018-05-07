@@ -18,25 +18,25 @@
          <ul class="navbar-nav">
             <li class="nav-item dropdown">
                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               Listings 
+               {{language.listings}}  
                </a>
                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <ul>
                      <li>
-                        <a class="dropdown-item child" href="#/searchListing/">Brands</a>
+                        <a class="dropdown-item child" href="#/searchListing/">{{language.brands}}</a>
                         <div class="dropdown-menu">
                            <h5>BRANDS</h5>
                            <ul >
-                              <li><a class="dropdown-item" href="#/searchListing/">Dior</a></li>
-                              <li><a class="dropdown-item" href="#/searchListing/">Omega</a></li>
-                              <li><a class="dropdown-item" href="#/searchListing/">Rolex</a></li>
-                              <li><a class="dropdown-item" href="#/searchListing/">Chopard</a></li>
+                              <li><a class="dropdown-item" href="#/searchListing/">{{language.dior}} </a></li>
+                              <li><a class="dropdown-item" href="#/searchListing/">{{language.omega}} </a></li>
+                              <li><a class="dropdown-item" href="#/searchListing/">{{language.rolex}} </a></li>
+                              <li><a class="dropdown-item" href="#/searchListing/">{{language.chopard}} </a></li>
                            </ul>
                         </div>
                      </li>
-                     <li><a class="dropdown-item" href="#/searchListing/">Services</a></li>
-                     <li><a class="dropdown-item" href="#/searchListing/">Shops</a></li>
-                     <li><a class="dropdown-item" href="#/searchListing/">Offers</a></li>
+                     <li><a class="dropdown-item" href="#/searchListing/">{{language.services}} </a></li>
+                     <li><a class="dropdown-item" href="#/searchListing/">{{language.shops}} </a></li>
+                     <li><a class="dropdown-item" href="#/searchListing/">{{language.offers}} </a></li>
                   </ul>
                </div>
             </li>
@@ -44,19 +44,19 @@
                <a class="nav-link" href="#/my_account">Your GMT24</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="#/searchListing/">Auction</a>
+               <a class="nav-link" href="#/searchListing/">{{language.auction}}</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="#/productlisting/">Product</a> 
+               <a class="nav-link" href="#/productlisting/">{{language.product}}</a> 
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="#/searchListing/">Today's Deals</a>
+               <a class="nav-link" href="#/searchListing/">{{language.Todays_Deals}}</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="#/searchListing/">Gift Cards</a>
+               <a class="nav-link" href="#/searchListing/">{{language.gift_cards}}</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="#/searchListing/">Sell</a>
+               <a class="nav-link" href="#/searchListing/">{{language.sell}}</a>
             </li>
             <!--<li class="nav-item">
                <a class="nav-link" href="#/searchListing">Buy</a>
@@ -84,18 +84,31 @@
                <span class="ng-binding ng-scope" ng-if="headerCartCount==0">0</span>
             </li>
             <li class="nav-item" ng-if="current_user_login!='1'">
-               <a class="nav-link" href="#" data-toggle="modal" data-target="#login">Login</a>
+               <a class="nav-link" href="#" data-toggle="modal" data-target="#login">{{language.login}}</a>
             </li>
             <li class="nav-item" ng-if="current_user_login!='1'">
-               <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">Sign up</a>
+               <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">{{language.signup}}</a>
             </li>
-            <li class="nav-item dropdown" >
+<!--            <li class="nav-item dropdown" >
                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                USA (USD) <img src="app/assets/images/map.png" alt="" />
                </a>
                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
                   <div class="dropdown-item" ng-click="selectedlaguage('english')" style="color:grey;">German</div>
                   <div class="dropdown-item" ng-click="selectedlaguage('arabik')" style="color:grey;">Spanish</div>
+                  <a class="dropdown-item" href="#">Services</a>
+                     <a class="dropdown-item" href="#">Shops</a>
+                     <a class="dropdown-item" href="#">Offers</a>
+               </div>
+            </li>-->
+            
+            <li class="nav-item dropdown" >
+               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               USA (USD) <img src="app/assets/images/map.png" alt="" />
+               </a>
+               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+                  <a class="dropdown-item" ng-click="selectedlaguage('1')" href="#">English</a>
+                  <a class="dropdown-item" ng-click="selectedlaguage('2')" href="#">Arabic</a>
                   <!--<a class="dropdown-item" href="#">Services</a>
                      <a class="dropdown-item" href="#">Shops</a>
                      <a class="dropdown-item" href="#">Offers</a>-->

@@ -13,10 +13,11 @@ app.controller("RootScopeCtrl", function ($scope, $location, $rootScope, $http, 
 //        $location.path("/home");
 //    }
     
-    
+    $window.localStorage["language"] = '';
     $scope.menuVisible = false;
     $scope.swipeValue = true;
     $scope.loader = true;
+     $scope.language= '';
     $scope.showMenu = function () {
         $scope.menuVisible = !$scope.menuVisible;
     };
@@ -584,16 +585,59 @@ $window.location.reload();
  };
 
 
+if($window.localStorage["language"] == ''){
 
+userService.changeLaguage(1).then(function(response) {
+	 if(response.Ack == '1') {
+				
+               $window.localStorage["language"] = 1;
+                $scope.language = response.languages;
+                                   
+                }
+                
+        
+        else {
 
+              }
+																	
+	}, function(err) {
+            
+            $window.location.reload();
+         console.log(err); 
+    });
 
-
-
+}else{
+    //alert('else');
+}
 
   $scope.selectedlaguage = function(laguage){
-	
-    alert(laguage);	
-    }
+userService.changeLaguage(laguage).then(function(response) {
+		
+                //alert(laguage);
+	 if(response.Ack == '1') {
+		
+                //alert ('Language changed to english');
+                
+                $window.localStorage["language"]= laguage;
+                $scope.language = response.languages;
+                            
+                                
+                              
+                                
+                }
+                
+        
+        else {
+//alert ('Language can not be changed'); 
+              
+              }
+																	
+	}, function(err) {
+            //alert ('Language can not be changed');
+            $window.location.reload();
+         console.log(err); 
+    });
+    };
 
 
 
