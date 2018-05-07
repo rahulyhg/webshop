@@ -344,8 +344,9 @@ $scope.addProduct = function(user2){
                 }
 		
 		}else if(response.Ack == '0'){
-                    
                    alert(response.msg);
+                   //$scope.msg = response.msg;
+                   //$('#subscription').show();
                    
                 } else {
                     

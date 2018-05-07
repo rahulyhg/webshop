@@ -822,34 +822,7 @@ reject(response);
     
 
 
-         /*   var purchaseSubscription = function(subscription_id) {
-    return $q(function(resolve, reject) {
-        var userInfo = JSON.parse($window.localStorage["userInfo"]);
-    
-     var encodedString ='{"user_id":"'+ userInfo.user_id +'","subscription_id":"'+ subscription_id +'"}';
-
-    $http({
-    method: 'POST',
-    url: $rootScope.serviceurl+"addUserSubscription",
-    data: encodedString,
-    headers: {'Content-Type': 'application/json'}
-    }).then(function (response) {
-    
-    if(response.data.Ack == "1") {
-    resolve(response.data); 
-    } else {
-  resolve(response.data); 
-    } 
-    
-    
-    },function(response) {
-    reject(response);
-    });
-    });
-    };*/
-
-
-     var addsubscription = function(id) {
+          var addsubscription = function(id) {
     return $q(function(resolve, reject) {
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
     
@@ -904,6 +877,9 @@ reject(response);
     });
     });
     };
+
+
+    
 
 
 
@@ -4174,6 +4150,50 @@ var encodedString ='{"to_id":"'+ to_id +'","product_id":"'+ product_id +'","from
             });
         });
  };
+ 
+ 
+  var markProduct = function(id) {
+    
+    
+return $q(function(resolve, reject) {
+    
+    var encodedString ='{"id":"'+ id +'"}';					   
+
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"markProduct",
+   data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+              if(response.data.Ack == "1") {
+              resolve(response.data); 
+             
+           } else {
+                resolve(response.data);
+           }
+                 
+
+            }, function (response) {
+                reject(response.data);
+        }); 
+
+
+	
+	
+	});
+	};
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  return {
      
        // homeSettingsSection:homeSettingsSection,
@@ -4306,7 +4326,9 @@ ChangePassword: ChangePassword,
            getProductcontact:getProductcontact,
            addmessage:addmessage,
            getfullMessages:getfullMessages,
-           addsubscription:addsubscription
+           addsubscription:addsubscription,
+           markProduct:markProduct
+
 	
 };
     
