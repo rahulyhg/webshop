@@ -77,7 +77,7 @@ app.constant('JS_REQUIRES', {
         
         'success': ['app/Controllers/successCtrl.js'],
         'cancel': ['app/Controllers/cancelCtrl.js'],
-        
+        'expiredProduct': ['app/Controllers/expiredProductCtrl.js'],
 	
     },
 
