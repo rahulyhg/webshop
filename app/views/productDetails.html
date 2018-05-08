@@ -24,37 +24,44 @@
 							<p>{{productLists.description}}</p>
                                                         
                                                         <hr>
-                                                        <div ng-if="productLists.seller_id!=user_id">
+                                                        <div ng-if="productLists.seller_id!=user_id &&  productLists.type==2">
 							<h5>Total No Of Bid</h5>
 
 							<p>{{productLists.bidcount}}</p>
-                                                        </div>
                                                         <hr>
-                                                        <div ng-if="productLists.seller_id!=user_id">
+                                                        </div>
+                                                        
+                                                        <div ng-if="productLists.seller_id!=user_id &&  productLists.type==2">
 							<h5>Your Maximum Bid</h5>
                                                         <p ng-if="!productLists.maxbid">You have not bid yet</p>
 							<p ng-if="productLists.maxbid">{{productLists.maxbid}}</p>
-                                                        </div>
                                                         <hr>
+                                                        </div>
+                                                        
+                                                         <div  ng-if="productLists.type==2">
 							<h5>Time Remaining</h5>
                                                        
-							  <div class='time-to' ng-if="productLists.preferred_date">
+							  <div class='time-to' ng-if="productLists.preferred_date &&  productLists.type==2">
  
                             <p countdown='' date='{{productLists.preferred_date}}' style="color:red">&nbsp;</p>
   </div>
-							<!--
+                                                          <hr>
+				 </div>
+                                                        <!--
 							<hr>
                                                         <h5>Product Base Auction Price</h5>
 							<p>{{productLists.currency_code}} {{productLists.baseauctionprice}}</p>
 							-->
 							
-                                                        <hr>
+                                                      
+                                                        <div  ng-if="productLists.type==2">
                                                         <h5>Product Threshold Price</h5>
                                                         
 							<p ng-if="productLists.lastbidvalue >= productLists.thresholdprice" style="color:red">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
                                                         <p ng-if="productLists.lastbidvalue < productLists.thresholdprice" style="color:green">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
+                                                        <hr>
+                                                        </div>
 							
-							<hr>
                                                         
 							<div class="row">
 								<div class="col-sm-6 col-6 py-1">
