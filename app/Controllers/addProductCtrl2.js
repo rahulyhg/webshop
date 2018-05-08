@@ -2,7 +2,7 @@
 /** 
  * controllers used for the My Account
  */
-app.controller('addProductCtrl2', function ($rootScope, $state, $scope, $http, $location,$timeout, $q, userService,$window,Upload) {
+app.controller('addProductCtrl2', function ($rootScope, $state, $scope, $http, $location,$timeout, $q, userService,$window,Upload,$mdDialog) {
 
 $scope.data = {};
 $scope.user = {};
@@ -360,10 +360,28 @@ $scope.addProduct = function(user2){
 	}, function(err) {
 	console.log(err); 
 	});     
-        
-       
-        
+     
 }
+
+
+  $scope.showAdvanced = function(ev) {
+    $mdDialog.show({
+      controller: DialogController,
+      templateUrl: 'dialog1.tmpl.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose:true,
+      fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+    })
+    .then(function(answer) {
+      $scope.status = 'You said the information was "' + answer + '".';
+    }, function() {
+      $scope.status = 'You cancelled the dialog.';
+    });
+  };
+
+
+
 	
 
 });
