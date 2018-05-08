@@ -51,7 +51,7 @@ $scope.allsubscriptions = function(){
 	
         }
    
-    $scope.renew = function(subscription_id){
+    $scope.renew1 = function(subscription_id){
         
              userService.purchaseSubscription(subscription_id).then(function(response) {
 
@@ -78,6 +78,19 @@ $scope.allsubscriptions = function(){
        
         
 }
+
+
+$scope.renew = function(id){
+     //alert(id);
+        
+           $state.go('frontend.payment',{subscription_id:id});
+
+              
+}
+
+
+
+
 
 
 

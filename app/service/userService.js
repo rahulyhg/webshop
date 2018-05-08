@@ -4210,10 +4210,61 @@ return $q(function(resolve, reject) {
 	
 	});
 	};
+ var expiredproduct = function() {
+    return $q(function(resolve, reject) {
+        var userInfo = JSON.parse($window.localStorage["userInfo"]);
+        var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"listexpiredProducts",
+   data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    //console.log('ok');
+    resolve(response.data); 
+    } else {
+    //console.log('ok2');
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    //console.log(response);  
+    reject(response);
+    });
+    });
+    };
  
- 
- 
- 
+ var markextension = function(id) {
+    
+    
+return $q(function(resolve, reject) {
+    
+    var userInfo = JSON.parse($window.localStorage["userInfo"]);
+    var encodedString ='{"id":"'+ id +'","user_id":"'+ userInfo.user_id +'"}';					   
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"markextension",
+   data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+              if(response.data.Ack == "1") {
+              resolve(response.data); 
+             
+           } else {
+                resolve(response.data);
+           }
+                 
+
+            }, function (response) {
+                reject(response.data);
+        }); 
+
+	});
+	};
  
  
  
@@ -4350,10 +4401,11 @@ ChangePassword: ChangePassword,
            addmessage:addmessage,
            getfullMessages:getfullMessages,
            addsubscription:addsubscription,
-           changeLaguage:changeLaguage,
-           markProduct:markProduct
+           changeLaguage:changeLaguage, 
+           markProduct:markProduct,
+           expiredproduct:expiredproduct,
+           markextension:markextension
 
 	
 };
-    
 });
