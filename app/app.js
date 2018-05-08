@@ -939,7 +939,16 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                 resolve: loadSequence('cancel')
             })
             
-
+            .state('frontend.expiredProduct', {
+                url: '/expiredProduct',
+                templateUrl: 'app/views/expiredProduct.html',
+                title: 'myProduct',
+				controller: 'expiredProductCtrl',
+                ncyBreadcrumb: {
+                    label: 'product page'
+                },
+                resolve: loadSequence('expiredProduct')
+            })
 
 
           /*   .state('frontend.test', {

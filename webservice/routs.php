@@ -120,5 +120,7 @@ $app->group('/frontend', function () use ($app) {
 
     $app->post('/listSubscribed', 'listSubscribed');
     $app->post('/changeLaguage', 'changeLaguage');
+    $app->post('/listexpiredProducts', 'listexpiredProducts');
+    $app->post('/markextension', 'markextension');
 });
 ?>
