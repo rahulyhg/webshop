@@ -4210,7 +4210,6 @@ return $q(function(resolve, reject) {
 	
 	});
 	};
- 
  var expiredproduct = function() {
     return $q(function(resolve, reject) {
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
@@ -4402,12 +4401,11 @@ ChangePassword: ChangePassword,
            addmessage:addmessage,
            getfullMessages:getfullMessages,
            addsubscription:addsubscription,
-           changeLaguage:changeLaguage,
+           changeLaguage:changeLaguage, 
            markProduct:markProduct,
            expiredproduct:expiredproduct,
            markextension:markextension
 
 	
 };
-    
 });

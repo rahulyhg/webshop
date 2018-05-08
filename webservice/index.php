@@ -3162,7 +3162,6 @@ function addProductNew() {
     $db = getConnection();
 
 
-
     $sqlsubscription = "SELECT ws.id as sid,wu.id,ws.expiry_date,wu.slot_no FROM webshop_subscribers as ws inner join webshop_user as wu on wu.id=ws.user_id where ws.user_id=:user_id order by ws.id desc limit 1";
     $stmt = $db->prepare($sqlsubscription);
     $stmt->bindParam("user_id", $user_id);
@@ -3351,6 +3350,7 @@ if ($type == '1') {
     $app->response->setStatus(200);
 }
 }
+
 
     $app->response->write(json_encode($data));
 }
@@ -3910,7 +3910,8 @@ function interestedEmailToVendor() {
     }
 
     /* Notification to the seller start */
-    $message = $user . " is interested in your product " . $getproductdetails->name . "To Contact user <a href='" . $link . "'>click</a>" . "";
+    $message = $user . " is interested in your product " . $getproductdetails->name . "";
+
     $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, msg, is_read,last_id) VALUES (:from_id, :to_id, :msg, :is_read,:last_id)";
 
     $is_read = '0';
@@ -5070,9 +5071,7 @@ function ProductListSearch() {
 // exit;
 
         $productIds = implode(",", $productIds);
-
-
-        $sql = "SELECT * from webshop_products where status = 1 and type='1' and is_discard='0' and uploader_id !='" . $user_id . "' and id IN(" . $productIds . ")";
+ $sql = "SELECT * from webshop_products where status = 1 and type='1' and is_discard='0' and uploader_id !='" . $user_id . "' and id IN(" . $productIds . ")";
     } else {
 
 
@@ -5151,9 +5150,7 @@ function ProductListSearch() {
 
         if (!empty($getAllProducts)) {
             foreach ($getAllProducts as $product) {
-                
-                
-                $sid=$product->subscription_id;
+              $sid=$product->subscription_id;
                 $sqlsubs = "SELECT * FROM  webshop_subscribers WHERE id=:id ";
                 $stmtsubs = $db->prepare($sqlsubs);
                 $stmtsubs->bindParam("id", $sid);
@@ -5163,8 +5160,6 @@ function ProductListSearch() {
                 $cdate= date('Y-m-d');
                 
                 if($getsubs->expiry_date >= $cdate){
-                
-                
 
                 if ($product->image != '') {
                     $image = SITE_URL . 'upload/product_image/' . $product->image;
@@ -5230,7 +5225,7 @@ function ProductListSearch() {
                     "productname" => stripslashes($product->name)
                 );
             }
-            }
+ }
 
 
             $data['Ack'] = '1';
@@ -5268,7 +5263,9 @@ function listproductMessages() {
 //    exit;
     try {
 
-        $sql = "SELECT * from webshop_message WHERE to_id=:to_id or from_id=:to_id  group by(from_id)";
+        $sql = "SELECT *, (r.from_id + r.to_id) AS dist FROM (SELECT * FROM `webshop_message` as t WHERE ( t.from_id =:to_id OR t.to_id =:to_id ) ORDER BY t.add_date ASC) as r GROUP BY dist ORDER BY r.add_date ASC ";
+        // $sql = "SELECT * from webshop_message WHERE to_id=:to_id or from_id=:to_id ";
+
 
         $stmt = $db->prepare($sql);
         $stmt->bindParam("to_id", $to_id);
@@ -5833,12 +5830,11 @@ function markProduct() {
     $body = json_decode($body2);
 
     $id = isset($body->id) ? $body->id : '';
-    
 
     $db = getConnection();
 
     try {
-        
+
 
         $sql2 = "UPDATE  webshop_products SET product_status= 1 WHERE id=:id";
         $db = getConnection();
@@ -5852,6 +5848,7 @@ function markProduct() {
         $app->response->setStatus(200);
         $db = null;
     } catch (PDOException $e) {
+
 
         
         $data['Ack'] = 0;
@@ -6045,7 +6042,7 @@ function markextension() {
         $db = null;
     } catch (PDOException $e) {
 
-        
+
         $data['Ack'] = 0;
         $data['msg'] = 'Updation Error!!!';
 
