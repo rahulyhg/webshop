@@ -1,3 +1,4 @@
+
 <?php
 
 //error_reporting(1);
@@ -10,7 +11,7 @@ include('crud.php');
 //include('Stripe.php');
 
 date_default_timezone_set('UTC');
-$act_link = 'http://178.62.61.183/';
+$act_link = 'http://111.93.169.90/team1/webshop/';
 
 function get_lat_long($address) {
     $array = array();
@@ -37,8 +38,8 @@ function userSignup() {
     $request = $app->request();
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
-    $act_link = 'http://178.62.61.183/';
 
+    $act_link = 'http://111.93.169.90/team1/webshop/';
     $fname = isset($body->fname) ? $body->fname : '';
     $lname = isset($body->lname) ? $body->lname : '';
     $email = isset($body->email) ? $body->email : '';
@@ -3276,7 +3277,10 @@ function addProductNew() {
 
                         $lastID = $db->lastInsertId();
 
-
+                        $stmt->bindParam("location", $location);
+                        $stmt->bindParam("work_hours", $work_hours);
+                        $stmt->bindParam("status", $get_status);
+                        $stmt->execute();
                         $rest_slot = (($getUserDetails->slot_no) - 1);
                         $sqlslotupdate = "UPDATE webshop_user SET slot_no=:slot WHERE id=:user_id";
                         $stmtslot = $db->prepare($sqlslotupdate);
@@ -3704,7 +3708,7 @@ function listmyAuctions() {
                 "seller_name" => stripslashes($seller_name),
                 "seller_address" => stripslashes($seller_address),
                 "seller_phone" => stripslashes($seller_phone),
-                "productname" => ''
+                "productname" => stripslashes($product->name)
             );
         }
 
@@ -4087,16 +4091,16 @@ function listSubscriptions() {
 
     $db = getConnection();
 
-    $sql1 = "SELECT * from webshop_subscription where status = 1 and type='O' limit 1";
+    $sql1 = "SELECT * from webshop_user where id='".$user_id."'";
     $stmt1 = $db->prepare($sql1);
     $stmt1->execute();
     $getDetails = $stmt1->fetchObject();
 
-    $user_array = explode(',', $getDetails->user_id);
-    $existsuser = in_array($user_id, $user_array);
+    //$user_array = explode(',', $getDetails->user_id);
+    $existsuser = $getDetails->special_package_id;
 
     if ($existsuser) {
-        $sql = "SELECT * from webshop_subscription where status = 1";
+        $sql = "SELECT * from webshop_subscription where status = 1 and type='N' or id='".$getDetails->special_package_id."'";
     } else {
         $sql = "SELECT * from webshop_subscription where status = 1 and type='N'";
     }
@@ -4506,7 +4510,7 @@ function auctionListSearch() {
                     "seller_name" => stripslashes($seller_name),
                     "seller_address" => stripslashes($seller_address),
                     "seller_phone" => stripslashes($seller_phone),
-                    "productname" => ''
+                    "productname" => stripslashes($product->name)
                 );
             }
 
@@ -5311,7 +5315,7 @@ function ProductListSearch() {
                         "seller_name" => stripslashes($seller_name),
                         "seller_address" => stripslashes($seller_address),
                         "seller_phone" => stripslashes($seller_phone),
-                        "productname" => ''
+                        "productname" => stripslashes($product->name)
                     );
                 }
             }
@@ -5717,8 +5721,11 @@ function addUserSubscription() {
     $stmt4->execute();
 
 
-
-    $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no WHERE id=:user_id";
+    if($getSubscriptionDetails->type == "O"){
+    $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no,special_package_id=0 WHERE id=:user_id";
+    }else{
+      $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no WHERE id=:user_id";  
+    }
     $slot = $getSubscriptionDetails->slots;
     $stmt = $db->prepare($sql);
     $stmt->bindParam("subscription_id", $subscription_id);
@@ -6142,3 +6149,4 @@ function markextension() {
 
 $app->run();
 ?>
+

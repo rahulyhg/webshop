@@ -182,7 +182,7 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
             </li>
 
 
-            <li class="sub-menu">
+<!--            <li class="sub-menu">
                 <a href="javascript:;" class="">
                     <i class="icon-tasks"></i>
                     <span>Offer Subscription</span>
@@ -196,7 +196,7 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                     </li>
 
                 </ul>
-            </li>
+            </li>-->
 
 
 

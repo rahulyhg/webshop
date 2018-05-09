@@ -12,10 +12,19 @@ if($_REQUEST['action']=='details')
 //exit;
 $userRow = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_user` WHERE `id`='".$_REQUEST['id']."'"));
 
-$membership = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_membership` WHERE `id`='".$userRow['membership_id']."'"));
+//$membership = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_membership` WHERE `id`='".$userRow['membership_id']."'"));
 
-$products = mysqli_num_rows(mysqli_query($con,"SELECT * FROM `webshop_products` WHERE `uploader_id`='".$userRow['id']."'"));
-    
+//$products = mysqli_num_rows(mysqli_query($con,"SELECT * FROM `webshop_products` WHERE `uploader_id`='".$userRow['id']."'"));
+
+
+$membership = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_subscription` WHERE `id`='".$userRow['subscription_id']."'"));
+
+$membershipexpiredate = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_subscribers` WHERE `user_id`='".$userRow['id']."' order by id desc limit 1"));
+
+$products = mysqli_num_rows(mysqli_query($con,"SELECT * FROM `webshop_products` WHERE `uploader_id`='".$userRow['id']."' and `subscription_id`='".$membershipexpiredate['id']."'"));
+ 
+
+$specialpackages = mysqli_query($con,"SELECT * FROM `webshop_subscription` WHERE `type`='O'");
 //$categoryRowset = mysql_fetch_array(mysql_query("SELECT * FROM `barter_product` WHERE `id`='".mysql_real_escape_string($_REQUEST['id'])."'"));
 
 //$store_id = mysql_fetch_array(mysql_query("SELECT * FROM `barter_store` WHERE `id`='".mysql_real_escape_string($categoryRowset['store_id'])."'"));
@@ -27,7 +36,50 @@ $products = mysqli_num_rows(mysqli_query($con,"SELECT * FROM `webshop_products` 
 
 
 }
+if (isset($_REQUEST['submit'])) {
+    
+    
+    
+    $email =$userRow['email']; 
+    $msg ="You have a special package. Please login and subscribe to get more benifits";
+    $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : '';  
+   
+    $package_id = isset($_POST['package_id']) ? $_POST['package_id'] : '';
+   
+    
+    
+    
+   
+    $fields = array(
+        //'user_id' => mysqli_real_escape_string($con, $user_id),
+        'special_package_id' => mysqli_real_escape_string($con, $package_id),
+        
+       
+    );
 
+    $fieldsList = array();
+    foreach ($fields as $field => $value) {
+        $fieldsList[] = '`' . $field . '`' . '=' . "'" . $value . "'";
+    }
+
+    
+        $editQuery = "UPDATE `webshop_user` SET " . implode(', ', $fieldsList)
+                . " WHERE `id` = '" . mysqli_real_escape_string($con, $user_id) . "'";
+        //exit;
+
+        if (mysqli_query($con, $editQuery)) {
+            
+            mail($email,"Your Special Package",$msg,'palashsaharana@gmail.com');
+            
+            $_SESSION['msg'] = "Special package added Successfully";
+        } else {
+            $_SESSION['msg'] = "Error occured while updating Package";
+        }
+
+        
+       // exit();
+     
+}
 
 ?>
 
@@ -110,7 +162,7 @@ function inactive(aa)
             <!-- END PAGE HEADER-->
             <!-- BEGIN PAGE CONTENT-->
        
-            
+            <?php echo $_SESSION['msg'];?>
             <div class="row-fluid">
                 <div class="span12">
                     <!-- BEGIN SAMPLE FORMPORTLET-->
@@ -126,9 +178,9 @@ function inactive(aa)
                               
                             
                             
-                          <form action="#" class="form-horizontal" method="post" action="user_update.php" enctype="multipart/form-data">
-                     <input type="hidden" name="id" value="<?php echo $_REQUEST['id'];?>" />
-                                     <input type="hidden" name="action" value="<?php echo $_REQUEST['action'];?>" />
+                          <form  class="form-horizontal" method="post">
+                     <input type="hidden" name="user_id" value="<?php echo $_REQUEST['id'];?>" />
+                                     <!--<input type="hidden" name="action" value="<?php echo $_REQUEST['action'];?>" />-->
                                       
                     
         <tr><button type="reset" class="btn blue" onClick="window.location.href='list_topvendor.php'" >Back</button></tr>
@@ -182,33 +234,51 @@ $image_link='../upload/no.png';
 </tr>
 
 <tr>    
-<td> Membership Title</th>
-<td><?php echo $membership['title']; ?></td>
+<td> Subscription Title</th>
+<td><?php echo $membership['name']; ?></td>
 </tr>
 
 <tr>    
-<td> Membership Price</th>
-<td><?php echo "$".$membership['price']; ?></td>
+<td> Subscription Price</th>
+<td><?php if($membership['price']!=""){ echo $membership['price'].' KWD';} ?></td>
 </tr>
 
 <tr>    
-<td> Membership Slot</th>
-<td><?php echo $membership['slot']; ?></td>
+<td> Subscription Slot</th>
+<td><?php echo $membership['slots']; ?></td>
 </tr>
 
 <tr>    
-<td> Membership Expire</th>
-<td><?php echo $membership['expire_month']." months"; ?></td>
+<td> Subscription Expire</th>
+<td><?php if($membership['duration']!=""){echo $membership['duration']." Days"; ?><?php echo '('.date('d F,Y',strtotime($membershipexpiredate['expiry_date'])).')';}?></td>
 </tr>
-
 
 <tr>    
 <td> Number of Products Uploaded</th>
 <td><?php echo $products; ?></td>
 </tr>
   
-</table>
+</table><br>
 
+                                <div class="control-group">
+                                    <label class="control-label">Special Package</label>
+                                    <div class="controls">
+                                        
+                                        <select class="form-control" name="package_id" required>
+                                            <option value=""> --select package-- </option>
+                                            
+                                         <?php   
+                                            while ($package_array = mysqli_fetch_array($specialpackages)) {?>
+                                            
+                                            <option value="<?php echo $package_array['id'];?>"><?php echo $package_array['name'];?></option>
+                                            
+                                         <?php }  ?>
+                                        </select>
+
+                                    </div>
+                                </div>  
+                                <button type="submit" class="btn blue" name="submit"><i class="icon-ok"></i> Save</button>
+                                <div class="form-actions"></div>
         
 </form>
                             
