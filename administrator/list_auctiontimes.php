@@ -4,13 +4,13 @@ include_once("./includes/config.php");
 
 if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     $item_id = $_GET['cid'];
-    mysqli_query($con, "delete from  webshop_auctiondates where id='" . $item_id . "'");
+    mysqli_query($con, "delete from  webshop_auctiontimes where id='" . $item_id . "'");
     header('Location:list_auctiondates.php');
     exit();
 }
 
 if ($_REQUEST['action'] == 'edit') {
-    $categoryRowset = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `webshop_auctiondates`"));
+    $categoryRowset = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `webshop_auctiontimes`"));
 }
 ?>
 
@@ -69,14 +69,14 @@ if ($_REQUEST['action'] == 'edit') {
                     </div>
                     <!-- END THEME CUSTOMIZER-->
                     <!-- BEGIN PAGE TITLE & BREADCRUMB-->
-                    <h3 class="page-title">Auction Date list</h3>
+                    <h3 class="page-title">Auction Time list</h3>
                     <ul class="breadcrumb">
                         <li>
                             <a href="#">Home</a>
                             <span class="divider">/</span>
                         </li>
                         <li>
-                            <a href="#">Auction Date list</a>
+                            <a href="#">Auction Time list</a>
 
                         </li>
 
@@ -110,14 +110,14 @@ if ($_REQUEST['action'] == 'edit') {
                                 <thead>
                                     <tr>
 
-                                        <th> Date</th>
+                                        <th> Time</th>
                                         <!--<th>  Time</th>--> 
                                         <th>Quick Links</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $fetch_subscription = mysqli_query($con, "select * from webshop_auctiondates group by (date)");
+                                    $fetch_subscription = mysqli_query($con, "select * from webshop_auctiontimes");
                                     $num = mysqli_num_rows($fetch_subscription);
                                     if ($num > 0) {
                                         while ($subscription = mysqli_fetch_array($fetch_subscription)) {
@@ -127,17 +127,17 @@ if ($_REQUEST['action'] == 'edit') {
 
 
                                                 <td>
-                                                    <?php echo stripslashes($subscription['date']); ?>
+                                                    <?php echo stripslashes($subscription['start_time']); ?>
                                                 </td>
-
-                                <!--                                                <td>
-                                                <?php echo stripslashes($subscription['start_time']); ?>
-                                                                                </td>-->
-
 
 
                                                 <td>
-                                                    <a  href="edit_auctiondates.php?date=<?php echo $subscription['date'] ?>&action=edit">
+                                                    <?php echo stripslashes($subscription['end_time']); ?>
+                                                </td>
+
+
+                                                <td>
+                                                    <a  href="add_auctiontime.php?id=<?php echo $subscription['id'] ?>&action=edit">
                                                         <i class="icon-edit"></i></a>
                                                     <a onClick="javascript:del('<?php echo $subscription['id']; ?>')">
                                                         <i class="icon-trash"></i></a>

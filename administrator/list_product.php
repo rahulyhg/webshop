@@ -193,8 +193,8 @@ if ($_REQUEST['action'] == 'edit') {
                                         <th>User Name</th>
                                         <th>Price</th>
                                         <th>Brand</th>
-                                        <th>Product Name</th>
-                                       <!-- <th>Owner Number</th>-->
+
+<!-- <th>Owner Number</th>-->
                                         <th>Admin Approval</th>
                                         <th>Payment Status</th>
                                         <th>Quick Links</th>
@@ -280,13 +280,11 @@ if ($_REQUEST['action'] == 'edit') {
                                                     <?php echo stripslashes($brands_name['name']); ?>
                                                 </td>
 
-                                                <td>
-                                                    <?php echo stripslashes($tools_type['name']); ?>
-                                                </td>
 
-                                                                                                                                                                                                                                                                                                                                                                                      <!--  <td>
+
+                                                                                                                                                                                                                                                                                                                                                                                              <!--  <td>
                                                 <?php echo stripslashes($tools_type['owner_number']); ?>
-                                                                                                                                                                                                                                                                                                                                                                                        </td>-->
+                                                                                                                                                                                                                                                                                                                                                                                                </td>-->
 
                                                 <td>
                                                     <?php if ($tools_type['approved'] == '0') { ?>
