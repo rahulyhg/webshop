@@ -2,7 +2,7 @@
 /** 
  * controllers used for the My Account
  */
-app.controller('addProductCtrl2', function ($rootScope, $state, $scope, $http, $location,$timeout, $q, userService,$window,Upload,$mdDialog) {
+app.controller('addProductCtrl2', function ($rootScope, $state, $scope, $http, $location,$timeout, $q, userService,$window,Upload) {
 
 $scope.data = {};
 $scope.user = {};
@@ -364,7 +364,7 @@ $scope.addProduct = function(user2){
 }
 
 
-  $scope.showAdvanced = function(ev) {
+  /*$scope.showAdvanced = function(ev) {
     $mdDialog.show({
       controller: DialogController,
       templateUrl: 'dialog1.tmpl.html',
@@ -378,7 +378,7 @@ $scope.addProduct = function(user2){
     }, function() {
       $scope.status = 'You cancelled the dialog.';
     });
-  };
+  };*/
 
 
 
