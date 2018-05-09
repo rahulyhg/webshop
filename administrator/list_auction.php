@@ -189,11 +189,11 @@ if ($_REQUEST['action'] == 'edit') {
                                 <thead>
                                     <tr>
 
-                                        <th>User Image</th>           
+                                        <th>User Images</th>           
                                         <th>User Name</th>
                                         <th>Price</th>
                                         <th>Brand</th>
-                                        <th>Product Name</th>
+                                        <th>email</th>
                                        <!-- <th>Owner Number</th>-->
                                         <th>Admin Approval</th>
                                         <th>Payment Status</th>
@@ -287,12 +287,12 @@ if ($_REQUEST['action'] == 'edit') {
                                                 </td>
 
                                                 <td>
-                                                    <?php echo stripslashes($tools_type['name']) . $uploader['email']; ?>
+                                                    <?php echo stripslashes($uploader['email']); ?>
                                                 </td>
 
-                                                                                                                                                                                                                                                      <!--  <td>
+                                                                                                                                                                                                                                                                                      <!--  <td>
                                                 <?php echo stripslashes($tools_type['owner_number']); ?>
-                                                                                                                                                                                                                                                        </td>-->
+                                                                                                                                                                                                                                                                                        </td>-->
 
                                                 <td>
                                                     <?php if ($tools_type['approved'] == '0') { ?>
@@ -399,9 +399,9 @@ if ($_REQUEST['action'] == 'edit') {
 
 <!-- END JAVASCRIPTS -->
 <script>
-                                                jQuery(document).ready(function () {
-                                                    EditableTable.init();
-                                                });
+                                                        jQuery(document).ready(function () {
+                                                            EditableTable.init();
+                                                        });
 </script>
 </body>
 <!-- END BODY -->

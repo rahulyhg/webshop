@@ -9,7 +9,7 @@ if (isset($_REQUEST['submit'])) {
     $end_time = isset($_POST['end_time']) ? $_POST['end_time'] : '';
 
 
-    $mydatetime = date('Y-m-d H:i:s', strtotime($mydatetime));
+    //$mydatetime = date('Y-m-d H:i:s', strtotime($mydatetime));
 
 
 
@@ -40,7 +40,7 @@ if (isset($_REQUEST['submit'])) {
                 $_SESSION['msg'] = "Error occuried while updating Category";
             }
 
-            header('Location:list_english.php');
+            header('Location:list_auctiontimes.php');
             exit();
         } else {
 
@@ -51,7 +51,7 @@ if (isset($_REQUEST['submit'])) {
             $last_id = mysqli_insert_id($con);
 
 
-            header('Location:list_english.php');
+            header('Location:list_auctiontimes.php');
             exit();
         }
     }
@@ -59,7 +59,7 @@ if (isset($_REQUEST['submit'])) {
 
 
 if ($_REQUEST['action'] == 'edit') {
-    $categoryRowset = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `webshop_language` WHERE `id`='" . mysqli_real_escape_string($con, $_REQUEST['id']) . "'"));
+    $categoryRowset = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `webshop_auctiontimes` WHERE `id`='" . mysqli_real_escape_string($con, $_REQUEST['id']) . "'"));
 }
 ?>
 
@@ -151,7 +151,7 @@ if ($_REQUEST['action'] == 'edit') {
                                             <input type="text" class="form-control timepicker" placeholder="End Time" value="<?php echo $categoryRowset['end_time']; ?>" name="end_time[]" required>
                                         </div>
                                     </div>
-                                    <button class="add_field_button">Add More Fields</button>
+                                    <!--<button class="add_field_button">Add More Fields</button>-->
                                 </div>
 
                                 <div class="form-actions">
@@ -241,10 +241,6 @@ if ($_REQUEST['action'] == 'edit') {
 <script>
 
 
-
-
-
-
     $(document).ready(function () {
         var max_fields = 10; //maximum input boxes allowed
         var wrapper = $(".input_fields_wrap"); //Fields wrapper
@@ -283,7 +279,7 @@ if ($_REQUEST['action'] == 'edit') {
     });
     $('.timepicker').timepicker({
         timeFormat: 'h:mm p',
-        interval: 60,
+        interval: 15,
         dynamic: false,
         dropdown: true,
         scrollbar: true

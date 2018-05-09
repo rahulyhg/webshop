@@ -10,7 +10,7 @@ include('crud.php');
 //include('Stripe.php');
 
 date_default_timezone_set('UTC');
-$act_link = 'http://111.93.169.90/team1/webshop/';
+$act_link = 'http://178.62.61.183/';
 
 function get_lat_long($address) {
     $array = array();
@@ -37,7 +37,7 @@ function userSignup() {
     $request = $app->request();
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
-
+    $act_link = 'http://178.62.61.183/';
 
     $fname = isset($body->fname) ? $body->fname : '';
     $lname = isset($body->lname) ? $body->lname : '';
@@ -155,7 +155,7 @@ function userSignup() {
 
             $TemplateMessage = "Welcome and thank you for registering at webshop.com!<br />";
             $TemplateMessage .= "Your account has now been created and you can login using your email address and password by visiting our App<br />";
-            $TemplateMessage .= "<br/>Click this link to verify your email <a href='" . $actual_link . "'>" . $actual_link . "</a><br/>";
+            $TemplateMessage .= "<br/>Click this link to verify your email <a href='" . $actual_link . "'> Click here</a><br/>";
             $TemplateMessage .= "Thanks,<br />";
             $TemplateMessage .= "webshop.com<br />";
 
@@ -1484,7 +1484,7 @@ function listmyProducts() {
                 "seller_name" => stripslashes($seller_name),
                 "seller_address" => stripslashes($seller_address),
                 "seller_phone" => stripslashes($seller_phone),
-                "productname" => stripslashes($product->name),
+                "productname" => '',
                 "product_status" => stripslashes($product->product_status)
             );
         }
@@ -3177,46 +3177,45 @@ function addProductNew() {
     /* if ($type == '1') {
 
 
-            $data['Ack'] = 0;
-            $data['msg'] = 'You have no active subscription. Please subscribe our package to get this benifit.';
-            $app->response->setStatus(200);
-            exit();
-        }
-        }else{
-          $data['Ack'] = 0;
-          $data['msg'] = 'You have no active subscription. Please subscribe our package to get this benifit.';
-            $app->response->setStatus(200);
-            exit();  
-            
-        }
-    }*/
-if ($type == '1') {
-    if($getUserDetailscount > 0){
- if ($getUserDetails->expiry_date >= $date) {
-     if ($getUserDetails->slot_no > 0) {
-         
-         $sid=$getUserDetails->sid;
-    //if ($type == '1') {
+      $data['Ack'] = 0;
+      $data['msg'] = 'You have no active subscription. Please subscribe our package to get this benifit.';
+      $app->response->setStatus(200);
+      exit();
+      }
+      }else{
+      $data['Ack'] = 0;
+      $data['msg'] = 'You have no active subscription. Please subscribe our package to get this benifit.';
+      $app->response->setStatus(200);
+      exit();
 
-        $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,status,size,location,work_hours,subscription_id) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:status,:size,:location,:work_hours,:subscription_id)";
-   // }
+      }
+      } */
+    if ($type == '1') {
+        if ($getUserDetailscount > 0) {
+            if ($getUserDetails->expiry_date >= $date) {
+                if ($getUserDetails->slot_no > 0) {
 
-    //if ($type == '1') {
+                    $sid = $getUserDetails->sid;
+                    //if ($type == '1') {
+
+                    $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,status,size,location,work_hours,subscription_id) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:status,:size,:location,:work_hours,:subscription_id)";
+                    // }
+                    //if ($type == '1') {
 
 
-                        $sqlcheckcertifieduser = "SELECT * FROM webshop_user WHERE id =:user_id AND top_user_vendor='1'";
+                    $sqlcheckcertifieduser = "SELECT * FROM webshop_user WHERE id =:user_id AND top_user_vendor='1'";
 // $db = getConnection();
-                        $stmtcheck = $db->prepare($sqlcheckcertifieduser);
-                        $stmtcheck->bindParam("user_id", $user_id);
-                        $stmtcheck->execute();
-                        $count = $stmtcheck->rowCount();
+                    $stmtcheck = $db->prepare($sqlcheckcertifieduser);
+                    $stmtcheck->bindParam("user_id", $user_id);
+                    $stmtcheck->execute();
+                    $count = $stmtcheck->rowCount();
 
 
 
-        if ($count > 0) {
-            $get_status = "1";
-        }
-   // }
+                    if ($count > 0) {
+                        $get_status = "1";
+                    }
+                    // }
 
 
                     try {
@@ -3248,31 +3247,31 @@ if ($type == '1') {
 
 
 
-      /*  if ($type == '2') {
+                        /*  if ($type == '2') {
 
 
-                            $stmt->bindParam("preferred_date", $preferred_date);
-                            $stmt->bindParam("breslet_type", $breslet_type);
-                            $stmt->bindParam("model_year", $model_year);
-                            $stmt->bindParam("time_slot_id", $time_slot_id);
-                            $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
+                          $stmt->bindParam("preferred_date", $preferred_date);
+                          $stmt->bindParam("breslet_type", $breslet_type);
+                          $stmt->bindParam("model_year", $model_year);
+                          $stmt->bindParam("time_slot_id", $time_slot_id);
+                          $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
 
-                            $is_read = '0';
-                            $last_id = '0';
-                            $from_id = '0';
-                            $message = 'New auction added';
-//$type = '2';
+                          $is_read = '0';
+                          $last_id = '0';
+                          $from_id = '0';
+                          $message = 'New auction added';
+                          //$type = '2';
 
-            $stmttt = $db->prepare($sqlFriend);
-            $stmttt->bindParam("from_id", $user_id);
-            $stmttt->bindParam("to_id", $from_id);
-            $stmttt->bindParam("type", $type);
-            $stmttt->bindParam("msg", $message);
+                          $stmttt = $db->prepare($sqlFriend);
+                          $stmttt->bindParam("from_id", $user_id);
+                          $stmttt->bindParam("to_id", $from_id);
+                          $stmttt->bindParam("type", $type);
+                          $stmttt->bindParam("msg", $message);
 
-            $stmttt->bindParam("last_id", $last_id);
-            $stmttt->bindParam("is_read", $is_read);
-            $stmttt->execute();
-        }*/
+                          $stmttt->bindParam("last_id", $last_id);
+                          $stmttt->bindParam("is_read", $is_read);
+                          $stmttt->execute();
+                          } */
 
 
                         $lastID = $db->lastInsertId();
@@ -3336,44 +3335,37 @@ if ($type == '1') {
             $data['msg'] = 'You have no subscription. Please subscribe our package to get this benifit.';
             $app->response->setStatus(200);
         }
-    }
+    } else {
 
-}else{
-    $data['Ack'] = 0;
-    $data['msg'] = 'You have no subscription. Please subscribe our package to get this benifit.';
-    $app->response->setStatus(200);
-}
-}else{
-    
         $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id)";
-    
-    
 
-    try {
 
-        $db = getConnection();
-        $stmt = $db->prepare($sql);
 
-        $stmt->bindParam("user_id", $user_id);
-        $stmt->bindParam("cat_id", $category);
+        try {
+
+            $db = getConnection();
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindParam("user_id", $user_id);
+            $stmt->bindParam("cat_id", $category);
 //$stmt->bindParam("subcat_id", $subcategory);
-        $stmt->bindParam("name", $brand);
-        $stmt->bindParam("description", $description);
-        $stmt->bindParam("currency_code", $currency);
-        $stmt->bindParam("type", $type);
-        $stmt->bindParam("price", $price);
-        $stmt->bindParam("quantity", $quantity);
-        $stmt->bindParam("add_date", $date);
-        $stmt->bindParam("brand", $brand);
-        $stmt->bindParam("movement", $movement);
-        $stmt->bindParam("gender", $gender);
-        $stmt->bindParam("reference_number", $reference);
-        $stmt->bindParam("date_purchase", $date_of_purchase);
-        $stmt->bindParam("status_watch", $status_watch);
-        $stmt->bindParam("owner_number", $owner_number);
-        $stmt->bindParam("country", $country);
-        $stmt->bindParam("size", $size);
-        
+            $stmt->bindParam("name", $brand);
+            $stmt->bindParam("description", $description);
+            $stmt->bindParam("currency_code", $currency);
+            $stmt->bindParam("type", $type);
+            $stmt->bindParam("price", $price);
+            $stmt->bindParam("quantity", $quantity);
+            $stmt->bindParam("add_date", $date);
+            $stmt->bindParam("brand", $brand);
+            $stmt->bindParam("movement", $movement);
+            $stmt->bindParam("gender", $gender);
+            $stmt->bindParam("reference_number", $reference);
+            $stmt->bindParam("date_purchase", $date_of_purchase);
+            $stmt->bindParam("status_watch", $status_watch);
+            $stmt->bindParam("owner_number", $owner_number);
+            $stmt->bindParam("country", $country);
+            $stmt->bindParam("size", $size);
+
 
 
             $stmt->bindParam("preferred_date", $preferred_date);
@@ -3396,57 +3388,55 @@ if ($type == '1') {
             $stmttt->bindParam("last_id", $last_id);
             $stmttt->bindParam("is_read", $is_read);
             $stmttt->execute();
-        
-
-        $stmt->bindParam("location", $location);
-        $stmt->bindParam("work_hours", $work_hours);
-        $stmt->bindParam("status", $get_status);
-        $stmt->execute();
-
-        $lastID = $db->lastInsertId();
 
 
-        
+            $stmt->bindParam("location", $location);
+            $stmt->bindParam("work_hours", $work_hours);
+            $stmt->bindParam("status", $get_status);
+            $stmt->execute();
 
-        if (!empty($_FILES['image'])) {
-
-            if ($_FILES['image']['tmp_name'] != '') {
-
-                $target_path = "../upload/product_image/";
-
-                $userfile_name = $_FILES['image']['name'];
-
-                $userfile_tmp = $_FILES['image']['tmp_name'];
+            $lastID = $db->lastInsertId();
 
 
-                $img = $target_path . $userfile_name;
-                move_uploaded_file($userfile_tmp, $img);
 
 
-                $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
+            if (!empty($_FILES['image'])) {
 
-                $stmt1 = $db->prepare($sqlimg);
-                $stmt1->bindParam("image", $userfile_name);
-                $stmt1->execute();
+                if ($_FILES['image']['tmp_name'] != '') {
+
+                    $target_path = "../upload/product_image/";
+
+                    $userfile_name = $_FILES['image']['name'];
+
+                    $userfile_tmp = $_FILES['image']['tmp_name'];
+
+
+                    $img = $target_path . $userfile_name;
+                    move_uploaded_file($userfile_tmp, $img);
+
+
+                    $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
+
+                    $stmt1 = $db->prepare($sqlimg);
+                    $stmt1->bindParam("image", $userfile_name);
+                    $stmt1->execute();
+                }
             }
+
+
+            $data['Ack'] = 1;
+            $data['msg'] = 'Auction added successfully.';
+            $data['type'] = $type;
+
+            $app->response->setStatus(200);
+            $db = null;
+        } catch (PDOException $e) {
+            $data['user_id'] = '';
+            $data['Ack'] = 0;
+            $data['msg'] = 'error';
+            $app->response->setStatus(401);
         }
-
-
-        $data['Ack'] = 1;
-        $data['msg'] = 'Auction added successfully.';
-        $data['type'] = $type;
-
-        $app->response->setStatus(200);
-        $db = null;
-    } catch (PDOException $e) {
-        $data['user_id'] = '';
-        $data['Ack'] = 0;
-        $data['msg'] = 'error';
-        $app->response->setStatus(401);
     }
-   
-    
-}
 
 
 
@@ -3714,7 +3704,7 @@ function listmyAuctions() {
                 "seller_name" => stripslashes($seller_name),
                 "seller_address" => stripslashes($seller_address),
                 "seller_phone" => stripslashes($seller_phone),
-                "productname" => stripslashes($product->name)
+                "productname" => ''
             );
         }
 
@@ -4516,7 +4506,7 @@ function auctionListSearch() {
                     "seller_name" => stripslashes($seller_name),
                     "seller_address" => stripslashes($seller_address),
                     "seller_phone" => stripslashes($seller_phone),
-                    "productname" => stripslashes($product->name)
+                    "productname" => ''
                 );
             }
 
@@ -5321,7 +5311,7 @@ function ProductListSearch() {
                         "seller_name" => stripslashes($seller_name),
                         "seller_address" => stripslashes($seller_address),
                         "seller_phone" => stripslashes($seller_phone),
-                        "productname" => stripslashes($product->name)
+                        "productname" => ''
                     );
                 }
             }

@@ -38,17 +38,18 @@ if (isset($_REQUEST['submit'])) {
             } else {
                 $_SESSION['msg'] = "Error occuried while updating Category";
             }
-        } else {
-
-            $insertQuery = "INSERT INTO `webshop_auctiondates` (`" . implode('`,`', array_keys($fields)) . "`)"
-                    . " VALUES ('" . implode("','", array_values($fields)) . "')";
-
-            mysqli_query($con, $insertQuery);
-            $last_id = mysqli_insert_id($con);
         }
     }
     header('Location:list_auctiondates.php');
     exit();
+}
+if ($_REQUEST['action'] == 'edit') {
+    echo "SELECT * FROM `webshop_auctiondates` WHERE `date`='" . $_REQUEST['date'];
+    $categoryRowset = mysqli_query($con, "SELECT * FROM `webshop_auctiondates` WHERE `date`='" . $_REQUEST['date'] . "'");
+    while ($array = mysqli_fetch_array($categoryRowset)) {
+
+        $array2[] = $array;
+    }
 }
 ?>
 
@@ -132,30 +133,33 @@ if (isset($_REQUEST['submit'])) {
                                     <div class="control-group">
                                         <label class="control-label"> Date</label>
                                         <div class="controls">
-                                            <input type="text" id="datepicker" class="form-control" placeholder="Select Date" value="<?php echo $categoryRowset['date']; ?>" name="date" required>
+                                            <input type="text" id="datepicker" class="form-control" placeholder="Select Date" value="<?php echo $array2[0]['date']; ?>" name="date" required>
                                         </div>
                                     </div>
+
                                     <div class="input_fields_wrap">
-                                        <div class="control-group">
-                                            <label class="control-label">Start Time </label>
-                                            <div class="controls">
-                                                <input type="text" class="form-control timepicker"id="time_1" placeholder="Start Time" value="<?php echo $categoryRowset['start_time']; ?>" name="start_time[]" required>
+                                        <?php foreach ($array2 as $val) {
+                                            ?>
+                                            <div class="control-group">
+                                                <label class="control-label">Start Time </label>
+                                                <div class="controls">
+                                                    <input type="text" class="form-control timepicker"id="time_1" placeholder="Start Time" value="<?php echo $val['start_time']; ?>" name="start_time[]" required>
+                                                </div>
                                             </div>
-                                        </div>
-
-
-                                        <div class="control-group">
-                                            <label class="control-label">End Time</label>
-                                            <div class="controls">
-                                                <input type="text" id="time_2" class="form-control timepicker" placeholder="End Time" value="<?php echo $categoryRowset['end_time']; ?>" name="end_time[]" required>
+                                        <?php } ?>
+                                        <?php foreach ($array2 as $val) { ?>
+                                            <div class = "control-group">
+                                                <label class = "control-label">End Time</label>
+                                                <div class = "controls">
+                                                    <input type = "text" id = "time_2" class = "form-control timepicker" placeholder = "End Time" value = "<?php echo $val['end_time']; ?>" name = "end_time[]" required>
+                                                </div>
                                             </div>
-                                        </div>
+                                            <?php
+                                        }
+                                        ?>
                                         <button class="add_field_button">Add More Fields</button>
                                     </div>
                                 </div>
-
-
-
 
                         </div>
                     </div>
@@ -234,7 +238,7 @@ if (isset($_REQUEST['submit'])) {
         var field = '   <div class="time"><div class="control-group">  ' +
                 '                                           <label class="control-label">Start Time </label>  ' +
                 '                                           <div class="controls">  ' +
-                '                                               <input type="text" class="form-control timepicker" placeholder="Start Time" value="<?php echo $categoryRowset["start_time"]; ?>" name="start_time[]" required>  ' +
+                '                                               <input type="text" class="form-control timepicker" placeholder="Start Time" value="<?php echo $val["start_time"]; ?>" name="start_time[]" required>  ' +
                 '                                           </div>  ' +
                 '                                       </div>  ' +
                 '     ' +
@@ -242,7 +246,7 @@ if (isset($_REQUEST['submit'])) {
                 '                                       <div class="control-group">  ' +
                 '                                           <label class="control-label">End Time</label>  ' +
                 '                                           <div class="controls">  ' +
-                '                                               <input type="text" class="form-control timepicker" placeholder="End Time" value="<?php echo $categoryRowset["end_time"]; ?>" name="end_time[]" required>  ' +
+                '                                               <input type="text" class="form-control timepicker" placeholder="End Time" value="<?php echo $val["end_time"]; ?>" name="end_time[]" required>  ' +
                 '</div> </div><a href="#" class="remove_field">Remove</a> ';
 
         var x = 1; //initlal text box count
