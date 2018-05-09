@@ -364,6 +364,7 @@ $scope.addProduct = function(user2){
 }
 
 
+
   /*$scope.showAdvanced = function(ev) {
     $mdDialog.show({
       controller: DialogController,
@@ -379,6 +380,7 @@ $scope.addProduct = function(user2){
       $scope.status = 'You cancelled the dialog.';
     });
   };*/
+
 
 
 
