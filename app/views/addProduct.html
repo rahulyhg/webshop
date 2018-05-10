@@ -21,7 +21,7 @@
 
                                                                                 <option value="0" selected="selected">Please select</option>
    										<option value="1" >Product</option>
-   										<option value="2" ng-if="current_user_type=='2'">Auction</option>
+   										<option value="2">Auction</option>
 
 
 										</select>
@@ -101,6 +101,7 @@
 										<label for="staticEmail"> {{language.auction}} Timing</label>
                                                                                 <span>
                                                                                 <div ng-repeat="time in timeslot" >
+                                                                                   
                                                                                  <div ng-if="time.status== 0">   
                                                                                   {{time.start_time}}&nbsp; To &nbsp;{{time.end_time}} &nbsp; <input class="input-field"  type="radio"  id="" value="{{time.id}}" ng-model="user2.time_slot_id" name="time_slot_id"  required>
                                                                                  </div>
