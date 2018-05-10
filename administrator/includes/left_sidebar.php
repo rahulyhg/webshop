@@ -155,6 +155,26 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
             }
             ?>
 
+                
+            <li class="sub-menu">
+                <a href="javascript:;" class="">
+                    <i class="icon-tasks"></i>
+                    <span>User Payment Setting</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub">
+
+                    <li>
+                        <a href="user_payment_setting.php">
+                            Payment Setting</a>
+                    </li>
+
+                 </ul>
+            </li>    
+                
+                
+                
+                
 
             <li class="sub-menu">
                 <a href="javascript:;" class="">
