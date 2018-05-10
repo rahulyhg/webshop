@@ -954,6 +954,7 @@ function ProductsDetails() {
             "productname" => '',
             "baseauctionprice" => stripslashes($product->baseauctionprice),
             "thresholdprice" => stripslashes($product->thresholdprice),
+            "bidincrement" => stripslashes($product->bidincrement),
             "nextbidprice" => stripslashes($product->nextbidprice),
             "lastbidvalue" => stripslashes($product->lastbidvalue),
             "uploader_id" => stripslashes($product->uploader_id),
@@ -3902,7 +3903,7 @@ function auctionapproval() {
 }
 
 function interestedEmailToVendor() {
-
+    $act_link = 'http://111.93.169.90/team1/webshop/';
     $data = array();
     $app = \Slim\Slim::getInstance();
     $request = $app->request();
