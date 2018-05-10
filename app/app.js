@@ -949,7 +949,30 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                 },
                 resolve: loadSequence('expiredProduct')
             })
-
+            
+            
+            .state('frontend.userpayment', {
+                url: '/userpayment',
+                templateUrl: 'app/views/userpayment.html',
+                title: 'userpayment',
+		controller: 'userpaymentCtrl',
+                ncyBreadcrumb: {
+                    label: 'payment page'
+                },
+                resolve: loadSequence('userpayment')
+            })
+            
+            .state('frontend.successUserpayment', {
+                url: '/successUserpayment/:id',
+                templateUrl: 'app/views/successUserpayment.html',
+                title: 'success',
+				controller: 'successUserpaymentCtrl',
+                ncyBreadcrumb: {
+                    label: 'success page'
+                },
+                resolve: loadSequence('successUserpayment')
+            })
+            
 
           /*   .state('frontend.test', {
                 url: '/test',

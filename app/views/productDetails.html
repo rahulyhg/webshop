@@ -1,5 +1,5 @@
 
-	<section class="innerbody search-list" ng-init="Showdetails();">
+	<section class="innerbody search-list auction-details-pade" ng-init="Showdetails();">
 		<div class="container">
 			<nav aria-label="breadcrumb">
 			  <ol class="breadcrumb">
@@ -8,14 +8,14 @@
 			  </ol>
 			</nav>
 			<div class="details-wrap p-3">
-				<div class="details-top p-3 mb-3 position-relative">
-					<div class="like"><p class="m-0"><i class="ion-thumbsup"></i> 18</p></div>
-					<img src="{{productLists.image}}" style="height:300px;width:300px;" class="ml-auto mr-auto d-block img-fluid">
-				</div>
 				<div class="row">
-					<div class="col-lg-9 col-md-9 col-sm-8">
+					<div class="col-lg-7 col-md-6 col-sm-6">
+						<div class="details-top p-3 mb-3 position-relative">
+							<div class="like"><p class="m-0"><i class="ion-thumbsup"></i> 18</p></div>
+							<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">
+						</div>
 						<div class="details-left" ng-if="productLists">
-							<!--<h4>{{productLists.productname}}</h4>-->
+							<h4>{{productLists.productname}}</h4>
 							<p class="text-secondary">Web ID/SKU: 108037599</p>
 							<p><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)<a href="" class="d-inline-block pl-3" ng-if="productLists.seller_id!=user_id">Write a review</a></p>
 							<hr>
@@ -78,19 +78,26 @@
 								</div>
 							</div>
 							<hr>
+							<div class="row">
+								<div class="col-sm-6">
+									<p class="mb-4" ng-if="loader1 && productLists.seller_id!=user_id"><a href="" class="btn btn-primary btn-block" ng-click="emailtothevendorinterest(productLists.seller_id)">I am Interested</a></p>
+								</div>
+								<div class="col-sm-6">
+									<p class="mb-4" ng-if="productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">Bid Here</a></p>
+                                                        
+								</div>
+							</div>
 							
-							<p class="mb-4" ng-if="loader1 && productLists.seller_id!=user_id"><a href="" class="btn btn-primary" ng-click="emailtothevendorinterest(productLists.seller_id)">I am Interested</a></p>
                                                         <p ng-if="!loader1" class="loader"></p>
-                                                        <p class="mb-4" ng-if="productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Bid Here</a></p>
                                                         
                                                        
                                                         
 						</div>
 					</div>
-					<div class="col-lg-3 col-md-4 col-sm-4">
+					<div class="col-lg-5 col-md-7 col-sm-7">
 						<div class="share-prod mb-2">Share this product : <a href="" class="d-inline-block text-secondary"><i class="fa fa-facebook"></i></a> <a href="" class="d-inline-block mx-2 text-secondary"><i class="fa fa-twitter"></i></a><a href="" class="d-inline-block text-secondary"><i class="fa fa-google-plus"></i></a></div>
 						<div class="seller-info p-3 border-secondary border rounded mb-3"  ng-if="productLists.seller_id!=user_id">
-							<h6>Seller Info:</h6>
+							<h6 class="card-title">Seller Info:</h6>
 							<p class="mb-1">{{productLists.seller_name}}</p>
 							<p class="text-secondary mb-0"><i class="fa fa-map-marker"></i> {{productLists.seller_address}}</p>
 							<p class="text-secondary mb-2"><i class="fa fa-phone"></i> {{productLists.seller_address}}</p>
@@ -109,9 +116,40 @@
 
 
 						</div>
+						<hr>
+						<h6 class="card-title">Reviews</h6>
+						<div class="reviews-holder">
+							<div class="media">
+								<div class="media-left mr-2">
+									<a href="#">
+										<img class="media-object" src="app/assets/images/user2.jpg" alt="">
+									</a>
+								</div>
+								<div class="media-body">
+									<h6 class="media-heading"><span class="rating d-inline-block mr-2"><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i></span>Louise Gregory <span class="date d-inline-block ml-2">- 2 months ago</span></h6>
+									<p class="mb-2">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+									<p><i class="fa fa-check"></i> Yes, I recommend this product. </p>
+									
+								</div>
+							</div>
+							<div class="media">
+								<div class="media-left mr-2">
+									<a href="#">
+										<img class="media-object" src="app/assets/images/user2.jpg" alt="">
+									</a>
+								</div>
+								<div class="media-body">
+									<h6 class="media-heading"><span class="rating d-inline-block mr-2"><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i></span>Louise Gregory <span class="date d-inline-block ml-2">- 2 months ago</span></h6>
+									<p class="mb-2">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+									<p><i class="fa fa-check"></i> Yes, I recommend this product. </p>
+									
+								</div>
+							</div>
+							<p class="text-right"><a href="" class="btn btn-primary btn-block">Add Review</a></p>
+						</div>
 					</div>
 				</div>
-				<div class="row">
+				<!--<div class="row">
 					<div class="col-lg-12">
 						<div id="accordion" class="accordion mt-2">
 					        <div class="card mb-0">
@@ -210,7 +248,7 @@
 					        </div>
 					    </div>
 					</div>
-				</div>
+				</div>-->
 			</div>
 		</div>
 	</section>
