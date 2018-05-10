@@ -200,14 +200,14 @@ function inactive(aa)
                    </div>
                    <!-- END THEME CUSTOMIZER-->
                   <!-- BEGIN PAGE TITLE & BREADCRUMB-->
-                   <h3 class="page-title">Subscription list</h3>
+                   <h3 class="page-title">User Subscription list</h3>
                    <ul class="breadcrumb">
                        <li>
                            <a href="#">Home</a>
                            <span class="divider">/</span>
                        </li>
                        <li>
-                           <a href="#">Subscription list</a>
+                           <a href="#">User Subscription list</a>
                         
                        </li>
                         
@@ -238,21 +238,18 @@ function inactive(aa)
                             <!-- BEGIN Table-->
                               <form name="bulk_action_form" action="" method="post" onsubmit="return deleteConfirm();"/>
                           <table class="table table-striped table-hover table-bordered" id="editable-sample">
-                                     <thead>
-                            <tr>
-                                                          
-                <th> Name</th>
-               <th> Price</th> 
-                <th> Slots</th> 
-                <th> Duration</th> 
-                <th> Type</th> 
-                <th>Quick Links</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-        <tbody>
+                            <thead>
+                              <tr>
+                                <th> Name</th>
+                                <th> Price</th> 
+                                <th> Duration</th> 
+                                <th>Quick Links</th>
+                                <th>Status</th>
+                              </tr>
+                            </thead>
+                        <tbody>
                             <?php
-                                                        $fetch_subscription=mysqli_query($con,"select * from webshop_subscription where subscription_for=2");
+                                                        $fetch_subscription=mysqli_query($con,"select * from webshop_subscription where subscription_for=1");
                                                         $num=mysqli_num_rows($fetch_subscription);
                                                         if($num>0)
                                                         {
@@ -274,17 +271,13 @@ function inactive(aa)
                 </td>
                 
 
-                 <td>
-                  <?php echo stripslashes($subscription['slots']);?>
-                </td>
+                 
 
                  <td>
                   <?php echo stripslashes($subscription['duration']).' Days';?>
                 </td>
                 
-                <td>
-                  <?php if($subscription['type']=='N'){echo 'Normal';}else{echo 'Offer';};?>
-                </td>
+                
                 <td>
                   <a  href="add_subscription.php?id=<?php echo $subscription['id'] ?>&action=edit">
                   <i class="icon-edit"></i></a>

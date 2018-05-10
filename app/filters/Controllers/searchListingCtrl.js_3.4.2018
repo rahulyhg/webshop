@@ -1,0 +1,77 @@
+'use strict';
+/** 
+ * controllers used for the login
+ */
+app.controller('searchListingCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService,$stateParams) {
+
+    
+$scope.data = {};
+$scope.user = {};
+//alert('a');
+if ($window.localStorage["userInfo"]) {
+var userInfo = JSON.parse($window.localStorage["userInfo"]);	
+	$scope.user_id=userInfo.user_id;
+        $scope.getCurrentUserType();
+}
+else {
+	var userInfo={};
+	userInfo.user_id ="";
+	$scope.user_id=userInfo.user_id;
+}
+
+$scope.isform1 =0;
+	$scope.form1 = function(user) {
+
+	$scope.isform1 =1;
+
+}
+$scope.brand=$stateParams.brand;
+
+ //alert($scope.brand);
+$scope.searchListing = function(){
+   // alert('hii');
+
+ userService.searchListing($scope.user_id,$scope.brand).then(function(response) {
+     
+    
+		
+		//$scope.isExists=response.Ack;
+		if(response.Ack == '1') {
+                    $scope.exists=1;
+		$scope.productList=response.productList;
+		//console.log($scope.alljobs);
+                //$window.localStorage["userzip"]='';
+		
+		} else {
+                    
+                     $scope.exists=0;
+		}
+	
+	
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	}); 
+	
+        }
+        
+
+
+userService.listbrand().then(function(response) {
+		
+		//$scope.isExists=response.Ack;
+		if(response.Ack == '1') {
+		$scope.listbrands=response.brandList;
+
+  } else {
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+
+	
+});
+
