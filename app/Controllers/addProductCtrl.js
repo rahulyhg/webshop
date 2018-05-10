@@ -383,6 +383,8 @@ $scope.addProduct = function(user2){
     
      var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;
+        
+        //alert(userInfo.user_type);exit;
   
  
     
@@ -471,6 +473,59 @@ $scope.getAuctionTime = function(date){
 	}); 
     }
 }
+
+
+userService.getuserpayment().then(function(response) {
+		
+		if(response.Ack == '1') {
+		$window.localStorage["userpayment"]=response.payment;
+                
+                
+
+  } else {
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+
+
+$scope.checkuserpayment = function(){
+    //alert('ok');
+    
+    var userInfo = JSON.parse($window.localStorage["userInfo"]);
+    
+       if(userInfo.user_type == 1){
+           
+           
+           userService.getuserpayment().then(function(response) {
+		
+		if(response.Ack == '1') {
+                    //alert(response.payment);exit;
+                    if(response.payment== 0){
+                    
+                   $state.go('frontend.userpayment'); 
+                    
+                }else{
+                    
+                    $scope.addProduct();
+                }
+              
+  }
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+     
+
+     
+ }
+   
+}
+
+
 
 
 

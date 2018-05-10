@@ -122,5 +122,11 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/changeLaguage', 'changeLaguage');
     $app->post('/listexpiredProducts', 'listexpiredProducts');
     $app->post('/markextension', 'markextension');
+    $app->post('/userpayment', 'userpayment');
+    $app->post('/userpaymentforupload', 'userpaymentforupload');
+    $app->post('/adduserpayment', 'adduserpayment');
+    
+    
+    
 });
 ?>

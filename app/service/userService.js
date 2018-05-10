@@ -4268,6 +4268,88 @@ return $q(function(resolve, reject) {
  
  
  
+    var getuserpayment = function() {
+    
+    return $q(function(resolve, reject) {
+    
+    var userInfo = JSON.parse($window.localStorage["userInfo"]);
+    var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';					   
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"userpayment",
+   data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+              if(response.data.Ack == "1") {
+              resolve(response.data); 
+             
+           } else {
+                resolve(response.data);
+           }
+                 
+
+            }, function (response) {
+                reject(response.data);
+        }); 
+
+	});
+	};
+ 
+ 
+ var userpaymentforupload = function(value) {
+    return $q(function(resolve, reject) {
+        var userInfo = JSON.parse($window.localStorage["userInfo"]);
+    
+     var encodedString ='{"user_id":"'+ userInfo.user_id +'","name":"'+ value.name +'","email":"'+ value.email +'","phone":"'+ value.phone +'"}';
+
+    $http({
+    method: 'POST',
+   // url: $rootScope.serviceurl+"addUserSubscription",
+    url: $rootScope.serviceurl+"userpaymentforupload",
+    data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    resolve(response.data); 
+    } else {
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    reject(response);
+    });
+    });
+    };
+ 
+  var adduserpayment = function() {
+    return $q(function(resolve, reject) {
+        var userInfo = JSON.parse($window.localStorage["userInfo"]);
+    
+     var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"adduserpayment",
+    data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    resolve(response.data); 
+    } else {
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    reject(response);
+    });
+    });
+    };
+            
+ 
  return {
      
        // homeSettingsSection:homeSettingsSection,
@@ -4404,7 +4486,10 @@ ChangePassword: ChangePassword,
            changeLaguage:changeLaguage, 
            markProduct:markProduct,
            expiredproduct:expiredproduct,
-           markextension:markextension
+           markextension:markextension,
+           getuserpayment:getuserpayment,
+           userpaymentforupload:userpaymentforupload,
+           adduserpayment:adduserpayment
 
 	
 };

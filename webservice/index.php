@@ -6149,6 +6149,214 @@ function markextension() {
     $app->response->write(json_encode($data));
 }
 
+
+function userpayment() {
+
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+   // echo $user_id;exit;
+    $db = getConnection();
+
+    try {
+
+
+        $sql2 = "select * from webshop_user  WHERE id=:id";
+        $db = getConnection();
+        $stmt2 = $db->prepare($sql2);
+        $stmt2->bindParam("id", $user_id);
+        $stmt2->execute();
+        $getUserDetails = $stmt2->fetchObject();
+        //echo $getUserDetails->user_payment;exit;
+        $data['Ack'] = '1';
+        $data['payment'] = $getUserDetails->user_payment;
+
+        $app->response->setStatus(200);
+        $db = null;
+    } catch (PDOException $e) {
+
+
+
+        $data['Ack'] = 0;
+        $data['msg'] = 'Updation Error!!!';
+
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+
+    function userpaymentforupload() {
+        
+        $act_link = 'http://111.93.169.90/team1/webshop/';
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    
+    $paymentId = base64_encode($user_id);
+
+
+    $name = isset($body->name) ? $body->name : '';
+    $email = isset($body->email) ? $body->email : '';
+    $phone = isset($body->phone) ? $body->phone : '';
+
+    $sql = "SELECT * from webshop_user_payment_settings where id = 1";
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+    $getSubscriptionValue = $stmt->fetchObject();
+
+    
+    $price = $getSubscriptionValue->product_price;
+//payment gateway
+
+    $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
+
+    $user = "testapi@myfatoorah.com"; // Will Be Provided by Myfatoorah
+    $password = "E55D0"; // Will Be Provided by Myfatoorah
+    $post_string = '<?xml version="1.0" encoding="windows-1256"?>
+<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+<soap12:Body>
+<PaymentRequest xmlns="http://tempuri.org/">
+<req>
+<CustomerDC>
+<Name>' . $name . '</Name>
+<Email>' . $email . '</Email>
+<Mobile>' . $phone . '</Mobile>
+</CustomerDC>
+<MerchantDC>
+<merchant_code>999999</merchant_code>
+<merchant_username>testapi@myfatoorah.com</merchant_username>
+<merchant_password>E55D0</merchant_password>
+<merchant_ReferenceID>201454542102</merchant_ReferenceID>
+<ReturnURL>' . $act_link . '#/successUserpayment/</ReturnURL>
+<merchant_error_url>' . $act_link . '#/cancel</merchant_error_url>
+</MerchantDC>
+<lstProductDC>
+<ProductDC>
+<product_name>Product Upload</product_name>
+<unitPrice>' . $price . '</unitPrice>
+<qty>1</qty>
+</ProductDC>
+</lstProductDC>
+</req>
+</PaymentRequest>
+</soap12:Body>
+</soap12:Envelope>';
+    $soap_do = curl_init();
+    curl_setopt($soap_do, CURLOPT_URL, $url);
+    curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 10);
+    curl_setopt($soap_do, CURLOPT_TIMEOUT, 10);
+    curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($soap_do, CURLOPT_POST, true);
+    curl_setopt($soap_do, CURLOPT_POSTFIELDS, $post_string);
+    curl_setopt($soap_do, CURLOPT_HTTPHEADER, array('Content-Type: text/xml; charset=utf-8', 'Content-Length:
+' . strlen($post_string)));
+    curl_setopt($soap_do, CURLOPT_USERPWD, $user . ":" . $password); //User Name, Password To be provided by Myfatoorah
+    curl_setopt($soap_do, CURLOPT_HTTPHEADER, array(
+        'Content-type: text/xml'
+    ));
+    $result = curl_exec($soap_do);
+    $err = curl_error($soap_do);
+//curl_close($soap_do);
+//print_r($result);exit;   
+    $file_contents = htmlspecialchars(curl_exec($soap_do));
+    curl_close($soap_do);
+    $doc = new DOMDocument();
+    $doc->loadXML(html_entity_decode($file_contents));
+//echo $doc;exit;
+    $ResponseCode = $doc->getElementsByTagName("ResponseCode");
+    $ResponseCode = $ResponseCode->item(0)->nodeValue;
+//echo $ResponseCode;exit;
+    $ResponseMessage = $doc->getElementsByTagName("ResponseMessage");
+    $ResponseMessage = $ResponseMessage->item(0)->nodeValue;
+//echo $ResponseMessage;exit;
+    if ($ResponseCode == 0) {
+        $paymentUrl = $doc->getElementsByTagName("paymentURL");
+        $paymentUrl = $paymentUrl->item(0)->nodeValue;
+//echo $paymentUrl;exit;
+
+        /* $OrderID = $doc->getElementsByTagName("OrderID");
+          $OrderID = $OrderID->item(0)->nodeValue;
+          $Paymode = $doc->getElementsByTagName("Paymode");
+          $Paymode = $Paymode->item(0)->nodeValue;
+          $PayTxnID = $doc->getElementsByTagName("PayTxnID");
+          $PayTxnID = $PayTxnID->item(0)->nodeValue;
+         */
+    }
+//end
+
+    $data['url'] = $paymentUrl;
+    $data['Ack'] = 1;
+
+    $app->response->setStatus(200);
+
+
+    $app->response->write(json_encode($data));
+}
+
+function adduserpayment() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+    
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+   
+
+
+//$name = isset($body->name) ? $body->name : '';
+//$email = isset($body->email) ? $body->email : '';
+//$phone = isset($body->phone) ? $body->phone : '';
+//payment gateway
+//end
+
+
+    
+    $sql = "UPDATE  webshop_user SET user_payment= 1 WHERE id=:user_id";
+    
+    $stmt = $db->prepare($sql);
+   
+    $stmt->bindParam("user_id", $user_id);
+    $stmt->execute();
+
+
+    
+    $data['Ack'] = 1;
+    $data['msg'] = 'Your Payment completed successfully. Now you can upload one product or auction.';
+    $app->response->setStatus(200);
+
+
+    $app->response->write(json_encode($data));
+}
+
+
+
+
+
 $app->run();
 ?>
 

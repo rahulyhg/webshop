@@ -70,19 +70,19 @@ userService.getAccountDetails(userInfo.user_id).then(function(response) {
 if(response.Ack == '1') {        
         
         $scope.sidebar_fname=response.UserDetails.fname;
-          $scope.sidebar_address=response.UserDetails.address;
+        $scope.sidebar_address=response.UserDetails.address;
         $scope.sidebar_lname=response.UserDetails.lname;
         $scope.sidebar_image=response.UserDetails.profile_image;
         $scope.current_loggedin_user_type=response.UserDetails.user_type;
         $scope.noti_count=response.UserDetails.noti_count;
-
+        
         console.log($scope.sidebar_lname);
 
       }else{
 
                         $scope.sidebar_fname='';
                         $scope.sidebar_lname='';
-                         $scope.sidebar_address='';
+                        $scope.sidebar_address='';
                         $scope.sidebar_email='';
                         $scope.sidebar_image='';
 
@@ -231,7 +231,8 @@ userService.notiCount(userInfo.user_id).then(function(response) {
 		device_token_id: response.UserDetails.device_token_id,
 		lat: response.UserDetails.my_latitude,
 		lang: response.UserDetails.my_longitude,
-		profile_image : response.UserDetails.profile_image
+		profile_image : response.UserDetails.profile_image,
+                user_payment : response.UserDetails.user_payment
 		};
 		$window.localStorage["userInfo"] = JSON.stringify(userInfo);
 
