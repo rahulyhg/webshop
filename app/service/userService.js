@@ -3726,10 +3726,10 @@ reject(response);
         });
  };
  
- var addbid = function(userid,productid,bidprice,uploaderid) {
+ var addbid = function(userid,productid,bidprice,uploaderid,bidincrement) {
 return $q(function(resolve, reject) {
-
-  var nextbidprice = parseInt(bidprice)+5;
+    
+  var nextbidprice = parseInt(bidprice)+parseInt(bidincrement);
   var encodedString ='{"uploaderid":"'+ uploaderid +'","userid":"'+ userid +'","productid":"'+ productid +'","bidprice":"'+ bidprice +'","nextbidprice":"'+ nextbidprice +'"}';
 
 $http({
