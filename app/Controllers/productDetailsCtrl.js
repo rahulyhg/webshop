@@ -7,6 +7,7 @@ app.controller('productDetailsCtrl', function ($rootScope, $scope, $http, $locat
  
 $scope.data = {};
 $scope.user = {};
+$scope.productLists ='';
 //alert('a');
 $scope.loader = true;
 $scope.loader1 = true;
@@ -44,7 +45,7 @@ $scope.product_id=$stateParams.id;
                     //alert(response.productList);
 	
 		$scope.productLists=response.productList;
-   
+                
 		
 		
 
@@ -172,8 +173,10 @@ else {
     bid.bidprice=bid.bidprice;
     bid.productid =$scope.product_id;
     bid.userid = $scope.user_id;
-    bid.uploaderid = bid.uploaderid;
-     //console.log(bid);
+   // bid.uploaderid = bid.uploaderid;
+    bid.uploaderid = $scope.productLists.uploaderid;
+    bid.bidincrement = $scope.productLists.bidincrement;
+     console.log('bidding',bid);
       userService.addbid( bid.userid,bid.productid,bid.bidprice,bid.uploaderid).then(function(response) {
 
 	console.log("vv",response);

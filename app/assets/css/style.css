@@ -372,13 +372,13 @@ border:0;border-top-left-radius: 3px; border-top-right-radius: 3px;font-size:20p
     margin-bottom: 10px;
 }
 .wish-list li:last-child{margin-bottom: 0px}
-.wish-list li .wishlist-image{background: #fff; border: 1px solid #ededed; width:124px; height:180px;}
+.wish-list li .wishlist-image{background: #fff; border: 1px solid #ededed; width:124px; height:180px;margin-bottom:15px}
 .wish-list li .wishlist-image img{width:100%; height:100%; object-fit:cover}
 .wish-list li .wishlist-content {
     /* flex: 1; */
-    height: 218px;
-    overflow-y: auto;
-    overflow-x: hidden;
+    height: auto;
+    /*overflow-y: auto;
+    overflow-x: hidden;*/
 }
 .wish-list li h6{padding-right: 15px; position: relative; color: #000; font-weight: 600}
 .wish-list li h6 span{position: absolute; right:0; color:#777}
@@ -519,7 +519,23 @@ a{color: #000}
 
 
 
+.message-list .media-body span*{margin: 0 5px}
+.message-list{background: #fff;}
 
+.auction-details-pade{margin-top: 17vh !important;background: #111111;}
+.auction-details-pade .details-wrap{background: #1e1e1e}
+.auction-details-pade .details-top img{height: 300px !important;background-size: contain;object-fit: contain !important;width: 100%;}
+.auction-details-pade h5,.auction-details-pade h4{color:#fff;}
+.auction-details-pade p{color:#989898;}
+.auction-details-pade hr{border-color:#494949}
+.auction-details-pade .seller-info{background: #363636;border-color:#494949 !important}
+.auction-details-pade .details-left a{color:#fff;text-decoration: underline;}
+.auction-details-pade .reviews-holder .media{border-color:#494949 !important}
+.auction-details-pade .reviews-holder .media-heading{color:#fff;}
+.auction-details-pade .like-links li a{background: #5d5c5c;}
+.auction-details-pade .share-prod{color:#777777;}
+.auction-details-pade .card-title{color:#fff;}
+.auction-details-pade .details-top .like{background:#363636;border-radius: 3px;padding: 3px 6px}
 
 /**************** Responsive Style ****************/
 
@@ -530,6 +546,7 @@ a{color: #000}
 @media (min-width: 768px) and (max-width: 991px)
 {
 	.grid li {width: 46%;}
+	
 }
 @media (max-width: 767.98px)
 {
@@ -548,6 +565,9 @@ a{color: #000}
 	.grid li {padding: 10px 8px; margin: 8px 0;width: 100%;}
 	.list li .seller-logo {width: 90px;height: 90px;}
 	.cust-radio{margin-bottom: 6px}
+	
+	.innerbody{margin-top: 176px !important}
+	.carousel-item img{width: auto !important;}
 }
 
 

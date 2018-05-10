@@ -2,8 +2,8 @@
 
 error_reporting(1);
 include('../../lang/en.php');
-define('SITE_URL', 'http://localhost/webshop1/webshop/');
-define('BASE_URL', 'http://localhost/webshop1/webshop/');
+define('SITE_URL', 'http://localhost/webshop/');
+define('BASE_URL', 'http://localhost/webshop/');
 define('TWILO_SID', 'AC192d5c3baa6e3d81e3dc00d759413867');
 define('TWILO_TOKEN', 'ff24340d02dec1e794fde914b315a4de');
 define('PAYPAL_URL', 'https://www.sandbox.paypal.com/cgi-bin/webscr');
