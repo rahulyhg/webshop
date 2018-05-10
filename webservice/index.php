@@ -794,7 +794,7 @@ function listProducts() {
                     "seller_name" => stripslashes($seller_name),
                     "seller_address" => stripslashes($seller_address),
                     "seller_phone" => stripslashes($seller_phone),
-                    "productname" => stripslashes($product->name)
+                    "productname" => ''
                 );
             }
 
@@ -951,7 +951,7 @@ function ProductsDetails() {
             "seller_name" => stripslashes($seller_name),
             "seller_address" => stripslashes($seller_address),
             "seller_phone" => stripslashes($seller_phone),
-            "productname" => stripslashes($product->name),
+            "productname" => '',
             "baseauctionprice" => stripslashes($product->baseauctionprice),
             "thresholdprice" => stripslashes($product->thresholdprice),
             "nextbidprice" => stripslashes($product->nextbidprice),
@@ -1141,7 +1141,7 @@ function myFavoriteProduct() {
                 "user_id" => stripslashes($favourites->user_id),
                 "favourite_pro_id" => stripslashes($favourites->product_id),
                 "fullname" => stripslashes($getUserdetails->fname) . " " . stripslashes($getUserdetails->lname),
-                "pro_name" => stripslashes($productdetails->name),
+                "pro_name" => '',
                 "product_description" => strip_tags(stripslashes($productdetails->description)),
                 "id" => stripslashes($favourites->id),
                 "pro_price" => stripslashes($productdetails->price),
@@ -1347,7 +1347,7 @@ function homeSettings() {
 
             $productList[] = array(
                 "product_id" => stripslashes($auctioned->id),
-                "product_name" => stripslashes($auctioned->name),
+                "product_name" => '',
                 "product_description" => strip_tags(stripslashes($auctioned->description)),
                 "product_image" => stripslashes($product_image),
             );
@@ -1372,7 +1372,7 @@ function homeSettings() {
 
             $launchedproductList[] = array(
                 "product_id" => stripslashes($launched->id),
-                "product_name" => stripslashes($launched->name),
+                "product_name" => '',
                 "product_description" => strip_tags(stripslashes($launched->description)),
                 "product_price" => stripslashes($launched->price),
                 "product_image" => stripslashes($launchedproduct_image),
@@ -4091,7 +4091,7 @@ function listSubscriptions() {
 
     $db = getConnection();
 
-    $sql1 = "SELECT * from webshop_user where id='".$user_id."'";
+    $sql1 = "SELECT * from webshop_user where id='" . $user_id . "'";
     $stmt1 = $db->prepare($sql1);
     $stmt1->execute();
     $getDetails = $stmt1->fetchObject();
@@ -4100,7 +4100,7 @@ function listSubscriptions() {
     $existsuser = $getDetails->special_package_id;
 
     if ($existsuser) {
-        $sql = "SELECT * from webshop_subscription where status = 1 and type='N' or id='".$getDetails->special_package_id."'";
+        $sql = "SELECT * from webshop_subscription where status = 1 and type='N' or id='" . $getDetails->special_package_id . "'";
     } else {
         $sql = "SELECT * from webshop_subscription where status = 1 and type='N'";
     }
@@ -5721,10 +5721,10 @@ function addUserSubscription() {
     $stmt4->execute();
 
 
-    if($getSubscriptionDetails->type == "O"){
-    $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no,special_package_id=0 WHERE id=:user_id";
-    }else{
-      $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no WHERE id=:user_id";  
+    if ($getSubscriptionDetails->type == "O") {
+        $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no,special_package_id=0 WHERE id=:user_id";
+    } else {
+        $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no WHERE id=:user_id";
     }
     $slot = $getSubscriptionDetails->slots;
     $stmt = $db->prepare($sql);
