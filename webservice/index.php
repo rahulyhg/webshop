@@ -3341,7 +3341,7 @@ function addProductNew() {
         }
     } else {
 
-        $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id)";
+        $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice)";
 
 
 
@@ -3376,6 +3376,7 @@ function addProductNew() {
             $stmt->bindParam("breslet_type", $breslet_type);
             $stmt->bindParam("model_year", $model_year);
             $stmt->bindParam("time_slot_id", $time_slot_id);
+            $stmt->bindParam("thresholdprice", $price);
             $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
 
             $is_read = '0';
@@ -5797,7 +5798,7 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
 <merchant_password>E55D0</merchant_password>
 <merchant_ReferenceID>201454542102</merchant_ReferenceID>
 <ReturnURL>' . $act_link . '#/success/' . $paymentId . '/</ReturnURL>
-<merchant_error_url>http://111.93.169.90/team1/webshop/#/cancel</merchant_error_url>
+<merchant_error_url>' . $act_link . '#/cancel</merchant_error_url>
 </MerchantDC>
 <lstProductDC>
 <ProductDC>
