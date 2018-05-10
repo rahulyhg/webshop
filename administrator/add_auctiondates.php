@@ -253,7 +253,7 @@ if (isset($_REQUEST['submit'])) {
 
                 $(wrapper).append(field); //add input box
 
-                $('.time').html(field).find('.timepicker').timepicker({
+                $('.time').find('.timepicker').timepicker({
                     timeFormat: 'h:mm p',
                     interval: 15,
                     dynamic: false,
