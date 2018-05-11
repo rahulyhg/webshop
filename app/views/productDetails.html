@@ -17,7 +17,7 @@
 						<div class="details-left" ng-if="productLists">
 							<h4>{{productLists.productname}}</h4>
 							<p class="text-secondary">{{productLists.brands}}/{{productLists.category}}</p>
-							<p><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)<a href="" class="d-inline-block pl-3" ng-if="productLists.seller_id!=user_id">Write a review</a></p>
+							<p><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)<a href="" data-toggle="modal" data-target="#myModal1" class="d-inline-block pl-3" ng-if="productLists.seller_id!=user_id">Write a review</a></p>
 							<hr>
                                                         
 							<h5>Product Description</h5>
@@ -328,6 +328,47 @@
 </form>
   </div>
 </div>
+
+
+
+<div id="myModal1" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+<form class="modal-content animate" ng-submit="addreview(review)">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+       <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+        <h4 class="modal-title"></h4>
+      </div>
+         
+                                        <div class="modal-body">
+                                            
+                                            <ng-rate-it ng-model="model.readonly" read-only="model.readonly_enables"></ng-rate-it>
+							<hr>
+                                                        <h5>Your Review</h5>   
+                                                        <textarea class="form-control" id="" value="" placeholder="" ng-model="review.review" name="review" capitalize required></textarea>
+                                                        
+                                                        
+                                                        <hr>
+                                                       
+                                                         <div>
+                                                            
+                                                        <div>
+<input type="submit" value="Submit" >
+</div>
+                                                         </div>                                                  
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+</form>
+  </div>
+</div>
+
+
+
 
 <style>
  .loader {

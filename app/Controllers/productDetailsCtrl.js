@@ -62,6 +62,7 @@ $scope.product_id=$stateParams.id;
     
     }; 
 
+    
 
  $scope.emailtothevendor = function(seller_id){
    //  alert('hi');
@@ -174,11 +175,11 @@ else {
     bid.productid =$scope.product_id;
     bid.userid = $scope.user_id;
    // bid.uploaderid = bid.uploaderid;
-    bid.uploaderid = $scope.productLists.uploaderid;
+    bid.uploaderid = $scope.productLists.uploader_id;
     if($scope.productLists.bidincrement && $scope.productLists.bidincrement!= 0 ){
     bid.bidincrement = $scope.productLists.bidincrement;
     }
-     console.log('bidding',bid);
+     //console.log('bidding',bid);
       userService.addbid( bid.userid,bid.productid,bid.bidprice,bid.uploaderid,bid.bidincrement).then(function(response) {
 
 	console.log("vv",response);
@@ -210,7 +211,7 @@ else {
 
         userService.interestedEmail(userInfo.user_id,seller_id,product_id).then(function(response) {
 
-	console.log("vv",response);
+	//console.log("vv",response);
 		
 		//$scope.isExists=response.Ack;
 		if(response.Ack == '1') {
@@ -235,6 +236,63 @@ alert("Mail can not be sent ");
        
     
     };   
+    
+    
+    $scope.addreview = function(review){
+    //alert(bid);
+     //var userInfo = JSON.parse($window.localStorage["userInfo"]);	
+	//$scope.user_id=userInfo.user_id;
+       
+    review.review=review.review;
+    review.productid =$scope.product_id;
+    review.userid = $scope.user_id;
+   
+    
+     console.log('review',review);
+      userService.addreview( review.userid,review.productid,review.review).then(function(response) {
+
+	console.log("vv",response);
+		
+		if(response.Ack == '1') {
+		 $scope.Showdetails();
+                 $('#myModal1').modal('hide');
+                 alert('Secessfully submitted your Reviwe');
+		
+		
+
+  } else {
+
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+        
+       
+    
+    };
+    
+    
+    userService.review(userInfo.user_id).then(function(response) {
+
+	//$scope.isExists=response.Ack;
+		if(response.Ack == '1') {
+                    //alert(response.productList);
+	
+		//$scope.productLists=response.productList;
+                
+		
+		
+
+  } else {
+
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
     
 });
 

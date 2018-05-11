@@ -985,6 +985,7 @@ function ProductsDetails() {
             //"preferred_date" => stripslashes($product->preferred_date),
             "preferred_date" => $time,
             "bidcount" => $count,
+            "category" => stripslashes($naxcat->name),
             "brands" => $naxbrand->name,
             "gender" => stripslashes($product->gender),
             "maxbid" => $naxbid->maxbid
@@ -3317,22 +3318,16 @@ function addProductNew() {
                           } */
 
 
-                       
 
-                        $stmt->bindParam("location", $location);
-                        $stmt->bindParam("work_hours", $work_hours);
-                        $stmt->bindParam("status", $get_status);
-                        $stmt->execute();
-                        $lastID = $db->lastInsertId();
-                        
-                        $rest_slot = (($getUserDetails->slot_no) - 1);
-                        $sqlslotupdate = "UPDATE webshop_user SET slot_no=:slot WHERE id=:user_id";
-                        $stmtslot = $db->prepare($sqlslotupdate);
-                        $stmtslot->bindParam("slot", $rest_slot);
-                        $stmtslot->bindParam("user_id", $user_id);
-                        $stmtslot->execute();
+                            $stmt->bindParam("location", $location);
+                            $stmt->bindParam("work_hours", $work_hours);
+                            $stmt->bindParam("status", $get_status);
+                            $stmt->execute();
+                            $lastID = $db->lastInsertId();
+
 
                         if (!empty($_FILES['image'])) {
+
 
                             if ($_FILES['image']['tmp_name'] != '') {
 
@@ -3356,10 +3351,12 @@ function addProductNew() {
                         }
 
 
+
                         $data['Ack'] = 1;
                         $data['msg'] = 'Product added successfully.';
                         $data['type'] = $type;
                         $data['utype'] = 2;
+
 
                         $app->response->setStatus(200);
                         $db = null;
@@ -3474,6 +3471,7 @@ function addProductNew() {
             }
 
 
+
             $data['Ack'] = 1;
             $data['msg'] = 'Auction added successfully.';
             $data['type'] = $type;
@@ -3485,6 +3483,7 @@ function addProductNew() {
             $data['Ack'] = 0;
             $data['msg'] = 'error';
             $app->response->setStatus(401);
+
         }
     }
 
@@ -3548,21 +3547,11 @@ function addProductNew() {
                        
 
 
-                       
 
-                        $stmt->bindParam("location", $location);
-                        $stmt->bindParam("work_hours", $work_hours);
-                        $stmt->bindParam("status", $get_status);
-                        $stmt->execute();
-                         $lastID = $db->lastInsertId();
-                        //$rest_slot = (($getUserDetails->slot_no) - 1);
-                       // $sqlslotupdate = "UPDATE webshop_user SET slot_no=:slot WHERE id=:user_id";
-                       // $stmtslot = $db->prepare($sqlslotupdate);
-                        //$stmtslot->bindParam("slot", $rest_slot);
-                        //$stmtslot->bindParam("user_id", $user_id);
-                       // $stmtslot->execute();
+
 
                         if (!empty($_FILES['image'])) {
+
 
                             if ($_FILES['image']['tmp_name'] != '') {
 
@@ -3575,6 +3564,7 @@ function addProductNew() {
 
                                 $img = $target_path . $userfile_name;
                                 move_uploaded_file($userfile_tmp, $img);
+
 
 
                                 $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
@@ -3611,6 +3601,7 @@ function addProductNew() {
              
          
     } else {
+
 
         $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice)";
 
@@ -3687,6 +3678,7 @@ function addProductNew() {
                     $userfile_tmp = $_FILES['image']['tmp_name'];
 
 
+
                     $img = $target_path . $userfile_name;
                     move_uploaded_file($userfile_tmp, $img);
 
@@ -3698,8 +3690,10 @@ function addProductNew() {
                     $stmt1->execute();
                     
                     
+
                 }
             }
+
 
 
             $data['Ack'] = 1;
@@ -3713,6 +3707,7 @@ function addProductNew() {
             $data['Ack'] = 0;
             $data['msg'] = 'error';
             $app->response->setStatus(401);
+
         }
     }  
         
@@ -6498,22 +6493,22 @@ function userpaymentforupload() {
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
 
-    
+
 
     $subscription_id = isset($body->sid) ? $body->sid : '';
     $product_id = isset($body->pid) ? $body->pid : '';
     $name = isset($body->name) ? $body->name : '';
     $email = isset($body->email) ? $body->email : '';
     $phone = isset($body->phone) ? $body->phone : '';
-    $paymentId = base64_encode($subscription_id.'_'.$product_id);
-    
+    $paymentId = base64_encode($subscription_id . '_' . $product_id);
+
     $sql = "SELECT * from webshop_subscription where id =:subscription_id";
     $stmt = $db->prepare($sql);
     $stmt->bindParam("subscription_id", $subscription_id);
     $stmt->execute();
     $getSubscriptionValue = $stmt->fetchObject();
 
-    
+
     $subscriptionprice = $getSubscriptionValue->price;
 //payment gateway
 
@@ -6605,47 +6600,46 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
     $app->response->write(json_encode($data));
 }
 
-/*function adduserpayment() {
+/* function adduserpayment() {
 
-    $data = array();
+  $data = array();
 
-    $app = \Slim\Slim::getInstance();
-    $request = $app->request();
-    $body = ($request->post());
-    $body2 = $app->request->getBody();
-    $body = json_decode($body2);
+  $app = \Slim\Slim::getInstance();
+  $request = $app->request();
+  $body = ($request->post());
+  $body2 = $app->request->getBody();
+  $body = json_decode($body2);
 
-    $db = getConnection();
+  $db = getConnection();
 
-    $user_id = isset($body->user_id) ? $body->user_id : '';
-
-
-
-//$name = isset($body->name) ? $body->name : '';
-//$email = isset($body->email) ? $body->email : '';
-//$phone = isset($body->phone) ? $body->phone : '';
-//payment gateway
-//end
+  $user_id = isset($body->user_id) ? $body->user_id : '';
 
 
 
-    $sql = "UPDATE  webshop_user SET user_payment= 1 WHERE id=:user_id";
-
-    $stmt = $db->prepare($sql);
-
-    $stmt->bindParam("user_id", $user_id);
-    $stmt->execute();
-
+  //$name = isset($body->name) ? $body->name : '';
+  //$email = isset($body->email) ? $body->email : '';
+  //$phone = isset($body->phone) ? $body->phone : '';
+  //payment gateway
+  //end
 
 
-    $data['Ack'] = 1;
-    $data['msg'] = 'Your Payment completed successfully. Now you can upload one product or auction.';
-    $app->response->setStatus(200);
+
+  $sql = "UPDATE  webshop_user SET user_payment= 1 WHERE id=:user_id";
+
+  $stmt = $db->prepare($sql);
+
+  $stmt->bindParam("user_id", $user_id);
+  $stmt->execute();
 
 
-    $app->response->write(json_encode($data));
-}*/
 
+  $data['Ack'] = 1;
+  $data['msg'] = 'Your Payment completed successfully. Now you can upload one product or auction.';
+  $app->response->setStatus(200);
+
+
+  $app->response->write(json_encode($data));
+  } */
 
 function adduserpayment() {
 
@@ -6660,11 +6654,11 @@ function adduserpayment() {
     $db = getConnection();
     $encodeid = base64_decode($body->return_id);
     $user_id = isset($body->user_id) ? $body->user_id : '';
-    
-    
-    $array_id= explode('_',$encodeid);
-    
-    
+
+
+    $array_id = explode('_', $encodeid);
+
+
     $subscription_id = isset($array_id[0]) ? $array_id[0] : '';
     $product_id = isset($array_id[1]) ? $array_id[1] : '';
 
@@ -6711,13 +6705,13 @@ function adduserpayment() {
     $stmtproduct->bindParam("subscription_id", $lastID);
     $stmtproduct->bindParam("pid", $product_id);
     $stmtproduct->execute();
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
     $data['subscription_id'] = $subscription_id;
     $data['Ack'] = 1;
     $data['msg'] = 'Your Payment completed successfully. Your product is live now.';
@@ -6727,10 +6721,6 @@ function adduserpayment() {
     $app->response->write(json_encode($data));
 }
 
-
-
-
-
 function listuserSubscriptions() {
 
     $data = array();
@@ -6739,12 +6729,12 @@ function listuserSubscriptions() {
     $request = $app->request();
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
-    
+
 
     $db = getConnection();
 
-      $sql = "SELECT * from webshop_subscription where status = 1 and type='N' and subscription_for=1";
-    
+    $sql = "SELECT * from webshop_subscription where status = 1 and type='N' and subscription_for=1";
+
 
     try {
 
@@ -6759,7 +6749,6 @@ function listuserSubscriptions() {
                 "id" => stripslashes($subscription->id),
                 "name" => stripslashes($subscription->name),
                 "price" => stripslashes($subscription->price),
-                
                 "duration" => stripslashes($subscription->duration),
             );
         }
@@ -6777,8 +6766,35 @@ function listuserSubscriptions() {
     $app->response->write(json_encode($data));
 }
 
+function addreview() {
+    $data = array();
 
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
 
+    $userid = isset($body->userid) ? $body->userid : '';
+    $productid = isset($body->productid) ? $body->productid : '';
+    $review = isset($body->review) ? $body->review : '';
+    $rating = isset($body->rating) ? $body->rating : '';
+    $date = date('Y-m-d');
+
+    $sql = "INSERT INTO  webshop_reviews (userid,product_id,review,rating,date) VALUES (:userid,:productid,:review,:rating,:date)";
+    $db = getConnection();
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("userid", $userid);
+    $stmt->bindParam("productid", $productid);
+    $stmt->bindParam("review", $review);
+    $stmt->bindParam("rating", $rating);
+    $stmt->bindParam("date", $date);
+    $stmt->execute();
+
+    $data['Ack'] = '1';
+    $data['Years'] = 'hello';
+
+$app->response->write(json_encode($data));
+}
 
 function auctionWinner() {
 
@@ -6842,7 +6858,8 @@ function auctionWinner() {
             }
         }
     }
-}
+
+
 
 $app->run();
 ?>
