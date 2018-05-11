@@ -12,8 +12,8 @@ if (isset($_REQUEST['submit'])) {
 
 
     for ($w = 0; $w <= count($start_time); $w++) {
-        $start_time1 = date('Y-m-d H:i:s', strtotime($start_time[$w]));
-        $end_time1 = date('Y-m-d H:i:s', strtotime($end_time[$w]));
+        $start_time1 = date('Y-m-d H:i:s', strtotime($date . ' ' . $start_time[$w]));
+        $end_time1 = date('Y-m-d H:i:s', strtotime($date . ' ' . $end_time[$w]));
 
         $fields = array(
             'date' => mysqli_real_escape_string($con, $date),

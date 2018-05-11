@@ -44,13 +44,20 @@ if (isset($_REQUEST['submit'])) {
     exit();
 }
 if ($_REQUEST['action'] == 'edit') {
-    echo "SELECT * FROM `webshop_auctiondates` WHERE `date`='" . $_REQUEST['date'];
+    "SELECT * FROM `webshop_auctiondates` WHERE `date`='" . $_REQUEST['date'];
     $categoryRowset = mysqli_query($con, "SELECT * FROM `webshop_auctiondates` WHERE `date`='" . $_REQUEST['date'] . "'");
+    $i = 0;
     while ($array = mysqli_fetch_array($categoryRowset)) {
 
-        $array2[] = $array;
+        $array2[$i]['start_time'] = $array['start_time'];
+        $array2[$i]['end_time'] = $array['end_time'];
+        $array2[$i]['id'] = $array['id'];
+        $i++;
     }
 }
+
+print_r($array2);
+exit;
 ?>
 
 <!-- Header Start -->
@@ -133,26 +140,34 @@ if ($_REQUEST['action'] == 'edit') {
                                     <div class="control-group">
                                         <label class="control-label"> Date</label>
                                         <div class="controls">
-                                            <input type="text" id="datepicker" class="form-control" placeholder="Select Date" value="" name="date" required>
+                                            <input type="text" id="datepicker" class="form-control" placeholder="Select Date" value="<?php echo $array2[0]['date']; ?>" name="date" required>
                                         </div>
                                     </div>
-                                    <div class="input_fields_wrap">
-                                        <div class="control-group">
-                                            <label class="control-label">Start Time </label>
-                                            <div class="controls">
-                                                <input type="text" class="form-control timepicker"id="time_1" placeholder="Start Time" value="" name="start_time[]" required>
-                                            </div>
-                                        </div>
+                                    <?php
+                                    foreach ($array2 as $val) {
+                                        foreach ($val as $v) {
+                                            ?>
+                                            <div class="input_fields_wrap">
+                                                <div class="control-group">
+                                                    <label class="control-label">Start Time </label>
+                                                    <div class="controls">
+                                                        <input type="text" class="form-control timepicker"id="time_1" placeholder="Start Time" value="<?php echo $v['start_time']; ?>" name="start_time[]" required>
+                                                    </div>
+                                                </div>
 
 
-                                        <div class="control-group">
-                                            <label class="control-label">End Time</label>
-                                            <div class="controls">
-                                                <input type="text" id="time_2" class="form-control timepicker" placeholder="End Time" value="" name="end_time[]" required>
+                                                <div class="control-group">
+                                                    <label class="control-label">End Time</label>
+                                                    <div class="controls">
+                                                        <input type="text" id="time_2" class="form-control timepicker" placeholder="End Time" value="<?php echo $v['end_time']; ?>" name="end_time[]" required>
+                                                    </div>
+                                                </div>
+                                                <button class="add_field_button">Add More Fields</button>
                                             </div>
-                                        </div>
-                                        <button class="add_field_button">Add More Fields</button>
-                                    </div>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
                                 </div>
 
 
