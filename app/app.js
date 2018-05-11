@@ -952,7 +952,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
             
             
             .state('frontend.userpayment', {
-                url: '/userpayment',
+                url: '/userpayment/:pid',
                 templateUrl: 'app/views/userpayment.html',
                 title: 'userpayment',
 		controller: 'userpaymentCtrl',
@@ -963,7 +963,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
             })
             
             .state('frontend.successUserpayment', {
-                url: '/successUserpayment/:id',
+                url: '/successUserpayment/:id/:oid',
                 templateUrl: 'app/views/successUserpayment.html',
                 title: 'success',
 				controller: 'successUserpaymentCtrl',

@@ -33,9 +33,9 @@ $scope.isform1 =0;
 $scope.adduserpayment = function(){
     
     //alert('hii');
-//var id = $stateParams.id;
+var id = $stateParams.id;
 //alert(id);
- userService.adduserpayment().then(function(response) {
+ userService.adduserpayment(id).then(function(response) {
      
     
 		

@@ -4300,7 +4300,7 @@ return $q(function(resolve, reject) {
     return $q(function(resolve, reject) {
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
     
-     var encodedString ='{"user_id":"'+ userInfo.user_id +'","name":"'+ value.name +'","email":"'+ value.email +'","phone":"'+ value.phone +'"}';
+     var encodedString ='{"user_id":"'+ userInfo.user_id +'","name":"'+ value.name +'","email":"'+ value.email +'","phone":"'+ value.phone +'","sid":"'+ value.sid +'","pid":"'+ value.pid +'"}';
 
     $http({
     method: 'POST',
@@ -4323,11 +4323,11 @@ return $q(function(resolve, reject) {
     });
     };
  
-  var adduserpayment = function() {
+  var adduserpayment = function(id) {
     return $q(function(resolve, reject) {
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
     
-     var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+     var encodedString ='{"user_id":"'+ userInfo.user_id +'","return_id":"'+ id +'"}';
 
     $http({
     method: 'POST',
@@ -4348,7 +4348,36 @@ return $q(function(resolve, reject) {
     });
     });
     };
-            
+   
+    var usersubscriptions = function() {
+    return $q(function(resolve, reject) {
+        var userInfo = JSON.parse($window.localStorage["userInfo"]);
+    var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+    
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"listuserSubscriptions",
+    data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    resolve(response.data); 
+    } else {
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    reject(response);
+    });
+    });
+    };
+    
+    
+    
+    
+    
  
  return {
      
@@ -4489,7 +4518,8 @@ ChangePassword: ChangePassword,
            markextension:markextension,
            getuserpayment:getuserpayment,
            userpaymentforupload:userpaymentforupload,
-           adduserpayment:adduserpayment
+           adduserpayment:adduserpayment,
+           usersubscriptions:usersubscriptions
 
 	
 };

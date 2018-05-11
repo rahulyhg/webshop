@@ -332,21 +332,30 @@ $scope.addProduct = function(user2){
 		if(response.Ack == '1') {
                     alert(response.msg);
                     if(response.type == '1'){
-                       // console.log('1');
-                        //alert('1');
+                        
+                       
+                        if(response.utype == '1'){
+                            
+                            var lid = response.lastid; 
+                            
+                       $state.go('frontend.userpayment',{pid:lid}); 
+                       
+                        }else{
                     $state.go('frontend.myProduct');
+                }
                     $scope.isExists=1;
                 }  
                 if(response.type == '2'){
-                   //alert('2');
+                   
+                   
                   $state.go('frontend.myAuction');
+                  
                     $scope.isExists=1;
                 }
 		
 		}else if(response.Ack == '0'){
                    alert(response.msg);
-                   //$scope.msg = response.msg;
-                   //$('#subscription').show();
+                   
                    
                 } else {
                     
