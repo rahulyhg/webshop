@@ -125,6 +125,7 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/userpayment', 'userpayment');
     $app->post('/userpaymentforupload', 'userpaymentforupload');
     $app->post('/adduserpayment', 'adduserpayment');
+    $app->post('/listuserSubscriptions', 'listuserSubscriptions');
     
     
     

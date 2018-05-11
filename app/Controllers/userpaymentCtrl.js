@@ -2,7 +2,7 @@
 /** 
  * controllers used for the login
  */
-app.controller('userpaymentCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService) {
+app.controller('userpaymentCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService,$stateParams) {
 
     
 $scope.data = {};
@@ -25,11 +25,9 @@ else {
  
  $scope.addPayment = function(value){
      
-     //alert('ok');
-     
-           
-            
-            
+            var pid=$stateParams.pid;
+            value.pid=pid;
+            value.sid = value.sid;
             value.name = value.name;
             value.email = value.email;
             value.phone = value.phone;
@@ -57,7 +55,28 @@ else {
 }
  
  
- 
+$scope.allsubscriptions = function(){
+
+ userService.usersubscriptions().then(function(response) {
+     
+    
+		if(response.Ack == '1') {
+                    $scope.exists=1;
+		$scope.subscriptionLists=response.subscriptionlist;
+		
+		} else {
+                    
+                     $scope.exists=0;
+		}
+	
+	
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	}); 
+	
+        }
  
  
  

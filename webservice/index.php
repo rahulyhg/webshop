@@ -3317,18 +3317,22 @@ function addProductNew() {
                               } */
 
 
-                            $lastID = $db->lastInsertId();
 
-                            $stmt->bindParam("location", $location);
-                            $stmt->bindParam("work_hours", $work_hours);
-                            $stmt->bindParam("status", $get_status);
-                            $stmt->execute();
-                            $rest_slot = (($getUserDetails->slot_no) - 1);
-                            $sqlslotupdate = "UPDATE webshop_user SET slot_no=:slot WHERE id=:user_id";
-                            $stmtslot = $db->prepare($sqlslotupdate);
-                            $stmtslot->bindParam("slot", $rest_slot);
-                            $stmtslot->bindParam("user_id", $user_id);
-                            $stmtslot->execute();
+                       
+
+                        $stmt->bindParam("location", $location);
+                        $stmt->bindParam("work_hours", $work_hours);
+                        $stmt->bindParam("status", $get_status);
+                        $stmt->execute();
+                        $lastID = $db->lastInsertId();
+                        
+                        $rest_slot = (($getUserDetails->slot_no) - 1);
+                        $sqlslotupdate = "UPDATE webshop_user SET slot_no=:slot WHERE id=:user_id";
+                        $stmtslot = $db->prepare($sqlslotupdate);
+                        $stmtslot->bindParam("slot", $rest_slot);
+                        $stmtslot->bindParam("user_id", $user_id);
+                        $stmtslot->execute();
+
 
                             if (!empty($_FILES['image'])) {
 
@@ -3354,9 +3358,12 @@ function addProductNew() {
                             }
 
 
-                            $data['Ack'] = 1;
-                            $data['msg'] = 'Product added successfully.';
-                            $data['type'] = $type;
+
+                        $data['Ack'] = 1;
+                        $data['msg'] = 'Product added successfully.';
+                        $data['type'] = $type;
+                        $data['utype'] = 2;
+
 
                             $app->response->setStatus(200);
                             $db = null;
@@ -3471,18 +3478,19 @@ function addProductNew() {
                 }
 
 
-                $data['Ack'] = 1;
-                $data['msg'] = 'Auction added successfully.';
-                $data['type'] = $type;
 
-                $app->response->setStatus(200);
-                $db = null;
-            } catch (PDOException $e) {
-                $data['user_id'] = '';
-                $data['Ack'] = 0;
-                $data['msg'] = 'error';
-                $app->response->setStatus(401);
-            }
+            $data['Ack'] = 1;
+            $data['msg'] = 'Auction added successfully.';
+            $data['type'] = $type;
+             $data['utype'] = 2;
+            $app->response->setStatus(200);
+            $db = null;
+        } catch (PDOException $e) {
+            $data['user_id'] = '';
+            $data['Ack'] = 0;
+            $data['msg'] = 'error';
+            $app->response->setStatus(401);
+
         }
     } else {
 
@@ -3544,12 +3552,20 @@ function addProductNew() {
 
 
 
-                $lastID = $db->lastInsertId();
+                       
 
-                $stmt->bindParam("location", $location);
-                $stmt->bindParam("work_hours", $work_hours);
-                $stmt->bindParam("status", $get_status);
-                $stmt->execute();
+                        $stmt->bindParam("location", $location);
+                        $stmt->bindParam("work_hours", $work_hours);
+                        $stmt->bindParam("status", $get_status);
+                        $stmt->execute();
+                         $lastID = $db->lastInsertId();
+                        //$rest_slot = (($getUserDetails->slot_no) - 1);
+                       // $sqlslotupdate = "UPDATE webshop_user SET slot_no=:slot WHERE id=:user_id";
+                       // $stmtslot = $db->prepare($sqlslotupdate);
+                        //$stmtslot->bindParam("slot", $rest_slot);
+                        //$stmtslot->bindParam("user_id", $user_id);
+                       // $stmtslot->execute();
+
                 //$rest_slot = (($getUserDetails->slot_no) - 1);
                 // $sqlslotupdate = "UPDATE webshop_user SET slot_no=:slot WHERE id=:user_id";
                 // $stmtslot = $db->prepare($sqlslotupdate);
@@ -3572,16 +3588,40 @@ function addProductNew() {
                         move_uploaded_file($userfile_tmp, $img);
 
 
-                        $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
+
+                                $stmt1 = $db->prepare($sqlimg);
+                                $stmt1->bindParam("image", $userfile_name);
+                                $stmt1->execute();
+                                
+                                
+                                //$sqlpay = "UPDATE webshop_user SET user_payment= 0 WHERE id=$user_id";
+                               // $stmtp = $db->prepare($sqlpay);
+                               // $stmtp->execute();
+                                
+                                
+                                
+                            }
+                        }
+
 
                         $stmt1 = $db->prepare($sqlimg);
                         $stmt1->bindParam("image", $userfile_name);
                         $stmt1->execute();
 
 
-                        $sqlpay = "UPDATE webshop_user SET user_payment= 0 WHERE id=$user_id";
-                        $stmtp = $db->prepare($sqlpay);
-                        $stmtp->execute();
+                        $data['Ack'] = 1;
+                        $data['msg'] = 'Product added successfully. To get product live please make payment.';
+                        $data['type'] = $type;
+                        $data['utype'] = 1;
+                        $data['lastid'] = $lastID;
+                        $app->response->setStatus(200);
+                        $db = null;
+                    } catch (PDOException $e) {
+                        $data['user_id'] = '';
+                        $data['Ack'] = 0;
+                        $data['msg'] = 'error';
+                        $app->response->setStatus(401);
+
                     }
                 }
 
@@ -3681,6 +3721,7 @@ function addProductNew() {
 
                         $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
 
+
                         $stmt1 = $db->prepare($sqlimg);
                         $stmt1->bindParam("image", $userfile_name);
                         $stmt1->execute();
@@ -3689,21 +3730,23 @@ function addProductNew() {
                         $stmtp = $db->prepare($sqlpay);
                         $stmtp->execute();
                     }
+
                 }
 
 
-                $data['Ack'] = 1;
-                $data['msg'] = 'Auction added successfully.';
-                //$data['type'] = $type;
 
-                $app->response->setStatus(200);
-                $db = null;
-            } catch (PDOException $e) {
-                $data['user_id'] = '';
-                $data['Ack'] = 0;
-                $data['msg'] = 'error';
-                $app->response->setStatus(401);
-            }
+            $data['Ack'] = 1;
+            $data['msg'] = 'Auction added successfully.';
+            $data['type'] = $type;
+            $data['utype'] = 1;
+            $app->response->setStatus(200);
+            $db = null;
+        } catch (PDOException $e) {
+            $data['user_id'] = '';
+            $data['Ack'] = 0;
+            $data['msg'] = 'error';
+            $app->response->setStatus(401);
+
         }
     }
 
@@ -4363,9 +4406,9 @@ function listSubscriptions() {
     $existsuser = $getDetails->special_package_id;
 
     if ($existsuser) {
-        $sql = "SELECT * from webshop_subscription where status = 1 and type='N' or id='" . $getDetails->special_package_id . "'";
+        $sql = "SELECT * from webshop_subscription where status = 1 and subscription_for=2 and type='N' or id='" . $getDetails->special_package_id . "'";
     } else {
-        $sql = "SELECT * from webshop_subscription where status = 1 and type='N'";
+        $sql = "SELECT * from webshop_subscription where status = 1 and type='N' and subscription_for=2";
     }
 
     try {
@@ -6472,7 +6515,7 @@ function userpayment() {
 
 function userpaymentforupload() {
 
-    $act_link = 'http://111.93.169.90/team1/webshop/';
+    $act_link = 'http://localhost/webshop1/webshop/';
     $data = array();
 
     $app = \Slim\Slim::getInstance();
@@ -6485,20 +6528,23 @@ function userpaymentforupload() {
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
 
-    $paymentId = base64_encode($user_id);
+    
 
-
+    $subscription_id = isset($body->sid) ? $body->sid : '';
+    $product_id = isset($body->pid) ? $body->pid : '';
     $name = isset($body->name) ? $body->name : '';
     $email = isset($body->email) ? $body->email : '';
     $phone = isset($body->phone) ? $body->phone : '';
-
-    $sql = "SELECT * from webshop_user_payment_settings where id = 1";
+    $paymentId = base64_encode($subscription_id.'_'.$product_id);
+    
+    $sql = "SELECT * from webshop_subscription where id =:subscription_id";
     $stmt = $db->prepare($sql);
+    $stmt->bindParam("subscription_id", $subscription_id);
     $stmt->execute();
     $getSubscriptionValue = $stmt->fetchObject();
 
-
-    $price = $getSubscriptionValue->product_price;
+    
+    $subscriptionprice = $getSubscriptionValue->price;
 //payment gateway
 
     $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
@@ -6521,13 +6567,13 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
 <merchant_username>testapi@myfatoorah.com</merchant_username>
 <merchant_password>E55D0</merchant_password>
 <merchant_ReferenceID>201454542102</merchant_ReferenceID>
-<ReturnURL>' . $act_link . '#/successUserpayment/</ReturnURL>
+<ReturnURL>' . $act_link . '#/successUserpayment/' . $paymentId . '/</ReturnURL>
 <merchant_error_url>' . $act_link . '#/cancel</merchant_error_url>
 </MerchantDC>
 <lstProductDC>
 <ProductDC>
 <product_name>Product Upload</product_name>
-<unitPrice>' . $price . '</unitPrice>
+<unitPrice>' . $subscriptionprice . '</unitPrice>
 <qty>1</qty>
 </ProductDC>
 </lstProductDC>
@@ -6589,7 +6635,7 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
     $app->response->write(json_encode($data));
 }
 
-function adduserpayment() {
+/*function adduserpayment() {
 
     $data = array();
 
@@ -6628,7 +6674,142 @@ function adduserpayment() {
 
 
     $app->response->write(json_encode($data));
+}*/
+
+
+function adduserpayment() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+    $encodeid = base64_decode($body->return_id);
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    
+    
+    $array_id= explode('_',$encodeid);
+    
+    
+    $subscription_id = isset($array_id[0]) ? $array_id[0] : '';
+    $product_id = isset($array_id[1]) ? $array_id[1] : '';
+
+//$name = isset($body->name) ? $body->name : '';
+//$email = isset($body->email) ? $body->email : '';
+//$phone = isset($body->phone) ? $body->phone : '';
+//payment gateway
+//end
+
+
+
+    $sql3 = "SELECT * from webshop_subscription where id =:subscription_id";
+    $stmt3 = $db->prepare($sql3);
+    $stmt3->bindParam("subscription_id", $subscription_id);
+    $stmt3->execute();
+    $getSubscriptionDetails = $stmt3->fetchObject();
+
+
+
+    $sql4 = "INSERT INTO  webshop_subscribers (user_id,subscription_id,price,subscription_date,expiry_date,transaction_id) VALUES (:user_id,:subscription_id,:price,:subscription_date,:expiry_date,:transaction_id)";
+
+
+    $days = $getSubscriptionDetails->duration;
+    $date = date('Y-m-d');
+    $cdate = date_create($date);
+    date_add($cdate, date_interval_create_from_date_string("$days days"));
+    $expiry_date = date_format($cdate, "Y-m-d");
+    $transaction_id = "pay-12376";
+
+
+    $stmt4 = $db->prepare($sql4);
+    $stmt4->bindParam("user_id", $user_id);
+    $stmt4->bindParam("subscription_id", $subscription_id);
+    $stmt4->bindParam("price", $getSubscriptionDetails->price);
+    $stmt4->bindParam("subscription_date", $date);
+    $stmt4->bindParam("expiry_date", $expiry_date);
+    $stmt4->bindParam("transaction_id", $transaction_id);
+    //$stmt4->bindParam("product_id", $product_id);
+    $stmt4->execute();
+
+
+    $sqlproductupdate = "UPDATE webshop_products SET subscription_id=:subscription_id WHERE id=:pid";
+    $stmtproduct = $db->prepare($sqlproductupdate);
+    $stmtproduct->bindParam("subscription_id", $subscription_id);
+    $stmtproduct->bindParam("pid", $product_id);
+    $stmtproduct->execute();
+    
+    
+    
+    
+    
+    
+    
+    $data['subscription_id'] = $subscription_id;
+    $data['Ack'] = 1;
+    $data['msg'] = 'Your Payment completed successfully. Your product is live now.';
+    $app->response->setStatus(200);
+
+
+    $app->response->write(json_encode($data));
 }
+
+
+
+
+
+function listuserSubscriptions() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    
+
+    $db = getConnection();
+
+      $sql = "SELECT * from webshop_subscription where status = 1 and type='N' and subscription_for=1";
+    
+
+    try {
+
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $getSubscriptions = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        foreach ($getSubscriptions as $subscription) {
+
+            $allsubscriptions[] = array(
+                "id" => stripslashes($subscription->id),
+                "name" => stripslashes($subscription->name),
+                "price" => stripslashes($subscription->price),
+                
+                "duration" => stripslashes($subscription->duration),
+            );
+        }
+
+        $data['subscriptionlist'] = $allsubscriptions;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+
+
+
 
 $app->run();
 ?>
