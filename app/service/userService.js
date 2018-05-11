@@ -4376,8 +4376,46 @@ return $q(function(resolve, reject) {
     };
     
     
+ var addreview = function(userid,productid,review) {
+return $q(function(resolve, reject) {
     
+  //var nextbidprice = parseInt(bidprice)+parseInt(bidincrement);
+  //alert(bidincrement);
+  var encodedString ='{"userid":"'+ userid +'","productid":"'+ productid +'","review":"'+ review +'"}';
+
+$http({
+method: 'POST',
+  url: $rootScope.serviceurl+"addreview",
+data: encodedString,
+headers: {'Content-Type': 'application/json'}
+}).then(function (response) {
+
+   if(response.data.Ack == "1") {
+       
+                   console.log(response);
+      resolve(response.data); 
+   } else {
+                    console.log('ok2');
+        reject(response);
+   }
+
+
+        },function(response) {
+console.log(response);  
+reject(response);
+});
+});
+};    
     
+var review = function(userid) {
+return $q(function(resolve, reject) {
+    
+  //var nextbidprice = parseInt(bidprice)+parseInt(bidincrement);
+  alert(userid);
+  //var encodedString ='{"userid":"'+ userid +'","productid":"'+ productid +'","review":"'+ review +'"}';
+
+});
+};     
     
  
  return {
@@ -4520,7 +4558,9 @@ ChangePassword: ChangePassword,
            getuserpayment:getuserpayment,
            userpaymentforupload:userpaymentforupload,
            adduserpayment:adduserpayment,
-           usersubscriptions:usersubscriptions
+           usersubscriptions:usersubscriptions,
+           addreview:addreview,
+           review:review
 
 	
 };
