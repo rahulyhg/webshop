@@ -121,7 +121,34 @@
 						<hr>
 						<h6 class="card-title">Reviews</h6>
 						<div class="reviews-holder">
-							<div class="media">
+                                                    <div ng-repeat="reviewsss in allreviews" class="media">
+								<div class="media-left mr-2">
+									<a href="#">
+										<img class="media-object" src="{{reviewsss.userimage}}" alt="">
+									</a>
+								</div>
+								<div class="media-body">
+									<h6 class="media-heading">
+                                                                            <span class="rating d-inline-block mr-2">
+                                                                                <ng-rating ng-model="reviewsss.rating"
+                                                                                           icon-class="rating.iconClass"
+                                                                                           editable="false"
+                                                                                           stars-count="rating.starsCount"
+                                                                                           based-on="rating.basedOn"
+                                                                                           >
+                                                                                </ng-rating>
+                       
+                                                                            </span>
+                                                                            {{reviewsss.username}} <span class="date d-inline-block ml-2">- {{reviewsss.date}}&nbsp days ago</span></h6>
+									<p class="mb-2">{{reviewsss.review}}</p>
+                                                                        <div ng-if="reviewsss.recomend == 1">
+									<p><i class="fa fa-check"></i> Yes, I recommend this product. </p>
+                                                                        </div>
+                                                                       
+									
+								</div>
+							</div>
+<!--							<div class="media">
 								<div class="media-left mr-2">
 									<a href="#">
 										<img class="media-object" src="app/assets/images/user2.jpg" alt="">
@@ -133,20 +160,7 @@
 									<p><i class="fa fa-check"></i> Yes, I recommend this product. </p>
 									
 								</div>
-							</div>
-							<div class="media">
-								<div class="media-left mr-2">
-									<a href="#">
-										<img class="media-object" src="app/assets/images/user2.jpg" alt="">
-									</a>
-								</div>
-								<div class="media-body">
-									<h6 class="media-heading"><span class="rating d-inline-block mr-2"><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i></span>Louise Gregory <span class="date d-inline-block ml-2">- 2 months ago</span></h6>
-									<p class="mb-2">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-									<p><i class="fa fa-check"></i> Yes, I recommend this product. </p>
-									
-								</div>
-							</div>
+							</div>-->
 							<p class="text-right"><a href="" class="btn btn-primary btn-block">Add Review</a></p>
 						</div>
 					</div>
@@ -350,7 +364,7 @@
 					editable="rating.editableRating"
 					stars-count="rating.starsCount"
 					based-on="rating.basedOn"
-					show-grade="rating.showGrade">
+					show-grade="false">
 				</ng-rating>
                        
 			</li>
@@ -361,7 +375,11 @@
                                                         
                                                         
                                                         <hr>
-                                                       
+                                                       Recommend this product ? &nbsp;<input type="radio" class="input-field"  name="recomend" value="1" ng-model="review.recomend" required>
+			              		<span>Yes</span>
+			              		<input type="radio" class="input-field"  name="recomend" value="2" ng-model="review.recomend" required>
+			              		<span>No</span>
+                                                 <hr>
                                                          <div>
                                                             
                                                         <div>

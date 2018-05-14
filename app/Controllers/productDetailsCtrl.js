@@ -17,6 +17,8 @@ app.controller('productDetailsCtrl', function ($rootScope, $scope,$interval, $ht
 //			}];
 $scope.rating = {};
 $scope.review = {};
+$scope.allreviews = {};
+
 $scope.review.rating =1;
 $scope.rating.editableRating = true;
  $scope.rating.iconClass ='fa fa-star';
@@ -83,7 +85,27 @@ $scope.product_id=$stateParams.id;
 	console.log(err); 
 	});
         
-       
+       userService.reviews($scope.product_id).then(function(response) {
+
+	//$scope.isExists=response.Ack;
+		if(response.Ack == '1') {
+                    
+                    console.log('reviewss',response.reviews);
+	$scope.allreviews=response.reviews;
+        
+		//$scope.productLists=response.productList;
+                
+		
+		
+
+  } else {
+
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
     
     }; 
 
@@ -270,10 +292,11 @@ alert("Mail can not be sent ");
     review.rating=review.rating;    
     review.productid =$scope.product_id;
     review.userid = $scope.user_id;
+    review.recomend =review.recomend;
    
    // alert(review.review);
      //console.log('review',review);
-      userService.addreview( review.userid,review.productid,review.review,review.rating).then(function(response) {
+      userService.addreview( review.userid,review.productid,review.review,review.rating,review.recomend).then(function(response) {
 
 	console.log("vv",response);
 		
@@ -298,25 +321,7 @@ alert("Mail can not be sent ");
     };
     
     
-    userService.reviews($scope.product_id).then(function(response) {
-
-	//$scope.isExists=response.Ack;
-		if(response.Ack == '1') {
-                    //alert(response.productList);
-	
-		//$scope.productLists=response.productList;
-                
-		
-		
-
-  } else {
-
-		}
-	
-				   
-	}, function(err) {
-	console.log(err); 
-	});
+    
         
         
          
