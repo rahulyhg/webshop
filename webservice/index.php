@@ -2946,7 +2946,7 @@ function ListNotification() {
                 $statement->execute();
                 $getFromUserdetails = $statement->fetchObject();
 
-
+                if(!empty($getFromUserdetails)){
                 if ($getFromUserdetails->image != '') {
                     $profile_image = SITE_URL . 'upload/user_image/' . $getFromUserdetails->image;
                 } else {
@@ -2954,6 +2954,7 @@ function ListNotification() {
                 }
 
                 $get_name = $getFromUserdetails->fname . " " . $getFromUserdetails->lname;
+            }
             }
 
 
@@ -6800,7 +6801,7 @@ function auctionWinner() {
     //$body2 = $app->request->getBody();
     //$body = json_decode($body2);
 
-    
+    $act_link = 'http://111.93.169.90/team1/webshop/';
     
     
     //mail("spandan@natitsolved.com","GMT24 Auction","Your auction unsuccessfully end","palashsaharana@gmail.com");
@@ -6823,7 +6824,8 @@ function auctionWinner() {
             
             $auction_id = $auction->id;
             $thresholdprice = $auction->thresholdprice;
-            $current_datetime = date('Y-m-d H:i:s');
+            $time_now=mktime(date('h')+5,date('i')+30,date('s'));
+            $current_datetime = date('Y-m-d H:i:s',$time_now);
             
             $sql1 = "SELECT * from webshop_auctiondates where id=$tid";
             $stmt1 = $db->prepare($sql1);
@@ -6855,10 +6857,29 @@ function auctionWinner() {
                 if ($getbiddetail_withuser->bidprice > $thresholdprice) {
 
                     
+                    //$actual_link = $act_link . "#/buyAuctionproduct/" . $auction_id;
                     
-                    send_smtpmail($getbiddetail_withuser->email,"GMT24 Auction", "You are the winner.");
+                    send_smtpmail($getbiddetail_withuser->email,"GMT24 Auction", "You are the winner. Please pay and buy the product within 2 days. For buy <a href='#'> Click here</a>");
                     send_smtpmail($getbiddetail_withuploader->email,"GMT24 Auction", "Your auction successfully end");
+                   
                     
+                    $is_read = '0';
+                    $last_id = '0';
+                    $from_id = '0';
+                    $to_id= $getbiddetail_withuser->userid;
+                    $notificationtype ="GMT24 Auction result";
+                    $notification_msg = "You won the auction. Please pay and buy the product within 2 days.";
+                    $notificationsql = "INSERT INTO  webshop_notification(from_id,to_id, type, msg, date, is_read, last_id) VALUES (:from_id,:to_id, :type, :msg, :date, :is_read, :last_id)";
+                    $stmt5 = $db->prepare($notificationsql);
+                    $stmt5->bindParam("from_id", $from_id);
+                    $stmt5->bindParam("to_id", $to_id);
+                    $stmt5->bindParam("type", $notificationtype);
+                    $stmt5->bindParam("msg", $notification_msg);
+                    $stmt5->bindParam("date", $current_datetime);
+                    $stmt5->bindParam("is_read", $is_read);
+                    $stmt5->bindParam("last_id", $last_id);
+                    $stmt5->execute();
+                   
                     
 
                 } else {
