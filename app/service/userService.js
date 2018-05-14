@@ -4411,7 +4411,7 @@ var review = function(userid) {
 return $q(function(resolve, reject) {
     
   //var nextbidprice = parseInt(bidprice)+parseInt(bidincrement);
-  alert(userid);
+  //alert(userid);
   //var encodedString ='{"userid":"'+ userid +'","productid":"'+ productid +'","review":"'+ review +'"}';
 
 });

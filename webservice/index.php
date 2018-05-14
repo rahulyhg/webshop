@@ -6799,7 +6799,7 @@ function addreview() {
     $data['Ack'] = '1';
     $data['Years'] = 'hello';
 
-$app->response->write(json_encode($data));
+    $app->response->write(json_encode($data));
 }
 
 function auctionWinner() {
@@ -6844,28 +6844,28 @@ function auctionWinner() {
                 $stmt3 = $db->prepare($sql3);
                 $stmt3->execute();
                 $getbiddetail_withuser = $stmt3->fetchObject();
-                
-                
+
+
                 $sql4 = "SELECT * FROM webshop_biddetails as wb inner join webshop_user as wu on wu.id=wb.uploaderid WHERE wb.productid=$auction_id order by wb.bidprice desc limit 0,1";
                 $stmt4 = $db->prepare($sql4);
                 $stmt4->execute();
                 $getbiddetail_withuploader = $stmt4->fetchObject();
-                
-                
+
+
                 if ($getbiddetail_withuser->bidprice > $thresholdprice) {
 
-                    mail($getbiddetail_withuser->email,"Webshop Auction","You win the auction",'palashsaharana@gmail.com');
-                    mail("spandan","Webshop Auction","Your auction successfully end",'palashsaharana@gmail.com');
-                    
+
+                    mail($getbiddetail_withuser->email, "Webshop Auction", "You win the auction", 'palashsaharana@gmail.com');
+                    mail($getbiddetail_withuploader->email, "Webshop Auction", "Your auction successfully end", 'palashsaharana@gmail.com');
+
                 } else {
 
-                    mail($getbiddetail_withuploader->email,"Webshop Auction",'Your auction unsuccessfully end','palashsaharana@gmail.com');
+                    mail($getbiddetail_withuploader->email, "Webshop Auction", 'Your auction unsuccessfully end', 'palashsaharana@gmail.com');
                 }
             }
         }
     }
 }
-
 
 
 $app->run();
