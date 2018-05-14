@@ -5,18 +5,27 @@
 app.controller('productDetailsCtrl', function ($rootScope, $scope,$interval, $http, $location,$timeout,$window, $state,$stateParams, userService) {
 
 
-			$scope.ratings = [{
-				title : 'Rating',
-				//description : 'I\'m not editable but update myself with a timer...',
-				rating : 3.5,
-				basedOn : 5,
-				starsCount : 5,
-				iconClass : 'fa fa-star',
-				editableRating : true,
-				showGrade : true
-			}];
-
-
+//			$scope.ratings = [{
+//				title : 'Rating',
+//				//description : 'I\'m not editable but update myself with a timer...',
+//				rating : 0,
+//				basedOn : 5,
+//				starsCount : 5,
+//				iconClass : 'fa fa-star',
+//				editableRating : true,
+//				showGrade : true
+//			}];
+$scope.rating = {};
+$scope.review = {};
+$scope.review.rating =1;
+$scope.rating.editableRating = true;
+ $scope.rating.iconClass ='fa fa-star';
+$scope.rating.starsCount =5;
+$scope.rating.basedOn =5;
+$scope.rating.showGrade = true;
+$scope.rating.rating =1;
+$scope.rating.title ='Rating';
+        
 			
 
 		
@@ -255,17 +264,16 @@ alert("Mail can not be sent ");
     
     
     $scope.addreview = function(review){
-    //alert(bid);
-     //var userInfo = JSON.parse($window.localStorage["userInfo"]);	
-	//$scope.user_id=userInfo.user_id;
+
        
     review.review=review.review;
+    review.rating=review.rating;    
     review.productid =$scope.product_id;
     review.userid = $scope.user_id;
    
-    
-     console.log('review',review);
-      userService.addreview( review.userid,review.productid,review.review).then(function(response) {
+   // alert(review.review);
+     //console.log('review',review);
+      userService.addreview( review.userid,review.productid,review.review,review.rating).then(function(response) {
 
 	console.log("vv",response);
 		
@@ -290,7 +298,7 @@ alert("Mail can not be sent ");
     };
     
     
-    userService.review(userInfo.user_id).then(function(response) {
+    userService.reviews($scope.product_id).then(function(response) {
 
 	//$scope.isExists=response.Ack;
 		if(response.Ack == '1') {
@@ -309,6 +317,9 @@ alert("Mail can not be sent ");
 	}, function(err) {
 	console.log(err); 
 	});
+        
+        
+         
     
 });
 

@@ -4376,13 +4376,13 @@ return $q(function(resolve, reject) {
     };
     
     
- var addreview = function(userid,productid,review) {
+ var addreview = function(userid,productid,review,rating) {
 return $q(function(resolve, reject) {
     
   //var nextbidprice = parseInt(bidprice)+parseInt(bidincrement);
   //alert(bidincrement);
-  var encodedString ='{"userid":"'+ userid +'","productid":"'+ productid +'","review":"'+ review +'"}';
-
+  var encodedString ='{"userid":"'+ userid +'","productid":"'+ productid +'","review":"'+ review +'","rating":"'+rating+'"}';
+//alert(encodedString);
 $http({
 method: 'POST',
   url: $rootScope.serviceurl+"addreview",
@@ -4407,13 +4407,34 @@ reject(response);
 });
 };    
     
-var review = function(userid) {
+var reviews = function(product_id) {
 return $q(function(resolve, reject) {
     
   //var nextbidprice = parseInt(bidprice)+parseInt(bidincrement);
   //alert(userid);
-  //var encodedString ='{"userid":"'+ userid +'","productid":"'+ productid +'","review":"'+ review +'"}';
+  var encodedString ='{"productid":"'+ product_id +'"}';
+  //alert(encodedString);
+ $http({
+method: 'POST',
+  url: $rootScope.serviceurl+"reviews",
+data: encodedString,
+headers: {'Content-Type': 'application/json'}
+}).then(function (response) {
 
+   if(response.data.Ack == "1") {
+       
+                   console.log(response);
+      resolve(response.data); 
+   } else {
+                    console.log('ok2');
+        reject(response);
+   }
+
+
+        },function(response) {
+console.log(response);  
+reject(response);
+}); 
 });
 };     
     
@@ -4560,7 +4581,7 @@ ChangePassword: ChangePassword,
            adduserpayment:adduserpayment,
            usersubscriptions:usersubscriptions,
            addreview:addreview,
-           review:review
+           reviews:reviews
 
 	
 };

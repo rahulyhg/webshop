@@ -343,16 +343,16 @@
          
                                         <div class="modal-body">
                                            <ul class="list-unstyled">
-			<li ng-repeat="rating in ratings" style="margin-bottom:50px">
-				<h1>{{ rating.title }}</h1>
-				<ng-rating ng-model="rating.rating"
+			<li  style="margin-bottom:50px">
+				<h1>{{rating.title }}</h1>
+				<ng-rating ng-model="review.rating"
 					icon-class="rating.iconClass"
 					editable="rating.editableRating"
 					stars-count="rating.starsCount"
 					based-on="rating.basedOn"
 					show-grade="rating.showGrade">
 				</ng-rating>
-				<p>{{rating.description }}</p>
+                       
 			</li>
 		</ul>
 							<hr>
