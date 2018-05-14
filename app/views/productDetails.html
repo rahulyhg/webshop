@@ -342,8 +342,19 @@
       </div>
          
                                         <div class="modal-body">
-                                            
-                                            <ng-rate-it ng-model="model.readonly" read-only="model.readonly_enables"></ng-rate-it>
+                                           <ul class="list-unstyled">
+			<li ng-repeat="rating in ratings" style="margin-bottom:50px">
+				<h1>{{ rating.title }}</h1>
+				<ng-rating ng-model="rating.rating"
+					icon-class="rating.iconClass"
+					editable="rating.editableRating"
+					stars-count="rating.starsCount"
+					based-on="rating.basedOn"
+					show-grade="rating.showGrade">
+				</ng-rating>
+				<p>{{rating.description }}</p>
+			</li>
+		</ul>
 							<hr>
                                                         <h5>Your Review</h5>   
                                                         <textarea class="form-control" id="" value="" placeholder="" ng-model="review.review" name="review" capitalize required></textarea>
@@ -398,3 +409,7 @@
     to {left: 100%;}
 }  
 </style>
+<script>
+    
+    
+</script>

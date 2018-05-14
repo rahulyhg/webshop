@@ -2,8 +2,24 @@
 /** 
  * controllers used for the login
  */
-app.controller('productDetailsCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state,$stateParams, userService) {
+app.controller('productDetailsCtrl', function ($rootScope, $scope,$interval, $http, $location,$timeout,$window, $state,$stateParams, userService) {
 
+
+			$scope.ratings = [{
+				title : 'Rating',
+				//description : 'I\'m not editable but update myself with a timer...',
+				rating : 3.5,
+				basedOn : 5,
+				starsCount : 5,
+				iconClass : 'fa fa-star',
+				editableRating : true,
+				showGrade : true
+			}];
+
+
+			
+
+		
  
 $scope.data = {};
 $scope.user = {};
