@@ -128,11 +128,11 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/listuserSubscriptions', 'listuserSubscriptions');
 
     $app->post('/auctionWinner', 'auctionWinner');
-    
-    
-    
+    $app->post('/reviews', 'reviews');
+
+
+
 
     $app->post('/addreview', 'addreview');
-
 });
 ?>
