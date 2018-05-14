@@ -3318,16 +3318,22 @@ function addProductNew() {
                           } */
 
 
+                       
 
-                            $stmt->bindParam("location", $location);
-                            $stmt->bindParam("work_hours", $work_hours);
-                            $stmt->bindParam("status", $get_status);
-                            $stmt->execute();
-                            $lastID = $db->lastInsertId();
-
+                        $stmt->bindParam("location", $location);
+                        $stmt->bindParam("work_hours", $work_hours);
+                        $stmt->bindParam("status", $get_status);
+                        $stmt->execute();
+                        $lastID = $db->lastInsertId();
+                        
+                        $rest_slot = (($getUserDetails->slot_no) - 1);
+                        $sqlslotupdate = "UPDATE webshop_user SET slot_no=:slot WHERE id=:user_id";
+                        $stmtslot = $db->prepare($sqlslotupdate);
+                        $stmtslot->bindParam("slot", $rest_slot);
+                        $stmtslot->bindParam("user_id", $user_id);
+                        $stmtslot->execute();
 
                         if (!empty($_FILES['image'])) {
-
 
                             if ($_FILES['image']['tmp_name'] != '') {
 
@@ -3351,12 +3357,10 @@ function addProductNew() {
                         }
 
 
-
                         $data['Ack'] = 1;
                         $data['msg'] = 'Product added successfully.';
                         $data['type'] = $type;
                         $data['utype'] = 2;
-
 
                         $app->response->setStatus(200);
                         $db = null;
@@ -3471,7 +3475,6 @@ function addProductNew() {
             }
 
 
-
             $data['Ack'] = 1;
             $data['msg'] = 'Auction added successfully.';
             $data['type'] = $type;
@@ -3483,7 +3486,6 @@ function addProductNew() {
             $data['Ack'] = 0;
             $data['msg'] = 'error';
             $app->response->setStatus(401);
-
         }
     }
 
@@ -3547,11 +3549,21 @@ function addProductNew() {
                        
 
 
+                       
 
-
+                        $stmt->bindParam("location", $location);
+                        $stmt->bindParam("work_hours", $work_hours);
+                        $stmt->bindParam("status", $get_status);
+                        $stmt->execute();
+                         $lastID = $db->lastInsertId();
+                        //$rest_slot = (($getUserDetails->slot_no) - 1);
+                       // $sqlslotupdate = "UPDATE webshop_user SET slot_no=:slot WHERE id=:user_id";
+                       // $stmtslot = $db->prepare($sqlslotupdate);
+                        //$stmtslot->bindParam("slot", $rest_slot);
+                        //$stmtslot->bindParam("user_id", $user_id);
+                       // $stmtslot->execute();
 
                         if (!empty($_FILES['image'])) {
-
 
                             if ($_FILES['image']['tmp_name'] != '') {
 
@@ -3564,7 +3576,6 @@ function addProductNew() {
 
                                 $img = $target_path . $userfile_name;
                                 move_uploaded_file($userfile_tmp, $img);
-
 
 
                                 $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
@@ -3601,7 +3612,6 @@ function addProductNew() {
              
          
     } else {
-
 
         $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice)";
 
@@ -3678,7 +3688,6 @@ function addProductNew() {
                     $userfile_tmp = $_FILES['image']['tmp_name'];
 
 
-
                     $img = $target_path . $userfile_name;
                     move_uploaded_file($userfile_tmp, $img);
 
@@ -3690,10 +3699,8 @@ function addProductNew() {
                     $stmt1->execute();
                     
                     
-
                 }
             }
-
 
 
             $data['Ack'] = 1;
@@ -3707,7 +3714,6 @@ function addProductNew() {
             $data['Ack'] = 0;
             $data['msg'] = 'error';
             $app->response->setStatus(401);
-
         }
     }  
         
@@ -6849,7 +6855,7 @@ function auctionWinner() {
                 if ($getbiddetail_withuser->bidprice > $thresholdprice) {
 
                     mail($getbiddetail_withuser->email,"Webshop Auction","You win the auction",'palashsaharana@gmail.com');
-                    mail($getbiddetail_withuploader->email,"Webshop Auction","Your auction successfully end",'palashsaharana@gmail.com');
+                    mail("spandan","Webshop Auction","Your auction successfully end",'palashsaharana@gmail.com');
                     
                 } else {
 
@@ -6858,6 +6864,7 @@ function auctionWinner() {
             }
         }
     }
+}
 
 
 
