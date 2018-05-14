@@ -4983,18 +4983,22 @@ function getTimeslot() {
     if (!empty($getauctiondate)) {
         foreach ($getauctiondate as $auction) {
 
-            $sqlexsits = "SELECT * FROM  webshop_products WHERE  preferred_date =:acutondate and time_slot_id=:time";
+            $sqlexsits = "SELECT * FROM  webshop_products WHERE  preferred_date =:acutondate";
             $db = getConnection();
             $stmt = $db->prepare($sqlexsits);
             $stmt->bindParam("acutondate", $acutondate);
-            $stmt->bindParam("time", $val);
+
             $stmt->execute();
             $bookeddatetime = $stmt->fetchAll(PDO::FETCH_OBJ);
-
+            //echo $val;
+            // print_r($bookeddatetime);
 
             foreach ($bookeddatetime as $btime) {
-                $data['btime'][] = (stripslashes($btime->time_slot_id));
+                // echo 'hhhh';
+                // echo $btime->time_slot_id;
+                $data['btime'] = (stripslashes($btime->time_slot_id));
             }
+            //echo $data['btime'];
             if (empty($data['btime'])) {
                 $data['time'][] = array(
                     'start_time' => date('h:s:i A', strtotime($auction->start_time)),
@@ -5002,11 +5006,18 @@ function getTimeslot() {
                     'id' => stripslashes($auction->id),
                     "status" => 0,
                 );
+            } else {
+                $data['time'][] = array(
+                    'start_time' => date('h:s:i A', strtotime($auction->start_time)),
+                    'end_time' => date('h:s:i A', strtotime($auction->end_time)),
+                    'id' => stripslashes($auction->id),
+                    "status" => 1,
+                );
             }
         }
     }
 
-
+    // exit;
 
 
     /* $time = explode(',', $time);
@@ -6772,9 +6783,11 @@ function addreview() {
     $productid = isset($body->productid) ? $body->productid : '';
     $review = isset($body->review) ? $body->review : '';
     $rating = isset($body->rating) ? $body->rating : '';
+    $recomend = isset($body->recomend) ? $body->recomend : '';
+
     $date = date('Y-m-d');
 
-    $sql = "INSERT INTO  webshop_reviews (userid,product_id,review,rating,date) VALUES (:userid,:productid,:review,:rating,:date)";
+    $sql = "INSERT INTO  webshop_reviews (userid,product_id,review,rating,date,recomend) VALUES (:userid,:productid,:review,:rating,:date,:recomend)";
     $db = getConnection();
     $stmt = $db->prepare($sql);
     $stmt->bindParam("userid", $userid);
@@ -6782,6 +6795,7 @@ function addreview() {
     $stmt->bindParam("review", $review);
     $stmt->bindParam("rating", $rating);
     $stmt->bindParam("date", $date);
+    $stmt->bindParam("recomend", $recomend);
     $stmt->execute();
 
     $data['Ack'] = '1';
@@ -6791,20 +6805,16 @@ function addreview() {
 }
 
 function auctionWinner() {
-    
-    
+
+
     $data = array();
 
     $app = \Slim\Slim::getInstance();
     //$request = $app->request();
     //$body2 = $app->request->getBody();
     //$body = json_decode($body2);
-
-    
-    
-    
     //mail("spandan@natitsolved.com","GMT24 Auction","Your auction unsuccessfully end","palashsaharana@gmail.com");
- //echo "spanda";exit;
+    //echo "spanda";exit;
     $db = getConnection();
 
     $sql = "SELECT * from webshop_products where type= 2 and approved=1 and auctioned=0";
@@ -6815,22 +6825,22 @@ function auctionWinner() {
     //print_r($getAuctions);exit;
     if (!empty($getAuctions)) {
         foreach ($getAuctions as $auction) {
-            
-             
+
+
 
             $tid = $auction->time_slot_id;
-            
-            
+
+
             $auction_id = $auction->id;
             $thresholdprice = $auction->thresholdprice;
             $current_datetime = date('Y-m-d H:i:s');
-            
+
             $sql1 = "SELECT * from webshop_auctiondates where id=$tid";
             $stmt1 = $db->prepare($sql1);
             $stmt1->execute();
             $getdatetimedetail = $stmt1->fetchObject();
-            
-           // echo $current_datetime;exit;
+
+            // echo $current_datetime;exit;
             //print_r($getdatetimedetail);exit;
             if ($current_datetime > $getdatetimedetail->end_time) {
 
@@ -6845,27 +6855,22 @@ function auctionWinner() {
                 $getbiddetail_withuser = $stmt3->fetchObject();
                 //print_r($getbiddetail_withuser);exit;
                 //echo $getbiddetail_withuser->id;exit;
-                
+
                 $sql4 = "SELECT * FROM webshop_biddetails as wb inner join webshop_user as wu on wu.id=wb.uploaderid WHERE wb.productid=$auction_id order by wb.bidprice desc limit 0,1";
                 $stmt4 = $db->prepare($sql4);
                 $stmt4->execute();
                 $getbiddetail_withuploader = $stmt4->fetchObject();
-                
-                
+
+
                 if ($getbiddetail_withuser->bidprice > $thresholdprice) {
 
-                    
-                    
-                    send_smtpmail($getbiddetail_withuser->email,"GMT24 Auction", "You are the winner.");
-                    send_smtpmail($getbiddetail_withuploader->email,"GMT24 Auction", "Your auction successfully end");
-                    
-                    
 
+
+                    send_smtpmail($getbiddetail_withuser->email, "GMT24 Auction", "You are the winner.");
+                    send_smtpmail($getbiddetail_withuploader->email, "GMT24 Auction", "Your auction successfully end");
                 } else {
 
-                   send_smtpmail($getbiddetail_withuploader->email,"GMT24 Auction", "Your auction unsuccessfully end");
-                 
-                    
+                    send_smtpmail($getbiddetail_withuploader->email, "GMT24 Auction", "Your auction unsuccessfully end");
                 }
             }
         }
@@ -6884,7 +6889,7 @@ function reviews() {
 
     $db = getConnection();
 
-    $sql = "SELECT * from webshop_reviews where product_id =$productid";
+    $sql = "SELECT * from webshop_reviews where product_id =$productid group by id desc limit 2";
 
 
     try {
@@ -6896,15 +6901,35 @@ function reviews() {
 
         foreach ($reviews as $r) {
 
-            $reviews[] = array(
+            $sql1 = "SELECT * from webshop_user where id =$r->userid";
+            $stmt1 = $db->prepare($sql1);
+            $stmt1->execute();
+            $user_name = $stmt1->fetchAll(PDO::FETCH_OBJ);
+            foreach ($user_name as $n) {
+                $name = $n->fname . " " . $n->lname;
+                if ($n->image != '') {
+                    $profile_image = SITE_URL . 'upload/user_image/' . $n->image;
+                } else {
+                    $profile_image = SITE_URL . 'webservice/no-user.png';
+                }
+            }
+            $curr_date = date_create(date('Y-m-d'));
+            $review_date = date_create($r->date);
+            $diff = date_diff($review_date, $curr_date);
+            $date = $diff->format("%a");
+
+            $reviewss[] = array(
                 "id" => stripslashes($r->id),
                 "review" => stripslashes($r->review),
                 "rating" => stripslashes($r->rating),
-                "date" => stripslashes($r->date),
+                "date" => $date,
+                "recomend" => stripslashes($r->recomend),
+                "username" => $name,
+                "userimage" => $profile_image,
             );
         }
-
-        $data['reviews'] = $reviews;
+        // exit;
+        $data['reviews'] = $reviewss;
         $data['Ack'] = '1';
         $app->response->setStatus(200);
     } catch (PDOException $e) {
@@ -6917,64 +6942,63 @@ function reviews() {
     $app->response->write(json_encode($data));
 }
 
-function send_smtpmail($MailTo, $subject, $TemplateMessage, $MailAttachment = null){
-    
-    
+function send_smtpmail($MailTo, $subject, $TemplateMessage, $MailAttachment = null) {
+
+
     $mail = new PHPMailer(true);
 
-            $IsMailType = 'SMTP';
+    $IsMailType = 'SMTP';
 
-            $MailFrom = 'palashsaharana@gmail.com';    //  Your email password
+    $MailFrom = 'palashsaharana@gmail.com';    //  Your email password
 
-            $MailFromName = 'Webshop';
-            $MailToName = '';
+    $MailFromName = 'Webshop';
+    $MailToName = '';
 
-            $YourEamilPassword = "lsnspyrcimuffblr";   //Your email password from which email you send.
+    $YourEamilPassword = "lsnspyrcimuffblr";   //Your email password from which email you send.
 // If you use SMTP. Please configure the bellow settings.
 
-            $SmtpHost = "smtp.gmail.com"; // sets the SMTP server
-            $SmtpDebug = 0;                     // enables SMTP debug information (for testing)
-            $SmtpAuthentication = true;                  // enable SMTP authentication
-            $SmtpPort = 587;                    // set the SMTP port for the GMAIL server
-            $SmtpUsername = $MailFrom; // SMTP account username
-            $SmtpPassword = $YourEamilPassword;        // SMTP account password
+    $SmtpHost = "smtp.gmail.com"; // sets the SMTP server
+    $SmtpDebug = 0;                     // enables SMTP debug information (for testing)
+    $SmtpAuthentication = true;                  // enable SMTP authentication
+    $SmtpPort = 587;                    // set the SMTP port for the GMAIL server
+    $SmtpUsername = $MailFrom; // SMTP account username
+    $SmtpPassword = $YourEamilPassword;        // SMTP account password
 
-            $mail->IsSMTP();  // telling the class to use SMTP
-            $mail->SMTPDebug = $SmtpDebug;
-            $mail->SMTPAuth = $SmtpAuthentication;     // enable SMTP authentication
-            $mail->Port = $SmtpPort;             // set the SMTP port
-            $mail->Host = $SmtpHost;           // SMTP server
-            $mail->Username = $SmtpUsername; // SMTP account username
-            $mail->Password = $SmtpPassword; // SMTP account password
+    $mail->IsSMTP();  // telling the class to use SMTP
+    $mail->SMTPDebug = $SmtpDebug;
+    $mail->SMTPAuth = $SmtpAuthentication;     // enable SMTP authentication
+    $mail->Port = $SmtpPort;             // set the SMTP port
+    $mail->Host = $SmtpHost;           // SMTP server
+    $mail->Username = $SmtpUsername; // SMTP account username
+    $mail->Password = $SmtpPassword; // SMTP account password
 
-            if ($MailFromName != '') {
-                $mail->AddReplyTo($MailFrom, $MailFromName);
-                $mail->From = $MailFrom;
-                $mail->FromName = $MailFromName;
-            } else {
-                $mail->AddReplyTo($MailFrom);
-                $mail->From = $MailFrom;
-                $mail->FromName = $MailFrom;
-            }
+    if ($MailFromName != '') {
+        $mail->AddReplyTo($MailFrom, $MailFromName);
+        $mail->From = $MailFrom;
+        $mail->FromName = $MailFromName;
+    } else {
+        $mail->AddReplyTo($MailFrom);
+        $mail->From = $MailFrom;
+        $mail->FromName = $MailFrom;
+    }
 
-            if ($MailToName != '') {
-                $mail->AddAddress($MailTo, $MailToName);
-            } else {
-                $mail->AddAddress($MailTo);
-            }
+    if ($MailToName != '') {
+        $mail->AddAddress($MailTo, $MailToName);
+    } else {
+        $mail->AddAddress($MailTo);
+    }
 
-            $mail->SMTPSecure = 'tls';
-            $mail->Subject = $subject;
+    $mail->SMTPSecure = 'tls';
+    $mail->Subject = $subject;
 
-            $mail->MsgHTML($TemplateMessage);
+    $mail->MsgHTML($TemplateMessage);
 
-            try {
-                $mail->Send();
-            } catch (phpmailerException $e) {
-                echo $e->errorMessage(); //Pretty error messages from PHPMailer
-            }
+    try {
+        $mail->Send();
+    } catch (phpmailerException $e) {
+        echo $e->errorMessage(); //Pretty error messages from PHPMailer
+    }
 }
-
 
 $app->run();
 ?>
