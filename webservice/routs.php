@@ -128,7 +128,7 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/listuserSubscriptions', 'listuserSubscriptions');
 
     $app->get('/auctionWinner', 'auctionWinner');
-    $app->post('/reviews', 'reviews');
+
     $app->post('/reviews', 'reviews');
 
     $app->post('/UserAuctionpayment', 'UserAuctionpayment');

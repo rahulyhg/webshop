@@ -12,8 +12,10 @@ app.run(['$rootScope', '$state', '$stateParams',
         // GLOBAL APP SCOPE
         // set below basic information
 
+
         $rootScope.serviceurl = "http://localhost/webshop1/webshop/webservice/frontend/";
         $rootScope.siteurl = "http://localhost/webshop1/webshop/webservice/frontend/";
+
 
         $rootScope.app = {
             name: 'Insulationez', // name of your project

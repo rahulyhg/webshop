@@ -10,8 +10,8 @@ if (isset($_REQUEST['submit'])) {
     $start_time = isset($_POST['start_time']) ? $_POST['start_time'] : '';
     $end_time = isset($_POST['end_time']) ? $_POST['end_time'] : '';
 
-
-    for ($w = 0; $w <= count($start_time); $w++) {
+    print_r($start_time);
+    for ($w = 0; $w < count($start_time); $w++) {
         $start_time1 = date('Y-m-d H:i:s', strtotime($date . ' ' . $start_time[$w]));
         $end_time1 = date('Y-m-d H:i:s', strtotime($date . ' ' . $end_time[$w]));
 
@@ -26,26 +26,11 @@ if (isset($_REQUEST['submit'])) {
             $fieldsList[] = '`' . $field . '`' . '=' . "'" . $value . "'";
         }
 
-        if ($_REQUEST['action'] == 'edit') {
-            $editQuery = "UPDATE `webshop_auctiontimes` SET " . implode(', ', $fieldsList)
-                    . " WHERE `id` = '" . mysqli_real_escape_string($con, $_REQUEST['id']) . "'";
-            // exit;
+        echo $insertQuery = "INSERT INTO `webshop_auctiondates` (`" . implode('`,`', array_keys($fields)) . "`)"
+        . " VALUES ('" . implode("','", array_values($fields)) . "')";
 
-            if (mysqli_query($con, $editQuery)) {
-
-
-                $_SESSION['msg'] = "Category Updated Successfully";
-            } else {
-                $_SESSION['msg'] = "Error occuried while updating Category";
-            }
-        } else {
-
-            $insertQuery = "INSERT INTO `webshop_auctiondates` (`" . implode('`,`', array_keys($fields)) . "`)"
-                    . " VALUES ('" . implode("','", array_values($fields)) . "')";
-
-            mysqli_query($con, $insertQuery);
-            $last_id = mysqli_insert_id($con);
-        }
+        mysqli_query($con, $insertQuery);
+        $last_id = mysqli_insert_id($con);
     }
     header('Location:list_auctiondates.php');
     exit();
