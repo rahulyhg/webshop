@@ -3511,7 +3511,7 @@ function addProductNew() {
 
 
             $sqlcheckcertifieduser = "SELECT * FROM webshop_user WHERE id =:user_id AND top_user_vendor='1'";
-// $db = getConnection();
+            $db = getConnection();
             $stmtcheck = $db->prepare($sqlcheckcertifieduser);
             $stmtcheck->bindParam("user_id", $user_id);
             $stmtcheck->execute();
@@ -3521,6 +3521,9 @@ function addProductNew() {
 
             if ($count > 0) {
                 $get_status = "1";
+            }else{
+                
+                $get_status = "0";
             }
             // }
 
@@ -5014,16 +5017,16 @@ function getTimeslot() {
             if (!empty($bookeddatetime)) {
 
                 $data['time'][] = array(
-                    'start_time' => date('h:s:i A', strtotime($auction->start_time)),
-                    'end_time' => date('h:s:i A', strtotime($auction->end_time)),
+                    'start_time' => date('h:i A', strtotime($auction->start_time)),
+                    'end_time' => date('h:i A', strtotime($auction->end_time)),
                     'id' => stripslashes($auction->id),
                     "status" => 1,
                 );
             } else {
 
                 $data['time'][] = array(
-                    'start_time' => date('h:s:i A', strtotime($auction->start_time)),
-                    'end_time' => date('h:s:i A', strtotime($auction->end_time)),
+                    'start_time' => date('h:i A', strtotime($auction->start_time)),
+                    'end_time' => date('h:i A', strtotime($auction->end_time)),
                     'id' => stripslashes($auction->id),
                     "status" => 0,
                 );
