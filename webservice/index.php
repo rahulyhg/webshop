@@ -956,8 +956,10 @@ function ProductsDetails() {
         $naxtime_slot_id = $stmttime_slot_id->fetchObject();
         $time = $naxtime_slot_id->end_time;
         $starttime = $naxtime_slot_id->start_time;
-        $time_now = mktime(date('H') + 5, date('i') + 30, date('s'));
-        $ctime = date('Y-m-d H:i:s', $time_now);
+
+        $time_now=mktime(date('H')+5,date('i')+30,date('s'));
+        $ctime = date('Y-m-d H:i:s',$time_now);
+        
 
         //$aucshowtime=
         //$count = $stmtproduct->rowCount();
@@ -6789,7 +6791,7 @@ function auctionWinner() {
             $auction_id = $auction->id;
             $thresholdprice = $auction->thresholdprice;
 
-            $time_now = mktime(date('h') + 5, date('i') + 30, date('s'));
+            $time_now = mktime(date('H') + 5, date('i') + 30, date('s'));
             $current_datetime = date('Y-m-d H:i:s', $time_now);
 
 
@@ -6827,9 +6829,11 @@ function auctionWinner() {
 
                     $actual_link = $act_link . "#/auctionpayment/" . base64_encode($auction_id);
 
-                    send_smtpmail($getbiddetail_withuser->email, "GMT24 Auction", "You are the winner. Please pay and buy the product within 2 days. For buy <a href='#'> Click here</a>");
-                    send_smtpmail($getbiddetail_withuploader->email, "GMT24 Auction", "Your auction successfully end");
-
+                    
+                    send_smtpmail($getbiddetail_withuser->email,"GMT24 Auction", "You are the winner. Please pay and buy the product within 2 days. For buy <a href='#'> Click here</a>");
+                    send_smtpmail($getbiddetail_withuploader->email,"GMT24 Auction", "Your auction successfully end");
+                   
+                    //for notification
 
                     $is_read = '0';
                     $last_id = '0';
@@ -6848,13 +6852,23 @@ function auctionWinner() {
                     $stmt5->bindParam("is_read", $is_read);
                     $stmt5->bindParam("last_id", $last_id);
                     $stmt5->execute();
+                    //for notification end
+                    
+                    //for winner table
+                    $date = date('Y-m-d');
+                    $cdate = date_create($date);
+                    date_add($cdate, date_interval_create_from_date_string("2 days"));
+                    $expiry_date = date_format($cdate, "Y-m-d");
+                    
+                    $winsql = "INSERT INTO  webshop_auction_winner(user_id,product_id,date,expiry_date) VALUES (:user_id,:product_id, :date, :expiry_date)";
+                    $stmt6 = $db->prepare($winsql);
+                    $stmt6->bindParam("user_id", $to_id);
+                    $stmt6->bindParam("product_id", $auction_id);
+                    $stmt6->bindParam("date", $current_datetime);
+                    $stmt6->bindParam("expiry_date", $expiry_date);
+                    $stmt6->execute();
+                    //for winner table end
 
-
-
-
-
-                    //send_smtpmail($getbiddetail_withuser->email, "GMT24 Auction", "You are the winner.");
-                    //send_smtpmail($getbiddetail_withuploader->email, "GMT24 Auction", "Your auction successfully end");
                 } else {
 
                     send_smtpmail($getbiddetail_withuploader->email, "GMT24 Auction", "Your auction unsuccessfully end");
@@ -6986,6 +7000,173 @@ function send_smtpmail($MailTo, $subject, $TemplateMessage, $MailAttachment = nu
         echo $e->errorMessage(); //Pretty error messages from PHPMailer
     }
 }
+
+
+
+function UserAuctionpayment() {
+
+    $data = array();
+    $act_link = 'http://111.93.169.90/team1/webshop/';
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+    
+    $pid=  base64_decode($body->product_id);
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $product_id = isset($pid) ? $pid : '';
+
+
+    $paymentId = base64_encode($product_id);
+
+
+    $name = isset($body->name) ? $body->name : '';
+    $email = isset($body->email) ? $body->email : '';
+    $phone = isset($body->phone) ? $body->phone : '';
+
+    $sql = "SELECT * from webshop_products where id =:product_id";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("product_id", $product_id);
+    $stmt->execute();
+    $getProductValue = $stmt->fetchObject();
+
+    //$subscriptionname = $getProductValue->name;
+    $productprice = $getProductValue->price;
+//payment gateway
+
+    $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
+
+    $user = "testapi@myfatoorah.com"; // Will Be Provided by Myfatoorah
+    $password = "E55D0"; // Will Be Provided by Myfatoorah
+    $post_string = '<?xml version="1.0" encoding="windows-1256"?>
+<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+<soap12:Body>
+<PaymentRequest xmlns="http://tempuri.org/">
+<req>
+<CustomerDC>
+<Name>' . $name . '</Name>
+<Email>' . $email . '</Email>
+<Mobile>' . $phone . '</Mobile>
+</CustomerDC>
+<MerchantDC>
+<merchant_code>999999</merchant_code>
+<merchant_username>testapi@myfatoorah.com</merchant_username>
+<merchant_password>E55D0</merchant_password>
+<merchant_ReferenceID>201454542102</merchant_ReferenceID>
+<ReturnURL>' . $act_link . '#/successAuctionpayment/' . $paymentId . '/</ReturnURL>
+<merchant_error_url>' . $act_link . '#/cancelAuctionpayment</merchant_error_url>
+</MerchantDC>
+<lstProductDC>
+<ProductDC>
+<product_name>Auctioned Product</product_name>
+<unitPrice>' . $productprice . '</unitPrice>
+<qty>1</qty>
+</ProductDC>
+</lstProductDC>
+</req>
+</PaymentRequest>
+</soap12:Body>
+</soap12:Envelope>';
+    $soap_do = curl_init();
+    curl_setopt($soap_do, CURLOPT_URL, $url);
+    curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 10);
+    curl_setopt($soap_do, CURLOPT_TIMEOUT, 10);
+    curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($soap_do, CURLOPT_POST, true);
+    curl_setopt($soap_do, CURLOPT_POSTFIELDS, $post_string);
+    curl_setopt($soap_do, CURLOPT_HTTPHEADER, array('Content-Type: text/xml; charset=utf-8', 'Content-Length:
+' . strlen($post_string)));
+    curl_setopt($soap_do, CURLOPT_USERPWD, $user . ":" . $password); //User Name, Password To be provided by Myfatoorah
+    curl_setopt($soap_do, CURLOPT_HTTPHEADER, array(
+        'Content-type: text/xml'
+    ));
+    $result = curl_exec($soap_do);
+    $err = curl_error($soap_do);
+//curl_close($soap_do);
+//print_r($result);exit;   
+    $file_contents = htmlspecialchars(curl_exec($soap_do));
+    curl_close($soap_do);
+    $doc = new DOMDocument();
+    $doc->loadXML(html_entity_decode($file_contents));
+//echo $doc;exit;
+    $ResponseCode = $doc->getElementsByTagName("ResponseCode");
+    $ResponseCode = $ResponseCode->item(0)->nodeValue;
+//echo $ResponseCode;exit;
+    $ResponseMessage = $doc->getElementsByTagName("ResponseMessage");
+    $ResponseMessage = $ResponseMessage->item(0)->nodeValue;
+//echo $ResponseMessage;exit;
+    if ($ResponseCode == 0) {
+        $paymentUrl = $doc->getElementsByTagName("paymentURL");
+        $paymentUrl = $paymentUrl->item(0)->nodeValue;
+//echo $paymentUrl;exit;
+
+        /* $OrderID = $doc->getElementsByTagName("OrderID");
+          $OrderID = $OrderID->item(0)->nodeValue;
+          $Paymode = $doc->getElementsByTagName("Paymode");
+          $Paymode = $Paymode->item(0)->nodeValue;
+          $PayTxnID = $doc->getElementsByTagName("PayTxnID");
+          $PayTxnID = $PayTxnID->item(0)->nodeValue;
+         */
+    }
+//end
+
+    $data['url'] = $paymentUrl;
+    $data['Ack'] = 1;
+
+    $app->response->setStatus(200);
+
+
+    $app->response->write(json_encode($data));
+}
+
+
+function addwinnerpayment() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+    $pid = base64_decode($body->product_id);
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $product_id = isset($pid) ? $pid : '';
+
+
+//$name = isset($body->name) ? $body->name : '';
+//$email = isset($body->email) ? $body->email : '';
+//$phone = isset($body->phone) ? $body->phone : '';
+//payment gateway
+//end
+
+
+    
+        $sql = "UPDATE  webshop_auction_winner SET is_paid= 1 WHERE user_id=:user_id and product_id=:product_id";
+    
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("product_id", $product_id);
+        $stmt->bindParam("user_id", $user_id);
+        $stmt->execute();
+
+        $data['Ack'] = 1;
+        $data['msg'] = 'Your payment completed successfully.';
+        $app->response->setStatus(200);
+
+        $app->response->write(json_encode($data));
+}
+
+
+
 
 $app->run();
 ?>

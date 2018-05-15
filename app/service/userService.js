@@ -4437,7 +4437,66 @@ reject(response);
 }); 
 });
 };     
+  
+
+
+var purchaseAuctionproduct = function(value) {
+    return $q(function(resolve, reject) {
+        var userInfo = JSON.parse($window.localStorage["userInfo"]);
     
+     var encodedString ='{"user_id":"'+ userInfo.user_id +'","product_id":"'+ value.product_id +'","name":"'+ value.name +'","email":"'+ value.email +'","phone":"'+ value.phone +'"}';
+
+    $http({
+    method: 'POST',
+   // url: $rootScope.serviceurl+"addUserSubscription",
+    url: $rootScope.serviceurl+"UserAuctionpayment",
+    data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    resolve(response.data); 
+    } else {
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    reject(response);
+    });
+    });
+    };
+
+
+ var addwinnerpayment = function(id) {
+    return $q(function(resolve, reject) {
+        var userInfo = JSON.parse($window.localStorage["userInfo"]);
+    
+     var encodedString ='{"user_id":"'+ userInfo.user_id +'","product_id":"'+ id +'"}';
+
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"addwinnerpayment",
+    data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    resolve(response.data); 
+    } else {
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    reject(response);
+    });
+    });
+    };
+
+
+
+
  
  return {
      
@@ -4581,7 +4640,9 @@ ChangePassword: ChangePassword,
            adduserpayment:adduserpayment,
            usersubscriptions:usersubscriptions,
            addreview:addreview,
-           reviews:reviews
+           reviews:reviews,
+           purchaseAuctionproduct:purchaseAuctionproduct,
+           addwinnerpayment:addwinnerpayment
 
 	
 };
