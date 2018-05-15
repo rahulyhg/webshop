@@ -3985,7 +3985,8 @@ function listmyAuctions() {
                 "seller_name" => stripslashes($seller_name),
                 "seller_address" => stripslashes($seller_address),
                 "seller_phone" => stripslashes($seller_phone),
-                "productname" => stripslashes($product->name)
+                "productname" => stripslashes($product->name),
+                "auction_fee_paid" =>stripslashes($product->auction_fee_paid)
             );
         }
 
@@ -6833,7 +6834,7 @@ function auctionWinner() {
                     $actual_link = $act_link . "#/auctionpayment/" . base64_encode($auction_id);
 
                     
-                    send_smtpmail($getbiddetail_withuser->email,"GMT24 Auction", "You are the winner. Please pay and buy the product within 2 days. For buy <a href='#'> Click here</a>");
+                    send_smtpmail($getbiddetail_withuser->email,"GMT24 Auction", "You are the winner. Please pay and buy the product within 2 days. For buy <a href='".$actual_link."'> Click here</a>");
                     send_smtpmail($getbiddetail_withuploader->email,"GMT24 Auction", "Your auction successfully end");
                    
                     //for notification
@@ -6843,7 +6844,7 @@ function auctionWinner() {
                     $from_id = '0';
                     $to_id = $getbiddetail_withuser->userid;
                     $notificationtype = "GMT24 Auction result";
-                    $notification_msg = "You won the auction. Please pay and buy the product within 2 days. For buy <a href='#'> Click here</a>";
+                    $notification_msg = "You won the auction. Please pay and buy the product within 2 days. For buy <a href='".$actual_link."'> Click here</a>";
 
                     $notificationsql = "INSERT INTO  webshop_notification(from_id,to_id, type, msg, date, is_read, last_id) VALUES (:from_id,:to_id, :type, :msg, :date, :is_read, :last_id)";
                     $stmt5 = $db->prepare($notificationsql);
@@ -7031,14 +7032,14 @@ function UserAuctionpayment() {
     $email = isset($body->email) ? $body->email : '';
     $phone = isset($body->phone) ? $body->phone : '';
 
-    $sql = "SELECT * from webshop_products where id =:product_id";
+    $sql = "SELECT * from webshop_biddetails where productid =:product_id order by id desc limit 0,1";
     $stmt = $db->prepare($sql);
     $stmt->bindParam("product_id", $product_id);
     $stmt->execute();
     $getProductValue = $stmt->fetchObject();
 
     //$subscriptionname = $getProductValue->name;
-    $productprice = $getProductValue->price;
+    $productprice = $getProductValue->bidprice;
 //payment gateway
 
     $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";

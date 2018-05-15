@@ -264,7 +264,7 @@ while ($moreimage = mysqli_fetch_array($moreimage1)) {
                                 <br>
                                 <button type="reset" class="btn blue" onClick="javascript:active('<?php echo $_REQUEST['id']; ?>');" center >Approve Auction</button>&nbsp;&nbsp;
 
-                                <button type="reset" class="btn blue" onClick="window.location.href = 'auction_send_notific.php'" center >Send Notification</button>
+                                <!--<button type="reset" class="btn blue" onClick="window.location.href = 'auction_send_notific.php'" center >Send Notification</button>-->
                             </form>
 
 
