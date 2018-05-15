@@ -86,8 +86,12 @@
 								<div class="col-sm-6">
 									<p class="mb-4" ng-if="loader1 && productLists.seller_id!=user_id"><a href="" class="btn btn-primary btn-block" ng-click="emailtothevendorinterest(productLists.seller_id)">I am Interested</a></p>
 								</div>
-								<div class="col-sm-6">
+
+								<div class="col-sm-6" ng-if="productLists.ctime > productLists.start_time">
+
+							
                                                                      <div ng-if="user_id">
+
 									<p class="mb-4" ng-if="productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">Go Live Bidding</a></p>
                                                                      </div>
 								</div>
