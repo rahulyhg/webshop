@@ -226,6 +226,7 @@ else {
     if($scope.productLists.bidincrement && $scope.productLists.bidincrement!= 0 ){
     bid.bidincrement = $scope.productLists.bidincrement;
     }
+    //alert(bid.bidprice);
      //console.log('bidding',bid);
       userService.addbid( bid.userid,bid.productid,bid.bidprice,bid.uploaderid,bid.bidincrement).then(function(response) {
 

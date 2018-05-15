@@ -290,14 +290,24 @@ if ($_REQUEST['action'] == 'edit') {
                                                     <?php echo stripslashes($uploader['email']); ?>
                                                 </td>
 
-                                                                                                                                                                                                                                                                                                                                                                                      <!--  <td>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                      <!--  <td>
                                                 <?php echo stripslashes($tools_type['owner_number']); ?>
-                                                                                                                                                                                                                                                                                                                                                                                        </td>-->
+                                                                                                                      </td>-->
 
                                                 <td>
-                                                    <?php if ($tools_type['approved'] == '0') { ?>
-                                                        <a  onClick="javascript:active('<?php echo $tools_type['id']; ?>', '<?php echo $uploader['fname']; ?>', '<?php echo $uploader['email']; ?>');">Click to Activate</a>
-                                                    <?php } else { ?>
+                                                    <?php
+                                                    if ($tools_type['approved'] == '0') {
+
+                                                        if ($tools_type['is_edited'] == 1) {
+                                                            ?>
+                                                            <a  onClick="javascript:active('<?php echo $tools_type['id']; ?>', '<?php echo $uploader['fname']; ?>', '<?php echo $uploader['email']; ?>');">Click to Activate</a>
+                                                        <?php } else {
+                                                            ?>
+                                                            <a  href="javascript:void(0)">Click to Activate</a>
+                                                            <?php
+                                                        }
+                                                    } else {
+                                                        ?>
                                                         <a  onClick="javascript:inactive('<?php echo $tools_type['id']; ?>');">Click to deactivate</a>
                                                     <?php } ?>
                                                 </td>
@@ -446,7 +456,7 @@ function test_mail($to, $firstname) {
     $MailToName = '';
 
     $YourEamilPassword = "arunavaguha@9734";   //Your email password from which email you send.
-    // If you use SMTP. Please configure the bellow settings.
+// If you use SMTP. Please configure the bellow settings.
 
     $SmtpHost = "smtp.gmail.com"; // sets the SMTP server
     $SmtpDebug = 0;                     // enables SMTP debug information (for testing)
