@@ -12,7 +12,7 @@ app.run(['$rootScope', '$state', '$stateParams',
         // GLOBAL APP SCOPE
         // set below basic information
 
-        $rootScope.serviceurl = "http://localhost/webshop/webservice/frontend/";
+        $rootScope.serviceurl = "http://localhost/webshop/webservice/frontend/"; 
         $rootScope.siteurl = "http://localhost/webshop/webservice/frontend/";
 
         $rootScope.app = {

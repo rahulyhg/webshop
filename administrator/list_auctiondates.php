@@ -4,7 +4,8 @@ include_once("./includes/config.php");
 
 if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     $item_id = $_GET['cid'];
-    mysqli_query($con, "delete from  webshop_auctiondates where id='" . $item_id . "'");
+    echo $sqldel = "delete from  webshop_auctiondates where date='" . $item_id . "'";
+    mysqli_query($con, $sqldel);
     header('Location:list_auctiondates.php');
     exit();
 }
@@ -130,16 +131,16 @@ if ($_REQUEST['action'] == 'edit') {
                                                     <?php echo stripslashes($subscription['date']); ?>
                                                 </td>
 
-                                <!--                                                <td>
+                                                                        <!--                                                <td>
                                                 <?php echo stripslashes($subscription['start_time']); ?>
-                                                                                </td>-->
+                                                                                                                        </td>-->
 
 
 
                                                 <td>
                                                     <a  href="edit_auctiondates.php?date=<?php echo $subscription['date'] ?>&action=edit">
                                                         <i class="icon-edit"></i></a>
-                                                    <a onClick="javascript:del('<?php echo $subscription['id']; ?>')">
+                                                    <a onClick="javascript:del('<?php echo $subscription['date']; ?>')">
                                                         <i class="icon-trash"></i></a>
                                                 </td>
 
@@ -214,9 +215,9 @@ if ($_REQUEST['action'] == 'edit') {
 
 <!-- END JAVASCRIPTS -->
 <script>
-                                                        jQuery(document).ready(function () {
-                                                            EditableTable.init();
-                                                        });
+                                                jQuery(document).ready(function () {
+                                                    EditableTable.init();
+                                                });
 </script>
 </body>
 <!-- END BODY -->
