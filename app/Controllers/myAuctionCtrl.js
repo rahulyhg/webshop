@@ -88,6 +88,39 @@ $scope.myauction = function(){
         
 }
 
+
+
+$scope.auctionFeesPayment = function(notification_type,auction_id){
+   //  alert('hi');
+
+        userService.auctionFees(notification_type,auction_id).then(function(response) {
+
+	console.log("vv",response);
+		
+		//$scope.isExists=response.Ack;
+		if(response.Ack == '1') {
+                   // alert('gg');
+	
+		// $scope.productLists=response.productList;
+		alert("Payment has been done successfully.Wait for the admin to make your product GO LIVE.");
+		
+		
+
+  } else {
+
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+        
+       
+    
+    };
+
+
+
 	
 });
 
