@@ -18,7 +18,7 @@ app.controller('productDetailsCtrl', function ($rootScope, $scope,$interval, $ht
 $scope.rating = {};
 $scope.review = {};
 $scope.allreviews = {};
-
+$scope.date = new Date('hh:mm:ss a');
 $scope.review.rating =1;
 $scope.rating.editableRating = true;
  $scope.rating.iconClass ='fa fa-star';
