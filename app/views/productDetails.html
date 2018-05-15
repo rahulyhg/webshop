@@ -84,7 +84,7 @@
 								<div class="col-sm-6">
 									<p class="mb-4" ng-if="loader1 && productLists.seller_id!=user_id"><a href="" class="btn btn-primary btn-block" ng-click="emailtothevendorinterest(productLists.seller_id)">I am Interested</a></p>
 								</div>
-								<div class="col-sm-6" ng-if="productLists.ctime > productLists.start_time">
+								<div class="col-sm-6">
 									<p class="mb-4" ng-if="productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">Go Live Bidding</a></p>
                                                         
 								</div>
@@ -161,7 +161,7 @@
 									
 								</div>
 							</div>-->
-							<p class="text-right"><a href="" class="btn btn-primary btn-block">Add Review</a></p>
+							<p class="text-right"><a href="" data-toggle="modal" data-target="#myModal1" class="btn btn-primary btn-block">Add Review</a></p>
 						</div>
 					</div>
 				</div>
@@ -273,77 +273,76 @@
   <div class="modal-dialog">
 <form class="modal-content animate" ng-submit="addbid(bid)">
     <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-       <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
-        <h4 class="modal-title"></h4>
-      </div>
-         
-                                        <div class="modal-body">
-                                            
-                                            <h5>Total No Of Bid</h5>
+    <div class="modal-content">     
+        <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>    
+            <div class="top-bar-part">
+                <div class="left-count">
+                    <p><i class="fa fa-user"></i> <span>18</span></p>
+                </div>
+                <div  class="right-icon-btn">
+                    <p><span ng-if="productLists.lastbidvalue >= productLists.thresholdprice"></span> <span ng-if="productLists.lastbidvalue < productLists.thresholdprice"></span></p>
+                </div>
+            </div>
+            <figure>
+                <img class="img-fluid" src="{{productLists.image}}" alt="Auction cap">
+            </figure>
+            
+            <h5>Total No Of Bid : &nbsp; <p>{{productLists.bidcount}}</p></h5>
+            
+                        <h5>Time Left :  
+                        <div class='time-to' ng-if="productLists.preferred_date &&  productLists.type==2">
+                            <p countdown='' date='{{productLists.preferred_date}}' style="color:red">&nbsp;</p>
+                        </div>
+                            </h5>  
+                        <h5>Highest Bid : 
+                        <p ng-if="!productLists.maxbid">You have not bid yet</p>
+                        <p ng-if="productLists.maxbid">{{productLists.maxbid}}</p>
+                       </h5>
+                        <hr>
+                        <div class="p-nm">
+                            <h5>{{productLists.brands}}/{{productLists.category}}<br> <small>({{productLists.gender}})</small></h5>
+                        </div>
+<!--                        <h6>Product Threshold Price : 
+                        <p ng-if="productLists.lastbidvalue >= productLists.thresholdprice" style="color:red">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
+                        <p ng-if="productLists.lastbidvalue < productLists.thresholdprice" style="color:green">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
+                        </h6>-->
+                        <h6>Last Auction Price : <p>{{productLists.lastbidvalue}}</p> </h6>
+                        
+                         <h6>Your Minimum Bid : 
+                        <p ng-if="productLists.nextbidprice > 0">{{productLists.currency_code}}&nbsp;{{productLists.nextbidprice}}</p>
+                        <p ng-if="productLists.nextbidprice <= 0">{{productLists.currency_code}}&nbsp;{{productLists.baseauctionprice}}</p>
+                       </h6>
+                        <h6>Your Price :                                          
+                            <div ng-if="productLists.bidcount <= 0">{{productLists.currency_code}}<input type="number" class="form-control btn-round" id="" ng-value="{{productLists.baseauctionprice}}" readonly placeholder="Input Your Bid" ng-model="bid.bidprice=productLists.baseauctionprice" name="bidprice" capitalize required></div>
+                            <div ng-if="productLists.bidcount > 0">{{productLists.currency_code}}<input type="number" class="form-control btn-round" id=""  ng-value="{{productLists.nextbidprice}}" readonly placeholder="Input Your Bid" ng-model="bid.bidprice=productLists.nextbidprice" name="bidprice" capitalize required></div>
+                        <input type="hidden" class="form-control" id="" value="" placeholder="" ng-model="bid.uploaderid=productLists.uploader_id" name="uploaderid" required>
+                        <input type="hidden" class="form-control" id="" placeholder="" ng-model="productLists.id" name="productid" required>
+                        </h6>
+<!--                        <div class="submit-btn-btn">
+                            <input type="submit" value="Submit" class="btn-round">
+                        </div>-->
+                        <!--<div ng-if="productLists.nextbidprice <= 0">-->
 
-							<p>{{productLists.bidcount}}</p>
-                                                        <hr>
-                                              
-							<h5>Your Maximum Bid</h5>
-                                                        <p ng-if="!productLists.maxbid">You have not bid yet</p>
-							<p ng-if="productLists.maxbid">{{productLists.maxbid}}</p>
-                                                        <hr>
-                                                        
-         
-							<h5>Time Remaining</h5>
-                                                       
-							  <div class='time-to' ng-if="productLists.preferred_date &&  productLists.type==2">
- 
-                            <p countdown='' date='{{productLists.preferred_date}}'  style="color:red">&nbsp;</p>
-                            </div>
-                                                          <hr>
-				
-                                                        <h5>Product Threshold Price</h5>
-                                                        
-							<p ng-if="productLists.lastbidvalue >= productLists.thresholdprice" style="color:red">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
-                                                        <p ng-if="productLists.lastbidvalue < productLists.thresholdprice" style="color:green">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
-                                                        <hr>
-                                                        
-         
-        
-          <h5>Last Auction Price</h5>
-							<p>{{productLists.lastbidvalue}}</p>
-							
-							<hr>
-          <h5>Your Minimum Bid</h5>
-							<p ng-if="productLists.nextbidprice > 0">{{productLists.currency_code}}&nbsp;{{productLists.nextbidprice}}</p>
-                                                        <p ng-if="productLists.nextbidprice <= 0">{{productLists.currency_code}}&nbsp;{{productLists.baseauctionprice}}</p>
-							<hr>
-                                                        <h5>Your Price</h5>                                         
-                                                        {{productLists.currency_code}}<input type="number" class="form-control" id="" value="" placeholder="" ng-model="bid.bidprice" name="bidprice" capitalize required>
-                                                        <input type="hidden" class="form-control" id="" value="" placeholder="" ng-model="bid.uploaderid=productLists.uploader_id" name="uploaderid" required>
-                                                        <input type="hidden" class="form-control" id="" placeholder="" ng-model="productLists.id" name="productid" required>
-                                                        <hr>
-                                                        <div ng-if="productLists.nextbidprice <= 0">
-                                                          
-                                                           <div ng-if="bid.bidprice >= productLists.baseauctionprice">
-<input type="submit" value="Submit" >
-</div> 
-                                                        </div>
-                                                         <div ng-if="productLists.nextbidprice > 0">
-                                                            
-                                                        <div ng-if="bid.bidprice >= productLists.nextbidprice">
-<input type="submit" value="Submit" >
-</div>
-                                                         </div>                                                  
-      </div>
+                           <!--<div ng-if="bid.bidprice >= productLists.baseauctionprice">-->
+                                <input type="submit" value="Place Bid" class="btn-round">
+                            <!--</div>--> 
+                        <!--</div>-->
+                       
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+<!--                        <div ng-if="bid.bidprice >= productLists.nextbidprice">-->
+                            <!--<input type="submit" value="Submit" class="btn-round">-->
+                        <!--</div>-->
+                                                                          
+                </div>
+<!--
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>-->
+            </div>
+        </form>
     </div>
-</form>
-  </div>
 </div>
-
-
 
 <div id="myModal1" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -396,9 +395,6 @@
   </div>
 </div>
 
-
-
-
 <style>
  .loader {
   height: 4px;
@@ -427,7 +423,3 @@
     to {left: 100%;}
 }  
 </style>
-<script>
-    
-    
-</script>

@@ -3730,7 +3730,7 @@ reject(response);
 return $q(function(resolve, reject) {
     
   var nextbidprice = parseInt(bidprice)+parseInt(bidincrement);
-  //alert(bidincrement);
+  //alert(bidprice);
   var encodedString ='{"uploaderid":"'+ uploaderid +'","userid":"'+ userid +'","productid":"'+ productid +'","bidprice":"'+ bidprice +'","nextbidprice":"'+ nextbidprice +'"}';
 
 $http({
