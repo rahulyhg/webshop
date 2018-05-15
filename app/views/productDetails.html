@@ -84,7 +84,7 @@
 								<div class="col-sm-6">
 									<p class="mb-4" ng-if="loader1 && productLists.seller_id!=user_id"><a href="" class="btn btn-primary btn-block" ng-click="emailtothevendorinterest(productLists.seller_id)">I am Interested</a></p>
 								</div>
-								<div class="col-sm-6">
+								<div class="col-sm-6" ng-if="productLists.ctime > productLists.start_time">
 									<p class="mb-4" ng-if="productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">Go Live Bidding</a></p>
                                                         
 								</div>
@@ -275,13 +275,17 @@
     <!-- Modal content-->
     <div class="modal-content">     
         <div class="modal-body">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>    
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            
             <div class="top-bar-part">
                 <div class="left-count">
                     <p><i class="fa fa-user"></i> <span>18</span></p>
                 </div>
-                <div  class="right-icon-btn">
-                    <p><span ng-if="productLists.lastbidvalue >= productLists.thresholdprice"></span> <span ng-if="productLists.lastbidvalue < productLists.thresholdprice"></span></p>
+                <div  class="right-icon-btn" ng-if="productLists.lastbidvalue >= productLists.thresholdprice">
+                    <p> <span></span></p>
+                </div>
+                <div  class="right-icon-btn1" ng-if="productLists.lastbidvalue < productLists.thresholdprice" >
+                    <p><span></span></p>
                 </div>
             </div>
             <figure>
@@ -309,24 +313,24 @@
                         </h6>-->
                         <h6>Last Auction Price : <p>{{productLists.lastbidvalue}}</p> </h6>
                         
-                         <h6>Your Minimum Bid : 
+                         <h6> Minimum Bid : 
                         <p ng-if="productLists.nextbidprice > 0">{{productLists.currency_code}}&nbsp;{{productLists.nextbidprice}}</p>
                         <p ng-if="productLists.nextbidprice <= 0">{{productLists.currency_code}}&nbsp;{{productLists.baseauctionprice}}</p>
                        </h6>
-                        <h6>Your Price :                                          
-                            <div ng-if="productLists.bidcount <= 0">{{productLists.currency_code}}<input type="number" class="form-control btn-round" id="" ng-value="{{productLists.baseauctionprice}}" readonly placeholder="Input Your Bid" ng-model="bid.bidprice=productLists.baseauctionprice" name="bidprice" capitalize required></div>
-                            <div ng-if="productLists.bidcount > 0">{{productLists.currency_code}}<input type="number" class="form-control btn-round" id=""  ng-value="{{productLists.nextbidprice}}" readonly placeholder="Input Your Bid" ng-model="bid.bidprice=productLists.nextbidprice" name="bidprice" capitalize required></div>
+                        <h6>                                         
+                            
+                            <input type="number" class="form-control btn-round" id=""   placeholder="Input Your Bid" ng-model="bid.bidprice" name="bidprice" capitalize required>
                         <input type="hidden" class="form-control" id="" value="" placeholder="" ng-model="bid.uploaderid=productLists.uploader_id" name="uploaderid" required>
                         <input type="hidden" class="form-control" id="" placeholder="" ng-model="productLists.id" name="productid" required>
                         </h6>
-<!--                        <div class="submit-btn-btn">
-                            <input type="submit" value="Submit" class="btn-round">
-                        </div>-->
+                       <div ng-if="bid.bidprice < productLists.nextbidprice" class="submit-btn-btn">
+                           <input type="submit" value="Bid Price should be greater than equals to Min Bid"  class="btn-round" disabled >
+                        </div>
                         <!--<div ng-if="productLists.nextbidprice <= 0">-->
 
-                           <!--<div ng-if="bid.bidprice >= productLists.baseauctionprice">-->
+                           <div ng-if="bid.bidprice >= productLists.nextbidprice">
                                 <input type="submit" value="Place Bid" class="btn-round">
-                            <!--</div>--> 
+                           </div>
                         <!--</div>-->
                        
 

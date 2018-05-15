@@ -10,7 +10,7 @@ if (isset($_REQUEST['submit'])) {
     $start_time = isset($_POST['start_time']) ? $_POST['start_time'] : '';
     $end_time = isset($_POST['end_time']) ? $_POST['end_time'] : '';
 
-    print_r($start_time);
+    //print_r($start_time);
     for ($w = 0; $w < count($start_time); $w++) {
         $start_time1 = date('Y-m-d H:i:s', strtotime($date . ' ' . $start_time[$w]));
         $end_time1 = date('Y-m-d H:i:s', strtotime($date . ' ' . $end_time[$w]));
@@ -26,8 +26,8 @@ if (isset($_REQUEST['submit'])) {
             $fieldsList[] = '`' . $field . '`' . '=' . "'" . $value . "'";
         }
 
-        echo $insertQuery = "INSERT INTO `webshop_auctiondates` (`" . implode('`,`', array_keys($fields)) . "`)"
-        . " VALUES ('" . implode("','", array_values($fields)) . "')";
+        $insertQuery = "INSERT INTO `webshop_auctiondates` (`" . implode('`,`', array_keys($fields)) . "`)"
+                . " VALUES ('" . implode("','", array_values($fields)) . "')";
 
         mysqli_query($con, $insertQuery);
         $last_id = mysqli_insert_id($con);

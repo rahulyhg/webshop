@@ -234,8 +234,8 @@ else {
 		
 		if(response.Ack == '1') {
 		 $scope.Showdetails();
-                 $('#myModal').modal('hide');
-                 alert('Secessfully submitted your bid');
+                // $('#myModal').modal('hide');
+                 //alert('Secessfully submitted your bid');
 		
 		
 
