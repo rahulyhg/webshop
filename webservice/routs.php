@@ -127,12 +127,12 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/adduserpayment', 'adduserpayment');
     $app->post('/listuserSubscriptions', 'listuserSubscriptions');
 
-    $app->post('/auctionWinner', 'auctionWinner');
+    $app->get('/auctionWinner', 'auctionWinner');
+    $app->post('/reviews', 'reviews');
     $app->post('/reviews', 'reviews');
 
-
-
-
-    $app->post('/addreview', 'addreview');
+    $app->post('/UserAuctionpayment', 'UserAuctionpayment');
+    $app->post('/addwinnerpayment', 'addwinnerpayment');
+    
 });
 ?>

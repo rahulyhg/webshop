@@ -12,8 +12,8 @@ app.run(['$rootScope', '$state', '$stateParams',
         // GLOBAL APP SCOPE
         // set below basic information
 
-        $rootScope.serviceurl = "http://localhost/webshop/webservice/frontend/";
-        $rootScope.siteurl = "http://localhost/webshop/webservice/frontend/";
+        $rootScope.serviceurl = "http://localhost/webshop1/webshop/webservice/frontend/";
+        $rootScope.siteurl = "http://localhost/webshop1/webshop/webservice/frontend/";
 
         $rootScope.app = {
             name: 'Insulationez', // name of your project
@@ -987,6 +987,29 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
             })
             
             
+            .state('frontend.successAuctionpayment', {
+                url: '/successAuctionpayment/:id/:oid',
+                templateUrl: 'app/views/successAuctionpayment.html',
+                title: 'success',
+				controller: 'successAuctionpaymentCtrl',
+                ncyBreadcrumb: {
+                    label: 'success page'
+                },
+                resolve: loadSequence('successAuctionpayment')
+            })
+            
+            
+            
+            .state('frontend.cancelAuctionpayment', {
+                url: '/cancelAuctionpayment/:id',
+                templateUrl: 'app/views/cancelAuctionpayment.html',
+                title: 'success',
+				controller: 'cancelAuctionpaymentCtrl',
+                ncyBreadcrumb: {
+                    label: 'cancel page'
+                },
+                resolve: loadSequence('cancelAuctionpayment')
+            })
             
 
           /*   .state('frontend.test', {

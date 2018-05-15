@@ -82,6 +82,9 @@ app.constant('JS_REQUIRES', {
         'successUserpayment': ['app/Controllers/successUserpaymentCtrl.js'],
         'auctionpayment': ['app/Controllers/auctionpaymentCtrl.js'],
         
+        'successAuctionpayment': ['app/Controllers/successAuctionpaymentCtrl.js'],
+        'cancelAuctionpayment': ['app/Controllers/cancelAuctionpaymentCtrl.js'],
+        
 	
     },
 
