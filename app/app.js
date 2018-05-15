@@ -975,6 +975,19 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                 resolve: loadSequence('successUserpayment')
             })
             
+            .state('frontend.auctionpayment', {
+                url: '/auctionpayment/:product_id',
+                templateUrl: 'app/views/auctionpayment.html',
+                title: 'auctionpayment',
+		controller: 'auctionpaymentCtrl',
+                ncyBreadcrumb: {
+                    label: 'auction payment page'
+                },
+                resolve: loadSequence('auctionpayment')
+            })
+            
+            
+            
 
           /*   .state('frontend.test', {
                 url: '/test',

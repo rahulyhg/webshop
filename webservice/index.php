@@ -839,7 +839,7 @@ function ProductsDetails() {
 
     if (!empty($product)) {
 
-
+        
 
         if ($product->image != '') {
             $image = SITE_URL . 'upload/product_image/' . $product->image;
@@ -955,7 +955,11 @@ function ProductsDetails() {
         $stmttime_slot_id->execute();
         $naxtime_slot_id = $stmttime_slot_id->fetchObject();
         $time = $naxtime_slot_id->end_time;
-
+        $starttime = $naxtime_slot_id->start_time;
+        $time_now=mktime(date('h')+5,date('i')+30,date('s'));
+        $ctime = date('Y-m-d H:i:s',$time_now);
+        
+        //$aucshowtime=
         //$count = $stmtproduct->rowCount();
 
         $data['productList'] = array(
@@ -988,7 +992,9 @@ function ProductsDetails() {
             "category" => stripslashes($naxcat->name),
             "brands" => $naxbrand->name,
             "gender" => stripslashes($product->gender),
-            "maxbid" => $naxbid->maxbid
+            "maxbid" => $naxbid->maxbid,
+            "start_time"=> $starttime,
+            "ctime"=>$ctime
 // "special_price"=>stripslashes($product->special_price),
 // "auction_start_date"=>stripslashes($product->auction_start_date),
 // "auction_end_date"=>stripslashes($product->auction_end_date)
@@ -6875,7 +6881,7 @@ function auctionWinner() {
 
 
                     
-                    //$actual_link = $act_link . "#/buyAuctionproduct/" . $auction_id;
+                    $actual_link = $act_link . "#/auctionpayment/" . base64_encode($auction_id);
                     
                     send_smtpmail($getbiddetail_withuser->email,"GMT24 Auction", "You are the winner. Please pay and buy the product within 2 days. For buy <a href='#'> Click here</a>");
                     send_smtpmail($getbiddetail_withuploader->email,"GMT24 Auction", "Your auction successfully end");
@@ -6886,7 +6892,7 @@ function auctionWinner() {
                     $from_id = '0';
                     $to_id= $getbiddetail_withuser->userid;
                     $notificationtype ="GMT24 Auction result";
-                    $notification_msg = "You won the auction. Please pay and buy the product within 2 days.";
+                    $notification_msg = "You won the auction. Please pay and buy the product within 2 days. For buy <a href='#'> Click here</a>";
                     $notificationsql = "INSERT INTO  webshop_notification(from_id,to_id, type, msg, date, is_read, last_id) VALUES (:from_id,:to_id, :type, :msg, :date, :is_read, :last_id)";
                     $stmt5 = $db->prepare($notificationsql);
                     $stmt5->bindParam("from_id", $from_id);
@@ -6902,8 +6908,8 @@ function auctionWinner() {
 
 
 
-                    send_smtpmail($getbiddetail_withuser->email, "GMT24 Auction", "You are the winner.");
-                    send_smtpmail($getbiddetail_withuploader->email, "GMT24 Auction", "Your auction successfully end");
+                    //send_smtpmail($getbiddetail_withuser->email, "GMT24 Auction", "You are the winner.");
+                    //send_smtpmail($getbiddetail_withuploader->email, "GMT24 Auction", "Your auction successfully end");
                 } else {
 
                     send_smtpmail($getbiddetail_withuploader->email, "GMT24 Auction", "Your auction unsuccessfully end");

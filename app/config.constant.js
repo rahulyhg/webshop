@@ -80,6 +80,8 @@ app.constant('JS_REQUIRES', {
         'expiredProduct': ['app/Controllers/expiredProductCtrl.js'],
         'userpayment': ['app/Controllers/userpaymentCtrl.js'],
         'successUserpayment': ['app/Controllers/successUserpaymentCtrl.js'],
+        'auctionpayment': ['app/Controllers/auctionpaymentCtrl.js'],
+        
 	
     },
 
