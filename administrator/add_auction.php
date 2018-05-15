@@ -40,6 +40,7 @@ if (isset($_REQUEST['submit'])) {
         'baseauctionprice' => mysqli_real_escape_string($con, $baseauctionprice),
         'thresholdprice' => mysqli_real_escape_string($con, $thresholdprice),
         'bidincrement' => mysqli_real_escape_string($con, $bidincrement),
+        'is_edited' => 1,
         // 'start_date_time' => mysqli_real_escape_string($con,$start_date_time),
         //  'end_date_time' => mysqli_real_escape_string($con,$end_date_time),
         'owner_number' => mysqli_real_escape_string($con, $owner_number),
@@ -262,6 +263,7 @@ if ($num > 0) {
                                     <div class="controls">
                                         <input type="radio" name="gender" value="Female" <?php if ('Female' == $categoryRowset['gender']) { ?> checked <?php } ?>>Female&nbsp;
                                         <input type="radio" name="gender" value="Male" <?php if ('Male' == $categoryRowset['gender']) { ?> checked <?php } ?>>Male<br>
+                                        <input type="radio" name="gender" value="Male" <?php if ('Unisex' == $categoryRowset['gender']) { ?> checked <?php } ?>>Unisex<br>
 
                                     </div>
                                 </div>
@@ -554,7 +556,7 @@ if ($num > 0) {
     }, 'Must be less than Preffered Date.');
 
     $.validator.addMethod('greaterNumber', function (value, element, param) {
-        return this.optional(element) || parseInt(value) > parseInt($(param).val());
+        return this.optional(element) || parseInt(value) < parseInt($(param).val());
     }, 'Invalid value');
 
     $("#adminaddauction").validate({
@@ -593,11 +595,6 @@ if ($num > 0) {
                 positiveNumber: true,
                 greaterNumber: '#price',
             },
-            thresholdprice: {
-                required: true,
-                positiveNumber: true,
-                greaterNumber: '#baseauctionprice',
-            },
             owner_number: {
                 required: true,
                 positiveNumber: true,
@@ -616,10 +613,7 @@ if ($num > 0) {
         },
         messages: {
             baseauctionprice: {
-                greaterNumber: 'Base auction price must be greater than price',
-            },
-            thresholdprice: {
-                greaterNumber: 'Threshold price price must be greater than base auction price ',
+                greaterNumber: 'Base auction price must be less than price',
             },
         }
     });

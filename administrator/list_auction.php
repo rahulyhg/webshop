@@ -290,9 +290,9 @@ if ($_REQUEST['action'] == 'edit') {
                                                     <?php echo stripslashes($uploader['email']); ?>
                                                 </td>
 
-                                                                                                                                                                                                                                                                                      <!--  <td>
+                                                                                                                                                                                                                                                                                                                                                                                      <!--  <td>
                                                 <?php echo stripslashes($tools_type['owner_number']); ?>
-                                                                                                                                                                                                                                                                                        </td>-->
+                                                                                                                                                                                                                                                                                                                                                                                        </td>-->
 
                                                 <td>
                                                     <?php if ($tools_type['approved'] == '0') { ?>
@@ -315,15 +315,27 @@ if ($_REQUEST['action'] == 'edit') {
                                                 </td>
 
                                                 <td>
+
                                                     <a  href="add_auction.php?id=<?php echo $tools_type['id'] ?>&action=edit"  >
+
                                                         <i class="icon-edit"></i></a> 
                                                     <a onClick="javascript:del('<?php echo $tools_type['id']; ?>')">
                                                         <i class="icon-trash"></i></a>
                                                 </td>
 
                                                 <td>
+                                                    <?php
+                                                    $link = "";
 
-                                                    <a  href="details_auction.php?id=<?php echo $tools_type['id'] ?>&action=details"><i class="icon-eye-open"></i></a>
+                                                    if ($tools_type['is_edited'] == 0) {
+                                                        $link = "javascript:void(0)";
+                                                    } else {
+                                                        $link = "details_auction.php?id=" . $tools_type['id'] . "&action=details";
+                                                    }
+                                                    ?>
+        <!--                                                    <a  href="details_auction.php?id=<?php echo $tools_type['id'] ?>&action=details"><i class="icon-eye-open"></i></a>-->
+                                                    <a  href="<?php echo $link ?>"><i class="icon-eye-open"></i></a>
+
 
                                                 </td> 
 
@@ -399,9 +411,9 @@ if ($_REQUEST['action'] == 'edit') {
 
 <!-- END JAVASCRIPTS -->
 <script>
-                                                        jQuery(document).ready(function () {
-                                                            EditableTable.init();
-                                                        });
+                                                jQuery(document).ready(function () {
+                                                    EditableTable.init();
+                                                });
 </script>
 </body>
 <!-- END BODY -->
