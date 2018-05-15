@@ -4,6 +4,14 @@ include_once('includes/session.php');
 ?>
 
 <?php
+if (isset($_GET['action']) && $_GET['action'] == 'delete') {
+    $item_id = $_GET['id'];
+    $date = $_GET['date'];
+    echo $sqldel = "delete from  webshop_auctiondates where id='" . $item_id . "'";
+    mysqli_query($con, $sqldel);
+    header('Location:edit_auctiondates.php?date=' . $date . '"&action=edit"');
+    exit();
+}
 if (isset($_REQUEST['submit'])) {
 
     $date = isset($_POST['date']) ? $_POST['date'] : '';
@@ -11,18 +19,23 @@ if (isset($_REQUEST['submit'])) {
     $end_time = isset($_POST['end_time']) ? $_POST['end_time'] : '';
     $id = isset($_POST['id']) ? $_POST['id'] : '';
 
-
+    $id1 = '';
     for ($w = 0; $w <= count($start_time); $w++) {
-
+        $id1 = '';
         $start_time1 = date('Y-m-d H:i:s', strtotime($start_time[$w]));
         $end_time1 = date('Y-m-d H:i:s', strtotime($end_time[$w]));
-        $id1 = $id[$w];
+        if (isset($id[$w]) && !empty($id[$w])) {
+            $id1 = $id[$w];
+        } else {
+            $id1 = '';
+        }
+        if ($id1 != '') {
 
-
-
-        $editQuery = "UPDATE `webshop_auctiondates` SET `start_time`='" . $start_time1 . "',`end_time`='" . $end_time1 . "' WHERE `id` = '" . $id1 . "'";
-        // exit;
-
+            $editQuery = "UPDATE `webshop_auctiondates` SET `start_time`='" . $start_time1 . "',`end_time`='" . $end_time1 . "' WHERE `id` = '" . $id1 . "'";
+            // exit;
+        } else {
+            $editQuery = "INSERT INTO `webshop_auctiondates` (`start_time`,`end_time`,`date`) VALUES ('" . $start_time1 . "','" . $end_time1 . "','" . $date . "')";
+        }
 
         if (mysqli_query($con, $editQuery)) {
 
@@ -50,7 +63,21 @@ if ($_REQUEST['action'] == 'edit') {
     }
 }
 ?>
+<script language="javascript">
+    function del(aa, bb)
+    {
+        //alert(bb);
+        var a = confirm("Are you sure, you want to delete this?")
+        if (a)
+        {
 
+            location.href = "edit_auctiondates.php?id=" + aa + "&date=" + bb + "&action=delete"
+            alert(location.href);
+        }
+    }
+
+
+</script>
 <!-- Header Start -->
 <?php include ("includes/header.php"); ?>
 <!-- Header End -->
@@ -140,13 +167,15 @@ if ($_REQUEST['action'] == 'edit') {
                                         <?php
                                         foreach ($array2 as $v) {
                                             ?>
-                                            <div class="control-group">
+
+                                            <div class="control-group">                                                
                                                 <label class="control-label">Start Time </label>
                                                 <div class="controls">
                                                     <input type="text" class="form-control timepicker"id="time_1" placeholder="Start Time" value="<?php echo date('h:i A', strtotime($v['start_time'])); ?>" name="start_time[]" required>
 
                                                     <input type="text" id="time_2" class="form-control timepicker" placeholder="End Time" value="<?php echo date('h:i A', strtotime($v['end_time'])); ?>" name="end_time[]" required>
-                                                    <input type="hidden" id="" class="form-control" value="<?php echo $v['id']; ?>" name="id[]" required>
+                                                    <input type="hidden" id="" class="form-control" value="<?php echo $v['id']; ?>" name="id[]" required> <a onClick="javascript:del('<?php echo $v['id']; ?>', '<?php echo $v['date']; ?>')">
+                                                        <i class="icon-trash"></i></a>
                                                 </div>
                                             </div>
                                             <div>&nbsp; </div>
@@ -238,57 +267,57 @@ if ($_REQUEST['action'] == 'edit') {
 <script>
 
 
-    $(document).ready(function () {
-        var i = 3;
-        var field = '';
-        var max_fields = 10; //maximum input boxes allowed
-        var wrapper = $(".input_fields_wrap"); //Fields wrapper
-        var add_button = $(".add_field_button"); //Add button ID
-        var field = '   <div class="time"><div class="control-group">  ' +
-                '                                           <label class="control-label">Start Time </label>  ' +
-                '                                           <div class="controls">  ' +
-                '                                               <input type="text" class="form-control timepicker" placeholder="Start Time" value="" name="start_time[]" required>  ' +
-                '                                           </div>  ' +
-                '                                       </div>  ' +
-                '     ' +
-                '     ' +
-                '                                       <div class="control-group">  ' +
-                '                                           <label class="control-label">End Time</label>  ' +
-                '                                           <div class="controls">  ' +
-                '                                               <input type="text" class="form-control timepicker" placeholder="End Time" value="" name="end_time[]" required>  ' +
-                '</div> </div><a href="#" class="remove_field">Remove</a> ';
+                                                    $(document).ready(function () {
+                                                        var i = 3;
+                                                        var field = '';
+                                                        var max_fields = 10; //maximum input boxes allowed
+                                                        var wrapper = $(".input_fields_wrap"); //Fields wrapper
+                                                        var add_button = $(".add_field_button"); //Add button ID
+                                                        var field = '   <div class="time"><div class="control-group">  ' +
+                                                                '                                           <label class="control-label">Start Time </label>  ' +
+                                                                '                                           <div class="controls">  ' +
+                                                                '                                               <input type="text" class="form-control timepicker" placeholder="Start Time" value="" name="start_time[]" required>  ' +
+                                                                '                                           </div>  ' +
+                                                                '                                       </div>  ' +
+                                                                '     ' +
+                                                                '     ' +
+                                                                '                                       <div class="control-group">  ' +
+                                                                '                                           <label class="control-label">End Time</label>  ' +
+                                                                '                                           <div class="controls">  ' +
+                                                                '                                               <input type="text" class="form-control timepicker" placeholder="End Time" value="" name="end_time[]" required>  ' +
+                                                                '</div> </div><a href="#" class="remove_field">Remove</a> ';
 
-        var x = 1; //initlal text box count
-        $(add_button).click(function (e) { //on add input button click
-            e.preventDefault();
-            if (x < max_fields) { //max input box allowed
-                x++; //text box increment
+                                                        var x = 1; //initlal text box count
+                                                        $(add_button).click(function (e) { //on add input button click
+                                                            e.preventDefault();
+                                                            if (x < max_fields) { //max input box allowed
+                                                                x++; //text box increment
 
-                $(wrapper).append(field); //add input box
+                                                                $(wrapper).append(field); //add input box
 
-                $('.time').find('.timepicker').timepicker({
-                    timeFormat: 'h:mm p',
-                    interval: 15,
-                    dynamic: false,
-                    dropdown: true,
-                    scrollbar: true
-                });
-            }
-        });
+                                                                $('.time').find('.timepicker').timepicker({
+                                                                    timeFormat: 'h:mm p',
+                                                                    interval: 15,
+                                                                    dynamic: false,
+                                                                    dropdown: true,
+                                                                    scrollbar: true
+                                                                });
+                                                            }
+                                                        });
 
-        $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
-            e.preventDefault();
-            $(this).parent('div').remove();
-            x--;
-        })
-    });
-    $('body').find('.timepicker').timepicker({
-        timeFormat: 'h:mm p',
-        interval: 15,
-        dynamic: false,
-        dropdown: true,
-        scrollbar: true
-    });
+                                                        $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
+                                                            e.preventDefault();
+                                                            $(this).parent('div').remove();
+                                                            x--;
+                                                        })
+                                                    });
+                                                    $('body').find('.timepicker').timepicker({
+                                                        timeFormat: 'h:mm p',
+                                                        interval: 15,
+                                                        dynamic: false,
+                                                        dropdown: true,
+                                                        scrollbar: true
+                                                    });
 
 </script>
 <script>

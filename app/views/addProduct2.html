@@ -12,10 +12,14 @@
 
 									 <div class="form-group">
 										<label for="staticEmail"> Movement</label>
-										<input type="text" class="form-control" id="" value="" ng-model="user2.movement" ng-pattern="/^[a-z A-Z]+$/" name="movement" required>
+                                                                                <select class="form-control" name="movement" ng-model="user2.movement"  required>
+                                                                                    <option value="" selected>Please choose a movement</option>
+                                                                                    <option value="Automatic Movement">Automatic Movement</option>
+                                                                                    <option value="Quartz Movement">Quartz Movement</option>
+										</select>
+										<!--<input type="text" class="form-control" id="" value="" ng-model="user2.movement" ng-pattern="/^[a-z A-Z]+$/" name="movement" required>-->
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.movement.$error.required"> This Field Is Required! </span>
                                                                                 
-                                                                                <span style="color:Red" ng-show="addProductForm.movement.$dirty && addProductForm.movement.$error.pattern">Only Letters Allowed</span>
 									</div>
 
 									 <div class="form-group">
