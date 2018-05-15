@@ -9,38 +9,32 @@ if (isset($_REQUEST['submit'])) {
     $date = isset($_POST['date']) ? $_POST['date'] : '';
     $start_time = isset($_POST['start_time']) ? $_POST['start_time'] : '';
     $end_time = isset($_POST['end_time']) ? $_POST['end_time'] : '';
+    $id = isset($_POST['id']) ? $_POST['id'] : '';
 
 
     for ($w = 0; $w <= count($start_time); $w++) {
+
         $start_time1 = date('Y-m-d H:i:s', strtotime($start_time[$w]));
         $end_time1 = date('Y-m-d H:i:s', strtotime($end_time[$w]));
-
-        $fields = array(
-            'date' => mysqli_real_escape_string($con, $date),
-            'start_time' => mysqli_real_escape_string($con, $start_time1),
-            'end_time' => mysqli_real_escape_string($con, $end_time1),
-        );
-
-        $fieldsList = array();
-        foreach ($fields as $field => $value) {
-            $fieldsList[] = '`' . $field . '`' . '=' . "'" . $value . "'";
-        }
-
-        if ($_REQUEST['action'] == 'edit') {
-            $editQuery = "UPDATE `webshop_auctiontimes` SET " . implode(', ', $fieldsList)
-                    . " WHERE `id` = '" . mysqli_real_escape_string($con, $_REQUEST['id']) . "'";
-            // exit;
-
-            if (mysqli_query($con, $editQuery)) {
+        $id1 = $id[$w];
 
 
-                $_SESSION['msg'] = "Category Updated Successfully";
-            } else {
-                $_SESSION['msg'] = "Error occuried while updating Category";
-            }
+        echo '<br>';
+        echo $editQuery = "UPDATE `webshop_auctiondates` SET `start_time`='" . $start_time1 . "',`end_time`='" . $end_time1 . "' WHERE `id` = '" . $id1 . "'";
+        // exit;
+        echo '<br>';
+
+
+        if (mysqli_query($con, $editQuery)) {
+
+            echo 'hi';
+            $_SESSION['msg'] = "Category Updated Successfully";
+        } else {
+            echo mysql_error();
+            $_SESSION['msg'] = "Error occuried while updating Category";
         }
     }
-    header('Location:list_auctiondates.php');
+    //header('Location:list_auctiondates.php');
     exit();
 }
 if ($_REQUEST['action'] == 'edit') {
@@ -139,6 +133,7 @@ if ($_REQUEST['action'] == 'edit') {
                                         <label class="control-label"> Date</label>
                                         <div class="controls">
                                             <input type="text" id="datepicker" class="form-control" placeholder="Select Date" value="<?php echo $array2[0]['date']; ?>" name="date" required>
+
                                         </div>
                                     </div>
 
@@ -149,7 +144,8 @@ if ($_REQUEST['action'] == 'edit') {
                                             <div class="control-group">
                                                 <label class="control-label">Start Time </label>
                                                 <div class="controls">
-                                                    <input type="text" class="form-control timepicker"id="time_1" placeholder="Start Time" value="<?php echo $v['start_time']; ?>" name="start_time[]" required>
+                                                    <input type="text" class="form-control timepicker"id="time_1" placeholder="Start Time" value="<?php echo date('h:i:s A', $v['start_time']); ?>" name="start_time[]" required>
+                                                    <input type="hidden" id="" class="form-control" value="<?php echo $v['id']; ?>" name="id[]" required>
                                                 </div>
                                             </div>
 
@@ -157,7 +153,8 @@ if ($_REQUEST['action'] == 'edit') {
                                             <div class="control-group">
                                                 <label class="control-label">End Time</label>
                                                 <div class="controls">
-                                                    <input type="text" id="time_2" class="form-control timepicker" placeholder="End Time" value="<?php echo $v['end_time']; ?>" name="end_time[]" required>
+                                                    <?php $end = explode(' ', $v['end_time']) ?>
+                                                    <input type="text" id="time_2" class="form-control timepicker" placeholder="End Time" value="<?php echo date('h:i:s A', $v['end_time']); ?>" name="end_time[]" required>
                                                 </div>
                                             </div>
                                             <?php

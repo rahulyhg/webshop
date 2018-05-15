@@ -2946,15 +2946,15 @@ function ListNotification() {
                 $statement->execute();
                 $getFromUserdetails = $statement->fetchObject();
 
-                if(!empty($getFromUserdetails)){
-                if ($getFromUserdetails->image != '') {
-                    $profile_image = SITE_URL . 'upload/user_image/' . $getFromUserdetails->image;
-                } else {
-                    $profile_image = SITE_URL . 'webservice/no-user.png';
-                }
+                if (!empty($getFromUserdetails)) {
+                    if ($getFromUserdetails->image != '') {
+                        $profile_image = SITE_URL . 'upload/user_image/' . $getFromUserdetails->image;
+                    } else {
+                        $profile_image = SITE_URL . 'webservice/no-user.png';
+                    }
 
-                $get_name = $getFromUserdetails->fname . " " . $getFromUserdetails->lname;
-            }
+                    $get_name = $getFromUserdetails->fname . " " . $getFromUserdetails->lname;
+                }
             }
 
 
@@ -4977,112 +4977,55 @@ function getTimeslot() {
     $stmt->execute();
     $getauctiondate = $stmt->fetchAll(PDO::FETCH_OBJ);
 
-
+    // print_r($getauctiondate);
 
 
 
     if (!empty($getauctiondate)) {
         foreach ($getauctiondate as $auction) {
 
-            $sqlexsits = "SELECT * FROM  webshop_products WHERE  preferred_date =:acutondate";
+            $sqlexsits = "SELECT * FROM  webshop_products WHERE  time_slot_id =:time_slot_id";
             $db = getConnection();
-            $stmt = $db->prepare($sqlexsits);
-            $stmt->bindParam("acutondate", $acutondate);
+            $stmt1 = $db->prepare($sqlexsits);
+            $stmt1->bindParam("time_slot_id", $auction->id);
 
-            $stmt->execute();
-            $bookeddatetime = $stmt->fetchAll(PDO::FETCH_OBJ);
-            //echo $val;
-            // print_r($bookeddatetime);
+            $stmt1->execute();
+            $bookeddatetime = $stmt1->fetchAll(PDO::FETCH_OBJ);
 
-            foreach ($bookeddatetime as $btime) {
-                // echo 'hhhh';
-                // echo $btime->time_slot_id;
-                $data['btime'] = (stripslashes($btime->time_slot_id));
-            }
-            //echo $data['btime'];
-            if (empty($data['btime'])) {
-                $data['time'][] = array(
-                    'start_time' => date('h:s:i A', strtotime($auction->start_time)),
-                    'end_time' => date('h:s:i A', strtotime($auction->end_time)),
-                    'id' => stripslashes($auction->id),
-                    "status" => 0,
-                );
-            } else {
+//            $tim = '';
+//            if (!empty($bookeddatetime)) {
+//                foreach ($bookeddatetime as $btime) {
+//                    echo 'hi';
+//                    $tim = (stripslashes($btime->time_slot_id));
+//                }
+//            } else {
+//                $tim = '';
+//            }
+
+
+            if (!empty($bookeddatetime)) {
+
                 $data['time'][] = array(
                     'start_time' => date('h:s:i A', strtotime($auction->start_time)),
                     'end_time' => date('h:s:i A', strtotime($auction->end_time)),
                     'id' => stripslashes($auction->id),
                     "status" => 1,
                 );
+            } else {
+
+                $data['time'][] = array(
+                    'start_time' => date('h:s:i A', strtotime($auction->start_time)),
+                    'end_time' => date('h:s:i A', strtotime($auction->end_time)),
+                    'id' => stripslashes($auction->id),
+                    "status" => 0,
+                );
             }
+            //print_r($data);
+            //exit;
         }
     }
-
-    // exit;
-
-
-    /* $time = explode(',', $time);
-      if ($time) {
-      foreach ($time as $key => $val) {
-
-
-
-      $sqlexsits = "SELECT * FROM  webshop_products WHERE  preferred_date =:acutondate and time_slot_id=:time";
-      $db = getConnection();
-      $stmt = $db->prepare($sqlexsits);
-      $stmt->bindParam("acutondate", $acutondate);
-      $stmt->bindParam("time", $val);
-      $stmt->execute();
-      $bookeddatetime = $stmt->fetchAll(PDO::FETCH_OBJ);
-
-
-      foreach ($bookeddatetime as $btime) {
-      $data['btime'][] = (stripslashes($btime->time_slot_id));
-      }
-
-
-
-
-
-
-      $sql1 = "SELECT * FROM  webshop_auctiontimes WHERE  id =:timeid";
-      $stmt23 = $db->prepare($sql1);
-      $stmt23->bindParam("timeid", $val);
-      $stmt23->execute();
-      $gettime = $stmt23->fetchAll(PDO::FETCH_OBJ);
-
-      foreach ($gettime as $time) {
-
-      if (!empty($data['btime'])) {
-      $date = in_array($time->id, $data['btime']);
-      if ($date) {
-      $data['time'][] = array(
-      "id" => stripslashes($time->id),
-      "start_time" => date('h:s:i A', strtotime($time->start_time)),
-      "end_time" => date('h:s:i A', strtotime($time->end_time)),
-      "status" => 1,
-      );
-      } else {
-
-      $data['time'][] = array(
-      "id" => stripslashes($time->id),
-      "start_time" => date('h:s:i A', strtotime($time->start_time)),
-      "end_time" => date('h:s:i A', strtotime($time->end_time)),
-      "status" => 0,
-      );
-      }
-      } else {
-      $data['time'][] = array(
-      "id" => stripslashes($time->id),
-      "start_time" => date('h:s:i A', strtotime($time->start_time)),
-      "end_time" => date('h:s:i A', strtotime($time->end_time)),
-      "status" => 0,
-      );
-      }
-      }
-      }
-      } */
-
+    // print_r($data);
+    //exit;
 
 
     $data['Ack'] = '1';
@@ -6817,7 +6760,7 @@ function auctionWinner() {
 
 
     $act_link = 'http://111.93.169.90/team1/webshop/';
-    
+
 
     //mail("spandan@natitsolved.com","GMT24 Auction","Your auction unsuccessfully end","palashsaharana@gmail.com");
     //echo "spanda";exit;
@@ -6840,9 +6783,9 @@ function auctionWinner() {
             $auction_id = $auction->id;
             $thresholdprice = $auction->thresholdprice;
 
-            $time_now=mktime(date('h')+5,date('i')+30,date('s'));
-            $current_datetime = date('Y-m-d H:i:s',$time_now);
-            
+            $time_now = mktime(date('h') + 5, date('i') + 30, date('s'));
+            $current_datetime = date('Y-m-d H:i:s', $time_now);
+
 
             $sql1 = "SELECT * from webshop_auctiondates where id=$tid";
             $stmt1 = $db->prepare($sql1);
@@ -6874,18 +6817,18 @@ function auctionWinner() {
                 if ($getbiddetail_withuser->bidprice > $thresholdprice) {
 
 
-                    
+
                     //$actual_link = $act_link . "#/buyAuctionproduct/" . $auction_id;
-                    
-                    send_smtpmail($getbiddetail_withuser->email,"GMT24 Auction", "You are the winner. Please pay and buy the product within 2 days. For buy <a href='#'> Click here</a>");
-                    send_smtpmail($getbiddetail_withuploader->email,"GMT24 Auction", "Your auction successfully end");
-                   
-                    
+
+                    send_smtpmail($getbiddetail_withuser->email, "GMT24 Auction", "You are the winner. Please pay and buy the product within 2 days. For buy <a href='#'> Click here</a>");
+                    send_smtpmail($getbiddetail_withuploader->email, "GMT24 Auction", "Your auction successfully end");
+
+
                     $is_read = '0';
                     $last_id = '0';
                     $from_id = '0';
-                    $to_id= $getbiddetail_withuser->userid;
-                    $notificationtype ="GMT24 Auction result";
+                    $to_id = $getbiddetail_withuser->userid;
+                    $notificationtype = "GMT24 Auction result";
                     $notification_msg = "You won the auction. Please pay and buy the product within 2 days.";
                     $notificationsql = "INSERT INTO  webshop_notification(from_id,to_id, type, msg, date, is_read, last_id) VALUES (:from_id,:to_id, :type, :msg, :date, :is_read, :last_id)";
                     $stmt5 = $db->prepare($notificationsql);
@@ -6897,8 +6840,8 @@ function auctionWinner() {
                     $stmt5->bindParam("is_read", $is_read);
                     $stmt5->bindParam("last_id", $last_id);
                     $stmt5->execute();
-                   
-                    
+
+
 
 
 
