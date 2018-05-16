@@ -284,57 +284,57 @@ if ($_REQUEST['action'] == 'edit') {
                                                     }
 
 
-                                                    $(document).ready(function () {
-                                                        var i = 3;
-                                                        var field = '';
-                                                        var max_fields = 10; //maximum input boxes allowed
-                                                        var wrapper = $(".input_fields_wrap"); //Fields wrapper
-                                                        var add_button = $(".add_field_button"); //Add button ID
-                                                        var field = '   <div class="time"><div class="control-group" style="width:50%;float:left;">  ' +
-                                                                '                                           <label class="control-label">Start Time </label>  ' +
-                                                                '                                           <div class="controls">  ' +
-                                                                '                                               <input type="text" class="form-control timepicker" placeholder="Start Time" value="" name="start_time[]" required>  ' +
-                                                                '                                           </div>  ' +
-                                                                '                                       </div>  ' +
-                                                                '     ' +
-                                                                '     ' +
-                                                                '                                       <div class="control-group" style="width:50%;float:left;">  ' +
-                                                                '                                           <label class="control-label">End Time</label>  ' +
-                                                                '                                           <div class="controls">  ' +
-                                                                '                                               <input type="text" class="form-control timepicker" placeholder="End Time" value="" name="end_time[]" required>  ' +
-                                                                '</div> </div><a href="#" class="remove_field">Remove</a> ';
+    $(document).ready(function () {
+        var i = 3;
+        var field = '';
+        var max_fields = 10; //maximum input boxes allowed
+        var wrapper = $(".input_fields_wrap"); //Fields wrapper
+        var add_button = $(".add_field_button"); //Add button ID
+        var field = '   <div class="time"><div class="control-group" style="width:50%;float:left;">  ' +
+                '                                           <label class="control-label">Start Time </label>  ' +
+                '                                           <div class="controls">  ' +
+                '                                               <input type="text" class="form-control timepicker" placeholder="Start Time" value="" name="start_time[]" required>  ' +
+                '                                           </div>  ' +
+                '                                       </div>  ' +
+                '     ' +
+                '     ' +
+                '                                       <div class="control-group" style="width:50%;float:left;">  ' +
+                '                                           <label class="control-label">End Time</label>  ' +
+                '                                           <div class="controls">  ' +
+                '                                               <input type="text" class="form-control timepicker" placeholder="End Time" value="" name="end_time[]" required>  ' +
+                '</div> </div><a href="#" class="remove_field">Remove</a> ';
 
-                                                        var x = 1; //initlal text box count
-                                                        $(add_button).click(function (e) { //on add input button click
-                                                            e.preventDefault();
-                                                            if (x < max_fields) { //max input box allowed
-                                                                x++; //text box increment
+        var x = 1; //initlal text box count
+        $(add_button).click(function (e) { //on add input button click
+            e.preventDefault();
+            if (x < max_fields) { //max input box allowed
+                x++; //text box increment
 
-                                                                $(wrapper).append(field); //add input box
+                $(wrapper).append(field); //add input box
 
-                                                                $('.time').find('.timepicker').timepicker({
-                                                                    timeFormat: 'h:mm p',
-                                                                    interval: 15,
-                                                                    dynamic: false,
-                                                                    dropdown: true,
-                                                                    scrollbar: true
-                                                                });
-                                                            }
-                                                        });
+                $('.time').find('.timepicker').timepicker({
+                    timeFormat: 'h:mm p',
+                    interval: 15,
+                    dynamic: false,
+                    dropdown: true,
+                    scrollbar: true
+                });
+            }
+        });
 
-                                                        $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
-                                                            e.preventDefault();
-                                                            $(this).parent('div').remove();
-                                                            x--;
-                                                        })
-                                                    });
-                                                    $('body').find('.timepicker').timepicker({
-                                                        timeFormat: 'h:mm p',
-                                                        interval: 15,
-                                                        dynamic: false,
-                                                        dropdown: true,
-                                                        scrollbar: true
-                                                    });
+        $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
+            e.preventDefault();
+            $(this).parent('div').remove();
+            x--;
+        })
+    });
+    $('body').find('.timepicker').timepicker({
+        timeFormat: 'h:mm p',
+        interval: 15,
+        dynamic: false,
+        dropdown: true,
+        scrollbar: true
+    });
 
 </script>
 <script>
