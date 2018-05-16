@@ -267,9 +267,33 @@ textarea, select, input[type="text"], input[type="password"], input[type="dateti
 
 .form-horizontal .control-label {
     text-align: left;
+    width: 90px;
 }
-
-
+.form-horizontal .controls {
+    margin-left: 0;
+}
+.time{
+    display: table;
+    width: 100%;
+    padding-top: 15px;
+    clear: both;
+}
+.time .control-group,
+.input_fields_wrap .control-group{
+    max-width: 330px;
+}
+button.add_field_button {
+    background: #3d5b99;
+    color: #fff;
+    padding: 7px 11px;
+    border: 1px solid #3d5b99;
+    border-radius: 4px !important;
+}
+#sidebar {   
+    width: 204px !important;
+    overflow: auto !important;
+    max-height: 100vh;
+}
 /* general typography*/
 h3 small, h2 small, h5 small {
     color: #868686;
@@ -987,6 +1011,8 @@ form legend {
 
 .widget.green {
     border: 1px solid #74B749;
+    overflow: hidden;
+    height: auto;
 }
 .widget.green .widget-title {
     background: #74B749;

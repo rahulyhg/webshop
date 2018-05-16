@@ -16,13 +16,19 @@
 									<p class="mb-1">{{ProductList.description}}</p>
 									<b class="d-block mb-2">$ {{ProductList.price}}</b>
 									<!--<p><button type="button" class="btn btn-primary"><i class="ion-android-cart"></i> Buy It</button>-->
-									
+                                                                        
+                                                                        
+                                                                        
+                                                                        <!--for complete product-->
+                                                                        
+                                                                        
+									<div ng-if="ProductList.approved==1 && ProductList.live_status==1">
                                                                             <p><div class="row">
                                                                             <div class="col-md-6">    
                                                                                 <button type="button" ng-click="deleteProduct(ProductList.id)" class="btn btn-primary btn-dark"><i class="ion-trash-a"></i> Delete</button>
                                                                             </div>
                                                                                 <div class="col-md-6"> 
-                                                                                    <a href='#/addProduct/{{ProductList.id}}' class="btn btn-primary btn-dark"><i class="ion-trash-a"></i> Edit</a>
+                                                                                    <a href='#/addProduct/{{ProductList.id}}' class="btn btn-primary btn-dark"><i class="ion-creat-outline"></i> Edit</a>
                                                                                 </div>
                                                                             </div></p>
                                                                         
@@ -36,6 +42,48 @@
                                                                         <p ng-if="ProductList.product_status== 1">
                                                                             <button type="button" disabled="" class="btn btn-primary btn-dark"> Sold</button>
                                                                         </p>
+                                                                        </div>
+                                                                        
+                                                                        
+                                                                        
+                                                                       
+                                                                        
+                                                                        
+                                                                      <!--for payment pending -->  
+                                                                        
+                                                                       <div ng-if="ProductList.approved==1 && ProductList.live_status== 0">
+                                                                            <p><div class="row">
+                                                                            <div class="col-md-6">    
+                                                                                <button type="button" ng-click="pay(ProductList.id)" class="btn btn-primary btn-dark"><i class="ion-attach"></i> Pay Now</button>
+                                                                            </div>
+                                                                                
+                                                                            </div></p>
+                                                                        
+                                                                        </div> 
+                                                                        
+                                                                        <!--approval awaiting product-->
+                                                                        
+                                                                        <div ng-if="ProductList.approved==0 ">
+                                                                            <p><div class="row">
+                                                                            <div class="col-md-6">    
+                                                                                <button type="button" class="btn btn-primary btn-dark" disabled="disabled"> Wait for Approval</button>
+                                                                            </div>
+                                                                                
+                                                                            </div></p>
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        </div>
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
                                                                         
                                                                         
 								</div>
