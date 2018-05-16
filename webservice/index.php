@@ -7017,7 +7017,7 @@ function UserAuctionpayment() {
     $stmt->execute();
     $getProductValue = $stmt->fetchObject();
 
-    //$subscriptionname = $getProductValue->name;
+    
     $productprice = $getProductValue->bidprice;
 //payment gateway
 

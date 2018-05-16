@@ -21,7 +21,7 @@ if (isset($_REQUEST['submit'])) {
     $id = isset($_POST['id']) ? $_POST['id'] : '';
 
     $id1 = '';
-    for ($w = 0; $w <= count($start_time); $w++) {
+    for ($w = 0; $w < count($start_time); $w++) {
         $id1 = '';
         $start_time1 = date('Y-m-d H:i:s', strtotime($start_time[$w]));
         $end_time1 = date('Y-m-d H:i:s', strtotime($end_time[$w]));
