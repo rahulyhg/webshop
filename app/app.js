@@ -231,7 +231,7 @@ app.directive('countdown', [
 //days = 0;
 //hours = 0;
 //minutes = 0;
-return ['Auction is ended !!'].join(' ');
+return ['Auction has ended !!'].join(' ');
           }else{
             //alert();
              return [days + ' days ,',

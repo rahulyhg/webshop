@@ -955,17 +955,30 @@ function ProductsDetails() {
         $naxcat = $stmtcat_id->fetchObject();
 
 
-        $sqltime_slot_id = "SELECT *  FROM webshop_auctiondates WHERE id=:time_slot_id";
-        $stmttime_slot_id = $db->prepare($sqltime_slot_id);
-        $stmttime_slot_id->bindParam("time_slot_id", $product->time_slot_id);
-        $stmttime_slot_id->execute();
-        $naxtime_slot_id = $stmttime_slot_id->fetchObject();
-        $time = $naxtime_slot_id->end_time;
-        $starttime = $naxtime_slot_id->start_time;
+        $starttime = '';
 
-        $time_now = mktime(date('H') + 5, date('i') + 30, date('s'));
-        $ctime = date('Y-m-d H:i:s', $time_now);
 
+        if ($product->type == '2') {
+            $sqltime_slot_id = "SELECT *  FROM webshop_auctiondates WHERE id=:time_slot_id";
+            $stmttime_slot_id = $db->prepare($sqltime_slot_id);
+            $stmttime_slot_id->bindParam("time_slot_id", $product->time_slot_id);
+            $stmttime_slot_id->execute();
+            $naxtime_slot_id = $stmttime_slot_id->fetchObject();
+            $time = $naxtime_slot_id->end_time;
+            $starttime = $naxtime_slot_id->start_time;
+        } else {
+            $starttime = '';
+            $time = '';
+        }
+        $time_now = '';
+        $ctime = '';
+        if ($product->type == '2') {
+            $time_now = mktime(date('H') + 3, date('i'), date('s'));
+            $ctime = date('Y-m-d H:i:s', $time_now);
+        } else {
+            $time_now = '';
+            $ctime = '';
+        }
 
         //$aucshowtime=
         //$count = $stmtproduct->rowCount();
