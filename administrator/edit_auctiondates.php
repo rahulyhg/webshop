@@ -9,7 +9,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
     $date = $_GET['date'];
     echo $sqldel = "delete from  webshop_auctiondates where id='" . $item_id . "'";
     mysqli_query($con, $sqldel);
-    header('Location:edit_auctiondates.php?date=' . $date . '"&action=edit"');
+    header('Location:edit_auctiondates.php?date=' . $date . "&action=edit");
+    //header('Location:list_auctiondates.php');
     exit();
 }
 if (isset($_REQUEST['submit'])) {
@@ -63,21 +64,7 @@ if ($_REQUEST['action'] == 'edit') {
     }
 }
 ?>
-<script language="javascript">
-    function del(aa, bb)
-    {
-        //alert(bb);
-        var a = confirm("Are you sure, you want to delete this?")
-        if (a)
-        {
 
-            location.href = "edit_auctiondates.php?id=" + aa + "&date=" + bb + "&action=delete"
-            alert(location.href);
-        }
-    }
-
-
-</script>
 <!-- Header Start -->
 <?php include ("includes/header.php"); ?>
 <!-- Header End -->
@@ -168,17 +155,36 @@ if ($_REQUEST['action'] == 'edit') {
                                         foreach ($array2 as $v) {
                                             ?>
 
-                                            <div class="control-group">                                                
+                                            <div class="control-group" style="width:40%;float:left;">                                                
                                                 <label class="control-label">Start Time </label>
                                                 <div class="controls">
                                                     <input type="text" class="form-control timepicker"id="time_1" placeholder="Start Time" value="<?php echo date('h:i A', strtotime($v['start_time'])); ?>" name="start_time[]" required>
 
+                                    <!--                                                            <input type="text" id="time_2" class="form-control timepicker" placeholder="End Time" value="<?php echo date('h:i A', strtotime($v['end_time'])); ?>" name="end_time[]" required>-->
+                                                    <input type="hidden" id="" class="form-control" value="<?php echo $v['id']; ?>" name="id[]" required> 
+                                                </div>
+                                            </div>
+                                            <div class="control-group" style="width:40%;float:left;">                                                
+                                                <label class="control-label">End Time </label>
+                                                <div class="controls">
+    <!--                                                    <input type="text" class="form-control timepicker"id="time_1" placeholder="Start Time" value="<?php echo date('h:i A', strtotime($v['start_time'])); ?>" name="start_time[]" required>-->
+
                                                     <input type="text" id="time_2" class="form-control timepicker" placeholder="End Time" value="<?php echo date('h:i A', strtotime($v['end_time'])); ?>" name="end_time[]" required>
-                                                    <input type="hidden" id="" class="form-control" value="<?php echo $v['id']; ?>" name="id[]" required> <a onClick="javascript:del('<?php echo $v['id']; ?>', '<?php echo $v['date']; ?>')">
+    <!--                                                    <input type="hidden" id="" class="form-control" value="<?php echo $v['id']; ?>" name="id[]" required> <a onClick="javascript:del('<?php echo $v['id']; ?>', '<?php echo $v['date']; ?>')">-->
+
+                                                </div>
+                                            </div>
+                                            <div class="control-group" style="width:20%;float:left;">                                                
+<!--                                                <label class="control-label"> </label>-->
+                                                <div class="controls text-left">
+    <!--                                                    <input type="text" class="form-control timepicker"id="time_1" placeholder="Start Time" value="<?php echo date('h:i A', strtotime($v['start_time'])); ?>" name="start_time[]" required>
+
+                                                    <input type="text" id="time_2" class="form-control timepicker" placeholder="End Time" value="<?php echo date('h:i A', strtotime($v['end_time'])); ?>" name="end_time[]" required>-->
+                                                    <a onClick="javascript:del('<?php echo $v['id']; ?>', '<?php echo $v['date']; ?>')">
                                                         <i class="icon-trash"></i></a>
                                                 </div>
                                             </div>
-                                            <div>&nbsp; </div>
+                                            <div class='clearfix'>&nbsp; </div>
 
 
                                             <!--                                            <div class="control-group">
@@ -265,6 +271,17 @@ if ($_REQUEST['action'] == 'edit') {
 <script src="js/home-page-calender.js"></script>
 <script src="js/home-chartjs.js"></script>
 <script>
+                                                    function del(aa, bb)
+                                                    {
+
+                                                        var a = confirm("Are you sure, you want to delete this?")
+                                                        if (a)
+                                                        {
+
+                                                            location.href = "edit_auctiondates.php?id=" + aa + "&date=" + bb + "&action=delete"
+
+                                                        }
+                                                    }
 
 
                                                     $(document).ready(function () {
@@ -273,7 +290,7 @@ if ($_REQUEST['action'] == 'edit') {
                                                         var max_fields = 10; //maximum input boxes allowed
                                                         var wrapper = $(".input_fields_wrap"); //Fields wrapper
                                                         var add_button = $(".add_field_button"); //Add button ID
-                                                        var field = '   <div class="time"><div class="control-group">  ' +
+                                                        var field = '   <div class="time"><div class="control-group" style="width:50%;float:left;">  ' +
                                                                 '                                           <label class="control-label">Start Time </label>  ' +
                                                                 '                                           <div class="controls">  ' +
                                                                 '                                               <input type="text" class="form-control timepicker" placeholder="Start Time" value="" name="start_time[]" required>  ' +
@@ -281,7 +298,7 @@ if ($_REQUEST['action'] == 'edit') {
                                                                 '                                       </div>  ' +
                                                                 '     ' +
                                                                 '     ' +
-                                                                '                                       <div class="control-group">  ' +
+                                                                '                                       <div class="control-group" style="width:50%;float:left;">  ' +
                                                                 '                                           <label class="control-label">End Time</label>  ' +
                                                                 '                                           <div class="controls">  ' +
                                                                 '                                               <input type="text" class="form-control timepicker" placeholder="End Time" value="" name="end_time[]" required>  ' +
