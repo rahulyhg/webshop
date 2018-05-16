@@ -954,8 +954,15 @@ function ProductsDetails() {
         $stmtcat_id->execute();
         $naxcat = $stmtcat_id->fetchObject();
 
+
+
+        
+
+
+
         $starttime = '';
         $time = '';
+
         if ($product->type == '2') {
             $sqltime_slot_id = "SELECT *  FROM webshop_auctiondates WHERE id=:time_slot_id";
             $stmttime_slot_id = $db->prepare($sqltime_slot_id);
@@ -966,9 +973,15 @@ function ProductsDetails() {
             $starttime = $naxtime_slot_id->start_time;
         } else {
             $starttime = '';
+
+            $time = '';
         }
+        $time_now = '';
+        $ctime = '';
+       
         if ($product->type == '2') {
             $time_now = mktime(date('H') + 5, date('i') + 30, date('s'));
+
             $ctime = date('Y-m-d H:i:s', $time_now);
         } else {
             $time_now = '';
