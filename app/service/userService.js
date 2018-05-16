@@ -4382,7 +4382,7 @@ return $q(function(resolve, reject) {
   //var nextbidprice = parseInt(bidprice)+parseInt(bidincrement);
   //alert(bidincrement);
   var encodedString ='{"userid":"'+ userid +'","productid":"'+ productid +'","review":"'+ review +'","rating":"'+rating+'","recomend":"'+recomend+'"}';
-//alert(encodedString);
+alert(encodedString);
 $http({
 method: 'POST',
   url: $rootScope.serviceurl+"addreview",
