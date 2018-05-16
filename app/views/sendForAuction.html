@@ -8,16 +8,64 @@
 					<div class="edit-pro p-3">
 						<div class="row">
 							<div class="col-lg-7 col-md-12">
-								<form name="addProductForm" ng-submit="processforauction(user2)" novalidate>
+								<form name="processforauction" ng-submit="processforauction.$valid && processforauction(user2)" novalidate>
 
-									 <div class="form-group">
+<!--									 <div class="form-group">
 										<label for="staticEmail"> Auction Threshold Bid</label>
 										<input type="text" class="form-control" id="" value="" ng-model="user2.bid" name="bid" required>
-									</div>
+									</div>-->
 
-										<div class="form-group">
-										<label for="staticEmail">Preferred Auction Date</label>
-										<input type="date" class="form-control" id="" value="" placeholder="" ng-model="user2.preferred_date" name="preferred_date" required>
+										 <div class="form-group">
+										<label for="staticEmail">{{language.auction}} Date</label>
+										<!--<input type="text" class="form-control" id="datepicker" value="" placeholder="" ng-model="user2.preferred_date" name="preferred_date" required>-->
+                                                                                <!--<input type="text" class="form-control" ng-model="user2.preferred_date" date="{{listAuctionDtates}}" name="preferred_date" required datepicker />-->
+<!--                                                                                <datepicker date-format="yyyy-MM-dd" selector="form-control" ng-click="getAuctionTime(user2.preferred_date)" date-enabled-dates="{{listAuctionDtates}}">-->
+                                                                                    <datepicker date-format="yyyy-MM-dd"  selector="form-control" ng-click="getAuctionTime(user2.preferred_date)" date-enabled-dates="{{listAuctionDtates}}">
+                                                                                    
+                                                                                
+                                                                                    <input class="form-control"  ng-model="user2.preferred_date" name="preferred_date" required placeholder="Choose a date" readonly/>
+                                                                                    <span style="color:Red" ng-show="processforauction.preferred_date.$touched && processforauction.preferred_date.$error.required"> Please Choose Auction Date </span>
+                                                                                   
+                                                                                
+                                                                        
+                                                                            </datepicker>
+									</div>
+                                                                    <div>&nbsp;</div>
+                                                                    <div class="form-group" ng-if="timeslot" >
+										<label for="staticEmail"> {{language.auction}} Timing</label>
+                                                                                <span>
+                                                                                <div ng-repeat="time in timeslot" >
+                                                                                   
+                                                                                 <div ng-if="time.status== 0">   
+                                                                                  {{time.start_time}}&nbsp; To &nbsp;{{time.end_time}} &nbsp; <input class="input-field"  type="radio"  id="" value="{{time.id}}" ng-model="user2.time_slot_id" name="time_slot_id"  required>
+                                                                                 </div>
+                                                                                    <div class="ovr" ng-if="time.status== 1">   
+                                                                                  {{time.start_time}}&nbsp; To &nbsp;{{time.end_time}} &nbsp; 
+                                                                                 </div>
+                                                                                </div>
+                                                                                </span>
+                                                                                <span style="color:Red" ng-show="submitted && processforauction.time_slot_id.$touched && processforauction.time_slot_id.$error.required"> Please Choose A Time Slot </span>
+                                                                                
+                                                                                
+									</div>
+                                                                    <div class="form-group">
+										<label for="staticEmail">{{language.breslet}} Type</label>
+										<select class="form-control" name="breslet_type" ng-model="user2.breslet_type" required>
+											<option  value="">Please Select</option>  
+                                                                                        
+                                                                                       <option   value="M">{{language.metal}}</option>  
+                                                                                        <option   value="L">{{language.leather}}</option>  
+										</select>
+                                                                                <span style="color:Red" ng-show="submitted && processforauction.breslet_type.$error.required"> Please Choose A Bracelet Type </span>
+									</div>
+                                                                    <div class="form-group">
+										<label for="staticEmail">Model Year</label>
+										<select class="form-control" name="model_year" ng-model="user2.model_year"  required>
+											<option  value="">Please Select</option>  
+                                                                                      <option  ng-repeat="year in YearsList" value="{{year}}">{{year}}</option>    
+                                                                                     <!--  <option  ng-repeat="subcategorylists in subcategorylist" value="{{subcategorylists.subcat_id}}">{{subcategorylists.name}}</option>  -->
+										</select>
+                                                                                <span style="color:Red" ng-show="submitted && processforauction.model_year.$error.required"> Please Choose A Model Year </span>
 									</div>
                                                                     
                                     	<div class="form-group">
@@ -27,7 +75,7 @@
 
 									
                                                                 
-									<button class="btn btn-primary">Send</button>
+									<button class="btn btn-primary" ng-click="submitted=true">Send</button>
 								</form>
 							</div>
 						</div>

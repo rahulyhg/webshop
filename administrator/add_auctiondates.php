@@ -121,7 +121,8 @@ if (isset($_REQUEST['submit'])) {
                                         </div>
                                     </div>
                                     <div class="input_fields_wrap">
-                                        <div class="control-group">
+                                        <div class="clearfix">
+                                        <div class="control-group" style="width:50%;float:left; max-width:330px;">
                                             <label class="control-label">Start Time </label>
                                             <div class="controls">
                                                 <input type="text" class="form-control timepicker"id="time_1" placeholder="Start Time" value="<?php echo $categoryRowset['start_time']; ?>" name="start_time[]" required>
@@ -129,11 +130,12 @@ if (isset($_REQUEST['submit'])) {
                                         </div>
 
 
-                                        <div class="control-group">
+                                        <div class="control-group" style="width:50%;float:left;">
                                             <label class="control-label">End Time</label>
                                             <div class="controls">
                                                 <input type="text" id="time_2" class="form-control timepicker" placeholder="End Time" value="<?php echo $categoryRowset['end_time']; ?>" name="end_time[]" required>
                                             </div>
+                                        </div>
                                         </div>
                                         <button class="add_field_button">Add More Fields</button>
                                     </div>
@@ -216,7 +218,7 @@ if (isset($_REQUEST['submit'])) {
         var max_fields = 10; //maximum input boxes allowed
         var wrapper = $(".input_fields_wrap"); //Fields wrapper
         var add_button = $(".add_field_button"); //Add button ID
-        var field = '   <div class="time"><div class="control-group">  ' +
+        var field = '   <div class="time"><div class="control-group" style="width:50%;float:left; max-width:330px;">  ' +
                 '                                           <label class="control-label">Start Time </label>  ' +
                 '                                           <div class="controls">  ' +
                 '                                               <input type="text" class="form-control timepicker" placeholder="Start Time" value="<?php echo $categoryRowset["start_time"]; ?>" name="start_time[]" required>  ' +
@@ -224,7 +226,7 @@ if (isset($_REQUEST['submit'])) {
                 '                                       </div>  ' +
                 '     ' +
                 '     ' +
-                '                                       <div class="control-group">  ' +
+                '                                       <div class="control-group" style="width:50%;float:left;">  ' +
                 '                                           <label class="control-label">End Time</label>  ' +
                 '                                           <div class="controls">  ' +
                 '                                               <input type="text" class="form-control timepicker" placeholder="End Time" value="<?php echo $categoryRowset["end_time"]; ?>" name="end_time[]" required>  ' +

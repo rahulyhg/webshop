@@ -1522,7 +1522,9 @@ function listmyProducts() {
                 "seller_address" => stripslashes($seller_address),
                 "seller_phone" => stripslashes($seller_phone),
                 "productname" => '',
-                "product_status" => stripslashes($product->product_status)
+                "product_status" => stripslashes($product->product_status),
+                "approved" =>$product->approved,
+                "live_status" =>$product->status
             );
         }
 
@@ -3505,7 +3507,7 @@ function addProductNew() {
             //$sid = $getUserDetails->sid;
             //if ($type == '1') {
 
-            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,status,size,location,work_hours) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:status,:size,:location,:work_hours)";
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,location,work_hours,approved) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:location,:work_hours,:approved)";
             // }
             //if ($type == '1') {
 
@@ -3525,8 +3527,13 @@ function addProductNew() {
                 
                 $get_status = "0";
             }
-            // }
-
+            
+            if ($count > 0) {
+                $certified_user = "1";
+            }else{
+                
+                $certified_user = "0";
+            }
 
             try {
 
@@ -3564,7 +3571,7 @@ function addProductNew() {
 
                 $stmt->bindParam("location", $location);
                 $stmt->bindParam("work_hours", $work_hours);
-                $stmt->bindParam("status", $get_status);
+                $stmt->bindParam("approved", $get_status);
                 $stmt->execute();
                 $lastID = $db->lastInsertId();
                 //$rest_slot = (($getUserDetails->slot_no) - 1);
@@ -3602,14 +3609,25 @@ function addProductNew() {
                     }
                 }
 
-
+                if($certified_user == 1){
                 $data['Ack'] = 1;
                 $data['msg'] = 'Product added successfully. To get product live please make payment.';
                 $data['type'] = $type;
                 $data['utype'] = 1;
                 $data['lastid'] = $lastID;
+                $data['certified_user'] = $certified_user;
                 $app->response->setStatus(200);
                 $db = null;
+                }else{
+                  
+                $data['Ack'] = 1;
+                $data['msg'] = 'Product added successfully. Wait for admin approval to pay and live this product.';
+                $data['type'] = $type;
+                $data['utype'] = 1;
+                $data['lastid'] = $lastID;
+                $data['certified_user'] = $certified_user;
+                    
+                }
             } catch (PDOException $e) {
                 $data['user_id'] = '';
                 $data['Ack'] = 0;
@@ -6561,46 +6579,7 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
     $app->response->write(json_encode($data));
 }
 
-/* function adduserpayment() {
 
-  $data = array();
-
-  $app = \Slim\Slim::getInstance();
-  $request = $app->request();
-  $body = ($request->post());
-  $body2 = $app->request->getBody();
-  $body = json_decode($body2);
-
-  $db = getConnection();
-
-  $user_id = isset($body->user_id) ? $body->user_id : '';
-
-
-
-  //$name = isset($body->name) ? $body->name : '';
-  //$email = isset($body->email) ? $body->email : '';
-  //$phone = isset($body->phone) ? $body->phone : '';
-  //payment gateway
-  //end
-
-
-
-  $sql = "UPDATE  webshop_user SET user_payment= 1 WHERE id=:user_id";
-
-  $stmt = $db->prepare($sql);
-
-  $stmt->bindParam("user_id", $user_id);
-  $stmt->execute();
-
-
-
-  $data['Ack'] = 1;
-  $data['msg'] = 'Your Payment completed successfully. Now you can upload one product or auction.';
-  $app->response->setStatus(200);
-
-
-  $app->response->write(json_encode($data));
-  } */
 
 function adduserpayment() {
 
@@ -6661,7 +6640,7 @@ function adduserpayment() {
     $stmt4->execute();
     $lastID = $db->lastInsertId();
 
-    $sqlproductupdate = "UPDATE webshop_products SET subscription_id=:subscription_id WHERE id=:pid";
+    $sqlproductupdate = "UPDATE webshop_products SET status=1, subscription_id=:subscription_id WHERE id=:pid";
     $stmtproduct = $db->prepare($sqlproductupdate);
     $stmtproduct->bindParam("subscription_id", $lastID);
     $stmtproduct->bindParam("pid", $product_id);

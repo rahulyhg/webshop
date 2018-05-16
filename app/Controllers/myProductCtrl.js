@@ -130,6 +130,17 @@ $scope.editProduct = function(id){
               
 }
 
+$scope.pay = function(lid){
+        
+           
+           $state.go('frontend.userpayment',{pid:lid}); 
+
+              
+}
+
+
+
+
 
 $scope.marksold = function(id){
           // alert(cat_id);

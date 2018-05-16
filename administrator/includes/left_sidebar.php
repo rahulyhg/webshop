@@ -500,7 +500,7 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
 
 
             <?php if (in_array('20', $prevnameall)) { ?>
-                <li class="sub-menu">
+<!--                <li class="sub-menu">
                     <a href="javascript:;" class="">
                         <i class="icon-archive"></i>
                         <span>Products</span>
@@ -516,7 +516,7 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                         </li> 
 
                     </ul>
-                </li>
+                </li>-->
                 <?php
             }
             ?>
@@ -587,7 +587,7 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                             Request Product</a>
                     </li> 
                     <li class="active">
-                        <a href="list_live_auction.php">
+                        <a href="list_live_product.php">
                             <i class="icon-usd"></i>
                             List Live Product</a>
                     </li> 
