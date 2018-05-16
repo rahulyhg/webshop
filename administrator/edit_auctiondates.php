@@ -344,5 +344,5 @@ if ($_REQUEST['action'] == 'edit') {
 </script>
 <!-- END JAVASCRIPTS -->   
 </body>
-<!-- END BODY -->
+
 </html>
