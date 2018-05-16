@@ -955,8 +955,13 @@ function ProductsDetails() {
         $naxcat = $stmtcat_id->fetchObject();
 
 
-        $starttime = '';
 
+        
+
+
+
+        $starttime = '';
+        $time = '';
 
         if ($product->type == '2') {
             $sqltime_slot_id = "SELECT *  FROM webshop_auctiondates WHERE id=:time_slot_id";
@@ -968,12 +973,15 @@ function ProductsDetails() {
             $starttime = $naxtime_slot_id->start_time;
         } else {
             $starttime = '';
+
             $time = '';
         }
         $time_now = '';
         $ctime = '';
+       
         if ($product->type == '2') {
-            $time_now = mktime(date('H') + 3, date('i'), date('s'));
+            $time_now = mktime(date('H') + 5, date('i') + 30, date('s'));
+
             $ctime = date('Y-m-d H:i:s', $time_now);
         } else {
             $time_now = '';
@@ -1543,8 +1551,8 @@ function listmyProducts() {
                 "seller_phone" => stripslashes($seller_phone),
                 "productname" => '',
                 "product_status" => stripslashes($product->product_status),
-                "approved" =>$product->approved,
-                "live_status" =>$product->status
+                "approved" => $product->approved,
+                "live_status" => $product->status
             );
         }
 
@@ -3204,6 +3212,7 @@ function addProductNew() {
     $get_status = '0';
     $status = 0;
     $quantity = 1;
+    $nextbidprice = $price;
 // $baseauctionprice = isset($body["baseauctionprice"]) ? $body["baseauctionprice"] : '';
 //$thresholdprice = isset($body["thresholdprice"]) ? $body["thresholdprice"] : '';
 
@@ -3418,7 +3427,7 @@ function addProductNew() {
             }
         } else {
 
-            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice)";
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,nextbidprice) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,nextbidprice)";
 
 
 
@@ -3454,6 +3463,7 @@ function addProductNew() {
                 $stmt->bindParam("model_year", $model_year);
                 $stmt->bindParam("time_slot_id", $time_slot_id);
                 $stmt->bindParam("thresholdprice", $price);
+                $stmt->bindParam("nextbidprice", $price);
                 $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
 
                 $is_read = '0';
@@ -3547,11 +3557,11 @@ function addProductNew() {
 
                 $get_status = "0";
             }
-            
+
             if ($count > 0) {
                 $certified_user = "1";
-            }else{
-                
+            } else {
+
                 $certified_user = "0";
             }
 
@@ -3629,24 +3639,23 @@ function addProductNew() {
                     }
                 }
 
-                if($certified_user == 1){
-                $data['Ack'] = 1;
-                $data['msg'] = 'Product added successfully. To get product live please make payment.';
-                $data['type'] = $type;
-                $data['utype'] = 1;
-                $data['lastid'] = $lastID;
-                $data['certified_user'] = $certified_user;
-                $app->response->setStatus(200);
-                $db = null;
-                }else{
-                  
-                $data['Ack'] = 1;
-                $data['msg'] = 'Product added successfully. Wait for admin approval to pay and live this product.';
-                $data['type'] = $type;
-                $data['utype'] = 1;
-                $data['lastid'] = $lastID;
-                $data['certified_user'] = $certified_user;
-                    
+                if ($certified_user == 1) {
+                    $data['Ack'] = 1;
+                    $data['msg'] = 'Product added successfully. To get product live please make payment.';
+                    $data['type'] = $type;
+                    $data['utype'] = 1;
+                    $data['lastid'] = $lastID;
+                    $data['certified_user'] = $certified_user;
+                    $app->response->setStatus(200);
+                    $db = null;
+                } else {
+
+                    $data['Ack'] = 1;
+                    $data['msg'] = 'Product added successfully. Wait for admin approval to pay and live this product.';
+                    $data['type'] = $type;
+                    $data['utype'] = 1;
+                    $data['lastid'] = $lastID;
+                    $data['certified_user'] = $certified_user;
                 }
             } catch (PDOException $e) {
                 $data['user_id'] = '';
@@ -3656,7 +3665,7 @@ function addProductNew() {
             }
         } else {
 
-            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice)";
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,nextbidprice) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:nextbidprice)";
 
 
 
@@ -3692,6 +3701,7 @@ function addProductNew() {
                 $stmt->bindParam("model_year", $model_year);
                 $stmt->bindParam("time_slot_id", $time_slot_id);
                 $stmt->bindParam("thresholdprice", $price);
+                $stmt->bindParam("nextbidprice", $price);
                 $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
 
                 $is_read = '0';
@@ -6613,8 +6623,6 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
     $app->response->write(json_encode($data));
 }
 
-
-
 function adduserpayment() {
 
     $data = array();
@@ -6753,7 +6761,8 @@ function addreview() {
     $review = isset($body->review) ? $body->review : '';
     $rating = isset($body->rating) ? $body->rating : '';
     $recomend = isset($body->recomend) ? $body->recomend : '';
-
+    echo $recomend;
+    exit;
     $date = date('Y-m-d');
 
     $sql = "INSERT INTO  webshop_reviews (userid,product_id,review,rating,date,recomend) VALUES (:userid,:productid,:review,:rating,:date,:recomend)";
@@ -6914,35 +6923,38 @@ function reviews() {
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $reviews = $stmt->fetchAll(PDO::FETCH_OBJ);
+        if (!empty($reviews)) {
+            foreach ($reviews as $r) {
 
-        foreach ($reviews as $r) {
-
-            $sql1 = "SELECT * from webshop_user where id =$r->userid";
-            $stmt1 = $db->prepare($sql1);
-            $stmt1->execute();
-            $user_name = $stmt1->fetchAll(PDO::FETCH_OBJ);
-            foreach ($user_name as $n) {
-                $name = $n->fname . " " . $n->lname;
-                if ($n->image != '') {
-                    $profile_image = SITE_URL . 'upload/user_image/' . $n->image;
-                } else {
-                    $profile_image = SITE_URL . 'webservice/no-user.png';
+                $sql1 = "SELECT * from webshop_user where id =$r->userid";
+                $stmt1 = $db->prepare($sql1);
+                $stmt1->execute();
+                $user_name = $stmt1->fetchAll(PDO::FETCH_OBJ);
+                foreach ($user_name as $n) {
+                    $name = $n->fname . " " . $n->lname;
+                    if ($n->image != '') {
+                        $profile_image = SITE_URL . 'upload/user_image/' . $n->image;
+                    } else {
+                        $profile_image = SITE_URL . 'webservice/no-user.png';
+                    }
                 }
-            }
-            $curr_date = date_create(date('Y-m-d'));
-            $review_date = date_create($r->date);
-            $diff = date_diff($review_date, $curr_date);
-            $date = $diff->format("%a");
+                $curr_date = date_create(date('Y-m-d'));
+                $review_date = date_create($r->date);
+                $diff = date_diff($review_date, $curr_date);
+                $date = $diff->format("%a");
 
-            $reviewss[] = array(
-                "id" => stripslashes($r->id),
-                "review" => stripslashes($r->review),
-                "rating" => stripslashes($r->rating),
-                "date" => $date,
-                "recomend" => stripslashes($r->recomend),
-                "username" => $name,
-                "userimage" => $profile_image,
-            );
+                $reviewss[] = array(
+                    "id" => stripslashes($r->id),
+                    "review" => stripslashes($r->review),
+                    "rating" => stripslashes($r->rating),
+                    "date" => $date,
+                    "recomend" => stripslashes($r->recomend),
+                    "username" => $name,
+                    "userimage" => $profile_image,
+                );
+            }
+        } else {
+            $reviewss = array();
         }
         // exit;
         $data['reviews'] = $reviewss;
@@ -7047,7 +7059,7 @@ function UserAuctionpayment() {
     $stmt->execute();
     $getProductValue = $stmt->fetchObject();
 
-    
+
     $productprice = $getProductValue->bidprice;
 //payment gateway
 
