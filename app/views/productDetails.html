@@ -293,6 +293,7 @@
             </figure>
             
             <h5>Total No Of Bid : &nbsp; <p>{{productLists.bidcount}}</p></h5>
+            <h5>Total No Of Unique Bid : &nbsp; <p>{{productLists.countuniquebids}}</p></h5>
             
                         <h5>Time Left :  
                         <div class='time-to' ng-if="productLists.preferred_date &&  productLists.type==2">
@@ -319,7 +320,7 @@
                        </h6>
                         <h6>                                         
                             
-                            <input type="number" class="form-control btn-round" id=""   placeholder="Input Your Bid" ng-model="bid.bidprice" name="bidprice" capitalize required>
+                            <input type="number" class="form-control btn-round" id="" step="{{productLists.bidincrement}}"  placeholder="Input Your Bid" ng-model="bid.bidprice" name="bidprice" capitalize required>
                         <input type="hidden" class="form-control" id="" value="" placeholder="" ng-model="bid.uploaderid=productLists.uploader_id" name="uploaderid" required>
                         <input type="hidden" class="form-control" id="" placeholder="" ng-model="productLists.id" name="productid" required>
                         </h6>

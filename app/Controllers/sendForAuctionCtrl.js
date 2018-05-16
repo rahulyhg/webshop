@@ -194,9 +194,15 @@ $scope.processforauction = function(user2){
      var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;
  	
-   user2.bid=user2.bid;
+   //user2.bid=user2.bid;
     user2.preferred_date=user2.preferred_date;
     user2.comments=user2.comments;
+    
+    user2.time_slot_id=user2.time_slot_id;
+    user2.breslet_type=user2.breslet_type;
+user2.model_year=user2.model_year;
+
+
 
 
              userService.auctionapproval(product_id, user2).then(function(response) {
@@ -223,6 +229,69 @@ $scope.processforauction = function(user2){
         
 }
 	
+
+	userService.listYears().then(function(response) {
+		
+		if(response.Ack == '1') {
+		$scope.YearsList=response.Years;
+		//console.log('YERRRRR',$scope.YearsList);
+
+
+  } else {
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+        
+        userService.listAuctionDtates().then(function(response) {
+         // alert('hii');
+		//console.log('hello',response);
+		//$scope.isExists=1;
+		if(response.Ack == '1') {
+                  //alert('hii');
+		$scope.listAuctionDtates=response.listAuctionDtates;
+               // $scope.user_idd=$scope.user_id;
+		//console.log('hhhhh',$scope.listAuctionDtates);	
+		
+		} else {
+                    console.log('ppp');	
+                    $scope.isExists=0;
+		}
+	
+	
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+        
+        $scope.getAuctionTime = function(date){
+    if(date){
+       //alert(date);
+   userService.getTimeslot(date).then(function(response) {
+           // alert('hii');
+		//console.log('kkkkk',response.Ack);
+		$scope.isExists=1;
+		if(response.Ack == '1') {
+                  
+                    $scope.timeslot=response.time;
+                   	
+		
+		} else {
+                    console.log('ppp');	
+                    $scope.isExists=0;
+		}
+	
+	
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	}); 
+    }
+}
 
 });
 

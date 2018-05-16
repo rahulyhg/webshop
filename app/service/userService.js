@@ -3624,7 +3624,7 @@ reject(response);
   var auctionapproval = function(product_id, user) {
 return $q(function(resolve, reject) {
 
-  var encodedString ='{"product_id":"'+ product_id +'","bid":"'+ user.bid +'","preferred_date":"'+ user.preferred_date +'","comments":"'+ user.comments +'"}';
+  var encodedString ='{"product_id":"'+ product_id +'","time_slot_id":"'+ user.time_slot_id +'","preferred_date":"'+ user.preferred_date +'","comments":"'+ user.comments +'","breslet_type":"'+user.breslet_type+'","model_year":"'+user.model_year+'"}';
 
 // console.log(encodedString);
 // return false;
