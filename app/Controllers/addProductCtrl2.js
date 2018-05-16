@@ -336,9 +336,15 @@ $scope.addProduct = function(user2){
                        
                         if(response.utype == '1'){
                             
+                            if(response.certified_user == 1){
+                                
                             var lid = response.lastid; 
+                            $state.go('frontend.userpayment',{pid:lid}); 
                             
-                       $state.go('frontend.userpayment',{pid:lid}); 
+                         }else{
+                       
+                       $state.go('frontend.myProduct');
+                   }
                        
                         }else{
                     $state.go('frontend.myProduct');
