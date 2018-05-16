@@ -926,6 +926,12 @@ function ProductsDetails() {
         $stmtproduct->execute();
         $count = $stmtproduct->rowCount();
 
+        $sqlproduct12 = "SELECT * FROM webshop_biddetails WHERE  productid=:productid group by userid";
+        $stmtproduct12 = $db->prepare($sqlproduct12);
+        $stmtproduct12->bindParam("productid", $product_id);
+        $stmtproduct12->execute();
+        $countuniquebids = $stmtproduct12->rowCount();
+
 
         $sqlbid = "SELECT MAX(bidprice) as maxbid FROM webshop_biddetails WHERE userid=:userid AND productid=:productid";
         $stmtbid = $db->prepare($sqlbid);
@@ -957,9 +963,9 @@ function ProductsDetails() {
         $time = $naxtime_slot_id->end_time;
         $starttime = $naxtime_slot_id->start_time;
 
-        $time_now=mktime(date('H')+5,date('i')+30,date('s'));
-        $ctime = date('Y-m-d H:i:s',$time_now);
-        
+        $time_now = mktime(date('H') + 5, date('i') + 30, date('s'));
+        $ctime = date('Y-m-d H:i:s', $time_now);
+
 
         //$aucshowtime=
         //$count = $stmtproduct->rowCount();
@@ -996,7 +1002,8 @@ function ProductsDetails() {
             "gender" => stripslashes($product->gender),
             "maxbid" => $naxbid->maxbid,
             "start_time" => $starttime,
-            "ctime" => $ctime
+            "ctime" => $ctime,
+            "countuniquebids" => $countuniquebids
 // "special_price"=>stripslashes($product->special_price),
 // "auction_start_date"=>stripslashes($product->auction_start_date),
 // "auction_end_date"=>stripslashes($product->auction_end_date)
@@ -3523,8 +3530,8 @@ function addProductNew() {
 
             if ($count > 0) {
                 $get_status = "1";
-            }else{
-                
+            } else {
+
                 $get_status = "0";
             }
             
@@ -4004,7 +4011,7 @@ function listmyAuctions() {
                 "seller_address" => stripslashes($seller_address),
                 "seller_phone" => stripslashes($seller_phone),
                 "productname" => stripslashes($product->name),
-                "auction_fee_paid" =>stripslashes($product->auction_fee_paid)
+                "auction_fee_paid" => stripslashes($product->auction_fee_paid)
             );
         }
 
@@ -4156,24 +4163,38 @@ function auctionapproval() {
     $db = getConnection();
 
     $product_id = isset($body->product_id) ? $body->product_id : '';
-    $bid = isset($body->bid) ? $body->bid : '';
-    $preferred_date2 = isset($body->preferred_date) ? $body->preferred_date : '';
+    //$bid = isset($body->bid) ? $body->bid : '';
+    //$preferred_date2 = isset($body->preferred_date) ? $body->preferred_date : '';
     $comments = isset($body->comments) ? $body->comments : '';
+    $time_slot_id = isset($body->time_slot_id) ? $body->time_slot_id : '';
+    $breslet_type = isset($body->breslet_type) ? $body->breslet_type : '';
+    $model_year = isset($body->model_year) ? $body->model_year : '';
 
-    $preferred_date1 = str_replace('/', '-', $preferred_date2);
-    $preferred_date = date('Y-m-d', strtotime($preferred_date1 . "+1 days"));
+    //$preferred_date1 = str_replace('/', '-', $preferred_date2);
+    //$preferred_date = date('Y-m-d', strtotime($preferred_date1 . "+1 days"));
+    $preferred_date = isset($body->preferred_date) ? $body->preferred_date : '';
 
     $type = '2';
-
-    $sql = "UPDATE webshop_products set type=:type,minimum_bid=:minimum_bid,preferred_date=:preferred_date,comments=:comments WHERE id=:product_id";
+    $sql1 = "SELECT * FROM webshop_products WHERE id=$product_id";
+    $sql = "UPDATE webshop_products set type=:type,thresholdprice=:thresholdprice,preferred_date=:preferred_date,comments=:comments,breslet_type=:breslet_type,model_year=:model_year,time_slot_id=:time_slot_id WHERE id=:product_id";
     try {
-
         $db = getConnection();
+
+        $stmt1 = $db->prepare($sql1);
+        $stmt1->execute();
+        $price = $stmt1->fetchObject();
+        $price = $price->price;
+
+
         $stmt = $db->prepare($sql);
         $stmt->bindParam("type", $type);
-        $stmt->bindParam("minimum_bid", $bid);
+        $stmt->bindParam("thresholdprice", $price);
         $stmt->bindParam("preferred_date", $preferred_date);
         $stmt->bindParam("comments", $comments);
+        $stmt->bindParam("breslet_type", $breslet_type);
+        $stmt->bindParam("model_year", $model_year);
+        $stmt->bindParam("time_slot_id", $time_slot_id);
+
         $stmt->bindParam("product_id", $product_id);
 
         $stmt->execute();
@@ -6812,10 +6833,10 @@ function auctionWinner() {
 
                     $actual_link = $act_link . "#/auctionpayment/" . base64_encode($auction_id);
 
-                    
-                    send_smtpmail($getbiddetail_withuser->email,"GMT24 Auction", "You are the winner. Please pay and buy the product within 2 days. For buy <a href='".$actual_link."'> Click here</a>");
-                    send_smtpmail($getbiddetail_withuploader->email,"GMT24 Auction", "Your auction successfully end");
-                   
+
+                    send_smtpmail($getbiddetail_withuser->email, "GMT24 Auction", "You are the winner. Please pay and buy the product within 2 days. For buy <a href='" . $actual_link . "'> Click here</a>");
+                    send_smtpmail($getbiddetail_withuploader->email, "GMT24 Auction", "Your auction successfully end");
+
                     //for notification
 
                     $is_read = '0';
@@ -6823,7 +6844,7 @@ function auctionWinner() {
                     $from_id = '0';
                     $to_id = $getbiddetail_withuser->userid;
                     $notificationtype = "GMT24 Auction result";
-                    $notification_msg = "You won the auction. Please pay and buy the product within 2 days. For buy <a href='".$actual_link."'> Click here</a>";
+                    $notification_msg = "You won the auction. Please pay and buy the product within 2 days. For buy <a href='" . $actual_link . "'> Click here</a>";
 
                     $notificationsql = "INSERT INTO  webshop_notification(from_id,to_id, type, msg, date, is_read, last_id) VALUES (:from_id,:to_id, :type, :msg, :date, :is_read, :last_id)";
                     $stmt5 = $db->prepare($notificationsql);
@@ -6836,13 +6857,12 @@ function auctionWinner() {
                     $stmt5->bindParam("last_id", $last_id);
                     $stmt5->execute();
                     //for notification end
-                    
                     //for winner table
                     $date = date('Y-m-d');
                     $cdate = date_create($date);
                     date_add($cdate, date_interval_create_from_date_string("2 days"));
                     $expiry_date = date_format($cdate, "Y-m-d");
-                    
+
                     $winsql = "INSERT INTO  webshop_auction_winner(user_id,product_id,date,expiry_date) VALUES (:user_id,:product_id, :date, :expiry_date)";
                     $stmt6 = $db->prepare($winsql);
                     $stmt6->bindParam("user_id", $to_id);
@@ -6851,7 +6871,6 @@ function auctionWinner() {
                     $stmt6->bindParam("expiry_date", $expiry_date);
                     $stmt6->execute();
                     //for winner table end
-
                 } else {
 
                     send_smtpmail($getbiddetail_withuploader->email, "GMT24 Auction", "Your auction unsuccessfully end");
@@ -6984,8 +7003,6 @@ function send_smtpmail($MailTo, $subject, $TemplateMessage, $MailAttachment = nu
     }
 }
 
-
-
 function UserAuctionpayment() {
 
     $data = array();
@@ -6997,8 +7014,8 @@ function UserAuctionpayment() {
     $body = json_decode($body2);
 
     $db = getConnection();
-    
-    $pid=  base64_decode($body->product_id);
+
+    $pid = base64_decode($body->product_id);
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
     $product_id = isset($pid) ? $pid : '';
@@ -7109,7 +7126,6 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
     $app->response->write(json_encode($data));
 }
 
-
 function addwinnerpayment() {
 
     $data = array();
@@ -7133,23 +7149,20 @@ function addwinnerpayment() {
 //end
 
 
-    
-        $sql = "UPDATE  webshop_auction_winner SET is_paid= 1 WHERE user_id=:user_id and product_id=:product_id";
-    
-        $stmt = $db->prepare($sql);
-        $stmt->bindParam("product_id", $product_id);
-        $stmt->bindParam("user_id", $user_id);
-        $stmt->execute();
 
-        $data['Ack'] = 1;
-        $data['msg'] = 'Your payment completed successfully.';
-        $app->response->setStatus(200);
+    $sql = "UPDATE  webshop_auction_winner SET is_paid= 1 WHERE user_id=:user_id and product_id=:product_id";
 
-        $app->response->write(json_encode($data));
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("product_id", $product_id);
+    $stmt->bindParam("user_id", $user_id);
+    $stmt->execute();
+
+    $data['Ack'] = 1;
+    $data['msg'] = 'Your payment completed successfully.';
+    $app->response->setStatus(200);
+
+    $app->response->write(json_encode($data));
 }
-
-
-
 
 $app->run();
 ?>
