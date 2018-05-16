@@ -279,7 +279,7 @@
             
             <div class="top-bar-part">
                 <div class="left-count">
-                    <p><i class="fa fa-user"></i> <span>18</span></p>
+                    <p><i class="fa fa-user"></i> <span>{{productLists.countuniquebids}}</span></p>
                 </div>
                 <div  class="right-icon-btn" ng-if="productLists.lastbidvalue >= productLists.thresholdprice">
                     <p> <span></span></p>
@@ -292,18 +292,19 @@
                 <img class="img-fluid" src="{{productLists.image}}" alt="Auction cap">
             </figure>
             
-            <h5>Total No Of Bid : &nbsp; <p>{{productLists.bidcount}}</p></h5>
-            <h5>Total No Of Unique Bid : &nbsp; <p>{{productLists.countuniquebids}}</p></h5>
+            <h5>Total No Of Bid(s) : &nbsp; <p>{{productLists.bidcount}}</p></h5>
+<!--            <h5>Total No User Bidding : &nbsp; <p>{{productLists.countuniquebids}}</p></h5>-->
             
+                       
+                        <h5>Your Highest Bid : 
+                        <p ng-if="!productLists.maxbid">You have not bid yet</p>
+                        <p ng-if="productLists.maxbid">{{productLists.currency_code}}&nbsp;{{productLists.maxbid}}</p>
+                       </h5>
                         <h5>Time Left :  
                         <div class='time-to' ng-if="productLists.preferred_date &&  productLists.type==2">
                             <p countdown='' date='{{productLists.preferred_date}}' style="color:red">&nbsp;</p>
                         </div>
                             </h5>  
-                        <h5>Highest Bid : 
-                        <p ng-if="!productLists.maxbid">You have not bid yet</p>
-                        <p ng-if="productLists.maxbid">{{productLists.maxbid}}</p>
-                       </h5>
                         <hr>
                         <div class="p-nm">
                             <h5>{{productLists.brands}}/{{productLists.category}}<br> <small>({{productLists.gender}})</small></h5>
@@ -312,9 +313,9 @@
                         <p ng-if="productLists.lastbidvalue >= productLists.thresholdprice" style="color:red">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
                         <p ng-if="productLists.lastbidvalue < productLists.thresholdprice" style="color:green">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
                         </h6>-->
-                        <h6>Last Auction Price : <p>{{productLists.lastbidvalue}}</p> </h6>
+                        <h6>Highest Bid : <p>{{productLists.currency_code}}&nbsp;{{productLists.lastbidvalue}}</p> </h6>
                         
-                         <h6> Minimum Bid : 
+                         <h6> Next Minimum Bid : 
                         <p ng-if="productLists.nextbidprice > 0">{{productLists.currency_code}}&nbsp;{{productLists.nextbidprice}}</p>
                         <p ng-if="productLists.nextbidprice <= 0">{{productLists.currency_code}}&nbsp;{{productLists.baseauctionprice}}</p>
                        </h6>

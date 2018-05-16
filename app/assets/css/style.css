@@ -24,7 +24,14 @@ body{font-size: .875rem;font-family: 'Poppins', sans-serif;}
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+@font-face {
+    font-family: 'digital-7regular';
+    src: url('stylesheet-font/digital-7-webfont.woff2') format('woff2'),
+         url('stylesheet-font/digital-7-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 
+}
 .btn-outline-primary{border-color: #ffffff;color:#fff;border-radius: 0;text-transform: uppercase;padding:10px 20px}
 .btn-outline-primary:hover{background: #fff;color:#000;border-color: #ffffff;}
 
@@ -536,14 +543,27 @@ a{color: #000}
 .auction-details-pade .share-prod{color:#777777;}
 /*.auction-details-pade .card-title{color:#fff;}*/
 .auction-details-pade .details-top .like{background:#363636;border-radius: 3px;padding: 3px 6px}
+.time-to .ng-isolate-scope{
+/*    color: #fff !important;*/
+    font-family: 'digital-7regular';
+    font-size: 30px !important;
+    margin-top: 18px;
+    display: block !important;
+}
 
 /***********************************************css by Dhruv********************************************/
 #myModal .modal-content{
     background: #1e1e1e;
 }
+#myModal .modal-dialog {
+    max-width: 600px;
+    width: 100%;
+    
+}
 #myModal .modal-body{
     padding: 15px 10px;
     text-align: center;
+    min-height: 80vh;
 }
 .top-bar-part {
     display: table;
@@ -598,14 +618,14 @@ a{color: #000}
     min-width: 120px;
 }
 #myModal .modal-body h5{
-    font-size: 16px;
+    font-size: 15px;
     margin: 5px auto;
     line-height: 20px;
     color: #fff;
     font-weight: 300;
 }
 #myModal .modal-body h5 div{
-    display: inline-block;
+    display: block;
 }
 #myModal .modal-body h5 small{
     display: block;
@@ -613,7 +633,7 @@ a{color: #000}
     line-height: 29px;
 }
 #myModal .modal-body h6{
-    font-size: 13px;
+    font-size: 14px;
     margin: 5px auto;
     line-height: 15px;
     color: #fff;
@@ -624,9 +644,13 @@ a{color: #000}
     color: #fff;
     font-weight: 600;
 }
+
+
 #myModal .modal-body h5 p,
 #myModal .modal-body h6 p{
     display: inline-block;
+    font-size: 17px;
+    
 }
 .btn-round{
     border-radius: 35px;
