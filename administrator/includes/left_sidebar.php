@@ -88,6 +88,12 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                                 <i class="icon-bulb"></i>
                                 Payment Settings</a>
                         </li>
+                        <li>
+                            <a href="freebid_settings.php">
+                                <i class="icon-bulb"></i>
+                                Free Bid Setting</a>
+                        </li>
+                        
 
                         <!--  <li>
                              <a href="smtp_settings.php">
@@ -154,6 +160,7 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                 <?php
             }
             ?>
+
 
                 
 <!--            <li class="sub-menu">
@@ -354,6 +361,38 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                 <?php
             }
             ?>
+
+
+             <?php if (in_array('20', $prevnameall)) { ?>
+                <li class="sub-menu">
+                    <a href="javascript:;" class="">
+                        <i class="icon-user"></i>
+                        <span>Loyaliety Point <br> Management</span>
+                        <span class="arrow"></span>
+                    </a>
+                    <ul class="sub">
+                                                                                                                                        
+                        <li  <?php if ($pagename == 'add_loyalietypoint.php') { ?>  class="active" <?php } ?>>
+                            <a href="add_loyalietypoint.php">
+                                <i class="icon-user"></i>
+                                Add Loyaliety</a>
+                        </li> 
+
+                        <li  <?php if ($pagename == 'list_loyalietypoint.php') { ?>  class="active" <?php } ?>>
+                            <a href="list_loyalietypoint.php">
+                                <i class="icon-user"></i>
+                                list Loyaliety</a>
+                        </li>
+
+
+                    </ul>
+                </li>
+                <?php
+            }
+            ?>
+
+
+
             <!-- <?php if (in_array('17', $prevnameall)) { ?>
                                                                                                                                                     <li class="sub-menu">
                                                                                                                                                           <a href="javascript:;" class="">
@@ -746,6 +785,32 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                 <?php
             }
             ?>
+             <!-- <?php if (in_array('20', $prevnameall)) { ?>
+                <li class="sub-menu">
+                    <a href="javascript:;" class="">
+                        <i class="icon-bell-alt"></i>
+                        <span>Loyaliety Setting</span>
+                        <span class="arrow"></span>
+                    </a>
+                    <ul class="sub">
+
+                        <li>
+                            <a href="freebid.php">
+                                <i class="icon-bell-alt"></i>
+                                Add Free Bid</a>
+                        </li>
+
+
+                        <li>
+                            <a href="notification_settings.php">
+                                <i class="icon-bell-alt"></i>
+                                Notification Settings</a>
+                        </li>
+                    </ul>
+                </li>
+                <?php
+            }
+            ?> -->
 
             <?php if (in_array('12', $prevnameall)) { ?>
                 <li class="sub-menu">
