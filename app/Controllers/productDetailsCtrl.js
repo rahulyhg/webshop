@@ -149,7 +149,7 @@ alert("Mail can not be sent ");
     }; 
         
 $scope.checklogin = function(){	
-        alert('Please Login');	 
+       $('#login').modal('show'); 
 return false;	 
 }  
 
