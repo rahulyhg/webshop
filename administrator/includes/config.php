@@ -2,12 +2,12 @@
 
 error_reporting(1);
 include('../../lang/en.php');
-define('SITE_URL', 'http://localhost/webshop/');
-define('BASE_URL', 'http://localhost/webshop/');
+define('SITE_URL', 'http://localhost/webshop1/webshop/');
+define('BASE_URL', 'http://localhost/webshop1/webshop/');
 define('TWILO_SID', 'AC192d5c3baa6e3d81e3dc00d759413867');
 define('TWILO_TOKEN', 'ff24340d02dec1e794fde914b315a4de');
 define('PAYPAL_URL', 'https://www.sandbox.paypal.com/cgi-bin/webscr');
-define('BASE_URL', 'http://localhost/webshop/');
+define('BASE_URL', 'http://localhost/webshop1/webshop/');
 define('CHARGE', 1.99);
 define('STRIPE_CHARGE', 199);
 define('TESTMODE', 'on');
@@ -28,7 +28,7 @@ if ($_SESSION['lang'] == 'Spanish') {
 //$link = mysql_connect("localhost", "root", "Host@2017") or die("Error in Connection. Check Server Configuration.");
 //mysql_select_db("roomrent", $link) or die("Database not Found. Please Create the Database.");
 
-$con = mysqli_connect("localhost", "root", "abc123", "webshop");
+$con = mysqli_connect("localhost", "root", "root", "webshop");
 
 if (mysqli_connect_errno()) {
     echo "Failed to the connect to MySQL: " . mysqli_connect_error();
