@@ -4305,6 +4305,7 @@ function interestedEmailToVendor() {
     $user_id = $body->user_id;
     $product_id = $body->product_id;
     $type = $body->type;
+    $messagefromuser = $body->message;
     $db = getConnection();
 
     $sql3 = "SELECT * FROM  webshop_products WHERE id=:id ";
@@ -4336,7 +4337,7 @@ function interestedEmailToVendor() {
     $link = SITE_URL . '#/conatctuser/' . $getdetails->id . '/' . $getproductdetails->id . '/' . $getUserdetails->id;
     $TemplateMessage = "Hello " . $getUserdetails->fname . ",<br /><br / >";
     $TemplateMessage .= $user . " is interested in your product " . $getproductdetails->name . " <br />";
-    $TemplateMessage .= "<br/>Click this link to verify to conact user <a href='" . $link . "'>" . $link . "</a><br/>";
+    //$TemplateMessage .= "<br/>Click this link to verify to conact user <a href='" . $link . "'>" . $link . "</a><br/>";
     $TemplateMessage .= "<br /><br />Thanks,<br />";
     $TemplateMessage .= "webshop.com<br />";
 
@@ -4391,40 +4392,65 @@ function interestedEmailToVendor() {
 
     try {
         $mail->Send();
-        $sqlFriend = "INSERT INTO webshop_interested (userid,seller_id,productid, type, interested) VALUES (:userid,:seller_id, :productid, :type, :interested)";
-        $interested = 1;
-        $stmttt = $db->prepare($sqlFriend);
-        $stmttt->bindParam("userid", $user_id);
-        $stmttt->bindParam("seller_id", $seller_id);
-        $stmttt->bindParam("productid", $product_id);
-        $stmttt->bindParam("type", $type);
-        $stmttt->bindParam("interested", $interested);
-        $stmttt->execute();
+        $sql_messageadd = "INSERT INTO  webshop_message (message,to_id,product_id,from_id,is_read,add_date) VALUES (:message,:to_id,:product_id,:from_id,:is_read,:add_date)";
+
+        $stm_msg = $db->prepare($sql_messageadd);
+        $add_date = date('Y-m-d');
+        $is_read = '0';
+        $stm_msg->bindParam("message", $messagefromuser);
+        $stm_msg->bindParam("to_id", $seller_id);
+        $stm_msg->bindParam("product_id", $product_id);
+        $stm_msg->bindParam("from_id", $user_id);
+        $stm_msg->bindParam("is_read", $is_read);
+        $stm_msg->bindParam("add_date", $add_date);
+
+        $stm_msg->execute();
     } catch (phpmailerException $e) {
         echo $e->errorMessage(); //Pretty error messages from PHPMailer
     }
 
     /* Notification to the seller start */
-    /*  $message = $user . " is interested in your product " . $getproductdetails->name . "";
+    $message = $user . " is interested in your product " . $getproductdetails->name . "";
 
-      $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, msg, is_read,last_id) VALUES (:from_id, :to_id, :msg, :is_read,:last_id)";
+    $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, msg, is_read,last_id) VALUES (:from_id, :to_id, :msg, :is_read,:last_id)";
 
-      $is_read = '0';
-      $last_id = '0';
-      $from_id = '0';
-      //$message = 'New auction added';
-      //$type = '2';
-      $stmttt = $db->prepare($sqlFriend);
-      $stmttt->bindParam("from_id", $user_id);
-      $stmttt->bindParam("to_id", $seller_id);
-      //$stmttt->bindParam("type", $type);
-      $stmttt->bindParam("msg", $message);
+    $is_read = '0';
+    $last_id = '0';
+    $from_id = '0';
 
-      $stmttt->bindParam("last_id", $last_id);
-      $stmttt->bindParam("is_read", $is_read);
-      $stmttt->execute(); */
+    $stmttt = $db->prepare($sqlFriend);
+    $stmttt->bindParam("from_id", $user_id);
+    $stmttt->bindParam("to_id", $seller_id);
+    //$stmttt->bindParam("type", $type);
+    $stmttt->bindParam("msg", $message);
+
+    $stmttt->bindParam("last_id", $last_id);
+    $stmttt->bindParam("is_read", $is_read);
+    $stmttt->execute();
+
     /* Notification to the seller end */
 
+    /* Notification for message start */
+
+    $message1 = "You have a new message from " . $user . "";
+
+    $sqlFriendmsg = "INSERT INTO webshop_notification (from_id, to_id, msg, is_read,last_id) VALUES (:from_id, :to_id, :msg, :is_read,:last_id)";
+
+    $is_read = '0';
+    $last_id = '0';
+    $from_id = '0';
+
+    $stmtttmsg = $db->prepare($sqlFriendmsg);
+    $stmtttmsg->bindParam("from_id", $user_id);
+    $stmtttmsg->bindParam("to_id", $seller_id);
+    //$stmttt->bindParam("type", $type);
+    $stmtttmsg->bindParam("msg", $messagefromuser);
+    $stmtttmsg->bindParam("last_id", $last_id);
+    $stmtttmsg->bindParam("is_read", $is_read);
+    $stmtttmsg->execute();
+
+
+    /* Notification for message end */
     $db = null;
     $data['Ack'] = '1';
     $data['msg'] = 'Mail Send Successfully';
@@ -7460,7 +7486,6 @@ function todayauctionListSearch() {
     $app->response->write(json_encode($data));
 }
 
-
 function interestinproduct() {
     $data = array();
     $app = \Slim\Slim::getInstance();
@@ -7477,19 +7502,19 @@ function interestinproduct() {
     $stmt->bindParam("user_id", $user_id);
     $stmt->execute();
     $getAllProducts = $stmt->fetchAll(PDO::FETCH_OBJ);
-    
+
     //print_r($getAllProducts);exit;
 
     if (!empty($getAllProducts)) {
         foreach ($getAllProducts as $product) {
-            
+
             $sql1 = "SELECT * FROM webshop_products WHERE id=:id ";
             $stmt1 = $db->prepare($sql1);
             $stmt1->bindParam("id", $product->productid);
             $stmt1->execute();
             $getProductdetails = $stmt1->fetchObject();
-            
-            
+
+
 
             if ($getProductdetails->image != '') {
                 $image = SITE_URL . 'upload/product_image/' . $getProductdetails->image;
@@ -7507,7 +7532,6 @@ function interestinproduct() {
                 "description" => strip_tags(stripslashes(substr($getProductdetails->description, 0, 50))),
                 "seller_id" => stripslashes($product->seller_id),
                 "product_id" => stripslashes($getProductdetails->id),
-               
             );
         }
 
@@ -7548,7 +7572,7 @@ function deleteInterest() {
         $stmt->bindParam("user_id", $user_id);
         $stmt->execute();
 
-        
+
         $data['Ack'] = '1';
         $data['msg'] = 'Product Removed';
 
@@ -7566,8 +7590,7 @@ function deleteInterest() {
     $app->response->write(json_encode($data));
 }
 
-
-    function interestedproduct() {
+function interestedproduct() {
     $data = array();
     $app = \Slim\Slim::getInstance();
     $request = $app->request();
@@ -7583,19 +7606,19 @@ function deleteInterest() {
     $stmt->bindParam("user_id", $user_id);
     $stmt->execute();
     $getAllProducts = $stmt->fetchAll(PDO::FETCH_OBJ);
-    
+
     //print_r($getAllProducts);exit;
 
     if (!empty($getAllProducts)) {
         foreach ($getAllProducts as $product) {
-            
+
             $sql1 = "SELECT * FROM webshop_products WHERE id=:id ";
             $stmt1 = $db->prepare($sql1);
             $stmt1->bindParam("id", $product->productid);
             $stmt1->execute();
             $getProductdetails = $stmt1->fetchObject();
-            
-            
+
+
 
             if ($getProductdetails->image != '') {
                 $image = SITE_URL . 'upload/product_image/' . $getProductdetails->image;
@@ -7613,7 +7636,6 @@ function deleteInterest() {
                 "description" => strip_tags(stripslashes(substr($getProductdetails->description, 0, 50))),
                 "seller_id" => stripslashes($product->seller_id),
                 "product_id" => stripslashes($getProductdetails->id),
-               
             );
         }
 
@@ -7629,7 +7651,6 @@ function deleteInterest() {
 
     $app->response->write(json_encode($data));
 }
-
 
 function auctionuploapayment() {
 
@@ -7847,7 +7868,6 @@ function addlike() {
 
     $app->response->write(json_encode($data));
 }
-
 
 $app->run();
 ?>

@@ -70,7 +70,7 @@
 						</div>
 					</div>
 					<div class="col-lg-5 col-md-7 col-sm-7">
-						<div class="share-prod mb-2">Share this product : <a href="" class="d-inline-block text-secondary"><i class="fa fa-facebook"></i></a> <a href="" class="d-inline-block mx-2 text-secondary"><i class="fa fa-twitter"></i></a><a href="" class="d-inline-block text-secondary"><i class="fa fa-google-plus"></i></a></div>
+						<!--<div class="share-prod mb-2">Share this product : <a href="" class="d-inline-block text-secondary"><i class="fa fa-facebook"></i></a> <a href="" class="d-inline-block mx-2 text-secondary"><i class="fa fa-twitter"></i></a><a href="" class="d-inline-block text-secondary"><i class="fa fa-google-plus"></i></a></div>-->
 						<div class="seller-info p-3 border-secondary border rounded mb-3"  ng-if="productLists.seller_id!=user_id">
                                                     <div ng-if="user_id && productLists.interest==1">
                                                     <h6 class="card-title">Seller Info:</h6>
@@ -82,12 +82,21 @@
 							<p class="text-success">{{productLists.quantity}}pcs. Available. </p>
                                                         <p ng-if="productLists.quantity=='0'" class="text-success">Out of stock.</p>
 							<hr>
+                                                       
+							<button ng-if="is_hide==0 && productLists.interest==1" type="button" ng-click="is_clicked()" class="btn btn-primary btn-block">Contact Seller</button>
+                                                        <button ng-if="user_id && productLists.interest==0" type="button" ng-click="is_clicked()" disabled class="btn btn-primary btn-block">Contact Seller</button>
+                                                        <button ng-if="!user_id && productLists.interest==0" type="button" ng-click="is_clicked()" class="btn btn-primary btn-block">Contact Seller</button>
                                                         
-							<button ng-if="loader && productLists.interest==1" type="button" ng-click="emailtothevendor(productLists.seller_id)" class="btn btn-primary btn-block">Contact Seller</button>
-                                                        <button ng-if="user_id && productLists.interest==0" type="button" ng-click="emailtothevendor(productLists.seller_id)" disabled class="btn btn-primary btn-block">Contact Seller</button>
-                                                        <button ng-if="!user_id && productLists.interest==0" type="button" ng-click="emailtothevendor(productLists.seller_id)" class="btn btn-primary btn-block">Contact Seller</button>
+                                                          <div ng-if="user_id && productLists.interest==1 && is_click==1">
+                                                              <form class="modal-content animate" name="contacttoseller" ng-submit="contactseller(sellercontact)">
+							<h5>Your Message</h5>   
+                                                        <textarea class="form-control" id="" value="" placeholder="" ng-model="sellercontact.message" name="message" capitalize required></textarea>
                                                         
-
+                                                         <input type="hidden" class="form-control" id="" value="" placeholder="" ng-model="sellercontact.seller_id=productLists.seller_id" name="uploaderid" required>
+							
+                                                         <input ng-if="loader" type="submit" value="Send" class="btn-round">
+                                                              </from>
+                                                </div>
 
 
 <div ng-if="!loader" class="loader"></div>

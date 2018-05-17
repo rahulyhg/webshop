@@ -448,7 +448,7 @@ userService.homeSettingsSection().then(function(response) {
                 
 	 if(response.Ack == '1') {
 				//alert (response.msg);
-                alert ('Added to your Watchlist');
+                //alert ('Added to your Watchlist');
 				//$state.go('frontend.wishlist');
                 $window.location.reload();                
                                 
