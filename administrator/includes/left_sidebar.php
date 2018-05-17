@@ -383,7 +383,11 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                                 <i class="icon-user"></i>
                                 list Loyaliety</a>
                         </li>
-
+                        <li  <?php if ($pagename == 'list_loyaliety_user.php') { ?>  class="active" <?php } ?>>
+                            <a href="list_loyaliety_user.php">
+                                <i class="icon-user"></i>
+                                Loyaliety user Point</a>
+                        </li>
 
                     </ul>
                 </li>
