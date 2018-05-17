@@ -4496,6 +4496,71 @@ var purchaseAuctionproduct = function(value) {
 
 
 
+    var todaysearchListing = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,preferred_date) {
+    return $q(function(resolve, reject) {
+        
+        
+        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","preferred_date":"'+preferred_date+'"}';
+         
+    
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"todayauctionListSearch",
+   data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    //console.log('ok');
+    resolve(response.data); 
+    } else {
+    //console.log('ok2');
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    //console.log(response);  
+    reject(response);
+    });
+    });
+    };
+
+
+    var interestinproduct = function() {
+    return $q(function(resolve, reject) {
+        var userInfo = JSON.parse($window.localStorage["userInfo"]);
+        var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+
+    
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"listmyProducts",
+   data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    //console.log('ok');
+    resolve(response.data); 
+    } else {
+    //console.log('ok2');
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    //console.log(response);  
+    reject(response);
+    });
+    });
+    };
+
+
+
+
+
+
 
  
  return {
@@ -4642,7 +4707,9 @@ ChangePassword: ChangePassword,
            addreview:addreview,
            reviews:reviews,
            purchaseAuctionproduct:purchaseAuctionproduct,
-           addwinnerpayment:addwinnerpayment
+           addwinnerpayment:addwinnerpayment,
+           todaysearchListing:todaysearchListing,
+           interestinproduct:interestinproduct
 
 	
 };

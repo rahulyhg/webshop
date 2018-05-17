@@ -1,0 +1,38 @@
+
+<section class="innerbody" ng-init="myproduct()">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-4" data-ng-include=" 'app/views/partials/sidebar.html'" ></div>
+            <div class="col-lg-9 col-md-8">
+                <h5 class="common-title p-3 mb-0">Interested Product</h5>
+                <div class="edit-pro p-3 w-100 float-left">
+                    <ul class="wish-list">
+                        <li class="p-3 ng-scope col-md-4 float-left ml-1" ng-repeat="ProductList in productLists">
+                            <div class="wishlist-image w-100 float-left">
+                                <a href="#/productDetails/{{ProductList.id}}"><img src="{{ProductList.image}}" alt="" class="img-fluid"></a>
+                            </div>
+                            <div class="wishlist-content w-100 float-left">
+
+                                <p class="mb-1">{{ProductList.description}}</p>
+                                <b class="d-block mb-2">$ {{ProductList.price}}</b>
+
+                                <!--for complete product-->
+
+                                <div>
+                                    <div class="row">
+                                        <div class="col-md-6">    
+                                            <button type="button" ng-click="deleteInterest(ProductList.id)" class="btn btn-primary btn-dark"><i class="ion-trash-a"></i> Remove</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <h4 style="text-align: center;" ng-if="exists == 0">No Records Found.</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -50,14 +50,14 @@
                <a class="nav-link" href="#/productlisting/">{{language.product}}</a> 
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="#/searchListing/">{{language.Todays_Deals}}</a>
+               <a class="nav-link" href="#/todaysDeals">{{language.Todays_Deals}}</a>
             </li>
-            <li class="nav-item">
+<!--            <li class="nav-item">
                <a class="nav-link" href="#/searchListing/">{{language.gift_cards}}</a>
             </li>
             <li class="nav-item">
                <a class="nav-link" href="#/searchListing/">{{language.sell}}</a>
-            </li>
+            </li>-->
             <!--<li class="nav-item">
                <a class="nav-link" href="#/searchListing">Buy</a>
                </li>-->
@@ -78,11 +78,11 @@
                <span ng-if="headernotificmsg>0" class="ng-binding ng-scope">{{headernotificmsg}}</span>
                </a>
             </li>
-            <li class="nav-item icon-link" ng-if="current_user_login=='1' && current_user_type=='1'">
+<!--            <li class="nav-item icon-link" ng-if="current_user_login=='1' && current_user_type=='1'">
                <a href="#/cart" class="nav-link"><i class="ion-bag"></i></a>
                <span class="ng-binding ng-scope" ng-if="headerCartCount>0">{{headerCartCount}}</span>
                <span class="ng-binding ng-scope" ng-if="headerCartCount==0">0</span>
-            </li>
+            </li>-->
             <li class="nav-item" ng-if="current_user_login!='1'">
                <a class="nav-link" href="#" data-toggle="modal" data-target="#login">{{language.login}}</a>
             </li>
