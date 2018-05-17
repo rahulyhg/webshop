@@ -77,6 +77,10 @@ app.constant('JS_REQUIRES', {
         'todaysDeals': ['app/Controllers/todaysDealsCtrl.js'],
         'interestin': ['app/Controllers/interestinCtrl.js'],
         'interested': ['app/Controllers/interestedCtrl.js'],
+        
+        'auctionuploadpayment': ['app/Controllers/auctionuploadpaymentCtrl.js'],
+        'successAuctionuploadpayment': ['app/Controllers/successAuctionuploadpaymentCtrl.js'],
+        'cancelAuctionuploadpayment': ['app/Controllers/cancelAuctionuploadpaymentCtrl.js'],
 	
     },
 

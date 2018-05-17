@@ -114,10 +114,8 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/getusercontact', 'getusercontact');
     $app->post('/addmessage', 'addmessage');
     $app->post('/getfullMessages', 'getfullMessages');
-
     $app->post('/UserSubscriptionpayment', 'UserSubscriptionpayment');
     $app->post('/markProduct', 'markProduct');
-
     $app->post('/listSubscribed', 'listSubscribed');
     $app->post('/changeLaguage', 'changeLaguage');
     $app->post('/listexpiredProducts', 'listexpiredProducts');
@@ -126,20 +124,18 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/userpaymentforupload', 'userpaymentforupload');
     $app->post('/adduserpayment', 'adduserpayment');
     $app->post('/listuserSubscriptions', 'listuserSubscriptions');
-
     $app->get('/auctionWinner', 'auctionWinner');
-
     $app->post('/reviews', 'reviews');
     $app->post('/addreview', 'addreview');
     $app->post('/UserAuctionpayment', 'UserAuctionpayment');
     $app->post('/addwinnerpayment', 'addwinnerpayment');
     $app->post('/todayauctionListSearch', 'todayauctionListSearch');
-
     $app->post('/interestinproduct', 'interestinproduct');
     $app->post('/deleteInterest', 'deleteInterest');
     $app->post('/interestedproduct', 'interestedproduct');
-
     $app->post('/addlike', 'addlike');
+    $app->post('/sociallinks', 'sociallinks');
+    $app->post('/auctionuploapayment', 'auctionuploapayment');
 
 });
 ?>

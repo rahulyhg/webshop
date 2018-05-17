@@ -21,7 +21,7 @@
 									<button type="button" ng-click="deleteProduct(ProductList.id)" class="btn btn-primary btn-dark"><i class="ion-trash-a"></i> Delete</button>
                                                                             </div>
                                                                             <div class="col-sm-6" ng-if="ProductList.auction_fee_paid == 0 && ProductList.approved == 1">
-                                                                <button type="button" ng-click="auctionFeesPayment(1,ProductList.id)" class="btn btn-primary btn-dark"> Pay Now</button>
+                                                                <button type="button" ng-click="auctionFeesPayment(ProductList.id)" class="btn btn-primary btn-dark"> Pay Now</button>
                                                                             </div>
                                                                         </div>
 								</div>

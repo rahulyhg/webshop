@@ -4650,6 +4650,64 @@ reject(response);
     };
 
 
+
+var sociallinks = function() {
+        return $q(function(resolve, reject) {
+                
+
+//var encodedString ='{"user_id":"0"}';
+
+            
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"sociallinks",
+         //data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           
+           if(response.data.Ack == "1") {
+        
+              resolve(response.data); 
+           } else {
+          
+              resolve(response.data); 
+           }
+          
+        },function(response) {
+                      
+          reject(response);
+            });
+        });
+ };
+
+var uploadAuctionproduct = function(value) {
+    return $q(function(resolve, reject) {
+        var userInfo = JSON.parse($window.localStorage["userInfo"]);
+    
+     var encodedString ='{"user_id":"'+ userInfo.user_id +'","product_id":"'+ value.product_id +'","name":"'+ value.name +'","email":"'+ value.email +'","phone":"'+ value.phone +'"}';
+
+    $http({
+    method: 'POST',
+   // url: $rootScope.serviceurl+"addUserSubscription",
+    url: $rootScope.serviceurl+"auctionuploapayment",
+    data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    resolve(response.data); 
+    } else {
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    reject(response);
+    });
+    });
+    };
+
+
  
  return {
      
@@ -4794,7 +4852,9 @@ reject(response);
         interestinproduct: interestinproduct,
         deleteInterest: deleteInterest,
         interestedproduct:interestedproduct,
-        addlike:addlike
+        addlike:addlike,
+        sociallinks:sociallinks,
+        uploadAuctionproduct:uploadAuctionproduct
 
 	
 };
