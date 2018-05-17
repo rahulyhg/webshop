@@ -3,14 +3,16 @@ include_once("./includes/session.php");
 //include_once("includes/config.php");
 include_once("./includes/config.php");
 //$url=basename(__FILE__)."?".(isset($_SERVER['QUERY_STRING'])?$_SERVER['QUERY_STRING']:'cc=cc');
+ mysqli_query("set symbol 'utf8'");
 if(isset($_GET['action']) && $_GET['action']=='delete')
 {
   $item_id=$_GET['cid'];
-  mysqli_query($con,"delete from  webshop_loyalietypoint where id='".$item_id."'");
+  mysqli_query($con,"delete from  webshop_user_loyaliety where id='".$item_id."'");
   //$_SESSION['msg']=message('deleted successfully',1);
-  header('Location:list_loyalietypoint.php');
+  header('Location:list_auction.php');
   exit();
 }
+
 
 
 if (isset($_REQUEST['submit'])) {
@@ -39,7 +41,7 @@ if (isset($_REQUEST['submit'])) {
   
        
        
-       echo $addQuery = "INSERT INTO `webshop_loyalietypoint` (`" . implode('`,`', array_keys($fields)) . "`)"
+       echo $addQuery = "INSERT INTO `webshop_products` (`" . implode('`,`', array_keys($fields)) . "`)"
       . " VALUES ('" . implode("','", array_values($fields)) . "')";
          
       
@@ -51,8 +53,9 @@ if (isset($_REQUEST['submit'])) {
       
 
         if ($last_id != "" || $last_id != 0) {
-        
-           header("location:list_loyalietypoint.php");
+            
+             header("location:list_auction.php");
+           //header("location:list_tools.php");
             $_SESSION['MSG'] = 3;
             exit();
         } else {
@@ -63,7 +66,7 @@ if (isset($_REQUEST['submit'])) {
     } else if ($action == 'edit') {
 
         $last_id = $_REQUEST['id'];
-    $editQuery = "UPDATE `webshop_loyalietypoint` SET " . implode(', ', $fieldsList)
+    $editQuery = "UPDATE `webshop_user_loyaliety` SET " . implode(', ', $fieldsList)
       . " WHERE `id` = '" . mysqli_real_escape_string($con,$last_id) . "'";
 
 
@@ -76,7 +79,7 @@ if (isset($_REQUEST['submit'])) {
 
 
 
-            header("location:list_loyalietypoint.php");
+            header("location:list_auction.php");
             $_SESSION['MSG'] = 1;
             exit();
         } else {
@@ -97,13 +100,13 @@ if(isset($_REQUEST['bulk_delete_submit'])){
         $idArr = $_REQUEST['checked_id'];
         foreach($idArr as $id){
              //echo "UPDATE `makeoffer_product` SET status='0' WHERE id=".$id;
-            mysqli_query($con,"DELETE FROM `webshop_loyalietypoint` WHERE id=".$id);
+            mysqli_query($con,"DELETE FROM `webshop_products` WHERE id=".$id);
         }
-        $_SESSION['success_msg'] = 'Loyaliety point have been deleted successfully.';
+        $_SESSION['success_msg'] = 'Tools Type have been deleted successfully.';
         
         //die();
         
-        header("Location:list_loyalietypoint.php");
+        header("Location:list_auction.php");
     }
 
 
@@ -112,19 +115,19 @@ if(isset($_REQUEST['bulk_delete_submit'])){
 
 if($_REQUEST['action']=='edit')
 {
-$categoryRowset = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_loyalietypoint` WHERE `status`='1'"));
+$categoryRowset = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_products` WHERE `status`='1'"));
 
 }
 
 ?>
 
 
-<!-- <?php
+<?php
 if(isset($_POST['ExportCsv']))
 {
    
    
-   $sql="select * from insulationez_category WHERE `status`='1' order by id desc";
+   $sql="select * from hiretools_tools WHERE `status`='1' order by id desc";
    
     
 		
@@ -142,7 +145,7 @@ if(isset($_POST['ExportCsv']))
         while($result = mysqli_fetch_assoc($query))
         {
             
-           //  $det = mysqli_query($con,"SELECT * FROM `insulationez_amenities` where `id` IN($result[amenities])");
+           //  $det = mysqli_query($con,"SELECT * FROM `hiretools_amenities` where `id` IN($result[amenities])");
 
            //  while($more=mysqli_fetch_array($det))
            //     {
@@ -153,7 +156,7 @@ if(isset($_POST['ExportCsv']))
            //   }
            // $amenities_name=implode(',',$new_name);
            
-           $tools_type_details = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `insulationez_category` WHERE `id`='".mysqli_real_escape_string($con,$result['property_type'])."'"));
+           $tools_type_details = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `hiretools_property_type` WHERE `id`='".mysqli_real_escape_string($con,$result['property_type'])."'"));
       
 			 
              $property_id=$result['id'];
@@ -193,7 +196,7 @@ if(isset($_POST['ExportCsv']))
 	
 }
 ?>
- -->
+
 
 
 
@@ -201,30 +204,23 @@ if(isset($_POST['ExportCsv']))
 
 
 <script language="javascript">
-
-	function trend(aa)
-   {
-      
-        location.href="list_loyalietypoint.php?cid="+ aa +"&action=trend"
-   } 
-
    function del(aa,bb)
    {
       var a=confirm("Are you sure, you want to delete this?")
       if (a)
       {
-        location.href="list_loyalietypoint.php?cid="+ aa +"&action=delete"
+        location.href="list_auction.php?cid="+ aa +"&action=delete"
       }  
    } 
    
 function inactive(aa)
    { 
-       location.href="list_loyalietypoint.php?cid="+ aa +"&action=inactive"
+       location.href="list_auction.php?cid="+ aa +"&action=inactive"
 
    } 
    function active(aa)
    {
-     location.href="list_loyalietypoint.php?cid="+aa+"&action=active";
+     location.href="list_auction.php?cid="+aa+"&action=active";
    } 
 
    </script>
@@ -261,14 +257,14 @@ function inactive(aa)
                    </div>
                    <!-- END THEME CUSTOMIZER-->
                   <!-- BEGIN PAGE TITLE & BREADCRUMB-->
-                   <h3 class="page-title">Loyaliety Point  list</h3>
+                   <h3 class="page-title">List Users Loyaliety</h3>
                    <ul class="breadcrumb">
                        <li>
                            <a href="#">Home</a>
                            <span class="divider">/</span>
                        </li>
                        <li>
-                           <a href="#">Loyaliety Point list</a>
+                           <a href="#">List Users Loyaliety</a>
                         
                        </li>
                         
@@ -289,7 +285,7 @@ function inactive(aa)
                     <!-- BEGIN SAMPLE FORMPORTLET-->
                     <div class="widget green">
                         <div class="widget-title">
-                          
+                        <h4><i class="icon-reorder"></i>List Loyality Point</h4>
                              <form action="" method="post">
 								<!--<i class="fa fa-edit"></i>Editable Table-->
                                                                <!--  <button type="submit"   name="ExportCsv"> Download Tools List</button> -->
@@ -306,84 +302,103 @@ function inactive(aa)
                           <table class="table table-striped table-hover table-bordered" id="editable-sample">
                                      <thead>
                             <tr>
-             <!--     <th> Trending </th>                  -->                          
-                <th> From Price </th>
-                <th>To Price</th>          
-               <th>Point</th>
-               <!--  <th>View Products</th> -->
-                 <th>Status</th> 
+                
+                 <th>User Image</th>           
+                 <th>User Name</th>
+                 <!-- <th>Point</th>
+                 <th>Brand</th>
+                 <th>Size</th>
+                 <th>Owner Number</th> -->
+                 <th>Bid</th>
+                <!-- <th>Quick Links</th>-->
+              <!--    <th>Details</th> -->
+                 
+              </tr>
             </thead>
         <tbody>
                             <?php
-
-// if(isset($_GET['action']) && $_GET['action']=='inactive')
-// {
-//    $item_id=$_GET['cid'];
-//   mysqli_query($con,"update webshop_loyalietypoint set status='0' where id='".$item_id."'");
-//          header('Location:list_loyalietypoint.php');
-//   exit();
-// }
-// if(isset($_GET['action']) && $_GET['action']=='active')
-// {
-//    $item_id=$_GET['cid'];
-//   mysqli_query($con,"update webshop_loyalietypoint set status='1' where id='".$item_id."'");
-//          header('Location:list_loyalietypoint.php');
-//   exit();
-// }
-                                                        $fetch_tools_type=mysqli_query($con,"select * from webshop_loyalietypoint ");
+                            $curdate=date('Y-m-d');
+                            
+                           // echo "select * from  webshop_auction where `status`=1 and (`start_date_time` <= '".$curdate."' && `end_date_time` >='".$curdate."')";
+                           //exit;
+                                                     // $fetch_tools_type=mysqli_query($con,"select * from  webshop_auction where `status`=1 and (`start_date_time` <= '".$curdate."' && `end_date_time` >='".$curdate."')");
+                                                      $fetch_tools_type=mysqli_query($con,"SELECT user_id,sum(`point`) as tpoint FROM `webshop_user_loyaliety`  group by user_id)");
                                                         $num=mysqli_num_rows($fetch_tools_type);
+                                                        echo $num;exit;
                                                         if($num>0)
                                                         {
                                                         while($tools_type=mysqli_fetch_array($fetch_tools_type))
                                                         {
                                                             
+                                                            print_r($tools_type);exit;                                                                
+                                                            
+
+
+$uploader = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_user` WHERE `id`='".$tools_type['uploader_id']."'"));
+
+//$getBrand = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_brands` WHERE `id`='".$tools_type['brands']."'"));
+
+
                                                            
-    // if($tools_type['image']!='')
-    // {
-    // $image_link='../upload/category_image/'.$tools_type['image'];
-    // }
-    // else {
-    // $image_link='../upload/no.png';
-    // }
+    if($uploader['image']!='')
+    {
+    $image_link='../upload/user_image/'.$uploader['image'];
+    }
+    else {
+    $image_link='../upload/no.jpg';
+    }
+
                                                         ?>
               
               <tr>
-                                                     
-                <!--  <td>
-                  <?php if($tools_type['is_trending']=='1'){?>
-                    <input type="checkbox" checked onClick="javascript:inactive('<?php echo $tools_type['id'] ?>');"><br><br>
-    <input type="number" id="ordernumber" value="<?php echo $tools_type['order_numbering']?>"onblur="saveorder(this.value,'<?php echo $tools_type['id']?>')">
-                    <?php } else {?>
-                    <input type="checkbox" onClick="javascript:active('<?php echo $tools_type['id'] ?>');">
-                  <?php }?>
-                </td> -->
-                
+                  
+             
+               
+                <td>
+                 <img src="<?php echo $image_link;?>" height="100" width="100" align="image">
+                </td>
+
                <td>
-              
-                   <?php echo stripslashes($tools_type['from_price']);?>
+                   <?php echo $uploader['fname'].$uploader['lname'];?>
+                </td>
+
+                
+
+                <td>
+                   $<?php echo stripslashes($tools_type['point']);?>
+                </td>
+                
+                 <td>
+                   <?php echo stripslashes($getBrand['add_date']);?>
+                </td>
+                
+                 <!-- <td>
+                   <?php echo stripslashes($tools_type['size']);?>
                 </td>
                 
                 <td>
-                <?php echo stripslashes($tools_type['to_price']);?>
-                </td> 
-                <td>
-                <?php echo stripslashes($tools_type['point']);?>
-                </td> 
-                
-                <td>
-                  <a  href="add_loyalietypoint.php?id=<?php echo $tools_type['id'] ?>&action=edit">
-                  <i class="icon-edit"></i></a>
-                  <a onClick="javascript:del('<?php echo $tools_type['id']; ?>')">
-                  <i class="icon-trash"></i></a>
-                </td> 
+                   <?php echo stripslashes($tools_type['owner_number']);?>
+                </td> -->
 
-           <!-- <td>
-                  <?php if($tools_type['status']=='1'){?>
-                    <a  onClick="javascript:inactive('<?php echo $tools_type['id'] ?>');">Deactivate</a>
-                    <?php } else {?>
-                    <a  onClick="javascript:active('<?php echo $tools_type['id'] ?>');">Activate</a>
-                  <?php }?>
+                 
+
+                   <td>
+                   <a  href="view_user_loyaliety.php?id=<?php echo $tools_type['id'] ?>&action=edit">
+                  <i class="icon-legal"></i></a>
+                </td>
+                
+             <!--    <td>
+                 <img src="../upload/product_image/<?php echo $tools_type['image'];?>" height="100" width="100" align="image">
                 </td>  -->
+              
+                
+          <!--     <td>
+
+                    <a  href="details_auction.php?id=<?php echo $tools_type['id'] ?>&action=details"><i class="icon-eye-open"></i></a>
+                  
+                </td>  -->
+
+                  
 
               </tr>
                                                        <?php
@@ -393,7 +408,7 @@ function inactive(aa)
                                                         {
                                                             ?>
                                                         <tr>
-                    <td colspan="4">Sorry, no record found.</td>
+                    <td colspan="9">Sorry, no record found.</td>
                   </tr>
                                                         
                                                         <?php
@@ -445,7 +460,7 @@ function inactive(aa)
    <script src="js/respond.js"></script>
    <![endif]-->
    <script type="text/javascript" src="assets/uniform/jquery.uniform.min.js"></script>
-   <?php if ($num >0) {?>
+   <?php if ($num>0){?>
    <script type="text/javascript" src="assets/data-tables/jquery.dataTables.js"></script>
    <?php } ?>
    <script type="text/javascript" src="assets/data-tables/DT_bootstrap.js"></script>
@@ -459,36 +474,11 @@ function inactive(aa)
    <script src="js/editable-table.js"></script>
 
    <!-- END JAVASCRIPTS -->
-   <?php
-    if($num>0)
-    {
-   ?>
    <script>
        jQuery(document).ready(function() {
            EditableTable.init();
        });
    </script>
-   <?php
-    }
-   ?>
- <script>
- function saveorder(val1,val2){
-  //alert("ppp"+val1);
-  //alert("xxx"+val2);
-  $.ajax({
-  type: "POST",
-  url: "save_ordering.php",
-  data: 'order_numbering='+val1+'&category_id='+val2,
-  // success: function(data){
-  // 	if(data.datavalue == 0){
-  // 		alert("Please enter another order number");
-  // 	}
-  //  }
-  });
-
-}
-
- </script>
 </body>
 <!-- END BODY -->
 </html>
