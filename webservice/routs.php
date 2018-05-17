@@ -134,6 +134,8 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/UserAuctionpayment', 'UserAuctionpayment');
     $app->post('/addwinnerpayment', 'addwinnerpayment');
     $app->post('/todayauctionListSearch', 'todayauctionListSearch');
-    
+    $app->post('/interestinproduct', 'interestinproduct');
+    $app->post('/deleteInterest', 'deleteInterest');
+    $app->post('/interestedproduct', 'interestedproduct');
 });
 ?>

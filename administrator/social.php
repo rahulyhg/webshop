@@ -143,7 +143,7 @@ if(isset($_GET['action']) && $_GET['action']=='active')
          header('Location:social.php');
   exit();
 }
-
+$record=mysqli_query($con,"SELECT * FROM `webshop_social` ");
 if(mysqli_num_rows($record)==0)
 
 {?>
@@ -194,8 +194,8 @@ $count=1;
 
                 <td>
                   <a onClick="window.location.href='add_social.php?id=<?php echo $row->id ?>&action=edit'"><i class="icon-edit"></i></a>
-                   <a onClick="javascript:del('<?php echo $row->id; ?>')">
-                  <i class="icon-trash"></i> </a>
+<!--                   <a onClick="javascript:del('<?php echo $row->id; ?>')">
+                  <i class="icon-trash"></i> </a>-->
                 </td>
                 <td>
                   <?php if($row->status=='0'){?>
