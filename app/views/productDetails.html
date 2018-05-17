@@ -11,7 +11,7 @@
 				<div class="row">
 					<div class="col-lg-7 col-md-6 col-sm-6">
 						<div class="details-top p-3 mb-3 position-relative">
-							<div class="like"><p class="m-0"><i class="ion-thumbsup"></i> 18</p></div>
+							<div class="like"><p class="m-0"><i class="ion-thumbsup"></i> {{productLists.totallike}}</p></div>
 							<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">
 						</div> 
 						<div class="details-left" ng-if="productLists">
@@ -26,45 +26,6 @@
 							<p>{{productLists.description}}</p>
                                                         
                                                         <hr>
-                                                         <!-- 
-                                                        <div ng-if="productLists.seller_id!=user_id &&  productLists.type==2">
-							<h5>Total No Of Bid</h5>
-
-							<p>{{productLists.bidcount}}</p>
-                                                        <hr>
-                                                        </div>
-                                                        
-                                                        <div ng-if="productLists.seller_id!=user_id &&  productLists.type==2">
-							<h5>Your Maximum Bid</h5>
-                                                        <p ng-if="!productLists.maxbid">You have not bid yet</p>
-							<p ng-if="productLists.maxbid">{{productLists.maxbid}}</p>
-                                                        <hr>
-                                                        </div>
-                                                        
-                                                        <div  ng-if="productLists.type==2">
-							<h5>Time Remaining</h5>
-                                                       
-							  <div class='time-to' ng-if="productLists.preferred_date &&  productLists.type==2">
- 
-                            <p countdown='' date='{{productLists.preferred_date}}' style="color:red">&nbsp;</p>
-  </div>
-                                                          <hr>
-				 </div>
-                                                       
-							<hr>
-                                                        <h5>Product Base Auction Price</h5>
-							<p>{{productLists.currency_code}} {{productLists.baseauctionprice}}</p>
-							
-							
-                                                      
-                                                        <div  ng-if="productLists.type==2">
-                                                        <h5>Product Threshold Price</h5>
-                                                        
-							<p ng-if="productLists.lastbidvalue >= productLists.thresholdprice" style="color:red">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
-                                                        <p ng-if="productLists.lastbidvalue < productLists.thresholdprice" style="color:green">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
-                                                        <hr>
-                                                        </div>-->
-							
                                                         
 							<div class="row">
 								<div class="col-sm-6 col-6 py-1">
@@ -72,11 +33,13 @@
 								</div>
 								<div class="col-sm-6 col-6 py-1">
 									<ul class="like-links list-unstyled p-0 float-right m-0">
-										<li class="d-inline-block mr-2"><a href="" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>
-										<li class="d-inline-block mr-2"><a ng-if="current_user_login=='1' && current_user_type=='1' && quantity!='0'" ng-click="addTocart(productLists.id,productLists.cartquantity)" class="d-block rounded-circle"><i class="ion-android-cart"></i></a></li>
-                                                                                <li class="d-inline-block mr-2"><a ng-if="current_user_login!='1'  && quantity!='0'" ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-android-cart"></i></a></li>
-										<li class="d-inline-block"><a ng-if="current_user_login=='1' && current_user_type=='1'" ng-click="addwishlist(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
-                                                                                <li ng-if="current_user_login!='1'" class="d-inline-block"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
+										<li ng-if="user_id && productLists.userlike==0" class="d-inline-block mr-2"><a href="" ng-click="addlike(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>
+                                                                                <li ng-if="user_id && productLists.userlike==1" class="d-inline-block mr-2"><a href="" ng-click="addlike(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i style="color:red" class="ion-thumbsup"></i></a></li>
+										<li ng-if="!user_id" class="d-inline-block mr-2"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>
+<!--                                                                                <li class="d-inline-block mr-2"><a ng-if="current_user_login!='1'  && quantity!='0'" ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-android-cart"></i></a></li>-->
+										<li class="d-inline-block"><a ng-if="user_id && productLists.is_fav==0" ng-click="addwishlist(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
+                                                                                <li class="d-inline-block"><a ng-if="user_id && productLists.is_fav==1" ng-click="addwishlist(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i style="color:red" class="ion-heart"></i></a></li>
+                                                                               <li ng-if="!user_id" class="d-inline-block"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
 									</ul>
 								</div>
 							</div>
@@ -129,9 +92,6 @@
 
 <div ng-if="!loader" class="loader"></div>
 
-
-
-
 						</div>
 						<hr>
 						<h6 class="card-title">Reviews</h6>
@@ -163,19 +123,7 @@
 									
 								</div>
 							</div>
-<!--							<div class="media">
-								<div class="media-left mr-2">
-									<a href="#">
-										<img class="media-object" src="app/assets/images/user2.jpg" alt="">
-									</a>
-								</div>
-								<div class="media-body">
-									<h6 class="media-heading"><span class="rating d-inline-block mr-2"><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i></span>Louise Gregory <span class="date d-inline-block ml-2">- 2 months ago</span></h6>
-									<p class="mb-2">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-									<p><i class="fa fa-check"></i> Yes, I recommend this product. </p>
-									
-								</div>
-							</div>-->
+
                                                         <p class="text-right"  ng-if="!user_id && productLists.interest==0"><a href="" data-toggle="modal" data-target="#login" class="btn btn-primary btn-block">Add Review</a></p>
                                                         <p class="text-right"  ng-if="user_id && productLists.interest==0"><button disabled class="btn btn-primary btn-block">Add Review</button></p>
 							<p class="text-right"  ng-if="user_id && productLists.interest==1"><a href="" data-toggle="modal" data-target="#myModal1" class="btn btn-primary btn-block">Add Review</a></p>

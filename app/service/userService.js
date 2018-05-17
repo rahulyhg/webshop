@@ -4556,7 +4556,34 @@ var purchaseAuctionproduct = function(value) {
     });
     };
 
+var addlike = function(user_id,product_id,owner_id) {
+    
+return $q(function(resolve, reject) {
+    
+var encodedString ='{"user_id":"'+ user_id +'","product_id":"'+ product_id +'","seller_id":"'+ owner_id +'"}';
+//alert(encodedString);
+$http({
+method: 'POST',
+url: $rootScope.serviceurl+"addlike",
+data: encodedString,
+headers: {'Content-Type': 'application/json'}
+}).then(function (response) {
 
+   if(response.data.Ack == "1") {
+                   console.log('ok');
+      resolve(response.data); 
+   } else {
+                    console.log('ok2');
+          resolve(response.data); 
+   }	
+
+
+        },function(response) {
+console.log(response);  
+reject(response);
+});
+});
+};
 
 
 
@@ -4709,7 +4736,8 @@ ChangePassword: ChangePassword,
            purchaseAuctionproduct:purchaseAuctionproduct,
            addwinnerpayment:addwinnerpayment,
            todaysearchListing:todaysearchListing,
-           interestinproduct:interestinproduct
+           interestinproduct:interestinproduct, 
+           addlike:addlike
 
 	
 };
