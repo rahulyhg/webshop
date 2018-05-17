@@ -404,10 +404,11 @@ $scope.forget = function(user) {
 		$window.localStorage["userInfo"]='';
                 $scope.current_user_login='';
 		$window.localStorage.clear();
-                //$window.location.reload();                
+                            
                 //$state.go('frontend.login',{},{reload:true, inherit: false});
                 
                 $window.location.href = '#/home';
+                $window.location.reload();    
 														   
 														   
 // }, function(err) {
@@ -457,18 +458,52 @@ userService.homeSettingsSection().then(function(response) {
                 
         
         else {
-alert ('Already Added in your wishlist'); 
+//alert ('Already Added in your wishlist'); 
               //alert('Error !!!!');
               $window.location.reload();  
               }
 																	
 	}, function(err) {
-            alert ('Already Added in your wishlist');
+           // alert ('Already Added in your wishlist');
             $window.location.reload();
          console.log(err); 
     });
 	 
 } 
+
+$scope.addlike = function(product_id,owner_id){
+	 
+  	var userInfo = JSON.parse($window.localStorage["userInfo"]);	
+	$scope.user_id=userInfo.user_id;
+	 
+
+    userService.addlike(userInfo.user_id,product_id,owner_id).then(function(response) {
+		
+                
+	 if(response.Ack == '1') {
+				//alert (response.msg);
+                //alert ('You liked The Product');
+				//$state.go('frontend.wishlist');
+                $window.location.reload();                
+                                
+                              
+                                
+                }
+                
+        
+        else {
+//alert ('Already Added in your like'); 
+              //alert('Error !!!!');
+              $window.location.reload();  
+              }
+																	
+	}, function(err) {
+           // alert ('Already Added in your wishlist');
+            $window.location.reload();
+         console.log(err); 
+    });
+	 
+}
   
   if ($window.localStorage["userInfo"]!="") {
 

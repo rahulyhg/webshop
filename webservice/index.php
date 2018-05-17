@@ -849,9 +849,33 @@ function ProductsDetails() {
         $interested = 0;
     }
 
+    $sqltotallike = "SELECT * from  webshop_like WHERE product_id=:product_id";
+
+    $stmttotallike = $db->prepare($sqltotallike);
+    $stmttotallike->bindParam("product_id", $product_id);
+    $stmttotallike->execute();
+    $totallike = $stmttotallike->rowCount();
+
+
+    $sql_userlike = "SELECT * from  webshop_like WHERE product_id=:product_id AND user_id=:user_id";
+
+    $stmt_userlike = $db->prepare($sql_userlike);
+    $stmt_userlike->bindParam("product_id", $product_id);
+    $stmt_userlike->bindParam("user_id", $user_id);
+    $stmt_userlike->execute();
+    $userlike = $stmt_userlike->rowCount();
+
+
+    $userlike = 0;
+    $sql_userlike = "SELECT * from  webshop_like WHERE product_id=:product_id AND user_id=:user_id";
+
+    $stmt_userlike = $db->prepare($sql_userlike);
+    $stmt_userlike->bindParam("product_id", $product_id);
+    $stmt_userlike->bindParam("user_id", $user_id);
+    $stmt_userlike->execute();
+    $userlike = $stmt_userlike->rowCount();
+
     if (!empty($product)) {
-
-
 
         if ($product->image != '') {
             $image = SITE_URL . 'upload/product_image/' . $product->image;
@@ -1047,10 +1071,10 @@ function ProductsDetails() {
             "countuniquebids" => $countuniquebids,
             'action_date' => $action_date,
             'action_time' => date('h:i A', strtotime($action_time)),
-            'interest' => $interested
-// "special_price"=>stripslashes($product->special_price),
-// "auction_start_date"=>stripslashes($product->auction_start_date),
-// "auction_end_date"=>stripslashes($product->auction_end_date)
+            'interest' => $interested,
+            'totallike' => $totallike,
+            'userlike' => $userlike,
+            'is_fav' => $is_fav
         );
 
 
@@ -1151,8 +1175,13 @@ function addFavoriteProduct() {
             $app->response->setStatus(401);
         }
     } else {
-        $data['Ack'] = '0';
-        $data['msg'] = 'Already Added in your wishlist';
+        $sqldeletefab = " DELETE FROM  webshop_favourite WHERE product_id=:product_id AND user_id=:user_id";
+        $stmtdeletefab = $db->prepare($sqldeletefab);
+        $stmtdeletefab->bindParam("product_id", $product_id);
+        $stmtdeletefab->bindParam("user_id", $user_id);
+        $stmtdeletefab->execute();
+        // $contactdetails = $stmt->fetchObject();
+        // $count = $stmt->rowCount();
     }
 
 
@@ -7216,7 +7245,6 @@ function addwinnerpayment() {
     $app->response->write(json_encode($data));
 }
 
-
 function todayauctionListSearch() {
 
     $data = array();
@@ -7241,7 +7269,7 @@ function todayauctionListSearch() {
     $breslettype = isset($body->breslettype) ? $body->breslettype : '';
     $year = isset($body->year) ? $body->year : '';
     $preferred_date = isset($body->preferred_date) ? $body->preferred_date : '';
-    $current_date=date('Y-m-d');
+    $current_date = date('Y-m-d');
 //print_r($body);exit;
 
     $productIds = array();
@@ -7306,7 +7334,7 @@ function todayauctionListSearch() {
         $sql .= " AND `gender`='" . $gender . "' ";
     }
 
-    
+
     if ($breslettype != '') {
 
         $sql .= " AND `breslet_type` = '" . $breslettype . "'";
@@ -7315,7 +7343,7 @@ function todayauctionListSearch() {
 
         $sql .= " AND model_year = '" . $year . "'";
     }
-   
+
 //spandan end
 
     if ($selected_value == '1') {
@@ -7431,6 +7459,7 @@ function todayauctionListSearch() {
 
     $app->response->write(json_encode($data));
 }
+
 
 function interestinproduct() {
     $data = array();
@@ -7720,6 +7749,100 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
     $data['Ack'] = 1;
 
     $app->response->setStatus(200);
+
+
+    $app->response->write(json_encode($data));
+}
+
+function addlike() {
+
+    $data = array();
+    $getuserdetails = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+
+
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+
+    $product_id = isset($body->product_id) ? $body->product_id : '';
+    $seller_id = isset($body->seller_id) ? $body->seller_id : '';
+
+//$pro_id = $body->pro_id;
+    $status = 1;
+    $date = date('Y-m-d');
+    $db = getConnection();
+
+
+    $sql = "SELECT * FROM  webshop_like WHERE product_id=:product_id AND user_id=:user_id";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("product_id", $product_id);
+    $stmt->bindParam("user_id", $user_id);
+    $stmt->execute();
+    $contactdetails = $stmt->fetchObject();
+    $count = $stmt->rowCount();
+
+    if ($count == 0) {
+
+//    echo $paramValue = $app->request->post('fname');
+        $sql = "INSERT INTO  webshop_like (product_id, user_id,seller_id, status, date) VALUES (:product_id, :user_id,:seller_id, :status, :date)";
+
+
+
+        try {
+
+
+//$resturant_id = $resturantDetails->id;
+
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam("product_id", $product_id);
+            $stmt->bindParam("user_id", $user_id);
+            $stmt->bindParam("seller_id", $seller_id);
+            $stmt->bindParam("status", $status);
+            $stmt->bindParam("date", $date);
+
+            $stmt->execute();
+//   
+
+            $sql2 = "SELECT * FROM  webshop_user WHERE id='" . $user_id . "'";
+            $stmtcat = $db->prepare($sql2);
+            $stmtcat->execute();
+            $getUserdetails = $stmtcat->fetchObject();
+
+            $full_name = $getUserdetails->fname . " " . $getUserdetails->lname;
+
+// $stmt2->execute();
+
+            $lastID = $db->lastInsertId();
+            $data['last_id'] = $lastID;
+            $data['Ack'] = '1';
+            $data['msg'] = 'Added Successfully...';
+
+
+
+
+
+            $app->response->setStatus(200);
+
+            $db = null;
+//echo json_encode($user);
+        } catch (PDOException $e) {
+//error_log($e->getMessage(), 3, '/var/tmp/php.log');
+            $data['user_id'] = '';
+            $data['Ack'] = '0';
+            $data['msg'] = $e->getMessage();
+//echo '{"error":{"text":'. $e->getMessage() .'}}';
+            $app->response->setStatus(401);
+        }
+    } else {
+        $sqldel = "DELETE FROM webshop_like WHERE user_id=$user_id";
+        $stmtdel = $db->prepare($sqldel);
+        $stmtdel->execute();
+    }
+
 
 
     $app->response->write(json_encode($data));
