@@ -367,7 +367,43 @@ alert("Mail can not be sent ");
     };
     
         
+ $scope.addmessage = function(message){
+    
+ message.message=message.message;
+  message.to_id=message.seller_id;
+   message.from_id=userInfo.user_id; 
+   message.product_id =$scope.product_id;
+  // message.user_id=;
+             userService.addmessage(message).then(function(response) {
+		console.log('htype',response);
+		$scope.isExists=1;
+		if(response.Ack == '1') {
+                    
+                    $scope.is_hide=0;
+                $scope.is_click=0;
+                    
+                
+		
+		}else if(response.Ack == '0'){
+                    
+                   alert(response.msg);
+                   
+                } else {
+                    
+                    console.log('ppp');	
+                   // $scope.isExists=0;
+		}
+	
+	
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});     
         
+       
+        
+}       
          
     
 });

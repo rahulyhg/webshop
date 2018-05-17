@@ -88,7 +88,8 @@
                                                         <button ng-if="!user_id && productLists.interest==0" type="button" ng-click="is_clicked()" class="btn btn-primary btn-block">Contact Seller</button>
                                                         
                                                           <div ng-if="user_id && productLists.interest==1 && is_click==1">
-                                                              <form class="modal-content animate" name="contacttoseller" ng-submit="contactseller(sellercontact)">
+                                                              <!--<form class="modal-content animate" name="contacttoseller" ng-submit="contactseller(sellercontact)">-->
+                                                              <form class="modal-content animate" name="contacttoseller" ng-submit="addmessage(sellercontact)">
 							<h5>Your Message</h5>   
                                                         <textarea class="form-control" id="" value="" placeholder="" ng-model="sellercontact.message" name="message" capitalize required></textarea>
                                                         
