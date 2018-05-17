@@ -234,7 +234,7 @@ if ($_REQUEST['action'] == 'edit') {
 
                                         $auctionfees = mysqli_query($con, "UPDATE `webshop_products` SET `auction_fee`='" . $payment_amount . "' WHERE `id` = '" . $item_id . "'");
 
-                                        $requestor_notification = mysqli_query($con, "INSERT into webshop_notification(from_id,to_id,type,msg,date,is_read,last_id) VALUES ('0','" . $requestor_id . "','Product for Auction Approved','Your Product " . $productName . " has been approved for auction. You need to pay  $" . $payment_amount . " as auction fee to make your product Go Live.','" . $get_current_date . "','0','" . $item_id . "')");
+                                        $requestor_notification = mysqli_query($con, "INSERT into webshop_notification(from_id,to_id,type,msg,date,is_read,last_id) VALUES ('0','" . $requestor_id . "','Product for Auction Approved','Your Product has been approved for auction. You need to pay  $" . $payment_amount . " as auction fee to make your product Go Live.','" . $get_current_date . "','0','" . $item_id . "')");
 
 
                                         header('Location:list_auction.php');
@@ -436,26 +436,26 @@ if ($_REQUEST['action'] == 'edit') {
 function test_mail($to, $firstname) {
     $MailTo = $to;
 
-    $MailFrom = 'info@webshop.com';
-    $subject = "webshop.com- Product Interested";
+   
+    $subject = "GMT24- Auction activation";
 
     $TemplateMessage = "Hello " . $firstname . ",<br /><br / >";
-    $TemplateMessage .= "Your product is activated by the admin " . " <br />";
+    $TemplateMessage .= "Your auction is activated by the admin " . " <br />";
 
     $TemplateMessage .= "<br /><br />Thanks,<br />";
-    $TemplateMessage .= "webshop.com<br />";
+    $TemplateMessage .= "GMT24<br />";
 
 
     $mail = new PHPMailer(true);
 
     $IsMailType = 'SMTP';
 
-    $MailFrom = 'arunavaguha@natitsolved.com';    //  Your email password
+    $MailFrom = 'palashsaharana@gmail.com';    //  Your email password
 
-    $MailFromName = 'Webshop';
+    $MailFromName = 'GMT24';
     $MailToName = '';
 
-    $YourEamilPassword = "arunavaguha@9734";   //Your email password from which email you send.
+    $YourEamilPassword = "lsnspyrcimuffblr";   //Your email password from which email you send.
 // If you use SMTP. Please configure the bellow settings.
 
     $SmtpHost = "smtp.gmail.com"; // sets the SMTP server
