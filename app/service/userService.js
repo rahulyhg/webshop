@@ -3560,11 +3560,11 @@ reject(response);
 });
 };
 
-  var interestedEmail = function(userid,sellerid,productid,type) {
+  var interestedEmail = function(userid,sellerid,productid,type,message) {
 return $q(function(resolve, reject) {
 
-  var encodedString ='{"user_id":"'+ userid +'","seller_id":"'+sellerid+'","product_id":"'+productid+'","type":"'+type+'"}';
-
+  var encodedString ='{"user_id":"'+ userid +'","seller_id":"'+sellerid+'","product_id":"'+productid+'","type":"'+type+'","message":"'+message+'"}';
+//alert(encodedString);
 $http({
 method: 'POST',
   url: $rootScope.serviceurl+"interestedEmailToVendor",
@@ -4382,7 +4382,7 @@ return $q(function(resolve, reject) {
   //var nextbidprice = parseInt(bidprice)+parseInt(bidincrement);
   //alert(bidincrement);
   var encodedString ='{"userid":"'+ userid +'","productid":"'+ productid +'","review":"'+ review +'","rating":"'+rating+'","recomend":"'+recomend+'"}';
-alert(encodedString);
+//alert(encodedString);
 $http({
 method: 'POST',
   url: $rootScope.serviceurl+"addreview",
