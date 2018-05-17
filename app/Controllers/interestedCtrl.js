@@ -2,7 +2,7 @@
 /** 
  * controllers used for the login
  */
-app.controller('interestinCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService) {
+app.controller('interestedCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService) {
 
     
 $scope.data = {};
@@ -29,10 +29,10 @@ $scope.isform1 =0;
 
 
  
-$scope.interestinproduct = function(){
+$scope.interestedproduct = function(){
    // alert('hii');
 
- userService.interestinproduct().then(function(response) {
+ userService.interestedproduct().then(function(response) {
      
     
 		

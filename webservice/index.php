@@ -7460,6 +7460,300 @@ function todayauctionListSearch() {
     $app->response->write(json_encode($data));
 }
 
+
+function interestinproduct() {
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+
+    $sql = "SELECT * from  webshop_interested WHERE userid=:user_id and interested = '1' order by id desc";
+    $db = getConnection();
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("user_id", $user_id);
+    $stmt->execute();
+    $getAllProducts = $stmt->fetchAll(PDO::FETCH_OBJ);
+    
+    //print_r($getAllProducts);exit;
+
+    if (!empty($getAllProducts)) {
+        foreach ($getAllProducts as $product) {
+            
+            $sql1 = "SELECT * FROM webshop_products WHERE id=:id ";
+            $stmt1 = $db->prepare($sql1);
+            $stmt1->bindParam("id", $product->productid);
+            $stmt1->execute();
+            $getProductdetails = $stmt1->fetchObject();
+            
+            
+
+            if ($getProductdetails->image != '') {
+                $image = SITE_URL . 'upload/product_image/' . $getProductdetails->image;
+            } else {
+                $image = SITE_URL . 'webservice/not-available.jpg';
+            }
+
+
+
+
+            $data['productList'][] = array(
+                "id" => stripslashes($product->id),
+                "image" => stripslashes($image),
+                "price" => stripslashes($getProductdetails->price),
+                "description" => strip_tags(stripslashes(substr($getProductdetails->description, 0, 50))),
+                "seller_id" => stripslashes($product->seller_id),
+                "product_id" => stripslashes($getProductdetails->id),
+               
+            );
+        }
+
+
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    } else {
+        $data = array();
+        $data['productList'] = array();
+        $data['Ack'] = '0';
+        $app->response->setStatus(200);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+function deleteInterest() {
+
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $interest_id = isset($body->interest_id) ? $body->interest_id : '';
+
+    $db = getConnection();
+
+    $sql = "DELETE from webshop_interested WHERE id=:interest_id and userid=:user_id";
+
+    try {
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("interest_id", $interest_id);
+        $stmt->bindParam("user_id", $user_id);
+        $stmt->execute();
+
+        
+        $data['Ack'] = '1';
+        $data['msg'] = 'Product Removed';
+
+        $app->response->setStatus(200);
+        $db = null;
+    } catch (PDOException $e) {
+
+        $data['product_id'] = '';
+        $data['Ack'] = 0;
+        $data['msg'] = 'Deletion Error!!!';
+
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+
+    function interestedproduct() {
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+
+    $sql = "SELECT * from  webshop_interested WHERE seller_id=:user_id and interested = '1' order by id desc";
+    $db = getConnection();
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("user_id", $user_id);
+    $stmt->execute();
+    $getAllProducts = $stmt->fetchAll(PDO::FETCH_OBJ);
+    
+    //print_r($getAllProducts);exit;
+
+    if (!empty($getAllProducts)) {
+        foreach ($getAllProducts as $product) {
+            
+            $sql1 = "SELECT * FROM webshop_products WHERE id=:id ";
+            $stmt1 = $db->prepare($sql1);
+            $stmt1->bindParam("id", $product->productid);
+            $stmt1->execute();
+            $getProductdetails = $stmt1->fetchObject();
+            
+            
+
+            if ($getProductdetails->image != '') {
+                $image = SITE_URL . 'upload/product_image/' . $getProductdetails->image;
+            } else {
+                $image = SITE_URL . 'webservice/not-available.jpg';
+            }
+
+
+
+
+            $data['productList'][] = array(
+                "id" => stripslashes($product->id),
+                "image" => stripslashes($image),
+                "price" => stripslashes($getProductdetails->price),
+                "description" => strip_tags(stripslashes(substr($getProductdetails->description, 0, 50))),
+                "seller_id" => stripslashes($product->seller_id),
+                "product_id" => stripslashes($getProductdetails->id),
+               
+            );
+        }
+
+
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    } else {
+        $data = array();
+        $data['productList'] = array();
+        $data['Ack'] = '0';
+        $app->response->setStatus(200);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+
+function auctionuploapayment() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    $pid = base64_decode($body->product_id);
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $product_id = isset($pid) ? $pid : '';
+
+
+    $paymentId = base64_encode($product_id);
+
+
+    $name = isset($body->name) ? $body->name : '';
+    $email = isset($body->email) ? $body->email : '';
+    $phone = isset($body->phone) ? $body->phone : '';
+
+    $sql = "SELECT * from webshop_biddetails where productid =:product_id order by id desc limit 0,1";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("product_id", $product_id);
+    $stmt->execute();
+    $getProductValue = $stmt->fetchObject();
+
+
+    $productprice = $getProductValue->bidprice;
+//payment gateway
+
+    $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
+
+    $user = "testapi@myfatoorah.com"; // Will Be Provided by Myfatoorah
+    $password = "E55D0"; // Will Be Provided by Myfatoorah
+    $post_string = '<?xml version="1.0" encoding="windows-1256"?>
+<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+<soap12:Body>
+<PaymentRequest xmlns="http://tempuri.org/">
+<req>
+<CustomerDC>
+<Name>' . $name . '</Name>
+<Email>' . $email . '</Email>
+<Mobile>' . $phone . '</Mobile>
+</CustomerDC>
+<MerchantDC>
+<merchant_code>999999</merchant_code>
+<merchant_username>testapi@myfatoorah.com</merchant_username>
+<merchant_password>E55D0</merchant_password>
+<merchant_ReferenceID>201454542102</merchant_ReferenceID>
+<ReturnURL>' . SITE_URL . '#/successAuctionpayment/' . $paymentId . '/</ReturnURL>
+<merchant_error_url>' . SITE_URL . '#/cancelAuctionpayment</merchant_error_url>
+</MerchantDC>
+<lstProductDC>
+<ProductDC>
+<product_name>Auction Upload</product_name>
+<unitPrice>' . $productprice . '</unitPrice>
+<qty>1</qty>
+</ProductDC>
+</lstProductDC>
+</req>
+</PaymentRequest>
+</soap12:Body>
+</soap12:Envelope>';
+    $soap_do = curl_init();
+    curl_setopt($soap_do, CURLOPT_URL, $url);
+    curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 10);
+    curl_setopt($soap_do, CURLOPT_TIMEOUT, 10);
+    curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($soap_do, CURLOPT_POST, true);
+    curl_setopt($soap_do, CURLOPT_POSTFIELDS, $post_string);
+    curl_setopt($soap_do, CURLOPT_HTTPHEADER, array('Content-Type: text/xml; charset=utf-8', 'Content-Length:
+' . strlen($post_string)));
+    curl_setopt($soap_do, CURLOPT_USERPWD, $user . ":" . $password); //User Name, Password To be provided by Myfatoorah
+    curl_setopt($soap_do, CURLOPT_HTTPHEADER, array(
+        'Content-type: text/xml'
+    ));
+    $result = curl_exec($soap_do);
+    $err = curl_error($soap_do);
+//curl_close($soap_do);
+//print_r($result);exit;   
+    $file_contents = htmlspecialchars(curl_exec($soap_do));
+    curl_close($soap_do);
+    $doc = new DOMDocument();
+    $doc->loadXML(html_entity_decode($file_contents));
+//echo $doc;exit;
+    $ResponseCode = $doc->getElementsByTagName("ResponseCode");
+    $ResponseCode = $ResponseCode->item(0)->nodeValue;
+//echo $ResponseCode;exit;
+    $ResponseMessage = $doc->getElementsByTagName("ResponseMessage");
+    $ResponseMessage = $ResponseMessage->item(0)->nodeValue;
+//echo $ResponseMessage;exit;
+    if ($ResponseCode == 0) {
+        $paymentUrl = $doc->getElementsByTagName("paymentURL");
+        $paymentUrl = $paymentUrl->item(0)->nodeValue;
+//echo $paymentUrl;exit;
+
+        /* $OrderID = $doc->getElementsByTagName("OrderID");
+          $OrderID = $OrderID->item(0)->nodeValue;
+          $Paymode = $doc->getElementsByTagName("Paymode");
+          $Paymode = $Paymode->item(0)->nodeValue;
+          $PayTxnID = $doc->getElementsByTagName("PayTxnID");
+          $PayTxnID = $PayTxnID->item(0)->nodeValue;
+         */
+    }
+//end
+
+    $data['url'] = $paymentUrl;
+    $data['Ack'] = 1;
+
+    $app->response->setStatus(200);
+
+
+    $app->response->write(json_encode($data));
+}
+
 function addlike() {
 
     $data = array();
@@ -7553,6 +7847,7 @@ function addlike() {
 
     $app->response->write(json_encode($data));
 }
+
 
 $app->run();
 ?>

@@ -4535,7 +4535,7 @@ var purchaseAuctionproduct = function(value) {
     
     $http({
     method: 'POST',
-    url: $rootScope.serviceurl+"listmyProducts",
+    url: $rootScope.serviceurl+"interestinproduct",
    data: encodedString,
     headers: {'Content-Type': 'application/json'}
     }).then(function (response) {
@@ -4556,7 +4556,37 @@ var purchaseAuctionproduct = function(value) {
     });
     };
 
-var addlike = function(user_id,product_id,owner_id) {
+var deleteInterest = function (id) {
+        return $q(function (resolve, reject) {
+
+            var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+            var encodedString = '{"interest_id":"' + id + '","user_id":"' + userInfo.user_id + '"}';
+
+
+            $http({
+                method: 'POST',
+                url: $rootScope.serviceurl + "deleteInterest",
+                data: encodedString,
+                headers: {'Content-Type': 'application/json'}
+            }).then(function (response) {
+
+                if (response.data.Ack == "1") {
+
+                    resolve(response.data);
+                } else {
+
+                    resolve(response.data);
+                }
+
+            }, function (response) {
+
+                reject(response);
+            });
+        });
+    };
+  
+  
+  var addlike = function(user_id,product_id,owner_id) {
     
 return $q(function(resolve, reject) {
     
@@ -4575,7 +4605,7 @@ headers: {'Content-Type': 'application/json'}
    } else {
                     console.log('ok2');
           resolve(response.data); 
-   }	
+   }    
 
 
         },function(response) {
@@ -4589,155 +4619,182 @@ reject(response);
 
 
 
+
+    var interestedproduct = function() {
+    return $q(function(resolve, reject) {
+        var userInfo = JSON.parse($window.localStorage["userInfo"]);
+        var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+
+    
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"interestedproduct",
+   data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    //console.log('ok');
+    resolve(response.data); 
+    } else {
+    //console.log('ok2');
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    //console.log(response);  
+    reject(response);
+    });
+    });
+    };
+
+
  
  return {
      
        // homeSettingsSection:homeSettingsSection,
-        ServiceSection:ServiceSection,
-        ServiceCategory:ServiceCategory,
-           acceptjobfinal:acceptjobfinal,
-         question: question,
-           postjob: postjob,
-            listsubcategory: listsubcategory,
-         listcategory: listcategory,
+        ServiceSection: ServiceSection,
+        ServiceCategory: ServiceCategory,
+        acceptjobfinal: acceptjobfinal,
+        question: question,
+        postjob: postjob,
+        listsubcategory: listsubcategory,
+        listcategory: listcategory,
         login: login,
-        getCms:getCms,
-        getproductdetailsforedit:getproductdetailsforedit,
-        liststatus:liststatus,
-        listcuntry:listcuntry,
-	getCounters: getCounters,
-	getAccountDetails: getAccountDetails,
-	updateCard: updateCard,
+        getCms: getCms,
+        getproductdetailsforedit: getproductdetailsforedit,
+        liststatus: liststatus,
+        listcuntry: listcuntry,
+        getCounters: getCounters,
+        getAccountDetails: getAccountDetails,
+        updateCard: updateCard,
         updateProfile: updateProfile,
         updateSetting: updateSetting,
-reviewList:reviewList,
-areaCoveredlist:areaCoveredlist,
-addareaCovered:addareaCovered,
-removearea:removearea,
-ChangePassword: ChangePassword,
-	logout: logout,
-	signup: signup,       
+        reviewList: reviewList,
+        areaCoveredlist: areaCoveredlist,
+        addareaCovered: addareaCovered,
+        removearea: removearea,
+        ChangePassword: ChangePassword,
+        logout: logout,
+        signup: signup,
         forgotpass: forgotpass,
-         ediclassDetails: ediclassDetails,
+        ediclassDetails: ediclassDetails,
         classListing: classListing,
-     
-         trainerList: trainerList,
+        trainerList: trainerList,
         addClass: addClass,
-        
-          saveAuctionDetails: saveAuctionDetails,
-         trainerDetails: trainerDetails,
-            editTrainer: editTrainer,
-              editClass: editClass,
-         removeTrainer: removeTrainer,
-          removeClass: removeClass,
+        saveAuctionDetails: saveAuctionDetails,
+        trainerDetails: trainerDetails,
+        editTrainer: editTrainer,
+        editClass: editClass,
+        removeTrainer: removeTrainer,
+        removeClass: removeClass,
         saveGymDetails: saveGymDetails,
-        showGymnameClass:showGymnameClass,
-        uploadProductImage:uploadProductImage,
-        removeproductImage:removeproductImage,
-        gymDetails:gymDetails,
-        auctionList:auctionList,
-           gymList:gymList,
-         removeAuction:removeAuction,
-        auctionDetails:auctionDetails,
-        editAuction:editAuction,
-        gymAuction:gymAuction,
-        gymDetailsfront:gymDetailsfront,
-  getTimeslot:getTimeslot,
-         cardpay:cardpay,
-        aucDetailsfront:aucDetailsfront,
-        sendmessage:sendmessage,
-        messageList:messageList,
-          orderlist:orderlist,
-          orderlisttrainer:orderlisttrainer,
-             updatedetails:updatedetails,
-             showStripeDetails:showStripeDetails,
-               orderlistgym:orderlistgym,
-        notiCount:notiCount,
-        mymessagesend:mymessagesend,
-          searchGym:searchGym,
-             searchGymall:searchGymall,
-        orderdetails:orderdetails,
-        
-        
-        
-        communityDetailsAll:communityDetailsAll,
-        sendCommentsCommunity:sendCommentsCommunity,
-       
-        searchAuction:searchAuction,
-        searchAuctionall:searchAuctionall,
-        allPlanDetails:allPlanDetails,
-        GetRecentComments:GetRecentComments,
-        updateProfilePhoto:updateProfilePhoto,
-         invoiceList:invoiceList,
-            messagelist:messagelist,
-            showGallery:showGallery,
-               fbsignupLoginFront:fbsignupLoginFront,
-            ChatDetails:ChatDetails,
-            listgallerycategory:listgallerycategory,
-            listgallerycategorynew:listgallerycategorynew,
-            listacceptedproducts:listacceptedproducts,
-            recentArticle:recentArticle,
-             articleDetails:articleDetails,
-             searchListing:searchListing,
-             wishlist:wishlist,
-             productDetails:productDetails,
-             myproduct:myproduct,
-             deleteProduct:deleteProduct,
-             listcurrency:listcurrency,
-             addFavWishlist:addFavWishlist,
-             addproduct:addproduct,
-             addTocart:addTocart,
-             deletecart:deletecart,
-             myPurchase:myPurchase,
-             mySold:mySold,
-             gethome:gethome,
-             listbrand:listbrand,
-               notificationList:notificationList,
-             orderHistoryDetails:orderHistoryDetails,
-             listcategoryproduct:listcategoryproduct,
-              listarticalecatname:listarticalecatname,
-              myCarts:myCarts,
-              cartBagCount:cartBagCount,
-            postjobHome:postjobHome,
-            notifysetting:notifysetting,
-            addauction:addauction,
-            myauction:myauction,
-           getProductsByBrand:getProductsByBrand,
-           toemailverify:toemailverify,
-           auctionapproval:auctionapproval,
-           interestedEmail:interestedEmail,
-           auctionFees:auctionFees,
-           subscriptions:subscriptions,
-           subscribedlist:subscribedlist,
-           purchaseSubscription:purchaseSubscription,
-           listshops:listshops,
-           addbid:addbid,
-           getauctiondetails:getauctiondetails,
-           listAuctionDtates:listAuctionDtates,
-           listYears:listYears,
-           registernewsletter:registernewsletter,
-           searchproductListing:searchproductListing,
-           listproductMessages:listproductMessages,
-           getusercontact:getusercontact,
-           getProductcontact:getProductcontact,
-           addmessage:addmessage,
-           getfullMessages:getfullMessages,
-           addsubscription:addsubscription,
-           changeLaguage:changeLaguage, 
-           markProduct:markProduct,
-           expiredproduct:expiredproduct,
-           markextension:markextension,
-           getuserpayment:getuserpayment,
-           userpaymentforupload:userpaymentforupload,
-           adduserpayment:adduserpayment,
-           usersubscriptions:usersubscriptions,
-           addreview:addreview,
-           reviews:reviews,
-           purchaseAuctionproduct:purchaseAuctionproduct,
-           addwinnerpayment:addwinnerpayment,
-           todaysearchListing:todaysearchListing,
-           interestinproduct:interestinproduct, 
-           addlike:addlike
+        showGymnameClass: showGymnameClass,
+        uploadProductImage: uploadProductImage,
+        removeproductImage: removeproductImage,
+        gymDetails: gymDetails,
+        auctionList: auctionList,
+        gymList: gymList,
+        removeAuction: removeAuction,
+        auctionDetails: auctionDetails,
+        editAuction: editAuction,
+        gymAuction: gymAuction,
+        gymDetailsfront: gymDetailsfront,
+        getTimeslot: getTimeslot,
+        cardpay: cardpay,
+        aucDetailsfront: aucDetailsfront,
+        sendmessage: sendmessage,
+        messageList: messageList,
+        orderlist: orderlist,
+        orderlisttrainer: orderlisttrainer,
+        updatedetails: updatedetails,
+        showStripeDetails: showStripeDetails,
+        orderlistgym: orderlistgym,
+        notiCount: notiCount,
+        mymessagesend: mymessagesend,
+        searchGym: searchGym,
+        searchGymall: searchGymall,
+        orderdetails: orderdetails,
+        communityDetailsAll: communityDetailsAll,
+        sendCommentsCommunity: sendCommentsCommunity,
+        searchAuction: searchAuction,
+        searchAuctionall: searchAuctionall,
+        allPlanDetails: allPlanDetails,
+        GetRecentComments: GetRecentComments,
+        updateProfilePhoto: updateProfilePhoto,
+        invoiceList: invoiceList,
+        messagelist: messagelist,
+        showGallery: showGallery,
+        fbsignupLoginFront: fbsignupLoginFront,
+        ChatDetails: ChatDetails,
+        listgallerycategory: listgallerycategory,
+        listgallerycategorynew: listgallerycategorynew,
+        listacceptedproducts: listacceptedproducts,
+        recentArticle: recentArticle,
+        articleDetails: articleDetails,
+        searchListing: searchListing,
+        wishlist: wishlist,
+        productDetails: productDetails,
+        myproduct: myproduct,
+        deleteProduct: deleteProduct,
+        listcurrency: listcurrency,
+        addFavWishlist: addFavWishlist,
+        addproduct: addproduct,
+        addTocart: addTocart,
+        deletecart: deletecart,
+        myPurchase: myPurchase,
+        mySold: mySold,
+        gethome: gethome,
+        listbrand: listbrand,
+        notificationList: notificationList,
+        orderHistoryDetails: orderHistoryDetails,
+        listcategoryproduct: listcategoryproduct,
+        listarticalecatname: listarticalecatname,
+        myCarts: myCarts,
+        cartBagCount: cartBagCount,
+        postjobHome: postjobHome,
+        notifysetting: notifysetting,
+        addauction: addauction,
+        myauction: myauction,
+        getProductsByBrand: getProductsByBrand,
+        toemailverify: toemailverify,
+        auctionapproval: auctionapproval,
+        interestedEmail: interestedEmail,
+        auctionFees: auctionFees,
+        subscriptions: subscriptions,
+        subscribedlist: subscribedlist,
+        purchaseSubscription: purchaseSubscription,
+        listshops: listshops,
+        addbid: addbid,
+        getauctiondetails: getauctiondetails,
+        listAuctionDtates: listAuctionDtates,
+        listYears: listYears,
+        registernewsletter: registernewsletter,
+        searchproductListing: searchproductListing,
+        listproductMessages: listproductMessages,
+        getusercontact: getusercontact,
+        getProductcontact: getProductcontact,
+        addmessage: addmessage,
+        getfullMessages: getfullMessages,
+        addsubscription: addsubscription,
+        changeLaguage: changeLaguage,
+        markProduct: markProduct,
+        expiredproduct: expiredproduct,
+        markextension: markextension,
+        getuserpayment: getuserpayment,
+        userpaymentforupload: userpaymentforupload,
+        adduserpayment: adduserpayment,
+        usersubscriptions: usersubscriptions,
+        addreview: addreview,
+        reviews: reviews,
+        purchaseAuctionproduct: purchaseAuctionproduct,
+        addwinnerpayment: addwinnerpayment,
+        todaysearchListing: todaysearchListing,
+        interestinproduct: interestinproduct,
+        deleteInterest: deleteInterest,
+        interestedproduct:interestedproduct,
+        addlike:addlike
 
 	
 };
