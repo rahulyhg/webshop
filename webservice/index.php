@@ -4393,19 +4393,34 @@ function interestedEmailToVendor() {
 
     try {
         $mail->Send();
-        $sql_messageadd = "INSERT INTO  webshop_message (message,to_id,product_id,from_id,is_read,add_date) VALUES (:message,:to_id,:product_id,:from_id,:is_read,:add_date)";
 
-        $stm_msg = $db->prepare($sql_messageadd);
-        $add_date = date('Y-m-d');
-        $is_read = '0';
-        $stm_msg->bindParam("message", $messagefromuser);
-        $stm_msg->bindParam("to_id", $seller_id);
-        $stm_msg->bindParam("product_id", $product_id);
-        $stm_msg->bindParam("from_id", $user_id);
-        $stm_msg->bindParam("is_read", $is_read);
-        $stm_msg->bindParam("add_date", $add_date);
+        /* $sql_messageadd = "INSERT INTO  webshop_message (message,to_id,product_id,from_id,is_read,add_date) VALUES (:message,:to_id,:product_id,:from_id,:is_read,:add_date)";
 
-        $stm_msg->execute();
+          $stm_msg = $db->prepare($sql_messageadd);
+          $add_date = date('Y-m-d');
+          $is_read = '0';
+          $stm_msg->bindParam("message", $messagefromuser);
+          $stm_msg->bindParam("to_id", $seller_id);
+          $stm_msg->bindParam("product_id", $product_id);
+          $stm_msg->bindParam("from_id", $user_id);
+          $stm_msg->bindParam("is_read", $is_read);
+          $stm_msg->bindParam("add_date", $add_date);
+
+          $stm_msg->execute(); */
+
+        $sql_interest = "INSERT INTO  webshop_interested (userid,seller_id,productid,type,interested) VALUES (:userid,:seller_id,:product_id,:type,:interested)";
+
+        $stm_interest = $db->prepare($sql_interest);
+        //$add_date = date('Y-m-d');
+        $interested = 1;
+
+        $stm_interest->bindParam("seller_id", $seller_id);
+        $stm_interest->bindParam("product_id", $product_id);
+        $stm_interest->bindParam("userid", $user_id);
+        $stm_interest->bindParam("type", $type);
+        $stm_interest->bindParam("interested", $interested);
+
+        $stm_interest->execute();
     } catch (phpmailerException $e) {
         echo $e->errorMessage(); //Pretty error messages from PHPMailer
     }
@@ -5765,7 +5780,8 @@ function listproductMessages() {
         $stmt->bindParam("to_id", $to_id);
         $stmt->execute();
         $getStatus = $stmt->fetchAll(PDO::FETCH_OBJ);
-//print_r($getStatus);
+        // print_r($getStatus);
+        // exit;
 
         $image = '';
         $productname = '';
@@ -5776,10 +5792,12 @@ function listproductMessages() {
             $stmt1->bindParam("product_id", $product_id);
             $stmt1->execute();
             $getStatus1 = $stmt1->fetchAll(PDO::FETCH_OBJ);
-            if ($getStatus1[0]->image != '') {
-                $image = SITE_URL . 'upload/product_image/' . $getStatus1[0]->image;
-            } else {
-                $image = SITE_URL . 'webservice/not-available.jpg';
+            if (!empty($getStatus1)) {
+                if ($getStatus1[0]->image != '') {
+                    $image = SITE_URL . 'upload/product_image/' . $getStatus1[0]->image;
+                } else {
+                    $image = SITE_URL . 'webservice/not-available.jpg';
+                }
             }
             $today = date_create(date('Y-m-d'));
             $add_date = date_create($status->add_date);
@@ -5792,7 +5810,7 @@ function listproductMessages() {
                 'product_id' => stripslashes($status->product_id),
                 'id' => stripslashes($status->id),
                 'image' => stripslashes($image),
-                'productname' => stripslashes($getStatus1[0]->name),
+                'productname' => '',
                 'date_diff' => $date_diff,
             );
         }
@@ -7665,7 +7683,7 @@ function auctionuploapayment() {
 
     $db = getConnection();
 
-    
+
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
     $product_id = isset($body->product_id) ? $body->product_id : '';
@@ -7870,8 +7888,6 @@ function addlike() {
     $app->response->write(json_encode($data));
 }
 
-
-
 function sociallinks() {
     $data = array();
     $app = \Slim\Slim::getInstance();
@@ -7887,17 +7903,16 @@ function sociallinks() {
     $stmt = $db->prepare($sql);
     $stmt->execute();
     $getAlllinks = $stmt->fetchAll(PDO::FETCH_OBJ);
-    
+
     //print_r($getAllProducts);exit;
 
     if (!empty($getAlllinks)) {
         foreach ($getAlllinks as $links) {
-            
+
             $data['sociallinks'][] = array(
                 "id" => stripslashes($links->id),
                 "link" => stripslashes($links->link),
                 "class" => stripslashes($links->class),
-               
             );
         }
 
@@ -7912,11 +7927,6 @@ function sociallinks() {
 
     $app->response->write(json_encode($data));
 }
-
-
-
-
-
 
 $app->run();
 ?>
