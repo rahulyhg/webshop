@@ -111,10 +111,11 @@ $scope.product_id=$stateParams.id;
 
     
 
- $scope.emailtothevendor = function(seller_id){
+ $scope.emailtothevendor = function(seller_id,interest){
    //  alert('hi');
  $scope.loader = false;
-       var product_id = $stateParams.id;
+ var product_id = $stateParams.id;
+ if(userInfo.user_id){
 
         userService.interestedEmail(userInfo.user_id,seller_id,product_id).then(function(response) {
 
@@ -139,7 +140,10 @@ alert("Mail can not be sent ");
             $scope.loader = true;
 	console.log(err); 
 	});
-        
+ }else{
+     $scope.loader = true;
+     $('#login').modal('show');
+ }
        
     
     }; 
@@ -256,6 +260,7 @@ else {
    //  alert('hi');
  $scope.loader1 = false;
        var product_id = $stateParams.id;
+ if(userInfo.user_id){
 
         userService.interestedEmail(userInfo.user_id,seller_id,product_id,type).then(function(response) {
 
@@ -280,7 +285,10 @@ alert("Mail can not be sent ");
             $scope.loader = true;
 	console.log(err); 
 	});
-        
+ }else{
+    $scope.loader1 = true;
+     $('#login').modal('show');
+ }    
        
     
     };   

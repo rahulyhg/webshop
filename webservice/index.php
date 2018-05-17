@@ -13,7 +13,6 @@ include('crud.php');
 //spandan
 date_default_timezone_set('UTC');
 
-
 function get_lat_long($address) {
     $array = array();
     $geo = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&sensor=false');
@@ -40,7 +39,7 @@ function userSignup() {
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
 
-    
+
     $fname = isset($body->fname) ? $body->fname : '';
     $lname = isset($body->lname) ? $body->lname : '';
     $email = isset($body->email) ? $body->email : '';
@@ -846,6 +845,8 @@ function ProductsDetails() {
     $interested = '';
     if (!empty($interest)) {
         $interested = $interest->interested;
+    } else {
+        $interested = 0;
     }
 
     if (!empty($product)) {
@@ -3485,7 +3486,7 @@ function addProductNew() {
                 $stmt->bindParam("model_year", $model_year);
                 $stmt->bindParam("time_slot_id", $time_slot_id);
                 $stmt->bindParam("thresholdprice", $price);
-                
+
                 $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
 
                 $is_read = '0';
@@ -3723,7 +3724,7 @@ function addProductNew() {
                 $stmt->bindParam("model_year", $model_year);
                 $stmt->bindParam("time_slot_id", $time_slot_id);
                 $stmt->bindParam("thresholdprice", $price);
-                
+
                 $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
 
                 $is_read = '0';
@@ -4263,7 +4264,7 @@ function auctionapproval() {
 }
 
 function interestedEmailToVendor() {
-    
+
     $data = array();
     $app = \Slim\Slim::getInstance();
     $request = $app->request();
@@ -6089,7 +6090,7 @@ function addUserSubscription() {
 function UserSubscriptionpayment() {
 
     $data = array();
-    
+
     $app = \Slim\Slim::getInstance();
     $request = $app->request();
     $body = ($request->post());
@@ -6534,7 +6535,7 @@ function userpayment() {
 
 function userpaymentforupload() {
 
-    
+
     $data = array();
 
     $app = \Slim\Slim::getInstance();
@@ -6821,11 +6822,6 @@ function auctionWinner() {
     //$request = $app->request();
     //$body2 = $app->request->getBody();
     //$body = json_decode($body2);
-
-
-    
-
-
     //mail("spandan@natitsolved.com","GMT24 Auction","Your auction unsuccessfully end","palashsaharana@gmail.com");
     //echo "spanda";exit;
     $db = getConnection();
@@ -7061,7 +7057,7 @@ function send_smtpmail($MailTo, $subject, $TemplateMessage, $MailAttachment = nu
 function UserAuctionpayment() {
 
     $data = array();
-    
+
     $app = \Slim\Slim::getInstance();
     $request = $app->request();
     $body = ($request->post());
