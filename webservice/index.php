@@ -13,6 +13,7 @@ include('crud.php');
 
 date_default_timezone_set('UTC');
 $act_link = 'http://111.93.169.90/team1/webshop/';
+$f = '';
 
 function get_lat_long($address) {
     $array = array();
