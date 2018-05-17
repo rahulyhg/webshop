@@ -1049,6 +1049,50 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                 resolve: loadSequence('interested')
             })
             
+            
+            
+            
+            
+            .state('frontend.auctionuploadpayment', {
+                url: '/auctionuploadpayment/:product_id',
+                templateUrl: 'app/views/auctionuploadpayment.html',
+                title: 'auctionuploadpayment',
+		controller: 'auctionuploadpaymentCtrl',
+                ncyBreadcrumb: {
+                    label: 'auction payment page'
+                },
+                resolve: loadSequence('auctionuploadpayment')
+            })
+            
+            
+            .state('frontend.successAuctionuploadpayment', {
+                url: '/successAuctionuploadpayment/:id/:oid',
+                templateUrl: 'app/views/successAuctionuploadpayment.html',
+                title: 'success',
+				controller: 'successAuctionuploadpaymentCtrl',
+                ncyBreadcrumb: {
+                    label: 'success page'
+                },
+                resolve: loadSequence('successAuctionuploadpayment')
+            })
+            
+            
+            
+            .state('frontend.cancelAuctionuploadpayment', {
+                url: '/cancelAuctionuploadpayment/:id',
+                templateUrl: 'app/views/cancelAuctionuploadpayment.html',
+                title: 'success',
+				controller: 'cancelAuctionuploadpaymentCtrl',
+                ncyBreadcrumb: {
+                    label: 'cancel page'
+                },
+                resolve: loadSequence('cancelAuctionuploadpayment')
+            })
+            
+            
+            
+            
+            
 
           /*   .state('frontend.test', {
                 url: '/test',

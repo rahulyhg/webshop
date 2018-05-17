@@ -4087,6 +4087,7 @@ function listmyAuctions() {
                 "seller_phone" => stripslashes($seller_phone),
                 "productname" => stripslashes($product->name),
                 "auction_fee_paid" => stripslashes($product->auction_fee_paid),
+                "auction_fee" => stripslashes($product->auction_fee),
                 "approved" => stripslashes($product->approved)
             );
         }
@@ -7643,27 +7644,27 @@ function auctionuploapayment() {
 
     $db = getConnection();
 
-    $pid = base64_decode($body->product_id);
+    
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
-    $product_id = isset($pid) ? $pid : '';
+    $product_id = isset($body->product_id) ? $body->product_id : '';
 
 
-    $paymentId = base64_encode($product_id);
+    $paymentId = $product_id;
 
 
     $name = isset($body->name) ? $body->name : '';
     $email = isset($body->email) ? $body->email : '';
     $phone = isset($body->phone) ? $body->phone : '';
 
-    $sql = "SELECT * from webshop_biddetails where productid =:product_id order by id desc limit 0,1";
+    $sql = "SELECT * from webshop_products where id =:product_id ";
     $stmt = $db->prepare($sql);
     $stmt->bindParam("product_id", $product_id);
     $stmt->execute();
     $getProductValue = $stmt->fetchObject();
 
 
-    $productprice = $getProductValue->bidprice;
+    $productprice = $getProductValue->auction_fee;
 //payment gateway
 
     $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
@@ -7686,8 +7687,8 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
 <merchant_username>testapi@myfatoorah.com</merchant_username>
 <merchant_password>E55D0</merchant_password>
 <merchant_ReferenceID>201454542102</merchant_ReferenceID>
-<ReturnURL>' . SITE_URL . '#/successAuctionpayment/' . $paymentId . '/</ReturnURL>
-<merchant_error_url>' . SITE_URL . '#/cancelAuctionpayment</merchant_error_url>
+<ReturnURL>' . SITE_URL . '#/successAuctionuploadpayment/' . $paymentId . '/</ReturnURL>
+<merchant_error_url>' . SITE_URL . '#/cancelAuctionuploadpayment</merchant_error_url>
 </MerchantDC>
 <lstProductDC>
 <ProductDC>
@@ -7847,6 +7848,51 @@ function addlike() {
 
     $app->response->write(json_encode($data));
 }
+
+
+function sociallinks() {
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+
+    $sql = "SELECT * from  webshop_social WHERE status=1";
+    $db = getConnection();
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+    $getAlllinks = $stmt->fetchAll(PDO::FETCH_OBJ);
+    
+    //print_r($getAllProducts);exit;
+
+    if (!empty($getAlllinks)) {
+        foreach ($getAlllinks as $links) {
+            
+            $data['sociallinks'][] = array(
+                "id" => stripslashes($links->id),
+                "link" => stripslashes($links->link),
+                "class" => stripslashes($links->class),
+               
+            );
+        }
+
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    } else {
+        $data = array();
+        $data['sociallinks'] = array();
+        $data['Ack'] = '0';
+        $app->response->setStatus(200);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+
+
 
 
 $app->run();

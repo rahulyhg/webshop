@@ -676,7 +676,26 @@ userService.changeLaguage(laguage).then(function(response) {
     };
 
 
+userService.sociallinks().then(function(response) {
+	 if(response.Ack == '1') {
+		//alert(response.sociallinks);		
+               //$window.localStorage["sociallinks"] = 1;
+               $scope.sociallinks = response.sociallinks;
+               
+                
+                                   
+                }
+                
+        
+        else {
 
+              }
+																	
+	}, function(err) {
+            
+            $window.location.reload();
+         console.log(err); 
+    });
 	
 	
 	

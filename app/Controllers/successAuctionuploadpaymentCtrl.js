@@ -2,7 +2,7 @@
 /** 
  * controllers used for the login
  */
-app.controller('successAuctionpaymentCtrl', function ($stateParams,$rootScope, $scope, $http, $location,$timeout,$window, $state, userService) {
+app.controller('successAuctionuploadpaymentCtrl', function ($stateParams,$rootScope, $scope, $http, $location,$timeout,$window, $state, userService) {
 
     
 $scope.data = {};
@@ -30,7 +30,7 @@ $scope.isform1 =0;
 
 
  
-$scope.addwinnerpayment = function(){
+/*$scope.addauctionpayment = function(){
     
     //alert('hii');
 var id = $stateParams.id;
@@ -58,10 +58,34 @@ var id = $stateParams.id;
 	console.log(err); 
 	}); 
 	
-        }
+        }*/
         
 
+$scope.addauctionpayment = function(){
+   
+        var auction_id = $stateParams.id;
+        var notification_type=1;
+        userService.auctionFees(notification_type,auction_id).then(function(response) {
 
+	
+		if(response.Ack == '1') {
+                   $scope.exists=1;
+		
+		
+		
+
+  } else {
+             $scope.exists=0;
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+        
+       
+    
+    };
 
 	
 });
