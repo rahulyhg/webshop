@@ -133,6 +133,7 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/addreview', 'addreview');
     $app->post('/UserAuctionpayment', 'UserAuctionpayment');
     $app->post('/addwinnerpayment', 'addwinnerpayment');
+    $app->post('/todayauctionListSearch', 'todayauctionListSearch');
     
 });
 ?>

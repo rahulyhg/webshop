@@ -1014,6 +1014,31 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
             })
             
 
+            .state('frontend.todaysDeals', {
+                url: '/todaysDeals',
+                templateUrl: 'app/views/todaysDeals.html',
+                title: 'todaysDeals',
+				controller: 'todaysDealsCtrl',
+                ncyBreadcrumb: {
+                    label: 'todaysDeals page'
+                },
+                resolve: loadSequence('todaysDeals')
+            })
+            
+            
+            .state('frontend.interestin', {
+                url: '/interestin',
+                templateUrl: 'app/views/interestin.html',
+                title: 'interestin',
+				controller: 'interestinCtrl',
+                ncyBreadcrumb: {
+                    label: 'interestin page'
+                },
+                resolve: loadSequence('interestin')
+            })
+            
+            
+
           /*   .state('frontend.test', {
                 url: '/test',
                 templateUrl: 'app/views/test.html',
