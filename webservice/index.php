@@ -10,7 +10,7 @@ require 'config.php';
 include('routs.php');
 include('crud.php');
 //include('Stripe.php');
-
+//spandan
 date_default_timezone_set('UTC');
 
 
