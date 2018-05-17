@@ -72,7 +72,7 @@ $scope.product_id=$stateParams.id;
                     //alert(response.productList);
 	
 		$scope.productLists=response.productList;
-                
+                $scope.is_hide=0;
 		
 		
 
@@ -111,13 +111,14 @@ $scope.product_id=$stateParams.id;
 
     
 
- $scope.emailtothevendor = function(seller_id,interest){
+ $scope.emailtothevendor = function(seller_id,message){
    //  alert('hi');
  $scope.loader = false;
  var product_id = $stateParams.id;
+ //alert(message);
  if(userInfo.user_id){
 
-        userService.interestedEmail(userInfo.user_id,seller_id,product_id).then(function(response) {
+        userService.interestedEmail(userInfo.user_id,seller_id,product_id,'',message).then(function(response) {
 
 	console.log("vv",response);
 		
@@ -126,8 +127,9 @@ $scope.product_id=$stateParams.id;
                    // alert('gg');
 	$scope.loader = true;
 		// $scope.productLists=response.productList;
-		alert("Mail Sent Successfully");
-		
+		alert("Message Sent Successfully");
+		$scope.is_hide=0;
+                $scope.is_click=0;
 		
 
   } else {
@@ -330,6 +332,39 @@ alert("Mail can not be sent ");
     };
     
     
+    $scope.is_clicked = function(review){
+
+       
+    $scope.user_id=userInfo.user_id;
+   
+  if($scope.user_id){
+     $scope.is_click=1;
+     $scope.is_hide=1;
+     //$scope.Showdetails();
+     
+  }else{
+      $('#login').modal('show');
+      $scope.is_click =0;
+  }
+        
+       
+    
+    };
+    
+    $scope.contactseller = function(sellercontact){
+
+       
+    sellercontact.message=sellercontact.message;
+    sellercontact.seller_id=sellercontact.seller_id;    
+   
+   if(sellercontact.message){
+       $scope.emailtothevendor(sellercontact.seller_id,sellercontact.message);
+   }
+  
+        
+       
+    
+    };
     
         
         
