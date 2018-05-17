@@ -3560,10 +3560,10 @@ reject(response);
 });
 };
 
-  var interestedEmail = function(userid,sellerid,productid) {
+  var interestedEmail = function(userid,sellerid,productid,type) {
 return $q(function(resolve, reject) {
 
-  var encodedString ='{"user_id":"'+ userid +'","seller_id":"'+sellerid+'","product_id":"'+productid+'"}';
+  var encodedString ='{"user_id":"'+ userid +'","seller_id":"'+sellerid+'","product_id":"'+productid+'","type":"'+type+'"}';
 
 $http({
 method: 'POST',

@@ -837,6 +837,17 @@ function ProductsDetails() {
     $stmt->execute();
     $product = $stmt->fetchObject();
 
+    $sqlinterest = "SELECT * from  webshop_interested WHERE userid=:userid";
+
+    $stmtinterest = $db->prepare($sqlinterest);
+    $stmtinterest->bindParam("userid", $user_id);
+    $stmtinterest->execute();
+    $interest = $stmtinterest->fetchObject();
+    $interested = '';
+    if (!empty($interest)) {
+        $interested = $interest->interested;
+    }
+
     if (!empty($product)) {
 
 
@@ -956,12 +967,14 @@ function ProductsDetails() {
 
 
 
-        
+
 
 
 
         $starttime = '';
         $time = '';
+        $action_date = '';
+        $action_time = '';
 
         if ($product->type == '2') {
             $sqltime_slot_id = "SELECT *  FROM webshop_auctiondates WHERE id=:time_slot_id";
@@ -971,14 +984,20 @@ function ProductsDetails() {
             $naxtime_slot_id = $stmttime_slot_id->fetchObject();
             $time = $naxtime_slot_id->end_time;
             $starttime = $naxtime_slot_id->start_time;
+            $auctiondate = explode(' ', $naxtime_slot_id->start_time);
+            $action_date = $auctiondate[0];
+            $action_time = $auctiondate[1];
+            //$action_time = date('H:i', strtotime($action_time));
         } else {
             $starttime = '';
 
             $time = '';
+            $action_date = '';
+            $action_time = '';
         }
         $time_now = '';
         $ctime = '';
-       
+
         if ($product->type == '2') {
             $time_now = mktime(date('H') + 5, date('i') + 30, date('s'));
 
@@ -1024,7 +1043,10 @@ function ProductsDetails() {
             "maxbid" => $naxbid->maxbid,
             "start_time" => $starttime,
             "ctime" => $ctime,
-            "countuniquebids" => $countuniquebids
+            "countuniquebids" => $countuniquebids,
+            'action_date' => $action_date,
+            'action_time' => date('h:i A', strtotime($action_time)),
+            'interest' => $interested
 // "special_price"=>stripslashes($product->special_price),
 // "auction_start_date"=>stripslashes($product->auction_start_date),
 // "auction_end_date"=>stripslashes($product->auction_end_date)
@@ -4251,7 +4273,7 @@ function interestedEmailToVendor() {
     $seller_id = $body->seller_id;
     $user_id = $body->user_id;
     $product_id = $body->product_id;
-
+    $type = $body->type;
     $db = getConnection();
 
     $sql3 = "SELECT * FROM  webshop_products WHERE id=:id ";
@@ -4338,29 +4360,38 @@ function interestedEmailToVendor() {
 
     try {
         $mail->Send();
+        $sqlFriend = "INSERT INTO webshop_interested (userid,seller_id,productid, type, interested) VALUES (:userid,:seller_id, :productid, :type, :interested)";
+        $interested = 1;
+        $stmttt = $db->prepare($sqlFriend);
+        $stmttt->bindParam("userid", $user_id);
+        $stmttt->bindParam("seller_id", $seller_id);
+        $stmttt->bindParam("productid", $product_id);
+        $stmttt->bindParam("type", $type);
+        $stmttt->bindParam("interested", $interested);
+        $stmttt->execute();
     } catch (phpmailerException $e) {
         echo $e->errorMessage(); //Pretty error messages from PHPMailer
     }
 
     /* Notification to the seller start */
-    $message = $user . " is interested in your product " . $getproductdetails->name . "";
+    /*  $message = $user . " is interested in your product " . $getproductdetails->name . "";
 
-    $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, msg, is_read,last_id) VALUES (:from_id, :to_id, :msg, :is_read,:last_id)";
+      $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, msg, is_read,last_id) VALUES (:from_id, :to_id, :msg, :is_read,:last_id)";
 
-    $is_read = '0';
-    $last_id = '0';
-    $from_id = '0';
-//$message = 'New auction added';
-//$type = '2';
-    $stmttt = $db->prepare($sqlFriend);
-    $stmttt->bindParam("from_id", $user_id);
-    $stmttt->bindParam("to_id", $seller_id);
-//$stmttt->bindParam("type", $type);
-    $stmttt->bindParam("msg", $message);
+      $is_read = '0';
+      $last_id = '0';
+      $from_id = '0';
+      //$message = 'New auction added';
+      //$type = '2';
+      $stmttt = $db->prepare($sqlFriend);
+      $stmttt->bindParam("from_id", $user_id);
+      $stmttt->bindParam("to_id", $seller_id);
+      //$stmttt->bindParam("type", $type);
+      $stmttt->bindParam("msg", $message);
 
-    $stmttt->bindParam("last_id", $last_id);
-    $stmttt->bindParam("is_read", $is_read);
-    $stmttt->execute();
+      $stmttt->bindParam("last_id", $last_id);
+      $stmttt->bindParam("is_read", $is_read);
+      $stmttt->execute(); */
     /* Notification to the seller end */
 
     $db = null;
@@ -6761,8 +6792,7 @@ function addreview() {
     $review = isset($body->review) ? $body->review : '';
     $rating = isset($body->rating) ? $body->rating : '';
     $recomend = isset($body->recomend) ? $body->recomend : '';
-    echo $recomend;
-    exit;
+
     $date = date('Y-m-d');
 
     $sql = "INSERT INTO  webshop_reviews (userid,product_id,review,rating,date,recomend) VALUES (:userid,:productid,:review,:rating,:date,:recomend)";

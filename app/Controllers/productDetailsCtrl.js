@@ -252,12 +252,12 @@ else {
     
     };
     
- $scope.emailtothevendorinterest = function(seller_id){
+ $scope.emailtothevendorinterest = function(seller_id,type){
    //  alert('hi');
  $scope.loader1 = false;
        var product_id = $stateParams.id;
 
-        userService.interestedEmail(userInfo.user_id,seller_id,product_id).then(function(response) {
+        userService.interestedEmail(userInfo.user_id,seller_id,product_id,type).then(function(response) {
 
 	//console.log("vv",response);
 		
@@ -267,7 +267,7 @@ else {
 	$scope.loader1 = true;
 		// $scope.productLists=response.productList;
 		alert("Mail Sent Successfully");
-		
+		$scope.Showdetails();
 		
 
   } else {
