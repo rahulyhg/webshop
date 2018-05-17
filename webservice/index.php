@@ -12,7 +12,7 @@ include('crud.php');
 //include('Stripe.php');
 
 date_default_timezone_set('UTC');
-$act_link = 'http://111.93.169.90/team1/webshop/';
+
 
 function get_lat_long($address) {
     $array = array();
@@ -40,7 +40,7 @@ function userSignup() {
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
 
-    $act_link = 'http://111.93.169.90/team1/webshop/';
+    
     $fname = isset($body->fname) ? $body->fname : '';
     $lname = isset($body->lname) ? $body->lname : '';
     $email = isset($body->email) ? $body->email : '';
@@ -151,7 +151,7 @@ function userSignup() {
             /* mailt to user or vendor start */
             $MailTo = $email;
 
-            $actual_link = $act_link . "#/emailverify/" . $lastID;
+            $actual_link = SITE_URL . "#/emailverify/" . $lastID;
             $MailFrom = 'webshop.com';
             $subject = "webshop.com- Thank you for registering";
 
@@ -3449,7 +3449,7 @@ function addProductNew() {
             }
         } else {
 
-            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,nextbidprice) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,nextbidprice)";
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice)";
 
 
 
@@ -3485,7 +3485,7 @@ function addProductNew() {
                 $stmt->bindParam("model_year", $model_year);
                 $stmt->bindParam("time_slot_id", $time_slot_id);
                 $stmt->bindParam("thresholdprice", $price);
-                $stmt->bindParam("nextbidprice", $price);
+                
                 $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
 
                 $is_read = '0';
@@ -3687,7 +3687,7 @@ function addProductNew() {
             }
         } else {
 
-            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,nextbidprice) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:nextbidprice)";
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice)";
 
 
 
@@ -3723,7 +3723,7 @@ function addProductNew() {
                 $stmt->bindParam("model_year", $model_year);
                 $stmt->bindParam("time_slot_id", $time_slot_id);
                 $stmt->bindParam("thresholdprice", $price);
-                $stmt->bindParam("nextbidprice", $price);
+                
                 $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
 
                 $is_read = '0';
@@ -4263,7 +4263,7 @@ function auctionapproval() {
 }
 
 function interestedEmailToVendor() {
-    $act_link = 'http://111.93.169.90/team1/webshop/';
+    
     $data = array();
     $app = \Slim\Slim::getInstance();
     $request = $app->request();
@@ -4302,7 +4302,7 @@ function interestedEmailToVendor() {
 
     $MailFrom = 'info@webshop.com';
     $subject = "webshop.com- Product Interested";
-    $link = $act_link . '#/conatctuser/' . $getdetails->id . '/' . $getproductdetails->id . '/' . $getUserdetails->id;
+    $link = SITE_URL . '#/conatctuser/' . $getdetails->id . '/' . $getproductdetails->id . '/' . $getUserdetails->id;
     $TemplateMessage = "Hello " . $getUserdetails->fname . ",<br /><br / >";
     $TemplateMessage .= $user . " is interested in your product " . $getproductdetails->name . " <br />";
     $TemplateMessage .= "<br/>Click this link to verify to conact user <a href='" . $link . "'>" . $link . "</a><br/>";
@@ -6089,7 +6089,7 @@ function addUserSubscription() {
 function UserSubscriptionpayment() {
 
     $data = array();
-    $act_link = 'http://111.93.169.90/team1/webshop/';
+    
     $app = \Slim\Slim::getInstance();
     $request = $app->request();
     $body = ($request->post());
@@ -6139,8 +6139,8 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
 <merchant_username>testapi@myfatoorah.com</merchant_username>
 <merchant_password>E55D0</merchant_password>
 <merchant_ReferenceID>201454542102</merchant_ReferenceID>
-<ReturnURL>' . $act_link . '#/success/' . $paymentId . '/</ReturnURL>
-<merchant_error_url>' . $act_link . '#/cancel</merchant_error_url>
+<ReturnURL>' . SITE_URL . '#/success/' . $paymentId . '/</ReturnURL>
+<merchant_error_url>' . SITE_URL . '#/cancel</merchant_error_url>
 </MerchantDC>
 <lstProductDC>
 <ProductDC>
@@ -6534,7 +6534,7 @@ function userpayment() {
 
 function userpaymentforupload() {
 
-    $act_link = 'http://111.93.169.90/team1/webshop/';
+    
     $data = array();
 
     $app = \Slim\Slim::getInstance();
@@ -6586,8 +6586,8 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
 <merchant_username>testapi@myfatoorah.com</merchant_username>
 <merchant_password>E55D0</merchant_password>
 <merchant_ReferenceID>201454542102</merchant_ReferenceID>
-<ReturnURL>' . $act_link . '#/successUserpayment/' . $paymentId . '/</ReturnURL>
-<merchant_error_url>' . $act_link . '#/cancel</merchant_error_url>
+<ReturnURL>' . SITE_URL . '#/successUserpayment/' . $paymentId . '/</ReturnURL>
+<merchant_error_url>' . SITE_URL . '#/cancel</merchant_error_url>
 </MerchantDC>
 <lstProductDC>
 <ProductDC>
@@ -6823,7 +6823,7 @@ function auctionWinner() {
     //$body = json_decode($body2);
 
 
-    $act_link = 'http://111.93.169.90/team1/webshop/';
+    
 
 
     //mail("spandan@natitsolved.com","GMT24 Auction","Your auction unsuccessfully end","palashsaharana@gmail.com");
@@ -6883,7 +6883,7 @@ function auctionWinner() {
 
 
 
-                    $actual_link = $act_link . "#/auctionpayment/" . base64_encode($auction_id);
+                    $actual_link = SITE_URL . "#/auctionpayment/" . base64_encode($auction_id);
 
 
                     send_smtpmail($getbiddetail_withuser->email, "GMT24 Auction", "You are the winner. Please pay and buy the product within 2 days. For buy <a href='" . $actual_link . "'> Click here</a>");
@@ -7009,7 +7009,7 @@ function send_smtpmail($MailTo, $subject, $TemplateMessage, $MailAttachment = nu
 
     $MailFrom = 'palashsaharana@gmail.com';    //  Your email password
 
-    $MailFromName = 'Webshop';
+    $MailFromName = 'GMT24';
     $MailToName = '';
 
     $YourEamilPassword = "lsnspyrcimuffblr";   //Your email password from which email you send.
@@ -7061,7 +7061,7 @@ function send_smtpmail($MailTo, $subject, $TemplateMessage, $MailAttachment = nu
 function UserAuctionpayment() {
 
     $data = array();
-    $act_link = 'http://111.93.169.90/team1/webshop/';
+    
     $app = \Slim\Slim::getInstance();
     $request = $app->request();
     $body = ($request->post());
@@ -7113,8 +7113,8 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
 <merchant_username>testapi@myfatoorah.com</merchant_username>
 <merchant_password>E55D0</merchant_password>
 <merchant_ReferenceID>201454542102</merchant_ReferenceID>
-<ReturnURL>' . $act_link . '#/successAuctionpayment/' . $paymentId . '/</ReturnURL>
-<merchant_error_url>' . $act_link . '#/cancelAuctionpayment</merchant_error_url>
+<ReturnURL>' . SITE_URL . '#/successAuctionpayment/' . $paymentId . '/</ReturnURL>
+<merchant_error_url>' . SITE_URL . '#/cancelAuctionpayment</merchant_error_url>
 </MerchantDC>
 <lstProductDC>
 <ProductDC>

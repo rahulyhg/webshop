@@ -40,6 +40,7 @@ if (isset($_REQUEST['submit'])) {
         'baseauctionprice' => mysqli_real_escape_string($con, $baseauctionprice),
         'thresholdprice' => mysqli_real_escape_string($con, $thresholdprice),
         'bidincrement' => mysqli_real_escape_string($con, $bidincrement),
+        'nextbidprice' => mysqli_real_escape_string($con, $baseauctionprice),
         'is_edited' => 1,
         // 'start_date_time' => mysqli_real_escape_string($con,$start_date_time),
         //  'end_date_time' => mysqli_real_escape_string($con,$end_date_time),
