@@ -305,11 +305,11 @@ function inactive(aa)
                 
                  <th>User Image</th>           
                  <th>User Name</th>
-                 <!-- <th>Point</th>
-                 <th>Brand</th>
+                  <th>Total Point</th>
+                <!-- <th>Brand</th>
                  <th>Size</th>
                  <th>Owner Number</th> -->
-                 <th>Bid</th>
+                 <th>View</th>
                 <!-- <th>Quick Links</th>-->
               <!--    <th>Details</th> -->
                  
@@ -322,19 +322,19 @@ function inactive(aa)
                            // echo "select * from  webshop_auction where `status`=1 and (`start_date_time` <= '".$curdate."' && `end_date_time` >='".$curdate."')";
                            //exit;
                                                      // $fetch_tools_type=mysqli_query($con,"select * from  webshop_auction where `status`=1 and (`start_date_time` <= '".$curdate."' && `end_date_time` >='".$curdate."')");
-                                                      $fetch_tools_type=mysqli_query($con,"SELECT user_id,sum(`point`) as tpoint FROM `webshop_user_loyaliety`  group by user_id)");
+                                                      $fetch_tools_type=mysqli_query($con,"select user_id,sum(`point`) as tpoint FROM `webshop_user_loyaliety`  group by user_id");
                                                         $num=mysqli_num_rows($fetch_tools_type);
-                                                        echo $num;exit;
+                                                       // echo 'number'.$num;exit;
                                                         if($num>0)
                                                         {
                                                         while($tools_type=mysqli_fetch_array($fetch_tools_type))
                                                         {
                                                             
-                                                            print_r($tools_type);exit;                                                                
+                                                           // print_r($tools_type);exit;                                                                
                                                             
 
 
-$uploader = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_user` WHERE `id`='".$tools_type['uploader_id']."'"));
+$uploader = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_user` WHERE `id`='".$tools_type['user_id']."'"));
 
 //$getBrand = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_brands` WHERE `id`='".$tools_type['brands']."'"));
 
@@ -365,12 +365,12 @@ $uploader = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_user` W
                 
 
                 <td>
-                   $<?php echo stripslashes($tools_type['point']);?>
+                   $<?php echo stripslashes($tools_type['tpoint']);?>
                 </td>
                 
-                 <td>
+                 <!-- <td>
                    <?php echo stripslashes($getBrand['add_date']);?>
-                </td>
+                </td> -->
                 
                  <!-- <td>
                    <?php echo stripslashes($tools_type['size']);?>
@@ -383,8 +383,8 @@ $uploader = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_user` W
                  
 
                    <td>
-                   <a  href="view_user_loyaliety.php?id=<?php echo $tools_type['id'] ?>&action=edit">
-                  <i class="icon-legal"></i></a>
+                   <a  href="view_user_loyaliety.php?id=<?php echo $tools_type['user_id'] ?>&action=edit">
+                  <!--<i class="icon-legal"></i>--> View</a>
                 </td>
                 
              <!--    <td>

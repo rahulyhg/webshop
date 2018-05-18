@@ -222,14 +222,14 @@ function inactive(aa)
                    </div>
                    <!-- END THEME CUSTOMIZER-->
                   <!-- BEGIN PAGE TITLE & BREADCRUMB-->
-                   <h3 class="page-title">Bids</h3>
+                   <h3 class="page-title">User Loyality Point Details</h3>
                    <ul class="breadcrumb">
                        <li>
                            <a href="#">Home</a>
                            <span class="divider">/</span>
                        </li>
                        <li>
-                           <a href="#">Bids</a>
+                           <a href="#">User Loyality Point Details</a>
                         
                        </li>
                         
@@ -253,7 +253,7 @@ function inactive(aa)
                              <form action="" method="post">
                 <!--<i class="fa fa-edit"></i>Editable Table-->
                                  
-                     <tr><button type="reset" class="btn blue" onClick="window.location.href='list_auction.php'" >Back</button></tr>
+                     <tr><button type="reset" class="btn blue" onClick="window.location.href='list_loyaliety_user.php'" >Back</button></tr>
                                 
                                                             </form>
                             <span class="tools">
@@ -267,10 +267,10 @@ function inactive(aa)
                           <table class="table table-striped table-hover table-bordered" id="editable-sample">
                                      <thead>
                             <tr>
-                             <th>Bidder Image</th>
-                            <th>Bidder Name</th>
-                            <th>Product Name</th>
-                             <th>Bid Price</th>
+                             <th>User Image</th>
+                            <th>User Name</th>
+                            <th>Pay Amount</th>
+                             <th>Point</th>
                                                             
                 <th>Date</th>
                 <!--<th>User Password</th>-->
@@ -280,7 +280,7 @@ function inactive(aa)
         <tbody>
              <?php
     
-             $tool_type_details = mysqli_query($con,"SELECT * FROM `webshop_bids` WHERE `product_id`='".mysqli_real_escape_string($con,$_REQUEST['id'])."' order by `id` desc");
+             $tool_type_details = mysqli_query($con,"SELECT * FROM `webshop_user_loyaliety` WHERE `user_id`='".mysqli_real_escape_string($con,$_REQUEST['id'])."' order by `id` desc");
                                                          
          if(mysqli_num_rows($tool_type_details) >0)
              {
@@ -297,9 +297,9 @@ function inactive(aa)
     $image_link='../upload/no.png';
     }
 
-   $product_details = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_products` WHERE `id`='".$result['product_id']."'"));
+   //$product_details = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_products` WHERE `id`='".$result['product_id']."'"));
 
- $user_details = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_user` WHERE `id`='".$result['bid_id']."'"));
+ $user_details = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_user` WHERE `id`='".$result['user_id']."'"));
                                                         ?>
               
               <tr>
@@ -313,11 +313,11 @@ function inactive(aa)
                 </td>
 
                   <td>
-                  <?php echo stripslashes($product_details['name']);?>
+                  <?php echo stripslashes($result['pay_amount']);?>
                 </td>
 
                  <td>
-                  <?php echo stripslashes("$".$result['price']);?>
+                  <?php echo stripslashes("$".$result['point']);?>
                 </td>
                           
                  <td>
