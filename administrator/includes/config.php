@@ -28,7 +28,7 @@ if ($_SESSION['lang'] == 'Spanish') {
 //$link = mysql_connect("localhost", "root", "Host@2017") or die("Error in Connection. Check Server Configuration.");
 //mysql_select_db("roomrent", $link) or die("Database not Found. Please Create the Database.");
 
-$con = mysqli_connect("localhost", "root", "abc123", "webshop");
+$con = mysqli_connect("localhost", "root", "root", "webshop");
 
 if (mysqli_connect_errno()) {
     echo "Failed to the connect to MySQL: " . mysqli_connect_error();
