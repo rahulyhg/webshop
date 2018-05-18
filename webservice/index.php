@@ -6968,7 +6968,7 @@ function auctionWinner() {
                     $from_id = '0';
                     $to_id = $getbiddetail_withuser->userid;
                     $notificationtype = "GMT24 Auction result";
-                    $notification_msg = "You won the auction. Please pay and buy the product within 2 days. For buy <a href='" . $actual_link . "'> Click here</a>";
+                    $notification_msg = 'You won the auction. Please pay and buy the product within 2 days. For buy <a href="' . $actual_link . '"> Click here</a>';
 
                     $notificationsql = "INSERT INTO  webshop_notification(from_id,to_id, type, msg, date, is_read, last_id) VALUES (:from_id,:to_id, :type, :msg, :date, :is_read, :last_id)";
                     $stmt5 = $db->prepare($notificationsql);
@@ -7148,8 +7148,23 @@ function UserAuctionpayment() {
     $product_id = isset($pid) ? $pid : '';
 
 
+    
+    $sql1 = "SELECT * from webshop_auction_winner where user_id=:user_id and product_id =:product_id";
+    $stmt1 = $db->prepare($sql1);
+    $stmt1->bindParam("user_id", $user_id);
+    $stmt1->bindParam("product_id", $product_id);
+    $stmt1->execute();
+    $checkexpiry = $stmt1->fetchObject();
+    
+    $cdate= date('Y-m-d');
+    if($cdate > $checkexpiry->expiry_date){
+       
+       $data['Ack'] = 2; 
+        
+    }else{
+    
+    
     $paymentId = base64_encode($product_id);
-
 
     $name = isset($body->name) ? $body->name : '';
     $email = isset($body->email) ? $body->email : '';
@@ -7248,7 +7263,7 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
     $data['Ack'] = 1;
 
     $app->response->setStatus(200);
-
+    }
 
     $app->response->write(json_encode($data));
 }
@@ -7973,6 +7988,63 @@ function sociallinks() {
 
     $app->response->write(json_encode($data));
 }
+
+
+function myLoyalty() {
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $db = getConnection();
+    $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
+            $stmt1 = $db->prepare($sql1);
+            $stmt1->bindParam("id", $user_id);
+            $stmt1->execute();
+            $getUserdetails = $stmt1->fetchObject();
+            $total_loyalty = $getUserdetails->total_loyalty;
+
+           
+
+    $sql = "SELECT * from  webshop_user_loyaliety WHERE user_id=:user_id  order by id desc";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("user_id", $user_id);
+    $stmt->execute();
+    $getAllLoyalty = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+    if (!empty($getAllLoyalty)) {
+        foreach ($getAllLoyalty as $loyalty) {
+
+            $data['loyaltyList'][] = array(
+                "id" => stripslashes($loyalty->id),
+                "pay_amount" => stripslashes($loyalty->pay_amount),
+                "point" => stripslashes($loyalty->point),
+                "add_date" => stripslashes($loyalty->add_date),
+                "type" => $loyalty->type,
+                "used_date" => stripslashes($loyalty->used_date),
+                
+            );
+        }
+
+
+        $data['Ack'] = '1';
+        $data['total_loyalty'] = $total_loyalty;
+        $app->response->setStatus(200);
+    } else {
+        $data = array();
+        $data['loyaltyList'] = array();
+        $data['total_loyalty'] = $total_loyalty;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+
+
 
 $app->run();
 ?>

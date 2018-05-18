@@ -4708,6 +4708,38 @@ var uploadAuctionproduct = function(value) {
     };
 
 
+var myloyalty = function() {
+    return $q(function(resolve, reject) {
+        var userInfo = JSON.parse($window.localStorage["userInfo"]);
+        var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+
+
+    
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"myLoyalty",
+    data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    //console.log('ok');
+    resolve(response.data); 
+    } else {
+    //console.log('ok2');
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    //console.log(response);  
+    reject(response);
+    });
+    });
+    };
+
+
+
  
  return {
      
@@ -4854,7 +4886,8 @@ var uploadAuctionproduct = function(value) {
         interestedproduct:interestedproduct,
         addlike:addlike,
         sociallinks:sociallinks,
-        uploadAuctionproduct:uploadAuctionproduct
+        uploadAuctionproduct:uploadAuctionproduct,
+        myloyalty:myloyalty
 
 	
 };

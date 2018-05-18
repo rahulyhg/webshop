@@ -40,7 +40,12 @@ else {
                     $scope.exists=1;
 
 		
-		} else {
+		}else if(response.Ack == '2'){
+                    
+                    alert('Sorry ! Your payment date is expired.')
+                    $scope.home();
+                    
+                 }else {
                     console.log('ppp');	
                     $scope.exists=0;
 		}
@@ -57,7 +62,13 @@ else {
 }
  
  
- 
+ $scope.home = function(){
+        
+           
+           $state.go('frontend.home'); 
+
+              
+}
  
  
  

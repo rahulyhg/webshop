@@ -40,7 +40,7 @@ $scope.myproduct = function(){
 		if(response.Ack == '1') {
                     $scope.exists=1;
 		$scope.productLists=response.productList;
-		//console.log($scope.alljobs);
+		console.log('spproduct',$scope.productLists);
                 //$window.localStorage["userzip"]='';
 		
 		} else {
