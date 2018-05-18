@@ -654,7 +654,7 @@ userService.changeLaguage(laguage).then(function(response) {
 		
                 //alert ('Language changed to english');
                 
-                $window.localStorage["language"]= laguage;
+               // $window.localStorage["language"]= laguage;
                 $scope.language = response.languages;
                             
                                 
@@ -670,7 +670,7 @@ userService.changeLaguage(laguage).then(function(response) {
 																	
 	}, function(err) {
             //alert ('Language can not be changed');
-            $window.location.reload();
+            //$window.location.reload();
          console.log(err); 
     });
     };
@@ -693,7 +693,7 @@ userService.sociallinks().then(function(response) {
 																	
 	}, function(err) {
             
-            $window.location.reload();
+           // $window.location.reload();
          console.log(err); 
     });
 	

@@ -1,127 +1,127 @@
 
-	<section class="innerbody search-list auction-details-pade" ng-init="Showdetails();">
-		<div class="container">
-			<nav aria-label="breadcrumb">
-			  <ol class="breadcrumb">
-			    <li class="breadcrumb-item"><a href="#">Home</a></li>
-			    <li class="breadcrumb-item active">Watches</li>
-			  </ol>
-			</nav>
-			<div class="details-wrap p-3">
-				<div class="row">
-					<div class="col-lg-7 col-md-6 col-sm-6">
-						<div class="details-top p-3 mb-3 position-relative">
-							<div class="like"><p class="m-0"><i class="ion-thumbsup"></i> {{productLists.totallike}}</p></div>
-							<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">
-						</div> 
-						<div class="details-left" ng-if="productLists">
-							<h4>{{productLists.productname}}</h4>
-							<p class="text-secondary">{{productLists.brands}}/{{productLists.category}}</p>
+  <section class="innerbody search-list auction-details-pade" ng-init="Showdetails();">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">Watches</li>
+        </ol>
+      </nav>
+      <div class="details-wrap p-3">
+        <div class="row">
+          <div class="col-lg-7 col-md-6 col-sm-6">
+            <div class="details-top p-3 mb-3 position-relative">
+              <div class="like"><p class="m-0"><i class="ion-thumbsup"></i> {{productLists.totallike}}</p></div>
+              <img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">
+            </div> 
+            <div class="details-left" ng-if="productLists">
+              <h4>{{productLists.productname}}</h4>
+              <p class="text-secondary">{{productLists.brands}}/{{productLists.category}}</p>
                                                         <p ng-if="productLists.interest==0"><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)</p>
                                                         
                                                         <p ng-if="!user_id && productLists.interest==0"><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)<a href="" data-toggle="modal" data-target="#login" class="d-inline-block pl-3">Write a review</a></p>
-							<p ng-if="user_id && productLists.interest==1"><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)<a href="" data-toggle="modal" data-target="#myModal1" class="d-inline-block pl-3" >Write a review</a></p>
+              <p ng-if="user_id && productLists.interest==1"><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)<a href="" data-toggle="modal" data-target="#myModal1" class="d-inline-block pl-3" >Write a review</a></p>
                                                         
                                                         
                                                        
                                                         
                                                         
                                                         
-							<hr>
+              <hr>
                                                         
-							<h5>Product Description</h5>
+              <h5>Product Description</h5>
 
-							<p>{{productLists.description}}</p>
+              <p>{{productLists.description}}</p>
                                                         
                                                         <hr>
                                                         
-							<div class="row">
-								<div class="col-sm-6 col-6 py-1">
-									<h4 class="m-0">{{productLists.price}} {{productLists.currency_code}}</h4>
-								</div>
-								<div class="col-sm-6 col-6 py-1">
-									<ul class="like-links list-unstyled p-0 float-right m-0">
-										<li ng-if="user_id && productLists.userlike==0" class="d-inline-block mr-2"><a href="" ng-click="addlike(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>
+              <div class="row">
+                <div class="col-sm-6 col-6 py-1">
+                  <h4 class="m-0">{{productLists.price}} {{productLists.currency_code}}</h4>
+                </div>
+                <div class="col-sm-6 col-6 py-1">
+                  <ul class="like-links list-unstyled p-0 float-right m-0">
+                    <li ng-if="user_id && productLists.userlike==0" class="d-inline-block mr-2"><a href="" ng-click="addlike(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>
                                                                                 <li ng-if="user_id && productLists.userlike==1" class="d-inline-block mr-2"><a href="" ng-click="addlike(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i style="color:red" class="ion-thumbsup"></i></a></li>
-										<li ng-if="!user_id" class="d-inline-block mr-2"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>
+                    <li ng-if="!user_id" class="d-inline-block mr-2"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>
 <!--                                                                                <li class="d-inline-block mr-2"><a ng-if="current_user_login!='1'  && quantity!='0'" ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-android-cart"></i></a></li>-->
-										<li class="d-inline-block"><a ng-if="user_id && productLists.is_fav==0" ng-click="addwishlist(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
+                    <li class="d-inline-block"><a ng-if="user_id && productLists.is_fav==0" ng-click="addwishlist(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
                                                                                 <li class="d-inline-block"><a ng-if="user_id && productLists.is_fav==1" ng-click="addwishlist(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i style="color:red" class="ion-heart"></i></a></li>
                                                                                <li ng-if="!user_id" class="d-inline-block"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
-									</ul>
-								</div>
-							</div>
-							<hr>
-							<div class="row">
-								<div class="col-sm-6">
+                  </ul>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-6">
                                                                     
-									<p class="mb-4" ng-if="loader1 && productLists.interest==0"><a href="" class="btn btn-primary btn-block" ng-click="emailtothevendorinterest(productLists.seller_id,productLists.type)">I am Interested</a></p>
+                  <p class="mb-4" ng-if="loader1 && productLists.interest==0"><a href="" class="btn btn-primary btn-block" ng-click="emailtothevendorinterest(productLists.seller_id,productLists.type)">I am Interested</a></p>
                                                                         <p class="mb-4" ng-if="user_id && loader1 && productLists.seller_id!=user_id && productLists.interest==1"><a href="" class="btn btn-primary btn-block" href="javascript:void(0)">Already interestd</a></p>
-								</div>
-								<div class="col-sm-6" ng-if="user_id && productLists.ctime > productLists.start_time">
+                </div>
+                <div class="col-sm-6" ng-if="user_id && productLists.ctime > productLists.start_time">
                                                                     
-									<p class="mb-4" ng-if="user_id && productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">Go Live Bidding</a></p>
+                  <p class="mb-4" ng-if="user_id && productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">Go Live Bidding</a></p>
 <!--                                                                        <p class="mb-4" ng-if="productLists.interest==0 && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#login">Go Live Bidding</a></p>   -->
-								</div>
+                </div>
                                                             <div class="col-sm-6" ng-if="!user_id && productLists.ctime > productLists.start_time">
                                                                     
  
                                                                         <p class="mb-4" ng-if="productLists.interest==0 && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#login">Go Live Bidding</a></p>   
-								</div>
+                </div>
                                                             
-							</div>
-							
+              </div>
+              
                                                         <p ng-if="!loader1" class="loader"></p>
                                                         
                                                        
                                                         
-						</div>
-					</div>
-					<div class="col-lg-5 col-md-7 col-sm-7">
-						<!--<div class="share-prod mb-2">Share this product : <a href="" class="d-inline-block text-secondary"><i class="fa fa-facebook"></i></a> <a href="" class="d-inline-block mx-2 text-secondary"><i class="fa fa-twitter"></i></a><a href="" class="d-inline-block text-secondary"><i class="fa fa-google-plus"></i></a></div>-->
-						<div class="seller-info p-3 border-secondary border rounded mb-3"  ng-if="productLists.seller_id!=user_id">
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-7 col-sm-7">
+            <!--<div class="share-prod mb-2">Share this product : <a href="" class="d-inline-block text-secondary"><i class="fa fa-facebook"></i></a> <a href="" class="d-inline-block mx-2 text-secondary"><i class="fa fa-twitter"></i></a><a href="" class="d-inline-block text-secondary"><i class="fa fa-google-plus"></i></a></div>-->
+            <div class="seller-info p-3 border-secondary border rounded mb-3"  ng-if="productLists.seller_id!=user_id">
                                                     <div ng-if="user_id && productLists.interest==1">
                                                     <h6 class="card-title">Seller Info:</h6>
-							<p class="mb-1">{{productLists.seller_name}}</p>
-							<p class="text-secondary mb-0"><i class="fa fa-map-marker"></i> {{productLists.seller_address}}</p>
+              <p class="mb-1">{{productLists.seller_name}}</p>
+              <p class="text-secondary mb-0"><i class="fa fa-map-marker"></i> {{productLists.seller_address}}</p>
                                                 </div>
-<!--							<p class="text-secondary mb-2"><i class="fa fa-phone"></i> {{productLists.seller_address}}</p>-->
-							<h5><b>{{productLists.currency_code}} {{productLists.price}} </b></h5>
-							<p class="text-success">{{productLists.quantity}}pcs. Available. </p>
+<!--              <p class="text-secondary mb-2"><i class="fa fa-phone"></i> {{productLists.seller_address}}</p>-->
+              <h5><b>{{productLists.currency_code}} {{productLists.price}} </b></h5>
+              <p class="text-success">{{productLists.quantity}}pcs. Available. </p>
                                                         <p ng-if="productLists.quantity=='0'" class="text-success">Out of stock.</p>
-							<hr>
+              <hr>
                                                        
-							<button ng-if="is_hide==0 && productLists.interest==1" type="button" ng-click="is_clicked()" class="btn btn-primary btn-block">Contact Seller</button>
+              <button ng-if="is_hide==0 && productLists.interest==1" type="button" ng-click="is_clicked()" class="btn btn-primary btn-block">Contact Seller</button>
                                                         <button ng-if="user_id && productLists.interest==0" type="button" ng-click="is_clicked()" disabled class="btn btn-primary btn-block">Contact Seller</button>
                                                         <button ng-if="!user_id && productLists.interest==0" type="button" ng-click="is_clicked()" class="btn btn-primary btn-block">Contact Seller</button>
                                                         
                                                           <div ng-if="user_id && productLists.interest==1 && is_click==1">
                                                               <!--<form class="modal-content animate" name="contacttoseller" ng-submit="contactseller(sellercontact)">-->
-                                                              <form class="modal-content animate" name="contacttoseller" ng-submit="addmessage(sellercontact)">
-							<h5>Your Message</h5>   
+                                                              <form class="modal-content animate"  ng-submit="addmessage(sellercontact)">
+              <h5>Your Message</h5>   
                                                         <textarea class="form-control" id="" value="" placeholder="" ng-model="sellercontact.message" name="message" capitalize required></textarea>
                                                         
                                                          <input type="hidden" class="form-control" id="" value="" placeholder="" ng-model="sellercontact.seller_id=productLists.seller_id" name="uploaderid" required>
-							
+              
                                                          <input ng-if="loader" type="submit" value="Send" class="btn-round">
-                                                              </from>
+                                                              </form>
                                                 </div>
 
 
 <div ng-if="!loader" class="loader"></div>
 
-						</div>
-						<hr>
-						<h6 class="card-title">Reviews</h6>
+            </div>
+            <hr>
+            <h6 class="card-title">Reviews</h6>
                                                 <div class="reviews-holder">
                                                     <div ng-repeat="reviewsss in allreviews" class="media">
-								<div class="media-left mr-2">
-									<a href="#">
-										<img class="media-object" src="{{reviewsss.userimage}}" alt="">
-									</a>
-								</div>
-								<div class="media-body">
-									<h6 class="media-heading">
+                <div class="media-left mr-2">
+                  <a href="#">
+                    <img class="media-object" src="{{reviewsss.userimage}}" alt="">
+                  </a>
+                </div>
+                <div class="media-body">
+                  <h6 class="media-heading">
                                                                             <span class="rating d-inline-block mr-2">
                                                                                 <ng-rating ng-model="reviewsss.rating"
                                                                                            icon-class="rating.iconClass"
@@ -133,26 +133,26 @@
                        
                                                                             </span>
                                                                             {{reviewsss.username}} <span class="date d-inline-block ml-2">- {{reviewsss.date}}&nbsp days ago</span></h6>
-									<p class="mb-2">{{reviewsss.review}}</p>
+                  <p class="mb-2">{{reviewsss.review}}</p>
                                                                         <div ng-if="reviewsss.recomend == 1">
-									<p><i class="fa fa-check"></i> Yes, I recommend this product. </p>
+                  <p><i class="fa fa-check"></i> Yes, I recommend this product. </p>
                                                                         </div>
                                                                        
-									
-								</div>
-							</div>
+                  
+                </div>
+              </div>
 
                                                         <p class="text-right"  ng-if="!user_id && productLists.interest==0"><a href="" data-toggle="modal" data-target="#login" class="btn btn-primary btn-block">Add Review</a></p>
                                                         <p class="text-right"  ng-if="user_id && productLists.interest==0"><button disabled class="btn btn-primary btn-block">Add Review</button></p>
-							<p class="text-right"  ng-if="user_id && productLists.interest==1"><a href="" data-toggle="modal" data-target="#myModal1" class="btn btn-primary btn-block">Add Review</a></p>
-						</div>
-					</div>
-				</div>
-				
-			</div>
-		</div>
-	</section>
-	
+              <p class="text-right"  ng-if="user_id && productLists.interest==1"><a href="" data-toggle="modal" data-target="#myModal1" class="btn btn-primary btn-block">Add Review</a></p>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+  
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 <form class="modal-content animate" ng-submit="addbid(bid)">
@@ -253,28 +253,28 @@
          
                                         <div class="modal-body">
                                            <ul class="list-unstyled">
-			<li  style="margin-bottom:50px">
-				<h1>{{rating.title }}</h1>
-				<ng-rating ng-model="review.rating"
-					icon-class="rating.iconClass"
-					editable="rating.editableRating"
-					stars-count="rating.starsCount"
-					based-on="rating.basedOn"
-					show-grade="false">
-				</ng-rating>
+      <li  style="margin-bottom:50px">
+        <h1>{{rating.title }}</h1>
+        <ng-rating ng-model="review.rating"
+          icon-class="rating.iconClass"
+          editable="rating.editableRating"
+          stars-count="rating.starsCount"
+          based-on="rating.basedOn"
+          show-grade="false">
+        </ng-rating>
                        
-			</li>
-		</ul>
-							<hr>
+      </li>
+    </ul>
+              <hr>
                                                         <h5>Your Review</h5>   
                                                         <textarea class="form-control" id="" value="" placeholder="" ng-model="review.review" name="review" capitalize required></textarea>
                                                         
                                                         
                                                         <hr>
                                                        Recommend this product ? &nbsp;<input type="radio" class="input-field"  name="recomend" value="1" ng-model="review.recomend" required>
-			              		<span>Yes</span>
-			              		<input type="radio" class="input-field"  name="recomend" value="2" ng-model="review.recomend" required>
-			              		<span>No</span>
+                        <span>Yes</span>
+                        <input type="radio" class="input-field"  name="recomend" value="2" ng-model="review.recomend" required>
+                        <span>No</span>
                                                  <hr>
                                                          <div>
                                                             
