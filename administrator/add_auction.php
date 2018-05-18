@@ -381,7 +381,7 @@ if ($num > 0) {
                                 <div class="control-group">
                                     <label class="control-label">Preferred Date</label>
                                     <div class="controls">
-                                        <input type="text" class="form-control" placeholder="Enter preferred_date" id="datepicker" value="<?php echo $categoryRowset['preferred_date']; ?>"  name="preferred_date" required>
+                                        <input type="text" class="form-control" placeholder="Enter preferred_date" id="datepicker" value="<?php echo $categoryRowset['preferred_date']; ?>"  readonly name="preferred_date" required>
 
                                     </div>
                                 </div>
