@@ -23,8 +23,8 @@ if (isset($_REQUEST['submit'])) {
     $id1 = '';
     for ($w = 0; $w < count($start_time); $w++) {
         $id1 = '';
-        $start_time1 = date('Y-m-d H:i:s', strtotime($start_time[$w]));
-        $end_time1 = date('Y-m-d H:i:s', strtotime($end_time[$w]));
+        $start_time1 = date('Y-m-d H:i:s', strtotime($date . ' ' . $start_time[$w]));
+        $end_time1 = date('Y-m-d H:i:s', strtotime($date . ' ' . $end_time[$w]));
         if (isset($id[$w]) && !empty($id[$w])) {
             $id1 = $id[$w];
         } else {
@@ -160,7 +160,7 @@ if ($_REQUEST['action'] == 'edit') {
                                                 <div class="controls">
                                                     <input type="text" class="form-control timepicker"id="time_1" placeholder="Start Time" value="<?php echo date('h:i A', strtotime($v['start_time'])); ?>" name="start_time[]" required>
 
-                                    <!--                                                            <input type="text" id="time_2" class="form-control timepicker" placeholder="End Time" value="<?php echo date('h:i A', strtotime($v['end_time'])); ?>" name="end_time[]" required>-->
+                                        <!--                                                            <input type="text" id="time_2" class="form-control timepicker" placeholder="End Time" value="<?php echo date('h:i A', strtotime($v['end_time'])); ?>" name="end_time[]" required>-->
                                                     <input type="hidden" id="" class="form-control" value="<?php echo $v['id']; ?>" name="id[]" required> 
                                                 </div>
                                             </div>
@@ -175,7 +175,7 @@ if ($_REQUEST['action'] == 'edit') {
                                                 </div>
                                             </div>
                                             <div class="control-group" style="width:20%;float:left;">                                                
-<!--                                                <label class="control-label"> </label>-->
+                                                <!--                                                <label class="control-label"> </label>-->
                                                 <div class="controls text-left">
     <!--                                                    <input type="text" class="form-control timepicker"id="time_1" placeholder="Start Time" value="<?php echo date('h:i A', strtotime($v['start_time'])); ?>" name="start_time[]" required>
 

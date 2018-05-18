@@ -6055,7 +6055,7 @@ function getfullMessages() {
 //exit;
         $data['fillmessage'] = $allmeaage;
         $data['product_image'] = $product_image;
-        $data['product_name'] = $product_name;
+        $data['product_name'] = '';
         $data['Ack'] = '1';
 // print_r($data);
 //exit;
@@ -7282,6 +7282,38 @@ function addwinnerpayment() {
     $stmt->bindParam("product_id", $product_id);
     $stmt->bindParam("user_id", $user_id);
     $stmt->execute();
+
+
+    $sql1 = "SELECT * from webshop_biddetails where userid=:user_id and productid=:product_id order by id DESC LIMIT 0,1";
+    $stmt1 = $db->prepare($sql1);
+    $stmt1->bindParam("product_id", $product_id);
+    $stmt1->bindParam("user_id", $user_id);
+    $stmt1->execute();
+    $biddetails = $stmt1->fetchAll(PDO::FETCH_OBJ);
+
+    $bidprice = $biddetails[0]->bidprice;
+
+    $sql2 = "SELECT * from webshop_loyalietypoint where from_price <= :bidprice AND to_price >= :bidprice";
+    $stmt2 = $db->prepare($sql2);
+    $stmt2->bindParam("bidprice", $bidprice);
+    $stmt2->execute();
+    $biddetails = $stmt2->fetchAll(PDO::FETCH_OBJ);
+//print_r($biddetails[0]->point);exit;
+
+if($biddetails[0]->point)
+{
+    $date = date('Y-m-d');
+    $sql = "INSERT INTO  webshop_user_loyaliety (pay_amount, user_id,point,add_date) VALUES (:pay_amount, :user_id,:point,:date)";
+
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam("pay_amount", $bidprice);
+            $stmt->bindParam("user_id", $user_id);
+            $stmt->bindParam("point", $biddetails[0]->point);
+            $stmt->bindParam("date", $date);
+
+            $stmt->execute();
+}
+
 
     $data['Ack'] = 1;
     $data['msg'] = 'Your payment completed successfully.';
