@@ -17,7 +17,7 @@
 						<div class="details-left" ng-if="productLists">
 							<h4>{{productLists.productname}}</h4>
 							<p class="text-secondary">{{productLists.brands}}/{{productLists.category}}</p>
-                                                        <p ng-if="productLists.interest==0"><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)</p>
+                                                        <p ng-if="user_id && productLists.interest==0"><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)</p>
                                                         
                                                         <p ng-if="!user_id && productLists.interest==0"><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)<a href="" data-toggle="modal" data-target="#login" class="d-inline-block pl-3">Write a review</a></p>
 							<p ng-if="user_id && productLists.interest==1"><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)<a href="" data-toggle="modal" data-target="#myModal1" class="d-inline-block pl-3" >Write a review</a></p>
@@ -96,7 +96,7 @@
                                                         <button ng-if="!user_id && productLists.interest==0" type="button" ng-click="is_clicked()" class="btn btn-primary btn-block">Contact Seller</button>
                                                         
                                                           <div ng-if="user_id && productLists.interest==1 && is_click==1">
-                                                              <!--<form class="modal-content animate" name="contacttoseller" ng-submit="contactseller(sellercontact)">-->
+                                                              
                                                               <form class="modal-content animate" name="contacttoseller" ng-submit="addmessage(sellercontact)">
 							<h5>Your Message</h5>   
                                                         <textarea class="form-control" id="" value="" placeholder="" ng-model="sellercontact.message" name="message" capitalize required></textarea>
@@ -104,7 +104,7 @@
                                                          <input type="hidden" class="form-control" id="" value="" placeholder="" ng-model="sellercontact.seller_id=productLists.seller_id" name="uploaderid" required>
 							
                                                          <input ng-if="loader" type="submit" value="Send" class="btn-round">
-                                                              </from>
+                                                              </form>
                                                 </div>
 
 
