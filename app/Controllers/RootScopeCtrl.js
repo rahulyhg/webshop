@@ -693,7 +693,7 @@ userService.sociallinks().then(function(response) {
 																	
 	}, function(err) {
             
-           // $window.location.reload();
+            $window.location.reload();
          console.log(err); 
     });
 	
