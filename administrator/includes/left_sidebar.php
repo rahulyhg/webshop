@@ -367,7 +367,7 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                 <li class="sub-menu">
                     <a href="javascript:;" class="">
                         <i class="icon-user"></i>
-                        <span>Loyaliety Point <br> Management</span>
+                        <span>Loyalty Point <br> Management</span>
                         <span class="arrow"></span>
                     </a>
                     <ul class="sub">
@@ -375,18 +375,18 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                         <li  <?php if ($pagename == 'add_loyalietypoint.php') { ?>  class="active" <?php } ?>>
                             <a href="add_loyalietypoint.php">
                                 <i class="icon-user"></i>
-                                Add Loyaliety</a>
+                                Add Loyalty</a>
                         </li> 
 
                         <li  <?php if ($pagename == 'list_loyalietypoint.php') { ?>  class="active" <?php } ?>>
                             <a href="list_loyalietypoint.php">
                                 <i class="icon-user"></i>
-                                list Loyaliety</a>
+                                list Loyalty</a>
                         </li>
                         <li  <?php if ($pagename == 'list_loyaliety_user.php') { ?>  class="active" <?php } ?>>
                             <a href="list_loyaliety_user.php">
                                 <i class="icon-user"></i>
-                                Loyaliety user Point</a>
+                                Loyalty user Point</a>
                         </li>
 
                     </ul>
