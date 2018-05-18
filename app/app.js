@@ -14,8 +14,8 @@ app.run(['$rootScope', '$state', '$stateParams',
 
 
 
-        $rootScope.serviceurl = "http://localhost/webshop1/webshop/webservice/frontend/";
-        $rootScope.siteurl = "http://localhost/webshop1/webshop/webservice/frontend/";
+        $rootScope.serviceurl = "http://localhost/webshop/webservice/frontend/";
+        $rootScope.siteurl = "http://localhost/webshop/webservice/frontend/";
 
 
 
@@ -251,9 +251,13 @@ return ['Auction has ended !!'].join(' ');
   ]);
 
 
+ angular
+  .module('sweetalert', [])
+  .factory('swal', SweetAlert);
 
-
-
+function SweetAlert() {
+  return window.swal;
+};
 
 angular.module('angularblank').run(['$http',function($http){
    $http.defaults.headers.common.responsetype = 'json';

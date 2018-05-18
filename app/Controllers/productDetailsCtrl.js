@@ -35,6 +35,7 @@ $scope.rating.title ='Rating';
 $scope.data = {};
 $scope.user = {};
 $scope.productLists ='';
+$scope.error ='';
 //alert('a');
 $scope.loader = true;
 $scope.loader1 = true;
@@ -120,7 +121,7 @@ $scope.product_id=$stateParams.id;
 
         userService.interestedEmail(userInfo.user_id,seller_id,product_id,'',message).then(function(response) {
 
-	console.log("vv",response);
+	//console.log("vv",response);
 		
 		//$scope.isExists=response.Ack;
 		if(response.Ack == '1') {
@@ -236,7 +237,7 @@ else {
      //console.log('bidding',bid);
       userService.addbid( bid.userid,bid.productid,bid.bidprice,bid.uploaderid,bid.bidincrement).then(function(response) {
 
-	console.log("vv",response);
+	//console.log("vv",response);
 		
 		if(response.Ack == '1') {
 		 $scope.Showdetails();
@@ -351,17 +352,35 @@ alert("Mail can not be sent ");
     
     };
     
-    $scope.contactseller = function(sellercontact){
-
-       
-    sellercontact.message=sellercontact.message;
-    sellercontact.seller_id=sellercontact.seller_id;    
-   
-   if(sellercontact.message){
-       $scope.emailtothevendor(sellercontact.seller_id,sellercontact.message);
-   }
-  
-        
+    $scope.checkpassword = function(pass){
+        pass.password=pass.password;
+        pass.user_id=userInfo.user_id; 
+        //alert(pass.user_id);
+        userService.checkpassword(pass,pass.user_id).then(function(response) {
+		console.log('checkpass',response)
+		$scope.isExists=1;
+		if(response.Ack == '1') {
+                   $scope.error ='';
+                    $('#myModal').modal('show');
+                    $('#password').modal('hide');
+		
+		}else if(response.Ack == '2'){
+                   
+                   $scope.error ='Plsease enter connect password';
+                   
+                   
+                } else {
+                     $scope.error ='Plsease enter connect password';
+                    
+                   // $scope.isExists=0;
+		}
+	
+	
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
        
     
     };
@@ -375,7 +394,7 @@ alert("Mail can not be sent ");
    message.product_id =$scope.product_id;
   // message.user_id=;
              userService.addmessage(message).then(function(response) {
-		console.log('htype',response);
+		//console.log('htype',response);
 		$scope.isExists=1;
 		if(response.Ack == '1') {
                     
@@ -390,7 +409,7 @@ alert("Mail can not be sent ");
                    
                 } else {
                     
-                    console.log('ppp');	
+                   // console.log('ppp');	
                    // $scope.isExists=0;
 		}
 	
@@ -404,7 +423,31 @@ alert("Mail can not be sent ");
        
         
 }       
-         
+ 
+ var formdata = new FormData();
+            $scope.getTheFiles = function ($files) {              
+                angular.forEach($files, function (value, key) {
+                    formdata.append(key, value);
+                });
+            };
+            // NOW UPLOAD THE FILES.
+            $scope.uploadFiles = function () {
+                var request = {
+                       method: 'POST',
+                       url: 'uploadFile.php',
+                       data: formdata,
+                       headers: {
+                           'Content-Type': undefined
+                       }
+                };
+                   $http(request).success(function(data) {
+                     $scope.msg=data.message;                 
+                      console.log('success!');
+                    })
+                    .error(function(data) {
+                      $scope.msg=data.message;
+                    });
+            }
     
 });
 
