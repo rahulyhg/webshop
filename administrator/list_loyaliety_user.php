@@ -322,7 +322,7 @@ function inactive(aa)
                            // echo "select * from  webshop_auction where `status`=1 and (`start_date_time` <= '".$curdate."' && `end_date_time` >='".$curdate."')";
                            //exit;
                                                      // $fetch_tools_type=mysqli_query($con,"select * from  webshop_auction where `status`=1 and (`start_date_time` <= '".$curdate."' && `end_date_time` >='".$curdate."')");
-                                                      $fetch_tools_type=mysqli_query($con,"select user_id,sum(`point`) as tpoint FROM `webshop_user_loyaliety`  group by user_id");
+                                                      $fetch_tools_type=mysqli_query($con,"select user_id,sum(`point`) as tpoint FROM `webshop_user_loyaliety` where status = 0  group by user_id");
                                                         $num=mysqli_num_rows($fetch_tools_type);
                                                        // echo 'number'.$num;exit;
                                                         if($num>0)
