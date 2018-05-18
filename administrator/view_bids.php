@@ -255,7 +255,7 @@ if (isset($_POST['ExportCsv'])) {
                                 </thead>
                                 <tbody>
                                     <?php
-                                    echo $sqluery = "SELECT * FROM `webshop_biddetails` WHERE `productid`='" . mysqli_real_escape_string($con, $_REQUEST['id']) . "'AND `uploaderid`='" . mysqli_real_escape_string($con, $_REQUEST['uploader_id']) . "' order by `id` desc";
+                                    $sqluery = "SELECT * FROM `webshop_biddetails` WHERE `productid`='" . mysqli_real_escape_string($con, $_REQUEST['id']) . "'AND `uploaderid`='" . mysqli_real_escape_string($con, $_REQUEST['uploader_id']) . "' order by `id` desc";
                                     $tool_type_details = mysqli_query($con, $sqluery);
                                     //echo $tool_type_details;
                                     //exit;
@@ -291,7 +291,7 @@ if (isset($_POST['ExportCsv'])) {
                                                 </td>
 
                                                 <td>
-                                                    <?php echo stripslashes($result['add_date']); ?>
+                                                    <?php echo stripslashes($result['date']); ?>
                                                 </td>
 
 
@@ -311,7 +311,7 @@ if (isset($_POST['ExportCsv'])) {
                                 </tbody>
                             </table>
                             <?php if ($innerPrivileges->listproductcat_delete == '1') { ?>
-                                                                                               <!--<input type="submit" class="btn btn-danger" name="bulk_delete_submit" value="Delete"/>-->
+                                                                                                       <!--<input type="submit" class="btn btn-danger" name="bulk_delete_submit" value="Delete"/>-->
                             <?php } ?>
                             </form>
 

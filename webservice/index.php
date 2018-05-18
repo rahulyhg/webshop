@@ -5061,14 +5061,14 @@ function bidsubmit() {
     $request = $app->request();
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
-
+    $date = date('Y-m-d');
     $userid = isset($body->userid) ? $body->userid : '';
     $productid = isset($body->productid) ? $body->productid : '';
     $bidprice = isset($body->bidprice) ? $body->bidprice : '';
     $nextbidprice = isset($body->nextbidprice) ? $body->nextbidprice : '';
     $uploaderid = isset($body->uploaderid) ? $body->uploaderid : '';
 
-    $sql = "INSERT INTO  webshop_biddetails (userid,productid,bidprice,nextbidprice,uploaderid) VALUES (:userid,:productid,:bidprice,:nextbidprice,:uploaderid)";
+    $sql = "INSERT INTO  webshop_biddetails (userid,productid,bidprice,nextbidprice,uploaderid,date) VALUES (:userid,:productid,:bidprice,:nextbidprice,:uploaderid,:date)";
     $db = getConnection();
     $stmt = $db->prepare($sql);
     $stmt->bindParam("userid", $userid);
@@ -5076,6 +5076,7 @@ function bidsubmit() {
     $stmt->bindParam("bidprice", $bidprice);
     $stmt->bindParam("nextbidprice", $nextbidprice);
     $stmt->bindParam("uploaderid", $uploaderid);
+    $stmt->bindParam("date", $date);
     $stmt->execute();
     $data['Ack'] = '1';
     $data['Years'] = 'hello';
@@ -7300,19 +7301,18 @@ function addwinnerpayment() {
     $biddetails = $stmt2->fetchAll(PDO::FETCH_OBJ);
 //print_r($biddetails[0]->point);exit;
 
-if($biddetails[0]->point)
-{
-    $date = date('Y-m-d');
-    $sql = "INSERT INTO  webshop_user_loyaliety (pay_amount, user_id,point,add_date) VALUES (:pay_amount, :user_id,:point,:date)";
+    if ($biddetails[0]->point) {
+        $date = date('Y-m-d');
+        $sql = "INSERT INTO  webshop_user_loyaliety (pay_amount, user_id,point,add_date) VALUES (:pay_amount, :user_id,:point,:date)";
 
-            $stmt = $db->prepare($sql);
-            $stmt->bindParam("pay_amount", $bidprice);
-            $stmt->bindParam("user_id", $user_id);
-            $stmt->bindParam("point", $biddetails[0]->point);
-            $stmt->bindParam("date", $date);
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("pay_amount", $bidprice);
+        $stmt->bindParam("user_id", $user_id);
+        $stmt->bindParam("point", $biddetails[0]->point);
+        $stmt->bindParam("date", $date);
 
-            $stmt->execute();
-}
+        $stmt->execute();
+    }
 
 
     $data['Ack'] = 1;

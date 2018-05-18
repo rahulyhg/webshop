@@ -220,7 +220,7 @@ else {
 
     
     $scope.addbid = function(bid){
-    alert('bid');
+    //alert('bid');
      //var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	//$scope.user_id=userInfo.user_id;
         bid.bidincrement=5;
