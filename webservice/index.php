@@ -6055,7 +6055,7 @@ function getfullMessages() {
 //exit;
         $data['fillmessage'] = $allmeaage;
         $data['product_image'] = $product_image;
-        $data['product_name'] = $product_name;
+        $data['product_name'] = '';
         $data['Ack'] = '1';
 // print_r($data);
 //exit;
