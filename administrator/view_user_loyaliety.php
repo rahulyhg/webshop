@@ -222,14 +222,14 @@ function inactive(aa)
                    </div>
                    <!-- END THEME CUSTOMIZER-->
                   <!-- BEGIN PAGE TITLE & BREADCRUMB-->
-                   <h3 class="page-title">User Loyality Point Details</h3>
+                   <h3 class="page-title">User Loyalty Point Details</h3>
                    <ul class="breadcrumb">
                        <li>
                            <a href="#">Home</a>
                            <span class="divider">/</span>
                        </li>
                        <li>
-                           <a href="#">User Loyality Point Details</a>
+                           <a href="#">User Loyalty Point Details</a>
                         
                        </li>
                         
@@ -322,10 +322,17 @@ function inactive(aa)
                 </td>
                           
                  <td>
-                  <?php echo stripslashes($result['add_date']);?>
+                  <?php
+                  if($result['type'] == 1){
+                       echo stripslashes($result['used_date']);
+                     }else{ 
+                         echo stripslashes($result['add_date']) ; 
+                        }
+                 // echo stripslashes($result['add_date']);
+                  ?>
                 </td>
                 <td>
-                  <?php if($result['status'] == 1){ echo "used"; }else{ echo "Not used"; }?>
+                  <?php if($result['type'] == 1){ echo "Debit"; }else{ echo "Credit"; }?>
                 </td>
           
 

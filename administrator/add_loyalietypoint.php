@@ -135,7 +135,7 @@ if (isset($_REQUEST['bulk_delete_submit'])) {
                     <!-- END THEME CUSTOMIZER-->
                     <!-- BEGIN PAGE TITLE & BREADCRUMB-->
                     <h3 class="page-title">
-                        loyaliety Point <small><?php echo $_REQUEST['action'] == 'edit' ? "Edit" : "Add"; ?> Loyaliety Point</small>
+                        loyalty Point <small><?php echo $_REQUEST['action'] == 'edit' ? "Edit" : "Add"; ?> Loyaliety Point</small>
                     </h3>
                     <ul class="breadcrumb">
                         <li>
@@ -143,7 +143,7 @@ if (isset($_REQUEST['bulk_delete_submit'])) {
                             <span class="divider">/</span>
                         </li>
                         <li>
-                            <a href="#">Loyaliety Point</a>
+                            <a href="#">Loyalty Point</a>
                             <span class="divider">/</span>
                         </li>
 
@@ -167,7 +167,7 @@ if (isset($_REQUEST['bulk_delete_submit'])) {
                     <!-- BEGIN SAMPLE FORMPORTLET-->
                     <div class="widget green">
                         <div class="widget-title">
-                            <h4><i class="icon-reorder"></i>Add Loyaliety Point</h4>
+                            <h4><i class="icon-reorder"></i>Add Loyalty Point</h4>
                             <!-- <a style="float:right;" class="btn blue" href="sampledownload.csv">Download Sample</a> -->
                             <!--   <a style="float:right;" class="btn blue" href="upload_csv.php">Upload Csv</a> -->
                             <span class="tools">

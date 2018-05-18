@@ -14,8 +14,10 @@ app.run(['$rootScope', '$state', '$stateParams',
 
 
 
+
         $rootScope.serviceurl = "http://localhost/webshop/webservice/frontend/";
         $rootScope.siteurl = "http://localhost/webshop/webservice/frontend/";
+
 
 
 
@@ -180,7 +182,19 @@ return {
 }]);
 
 
+//image upload
 
+app.directive('ngFiles', ['$parse', function ($parse) {
+    function fn_link(scope, element, attrs) {
+        var onChange = $parse(attrs.ngFiles);
+        element.on('change', function (event) {
+            onChange(scope, { $files: event.target.files });
+        });
+    };
+    return {
+        link: fn_link
+    }
+} ])
 
 
 //--------------------------------------

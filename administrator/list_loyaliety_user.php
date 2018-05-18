@@ -257,14 +257,14 @@ function inactive(aa)
                    </div>
                    <!-- END THEME CUSTOMIZER-->
                   <!-- BEGIN PAGE TITLE & BREADCRUMB-->
-                   <h3 class="page-title">List Users Loyaliety</h3>
+                   <h3 class="page-title">List Users Loyalty</h3>
                    <ul class="breadcrumb">
                        <li>
                            <a href="#">Home</a>
                            <span class="divider">/</span>
                        </li>
                        <li>
-                           <a href="#">List Users Loyaliety</a>
+                           <a href="#">List Users Loyalty</a>
                         
                        </li>
                         
@@ -285,7 +285,7 @@ function inactive(aa)
                     <!-- BEGIN SAMPLE FORMPORTLET-->
                     <div class="widget green">
                         <div class="widget-title">
-                        <h4><i class="icon-reorder"></i>List Loyality Point</h4>
+                        <h4><i class="icon-reorder"></i>List Loyalty Point</h4>
                              <form action="" method="post">
 								<!--<i class="fa fa-edit"></i>Editable Table-->
                                                                <!--  <button type="submit"   name="ExportCsv"> Download Tools List</button> -->
@@ -322,7 +322,7 @@ function inactive(aa)
                            // echo "select * from  webshop_auction where `status`=1 and (`start_date_time` <= '".$curdate."' && `end_date_time` >='".$curdate."')";
                            //exit;
                                                      // $fetch_tools_type=mysqli_query($con,"select * from  webshop_auction where `status`=1 and (`start_date_time` <= '".$curdate."' && `end_date_time` >='".$curdate."')");
-                                                      $fetch_tools_type=mysqli_query($con,"select user_id,sum(`point`) as tpoint FROM `webshop_user_loyaliety` where status = 0  group by user_id");
+                                                      $fetch_tools_type=mysqli_query($con,"select user_id,sum(`point`) as tpoint FROM `webshop_user_loyaliety` where type = 0  group by user_id");
                                                         $num=mysqli_num_rows($fetch_tools_type);
                                                        // echo 'number'.$num;exit;
                                                         if($num>0)
