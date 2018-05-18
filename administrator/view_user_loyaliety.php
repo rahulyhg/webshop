@@ -273,6 +273,7 @@ function inactive(aa)
                              <th>Point</th>
                                                             
                 <th>Date</th>
+                <th>Status</th>
                 <!--<th>User Password</th>-->
                 
               </tr>
@@ -322,6 +323,9 @@ function inactive(aa)
                           
                  <td>
                   <?php echo stripslashes($result['add_date']);?>
+                </td>
+                <td>
+                  <?php if($result['status'] == 1){ echo "used"; }else{ echo "Not used"; }?>
                 </td>
           
 

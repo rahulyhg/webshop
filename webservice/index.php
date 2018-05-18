@@ -7284,6 +7284,20 @@ function addwinnerpayment() {
     $stmt->execute();
 
 
+    $user_type =1;
+    $sql3 = "SELECT * from webshop_user where id=:user_id and type=:type ";
+    $stmt3 = $db->prepare($sql3);
+    $stmt3->bindParam("type", $user_type);
+    $stmt3->bindParam("user_id", $user_id);
+    $stmt3->execute();
+    $is_user = $stmt3->fetchAll(PDO::FETCH_OBJ);
+
+
+
+
+if(count($is_user) > 0)
+{
+
     $sql1 = "SELECT * from webshop_biddetails where userid=:user_id and productid=:product_id order by id DESC LIMIT 0,1";
     $stmt1 = $db->prepare($sql1);
     $stmt1->bindParam("product_id", $product_id);
@@ -7314,7 +7328,7 @@ if($biddetails[0]->point)
             $stmt->execute();
 }
 
-
+}
     $data['Ack'] = 1;
     $data['msg'] = 'Your payment completed successfully.';
     $app->response->setStatus(200);
