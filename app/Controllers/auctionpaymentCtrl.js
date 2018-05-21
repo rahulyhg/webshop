@@ -31,6 +31,7 @@ else {
             value.name = value.name;
             value.email = value.email;
             value.phone = value.phone;
+            value.loyalty_redeem = value.loyalty_redeem;
             //console.log('sp',value);
              userService.purchaseAuctionproduct(value).then(function(response) {
 
@@ -42,8 +43,13 @@ else {
 		
 		}else if(response.Ack == '2'){
                     
-                    alert('Sorry ! Your payment date is expired.')
+                    swal('Sorry ! Your payment date is expired.','','error')
                     $scope.home();
+                    
+                 }else if(response.Ack == '3'){
+                    
+                    swal('Sorry ! You have not enough loyalty point.','','error')
+                    //$scope.home();
                     
                  }else {
                     console.log('ppp');	

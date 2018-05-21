@@ -12,8 +12,8 @@
                         <thead class="thead-inverse">
                             <tr>
                                 <th scope="col">Pay Amount</th>
-                                <th scope="col">Point receive</th>
-                                <th scope="col">Point add</th>
+                                <th scope="col">Point</th>
+                                <th scope="col">Date</th>
                                 <th scope="col">Point status</th>
                             </tr>
                         </thead>
@@ -23,8 +23,8 @@
                                 <td>{{loyaltyList.pay_amount}}</td>
                                 <td>{{loyaltyList.point}}</td>
                                 <td>{{loyaltyList.add_date}}</td>
-                                <td ng-if="loyaltyList.type== 1">Credit </td>
-                                <td ng-if="loyaltyList.type== 0">Debit </td>
+                                <td ng-if="loyaltyList.type== 0">Credit </td>
+                                <td ng-if="loyaltyList.type== 1">Debit </td>
                             </tr>
 
                         </tbody>
