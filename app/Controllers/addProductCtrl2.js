@@ -11,6 +11,11 @@ $scope.user2 = {};
 $scope.getCurrentUserType();   
 //console.log($scope.current_user_type);
 
+if( $window.localStorage["selected_value"])
+{
+   
+    $scope.ptype = $window.localStorage["selected_value"];
+}
 if( $window.localStorage["preferred_date"])
 {
    
