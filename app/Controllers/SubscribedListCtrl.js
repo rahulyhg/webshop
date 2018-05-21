@@ -56,7 +56,7 @@ $scope.allsubscriptions = function(){
              userService.purchaseSubscription(subscription_id).then(function(response) {
 
 		if(response.Ack == '1') {
-                     alert(response.msg);
+                     swal(response.msg,'','success');
                     //console.log(response);
                      $scope.new_subscriber = response.new_subscriber;
                      $scope.subscription_id = response.subscription_id;

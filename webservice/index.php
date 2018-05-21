@@ -7281,43 +7281,42 @@ function UserAuctionpayment() {
     $product_id = isset($pid) ? $pid : '';
 
 
-    
+
     $sql1 = "SELECT * from webshop_auction_winner where user_id=:user_id and product_id =:product_id";
     $stmt1 = $db->prepare($sql1);
     $stmt1->bindParam("user_id", $user_id);
     $stmt1->bindParam("product_id", $product_id);
     $stmt1->execute();
     $checkexpiry = $stmt1->fetchObject();
-    
-    $cdate= date('Y-m-d');
-    if($cdate > $checkexpiry->expiry_date){
-       
-       $data['Ack'] = 2; 
-        
-    }else{
-    
-    
-    $paymentId = base64_encode($product_id);
 
-    $name = isset($body->name) ? $body->name : '';
-    $email = isset($body->email) ? $body->email : '';
-    $phone = isset($body->phone) ? $body->phone : '';
+    $cdate = date('Y-m-d');
+    if ($cdate > $checkexpiry->expiry_date) {
 
-    $sql = "SELECT * from webshop_biddetails where productid =:product_id order by id desc limit 0,1";
-    $stmt = $db->prepare($sql);
-    $stmt->bindParam("product_id", $product_id);
-    $stmt->execute();
-    $getProductValue = $stmt->fetchObject();
+        $data['Ack'] = 2;
+    } else {
 
 
-    $productprice = $getProductValue->bidprice;
+        $paymentId = base64_encode($product_id);
+
+        $name = isset($body->name) ? $body->name : '';
+        $email = isset($body->email) ? $body->email : '';
+        $phone = isset($body->phone) ? $body->phone : '';
+
+        $sql = "SELECT * from webshop_biddetails where productid =:product_id order by id desc limit 0,1";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("product_id", $product_id);
+        $stmt->execute();
+        $getProductValue = $stmt->fetchObject();
+
+
+        $productprice = $getProductValue->bidprice;
 //payment gateway
 
-    $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
+        $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
 
-    $user = "testapi@myfatoorah.com"; // Will Be Provided by Myfatoorah
-    $password = "E55D0"; // Will Be Provided by Myfatoorah
-    $post_string = '<?xml version="1.0" encoding="windows-1256"?>
+        $user = "testapi@myfatoorah.com"; // Will Be Provided by Myfatoorah
+        $password = "E55D0"; // Will Be Provided by Myfatoorah
+        $post_string = '<?xml version="1.0" encoding="windows-1256"?>
 <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
 <soap12:Body>
@@ -7347,55 +7346,55 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
 </PaymentRequest>
 </soap12:Body>
 </soap12:Envelope>';
-    $soap_do = curl_init();
-    curl_setopt($soap_do, CURLOPT_URL, $url);
-    curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 10);
-    curl_setopt($soap_do, CURLOPT_TIMEOUT, 10);
-    curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
-    curl_setopt($soap_do, CURLOPT_POST, true);
-    curl_setopt($soap_do, CURLOPT_POSTFIELDS, $post_string);
-    curl_setopt($soap_do, CURLOPT_HTTPHEADER, array('Content-Type: text/xml; charset=utf-8', 'Content-Length:
+        $soap_do = curl_init();
+        curl_setopt($soap_do, CURLOPT_URL, $url);
+        curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 10);
+        curl_setopt($soap_do, CURLOPT_TIMEOUT, 10);
+        curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($soap_do, CURLOPT_POST, true);
+        curl_setopt($soap_do, CURLOPT_POSTFIELDS, $post_string);
+        curl_setopt($soap_do, CURLOPT_HTTPHEADER, array('Content-Type: text/xml; charset=utf-8', 'Content-Length:
 ' . strlen($post_string)));
-    curl_setopt($soap_do, CURLOPT_USERPWD, $user . ":" . $password); //User Name, Password To be provided by Myfatoorah
-    curl_setopt($soap_do, CURLOPT_HTTPHEADER, array(
-        'Content-type: text/xml'
-    ));
-    $result = curl_exec($soap_do);
-    $err = curl_error($soap_do);
+        curl_setopt($soap_do, CURLOPT_USERPWD, $user . ":" . $password); //User Name, Password To be provided by Myfatoorah
+        curl_setopt($soap_do, CURLOPT_HTTPHEADER, array(
+            'Content-type: text/xml'
+        ));
+        $result = curl_exec($soap_do);
+        $err = curl_error($soap_do);
 //curl_close($soap_do);
 //print_r($result);exit;   
-    $file_contents = htmlspecialchars(curl_exec($soap_do));
-    curl_close($soap_do);
-    $doc = new DOMDocument();
-    $doc->loadXML(html_entity_decode($file_contents));
+        $file_contents = htmlspecialchars(curl_exec($soap_do));
+        curl_close($soap_do);
+        $doc = new DOMDocument();
+        $doc->loadXML(html_entity_decode($file_contents));
 //echo $doc;exit;
-    $ResponseCode = $doc->getElementsByTagName("ResponseCode");
-    $ResponseCode = $ResponseCode->item(0)->nodeValue;
+        $ResponseCode = $doc->getElementsByTagName("ResponseCode");
+        $ResponseCode = $ResponseCode->item(0)->nodeValue;
 //echo $ResponseCode;exit;
-    $ResponseMessage = $doc->getElementsByTagName("ResponseMessage");
-    $ResponseMessage = $ResponseMessage->item(0)->nodeValue;
+        $ResponseMessage = $doc->getElementsByTagName("ResponseMessage");
+        $ResponseMessage = $ResponseMessage->item(0)->nodeValue;
 //echo $ResponseMessage;exit;
-    if ($ResponseCode == 0) {
-        $paymentUrl = $doc->getElementsByTagName("paymentURL");
-        $paymentUrl = $paymentUrl->item(0)->nodeValue;
+        if ($ResponseCode == 0) {
+            $paymentUrl = $doc->getElementsByTagName("paymentURL");
+            $paymentUrl = $paymentUrl->item(0)->nodeValue;
 //echo $paymentUrl;exit;
 
-        /* $OrderID = $doc->getElementsByTagName("OrderID");
-          $OrderID = $OrderID->item(0)->nodeValue;
-          $Paymode = $doc->getElementsByTagName("Paymode");
-          $Paymode = $Paymode->item(0)->nodeValue;
-          $PayTxnID = $doc->getElementsByTagName("PayTxnID");
-          $PayTxnID = $PayTxnID->item(0)->nodeValue;
-         */
-    }
+            /* $OrderID = $doc->getElementsByTagName("OrderID");
+              $OrderID = $OrderID->item(0)->nodeValue;
+              $Paymode = $doc->getElementsByTagName("Paymode");
+              $Paymode = $Paymode->item(0)->nodeValue;
+              $PayTxnID = $doc->getElementsByTagName("PayTxnID");
+              $PayTxnID = $PayTxnID->item(0)->nodeValue;
+             */
+        }
 //end
 
-    $data['url'] = $paymentUrl;
-    $data['Ack'] = 1;
+        $data['url'] = $paymentUrl;
+        $data['Ack'] = 1;
 
-    $app->response->setStatus(200);
+        $app->response->setStatus(200);
     }
 
     $app->response->write(json_encode($data));
@@ -8176,13 +8175,13 @@ function myLoyalty() {
     $user_id = isset($body->user_id) ? $body->user_id : '';
     $db = getConnection();
     $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
-            $stmt1 = $db->prepare($sql1);
-            $stmt1->bindParam("id", $user_id);
-            $stmt1->execute();
-            $getUserdetails = $stmt1->fetchObject();
-            $total_loyalty = $getUserdetails->total_loyalty;
+    $stmt1 = $db->prepare($sql1);
+    $stmt1->bindParam("id", $user_id);
+    $stmt1->execute();
+    $getUserdetails = $stmt1->fetchObject();
+    $total_loyalty = $getUserdetails->total_loyalty;
 
-           
+
 
     $sql = "SELECT * from  webshop_user_loyaliety WHERE user_id=:user_id  order by id desc";
     $stmt = $db->prepare($sql);
@@ -8200,7 +8199,6 @@ function myLoyalty() {
                 "add_date" => stripslashes($loyalty->add_date),
                 "type" => $loyalty->type,
                 "used_date" => stripslashes($loyalty->used_date),
-                
             );
         }
 
@@ -8218,7 +8216,6 @@ function myLoyalty() {
 
     $app->response->write(json_encode($data));
 }
-
 
 $app->run();
 ?>

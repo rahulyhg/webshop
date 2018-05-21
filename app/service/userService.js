@@ -4915,7 +4915,7 @@ var myloyalty = function() {
         sociallinks:sociallinks,
         uploadAuctionproduct:uploadAuctionproduct,
 
-        myloyalty:myloyalty
+        myloyalty:myloyalty,
 
         checkpassword:checkpassword
 
