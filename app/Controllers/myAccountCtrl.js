@@ -41,7 +41,7 @@ $scope.getCurrentUserType();
 				$scope.user.address=response.UserDetails.address;
                                 $scope.user.ibanno=response.UserDetails.ibanno;
                                 $scope.user.bankname=response.UserDetails.bankname;
-                                $scope.user.language_preference=response.language_preference.address;
+                                $scope.user.language_preference=response.UserDetails.language_preference;
 				
               }else{
 				  
@@ -89,8 +89,8 @@ $scope.getCurrentUserType();
 	console.log(response);
 	
 	if(response.Ack == '1') {
-            swal('Hello, World!');
-	//alert('Profile Updated');
+            //swal('Hello, World!');
+	alert('Profile Updated');
         //user.fname='';
 		} else {
 			
