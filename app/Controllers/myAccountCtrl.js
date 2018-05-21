@@ -89,12 +89,12 @@ $scope.getCurrentUserType();
 	console.log(response);
 	
 	if(response.Ack == '1') {
-            //swal('Hello, World!');
-	alert('Profile Updated');
+           swal("Profile Updated!", "", "success");
+	//alert('Profile Updated');
         //user.fname='';
 		} else {
 			
-	alert('Error !!!!');			
+	 swal("Profile Can not Be Updated!", "", "error");			
 			}
 	
 	

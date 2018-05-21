@@ -58,7 +58,7 @@ $scope.registernewsletter = function(email){
 		$scope.isExists=1;
 		if(response.Ack == '1') {
                     console.log(response);
-                  alert('Email added successfully.');
+                  swal('Email added successfully.','','success');
                  
 		
 		} else if(response.Ack == '2') {
@@ -73,7 +73,7 @@ $scope.registernewsletter = function(email){
 	console.log(err); 
 	});     
     }else{
-        alert('Please enter a emailid.');
+        swal('Please enter a emailid.','','error');
     }
        
         

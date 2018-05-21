@@ -260,6 +260,11 @@ angular.module('angularblank').run(['$http',function($http){
    $http.defaults.headers.common.responsetype = 'json';
 }])
 
+/* Sweet Alert*/
+
+
+/* Sweet Alert */
+
 angular.module('angularblank').filter('tel', function () {
     return function (tel) {
         if (!tel) { return ''; }
@@ -904,7 +909,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                 title: 'messagelisting',
 				controller: 'conatctuserCtrl',
                 ncyBreadcrumb: {
-                    label: 'Message listing page'
+                    label: 'Contact user'
                 },
                 resolve: loadSequence('conatctuser')
             })
