@@ -96,7 +96,7 @@ $scope.addmessage = function(message){
 		
 		}else if(response.Ack == '0'){
                     
-                   alert(response.msg);
+                   swal(response.msg,'','error');
                    
                 } else {
                     

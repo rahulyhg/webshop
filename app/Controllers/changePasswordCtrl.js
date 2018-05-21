@@ -24,10 +24,10 @@ var conf_password= user.conf_password;
 	   userService.ChangePassword(user).then(function(response) {
 	
             if(response.Ack == '1') {
-                alert(response.msg);
+                swal(response.msg,'','success');
                 $window.location.reload();
             } else {
-                alert('Error !!!!');			
+                swal('Error !!!!','','error');			
                    }
 	
 																	   

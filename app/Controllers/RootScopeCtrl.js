@@ -266,7 +266,8 @@ userService.notiCount(userInfo.user_id).then(function(response) {
 
 
     }, function(err) {
-		alert('Invalid Login. Please Try Again');
+		//alert('Invalid Login. Please Try Again');
+                swal("Invalid Login. Please Try Again!", "", "error");
          console.log(err); 
     }); 
 };
@@ -282,7 +283,8 @@ $scope.loader = false;
            
             $scope.loader = true;
 
-	alert('Successfully Registered.The account activation email has been sent.');	
+	//alert('Successfully Registered.The account activation email has been sent.');	
+        swal("Successfully Registered.The account activation email has been sent.", "", "success");
 	 $window.location.reload();
 		} 
                 else
@@ -295,7 +297,7 @@ $scope.loader = false;
         
         
 	}, function(err) {
-		alert('Error Occured.');
+		swal('Error Occured.','','error');
                 $scope.loader = true;
          console.log(err); 
     }); 
@@ -308,15 +310,15 @@ $scope.forget = function(user) {
         
         
             if(response.Ack == '1') {
-                alert('Mail Send Successfully');
+                swal('Mail Send Successfully','','success');
                  $window.location.reload();
             } else {
-                alert('Email not found in our database');
+                swal('Email not found in our database','','error');
             }
         
             
 	}, function(err) {
-		alert('Error found!!');
+		swal('Error found!!','','error');
          console.log(err); 
     });
     
@@ -381,7 +383,7 @@ $scope.forget = function(user) {
 	 if(response.Ack == '1') {
 	 			//alert(response.brand[0]);
 				//alert (response.msg);
-                alert ('Added to your Watchlist');
+                swal ('Added to your Watchlist','','success');
 				//$state.go('frontend.wishlist');
                 $window.location.reload();                
                                 
@@ -603,7 +605,7 @@ $window.location.reload();
 
     	}
     	else {
-    		alert("Image not supported");
+    		swal("Image not supported","","error");
 
     	}
 
