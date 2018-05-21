@@ -9,7 +9,6 @@
 						<div class="row">
 							<div class="col-lg-7 col-md-12">
 								<form name="addProductForm" ng-submit="addProductForm.$valid && addProduct(user2)" novalidate>
-
 									 <div class="form-group">
 										<label for="staticEmail"> Movement</label>
                                                                                 <select class="form-control" name="movement" ng-model="user2.movement"  required>
@@ -121,7 +120,7 @@
 
 									   <label>Upload the image</label>
 
-
+                                                                           <div ng-if="ptype == 1">
 									   <div class="form-group">
 										<div class="btn btn-primary" ngf-select ng-model="user2.image" ngf-multiple="true" ngf-fix-orientation="true">Add Photos Videos
 										</div>
@@ -129,21 +128,21 @@
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-3" ng-repeat="f in user2.image">
-												<!--{{f.name}} -->
-												<!--<i ng-click="f = null" ng-show="f" class="fa fa-times" aria-hidden="true"></i> -->
-												<!-- <img ng-show="myForm.location.files.$valid" ngf-thumbnail="f" class="thumbnail img-responsive" style="height: 150px;"> -->
+<!--												{{f.name}} 
+												<i ng-click="f = null" ng-show="f" class="fa fa-times" aria-hidden="true"></i> 
+												 <img ng-show="myForm.location.files.$valid" ngf-thumbnail="f" class="thumbnail img-responsive" style="height: 150px;"> -->
 			
 												<img style="width: 150px; height: 100px;" ng-show="myForm.user2.image.$valid" ngf-thumbnail="f" class="thumbnail">
 												<video style="width: 150px; height: 100px;" controls ngf-src="f" ng-show="myForm.location.files.$valid" class="thumbnail"></video>
 											</div>
 										</div>
 									</div>
+                                                                           </div>
 
 
-                                         <!-- <div>
+                                          <div ng-if="ptype == 2">
 											 
-											<input type="file" id="file1" name="file" multiple 
-											ng-files="getTheFiles($files)" required />
+											<!--<input type="file" id="file1" name="file" multiple ng-files="getTheFiles($files)" required />-->
 
 
                                              <div class="btn btn-default" ngf-select ng-model="user2.image" name="image" ngf-pattern="'image/*'"
@@ -153,7 +152,7 @@
                         <img class="thumbnail_upload_img" ngf-thumbnail="user2.image"  style="width:50px;height:50px;">
                         
                                         
-                                      </div>  -->
+                                      </div>  
                                                                 
 									<button class="btn btn-primary" ng-click="submitted=true">Save</button>
 								</form>
@@ -191,3 +190,4 @@
 	    </div>
 	  </div>
 	</div>
+
