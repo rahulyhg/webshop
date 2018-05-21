@@ -4444,7 +4444,7 @@ var purchaseAuctionproduct = function(value) {
     return $q(function(resolve, reject) {
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
     
-     var encodedString ='{"user_id":"'+ userInfo.user_id +'","product_id":"'+ value.product_id +'","name":"'+ value.name +'","email":"'+ value.email +'","phone":"'+ value.phone +'"}';
+     var encodedString ='{"user_id":"'+ userInfo.user_id +'","product_id":"'+ value.product_id +'","name":"'+ value.name +'","email":"'+ value.email +'","phone":"'+ value.phone +'","loyalty_redeem":"'+ value.loyalty_redeem +'"}';
 
     $http({
     method: 'POST',
