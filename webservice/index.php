@@ -700,6 +700,9 @@ function userprofile() {
             "new_message_notify" => stripslashes($getUserdetails->new_message_notify),
             "review_notify" => stripslashes($getUserdetails->review_notify),
             "subscription_notify" => stripslashes($getUserdetails->subscription_notify),
+            "ibanno" => stripslashes($getUserdetails->ibanno),
+            "bankname" => stripslashes($getUserdetails->bankname),
+            "language_preference" => stripslashes($getUserdetails->language_preference),
             "add_date" => stripslashes($getUserdetails->add_date));
 
 
@@ -3518,8 +3521,8 @@ function addProductNew() {
 
                                 //print_r($_FILES['image']);exit;
                                 foreach ($_FILES['image']['name'] as $key1 => $file) {
-                                    
-                                    
+
+
 
                                     if ($_FILES['image']['tmp_name'][$key1] != '') {
 
@@ -3539,12 +3542,12 @@ function addProductNew() {
                                         $stmt->bindParam("image", $userfile_name);
                                         $stmt->bindParam("product_id", $lastID);
                                         $stmt->execute();
-                                        
-                                        
-                         $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
-                         $stmt1 = $db->prepare($sqlimg);
-                         $stmt1->bindParam("image", $_FILES['image']['name'][0]);
-                         $stmt1->execute();
+
+
+                                        $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
+                                        $stmt1 = $db->prepare($sqlimg);
+                                        $stmt1->bindParam("image", $_FILES['image']['name'][0]);
+                                        $stmt1->execute();
                                     }
                                 }
                             }
@@ -3645,62 +3648,62 @@ function addProductNew() {
 
 
 
-                 if (!empty($_FILES['image'])) {
-                     
-                     if ($_FILES['image']['tmp_name'] != '') {
-                         
-                         $target_path = "../upload/product_image/";
-                         
-                         $userfile_name = $_FILES['image']['name'];
-                         
-                         $userfile_tmp = $_FILES['image']['tmp_name'];
-                         
-                         $img = $target_path . $userfile_name;
-                         
-                         move_uploaded_file($userfile_tmp, $img);
-                         
-                         $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
-                         
-                         $stmt1 = $db->prepare($sqlimg);
-                         $stmt1->bindParam("image", $userfile_name);
-                         $stmt1->execute();
-                     }
-                 }
+                if (!empty($_FILES['image'])) {
 
+                    if ($_FILES['image']['tmp_name'] != '') {
 
+                        $target_path = "../upload/product_image/";
 
-               /* if (!empty($_FILES['image'])) {
+                        $userfile_name = $_FILES['image']['name'];
 
-                    //print_r($_FILES['image']);exit;
-                    foreach ($_FILES['image']['name'] as $key1 => $file) {
+                        $userfile_tmp = $_FILES['image']['tmp_name'];
 
-                        if ($_FILES['image']['tmp_name'][$key1] != '') {
+                        $img = $target_path . $userfile_name;
 
-                            $target_path = "../upload/product_image/";
+                        move_uploaded_file($userfile_tmp, $img);
 
-                            $userfile_name = $_FILES['image']['name'][$key1];
+                        $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
 
-                            $userfile_tmp = $_FILES['image']['tmp_name'][$key1];
-
-
-                            $img = $target_path . $userfile_name;
-                            move_uploaded_file($userfile_tmp, $img);
-
-
-                            // $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
-                            // $stmt1 = $db->prepare($sqlimg);
-                            // $stmt1->bindParam("image", $userfile_name);
-                            // $stmt1->execute();
-                            $sql = "INSERT INTO product_image (image,product_id) VALUES (:image,:product_id)";
-
-                            $stmt = $db->prepare($sql);
-                            $stmt->bindParam("image", $userfile_name);
-                            // $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
-                            $stmt->bindParam("product_id", $post_date);
-                            $stmt->execute();
-                        }
+                        $stmt1 = $db->prepare($sqlimg);
+                        $stmt1->bindParam("image", $userfile_name);
+                        $stmt1->execute();
                     }
-                }*/
+                }
+
+
+
+                /* if (!empty($_FILES['image'])) {
+
+                  //print_r($_FILES['image']);exit;
+                  foreach ($_FILES['image']['name'] as $key1 => $file) {
+
+                  if ($_FILES['image']['tmp_name'][$key1] != '') {
+
+                  $target_path = "../upload/product_image/";
+
+                  $userfile_name = $_FILES['image']['name'][$key1];
+
+                  $userfile_tmp = $_FILES['image']['tmp_name'][$key1];
+
+
+                  $img = $target_path . $userfile_name;
+                  move_uploaded_file($userfile_tmp, $img);
+
+
+                  // $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
+                  // $stmt1 = $db->prepare($sqlimg);
+                  // $stmt1->bindParam("image", $userfile_name);
+                  // $stmt1->execute();
+                  $sql = "INSERT INTO product_image (image,product_id) VALUES (:image,:product_id)";
+
+                  $stmt = $db->prepare($sql);
+                  $stmt->bindParam("image", $userfile_name);
+                  // $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
+                  $stmt->bindParam("product_id", $post_date);
+                  $stmt->execute();
+                  }
+                  }
+                  } */
 
 
 
@@ -3806,68 +3809,67 @@ function addProductNew() {
                 //$stmtslot->bindParam("user_id", $user_id);
                 // $stmtslot->execute();
 
-                /*if (!empty($_FILES['image'])) {
+                /* if (!empty($_FILES['image'])) {
 
-                    if ($_FILES['image']['tmp_name'] != '') {
+                  if ($_FILES['image']['tmp_name'] != '') {
 
-                        $target_path = "../upload/product_image/";
+                  $target_path = "../upload/product_image/";
 
-                        $userfile_name = $_FILES['image']['name'];
+                  $userfile_name = $_FILES['image']['name'];
 
-                        $userfile_tmp = $_FILES['image']['tmp_name'];
-
-
-                        $img = $target_path . $userfile_name;
-                        move_uploaded_file($userfile_tmp, $img);
+                  $userfile_tmp = $_FILES['image']['tmp_name'];
 
 
-                        $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
-
-                        $stmt1 = $db->prepare($sqlimg);
-                        $stmt1->bindParam("image", $userfile_name);
-                        $stmt1->execute();
+                  $img = $target_path . $userfile_name;
+                  move_uploaded_file($userfile_tmp, $img);
 
 
-                        //$sqlpay = "UPDATE webshop_user SET user_payment= 0 WHERE id=$user_id";
-                        // $stmtp = $db->prepare($sqlpay);
-                        // $stmtp->execute();
-                    }
-                }*/
-                
-                
-                
+                  $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
+
+                  $stmt1 = $db->prepare($sqlimg);
+                  $stmt1->bindParam("image", $userfile_name);
+                  $stmt1->execute();
+
+
+                  //$sqlpay = "UPDATE webshop_user SET user_payment= 0 WHERE id=$user_id";
+                  // $stmtp = $db->prepare($sqlpay);
+                  // $stmtp->execute();
+                  }
+                  } */
+
+
+
                 if (!empty($_FILES['image'])) {
 
-                                //print_r($_FILES['image']);exit;
-                                foreach ($_FILES['image']['name'] as $key1 => $file) {
+                    //print_r($_FILES['image']);exit;
+                    foreach ($_FILES['image']['name'] as $key1 => $file) {
 
-                                    if ($_FILES['image']['tmp_name'][$key1] != '') {
+                        if ($_FILES['image']['tmp_name'][$key1] != '') {
 
-                                        $target_path = "../upload/product_image/";
+                            $target_path = "../upload/product_image/";
 
-                                        $userfile_name = $_FILES['image']['name'][$key1];
+                            $userfile_name = $_FILES['image']['name'][$key1];
 
-                                        $userfile_tmp = $_FILES['image']['tmp_name'][$key1];
+                            $userfile_tmp = $_FILES['image']['tmp_name'][$key1];
 
 
-                                        $img = $target_path . $userfile_name;
-                                        move_uploaded_file($userfile_tmp, $img);
+                            $img = $target_path . $userfile_name;
+                            move_uploaded_file($userfile_tmp, $img);
 
-                                        $sql = "INSERT INTO webshop_product_image (image,product_id) VALUES (:image,:product_id)";
+                            $sql = "INSERT INTO webshop_product_image (image,product_id) VALUES (:image,:product_id)";
 
-                                        $stmt = $db->prepare($sql);
-                                        $stmt->bindParam("image", $userfile_name);
-                                        $stmt->bindParam("product_id", $lastID);
-                                        $stmt->execute();
-                                        
-                                        $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
-                                        $stmt1 = $db->prepare($sqlimg);
-                                        $stmt1->bindParam("image", $_FILES['image']['name'][0]);
-                                        $stmt1->execute();
+                            $stmt = $db->prepare($sql);
+                            $stmt->bindParam("image", $userfile_name);
+                            $stmt->bindParam("product_id", $lastID);
+                            $stmt->execute();
 
-                                    }
-                                }
-                            }
+                            $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
+                            $stmt1 = $db->prepare($sqlimg);
+                            $stmt1->bindParam("image", $_FILES['image']['name'][0]);
+                            $stmt1->execute();
+                        }
+                    }
+                }
 
                 if ($certified_user == 1) {
                     $data['Ack'] = 1;
@@ -5285,15 +5287,19 @@ function listAuctionDtates() {
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $getDate = $stmt->fetchAll(PDO::FETCH_OBJ);
-
+        $allbrand = array();
 
         foreach ($getDate as $brand) {
             $date = explode('-', stripslashes($brand->date));
             $datefordatepicker = $date[0] . '/' . $date[1] . '/' . $date[2];
-
-            $allbrand[] = array(
-                stripslashes($datefordatepicker)
-            );
+            $current_date = date('Y-m-d');
+            $currnt_date = strtotime($current_date);
+            $datepickerdate = strtotime($datefordatepicker);
+            if ($datepickerdate > $currnt_date) {
+                $allbrand[] = array(
+                    stripslashes($datefordatepicker)
+                );
+            }
         }
 
         $data['listAuctionDtates'] = $allbrand;
@@ -8221,18 +8227,17 @@ function myLoyalty() {
     $db = getConnection();
     $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
 
-            $stmt1 = $db->prepare($sql1);
-            $stmt1->bindParam("id", $user_id);
-            $stmt1->execute();
-            $getUserdetails = $stmt1->fetchObject();
-            
-            if(!empty($getUserdetails)){
-            
-            $total_loyalty = $getUserdetails->total_loyalty;
+    $stmt1 = $db->prepare($sql1);
+    $stmt1->bindParam("id", $user_id);
+    $stmt1->execute();
+    $getUserdetails = $stmt1->fetchObject();
 
-            }else{
-               $total_loyalty= 0; 
-            }
+    if (!empty($getUserdetails)) {
+
+        $total_loyalty = $getUserdetails->total_loyalty;
+    } else {
+        $total_loyalty = 0;
+    }
 
 
     $sql = "SELECT * from  webshop_user_loyaliety WHERE user_id=:user_id  order by id desc";
