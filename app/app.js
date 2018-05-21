@@ -1110,9 +1110,27 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
             })
             
             
+            .state('frontend.myLoyalty', {
+                url: '/myLoyalty',
+                templateUrl: 'app/views/myLoyalty.html',
+                title: 'myLoyalty',
+				controller: 'myLoyaltyCtrl',
+                ncyBreadcrumb: {
+                    label: 'Loyalty page'
+                },
+                resolve: loadSequence('myLoyalty')
+            })
             
-            
-            
+             .state('frontend.loyaltydetails', {
+                url: '/loyaltydetails',
+                templateUrl: 'app/views/loyaltydetails.html',
+                title: 'loyaltydetails',
+				controller: 'loyaltydetailsCtrl',
+                ncyBreadcrumb: {
+                    label: 'Loyalty page'
+                },
+                resolve: loadSequence('loyaltydetails')
+            })
 
           /*   .state('frontend.test', {
                 url: '/test',

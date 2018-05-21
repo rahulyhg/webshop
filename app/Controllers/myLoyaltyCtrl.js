@@ -2,7 +2,7 @@
 /** 
  * controllers used for the login
  */
-app.controller('myProductCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService) {
+app.controller('myLoyaltyCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService) {
 
     
 $scope.data = {};
@@ -29,23 +29,24 @@ $scope.isform1 =0;
 
 
  
-$scope.myproduct = function(){
+$scope.myloyalty = function(){
    // alert('hii');
 
- userService.myproduct().then(function(response) {
+ userService.myloyalty().then(function(response) {
      
     
 		
 		//$scope.isExists=response.Ack;
 		if(response.Ack == '1') {
+                   
                     $scope.exists=1;
-		$scope.productLists=response.productList;
+                    $scope.totalloyalty=response.total_loyalty;
 		//console.log($scope.alljobs);
                 //$window.localStorage["userzip"]='';
 		
 		} else {
                     
-                    $scope.productLists='';
+                    $scope.totalloyalty='';
                      $scope.exists=0;
 		}
 	
@@ -59,57 +60,26 @@ $scope.myproduct = function(){
         }
         
 
- $scope.deleteProduct = function(id){
-          // alert(cat_id);
-           // return false;
-             userService.deleteProduct(id).then(function(response) {
-		//console.log(response.Ack);
-	
-		if(response.Ack == '1') {
-                    console.log(response);
-                   // alert('Added Successfully.');
-                   // $window.location.reload()
-                    $scope.exists=1;
-                  //  $scope.user='';
-		$scope.myproduct();
-               // $scope.user_idd=$scope.user_id;
-		//console.log($scope.alljobs);	
-		
-		} else {
-                    console.log('ppp');	
-                    $scope.exists=0;
-		}
-	
-	
-	
-				   
-	}, function(err) {
-	console.log(err); 
-	});     
-        
-       
-        
-}
+ 
+ /*$scope.loyaltydetails = function(){
+   // alert('hii');
 
-$scope.editProduct = function(id){
-          // alert(cat_id);
-           // return false;
-             userService.editProduct(id).then(function(response) {
-		//console.log(response.Ack);
-	
+ userService.myloyalty().then(function(response) {
+     
+    
+		
+		//$scope.isExists=response.Ack;
 		if(response.Ack == '1') {
-                    console.log(response);
-                   // alert('Added Successfully.');
-                   // $window.location.reload()
+                   
                     $scope.exists=1;
-                  //  $scope.user='';
-		$scope.myproduct();
-               // $scope.user_idd=$scope.user_id;
-		//console.log($scope.alljobs);	
+                    $scope.loyaltyList=response.loyaltyList;
+		//console.log($scope.alljobs);
+                //$window.localStorage["userzip"]='';
 		
 		} else {
-                    console.log('ppp');	
-                    $scope.exists=0;
+                    
+                    $scope.loyaltyList='';
+                     $scope.exists=0;
 		}
 	
 	
@@ -117,11 +87,20 @@ $scope.editProduct = function(id){
 				   
 	}, function(err) {
 	console.log(err); 
-	});     
+	}); 
+	
+        }*/
+ 
+ $scope.loyaltydetails = function(){
         
-       
-        
+           $state.go('frontend.loyaltydetails');
+
+              
 }
+ 
+ 
+
+
 
  $scope.sendforauction = function(id){
         
@@ -129,51 +108,6 @@ $scope.editProduct = function(id){
 
               
 }
-
-$scope.pay = function(lid){
-        
-           
-           $state.go('frontend.userpayment',{pid:lid}); 
-
-              
-}
-
-
-
-
-
-$scope.marksold = function(id){
-          // alert(cat_id);
-           // return false;
-             userService.markProduct(id).then(function(response) {
-		//console.log(response.Ack);
-	
-		if(response.Ack == '1') {
-                    console.log(response);
-                   // alert('Added Successfully.');
-                   // $window.location.reload()
-                    $scope.exists=1;
-                  //  $scope.user='';
-		$scope.myproduct();
-               // $scope.user_idd=$scope.user_id;
-		//console.log($scope.alljobs);	
-		
-		} else {
-                    console.log('ppp');	
-                    $scope.exists=0;
-		}
-	
-	
-	
-				   
-	}, function(err) {
-	console.log(err); 
-	});     
-        
-       
-        
-}
-
 
 
 
