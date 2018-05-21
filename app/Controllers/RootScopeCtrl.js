@@ -261,7 +261,7 @@ userService.notiCount(userInfo.user_id).then(function(response) {
  }
  else
  {
-      alert(response.msg);    
+      swal(response.msg,'','error');    
  }
 
 

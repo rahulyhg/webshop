@@ -605,7 +605,49 @@ function updateProfile() {
 
         $stmt->execute();
 
+        if (!empty($_FILES['civilid1'])) {
 
+            if ($_FILES['civilid1']['tmp_name'] != '') {
+
+                $target_path = "../upload/user_image/";
+
+                $usercivilid1_name = $_FILES['civilid1']['name'];
+
+                $userfile_tmp = $_FILES['civilid1']['tmp_name'];
+
+                $img = $target_path . $usercivilid1_name;
+
+                move_uploaded_file($userfile_tmp, $img);
+
+                $sqlimgcivilid1 = "UPDATE webshop_user SET civilid1=:image WHERE id=$user_id";
+
+                $stmtcivilid1 = $db->prepare($sqlimgcivilid1);
+                $stmtcivilid1->bindParam("image", $usercivilid1_name);
+                $stmtcivilid1->execute();
+            }
+        }
+
+        if (!empty($_FILES['civilid2'])) {
+
+            if ($_FILES['civilid2']['tmp_name'] != '') {
+
+                $target_path = "../upload/user_image/";
+
+                $usercivilid2_name = $_FILES['civilid2']['name'];
+
+                $userfile_tmp = $_FILES['civilid2']['tmp_name'];
+
+                $img = $target_path . $usercivilid2_name;
+
+                move_uploaded_file($userfile_tmp, $img);
+
+                $sqlimgcivilid2 = "UPDATE webshop_user SET civilid2=:image WHERE id=$user_id";
+
+                $stmtcivilid2 = $db->prepare($sqlimgcivilid2);
+                $stmtcivilid2->bindParam("image", $usercivilid2_name);
+                $stmtcivilid2->execute();
+            }
+        }
 
 
 
@@ -675,6 +717,18 @@ function userprofile() {
             $profile_image = SITE_URL . 'webservice/no-user.png';
         }
 
+        if ($getUserdetails->civilid1 != '') {
+            $civilid1 = SITE_URL . 'upload/user_image/' . $getUserdetails->civilid1;
+        } else {
+            $civilid1 = SITE_URL . 'webservice/no-user.png';
+        }
+
+        if ($getUserdetails->civilid2 != '') {
+            $civilid2 = SITE_URL . 'upload/user_image/' . $getUserdetails->civilid2;
+        } else {
+            $civilid2 = SITE_URL . 'webservice/no-user.png';
+        }
+
 
 
         $data['UserDetails'] = array(
@@ -703,6 +757,8 @@ function userprofile() {
             "ibanno" => stripslashes($getUserdetails->ibanno),
             "bankname" => stripslashes($getUserdetails->bankname),
             "language_preference" => stripslashes($getUserdetails->language_preference),
+            "civilid1" => stripslashes($civilid1),
+            "civilid2" => stripslashes($civilid2),
             "add_date" => stripslashes($getUserdetails->add_date));
 
 
@@ -7332,7 +7388,7 @@ function UserAuctionpayment() {
     $loyalty_redeem = isset($body->loyalty_redeem) ? $body->loyalty_redeem : 0;
     $product_id = isset($pid) ? $pid : '';
 
-    
+
 
     $sql1 = "SELECT * from webshop_auction_winner where user_id=:user_id and product_id =:product_id";
     $stmt1 = $db->prepare($sql1);
@@ -7340,17 +7396,17 @@ function UserAuctionpayment() {
     $stmt1->bindParam("product_id", $product_id);
     $stmt1->execute();
     $checkexpiry = $stmt1->fetchObject();
-    
-    
+
+
     $sqlloyalty = "SELECT * from webshop_user where id=:user_id";
     $stmtloyalty = $db->prepare($sqlloyalty);
     $stmtloyalty->bindParam("user_id", $user_id);
     $stmtloyalty->execute();
     $checkloyalty = $stmtloyalty->fetchObject();
-    
-    
-    
-    
+
+
+
+
 
     $cdate = date('Y-m-d');
     if ($cdate > $checkexpiry->expiry_date) {
@@ -7362,7 +7418,7 @@ function UserAuctionpayment() {
     } else {
 
 
-        $paymentId = base64_encode($product_id.'_'.$loyalty_redeem);
+        $paymentId = base64_encode($product_id . '_' . $loyalty_redeem);
 
         $name = isset($body->name) ? $body->name : '';
         $email = isset($body->email) ? $body->email : '';
@@ -7477,13 +7533,13 @@ function addwinnerpayment() {
     $body = json_decode($body2);
 
     $db = getConnection();
-    $encode_id = explode('_',base64_decode($body->product_id));
-    $pid=$encode_id[0];
-    $loyalty_point =$encode_id[1];
+    $encode_id = explode('_', base64_decode($body->product_id));
+    $pid = $encode_id[0];
+    $loyalty_point = $encode_id[1];
     $user_id = isset($body->user_id) ? $body->user_id : '';
     $product_id = isset($pid) ? $pid : '';
-    
-    
+
+
 
 //$name = isset($body->name) ? $body->name : '';
 //$email = isset($body->email) ? $body->email : '';
@@ -7500,8 +7556,8 @@ function addwinnerpayment() {
     $stmt->bindParam("user_id", $user_id);
     $stmt->execute();
 
-    
-    
+
+
 
     $user_type = 1;
     $sql3 = "SELECT * from webshop_user where id=:user_id and type=:type ";
@@ -7515,9 +7571,9 @@ function addwinnerpayment() {
 //print_r($is_user);exit;
 
     if (count($is_user) > 0) {
-        
-        
-        
+
+
+
 
         $sql1 = "SELECT * from webshop_biddetails where userid=:user_id and productid=:product_id order by id DESC LIMIT 0,1";
         $stmt1 = $db->prepare($sql1);
@@ -7535,10 +7591,10 @@ function addwinnerpayment() {
         $biddetails = $stmt2->fetchAll(PDO::FETCH_OBJ);
 //print_r($biddetails[0]->point);exit;
 
-        if($loyalty_point != 0){
-        $total_loyalty = (($is_user[0]->total_loyalty + $biddetails[0]->point)-$loyalty_point);
-        }else{
-           $total_loyalty = $is_user[0]->total_loyalty + $biddetails[0]->point; 
+        if ($loyalty_point != 0) {
+            $total_loyalty = (($is_user[0]->total_loyalty + $biddetails[0]->point) - $loyalty_point);
+        } else {
+            $total_loyalty = $is_user[0]->total_loyalty + $biddetails[0]->point;
         }
         if ($biddetails[0]->point) {
             $date = date('Y-m-d');
@@ -7562,27 +7618,22 @@ function addwinnerpayment() {
         $stmt->bindParam("loyalty", $total_loyalty);
         $stmt->bindParam("user_id", $user_id);
         $stmt->execute();
-        
-        
-        
-        if($loyalty_point != 0){
-            
+
+
+
+        if ($loyalty_point != 0) {
+
             $sql = "INSERT INTO  webshop_user_loyaliety (pay_amount, user_id,point,add_date,type) VALUES (:pay_amount, :user_id,:point,:date,:type)";
-            
-            $type= 1;
+
+            $type = 1;
             $stmt = $db->prepare($sql);
             $stmt->bindParam("pay_amount", $bidprice);
             $stmt->bindParam("user_id", $user_id);
             $stmt->bindParam("point", $loyalty_point);
             $stmt->bindParam("date", $date);
             $stmt->bindParam("type", $type);
-            $stmt->execute(); 
-            
-           
+            $stmt->execute();
         }
-        
-        
-        
     }
 
     $data['Ack'] = 1;
