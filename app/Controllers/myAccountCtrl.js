@@ -21,7 +21,7 @@ $scope.getCurrentUserType();
 	
    userService.getAccountDetails(userInfo.user_id).then(function(response) {
 	
-	console.log("zzz",response);  
+	console.log("arunava",response);  
 	if(response.Ack == '1') {
 				$scope.user.fname=response.UserDetails.fname;
 				$scope.user.lname=response.UserDetails.lname;
