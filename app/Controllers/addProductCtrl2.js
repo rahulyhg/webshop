@@ -81,7 +81,7 @@ if( $window.localStorage["image"])
 $scope.countrylist =''	;
    userService.getAccountDetails(userInfo.user_id).then(function(response) {
 	
-	console.log("zzz",response);  
+	//console.log("zzz",response);  
 	if(response.Ack == '1') {
 				$scope.user.fname=response.UserDetails.fname;
 				$scope.user.lname=response.UserDetails.lname;
@@ -126,7 +126,7 @@ $scope.countrylist =''	;
 	
 	userService.listcuntry().then(function(response) {
            // alert('hii');
-		console.log(response.Ack);
+		//console.log(response.Ack);
 		$scope.isExists=1;
 		if(response.Ack == '1') {
                    // alert('Added Successfully.');
@@ -151,7 +151,7 @@ $scope.countrylist =''	;
 	
         userService.liststatus().then(function(response) {
            // alert('hii');
-		console.log(response.Ack);
+		//console.log(response.Ack);
 		$scope.isExists=1;
 		if(response.Ack == '1') {
                    // alert('Added Successfully.');
@@ -160,7 +160,7 @@ $scope.countrylist =''	;
                   //  $scope.user='';
 		$scope.statuslist=response.statuslist;
                // $scope.user_idd=$scope.user_id;
-		console.log('status',response.statuslist);	
+		//console.log('status',response.statuslist);	
 		
 		} else {
                     console.log('ppp');	
@@ -178,7 +178,7 @@ $scope.countrylist =''	;
 	
 
 	userService.listcategoryproduct().then(function(response) {
-		console.log(response.Ack);
+		//console.log(response.Ack);
 		$scope.isExists=1;
 		if(response.Ack == '1') {
                    // alert('Added Successfully.');
@@ -203,7 +203,7 @@ $scope.countrylist =''	;
         
         userService.listcurrency().then(function(response) {
            // alert('hii');
-		console.log(response.Ack);
+		//console.log(response.Ack);
 		$scope.isExists=1;
 		if(response.Ack == '1') {
                    // alert('Added Successfully.');
@@ -230,7 +230,7 @@ $scope.countrylist =''	;
         
          userService.listbrand().then(function(response) {
            // alert('hii');
-		console.log(response.Ack);
+		//console.log(response.Ack);
 		$scope.isExists=1;
 		if(response.Ack == '1') {
                    // alert('Added Successfully.');
@@ -264,7 +264,7 @@ $scope.countrylist =''	;
 		//console.log(response.Ack);
 		$scope.isExists=1;
 		if(response.Ack == '1') {
-                    console.log(response);
+                    //console.log(response);
                    // alert('Added Successfully.');
                    // $window.location.reload()
                     $scope.isExists=1;
@@ -332,10 +332,10 @@ $scope.addProduct = function(user2){
              user2.thresholdprice= user2.thresholdprice;
 //console.log(user2);
              userService.addproduct(user2).then(function(response) {
-		console.log('htype',response);
+		//console.log('htype',response);
 		$scope.isExists=1;
 		if(response.Ack == '1') {
-                    alert(response.msg);
+                    swal(response.msg,'','success');
                     if(response.type == '1'){
                         
                        
@@ -365,7 +365,7 @@ $scope.addProduct = function(user2){
                 }
 		
 		}else if(response.Ack == '0'){
-                   alert(response.msg);
+                   swal(response.msg,'','error');
                    
                    
                 } else {

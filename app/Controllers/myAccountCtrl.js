@@ -42,6 +42,8 @@ $scope.getCurrentUserType();
                                 $scope.user.ibanno=response.UserDetails.ibanno;
                                 $scope.user.bankname=response.UserDetails.bankname;
                                 $scope.user.language_preference=response.UserDetails.language_preference;
+                                $scope.user.civilid1=response.UserDetails.civilid1;
+                                $scope.user.civilid2=response.UserDetails.civilid2;
 				
               }else{
 				  
