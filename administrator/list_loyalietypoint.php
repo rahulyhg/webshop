@@ -261,14 +261,14 @@ function inactive(aa)
                    </div>
                    <!-- END THEME CUSTOMIZER-->
                   <!-- BEGIN PAGE TITLE & BREADCRUMB-->
-                   <h3 class="page-title">Loyaliety Point  list</h3>
+                   <h3 class="page-title">Loyalty Point  list</h3>
                    <ul class="breadcrumb">
                        <li>
                            <a href="#">Home</a>
                            <span class="divider">/</span>
                        </li>
                        <li>
-                           <a href="#">Loyaliety Point list</a>
+                           <a href="#">Loyalty Point list</a>
                         
                        </li>
                         

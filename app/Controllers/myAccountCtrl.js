@@ -39,6 +39,9 @@ $scope.getCurrentUserType();
                                 $scope.user.secret_key=response.UserDetails.secret_key;
                                 $scope.user.publish_key=response.UserDetails.publish_key;
 				$scope.user.address=response.UserDetails.address;
+                                $scope.user.ibanno=response.UserDetails.ibanno;
+                                $scope.user.bankname=response.UserDetails.bankname;
+                                $scope.user.language_preference=response.language_preference.address;
 				
               }else{
 				  
@@ -57,6 +60,9 @@ $scope.getCurrentUserType();
 				$scope.user.address='';
                                 $scope.user.secret_key="";
 				$scope.user.publish_key='';
+                                $scope.user.ibanno='';
+                                $scope.user.bankname='';
+                                $scope.user.language_preference='';
 				
 				
 				  
@@ -73,7 +79,7 @@ $scope.getCurrentUserType();
 	
 	 	$scope.updateProfile = function(user){
 
-	 		//console.log(user); return false;
+	 		//console.log('hellouser',user); return false;
 	 		var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;
 
@@ -83,7 +89,8 @@ $scope.getCurrentUserType();
 	console.log(response);
 	
 	if(response.Ack == '1') {
-	alert('Profile Updated');
+            swal('Hello, World!');
+	//alert('Profile Updated');
         //user.fname='';
 		} else {
 			

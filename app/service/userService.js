@@ -1180,7 +1180,7 @@ return $q(function(resolve, reject) {
 
 //var encodedString ='{"user_id":"'+data.user_id+'","fname":"'+data.fname+'","lname":"'+data.lname+'","email":"'+data.email+'","phone":"'+data.phone+'","gender":"'+data.gender+'","address":"'+data.address+'","business_type":"'+data.business_type+'"}';
  
-//console.log(encodedString);
+//console.log('hellouser',data); return false;
 
 
  Upload.upload({
@@ -4707,6 +4707,32 @@ var uploadAuctionproduct = function(value) {
     });
     };
 
+var checkpassword = function(pass,user_id) {
+return $q(function(resolve, reject) {
+    
+  //var nextbidprice = parseInt(bidprice)+parseInt(bidincrement);
+  //alert(user_id);
+  var encodedString ='{"password":"'+ pass.password +'","userid":"'+user_id+'"}';
+  //alert(encodedString);
+ $http({
+method: 'POST',
+  url: $rootScope.serviceurl+"checkpassword",
+data: encodedString,
+headers: {'Content-Type': 'application/json'}
+}).then(function (response) {
+
+   if(response.data.Ack == "1") {
+      resolve(response.data); 
+   } else {
+                    resolve(response.data); 
+   }
+ },function(response) {
+console.log(response);  
+reject(response);
+}); 
+});
+};
+
 
 var myloyalty = function() {
     return $q(function(resolve, reject) {
@@ -4737,6 +4763,7 @@ var myloyalty = function() {
     });
     });
     };
+
 
 
 
@@ -4887,7 +4914,11 @@ var myloyalty = function() {
         addlike:addlike,
         sociallinks:sociallinks,
         uploadAuctionproduct:uploadAuctionproduct,
+
         myloyalty:myloyalty
+
+        checkpassword:checkpassword
+
 
 	
 };

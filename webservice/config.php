@@ -8,7 +8,7 @@ function getConnection() {
 
     $dbuser = "root";
 
-    $dbpass = "root";
+    $dbpass = "abc123";
 
     $dbname = "webshop";
 
