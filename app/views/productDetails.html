@@ -70,7 +70,9 @@
                 <div class="col-sm-6" ng-if="user_id && productLists.ctime > productLists.start_time">
                                                                     
 <!--                  <p class="mb-4" ng-if="user_id && productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">Go Live Bidding</a></p>-->
-<p class="mb-4" ng-if="user_id && productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#password">Go Live Bidding</a></p>
+<!--<p class="mb-4" ng-if="user_id && productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#password">Go Live Bidding</a></p>-->
+<p class="mb-4" ng-if="user_id && productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" ng-click="checkauctionvalidity()">Go Live Bidding</a></p>
+
 <!--                                                                        <p class="mb-4" ng-if="productLists.interest==0 && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#login">Go Live Bidding</a></p>   -->
                 </div>
                                                             <div class="col-sm-6" ng-if="!user_id && productLists.ctime > productLists.start_time">
@@ -178,10 +180,10 @@
                     <p><i class="fa fa-user"></i> <span>{{productLists.countuniquebids}}</span></p>
                 </div>
                 <div  class="right-icon-btn1" ng-if="productLists.lastbidvalue >= productLists.thresholdprice">
-                    <p> <span></span></p>
+                    <p> <span tooltips tooltip-template="Minimum bid price reached" tooltip-side="bottom"></span></p>
                 </div>
                 <div  class="right-icon-btn" ng-if="productLists.lastbidvalue < productLists.thresholdprice" >
-                    <p><span></span></p>
+                    <p><span tooltips tooltip-template="Minimum bid price not reached" tooltip-side="bottom"></span></p>
                 </div>
             </div>
             <figure>
@@ -197,7 +199,10 @@
                </h5>
             <h5>Total No Of Bid(s) : &nbsp; <p>{{productLists.bidcount}}</p></h5>
 <!--            <h5>Total No User Bidding : &nbsp; <p>{{productLists.countuniquebids}}</p></h5>-->
-            
+             <h5> Highest Bidder Name : 
+                        <p ng-if="!productLists.higestbidderbid">No bid yet</p>
+                        <p ng-if="productLists.higestbidderbid">{{productLists.maxbiddername}}({{productLists.higestbidderbid}})</p>
+                       </h5>
                        
                         <h5>Your Highest Bid : 
                         <p ng-if="!productLists.maxbid">You have not bid yet</p>

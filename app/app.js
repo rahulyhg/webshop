@@ -1,5 +1,5 @@
 var app = angular.module("angularblank", ['oc.lazyLoad','ncy-angular-breadcrumb','ui.router','ngRoute','ngTouch',
-        'ngSanitize','ngFileUpload','ngMap','720kb.datepicker','ngRating']);
+        'ngSanitize','ngFileUpload','ngMap','720kb.datepicker','ngRating','720kb.tooltips']);
 app.run(['$rootScope', '$state', '$stateParams',
     function ($rootScope, $state, $stateParams) {
         // Attach Fastclick for eliminating the 300ms delay between a physical tap and the firing of a click event on mobile browsers
@@ -15,8 +15,8 @@ app.run(['$rootScope', '$state', '$stateParams',
 
 
 
-        $rootScope.serviceurl = "http://localhost/webshop1/webshop/webservice/frontend/";
-        $rootScope.siteurl = "http://localhost/webshop1/webshop/webservice/frontend/";
+        $rootScope.serviceurl = "http://localhost/webshop/webservice/frontend/";
+        $rootScope.siteurl = "http://localhost/webshop/webservice/frontend/";
 
 
 

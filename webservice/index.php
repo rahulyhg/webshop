@@ -13,22 +13,22 @@ include('crud.php');
 //spandan
 date_default_timezone_set('UTC');
 
-/*function get_lat_long($address) {
-    $array = array();
-    $geo = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&sensor=false');
+/* function get_lat_long($address) {
+  $array = array();
+  $geo = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&sensor=false');
 
-// We convert the JSON to an array
-    $geo = json_decode($geo, true);
+  // We convert the JSON to an array
+  $geo = json_decode($geo, true);
 
-// If everything is cool
-    if ($geo['status'] = 'OK') {
-        $latitude = $geo['results'][0]['geometry']['location']['lat'];
-        $longitude = $geo['results'][0]['geometry']['location']['lng'];
-        $array = array('lat' => $latitude, 'lng' => $longitude);
-    }
+  // If everything is cool
+  if ($geo['status'] = 'OK') {
+  $latitude = $geo['results'][0]['geometry']['location']['lat'];
+  $longitude = $geo['results'][0]['geometry']['location']['lng'];
+  $array = array('lat' => $latitude, 'lng' => $longitude);
+  }
 
-    return $array;
-}*/
+  return $array;
+  } */
 
 function userSignup() {
 
@@ -557,28 +557,28 @@ function updateProfile() {
     $ibanno = isset($body["ibanno"]) ? $body["ibanno"] : '';
     $language_preference = isset($body["language_preference"]) ? $body["language_preference"] : '';
 
-    /*if (get_lat_long($address)) {
-        $latlang = get_lat_long($address);
-        $val = implode(',', $latlang);
-        $value = explode(',', $val);
-        $lat = $value[0];
-        $lang = $value[1];
-    } else {
-        $latlang = '';
-        $val = '';
-        $value = '';
-        $lat = '';
-        $lang = '';
-    }*/
-    
-    
-        $latlang = '';
-        $val = '';
-        $value = '';
-        $lat = '';
-        $lang = '';
-    
-    
+    /* if (get_lat_long($address)) {
+      $latlang = get_lat_long($address);
+      $val = implode(',', $latlang);
+      $value = explode(',', $val);
+      $lat = $value[0];
+      $lang = $value[1];
+      } else {
+      $latlang = '';
+      $val = '';
+      $value = '';
+      $lat = '';
+      $lang = '';
+      } */
+
+
+    $latlang = '';
+    $val = '';
+    $value = '';
+    $lat = '';
+    $lang = '';
+
+
 //print_r($latlang);
 // $lat;
 // echo $lang;
@@ -1057,6 +1057,33 @@ function ProductsDetails() {
         $stmtbid->execute();
         $naxbid = $stmtbid->fetchObject();
         //$count = $stmtproduct->rowCount();
+        //print_r($naxbid);
+        $yourmaxbid = '';
+        if ($naxbid->maxbid != '') {
+            $yourmaxbid = $naxbid->maxbid;
+            // echo 'hi';
+        }
+
+        $sqlbidmax = "SELECT *,MAX(bidprice) as maxbid FROM webshop_biddetails WHERE productid=:productid";
+        $stmtbidmax = $db->prepare($sqlbidmax);
+        $stmtbidmax->bindParam("productid", $product_id);
+        $stmtbidmax->execute();
+        $naxbidmax = $stmtbidmax->fetchObject();
+        $higestbiddername = '';
+        $higestbidderbid = '';
+        //print_r($naxbidmax);
+        if ($naxbidmax->id != '') {
+            $sqlmaxbidder = "SELECT * FROM webshop_user WHERE id=$naxbidmax->userid ";
+            $stmtmaxbidder = $db->prepare($sqlmaxbidder);
+            //echo 'hi';
+            // exit;
+            $stmtmaxbidder->execute();
+            $getUserdetailmaxbidder = $stmtmaxbidder->fetchObject();
+            $higestbiddername = $getUserdetailmaxbidder->fname . " " . $getUserdetailmaxbidder->lname;
+            $higestbidderbid = $naxbidmax->bidprice;
+        } else {
+            $higestbiddername = '';
+        }
 
         $sqlbrand = "SELECT *  FROM webshop_brands WHERE id=:brand_id";
         $stmtbrand = $db->prepare($sqlbrand);
@@ -1146,7 +1173,7 @@ function ProductsDetails() {
             "category" => stripslashes($naxcat->name),
             "brands" => $naxbrand->name,
             "gender" => stripslashes($product->gender),
-            "maxbid" => $naxbid->maxbid,
+            "maxbid" => $yourmaxbid,
             "start_time" => $starttime,
             "ctime" => $ctime,
             "countuniquebids" => $countuniquebids,
@@ -1155,7 +1182,9 @@ function ProductsDetails() {
             'interest' => $interested,
             'totallike' => $totallike,
             'userlike' => $userlike,
-            'is_fav' => $is_fav
+            'is_fav' => $is_fav,
+            'maxbiddername' => $higestbiddername,
+            'higestbidderbid' => $higestbidderbid
         );
 
 
@@ -5560,12 +5589,20 @@ function getauctiondetails() {
             $stmt2->execute();
             $getUserdetails = $stmt2->fetchObject();
 
+            if ($getUserdetails->image != '') {
+                $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
+            } else {
+                $profile_image = SITE_URL . 'webservice/no-user.png';
+            }
+
             $data['UserDetails'][] = array(
                 "userid" => stripslashes($auction->userid),
                 "productid" => stripslashes($auction->productid),
                 "bidprice" => stripslashes($auction->bidprice),
                 "uploaderid" => stripslashes($auction->uploaderid),
-                "user_name" => stripslashes($getUserdetails->fname)
+                "date" => stripslashes($auction->date),
+                "user_name" => stripslashes($getUserdetails->fname),
+                "image" => stripslashes($profile_image),
             );
         }
     }
@@ -6030,8 +6067,7 @@ function listproductMessages() {
         $stmt->bindParam("to_id", $to_id);
         $stmt->execute();
         $getStatus = $stmt->fetchAll(PDO::FETCH_OBJ);
-        // print_r($getStatus);
-        // exit;
+
 
         $image = '';
         $productname = '';
