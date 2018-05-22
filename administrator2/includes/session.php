@@ -1,0 +1,11 @@
+<?php
+ob_start();
+session_start();
+include_once('includes/config.php');
+include_once('includes/functions.php');
+if($_SESSION['username']=="")
+{
+header('location:index.php');
+exit;
+}
+?>
