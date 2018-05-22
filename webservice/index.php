@@ -563,8 +563,12 @@ function updateProfile() {
     $state = isset($body["state"]) ? $body["state"] : '';
     $city = isset($body["city"]) ? $body["city"] : '';
     $country_preference = isset($body["country_preference"]) ? $body["country_preference"] : '';
+<<<<<<< HEAD
     $currency_preference = isset($body["currency_preference"]) ? $body["currency_preference"] : '';
     
+=======
+
+>>>>>>> 6ed9191babeefc37397817d5659668c80c8ae4ee
 
     /* if (get_lat_long($address)) {
       $latlang = get_lat_long($address);
@@ -3389,7 +3393,7 @@ function addProductNew() {
     $model_year = isset($body["model_year"]) ? $body["model_year"] : '';
     $breslet_type = isset($body["breslet_type"]) ? $body["breslet_type"] : '';
     $time_slot_id = isset($body["time_slot_id"]) ? $body["time_slot_id"] : '';
-    
+
     $state = isset($body["state"]) ? $body["state"] : '';
     $city = isset($body["city"]) ? $body["city"] : '';
     $get_status = '0';
@@ -6312,6 +6316,7 @@ function getfullMessages() {
 
         $sql = "SELECT * from webshop_message WHERE from_id=:from_id AND to_id=:to_id OR from_id=:to_id AND to_id=:from_id AND product_id=:product_id";
 
+
         $stmt = $db->prepare($sql);
         $stmt->bindParam("to_id", $from_id);
         $stmt->bindParam("from_id", $to_id);
@@ -6322,7 +6327,7 @@ function getfullMessages() {
 //print_r($getStatus);
 // print_r($stmt);
 //exit;
-
+        $product_name = '';
         foreach ($getStatus as $status) {
 
             /* user image */
@@ -6332,10 +6337,11 @@ function getfullMessages() {
             $stmt11->execute();
             $getStatus11 = $stmt11->fetchAll(PDO::FETCH_OBJ);
             if (!empty($getStatus11)) {
+                $username = $getStatus11[0]->fname . ' ' . $getStatus11[0]->lname;
                 if ($getStatus11[0]->image != '') {
                     $profile_image = SITE_URL . 'upload/user_image/' . $getStatus11[0]->image;
                 } else {
-                    $profile_image = SITE_URL . 'upload/nouser.jpg';
+                    $profile_image = SITE_URL . 'upload/user_image/nouser.jpg';
                 }
             }
             /* user image */
@@ -6347,6 +6353,27 @@ function getfullMessages() {
             $stmt12->execute();
             $getStatus12 = $stmt12->fetchAll(PDO::FETCH_OBJ);
             if (!empty($getStatus12)) {
+
+                $sql2 = "SELECT * FROM  webshop_category WHERE id=:id ";
+                $stmt2 = $db->prepare($sql2);
+                $stmt2->bindParam("id", $getStatus12[0]->cat_id);
+                $stmt2->execute();
+                $getcategory = $stmt2->fetchObject();
+                if (!empty($getcategory)) {
+                    $categoryname = $getcategory->name;
+                }
+
+
+                $sqlbrand = "SELECT *  FROM webshop_brands WHERE id=:brand_id";
+                $stmtbrand = $db->prepare($sqlbrand);
+                $stmtbrand->bindParam("brand_id", $getStatus12[0]->brands);
+
+                $stmtbrand->execute();
+                $naxbrand = $stmtbrand->fetchObject();
+                //print_r($naxbrand);
+                $product_name = $categoryname . '/' . $naxbrand->name;
+
+
                 if ($getStatus12[0]->image != '') {
                     $image = SITE_URL . 'upload/product_image/' . $getStatus12[0]->image;
                 } else {
@@ -6362,15 +6389,16 @@ function getfullMessages() {
                 'from_id' => stripslashes($status->from_id),
                 'id' => stripslashes($status->id),
                 'image' => $profile_image,
+                'username' => $username,
             );
             $product_image = $image;
-            $product_name = $getStatus12[0]->name;
+            $product_name = $product_name;
         }
 // print_r($allstatus);
 //exit;
         $data['fillmessage'] = $allmeaage;
         $data['product_image'] = $product_image;
-        $data['product_name'] = '';
+        $data['product_name'] = $product_name;
         $data['Ack'] = '1';
 // print_r($data);
 //exit;
@@ -8516,7 +8544,6 @@ function checkauctionvalidity() {
     $app->response->write(json_encode($data));
 }
 
-
 function listcountry() {
 
     $data = array();
@@ -8556,7 +8583,6 @@ function listcountry() {
     $app->response->write(json_encode($data));
 }
 
-
 function liststate() {
 
     $data = array();
@@ -8581,7 +8607,6 @@ function liststate() {
 
 
             $allsubcategory[] = array(
-               
                 "id" => stripslashes($subcategory->id),
                 "name" => stripslashes($subcategory->name)
             );
@@ -8606,8 +8631,7 @@ function liststate() {
     $app->response->write(json_encode($data));
 }
 
-
-    function listcity() {
+function listcity() {
 
     $data = array();
 
@@ -8631,7 +8655,6 @@ function liststate() {
 
 
             $allsubcategory[] = array(
-               
                 "id" => stripslashes($subcategory->id),
                 "name" => stripslashes($subcategory->name)
             );
@@ -8665,7 +8688,7 @@ function myproductbylocation() {
 
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
-    
+
     $db = getConnection();
     $sqlu = "SELECT * FROM webshop_user WHERE id=:id ";
 
@@ -8673,19 +8696,19 @@ function myproductbylocation() {
     $stmtu->bindParam("id", $user_id);
     $stmtu->execute();
     $getUserdetails = $stmtu->fetchObject();
-    
-    $prefer_country_id=$getUserdetails->country_preference;
-    
-    
+
+    $prefer_country_id = $getUserdetails->country_preference;
+
+
 
     $sql = "SELECT * from  webshop_products WHERE uploader_id!=:user_id and type = '1' and status= '1' and is_discard='0' and country=:country order by id desc";
-    
+
     $stmt = $db->prepare($sql);
     $stmt->bindParam("user_id", $user_id);
     $stmt->bindParam("country", $prefer_country_id);
     $stmt->execute();
     $getAllProducts = $stmt->fetchAll(PDO::FETCH_OBJ);
-    
+
     //print_r($getAllProducts);exit;
 
     if (!empty($getAllProducts)) {
@@ -8772,7 +8795,6 @@ function myproductbylocation() {
 
     $app->response->write(json_encode($data));
 }
-
 
 $app->run();
 ?>

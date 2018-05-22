@@ -10,7 +10,9 @@
 							<div class="col-md-12">
                                                             <div ng-repeat="message_list in message">
 								<div class="media mt-2 mb-3">
-								  <img class="mr-4" src="{{message_list.image}}">
+								  <!--<img class="mr-4" src="{{message_list.image}}">-->
+                                                                  <img class="thumbnail_upload_img" ngf-thumbnail="message_list.image"  style="width:150px;height:150px;">
+                                                                  <div>{{message_list.$product_name}}</div>
 								  <div class="media-body">
 								   <!--<p>{{message_list.message}}</p>-->
                                                                    <p>{{message_list.productname}}</p>

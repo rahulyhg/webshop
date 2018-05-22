@@ -32,33 +32,32 @@ $scope.isform1 =0;
 
 }
 
+
+
+$scope.from_id='';
 if($stateParams.from_id){
-    
-    if($scope.user_id != $stateParams.from_id){
-$scope.from_id=$stateParams.from_id;
-$scope.message.from_id=$stateParams.from_id;
+ if($stateParams.from_id != $scope.user_id ){
+        $scope.message.from_id=$stateParams.to_id;
+$scope.from_id = $stateParams.to_id;
     }else{
-        //alert($scope.user_id);
-        $scope.from_id = $scope.user_id; ;
-       $scope.message.from_id=$scope.user_id; 
-    }
-//alert($scope.to_id);
-}
+       $scope.message.from_id=$stateParams.from_id;
+$scope.from_id = $stateParams.from_id; 
+    }  
 
+//alert($scope.product_id);
+}
+$scope.to_id='';
 if($stateParams.to_id){
-    
-    if($scope.user_id != $stateParams.to_id){
-$scope.to_id=$stateParams.to_id;
- $scope.message.to_id = $stateParams.to_id;
-
+    if($stateParams.to_id == $scope.user_id ){
+        $scope.message.to_id=$stateParams.from_id;
+        $scope.to_id = $stateParams.from_id;
     }else{
-       // alert($scope.user_id);
-       $scope.message.to_id = $scope.user_id; 
-
-       $scope.message.to_id=$scope.user_id; 
+$scope.message.to_id=$stateParams.to_id;
+$scope.to_id = $stateParams.to_id;
     }
-//alert($scope.to_id);
+//alert($scope.product_id);
 }
+
 
 $scope.product_id='';
 if($stateParams.product_id){
