@@ -11,11 +11,15 @@
 						<div class="row">
 							<div class="col-md-12">
 								
-                                                            <img class="mr-3" src="{{product_image}}" alt="Generic placeholder image">{{product_name}}
-                                                            
+                                                            <!--<img class="mr-3" src="{{product_image}}" alt="Generic placeholder image">{{product_name}}-->
+                                                            <h5>{{product_name}}</h5>
+                                                             <img class="thumbnail_upload_img" ngf-thumbnail="product_image"  style="width:100px;height:100px;">
+                                                             
                                                             <div class="media" ng-repeat="message_list in fillmessage">
 								  
-                                                                 <img ng-if="user_id == message_list.from_id" class="mr-3 image" src="{{message_list.image}}" alt="Generic placeholder image">
+                                                                 <img ng-if="user_id == message_list.from_id" style="width:80px;height:80px;" class="mr-3 image" src="{{message_list.image}}" alt="Generic placeholder image">
+                                                                 <p ng-if="user_id == message_list.from_id">{{message_list.username}}</p>&nbsp;
+                                                                 <!--<div ng-if="user_id != message_list.from_id" class="mr-3" style="width:80px;height:80px;">You</div>-->
 								  <div class="media-body">
                                                                       
 								    <p ng-if="user_id == message_list.from_id">{{message_list.message}}</p>
@@ -38,7 +42,7 @@
 
                                                              <form name="addProductForm" ng-submit="addmessage(message)" novalidate>
 								<div class="form-group mt-4">
-									<textarea class="form-control" placeholder="... Message Type Here" ng-model="message.message" name="message"></textarea> 
+									<textarea class="form-control" placeholder="Your Message " ng-model="message.message" name="message"></textarea> 
                                                                         <input type="hidden" class="form-control" id="" ng-model="message.to_id" name="to_id" required>
                                                                         <input type="hidden" class="form-control" ng-model="message.product_id" name="product_id" required>
                                                                         <input type="hidden" class="form-control" ng-model="message.from_id" name="from_id" required>
@@ -46,7 +50,7 @@
 								</div>
 								
 								<div class="form-group">
-									<button class="btn btn-primary">SUBMIT</button>
+									<button class="btn btn-primary">Send</button>
 								</div>
                                                              </form>
 								
