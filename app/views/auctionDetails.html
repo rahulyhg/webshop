@@ -71,7 +71,7 @@
 						</div>
 					</div>
 				</div>
-                            <p class="mb-4"><a href="" class="btn btn-primary" ng-click="auctiondetail(user_id,productLists.id)" data-toggle="modal" data-target="#myModal">Check Bidding Details</a></p>
+                            <p class="mb-4"><a href="" class="btn btn-primary" ng-click="auctiondetail(user_id,productLists.id)" data-toggle="modal" data-target="#winner">Check Bidding Details</a></p>
 				<div class="row">
 					<div class="col-lg-12">
 						<div id="accordion" class="accordion mt-2">
@@ -181,7 +181,7 @@
 	
 
 
-<div id="myModal" class="modal fade" role="dialog">
+<div id="winner" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -196,19 +196,25 @@
               <div class="" ng-if="UserDetails" >
                   
                   <div class="row" id="dev-table">
-		
-                      <div class="col-sm-4"><h6 class="media-heading">Bidder Name</h6></div>
-                       <div class="col-sm-4">&nbsp;</div>
-		<div class="col-sm46"><h6 class="media-heading">Bidder Price</h6></div>
+                      <div class="col-sm-3">User Image</div>
+                      <div class="col-sm-3"><h6 class="media-heading">Bidder Name</h6></div>
+                      
+		<div class="col-sm-3"><h6 class="media-heading">Bidder Price</h6></div>
+              
+		<div class="col-sm-3"><h6 class="media-heading">Bid Date</h6></div>
+                
                   </div>			
                    <hr>
          <div class=""  ng-repeat="UserDetail in UserDetails ">
          
          
 			<div class="row" id="dev-table">
-			<div class="col-sm-4">{{UserDetail.user_name}}</div>	
-                         <div class="col-sm-4">&nbsp;</div>
-			<div class="col-sm-4"> {{productLists.currency_code}}  {{UserDetail.bidprice}} </div>	
+                        <div class="col-sm-3">    <img class="thumbnail_upload_img" ngf-thumbnail="UserDetail.image"  style="width:50px;height:50px;"></div>
+			<div class="col-sm-3">{{UserDetail.user_name}}</div>	
+                         
+			<div class="col-sm-3"> {{productLists.currency_code}}  {{UserDetail.bidprice}} </div>	
+                        
+			<div class="col-sm-3"> {{UserDetail.date}} </div>	
 			
 			 </div>			
 		<!--<div class="media-body row">
@@ -238,6 +244,10 @@
 
   </div>
 </div>
+    </div>
+
+
+
 
 
    

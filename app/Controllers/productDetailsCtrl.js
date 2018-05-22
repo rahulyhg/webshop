@@ -352,10 +352,33 @@ alert("Mail can not be sent ");
     
     };
     
+    $scope.checkauctionvalidity = function(){
+        userService.checkauctionvalidity($scope.product_id,userInfo.user_id).then(function(response) {
+             if(response.Ack == '1') { 
+                 $('#password').modal('show');
+                 
+            } else if(response.Ack == '2'){
+         $scope.winnermsg ='Congratulation, You Are Winner';
+          $('#password').modal('hide');
+           $('#winner').modal('show'); 
+           
+    }else if(response.Ack == '3'){
+       
+                     $scope.winnermsg ='Better Luck Next Time';
+                      $('#password').modal('hide');
+                     $('#winner').modal('show');
+                   // $scope.isExists=0;
+		}
+            
+        }, function(err) {
+	console.log(err); 
+	});
+    };
+    
     $scope.checkpassword = function(pass){
         
-       userService.checkauctionvalidity($scope.product_id,userInfo.user_id).then(function(response) {
-          if(response.Ack == '1') { 
+       
+         
         pass.password=pass.password;
         pass.user_id=userInfo.user_id; 
         //alert(pass.user_id);
@@ -385,21 +408,8 @@ alert("Mail can not be sent ");
 	}, function(err) {
 	console.log(err); 
 	});
-    } else if(response.Ack == '2'){
-         $scope.winnermsg ='Congratulation, You Are Winner';
-          $('#password').modal('hide');
-           $('#winner').modal('show'); 
-           
-    }else if(response.Ack == '3'){
-       
-                     $scope.winnermsg ='Better Luck Next Time';
-                      $('#password').modal('hide');
-                     $('#winner').modal('show');
-                   // $scope.isExists=0;
-		}
-        }, function(err) {
-	console.log(err); 
-	});
+    
+        
        
     
     };

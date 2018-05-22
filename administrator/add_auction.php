@@ -306,13 +306,13 @@ if ($num > 0) {
                                     </div>
                                 </div>
 
-                                <div class="control-group">
-                                    <label class="control-label">Date of Purchase</label>
-                                    <div class="controls">
-                                        <input type="text" class="form-control" placeholder="Enter purchase date" value="<?php echo $categoryRowset['date_purchase']; ?>" id="datepickerpurchase" name="date_purchase" required>
-
-                                    </div>
-                                </div>
+                                <!--                                <div class="control-group">
+                                                                    <label class="control-label">Date of Purchase</label>
+                                                                    <div class="controls">
+                                                                        <input type="text" class="form-control" placeholder="Enter purchase date" value="<?php echo $categoryRowset['date_purchase']; ?>" id="datepickerpurchase" name="date_purchase" required>
+                                
+                                                                    </div>
+                                                                </div>-->
 
                                 <div class="control-group">
                                     <label class="control-label">Watch Status</label>
