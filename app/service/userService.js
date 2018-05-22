@@ -4796,6 +4796,122 @@ var checkauctionvalidity = function(product_id,user_id) {
 
 
 
+var listcountry = function() {
+        return $q(function(resolve, reject) {
+        
+            
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"listcountry",
+        
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           
+           if(response.data.Ack == "1") {
+        
+              resolve(response.data); 
+           } else {
+          
+              resolve(response.data); 
+           }
+           
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+ };
+
+
+var liststate = function(c_id) {
+        return $q(function(resolve, reject) {
+                
+
+var encodedString ='{"c_id":"'+ c_id +'"}';
+            
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"liststate",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           
+           if(response.data.Ack == "1") {
+         
+              resolve(response.data); 
+           } else {
+          
+              resolve(response.data); 
+           }
+          
+        },function(response) {
+                    
+          reject(response);
+            });
+        });
+ };
+
+
+var listcity = function(s_id) {
+        return $q(function(resolve, reject) {
+                
+
+var encodedString ='{"s_id":"'+ s_id +'"}';
+            
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"listcity",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           
+           if(response.data.Ack == "1") {
+         
+              resolve(response.data); 
+           } else {
+          
+              resolve(response.data); 
+           }
+          
+        },function(response) {
+                    
+          reject(response);
+            });
+        });
+ };
+
+
+
+ var myproductbylocation = function() {
+    return $q(function(resolve, reject) {
+        var userInfo = JSON.parse($window.localStorage["userInfo"]);
+        var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"myproductbylocation",
+   data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    //console.log('ok');
+    resolve(response.data); 
+    } else {
+    //console.log('ok2');
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    //console.log(response);  
+    reject(response);
+    });
+    });
+    };
+
+
+
  
  return {
      
@@ -4945,7 +5061,11 @@ var checkauctionvalidity = function(product_id,user_id) {
         uploadAuctionproduct:uploadAuctionproduct,
         myloyalty:myloyalty,
         checkpassword:checkpassword,
-        checkauctionvalidity:checkauctionvalidity
+        checkauctionvalidity:checkauctionvalidity,
+        listcountry:listcountry,
+        liststate:liststate,
+        listcity:listcity,
+        myproductbylocation:myproductbylocation
 
 
 	

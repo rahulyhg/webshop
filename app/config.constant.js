@@ -83,6 +83,7 @@ app.constant('JS_REQUIRES', {
         'cancelAuctionuploadpayment': ['app/Controllers/cancelAuctionuploadpaymentCtrl.js'],
         'myLoyalty': ['app/Controllers/myLoyaltyCtrl.js'],
         'loyaltydetails': ['app/Controllers/loyaltydetailsCtrl.js'],
+        'filterbylocation': ['app/Controllers/filterbylocationCtrl.js'],
 	
     },
 

@@ -232,7 +232,11 @@ userService.notiCount(userInfo.user_id).then(function(response) {
 		lat: response.UserDetails.my_latitude,
 		lang: response.UserDetails.my_longitude,
 		profile_image : response.UserDetails.profile_image,
-                user_payment : response.UserDetails.user_payment
+                user_payment : response.UserDetails.user_payment,
+                
+                country : response.UserDetails.country,
+                state : response.UserDetails.state,
+                city : response.UserDetails.city,
 		};
 		$window.localStorage["userInfo"] = JSON.stringify(userInfo);
 

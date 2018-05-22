@@ -374,7 +374,10 @@ function userlogin() {
                     "fname" => stripslashes($user->fname),
                     "lname" => stripslashes($user->lname),
                     "user_type" => stripslashes($user->type),
-                    "user_image" => stripslashes($user_image)
+                    "user_image" => stripslashes($user_image),
+                    "country" => stripslashes($user->country),
+                    "state" => stripslashes($user->state),
+                    "city" => stripslashes($user->city),
                 );
                 $app->response->setStatus(200);
             }
@@ -556,6 +559,11 @@ function updateProfile() {
     $bankname = isset($body["bankname"]) ? $body["bankname"] : '';
     $ibanno = isset($body["ibanno"]) ? $body["ibanno"] : '';
     $language_preference = isset($body["language_preference"]) ? $body["language_preference"] : '';
+    $country = isset($body["country"]) ? $body["country"] : '';
+    $state = isset($body["state"]) ? $body["state"] : '';
+    $city = isset($body["city"]) ? $body["city"] : '';
+    $country_preference = isset($body["country_preference"]) ? $body["country_preference"] : '';
+    
 
     /*if (get_lat_long($address)) {
         $latlang = get_lat_long($address);
@@ -589,7 +597,7 @@ function updateProfile() {
     $date = date('Y-m-d');
 
 
-    $sql = "UPDATE webshop_user set fname=:fname,lname=:lname ,secret_key=:secret_key,publish_key=:publish_key,email=:email,address=:address,phone=:phone,gender=:gender,business_type=:business_type,my_latitude=:lat,my_longitude=:lang,bankname=:bankname,ibanno=:ibanno,language_preference=:language_preference WHERE id=:id";
+    $sql = "UPDATE webshop_user set fname=:fname,lname=:lname ,secret_key=:secret_key,publish_key=:publish_key,email=:email,address=:address,phone=:phone,gender=:gender,business_type=:business_type,my_latitude=:lat,my_longitude=:lang,bankname=:bankname,ibanno=:ibanno,language_preference=:language_preference,country=:country,state=:state,city=:city,country_preference=:country_preference WHERE id=:id";
     try {
 
         $db = getConnection();
@@ -609,7 +617,10 @@ function updateProfile() {
         $stmt->bindParam("bankname", $bankname);
         $stmt->bindParam("ibanno", $ibanno);
         $stmt->bindParam("language_preference", $language_preference);
-
+        $stmt->bindParam("country", $country);
+        $stmt->bindParam("state", $state);
+        $stmt->bindParam("city", $city);
+        $stmt->bindParam("country_preference", $country_preference);
         $stmt->bindParam("id", $user_id);
 
         $stmt->execute();
@@ -768,7 +779,11 @@ function userprofile() {
             "language_preference" => stripslashes($getUserdetails->language_preference),
             "civilid1" => stripslashes($civilid1),
             "civilid2" => stripslashes($civilid2),
-            "add_date" => stripslashes($getUserdetails->add_date));
+            "add_date" => stripslashes($getUserdetails->add_date),
+            "country" => stripslashes($getUserdetails->country),
+            "state" => stripslashes($getUserdetails->state),
+            "city" => stripslashes($getUserdetails->city),
+            "country_preference" => stripslashes($getUserdetails->country_preference));
 
 
         $data['Ack'] = '1';
@@ -3342,6 +3357,9 @@ function addProductNew() {
     $model_year = isset($body["model_year"]) ? $body["model_year"] : '';
     $breslet_type = isset($body["breslet_type"]) ? $body["breslet_type"] : '';
     $time_slot_id = isset($body["time_slot_id"]) ? $body["time_slot_id"] : '';
+    
+    $state = isset($body["state"]) ? $body["state"] : '';
+    $city = isset($body["city"]) ? $body["city"] : '';
     $get_status = '0';
     $status = 0;
     $quantity = 1;
@@ -3413,7 +3431,7 @@ function addProductNew() {
                         $sid = $getUserDetails->sid;
                         //if ($type == '1') {
 
-                        $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,status,size,location,work_hours,subscription_id) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:status,:size,:location,:work_hours,:subscription_id)";
+                        $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,status,size,location,work_hours,subscription_id,state,city) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:status,:size,:location,:work_hours,:subscription_id,:state,:city)";
                         // }
                         //if ($type == '1') {
 
@@ -3458,6 +3476,8 @@ function addProductNew() {
                             $stmt->bindParam("country", $country);
                             $stmt->bindParam("size", $size);
                             $stmt->bindParam("subscription_id", $sid);
+                            $stmt->bindParam("state", $state);
+                            $stmt->bindParam("city", $city);
 //print_r($stmt->bindParam("status", $status));
 
 
@@ -3648,7 +3668,7 @@ function addProductNew() {
             }
         } else {
 
-            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice)";
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city)";
 
 
 
@@ -3684,7 +3704,8 @@ function addProductNew() {
                 $stmt->bindParam("model_year", $model_year);
                 $stmt->bindParam("time_slot_id", $time_slot_id);
                 $stmt->bindParam("thresholdprice", $price);
-
+                $stmt->bindParam("state", $state);
+                $stmt->bindParam("city", $city);
                 $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
 
                 $is_read = '0';
@@ -3800,7 +3821,7 @@ function addProductNew() {
             //$sid = $getUserDetails->sid;
             //if ($type == '1') {
 
-            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,location,work_hours,approved) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:location,:work_hours,:approved)";
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,location,work_hours,approved,state,city) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:location,:work_hours,:approved,:state,:city)";
             // }
             //if ($type == '1') {
 
@@ -3852,6 +3873,8 @@ function addProductNew() {
                 $stmt->bindParam("owner_number", $owner_number);
                 $stmt->bindParam("country", $country);
                 $stmt->bindParam("size", $size);
+                $stmt->bindParam("state", $state);
+                $stmt->bindParam("city", $city);
                 //$stmt->bindParam("subscription_id", $sid);
 //print_r($stmt->bindParam("status", $status));
 
@@ -3962,7 +3985,7 @@ function addProductNew() {
             }
         } else {
 
-            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice)";
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city)";
 
 
 
@@ -3998,6 +4021,8 @@ function addProductNew() {
                 $stmt->bindParam("model_year", $model_year);
                 $stmt->bindParam("time_slot_id", $time_slot_id);
                 $stmt->bindParam("thresholdprice", $price);
+                $stmt->bindParam("state", $state);
+                $stmt->bindParam("city", $city);
 
                 $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
 
@@ -8450,6 +8475,264 @@ function checkauctionvalidity() {
 
     $app->response->write(json_encode($data));
 }
+
+
+function listcountry() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    try {
+
+        $sql = "SELECT * from webshop_countries where 1";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $getBrand = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        foreach ($getBrand as $brand) {
+
+            $allbrand[] = array(
+                "id" => stripslashes($brand->id),
+                "name" => stripslashes($brand->name)
+            );
+        }
+
+        $data['countrylist'] = $allbrand;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+
+function liststate() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    $c_id = isset($body->c_id) ? $body->c_id : '';
+
+    try {
+
+        $sql = "SELECT * from webshop_states where country_id = '" . $c_id . "' ";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $getSubcategory = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        foreach ($getSubcategory as $subcategory) {
+
+
+            $allsubcategory[] = array(
+               
+                "id" => stripslashes($subcategory->id),
+                "name" => stripslashes($subcategory->name)
+            );
+        }
+        if (!empty($allsubcategory)) {
+            $data['statelist'] = $allsubcategory;
+            $data['Ack'] = '1';
+            $app->response->setStatus(200);
+        } else {
+
+            $data['statelist'] = '';
+            $data['Ack'] = '1';
+            $app->response->setStatus(200);
+        }
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+
+    function listcity() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    $s_id = isset($body->s_id) ? $body->s_id : '';
+
+    try {
+
+        $sql = "SELECT * from webshop_cities where state_id = '" . $s_id . "' ";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $getSubcategory = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        foreach ($getSubcategory as $subcategory) {
+
+
+            $allsubcategory[] = array(
+               
+                "id" => stripslashes($subcategory->id),
+                "name" => stripslashes($subcategory->name)
+            );
+        }
+        if (!empty($allsubcategory)) {
+            $data['citylist'] = $allsubcategory;
+            $data['Ack'] = '1';
+            $app->response->setStatus(200);
+        } else {
+
+            $data['citylist'] = '';
+            $data['Ack'] = '1';
+            $app->response->setStatus(200);
+        }
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+function myproductbylocation() {
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    
+    $db = getConnection();
+    $sqlu = "SELECT * FROM webshop_user WHERE id=:id ";
+
+    $stmtu = $db->prepare($sqlu);
+    $stmtu->bindParam("id", $user_id);
+    $stmtu->execute();
+    $getUserdetails = $stmtu->fetchObject();
+    
+    $prefer_country_id=$getUserdetails->country_preference;
+    
+    
+
+    $sql = "SELECT * from  webshop_products WHERE uploader_id!=:user_id and type = '1' and status= '1' and is_discard='0' and country=:country order by id desc";
+    
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("user_id", $user_id);
+    $stmt->bindParam("country", $prefer_country_id);
+    $stmt->execute();
+    $getAllProducts = $stmt->fetchAll(PDO::FETCH_OBJ);
+    
+    //print_r($getAllProducts);exit;
+
+    if (!empty($getAllProducts)) {
+        foreach ($getAllProducts as $product) {
+
+
+            if ($product->image != '') {
+                $image = SITE_URL . 'upload/product_image/' . $product->image;
+            } else {
+                $image = SITE_URL . 'webservice/not-available.jpg';
+            }
+
+
+            $sql2 = "SELECT * FROM  webshop_category WHERE id=:id ";
+            $stmt2 = $db->prepare($sql2);
+            $stmt2->bindParam("id", $product->cat_id);
+            $stmt2->execute();
+            $getcategory = $stmt2->fetchObject();
+            if (!empty($getcategory)) {
+                $categoryname = $getcategory->name;
+            }
+
+
+
+            $sql3 = "SELECT * FROM  webshop_subcategory WHERE id=:id ";
+            $stmt3 = $db->prepare($sql3);
+            $stmt3->bindParam("id", $product->subcat_id);
+            $stmt3->execute();
+            $getsubcategory = $stmt3->fetchObject();
+//            if (!empty($getsubcategory)) {
+//                $subcategoryname = $getsubcategory->name;
+//            }
+//Seller Information
+
+            $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
+            $stmt1 = $db->prepare($sql1);
+            $stmt1->bindParam("id", $product->uploader_id);
+            $stmt1->execute();
+            $getUserdetails = $stmt1->fetchObject();
+
+            if (!empty($getUserdetails)) {
+                $seller_name = $getUserdetails->fname . ' ' . $getUserdetails->lname;
+                $seller_address = $getUserdetails->address;
+                $seller_phone = $getUserdetails->phone;
+                $email = $getUserdetails->email;
+
+                if ($getUserdetails->image != '') {
+                    $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
+                } else {
+                    $profile_image = SITE_URL . 'webservice/no-user.png';
+                }
+            } else {
+                $profile_image = '';
+            }
+
+            $data['productList'][] = array(
+                "id" => stripslashes($product->id),
+                "image" => stripslashes($image),
+                "price" => stripslashes($product->price),
+                "description" => strip_tags(stripslashes(substr($product->description, 0, 50))),
+                "category_name" => $categoryname,
+                //"subcategory_name" => $subcategoryname,
+                "seller_id" => stripslashes($product->uploader_id),
+                "seller_image" => $profile_image,
+                "seller_name" => stripslashes($seller_name),
+                "seller_address" => stripslashes($seller_address),
+                "seller_phone" => stripslashes($seller_phone),
+                "productname" => '',
+                "product_status" => stripslashes($product->product_status),
+                "approved" => $product->approved,
+                "live_status" => $product->status
+            );
+        }
+
+
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    } else {
+        $data = array();
+        $data['productList'] = array();
+        $data['Ack'] = '0';
+        $app->response->setStatus(200);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
 
 $app->run();
 ?>
