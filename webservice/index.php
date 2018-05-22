@@ -13,7 +13,7 @@ include('crud.php');
 //spandan
 date_default_timezone_set('UTC');
 
-function get_lat_long($address) {
+/*function get_lat_long($address) {
     $array = array();
     $geo = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&sensor=false');
 
@@ -28,7 +28,7 @@ function get_lat_long($address) {
     }
 
     return $array;
-}
+}*/
 
 function userSignup() {
 
@@ -557,7 +557,7 @@ function updateProfile() {
     $ibanno = isset($body["ibanno"]) ? $body["ibanno"] : '';
     $language_preference = isset($body["language_preference"]) ? $body["language_preference"] : '';
 
-    if (get_lat_long($address)) {
+    /*if (get_lat_long($address)) {
         $latlang = get_lat_long($address);
         $val = implode(',', $latlang);
         $value = explode(',', $val);
@@ -569,7 +569,16 @@ function updateProfile() {
         $value = '';
         $lat = '';
         $lang = '';
-    }
+    }*/
+    
+    
+        $latlang = '';
+        $val = '';
+        $value = '';
+        $lat = '';
+        $lang = '';
+    
+    
 //print_r($latlang);
 // $lat;
 // echo $lang;
