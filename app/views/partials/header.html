@@ -68,6 +68,7 @@
                <img src="{{sidebar_image}}" alt="">
                </a>
                <div class="dropdown-menu" aria-labelledby="navbarDrop">
+                   <a ng-if="current_user_type=='2'" class="dropdown-item" href="#/vendordashboard">My Dashboard</a>
                   <a class="dropdown-item" href="#/my_account">View Profile</a>
                   <a class="dropdown-item" style="cursor:pointer" ng-click="logout();">Logout</a>
                </div>

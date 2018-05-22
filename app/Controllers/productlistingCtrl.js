@@ -329,7 +329,74 @@ $scope.updatecheckbox2 = function(select,shop_id){
 	});
 
 
+userService.listcountry().then(function(response) {
+           
+		$scope.isExists=1;
+		if(response.Ack == '1') {
+                  
+                    $scope.isExists=1;
+                  
+		$scope.countrylist=response.countrylist;
+              
+		} else {
+                    console.log('ppp');	
+                    $scope.isExists=0;
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
 
+
+
+    $scope.state = function (c_id) {
+        
+        userService.liststate(c_id).then(function (response) {
+           
+            $scope.isExists = 1;
+            if (response.Ack == '1') {
+                console.log(response);
+               
+                $scope.isExists = 1;
+               
+                $scope.statelist = response.statelist;
+              
+
+            } else {
+                console.log('ppp');
+                $scope.isExists = 0;
+            }
+
+        }, function (err) {
+            console.log(err);
+        });
+
+    }
+
+    $scope.city = function (s_id) {
+
+        userService.listcity(s_id).then(function (response) {
+
+            $scope.isExists = 1;
+            if (response.Ack == '1') {
+                console.log(response);
+
+                $scope.isExists = 1;
+
+                $scope.citylist = response.citylist;
+
+
+            } else {
+                console.log('ppp');
+                $scope.isExists = 0;
+            }
+
+        }, function (err) {
+            console.log(err);
+        });
+
+    }
 
 
 

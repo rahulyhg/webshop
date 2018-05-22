@@ -198,7 +198,7 @@ if ($_REQUEST['action'] == 'edit') {
                                         <th>Admin Approval</th>
                                         <th>Payment Status</th>
                                         <th>Quick Links</th>
-                                        <!--<th>Details</th>-->
+                                        <th>Details</th>
 
                                     </tr>
                                 </thead>
@@ -313,11 +313,11 @@ if ($_REQUEST['action'] == 'edit') {
                                                         <i class="icon-trash"></i></a>
                                                 </td>
 
-<!--                                                <td>
+                                                <td>
 
                                                     <a  href="details_auction.php?id=<?php echo $tools_type['id'] ?>&action=details"><i class="icon-eye-open"></i></a>
 
-                                                </td> -->
+                                                </td> 
 
 
 
