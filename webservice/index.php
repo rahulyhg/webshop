@@ -5351,7 +5351,7 @@ function listAuctionDtates() {
             $current_date = date('Y-m-d');
             $currnt_date = strtotime($current_date);
             $datepickerdate = strtotime($datefordatepicker);
-            if ($datepickerdate > $currnt_date) {
+            if ($datepickerdate >= $currnt_date) {
                 $allbrand[] = array(
                     stripslashes($datefordatepicker)
                 );
@@ -8364,9 +8364,80 @@ function myLoyalty() {
         $data = array();
         $data['loyaltyList'] = array();
         $data['total_loyalty'] = $total_loyalty;
-        $data['Ack'] = '1';
+        $data['Ack'] = '2';
         $app->response->setStatus(200);
     }
+
+    $app->response->write(json_encode($data));
+}
+
+function checkauctionvalidity() {
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $product_id = isset($body->product_id) ? $body->product_id : '';
+    $user_id = isset($body->userid) ? $body->userid : '';
+    $db = getConnection();
+    $sql1 = "SELECT * FROM webshop_products WHERE id=:product_id AND auctioned=0";
+
+    $stmt1 = $db->prepare($sql1);
+    $stmt1->bindParam("product_id", $product_id);
+    $stmt1->execute();
+    $count = $stmt1->rowCount();
+
+
+
+
+    if ($count > 0) {
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    } else {
+
+        $sql = "SELECT * from  webshop_auction_winner WHERE user_id=:user_id AND product_id=:product_id  order by id desc";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("user_id", $user_id);
+        $stmt->bindParam("product_id", $product_id);
+        $stmt->execute();
+        //$count = $stmt->rowCount();
+        $getauctionwinner = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        if (!empty($getauctionwinner)) {
+            foreach ($getauctionwinner as $winner) {
+
+                $data['auctionwinner'] = stripslashes($winner->user_id);
+
+
+                /* $sqluser = "SELECT * from webshop_user WHERE id=:user_id";
+                  $stmtuser = $db->prepare($sqluser);
+                  $stmtuser->bindParam("user_id", $winner->user_id);
+
+                  $stmtuser->execute();
+                  $getuser = $stmtuser->fetchAll(PDO::FETCH_OBJ);
+                  foreach ($getuser as $us) {
+
+                  $auctionvaliditydetails = array(
+                  'name'=>$us-
+                  );
+                  } */
+            }
+
+
+            $data['Ack'] = '2';
+
+            $app->response->setStatus(200);
+        } else {
+            $data = array();
+            $data['auctionwinner'] = '';
+            $data['Ack'] = '3';
+            $app->response->setStatus(200);
+        }
+    }
+
+
+
 
     $app->response->write(json_encode($data));
 }

@@ -4764,6 +4764,35 @@ var myloyalty = function() {
     });
     };
 
+var checkauctionvalidity = function(product_id,user_id) {
+    return $q(function(resolve, reject) {
+        //var userInfo = JSON.parse($window.localStorage["userInfo"]);
+       
+ var encodedString ='{"product_id":"'+ product_id +'","userid":"'+user_id+'"}';
+
+    
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"checkauctionvalidity",
+    data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    //console.log('ok');
+    resolve(response.data); 
+    } else {
+    //console.log('ok2');
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    //console.log(response);  
+    reject(response);
+    });
+    });
+    };
 
 
 
@@ -4915,7 +4944,8 @@ var myloyalty = function() {
         sociallinks:sociallinks,
         uploadAuctionproduct:uploadAuctionproduct,
         myloyalty:myloyalty,
-        checkpassword:checkpassword
+        checkpassword:checkpassword,
+        checkauctionvalidity:checkauctionvalidity
 
 
 	

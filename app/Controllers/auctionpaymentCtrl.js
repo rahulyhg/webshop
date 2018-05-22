@@ -7,7 +7,9 @@ app.controller('auctionpaymentCtrl', function ($rootScope, $scope, $http, $locat
     
 $scope.data = {};
 $scope.user = {};
+$scope.value ={};
 //alert('a');
+$scope.value.loyalty_redeem=0;
 if ($window.localStorage["userInfo"]) {
 var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;

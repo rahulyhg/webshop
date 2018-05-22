@@ -18,13 +18,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="loyaltyList in loyaltyLists">
+                           <tr ng-if="exists == 1" ng-repeat="loyaltyList in loyaltyLists">
                                 
                                 <td>{{loyaltyList.pay_amount}}</td>
                                 <td>{{loyaltyList.point}}</td>
                                 <td>{{loyaltyList.add_date}}</td>
                                 <td ng-if="loyaltyList.type== 0">Credit </td>
                                 <td ng-if="loyaltyList.type== 1">Debit </td>
+                            </tr>
+                            <tr ng-if="exists == 0">
+                                
+                                <td colspan="4">No Records Found.</td>
+                                
                             </tr>
 
                         </tbody>
