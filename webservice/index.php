@@ -563,12 +563,7 @@ function updateProfile() {
     $state = isset($body["state"]) ? $body["state"] : '';
     $city = isset($body["city"]) ? $body["city"] : '';
     $country_preference = isset($body["country_preference"]) ? $body["country_preference"] : '';
-<<<<<<< HEAD
-    $currency_preference = isset($body["currency_preference"]) ? $body["currency_preference"] : '';
-    
-=======
 
->>>>>>> 6ed9191babeefc37397817d5659668c80c8ae4ee
 
     /* if (get_lat_long($address)) {
       $latlang = get_lat_long($address);
@@ -602,7 +597,7 @@ function updateProfile() {
     $date = date('Y-m-d');
 
 
-    $sql = "UPDATE webshop_user set fname=:fname,lname=:lname ,secret_key=:secret_key,publish_key=:publish_key,email=:email,address=:address,phone=:phone,gender=:gender,business_type=:business_type,my_latitude=:lat,my_longitude=:lang,bankname=:bankname,ibanno=:ibanno,language_preference=:language_preference,country=:country,state=:state,city=:city,country_preference=:country_preference,currency_preference=:currency_preference WHERE id=:id";
+    $sql = "UPDATE webshop_user set fname=:fname,lname=:lname ,secret_key=:secret_key,publish_key=:publish_key,email=:email,address=:address,phone=:phone,gender=:gender,business_type=:business_type,my_latitude=:lat,my_longitude=:lang,bankname=:bankname,ibanno=:ibanno,language_preference=:language_preference,country=:country,state=:state,city=:city,country_preference=:country_preference WHERE id=:id";
     try {
 
         $db = getConnection();
@@ -626,7 +621,6 @@ function updateProfile() {
         $stmt->bindParam("state", $state);
         $stmt->bindParam("city", $city);
         $stmt->bindParam("country_preference", $country_preference);
-        $stmt->bindParam("currency_preference", $currency_preference);
         $stmt->bindParam("id", $user_id);
 
         $stmt->execute();
@@ -789,8 +783,7 @@ function userprofile() {
             "country" => stripslashes($getUserdetails->country),
             "state" => stripslashes($getUserdetails->state),
             "city" => stripslashes($getUserdetails->city),
-            "country_preference" => stripslashes($getUserdetails->country_preference),
-            "currency_preference"=> stripslashes($getUserdetails->currency_preference));
+            "country_preference" => stripslashes($getUserdetails->country_preference));
 
 
         $data['Ack'] = '1';
@@ -4870,7 +4863,6 @@ function listSubscriptions() {
                 "price" => stripslashes($subscription->price),
                 "slots" => stripslashes($subscription->slots),
                 "duration" => stripslashes($subscription->duration),
-                "type" => stripslashes($subscription->type),
             );
         }
 
