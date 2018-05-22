@@ -141,6 +141,6 @@ $app->group('/frontend', function () use ($app) {
 
 
     $app->post('/checkpassword', 'checkpassword');
-
+    $app->post('/checkauctionvalidity', 'checkauctionvalidity');
 });
 ?>
