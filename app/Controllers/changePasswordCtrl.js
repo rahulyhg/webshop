@@ -25,7 +25,7 @@ var conf_password= user.conf_password;
 	
             if(response.Ack == '1') {
                 swal(response.msg,'','success');
-                $window.location.reload();
+                //$window.location.reload();
             } else {
                 swal('Error !!!!','','error');			
                    }
