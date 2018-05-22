@@ -330,6 +330,8 @@ $scope.addProduct = function(user2){
              user2.image= user2.image;
              user2.baseauctionprice= user2.baseauctionprice;
              user2.thresholdprice= user2.thresholdprice;
+             user2.state=user2.state;
+             user2.city=user2.city;
 //console.log(user2);
              userService.addproduct(user2).then(function(response) {
 		//console.log('htype',response);
@@ -402,7 +404,53 @@ $scope.addProduct = function(user2){
   };*/
 
 
+$scope.state = function (c_id) {
+        
+        userService.liststate(c_id).then(function (response) {
+           
+            $scope.isExists = 1;
+            if (response.Ack == '1') {
+                console.log(response);
+               
+                $scope.isExists = 1;
+               
+                $scope.statelist = response.statelist;
+              
 
+            } else {
+                console.log('ppp');
+                $scope.isExists = 0;
+            }
+
+        }, function (err) {
+            console.log(err);
+        });
+
+    }
+
+    $scope.city = function (s_id) {
+
+        userService.listcity(s_id).then(function (response) {
+
+            $scope.isExists = 1;
+            if (response.Ack == '1') {
+                console.log(response);
+
+                $scope.isExists = 1;
+
+                $scope.citylist = response.citylist;
+
+
+            } else {
+                console.log('ppp');
+                $scope.isExists = 0;
+            }
+
+        }, function (err) {
+            console.log(err);
+        });
+
+    }
 
 	
 

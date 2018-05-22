@@ -13,8 +13,9 @@
 										<label for="staticEmail"> Movement</label>
                                                                                 <select class="form-control" name="movement" ng-model="user2.movement"  required>
                                                                                     <option value="" selected>Please choose a movement</option>
-                                                                                    <option value="Automatic Movement">Automatic Movement</option>
-                                                                                    <option value="Quartz Movement">Quartz Movement</option>
+                                                                                    <option value="Automatic Movement">Automatic</option>
+                                                                                    <option value="Quartz Movement">Quartz</option>
+                                                                                    <option value="Other Movement">Other</option>
 										</select>
 										<!--<input type="text" class="form-control" id="" value="" ng-model="user2.movement" ng-pattern="/^[a-z A-Z]+$/" name="movement" required>-->
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.movement.$error.required"> This Field Is Required! </span>
@@ -76,11 +77,40 @@
                                                                     <div class="form-group">
 										<label for="staticEmail">Country</label>
                                                                                 
-										<select class="form-control" name="country" ng-model="user2.country"  required>
-											<option  ng-repeat="country_list in countrylist" value="{{country_list.name}}">{{country_list.name}}</option>
+										<select class="form-control" name="country" ng-model="user2.country" ng-change="state(user2.country)" required>
+											<option  ng-repeat="country_list in countrylist" value="{{country_list.id}}">{{country_list.name}}</option>
 										</select>
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.country.$error.required">Please Choose A Country</span>
 									</div>
+
+
+
+
+                                                                        <div class="form-group">
+										<label for="staticEmail">State</label>
+                                                                                
+										<select class="form-control" name="state" ng-model="user2.state" ng-change="city(user2.state)" required>
+											<option  ng-repeat="statelists in statelist" value="{{statelists.id}}">{{statelists.name}}</option>
+										</select>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.state.$error.required">Please Choose A State</span>
+									</div>
+
+                                                                        <div class="form-group">
+										<label for="staticEmail">City</label>
+                                                                                
+										<select class="form-control" name="city" ng-model="user2.city"  required>
+											<option  ng-repeat="citylists in citylist" value="{{citylists.id}}">{{citylists.name}}</option>
+										</select>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.city.$error.required">Please Choose A City</span>
+									</div>
+
+
+
+
+
+
+
+
 <!--									<div class="form-group">
 										<label for="staticEmail">Country</label>
 										<input type="text" class="form-control" id="" value="" ng-pattern="/^[a-z A-Z]+$/" placeholder="" ng-model="user2.country" name="country" required>

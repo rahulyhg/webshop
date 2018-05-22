@@ -41,10 +41,47 @@
 										<label for="staticEmail">{{language.email}}</label>
 										<input type="text" class="form-control" id="" value="" placeholder="christnknight@gmail.com" ng-model="user.email" name="email" required>
 									</div>
-									<div class="form-group">
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    <div class="form-group">
+										<label for="staticEmail">Country</label>
+										<select class="form-control" name="country" ng-model="user.country" ng-change="state(user.country)"  required>
+                                                                                    <option value="">Please select a Country</option>
+											<option  ng-repeat="countrylists in countrylist" value="{{countrylists.id}}">{{countrylists.name}}</option>
+										</select>
+                                                                                
+                                                                                
+									</div>
+                                                                    
+                                                                    
+                                                                    <div class="form-group">
+										<label for="staticEmail">State</label>
+                                                                                
+                                                                                   <select class="form-control" name="state" ng-model="user.state" ng-change="city(user.state)"  required>
+                                                                                    <option value="">Please select a state</option>
+											<option  ng-repeat="statelists in statelist" value="{{statelists.id}}">{{statelists.name}}</option>
+										</select> 
+                                                                    </div>
+                                                                    
+                                                                    
+                                                                    
+                                                                    <div class="form-group">
+										<label for="staticEmail">City</label>
+                                                                                
+                                                                                    <select class="form-control" name="state" ng-model="user.city"   required>
+                                                                                    <option value="">Please select a city</option>
+											<option  ng-repeat="citylists in citylist" value="{{citylists.id}}">{{citylists.name}}</option>
+										</select>  
+                                                                    </div>
+                                                                    
+                                                                    
+<!--									<div class="form-group">
 										<label for="staticEmail">Address</label>
 										<input type="text" class="form-control" id="" value="" placeholder="California, CA, United States" ng-model="user.address" name="address" required>
-									</div>
+									</div>-->
                                                                     <div class="form-group">
 										<label for="staticEmail">IBAN Number</label>
 										<input type="text" class="form-control" id="" value="" placeholder="IBAN Number" ng-model="user.ibanno" name="ibanno" required>
@@ -61,6 +98,18 @@
 											<option value="English">English</option>
 										</select>
 									</div>
+
+                                                                        <div class="form-group">
+										<label for="staticEmail">Country</label>
+										<select class="form-control" name="country_preference" ng-model="user.country_preference" required>
+                                                                                    <option value="">Please select prefer Country</option>
+											<option  ng-repeat="countrylists in countrylist" value="{{countrylists.id}}">{{countrylists.name}}</option>
+										</select>
+                                                                                
+                                                                                
+									</div>
+
+
                                           <!--   hidden by puja as on 12.3.2018    -->              
                                                                   <!--   <div class="form-group" ng-if="current_user_type=='2'">
 										<label for="staticEmail">Secret Key</label>

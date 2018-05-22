@@ -1119,6 +1119,18 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                 },
                 resolve: loadSequence('loyaltydetails')
             })
+            
+            
+             .state('frontend.filterbylocation', {
+                url: '/filterbylocation',
+                templateUrl: 'app/views/filterbylocation.html',
+                title: 'filterbylocation',
+				controller: 'filterbylocationCtrl',
+                ncyBreadcrumb: {
+                    label: 'filterbylocation page'
+                },
+                resolve: loadSequence('filterbylocation')
+            })
 
           /*   .state('frontend.test', {
                 url: '/test',

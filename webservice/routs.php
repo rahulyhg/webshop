@@ -142,5 +142,11 @@ $app->group('/frontend', function () use ($app) {
 
     $app->post('/checkpassword', 'checkpassword');
     $app->post('/checkauctionvalidity', 'checkauctionvalidity');
+    $app->post('/listcountry', 'listcountry');
+    $app->post('/liststate', 'liststate');
+    $app->post('/listcity', 'listcity');
+    $app->post('/myproductbylocation', 'myproductbylocation');
+    
+    
 });
 ?>

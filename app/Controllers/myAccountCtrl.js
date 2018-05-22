@@ -7,16 +7,15 @@ app.controller('myAccountCtrl', function ($rootScope, $scope, $http, $location,$
 $scope.data = {};
 $scope.user = {};
 
+
 $scope.getCurrentUserType();   
 //console.log($scope.current_user_type);
-
-
 
 
   	var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;
 
-	
+	//console.log("spandan",userInfo);  
 
 	
    userService.getAccountDetails(userInfo.user_id).then(function(response) {
@@ -44,6 +43,10 @@ $scope.getCurrentUserType();
                                 $scope.user.language_preference=response.UserDetails.language_preference;
                                 $scope.user.civilid1=response.UserDetails.civilid1;
                                 $scope.user.civilid2=response.UserDetails.civilid2;
+                                $scope.user.country_preference=response.UserDetails.country_preference;
+                                
+                                $scope.state($scope.user.country);
+                                $scope.city($scope.user.state);
 				
               }else{
 				  
@@ -78,40 +81,114 @@ $scope.getCurrentUserType();
     }); 
 	
 	
+   
+        
+        
 	
-	 	$scope.updateProfile = function(user){
+    $scope.updateProfile = function (user) {
 
-	 		//console.log('hellouser',user); return false;
-	 		var userInfo = JSON.parse($window.localStorage["userInfo"]);	
-	$scope.user_id=userInfo.user_id;
+        //console.log('hellouser',user); return false;
+        var userInfo = JSON.parse($window.localStorage["userInfo"]);
+        $scope.user_id = userInfo.user_id;
 
-			//alert($scope.user_id)
-	   userService.updateProfile(user,$scope.user_id).then(function(response) {
-																	   
-	console.log(response);
+        //alert($scope.user_id)
+        userService.updateProfile(user, $scope.user_id).then(function (response) {
+
+            console.log(response);
+
+            if (response.Ack == '1') {
+                
+                
+                
+                
+                swal("Profile Updated!", "", "success");
+                //alert('Profile Updated');
+                //user.fname='';
+            } else {
+
+                swal("Profile Can not Be Updated!", "", "error");
+            }
+
+
+
+
+
+        }, function (err) {
+            // console.log(err); 
+        });
+
+    }; 	
 	
-	if(response.Ack == '1') {
-           swal("Profile Updated!", "", "success");
-	//alert('Profile Updated');
-        //user.fname='';
+	
+
+userService.listcountry().then(function(response) {
+           
+		$scope.isExists=1;
+		if(response.Ack == '1') {
+                  
+                    $scope.isExists=1;
+                  
+		$scope.countrylist=response.countrylist;
+              
 		} else {
-			
-	 swal("Profile Can not Be Updated!", "", "error");			
-			}
+                    console.log('ppp');	
+                    $scope.isExists=0;
+		}
 	
-	
-	
-	
-																	   
-       }, function(err) {
-        // console.log(err); 
-    }); 	
-			
-			}; 	
-	
-	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
 
-	
+
+
+    $scope.state = function (c_id) {
+        
+        userService.liststate(c_id).then(function (response) {
+           
+            $scope.isExists = 1;
+            if (response.Ack == '1') {
+                console.log(response);
+               
+                $scope.isExists = 1;
+               
+                $scope.statelist = response.statelist;
+              
+
+            } else {
+                console.log('ppp');
+                $scope.isExists = 0;
+            }
+
+        }, function (err) {
+            console.log(err);
+        });
+
+    }
+
+    $scope.city = function (s_id) {
+
+        userService.listcity(s_id).then(function (response) {
+
+            $scope.isExists = 1;
+            if (response.Ack == '1') {
+                console.log(response);
+
+                $scope.isExists = 1;
+
+                $scope.citylist = response.citylist;
+
+
+            } else {
+                console.log('ppp');
+                $scope.isExists = 0;
+            }
+
+        }, function (err) {
+            console.log(err);
+        });
+
+    }	
 	
 
 });
