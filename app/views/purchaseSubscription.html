@@ -15,7 +15,7 @@
 									<b class="d-block mb-2">Duration: {{subscription.duration}} Days</b>
 <!--									<p><button type="button" class="btn btn-primary" ng-click="purchase(subscription.id)"> Purchase</button></p>-->
                                                                         
-                                                                        <p><button type="button" class="btn btn-primary" ng-click="payment(subscription.id)"> Purchase</button></p>
+                                                                        <p><button type="button" class="btn btn-primary" ng-click="payment(subscription.id)"> Purchase</button> <b  ng-if="subscription.type == 'O'">Offer</b></p> 
                                                                         
                                                                         
                                                                         

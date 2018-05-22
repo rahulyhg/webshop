@@ -91,7 +91,7 @@
 										<input type="text" class="form-control" id="" value="" placeholder="Bank Name" ng-model="user.bankname" name="bankname" required>
 									</div>
                                                                    <div class="form-group">
-										<label for="staticEmail">Language Preference</label>
+										<label for="staticEmail">Preferred Language</label>
 										<select class="form-control" ng-model="user.language_preference" name="language_preference">
                                                                                     <option value="" selected>Please Select Your Language</option>
 											<option value="Arabic">Arabic</option>
@@ -100,7 +100,7 @@
 									</div>
 
                                                                         <div class="form-group">
-										<label for="staticEmail">Country</label>
+										<label for="staticEmail">Preferred Country</label>
 										<select class="form-control" name="country_preference" ng-model="user.country_preference" required>
                                                                                     <option value="">Please select prefer Country</option>
 											<option  ng-repeat="countrylists in countrylist" value="{{countrylists.id}}">{{countrylists.name}}</option>
@@ -108,6 +108,19 @@
                                                                                 
                                                                                 
 									</div>
+
+
+                                                                        <div class="form-group">
+										<label for="staticEmail">Preferred Currency</label>
+										<select class="form-control" name="currency_preference" ng-model="user.currency_preference"  required>
+										<option value="">Please select prefer Currency</option>	
+                                                                                    <option  ng-repeat="currencylists in currencylist" value="{{currencylists.code}}">{{currencylists.name}}</option>
+										</select>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.currency.$error.required">Please Choose Currency</span>
+									</div>
+
+
+
 
 
                                           <!--   hidden by puja as on 12.3.2018    -->              

@@ -44,6 +44,7 @@ $scope.getCurrentUserType();
                                 $scope.user.civilid1=response.UserDetails.civilid1;
                                 $scope.user.civilid2=response.UserDetails.civilid2;
                                 $scope.user.country_preference=response.UserDetails.country_preference;
+                                $scope.user.currency_preference=response.UserDetails.currency_preference;
                                 
                                 $scope.state($scope.user.country);
                                 $scope.city($scope.user.state);
@@ -188,7 +189,36 @@ userService.listcountry().then(function(response) {
             console.log(err);
         });
 
-    }	
+    }
+    
+    
+    
+    userService.listcurrency().then(function (response) {
+
+        console.log(response.Ack);
+        $scope.isExists = 1;
+        if (response.Ack == '1') {
+
+            $scope.isExists = 1;
+
+            $scope.currencylist = response.currencylist;
+
+
+        } else {
+            console.log('ppp');
+            $scope.isExists = 0;
+        }
+
+
+
+
+    }, function (err) {
+        console.log(err);
+    });
+    
+    
+    
+    
 	
 
 });
