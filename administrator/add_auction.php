@@ -330,13 +330,13 @@ if ($num > 0) {
                                     </div>
                                 </div>
 
-                                <div class="control-group">
+<!--                                <div class="control-group">
                                     <label class="control-label">Country</label>
                                     <div class="controls">
                                         <input type="text" class="form-control" placeholder="Enter country" value="<?php echo $categoryRowset['country']; ?>" name="country" required>
 
                                     </div>
-                                </div>
+                                </div>-->
 
                                 <div class="control-group">
                                     <label class="control-label">Size</label>
