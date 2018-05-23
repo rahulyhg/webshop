@@ -11,20 +11,19 @@
 						<div class="row">
 							<div class="col-md-12">
 								
-                                                            <!--<img class="mr-3" src="{{product_image}}" alt="Generic placeholder image">{{product_name}}-->
-                                                            <h5>{{product_name}}</h5>
-                                                             <img class="thumbnail_upload_img" ngf-thumbnail="product_image"  style="width:100px;height:100px;">
-                                                             
+                                                            <img class="mr-3"  src="{{product_image}}" style="width:150px;height:150px;" alt="Generic placeholder image">{{product_name}}<hr>
+                                                            
                                                             <div class="media" ng-repeat="message_list in fillmessage">
 								  
-                                                                 <img ng-if="user_id == message_list.from_id" style="width:80px;height:80px;" class="mr-3 image" src="{{message_list.image}}" alt="Generic placeholder image">
-                                                                 <p ng-if="user_id == message_list.from_id">{{message_list.username}}</p>&nbsp;
-                                                                 <!--<div ng-if="user_id != message_list.from_id" class="mr-3" style="width:80px;height:80px;">You</div>-->
+                                                                 <img ng-if="user_id != message_list.from_id" class="mr-3 thumbnail_upload_img" ngf-thumbnail="message_list.image"  style="width:50px;height:50px;" alt="Generic placeholder image">
 								  <div class="media-body">
-                                                                      
-								    <p ng-if="user_id == message_list.from_id">{{message_list.message}}</p>
+                                                                       
+                                                                      <div class="message-bg-me mb-5" ng-if="user_id == message_list.from_id && message_list.message">
+                                                                      <p >{{message_list.message}}</p>
+                                                                      </div>
+                                                                     
                                                                     
-								    <div class="media mt-3" ng-if="user_id == message_list.to_id">
+								    <div class="media" ng-if="user_id == message_list.to_id">
 								      <div class="media-body">
 								      <div class="message-bg mb-5">
 								      
@@ -42,7 +41,7 @@
 
                                                              <form name="addProductForm" ng-submit="addmessage(message)" novalidate>
 								<div class="form-group mt-4">
-									<textarea class="form-control" placeholder="Your Message " ng-model="message.message" name="message"></textarea> 
+                                                                    <textarea class="form-control" placeholder="... Message Type Here" ng-model="message.message" name="message" required></textarea> <p style="color:red;">{{messageerror}}</p>
                                                                         <input type="hidden" class="form-control" id="" ng-model="message.to_id" name="to_id" required>
                                                                         <input type="hidden" class="form-control" ng-model="message.product_id" name="product_id" required>
                                                                         <input type="hidden" class="form-control" ng-model="message.from_id" name="from_id" required>
@@ -50,7 +49,7 @@
 								</div>
 								
 								<div class="form-group">
-									<button class="btn btn-primary">Send</button>
+									<button class="btn btn-primary">SUBMIT</button>
 								</div>
                                                              </form>
 								
@@ -84,7 +83,9 @@
     border-radius: 3px;
 }
 .message-list .media img{
-	border: 1px solid #d9d8d7 !important;
+	/*border: 1px solid #d9d8d7 !important;*/
+        border: 1px solid #b1ada9 !important;
+        border-radius: 50%;
 }
 .message-list p span{
 	font-weight: 600;
@@ -115,8 +116,16 @@
 	border: 1px solid #dddddd;
 	border-radius: 8px;
 	padding: 15px 20px;
-	margin-left: 90px;
-    margin-top: 20;
+	//margin-left: 90px;
+        //margin-top: 10px;
+}
+.message-bg-me{
+        background:#e7e3e3;
+	border: 1px solid #c2bdbd;
+	border-radius: 8px;
+	padding: 15px 20px;
+	//margin-left: 90px;
+        //margin-top: 10px;
 }
 
 .image {
@@ -124,5 +133,8 @@
     border-radius: 4px;
     padding: 5px;
     width: 150px;
+}
+.mb-5, .my-5 {
+    margin-bottom: 2rem !important;
 }
 </style>
