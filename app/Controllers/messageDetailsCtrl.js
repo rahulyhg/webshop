@@ -9,12 +9,11 @@ $scope.data = {};
 $scope.user = {};
 $scope.message = {};
 $scope.fillmessage = '';
+$scope.messageerror ='';
 $scope.checkboxstr=[];
  $scope.user.brand=[];
  $scope.checkboxstr2=[];
  $scope.user.shop=[];
- $scope.to_id='';
-  $scope.from_id='';
 if ($window.localStorage["userInfo"]) {
 var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;
@@ -31,34 +30,20 @@ $scope.isform1 =0;
 	$scope.isform1 =1;
 
 }
-
-
-
-$scope.from_id='';
-if($stateParams.from_id){
- if($stateParams.from_id != $scope.user_id ){
-        $scope.message.from_id=$stateParams.to_id;
-$scope.from_id = $stateParams.to_id;
-    }else{
-       $scope.message.from_id=$stateParams.from_id;
-$scope.from_id = $stateParams.from_id; 
-    }  
-
-//alert($scope.product_id);
-}
 $scope.to_id='';
 if($stateParams.to_id){
-    if($stateParams.to_id == $scope.user_id ){
-        $scope.message.to_id=$stateParams.from_id;
-        $scope.to_id = $stateParams.from_id;
+    
+     if($stateParams.to_id == $scope.user_id){
+      $scope.to_id=$stateParams.from_id;
+      $scope.message.to_id=$stateParams.from_id;
     }else{
-$scope.message.to_id=$stateParams.to_id;
-$scope.to_id = $stateParams.to_id;
+      $scope.to_id=$stateParams.to_id;
+      $scope.message.to_id=$stateParams.to_id;
     }
-//alert($scope.product_id);
+    
+    
+//alert($scope.to_id);
 }
-
-
 $scope.product_id='';
 if($stateParams.product_id){
 $scope.message.product_id=$stateParams.product_id;
@@ -75,15 +60,22 @@ else {
 	userInfo.user_id ="";
 	$scope.user_id=userInfo.user_id;
 }
-/*$scope.from_id='';
+$scope.from_id='';
 if($stateParams.from_id){
-$scope.from_id=$stateParams.from_id;
-$scope.message.from_id = $scope.user_id;
+    if($stateParams.from_id == $scope.user_id){
+        
+       $scope.from_id=$stateParams.from_id;
+        $scope.message.from_id = $stateParams.from_id; 
+    }else{
+        $scope.from_id=$stateParams.to_id;
+        $scope.message.from_id = $stateParams.to_id; 
+    }
+
 //alert($scope.from_id);
-}*/
+}
 
 userService.getfullMessages($scope.to_id,$scope.product_id,$scope.from_id).then(function(response) {
-       // alert($scope.to_id+'-'+$scope.from_id+'-'+$scope.product_id);
+        //alert($scope.to_id);
 		//console.log('hello',response);
 		//$scope.isExists=1;
 		if(response.Ack == '1') {
@@ -108,8 +100,9 @@ userService.getfullMessages($scope.to_id,$scope.product_id,$scope.from_id).then(
         
 $scope.addmessage = function(message){
     
- 
+ if(message.message){
              userService.addmessage(message).then(function(response) {
+                 
 		console.log('htype',response);
 		$scope.isExists=1;
 		if(response.Ack == '1') {
@@ -120,7 +113,7 @@ $scope.addmessage = function(message){
 		
 		}else if(response.Ack == '0'){
                     
-                   swal(response.msg,'','error');
+                   alert(response.msg);
                    
                 } else {
                     
@@ -129,13 +122,16 @@ $scope.addmessage = function(message){
 		}
 	
 	
-	
+             
 				   
 	}, function(err) {
 	console.log(err); 
 	});     
         
-       
+       }else{
+                 
+                $scope.messageerror = 'Please write a message ..';
+             }
         
 }   
 
