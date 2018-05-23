@@ -303,7 +303,7 @@ if ($_REQUEST['action'] == 'edit') {
                                                             <a  onClick="javascript:active('<?php echo $tools_type['id']; ?>', '<?php echo $uploader['fname']; ?>', '<?php echo $uploader['email']; ?>');">Click to Activate</a>
                                                         <?php } else {
                                                             ?>
-                                                            <a  href="javascript:void(0)">Click to Activate</a>
+                                                            <a  href="javascript:void(0)" onclick="edit_alert()">Click to Activate</a>
                                                             <?php
                                                         }
                                                     } else {
@@ -425,6 +425,15 @@ if ($_REQUEST['action'] == 'edit') {
                                                     EditableTable.init();
                                                 });
 </script>
+
+<script>
+
+function edit_alert(){
+    
+    alert('Please edit auction first.');
+}
+
+</script>
 </body>
 <!-- END BODY -->
 </html>
@@ -503,3 +512,4 @@ function test_mail($to, $firstname) {
 
 //---------------------------------------------------------------------------
 ?>
+

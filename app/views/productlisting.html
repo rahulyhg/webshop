@@ -9,18 +9,19 @@
 			<div class="search-header widte-bg py-3 px-4 mb-3">
 				<!--<form class="m-0" ng-submit="normalsearch(formdata)">-->
 				  <div class="form-row align-items-center">
-				    <div class="col-sm-3 my-1">
+				    <div class="col-sm-4 my-1">
 				      <div class="input-group">
 				        <div class="input-group-prepend">
 				          <div class="input-group-text"><i class="fa fa-user"></i></div>
 				        </div>
-				        <!-- <input type="text" style="border-left:0;" class="form-control pl-0"  gm-places-autocomplete ng-model="autocomplete" id="inlineFormInputGroupUsername" placeholder="Username"> -->
-<!--				         <input type="text" style="border-left:0;" class="form-control pl-0" id="inlineFormInputGroupUsername" placeholder="Username">-->
+				        
+
 
                                                 <select class="custom-select" id="inputGroupSelect01" ng-change="searchListing()" ng-model="gender">
                                                             <option value="" selected="selected">Gender</option>
 							    <option value="Male">Male</option>
 							    <option value="Female">Female</option>
+                                                            <option value="Unisex">Unisex</option>
 							    
 						  </select>
 
@@ -28,7 +29,7 @@
 
 				      </div>
 				    </div>
-				    <div class="col-sm-3 my-1">
+				    <div class="col-sm-4 my-1">
                                         
 					    	<select class="custom-select" id="inputGroupSelect01" ng-model="breslettype" ng-change="searchListing()">
 							    <option value="" selected="selected">Breslet</option>
@@ -42,7 +43,7 @@
 				        <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Username">
 				      </div>
 				    </div> -->
-				     <div class="col-sm-3 my-1">
+				     <div class="col-sm-4 my-1">
 					    	 <select class="custom-select" ng-change="searchListing()" ng-model='year' ng-options='year for year in YearsList'></select>
 					 </div>
 <!--				    <div class="col-sm-1 my-1">
@@ -52,14 +53,14 @@
                                 
                                 
                                 
-                            <div class="col-sm-3 my-1">
+<!--                            <div class="col-sm-3 my-1">
                                         
                                         <datepicker date-format="yyyy-MM-dd" selector="form-control"  date-enabled-dates="{{listAuctionDtates}}">
 
                                        <input class="form-control" ng-change="searchListing()"  ng-model="preferred_date" name="preferred_date" required placeholder="Choose auction date" readonly/>
 
                                     </datepicker>
-                                </div>
+                                </div>-->
                                 
                                 
                                 </div>
@@ -112,7 +113,7 @@
                                                             <div class="form-group">
 
 
-                                                                <select class="form-control" name="state" ng-model="user.city"   required>
+                                                                <select class="form-control" name="city_id" ng-change="searchListing()" ng-model='city_id'   required>
                                                                     <option value="">Select city</option>
                                                                     <option  ng-repeat="citylists in citylist" value="{{citylists.id}}">{{citylists.name}}</option>
                                                                 </select>  

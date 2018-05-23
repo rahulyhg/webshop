@@ -91,6 +91,10 @@ if($window.localStorage["selected_value"]){
 	$scope.selected_value='';
 }
 
+
+
+
+
 //spandan
 if($scope.gender){
     $scope.gender;
@@ -132,13 +136,31 @@ if($scope.preferred_date){
     $scope.preferred_date="";
 }
 
-       
+if($scope.country_id){
+	$scope.country_id=$scope.country_id;
+}else{
+	$scope.country_id='';
+}
+
+
+if($scope.state_id){
+	$scope.state_id=$scope.state_id;
+}else{
+	$scope.state_id='';
+}
+
+if($scope.city_id){
+    $scope.city_id;
+}else{
+    $scope.city_id="";
+}
+ //alert($scope.city_id);      
 //alert($scope.preferred_date);
 
  //spandan end     
 
 //console.log('amount',$scope.amount_max);
- userService.searchListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.preferred_date).then(function(response) {
+ userService.searchListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.preferred_date,$scope.country_id,$scope.state_id,$scope.city_id).then(function(response) {
      
 
 		
@@ -370,7 +392,11 @@ userService.listcountry().then(function(response) {
         }, function (err) {
             console.log(err);
         });
-
+        
+        $scope.country_id=c_id;
+       
+        $scope.searchListing();
+       
     }
 
     $scope.city = function (s_id) {
@@ -394,6 +420,10 @@ userService.listcountry().then(function(response) {
         }, function (err) {
             console.log(err);
         });
+        
+        $scope.state_id=s_id;
+       
+        $scope.searchListing();
 
     }
 
