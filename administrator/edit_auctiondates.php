@@ -237,7 +237,8 @@ if ($_REQUEST['action'] == 'edit') {
 <!-- Footer Start -->
 
 <?php include("includes/footer.php"); ?>
-
+<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="css/mdtimepicker.css">
 <!-- Footer End -->
 <!-- BEGIN JAVASCRIPTS -->
 <!-- Load javascripts at bottom, this will reduce page load time -->
@@ -270,6 +271,17 @@ if ($_REQUEST['action'] == 'edit') {
 <script src="js/sparkline-chart.js"></script>
 <script src="js/home-page-calender.js"></script>
 <script src="js/home-chartjs.js"></script>
+
+
+<script src="js/mdtimepicker.js"></script>
+
+<script>
+  $(document).ready(function(){
+    $('.timepicker').mdtimepicker(); //Initializes the time picker
+  });
+</script>
+
+
 <script>
                                                     function del(aa, bb)
                                                     {
@@ -312,9 +324,9 @@ if ($_REQUEST['action'] == 'edit') {
 
                                                                 $(wrapper).append(field); //add input box
 
-                                                                $('.time').find('.timepicker').timepicker({
-                                                                    timeFormat: 'h:mm p',
-                                                                    interval: 15,
+                                                                $('.time').find('.timepicker').mdtimepicker({
+                                                                   // timeFormat: 'h:mm p',
+                                                                   // interval: 15,
                                                                     dynamic: false,
                                                                     dropdown: true,
                                                                     scrollbar: true
@@ -328,9 +340,9 @@ if ($_REQUEST['action'] == 'edit') {
                                                             x--;
                                                         })
                                                     });
-                                                    $('body').find('.timepicker').timepicker({
-                                                        timeFormat: 'h:mm p',
-                                                        interval: 15,
+                                                    $('body').find('.timepicker').mdtimepicker({
+                                                       // timeFormat: 'h:mm p',
+                                                       // interval: 15,
                                                         dynamic: false,
                                                         dropdown: true,
                                                         scrollbar: true

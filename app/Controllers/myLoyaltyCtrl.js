@@ -46,7 +46,7 @@ $scope.myloyalty = function(){
 		
 		} else {
                     
-                    $scope.totalloyalty='';
+                    $scope.totalloyalty= 0;
                      $scope.exists=0;
 		}
 	

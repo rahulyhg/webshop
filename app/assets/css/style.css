@@ -730,4 +730,47 @@ input[type='submit'].btn-round{
 
 
 
-
+b.ng-scope {
+    text-transform: uppercase;
+    background: #b1b0b0;
+    padding: 4px 10px;
+    border-radius: 2px 0;
+    color: #ffffff;
+    animation: pulse 1s infinite;
+    
+/*    animation-name: offer;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-play-state: running;*/
+     
+}
+@keyframes pulse{
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.80;
+  }
+  75%{
+     opacity: 0.99;
+  }
+  100%{
+      opacity: 1;
+  }
+}
+@-webkit-keyframes pulse{
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.95;
+  }
+  75%{
+     opacity: 0.99;
+  }  
+  100%{
+      opacity: 1;
+  }
+}
+           
+        
