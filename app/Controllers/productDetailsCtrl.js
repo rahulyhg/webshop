@@ -128,14 +128,14 @@ $scope.product_id=$stateParams.id;
                    // alert('gg');
 	$scope.loader = true;
 		// $scope.productLists=response.productList;
-		alert("Message Sent Successfully");
+		swal("Message Sent Successfully",'','success');
 		$scope.is_hide=0;
                 $scope.is_click=0;
 		
 
   } else {
       $scope.loader = true;
-alert("Mail can not be sent ");
+swal("Mail can not be sent",'','error');
 		}
 	
 				   
@@ -206,7 +206,7 @@ else {
                 
                else {
 			
-	alert('Error !!!!');			
+	swal('Error !!!!','','error');			
 			}
 	
 	
@@ -224,6 +224,7 @@ else {
     //alert('bid');
      //var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	//$scope.user_id=userInfo.user_id;
+        //$scope.checkauctionvaliditybeforeaddbid();
         bid.bidincrement=5;
     bid.bidprice=bid.bidprice;
     bid.productid =$scope.product_id;
@@ -275,13 +276,13 @@ else {
                    // alert('gg');
 	$scope.loader1 = true;
 		// $scope.productLists=response.productList;
-		alert("Mail Sent Successfully");
+		swal("Mail Sent Successfully",'','success');
 		$scope.Showdetails();
 		
 
   } else {
       $scope.loader = true;
-alert("Mail can not be sent ");
+swal("Mail can not be sent",'','error');
 		}
 	
 				   
@@ -316,7 +317,7 @@ alert("Mail can not be sent ");
 		if(response.Ack == '1') {
 		 $scope.Showdetails();
                  $('#myModal1').modal('hide');
-                 alert('Secessfully submitted your Reviwe');
+                 swal('Secessfully submitted your Reviwe','','success');
 		
 		
 
@@ -353,19 +354,26 @@ alert("Mail can not be sent ");
     
     };
     
+    
+    
     $scope.checkauctionvalidity = function(){
+         
+        
         userService.checkauctionvalidity($scope.product_id,userInfo.user_id).then(function(response) {
              if(response.Ack == '1') { 
                  $('#password').modal('show');
                  
             } else if(response.Ack == '2'){
          $scope.winnermsg ='Congratulation, You Are Winner';
+         $('#myModal').modal('hide');
           $('#password').modal('hide');
            $('#winner').modal('show'); 
            
     }else if(response.Ack == '3'){
        
-                     $scope.winnermsg ='Better Luck Next Time';
+                     $scope.winnermsg ='Better Luck Next Time,Please Try Our Other Auctions';
+                     $scope.winnerlink = '2';
+                     $('#myModal').modal('hide');
                       $('#password').modal('hide');
                      $('#winner').modal('show');
                    // $scope.isExists=0;
@@ -417,7 +425,7 @@ alert("Mail can not be sent ");
     
         
  $scope.addmessage = function(message){
-    $scope.checkpassword();
+    //$scope.checkpassword();
  message.message=message.message;
   message.to_id=message.seller_id;
    message.from_id=userInfo.user_id; 
@@ -478,6 +486,80 @@ alert("Mail can not be sent ");
                       $scope.msg=data.message;
                     });
             }
+            
+            $scope.checkauctionvaliditybeforeaddbid = function(bid){
+                bid.bidincrement=5;
+    bid.bidprice=bid.bidprice;
+    bid.productid =$scope.product_id;
+    bid.userid = $scope.user_id;
+   // bid.uploaderid = bid.uploaderid;
+    bid.uploaderid = $scope.productLists.uploader_id;
+    if($scope.productLists.bidincrement && $scope.productLists.bidincrement!= 0 ){
+    bid.bidincrement = $scope.productLists.bidincrement;
+    }
+        userService.checkauctionvaliditybeforeaddbid($scope.product_id,userInfo.user_id).then(function(response) {
+             if(response.Ack == '1') { 
+                 $scope.addbid2(bid)
+                 
+            } else if(response.Ack == '2'){
+         $scope.winnermsg ='Auction Is Ended, Please Try Our Other Auctions';
+         $scope.winnerlink = '2';
+         $('#password').modal('hide');
+          $('#myModal').modal('hide');
+           $('#winner').modal('show'); 
+           
+    }
+            
+        }, function(err) {
+	console.log(err); 
+	});
+    };
     
+      $scope.gotolink = function(bid){
+          //alert();
+          $('#winner').modal('hide');
+          $state.go('frontend.searchListing');
+      }
+    
+    $scope.addbid2 = function(bid){
+    //alert('bid');
+     //var userInfo = JSON.parse($window.localStorage["userInfo"]);	
+	//$scope.user_id=userInfo.user_id;
+        //$scope.checkauctionvaliditybeforeaddbid();
+        bid.bidincrement=5;
+    bid.bidprice=bid.bidprice;
+    bid.productid =$scope.product_id;
+    bid.userid = $scope.user_id;
+   // bid.uploaderid = bid.uploaderid;
+    bid.uploaderid = $scope.productLists.uploader_id;
+    if($scope.productLists.bidincrement && $scope.productLists.bidincrement!= 0 ){
+    bid.bidincrement = $scope.productLists.bidincrement;
+    }
+   // $scope.checkauctionvalidity();
+    //alert(bid.bidprice);
+     //console.log('bidding',bid);
+      userService.addbid( bid.userid,bid.productid,bid.bidprice,bid.uploaderid,bid.bidincrement).then(function(response) {
+
+	//console.log("vv",response);
+		
+		if(response.Ack == '1') {
+		 $scope.Showdetails();
+                // $('#myModal').modal('hide');
+                 //alert('Secessfully submitted your bid');
+		
+		
+
+  } else {
+
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+        
+       
+    
+    };
 });
 

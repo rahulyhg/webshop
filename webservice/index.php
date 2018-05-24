@@ -1094,20 +1094,20 @@ function ProductsDetails() {
         $higestbiddername = '';
         $higestbidderbid = '';
         //print_r($naxbidmax);
-        if(!empty($naxbidmax)){
-        if ($naxbidmax->id != '') {
-            $sqlmaxbidder = "SELECT * FROM webshop_user WHERE id=$naxbidmax->userid ";
-            $stmtmaxbidder = $db->prepare($sqlmaxbidder);
-            //echo 'hi';
-            // exit;
-            $stmtmaxbidder->execute();
-            $getUserdetailmaxbidder = $stmtmaxbidder->fetchObject();
-            $higestbiddername = $getUserdetailmaxbidder->fname . " " . $getUserdetailmaxbidder->lname;
-            $higestbidderbid = $naxbidmax->bidprice;
-        } else {
-            $higestbiddername = '';
+        if (!empty($naxbidmax)) {
+            if ($naxbidmax->id != '') {
+                $sqlmaxbidder = "SELECT * FROM webshop_user WHERE id=$naxbidmax->userid ";
+                $stmtmaxbidder = $db->prepare($sqlmaxbidder);
+                //echo 'hi';
+                // exit;
+                $stmtmaxbidder->execute();
+                $getUserdetailmaxbidder = $stmtmaxbidder->fetchObject();
+                $higestbiddername = $getUserdetailmaxbidder->fname . " " . $getUserdetailmaxbidder->lname;
+                $higestbidderbid = $naxbidmax->bidprice;
+            } else {
+                $higestbiddername = '';
+            }
         }
-    }
         //echo $higestbiddername;exit;
         $sqlbrand = "SELECT *  FROM webshop_brands WHERE id=:brand_id";
         $stmtbrand = $db->prepare($sqlbrand);
@@ -8826,6 +8826,73 @@ function myproductbylocation() {
         $data['Ack'] = '0';
         $app->response->setStatus(200);
     }
+
+    $app->response->write(json_encode($data));
+}
+
+function checkauctionvaliditybeforeaddbid() {
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $product_id = isset($body->product_id) ? $body->product_id : '';
+    $user_id = isset($body->userid) ? $body->userid : '';
+    $db = getConnection();
+    $sql1 = "SELECT * FROM webshop_products WHERE id=:product_id AND auctioned=0";
+
+    $stmt1 = $db->prepare($sql1);
+    $stmt1->bindParam("product_id", $product_id);
+    $stmt1->execute();
+    $count = $stmt1->rowCount();
+
+    if ($count > 0) {
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    } else {
+        $data = array();
+        $data['auctionwinner'] = '';
+        $data['Ack'] = '2';
+        $app->response->setStatus(200);
+    }
+
+
+    /* if ($count > 0) {
+      $data['Ack'] = '1';
+      $app->response->setStatus(200);
+      } else {
+
+      $sql = "SELECT * from  webshop_auction_winner WHERE user_id=:user_id AND product_id=:product_id  order by id desc";
+      $stmt = $db->prepare($sql);
+      $stmt->bindParam("user_id", $user_id);
+      $stmt->bindParam("product_id", $product_id);
+      $stmt->execute();
+      //$count = $stmt->rowCount();
+      $getauctionwinner = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+      if (!empty($getauctionwinner)) {
+      foreach ($getauctionwinner as $winner) {
+
+      $data['auctionwinner'] = stripslashes($winner->user_id);
+
+
+      }
+
+
+      $data['Ack'] = '2';
+
+      $app->response->setStatus(200);
+      } else {
+      $data = array();
+      $data['auctionwinner'] = '';
+      $data['Ack'] = '3';
+      $app->response->setStatus(200);
+      }
+      } */
+
+
+
 
     $app->response->write(json_encode($data));
 }

@@ -169,7 +169,7 @@
   
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
-<form class="modal-content animate" ng-submit="addbid(bid)">
+<form class="modal-content animate" ng-submit="checkauctionvaliditybeforeaddbid(bid)">
     <!-- Modal content-->
     <div class="modal-content">     
         <div class="modal-body">
@@ -229,7 +229,7 @@
                        </h6>
                         <h6>                                         
                             
-                            <input type="number" class="form-control btn-round" id="" step="{{productLists.bidincrement}}"  placeholder="Input Your Bid" ng-model="bid.bidprice" name="bidprice" capitalize required>
+                            <input type="number" class="form-control btn-round" id="" step="{{productLists.bidincrement}}" tooltips tooltip-template="Bid Increment is multiple of {{productLists.bidincrement}}" tooltip-side="up"  placeholder="Input Your Bid" ng-model="bid.bidprice" name="bidprice" capitalize required>
                         <input type="hidden" class="form-control" id="" value="" placeholder="" ng-model="bid.uploaderid=productLists.uploader_id" name="uploaderid" required>
                         <input type="hidden" class="form-control" id="" placeholder="" ng-model="productLists.id" name="productid" required>
                         </h6>
@@ -357,7 +357,11 @@
                                                        <h5>{{winnermsg}}</h5>   
                                                                                                        
       </div>
-
+        
+        <div class="modal-body" ng-if="winnerlink==2">
+            <a ng-if="winnerlink==2" class="nav-link" ng-click="gotolink()" href="javascript:void(0)">Click Here</a> 
+               
+</div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>

@@ -662,7 +662,24 @@ userService.changeLaguage(1).then(function(response) {
     });
 
 }else{
-    //alert('else');
+    userService.changeLaguage(2).then(function(response) {
+	 if(response.Ack == '1') {
+				
+               $window.localStorage["language"] = 2;
+                $scope.language = response.languages;
+                                   
+                }
+                
+        
+        else {
+
+              }
+																	
+	}, function(err) {
+            
+            $window.location.reload();
+         console.log(err); 
+    });
 }
 
 if($window.localStorage["language"] == ""){
@@ -696,7 +713,7 @@ userService.changeLaguage(1).then(function(response) {
 
   $scope.selectedlaguage = function(laguage){
       //alert(laguage);
-         if(laguage == 1){
+       
 userService.changeLaguage(laguage).then(function(response) {
 		
                 //alert(laguage);
@@ -708,6 +725,7 @@ userService.changeLaguage(laguage).then(function(response) {
                 $window.localStorage["language"]= laguage;
                  //$scope.langu= laguage;
                 $scope.language = response.languages;
+                console.log('language',$scope.language ); 
                  $window.location.reload();            
                                 
                               
@@ -726,13 +744,7 @@ userService.changeLaguage(laguage).then(function(response) {
             //$window.location.reload();
          console.log(err); 
     });
-         }else{
-              $window.localStorage["language"]= laguage;
-            // alert (laguage);
-            //$scope.langu= laguage;
-            
-            $window.location.reload();
-         }
+         
     };
 
 

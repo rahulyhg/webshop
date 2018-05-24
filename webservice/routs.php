@@ -146,7 +146,6 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/liststate', 'liststate');
     $app->post('/listcity', 'listcity');
     $app->post('/myproductbylocation', 'myproductbylocation');
-    
-    
+    $app->post('/checkauctionvaliditybeforeaddbid', 'checkauctionvaliditybeforeaddbid');
 });
 ?>
