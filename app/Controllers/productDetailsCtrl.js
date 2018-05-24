@@ -499,7 +499,7 @@ swal("Mail can not be sent",'','error');
     }
         userService.checkauctionvaliditybeforeaddbid($scope.product_id,userInfo.user_id).then(function(response) {
              if(response.Ack == '1') { 
-                 $scope.addbid(bid)
+                 $scope.addbid2(bid)
                  
             } else if(response.Ack == '2'){
          $scope.winnermsg ='Auction Is Ended, Please Try Our Other Auctions';
@@ -521,5 +521,45 @@ swal("Mail can not be sent",'','error');
           $state.go('frontend.searchListing');
       }
     
+    $scope.addbid2 = function(bid){
+    //alert('bid');
+     //var userInfo = JSON.parse($window.localStorage["userInfo"]);	
+	//$scope.user_id=userInfo.user_id;
+        //$scope.checkauctionvaliditybeforeaddbid();
+        bid.bidincrement=5;
+    bid.bidprice=bid.bidprice;
+    bid.productid =$scope.product_id;
+    bid.userid = $scope.user_id;
+   // bid.uploaderid = bid.uploaderid;
+    bid.uploaderid = $scope.productLists.uploader_id;
+    if($scope.productLists.bidincrement && $scope.productLists.bidincrement!= 0 ){
+    bid.bidincrement = $scope.productLists.bidincrement;
+    }
+   // $scope.checkauctionvalidity();
+    //alert(bid.bidprice);
+     //console.log('bidding',bid);
+      userService.addbid( bid.userid,bid.productid,bid.bidprice,bid.uploaderid,bid.bidincrement).then(function(response) {
+
+	//console.log("vv",response);
+		
+		if(response.Ack == '1') {
+		 $scope.Showdetails();
+                // $('#myModal').modal('hide');
+                 //alert('Secessfully submitted your bid');
+		
+		
+
+  } else {
+
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+        
+       
+    
+    };
 });
 
