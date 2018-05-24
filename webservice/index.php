@@ -1084,7 +1084,7 @@ function ProductsDetails() {
             // echo 'hi';
         }
 
-        $sqlbidmax = "SELECT *,MAX(bidprice) as maxbid FROM webshop_biddetails WHERE productid=:productid";
+        $sqlbidmax = "SELECT * FROM webshop_biddetails WHERE bidprice=$product->lastbidvalue AND productid=:productid";
         $stmtbidmax = $db->prepare($sqlbidmax);
         $stmtbidmax->bindParam("productid", $product_id);
         $stmtbidmax->execute();
@@ -5087,7 +5087,7 @@ function auctionListSearch() {
     $breslettype = isset($body->breslettype) ? $body->breslettype : '';
     $year = isset($body->year) ? $body->year : '';
     $preferred_date = isset($body->preferred_date) ? $body->preferred_date : '';
-    
+
     $country_id = isset($body->country_id) ? $body->country_id : '';
     $state_id = isset($body->state_id) ? $body->state_id : '';
     $city_id = isset($body->city_id) ? $body->city_id : '';
@@ -5172,7 +5172,7 @@ function auctionListSearch() {
 
         $sql .= " AND preferred_date = '" . $preferred_date . "'";
     }
-    
+
     if ($country_id != '') {
 
         $sql .= " AND country = '" . $country_id . "'";
@@ -5185,9 +5185,9 @@ function auctionListSearch() {
 
         $sql .= " AND city = '" . $city_id . "'";
     }
-    
-    
-    
+
+
+
 //spandan end
 
     if ($selected_value == '1') {
@@ -5890,11 +5890,11 @@ function ProductListSearch() {
     $breslettype = isset($body->breslettype) ? $body->breslettype : '';
     $year = isset($body->year) ? $body->year : '';
     $preferred_date = isset($body->preferred_date) ? $body->preferred_date : '';
-    
-    $country_id=isset($body->country_id) ? $body->country_id : '';
-    $state_id=isset($body->state_id) ? $body->state_id : '';
-    $city_id=isset($body->city_id) ? $body->city_id : '';
-    
+
+    $country_id = isset($body->country_id) ? $body->country_id : '';
+    $state_id = isset($body->state_id) ? $body->state_id : '';
+    $city_id = isset($body->city_id) ? $body->city_id : '';
+
 //print_r($body);
 
     $productIds = array();
@@ -5973,9 +5973,9 @@ function ProductListSearch() {
 
         $sql .= " AND preferred_date = '" . $preferred_date . "'";
     }
-    
-    
-     if ($country_id != '') {
+
+
+    if ($country_id != '') {
 
         $sql .= " AND country = '" . $country_id . "'";
     }
@@ -5987,8 +5987,8 @@ function ProductListSearch() {
 
         $sql .= " AND city = '" . $city_id . "'";
     }
-    
-    
+
+
 //spandan end
 
     if ($selected_value == '1') {

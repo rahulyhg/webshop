@@ -1,14 +1,22 @@
-﻿<!DOCTYPE HTML>
+<!DOCTYPE HTML>
 <html data-ng-app="angularblank">
 <head>
  <title>{{appTitle}}</title>
  
-    <meta charset="utf-8">
+    <!--<meta charset="utf-8">-->
+    
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
    
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+     <div ng-if="lang=='1'">
 	<link href="app/assets/css/bootstrap.min.css" rel="stylesheet">
-	<link href="app/assets/css/style.css" rel="stylesheet">
+	<link  href="app/assets/css/style.css" rel="stylesheet">
+    </div>
+    <div ng-if="lang=='2'">
+        <link  rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.0.0/css/bootstrap.min.css" integrity="sha384-P4uhUIGk/q1gaD/NdgkBIl3a6QywJjlsFJFk7SPRdruoGddvRVSwv5qFnvZ73cpz" crossorigin="anonymous">
+        <link  href="app/assets/css/style_rtl.css" rel="stylesheet">
+    </div>
 	<link href="app/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet">
       <link href="app/assets/css/jquery.countdownTimer.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,600" rel="stylesheet"> 
@@ -63,8 +71,14 @@
 </head>
 
 
-<!-- <body ng-controller="RootScopeCtrl" class="hold-transition skin-blue sidebar-mini" ng-cloak> -->
-<body ng-controller="RootScopeCtrl" ng-cloak style="background: #f8f8f8;">
+<body  ng-controller="RootScopeCtrl" class="hold-transition skin-blue sidebar-mini" ng-class="current_language == '2' ? 'rtls' : ' '" ng-cloak>
+
+<!--<div ng-if="lang=='2'">
+<body  ng-controller="RootScopeCtrl" class="hold-transition skin-blue sidebar-mini" dir="rtl" ng-cloak>
+</div>-->
+    <!--<body ng-if="lang== 1" ng-controller="RootScopeCtrl" class="hold-transition skin-blue sidebar-mini" ng-cloak>-->
+<!--<body  ng-controller="RootScopeCtrl" ng-cloak style="background: #f8f8f8;">-->
+<!--    <body  ng-controller="RootScopeCtrl" ng-cloak style="background: #f8f8f8;">-->
 
     <div id="default_loader" class="loading" style="display:none;">Loading&#8230;</div>
     <div ui-view id="app"></div>
@@ -111,5 +125,6 @@
 <!--<script src="app/assets/js/directive1.js"></script> -->
 
 </body>
+
 
 </html>
