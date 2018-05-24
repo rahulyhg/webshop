@@ -1088,12 +1088,13 @@ function ProductsDetails() {
         $sqlbidmax = "SELECT * FROM webshop_biddetails WHERE bidprice=$product->lastbidvalue AND productid=:productid";
 
         $stmtbidmax = $db->prepare($sqlbidmax);
-        //$stmtbidmax->bindParam("productid", $product_id);
+        $stmtbidmax->bindParam("productid", $product_id);
         $stmtbidmax->execute();
         $naxbidmax = $stmtbidmax->fetchObject();
         $higestbiddername = '';
         $higestbidderbid = '';
         //print_r($naxbidmax);
+        if(!empty($naxbidmax)){
         if ($naxbidmax->id != '') {
              $sqlmaxbidder = "SELECT * FROM webshop_user WHERE id=$naxbidmax->userid ";
             $stmtmaxbidder = $db->prepare($sqlmaxbidder);
@@ -1106,6 +1107,7 @@ function ProductsDetails() {
         } else {
             $higestbiddername = '';
         }
+    }
         //echo $higestbiddername;exit;
         $sqlbrand = "SELECT *  FROM webshop_brands WHERE id=:brand_id";
         $stmtbrand = $db->prepare($sqlbrand);
