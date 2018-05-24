@@ -417,7 +417,7 @@ alert("Mail can not be sent ");
     
         
  $scope.addmessage = function(message){
-    $scope.checkpassword();
+    //$scope.checkpassword();
  message.message=message.message;
   message.to_id=message.seller_id;
    message.from_id=userInfo.user_id; 

@@ -83,15 +83,15 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                                 List Banner</a>
                         </li>
 
-                        <li>
+<!--                        <li>
                             <a href="payment_settings.php">
                                 <i class="icon-bulb"></i>
                                 Payment Settings</a>
-                        </li>
+                        </li>-->
                         <li>
                             <a href="freebid_settings.php">
                                 <i class="icon-bulb"></i>
-                                Free Bid Setting</a>
+                                Free Product Setting</a>
                         </li>
                         
 

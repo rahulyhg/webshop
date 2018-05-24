@@ -196,9 +196,9 @@ if ($_REQUEST['action'] == 'edit') {
 
 <!-- <th>Owner Number</th>-->
                                         <th>Admin Approval</th>
-                                        <th>Payment Status</th>
+<!--                                        <th>Payment Status</th>-->
                                         <th>Quick Links</th>
-                                        <th>Details</th>
+                                        <!--<th>Details</th>-->
 
                                     </tr>
                                 </thead>
@@ -240,7 +240,7 @@ if ($_REQUEST['action'] == 'edit') {
                                         exit();
                                     }
 
-                                    $fetch_tools_type = mysqli_query($con, "select * from  webshop_products where status = '0' and type = '1' order by id desc");
+                                    $fetch_tools_type = mysqli_query($con, "select * from  webshop_products where approved= '0' and  (status = '0' or status= '1') and type = '1' order by id desc");
                                     $num = mysqli_num_rows($fetch_tools_type);
                                     if ($num > 0) {
                                         while ($tools_type = mysqli_fetch_array($fetch_tools_type)) {
@@ -294,7 +294,7 @@ if ($_REQUEST['action'] == 'edit') {
                                                     <?php } ?>
                                                 </td>
 
-                                                <td>
+<!--                                                <td>
                                                     <?php
                                                     if ($tools_type['approved'] == '1' && $tools_type['auction_fee_paid'] == '0') {
                                                         echo '<span style="color:#b00;text-align:center;">Payment Pending</span>';
@@ -304,7 +304,7 @@ if ($_REQUEST['action'] == 'edit') {
                                                         echo '<span style="color:#b94a48;text-align:center;">Admin Approval Required</span>';
                                                     }
                                                     ?>
-                                                </td>
+                                                </td>-->
 
                                                 <td>
                                                     <a  href="add_product.php?id=<?php echo $tools_type['id'] ?>&action=edit"  >
@@ -313,11 +313,11 @@ if ($_REQUEST['action'] == 'edit') {
                                                         <i class="icon-trash"></i></a>
                                                 </td>
 
-                                                <td>
+<!--                                                <td>
 
                                                     <a  href="details_auction.php?id=<?php echo $tools_type['id'] ?>&action=details"><i class="icon-eye-open"></i></a>
 
-                                                </td> 
+                                                </td> -->
 
 
 
