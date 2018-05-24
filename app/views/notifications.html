@@ -12,7 +12,7 @@
 									<img src="{{allnoti.from_userimg}}" alt="">
 								</div>
 								<div class="wishlist-content">
-									<h6>{{allnoti.message}} <span><i class=""></i></span></h6>
+                                                                    <h6><p ng-bind-html="allnoti.message"> </p><span><i class=""></i></span></h6>
 									
 									<b class="d-block mb-2">From : {{allnoti.fromName}}</b>
 									 <p ng-if="allnoti.type=='Product for Auction Approved'">

@@ -41,12 +41,12 @@ $scope.isform1 =0;
                    
                     $scope.exists=1;
                     $scope.loyaltyLists=response.loyaltyList;
-		console.log('spandan',$scope.loyaltyList);
+		//console.log('spandan',$scope.loyaltyList);
                 //$window.localStorage["userzip"]='';
 		
 		} else {
                     
-                    $scope.loyaltyList='';
+                    
                      $scope.exists=0;
 		}
 	
