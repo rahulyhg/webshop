@@ -39,6 +39,8 @@ if (isset($_REQUEST['submit'])) {
 
 <!-- Header Start -->
 <?php include ("includes/header.php"); ?>
+
+
 <!-- Header End -->
 <!-- BEGIN CONTAINER -->
 <div id="container" class="row-fluid">
@@ -125,7 +127,7 @@ if (isset($_REQUEST['submit'])) {
                                         <div class="control-group" style="width:50%;float:left; max-width:330px;">
                                             <label class="control-label">Start Time </label>
                                             <div class="controls">
-                                                <input type="text" class="form-control timepicker"id="time_1" placeholder="Start Time" value="<?php echo $categoryRowset['start_time']; ?>" name="start_time[]" required>
+                                                <input type="text" class="form-control timepicker"  placeholder="Start Time" value="<?php echo $categoryRowset['start_time']; ?>" name="start_time[]" required>
                                             </div>
                                         </div>
 
@@ -176,7 +178,8 @@ if (isset($_REQUEST['submit'])) {
 <!-- Footer Start -->
 
 <?php include("includes/footer.php"); ?>
-
+<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="css/mdtimepicker.css">
 <!-- Footer End -->
 <!-- BEGIN JAVASCRIPTS -->
 <!-- Load javascripts at bottom, this will reduce page load time -->
@@ -186,13 +189,10 @@ if (isset($_REQUEST['submit'])) {
 <script type="text/javascript" src="assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="assets/fullcalendar/fullcalendar/fullcalendar.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
+
 <!-- ie8 fixes -->
-<!--[if lt IE 9]>
-<script src="js/excanvas.js"></script>
-<script src="js/respond.js"></script>
-<![endif]-->
+
 
 <script src="assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js" type="text/javascript"></script>
 <script src="js/jquery.sparkline.js" type="text/javascript"></script>
@@ -209,6 +209,15 @@ if (isset($_REQUEST['submit'])) {
 <script src="js/sparkline-chart.js"></script>
 <script src="js/home-page-calender.js"></script>
 <script src="js/home-chartjs.js"></script>
+
+
+<script src="js/mdtimepicker.js"></script>
+
+<script>
+  $(document).ready(function(){
+    $('.timepicker').mdtimepicker(); //Initializes the time picker
+  });
+</script>
 <script>
 
 
@@ -240,9 +249,9 @@ if (isset($_REQUEST['submit'])) {
 
                 $(wrapper).append(field); //add input box
 
-                $('.time').find('.timepicker').timepicker({
-                    timeFormat: 'h:mm p',
-                    interval: 15,
+                $('.time').find('.timepicker').mdtimepicker({
+                    //timeFormat: 'h:mm p',
+                    //interval: 15,
                     dynamic: false,
                     dropdown: true,
                     scrollbar: true
@@ -256,9 +265,9 @@ if (isset($_REQUEST['submit'])) {
             x--;
         })
     });
-    $('body').find('.timepicker').timepicker({
-        timeFormat: 'h:mm p',
-        interval: 15,
+    $('body').find('.timepicker').mdtimepicker({
+        //timeFormat: 'h:mm p',
+        //interval: 15,
         dynamic: false,
         dropdown: true,
         scrollbar: true
@@ -270,6 +279,11 @@ if (isset($_REQUEST['submit'])) {
         $("#datepicker").datepicker({dateFormat: 'yy-mm-dd'});
     });
 </script>
+
+
+
+
+
 <!-- END JAVASCRIPTS -->   
 </body>
 <!-- END BODY -->
