@@ -693,6 +693,8 @@ input[type='submit'].btn-round{
 #myModal hr{
     border-top: 1px solid #777;
 }
+.rtls{direction: rtl;}
+
 /**************** Responsive Style ****************/
 
 @media (min-width: 768px) and (max-width: 1024px)

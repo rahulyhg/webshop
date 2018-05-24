@@ -233,6 +233,7 @@ else {
     if($scope.productLists.bidincrement && $scope.productLists.bidincrement!= 0 ){
     bid.bidincrement = $scope.productLists.bidincrement;
     }
+    $scope.checkauctionvalidity();
     //alert(bid.bidprice);
      //console.log('bidding',bid);
       userService.addbid( bid.userid,bid.productid,bid.bidprice,bid.uploaderid,bid.bidincrement).then(function(response) {
@@ -416,7 +417,7 @@ alert("Mail can not be sent ");
     
         
  $scope.addmessage = function(message){
-    
+    $scope.checkpassword();
  message.message=message.message;
   message.to_id=message.seller_id;
    message.from_id=userInfo.user_id; 
@@ -429,12 +430,12 @@ alert("Mail can not be sent ");
                     
                     $scope.is_hide=0;
                 $scope.is_click=0;
-                    
+                  $scope.Showdetails();  
                 
 		
 		}else if(response.Ack == '0'){
                     
-                   alert(response.msg);
+                   swal(response.msg,'','error');
                    
                 } else {
                     

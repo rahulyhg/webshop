@@ -16,7 +16,10 @@ app.controller('headerCtrl', function ($rootScope, $scope, $http, $location,$win
 			$scope.current_user_login=1;
             $scope.current_loggedin_user=$window.localStorage["userId"]=response.user_id;
             $scope.current_loggedin_user_type=userInfo.user_type; 
-			//alert(userInfo.user_type);
+          
+            //$scope.language= $window.localStorage["language"];
+            
+			
 			//console.log($scope.current_loggedin_user_type); 
 			
 	// }

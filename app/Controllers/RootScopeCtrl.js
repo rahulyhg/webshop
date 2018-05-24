@@ -12,16 +12,29 @@ app.controller("RootScopeCtrl", function ($scope, $location, $rootScope, $http, 
 //    else {
 //        $location.path("/home");
 //    }
+    if($window.localStorage["language"] == 2){
+    $window.localStorage["language"] = 2;
+    $scope.lang= 2 ;
     
-    $window.localStorage["language"] = '';
+    }else{
+    $window.localStorage["language"]=1;
+    $scope.lang= 1;
+    }
+    //alert($scope.lang);
     $scope.menuVisible = false;
     $scope.swipeValue = true;
     $scope.loader = true;
      $scope.language= '';
+     
     $scope.showMenu = function () {
         $scope.menuVisible = !$scope.menuVisible;
     };
-	
+	  if($window.localStorage["language"]){
+            $scope.lang=$window.localStorage["language"];
+            //alert($scope.lang);
+        }else{
+            $window.localStorage["language"] = '';
+        }
 
 
 $templateCache.removeAll();
@@ -627,7 +640,7 @@ $window.location.reload();
  };
 
 
-if($window.localStorage["language"] == ''){
+if($window.localStorage["language"] == 1){
 
 userService.changeLaguage(1).then(function(response) {
 	 if(response.Ack == '1') {
@@ -652,17 +665,50 @@ userService.changeLaguage(1).then(function(response) {
     //alert('else');
 }
 
+if($window.localStorage["language"] == ""){
+
+userService.changeLaguage(1).then(function(response) {
+	 if(response.Ack == '1') {
+				
+               $window.localStorage["language"] = 1;
+                $scope.language = response.languages;
+                                   
+                }
+                
+        
+        else {
+
+              }
+																	
+	}, function(err) {
+            
+            $window.location.reload();
+         console.log(err); 
+    });
+
+}else{
+    //alert('else');
+}
+
+
+
+
+
   $scope.selectedlaguage = function(laguage){
+      //alert(laguage);
+         if(laguage == 1){
 userService.changeLaguage(laguage).then(function(response) {
 		
                 //alert(laguage);
+             
 	 if(response.Ack == '1') {
 		
                 //alert ('Language changed to english');
                 
-               // $window.localStorage["language"]= laguage;
+                $window.localStorage["language"]= laguage;
+                 //$scope.langu= laguage;
                 $scope.language = response.languages;
-                            
+                 $window.location.reload();            
                                 
                               
                                 
@@ -673,12 +719,20 @@ userService.changeLaguage(laguage).then(function(response) {
 //alert ('Language can not be changed'); 
               
               }
-																	
+		
+    
 	}, function(err) {
             //alert ('Language can not be changed');
             //$window.location.reload();
          console.log(err); 
     });
+         }else{
+              $window.localStorage["language"]= laguage;
+            // alert (laguage);
+            //$scope.langu= laguage;
+            
+            $window.location.reload();
+         }
     };
 
 
