@@ -1170,12 +1170,16 @@ function loadSequence() {
                                 for (var m in jsRequires.modules)
                                     if (jsRequires.modules[m].name && jsRequires.modules[m].name === name)
                                         return jsRequires.modules[m];
-                            return jsRequires.scripts && jsRequires.scripts[name];
+                            return jsRequires.scripts && jsRequires.scripts[name];  
                         }
                     }]
             };
         }
 
   }]);
+
+
+
+
 
 

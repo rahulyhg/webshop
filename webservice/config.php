@@ -20,5 +20,5 @@ function getConnection() {
     return $dbh;
 }
 
-//sp
+//
 ?>

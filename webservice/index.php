@@ -1096,7 +1096,7 @@ function ProductsDetails() {
         //print_r($naxbidmax);
         if(!empty($naxbidmax)){
         if ($naxbidmax->id != '') {
-             $sqlmaxbidder = "SELECT * FROM webshop_user WHERE id=$naxbidmax->userid ";
+            $sqlmaxbidder = "SELECT * FROM webshop_user WHERE id=$naxbidmax->userid ";
             $stmtmaxbidder = $db->prepare($sqlmaxbidder);
             //echo 'hi';
             // exit;
