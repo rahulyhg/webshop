@@ -1,5 +1,4 @@
-<?php
-
+$<?php
 error_reporting(1);
 include('../../lang/en.php');
 define('SITE_URL', 'http://localhost/webshop1/webshop/');
@@ -29,6 +28,7 @@ if ($_SESSION['lang'] == 'Spanish') {
 //mysql_select_db("roomrent", $link) or die("Database not Found. Please Create the Database.");
 
 $con = mysqli_connect("localhost", "root", "root", "webshop");
+
 
 if (mysqli_connect_errno()) {
     echo "Failed to the connect to MySQL: " . mysqli_connect_error();

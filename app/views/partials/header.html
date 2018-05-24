@@ -18,8 +18,8 @@
          <ul class="navbar-nav">
             <li class="nav-item dropdown">
                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                   <div ng-if="lang==1">{{language.listings}}</div>
-                   <div ng-if="lang==2">القوائم</div>
+                   <div >{{language.listings}}</div>
+                 
                </a>
                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <ul>
@@ -35,9 +35,9 @@
                            </ul>
                         </div>
                      </li>
-                     <li><a ng-if="lang==1" class="dropdown-item" href="#/searchListing/">{{language.services}} </a><a ng-if="lang==2" class="dropdown-item" href="#/searchListing/">الخدمات </a></li>
-                     <li><a ng-if="lang==1" class="dropdown-item" href="#/searchListing/">{{language.shops}} </a><a ng-if="lang==2" class="dropdown-item" href="#/searchListing/"> المحلات</a></li>
-                     <li><a ng-if="lang==1" class="dropdown-item" href="#/searchListing/">{{language.offers}} </a><a ng-if="lang==2" class="dropdown-item" href="#/searchListing/"> العروض</a></li>
+                     <li><a  class="dropdown-item" href="#/searchListing/">{{language.services}} </a></li>
+                     <li><a  class="dropdown-item" href="#/searchListing/">{{language.shops}} </a></li>
+                     <li><a  class="dropdown-item" href="#/searchListing/">{{language.offers}} </a></li>
                   </ul>
                </div>
             </li>
@@ -45,16 +45,16 @@
                <a class="nav-link" href="#/my_account">Your GMT24</a>
             </li>
             <li class="nav-item">
-               <a ng-if="lang==1" class="nav-link" href="#/searchListing/">{{language.auction}}</a> 
-               <a ng-if="lang==2" class="nav-link" href="#/searchListing/"> مزاد علني</a>
+               <a class="nav-link" href="#/searchListing/">{{language.auction}}</a> 
+             
             </li>
             <li class="nav-item">
-               <a ng-if="lang==1" class="nav-link" href="#/productlisting/">{{language.product}}</a> 
-               <a ng-if="lang==2" class="nav-link" href="#/productlisting/">المنتج</a> 
+               <a  class="nav-link" href="#/productlisting/">{{language.product}}</a> 
+               
             </li>
             <li class="nav-item">
-               <a ng-if="lang==1" class="nav-link" href="#/todaysDeals">{{language.Todays_Deals}}</a>
-                <a ng-if="lang==2" class="nav-link" href="#/todaysDeals">صفقات اليوم</a>
+               <a  class="nav-link" href="#/todaysDeals">{{language.Todays_Deals}}</a>
+                
             </li>
 <!--            <li class="nav-item">
                <a class="nav-link" href="#/searchListing/">{{language.gift_cards}}</a>
@@ -89,12 +89,12 @@
                <span class="ng-binding ng-scope" ng-if="headerCartCount==0">0</span>
             </li>-->
             <li class="nav-item" ng-if="current_user_login!='1'">
-               <a ng-if="lang==1" class="nav-link" href="#" data-toggle="modal" data-target="#login">{{language.login}}</a>
-               <a  ng-if="lang==2"class="nav-link" href="#" data-toggle="modal" data-target="#login">تسجيل الدخول</a>
+               <a  class="nav-link" href="#" data-toggle="modal" data-target="#login">{{language.login}}</a>
+               
             </li>
             <li class="nav-item" ng-if="current_user_login!='1'">
-               <a ng-if="lang==1" class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">{{language.signup}}</a>
-                <a ng-if="lang==2" class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">سجل</a>
+               <a  class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">{{language.signup}}</a>
+                
             </li>
 <!--            <li class="nav-item dropdown" >
                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

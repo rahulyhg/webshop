@@ -4911,7 +4911,35 @@ var encodedString ='{"s_id":"'+ s_id +'"}';
     };
 
 
+var checkauctionvaliditybeforeaddbid = function(product_id,user_id) {
+    return $q(function(resolve, reject) {
+        //var userInfo = JSON.parse($window.localStorage["userInfo"]);
+       
+ var encodedString ='{"product_id":"'+ product_id +'","userid":"'+user_id+'"}';
 
+    
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"checkauctionvaliditybeforeaddbid",
+    data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    //console.log('ok');
+    resolve(response.data); 
+    } else {
+    //console.log('ok2');
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    //console.log(response);  
+    reject(response);
+    });
+    });
+    };
  
  return {
      
@@ -5065,7 +5093,8 @@ var encodedString ='{"s_id":"'+ s_id +'"}';
         listcountry:listcountry,
         liststate:liststate,
         listcity:listcity,
-        myproductbylocation:myproductbylocation
+        myproductbylocation:myproductbylocation,
+        checkauctionvaliditybeforeaddbid:checkauctionvaliditybeforeaddbid
 
 
 	

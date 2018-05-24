@@ -93,7 +93,7 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                                 <i class="icon-bulb"></i>
                                 Free Bid Setting</a>
                         </li>
-                        
+
 
                         <!--  <li>
                              <a href="smtp_settings.php">
@@ -162,24 +162,24 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
             ?>
 
 
-                
-<!--            <li class="sub-menu">
-                <a href="javascript:;" class="">
-                    <i class="icon-tasks"></i>
-                    <span>User Payment Setting</span>
-                    <span class="arrow"></span>
-                </a>
-                <ul class="sub">
 
-                    <li>
-                        <a href="user_payment_setting.php">
-                            Payment Setting</a>
-                    </li>
+            <!--            <li class="sub-menu">
+                            <a href="javascript:;" class="">
+                                <i class="icon-tasks"></i>
+                                <span>User Payment Setting</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub">
+            
+                                <li>
+                                    <a href="user_payment_setting.php">
+                                        Payment Setting</a>
+                                </li>
+            
+                             </ul>
+                        </li>    -->
 
-                 </ul>
-            </li>    -->
-                
-              <li class="sub-menu">
+            <li class="sub-menu">
                 <a href="javascript:;" class="">
                     <i class="icon-tasks"></i>
                     <span>User Subscription</span>
@@ -198,9 +198,9 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                     </li>
 
                 </ul>
-              </li>   
-                
-                
+            </li>   
+
+
 
             <li class="sub-menu">
                 <a href="javascript:;" class="">
@@ -307,9 +307,16 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
 
                     <li>
                         <a href="language.php">
-                            Language</a>
+                            Add Words</a>
                     </li>
-
+                    <li>
+                        <a href="list_english.php">
+                            List English Words</a>
+                    </li>
+                    <li>
+                        <a href="list_arabic.php">
+                            List Arabic Words</a>
+                    </li>
                     <!--                    <li>
                                             <a href="#">
                                                 Arabic</a>
@@ -332,17 +339,17 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                     </a>
                     <ul class="sub">
 
-                                                                                                                                                           <!--  <li  <?php if ($pagename == 'add_owner.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                                <a href="add_owner.php">
-                                                                                                                                                                    <i class="icon-user"></i>
-                                                                                                                                                                    Add Owner</a>
-                                                                                                                                                            </li> -->
+                                                                                                                                                                       <!--  <li  <?php if ($pagename == 'add_owner.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                            <a href="add_owner.php">
+                                                                                                                                                                                <i class="icon-user"></i>
+                                                                                                                                                                                Add Owner</a>
+                                                                                                                                                                        </li> -->
 
-                                                                                                                                                           <!--  <li  <?php if ($pagename == 'list_owner.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                                <a href="list_owner.php">
-                                                                                                                                                                    <i class="icon-user"></i>
-                                                                                                                                                                   List Owner</a>
-                                                                                                                                                            </li>  -->
+                                                                                                                                                                       <!--  <li  <?php if ($pagename == 'list_owner.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                            <a href="list_owner.php">
+                                                                                                                                                                                <i class="icon-user"></i>
+                                                                                                                                                                               List Owner</a>
+                                                                                                                                                                        </li>  -->
                         <li  <?php if ($pagename == 'list_user.php') { ?>  class="active" <?php } ?>>
                             <a href="list_user.php">
                                 <i class="icon-user"></i>
@@ -363,7 +370,7 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
             ?>
 
 
-             <?php if (in_array('20', $prevnameall)) { ?>
+            <?php if (in_array('20', $prevnameall)) { ?>
                 <li class="sub-menu">
                     <a href="javascript:;" class="">
                         <i class="icon-user"></i>
@@ -371,7 +378,7 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                         <span class="arrow"></span>
                     </a>
                     <ul class="sub">
-                                                                                                                                        
+
                         <li  <?php if ($pagename == 'add_loyalietypoint.php') { ?>  class="active" <?php } ?>>
                             <a href="add_loyalietypoint.php">
                                 <i class="icon-user"></i>
@@ -398,26 +405,26 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
 
 
             <!-- <?php if (in_array('17', $prevnameall)) { ?>
-                                                                                                                                                    <li class="sub-menu">
-                                                                                                                                                          <a href="javascript:;" class="">
-                                                                                                                                                              <i class="icon-briefcase"></i>
-                                                                                                                                                              <span>Business <br> Management</span>
-                                                                                                                                                              <span class="arrow"></span>
-                                                                                                                                                          </a>
-                                                                                                                                                          <ul class="sub">
-                                                                                                                                                             <li  <?php if ($pagename == 'add_business.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                                <a href="add_business.php">
-                                                                                                                                                                    <i class="icon-briefcase"></i>
-                                                                                                                                                                    Add Business</a>
-                                                                                                                                                            </li>
-                                                                                                                                                            
-                                                                                                                                                            <li  <?php if ($pagename == 'list_business.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                                <a href="list_business.php">
-                                                                                                                                                                    <i class="icon-briefcase"></i>
-                                                                                                                                                                   List Business</a>
-                                                                                                                                                            </li> 
-                                                                                                                                                          </ul>
-                                                                                                                                                      </li>
+                                                                                                                                                                <li class="sub-menu">
+                                                                                                                                                                      <a href="javascript:;" class="">
+                                                                                                                                                                          <i class="icon-briefcase"></i>
+                                                                                                                                                                          <span>Business <br> Management</span>
+                                                                                                                                                                          <span class="arrow"></span>
+                                                                                                                                                                      </a>
+                                                                                                                                                                      <ul class="sub">
+                                                                                                                                                                         <li  <?php if ($pagename == 'add_business.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                            <a href="add_business.php">
+                                                                                                                                                                                <i class="icon-briefcase"></i>
+                                                                                                                                                                                Add Business</a>
+                                                                                                                                                                        </li>
+                                                                                                                                                                        
+                                                                                                                                                                        <li  <?php if ($pagename == 'list_business.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                            <a href="list_business.php">
+                                                                                                                                                                                <i class="icon-briefcase"></i>
+                                                                                                                                                                               List Business</a>
+                                                                                                                                                                        </li> 
+                                                                                                                                                                      </ul>
+                                                                                                                                                                  </li>
                 <?php
             }
             ?> -->
@@ -543,23 +550,23 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
 
 
             <?php if (in_array('20', $prevnameall)) { ?>
-<!--                <li class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <i class="icon-archive"></i>
-                        <span>Products</span>
-                        <span class="arrow"></span>
-                    </a>
-                    <ul class="sub">
-
-
-                        <li  <?php if ($pagename == 'list_products.php') { ?>  class="active" <?php } ?>>
-                            <a href="list_products.php">
-                                <i class="icon-archive"></i>
-                                List Products</a>
-                        </li> 
-
-                    </ul>
-                </li>-->
+                <!--                <li class="sub-menu">
+                                    <a href="javascript:;" class="">
+                                        <i class="icon-archive"></i>
+                                        <span>Products</span>
+                                        <span class="arrow"></span>
+                                    </a>
+                                    <ul class="sub">
+                
+                
+                                        <li  <?php if ($pagename == 'list_products.php') { ?>  class="active" <?php } ?>>
+                                            <a href="list_products.php">
+                                                <i class="icon-archive"></i>
+                                                List Products</a>
+                                        </li> 
+                
+                                    </ul>
+                                </li>-->
                 <?php
             }
             ?>
@@ -695,11 +702,11 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                     </a>
                     <ul class="sub">
 
-                                                                                                                                        <!--   <li  <?php if ($pagename == 'add_advertisement.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                            <a href="add_advertisement.php">
-                                                                                                                                              <i class="icon-volume-up"></i>
-                                                                                                                                               Add Advertisement</a>
-                                                                                                                                        </li>  -->
+                                                                                                                                                    <!--   <li  <?php if ($pagename == 'add_advertisement.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                        <a href="add_advertisement.php">
+                                                                                                                                                          <i class="icon-volume-up"></i>
+                                                                                                                                                           Add Advertisement</a>
+                                                                                                                                                    </li>  -->
 
                         <li  <?php if ($pagename == 'list_advertisement.php') { ?>  class="active" <?php } ?>>
                             <a href="list_advertisement.php">
@@ -789,29 +796,29 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                 <?php
             }
             ?>
-             <!-- <?php if (in_array('20', $prevnameall)) { ?>
-                <li class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <i class="icon-bell-alt"></i>
-                        <span>Loyaliety Setting</span>
-                        <span class="arrow"></span>
-                    </a>
-                    <ul class="sub">
+            <!-- <?php if (in_array('20', $prevnameall)) { ?>
+                           <li class="sub-menu">
+                               <a href="javascript:;" class="">
+                                   <i class="icon-bell-alt"></i>
+                                   <span>Loyaliety Setting</span>
+                                   <span class="arrow"></span>
+                               </a>
+                               <ul class="sub">
 
-                        <li>
-                            <a href="freebid.php">
-                                <i class="icon-bell-alt"></i>
-                                Add Free Bid</a>
-                        </li>
+                                   <li>
+                                       <a href="freebid.php">
+                                           <i class="icon-bell-alt"></i>
+                                           Add Free Bid</a>
+                                   </li>
 
 
-                        <li>
-                            <a href="notification_settings.php">
-                                <i class="icon-bell-alt"></i>
-                                Notification Settings</a>
-                        </li>
-                    </ul>
-                </li>
+                                   <li>
+                                       <a href="notification_settings.php">
+                                           <i class="icon-bell-alt"></i>
+                                           Notification Settings</a>
+                                   </li>
+                               </ul>
+                           </li>
                 <?php
             }
             ?> -->
@@ -842,265 +849,265 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
             ?>
 
             <!--    <?php if (in_array('12', $prevnameall)) { ?>
-                                                                                                                                                     <li class="sub-menu">
-                                                                                                                                                           <a href="javascript:;" class="">
-                                                                                                                                                               <i class="icon-cogs"></i>
-                                                                                                                                                               <span>Bounces/Red Packet<br>Management</span>
-                                                                                                                                                               <span class="arrow"></span>
-                                                                                                                                                           </a>
-                                                                                                                                                           <ul class="sub">
-                                                                                                                                                              <li  <?php if ($pagename == 'add_promocodes.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                                 <a href="add_promocodes.php">
-                                                                                                                                                                     <i class="icon-home"></i>
-                                                                                                                                                                     Add Red Packet</a>
-                                                                                                                                                             </li>
-                                                                                                                                                             
-                                                                                                                                                             <li  <?php if ($pagename == 'list_promocodes.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                                 <a href="list_promocodes.php">
-                                                                                                                                                                     <i class="icon-home"></i>
-                                                                                                                                                                    List Red Packet</a>
-                                                                                                                                                             </li> 
-                                                                                                                                                           </ul>
-                                                                                                                                                       </li>
+                                                                                                                                                                 <li class="sub-menu">
+                                                                                                                                                                       <a href="javascript:;" class="">
+                                                                                                                                                                           <i class="icon-cogs"></i>
+                                                                                                                                                                           <span>Bounces/Red Packet<br>Management</span>
+                                                                                                                                                                           <span class="arrow"></span>
+                                                                                                                                                                       </a>
+                                                                                                                                                                       <ul class="sub">
+                                                                                                                                                                          <li  <?php if ($pagename == 'add_promocodes.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                             <a href="add_promocodes.php">
+                                                                                                                                                                                 <i class="icon-home"></i>
+                                                                                                                                                                                 Add Red Packet</a>
+                                                                                                                                                                         </li>
+                                                                                                                                                                         
+                                                                                                                                                                         <li  <?php if ($pagename == 'list_promocodes.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                             <a href="list_promocodes.php">
+                                                                                                                                                                                 <i class="icon-home"></i>
+                                                                                                                                                                                List Red Packet</a>
+                                                                                                                                                                         </li> 
+                                                                                                                                                                       </ul>
+                                                                                                                                                                   </li>
                 <?php
             }
             ?>
  
             <?php if (in_array('18', $prevnameall)) { ?>
-                                                                                                                                                       <li class="sub-menu">
-                                                                                                                                                           <a href="javascript:;" class="">
-                                                                                                                                                               <i class="icon-plane"></i>
-                                                                                                                                                               <span>Manage Locations</span>
-                                                                                                                                                               <span class="arrow"></span>
-                                                                                                                                                           </a>
-                                                                                                                                                           <ul class="sub">
-                                                                                                                                                              <li  <?php if ($pagename == 'add_location.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                                 <a href="add_location.php">
-                                                                                                                                                                     <i class="icon-plane"></i>
-                                                                                                                                                                   Add Location </a>
-                                                                                                                                                             </li>
-                                                                                                                                         
-                                                                                                                                                              <li  <?php if ($pagename == 'manage_location.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                                 <a href="manage_location.php">
-                                                                                                                                                                     <i class="icon-plane"></i>
-                                                                                                                                                                   List Locations </a>
-                                                                                                                                                             </li>
-                                                                                                                                                       
-                                                                                                                                                           </ul>
-                                                                                                                                                       </li>
+                                                                                                                                                                   <li class="sub-menu">
+                                                                                                                                                                       <a href="javascript:;" class="">
+                                                                                                                                                                           <i class="icon-plane"></i>
+                                                                                                                                                                           <span>Manage Locations</span>
+                                                                                                                                                                           <span class="arrow"></span>
+                                                                                                                                                                       </a>
+                                                                                                                                                                       <ul class="sub">
+                                                                                                                                                                          <li  <?php if ($pagename == 'add_location.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                             <a href="add_location.php">
+                                                                                                                                                                                 <i class="icon-plane"></i>
+                                                                                                                                                                               Add Location </a>
+                                                                                                                                                                         </li>
+                                                                                                                                                     
+                                                                                                                                                                          <li  <?php if ($pagename == 'manage_location.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                             <a href="manage_location.php">
+                                                                                                                                                                                 <i class="icon-plane"></i>
+                                                                                                                                                                               List Locations </a>
+                                                                                                                                                                         </li>
+                                                                                                                                                                   
+                                                                                                                                                                       </ul>
+                                                                                                                                                                   </li>
                 <?php
             }
             ?>
   
             <?php if (in_array('15', $prevnameall)) { ?>
-                                                                                                                                                     <li class="sub-menu">
-                                                                                                                                                           <a href="javascript:;" class="">
-                                                                                                                                                              <i class="icon-usd"></i>
-                                                                                                                                                               <span>Cost Estimation</span>
-                                                                                                                                                               <span class="arrow"></span>
-                                                                                                                                                           </a>
-                                                                                                                                                           <ul class="sub">
-                                                                                                                                                             
-                                                                                                                                                             <li  <?php if ($pagename == 'add_costs.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                                 <a href="add_costs.php">
-                                                                                                                                                                    <i class="icon-usd"></i>
-                                                                                                                                                                    Add Costs</a>
-                                                                                                                                                             </li> 
-                                                                                                                                                             
-                                                                                                                                                             <li  <?php if ($pagename == 'manage_costs.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                                 <a href="manage_costs.php">
-                                                                                                                                                                    <i class="icon-usd"></i>
-                                                                                                                                                                    Manage Costs</a>
-                                                                                                                                                             </li> 
-                                                                                                                                                           </ul>
-                                                                                                                                                       </li>
+                                                                                                                                                                 <li class="sub-menu">
+                                                                                                                                                                       <a href="javascript:;" class="">
+                                                                                                                                                                          <i class="icon-usd"></i>
+                                                                                                                                                                           <span>Cost Estimation</span>
+                                                                                                                                                                           <span class="arrow"></span>
+                                                                                                                                                                       </a>
+                                                                                                                                                                       <ul class="sub">
+                                                                                                                                                                         
+                                                                                                                                                                         <li  <?php if ($pagename == 'add_costs.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                             <a href="add_costs.php">
+                                                                                                                                                                                <i class="icon-usd"></i>
+                                                                                                                                                                                Add Costs</a>
+                                                                                                                                                                         </li> 
+                                                                                                                                                                         
+                                                                                                                                                                         <li  <?php if ($pagename == 'manage_costs.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                             <a href="manage_costs.php">
+                                                                                                                                                                                <i class="icon-usd"></i>
+                                                                                                                                                                                Manage Costs</a>
+                                                                                                                                                                         </li> 
+                                                                                                                                                                       </ul>
+                                                                                                                                                                   </li>
                 <?php
             }
             ?>
             
             <?php if (in_array('16', $prevnameall)) { ?>
-                                                                                                                                                       <li class="sub-menu">
-                                                                                                                                                           <a href="javascript:;" class="">
-                                                                                                                                                               <i class="icon-volume-up"></i>
-                                                                                                                                                               <span>Manage<br> Advertisement</span>
-                                                                                                                                                               <span class="arrow"></span>
-                                                                                                                                                           </a>
-                                                                                                                                                           <ul class="sub">
-                                                                                                                                                              <li  <?php if ($pagename == 'add_advertisement.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                                 <a href="add_advertisement.php">
-                                                                                                                                                                     <i class="icon-volume-up"></i>
-                                                                                                                                                                   Add Advertisement</a>
-                                                                                                                                                             </li>
-                                                                                                                                         
-                                                                                                                                                            <li  <?php if ($pagename == 'list_advertisement.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                                 <a href="list_advertisement.php">
-                                                                                                                                                                     <i class="icon-volume-up"></i>
-                                                                                                                                                                  List Advertisement</a>
-                                                                                                                                                             </li>
-                                                                                                                                                       
-                                                                                                                                                           </ul>
-                                                                                                                                                       </li>
+                                                                                                                                                                   <li class="sub-menu">
+                                                                                                                                                                       <a href="javascript:;" class="">
+                                                                                                                                                                           <i class="icon-volume-up"></i>
+                                                                                                                                                                           <span>Manage<br> Advertisement</span>
+                                                                                                                                                                           <span class="arrow"></span>
+                                                                                                                                                                       </a>
+                                                                                                                                                                       <ul class="sub">
+                                                                                                                                                                          <li  <?php if ($pagename == 'add_advertisement.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                             <a href="add_advertisement.php">
+                                                                                                                                                                                 <i class="icon-volume-up"></i>
+                                                                                                                                                                               Add Advertisement</a>
+                                                                                                                                                                         </li>
+                                                                                                                                                     
+                                                                                                                                                                        <li  <?php if ($pagename == 'list_advertisement.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                             <a href="list_advertisement.php">
+                                                                                                                                                                                 <i class="icon-volume-up"></i>
+                                                                                                                                                                              List Advertisement</a>
+                                                                                                                                                                         </li>
+                                                                                                                                                                   
+                                                                                                                                                                       </ul>
+                                                                                                                                                                   </li>
                 <?php
             }
             ?>
             -->
 
             <!--  <?php if (in_array('6', $prevnameall)) { ?>
-                                                                                                                                                     <li class="sub-menu">
-                                                                                                                                                         <a href="javascript:;" class="">
-                                                                                                                                                             <i class="icon-comments"></i>
-                                                                                                                                                             <span>Manage Blogs</span>
-                                                                                                                                                             <span class="arrow"></span>
-                                                                                                                                                         </a>
-                                                                                                                                                         <ul class="sub">
-                                                                                                                                                            <li  <?php if ($pagename == 'add_blog.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                               <a href="add_blog.php">
-                                                                                                                                                                   <i class="icon-comments"></i>
-                                                                                                                                                                 Add Blog </a>
-                                                                                                                                                           </li>
+                                                                                                                                                                 <li class="sub-menu">
+                                                                                                                                                                     <a href="javascript:;" class="">
+                                                                                                                                                                         <i class="icon-comments"></i>
+                                                                                                                                                                         <span>Manage Blogs</span>
+                                                                                                                                                                         <span class="arrow"></span>
+                                                                                                                                                                     </a>
+                                                                                                                                                                     <ul class="sub">
+                                                                                                                                                                        <li  <?php if ($pagename == 'add_blog.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                           <a href="add_blog.php">
+                                                                                                                                                                               <i class="icon-comments"></i>
+                                                                                                                                                                             Add Blog </a>
+                                                                                                                                                                       </li>
 
-                                                                                                                                                            <li  <?php if ($pagename == 'list_blogs.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                               <a href="list_blogs.php">
-                                                                                                                                                                   <i class="icon-comments"></i>
-                                                                                                                                                                 List Blogs </a>
-                                                                                                                                                           </li>
-                                                                                                                                                     
-                                                                                                                                                         </ul>
-                                                                                                                                                     </li>
+                                                                                                                                                                        <li  <?php if ($pagename == 'list_blogs.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                           <a href="list_blogs.php">
+                                                                                                                                                                               <i class="icon-comments"></i>
+                                                                                                                                                                             List Blogs </a>
+                                                                                                                                                                       </li>
+                                                                                                                                                                 
+                                                                                                                                                                     </ul>
+                                                                                                                                                                 </li>
                 <?php
             }
             ?> -->
 
             <!-- <?php if (in_array('17', $prevnameall)) { ?>
-                                                                                                                                                   <li class="sub-menu">
-                                                                                                                                                       <a href="javascript:;" class="">
-                                                                                                                                                           <i class="icon-cogs"></i>
-                                                                                                                                                           <span>Newsletter <br> Subscription</span>
-                                                                                                                                                           <span class="arrow"></span>
-                                                                                                                                                       </a>
-                                                                                                                                                       <ul class="sub">
-                                                                                                                                                          <li  <?php if ($pagename == 'newsletter_user.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                             <a href="newsletter_user.php">
-                                                                                                                                                                 <i class="icon-home"></i>
-                                                                                                                                                               NewsLetter User</a>
-                                                                                                                                                         </li>
+                                                                                                                                                               <li class="sub-menu">
+                                                                                                                                                                   <a href="javascript:;" class="">
+                                                                                                                                                                       <i class="icon-cogs"></i>
+                                                                                                                                                                       <span>Newsletter <br> Subscription</span>
+                                                                                                                                                                       <span class="arrow"></span>
+                                                                                                                                                                   </a>
+                                                                                                                                                                   <ul class="sub">
+                                                                                                                                                                      <li  <?php if ($pagename == 'newsletter_user.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                         <a href="newsletter_user.php">
+                                                                                                                                                                             <i class="icon-home"></i>
+                                                                                                                                                                           NewsLetter User</a>
+                                                                                                                                                                     </li>
 
-                                                                                                                                                        <li  <?php if ($pagename == 'newsletter_supplier.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                             <a href="newsletter_supplier.php">
-                                                                                                                                                                 <i class="icon-home"></i>
-                                                                                                                                                              NewsLetter Supplier</a>
-                                                                                                                                                         </li>
-                                                                                                                                                   
-                                                                                                                                                       </ul>
-                                                                                                                                                   </li>
+                                                                                                                                                                    <li  <?php if ($pagename == 'newsletter_supplier.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                         <a href="newsletter_supplier.php">
+                                                                                                                                                                             <i class="icon-home"></i>
+                                                                                                                                                                          NewsLetter Supplier</a>
+                                                                                                                                                                     </li>
+                                                                                                                                                               
+                                                                                                                                                                   </ul>
+                                                                                                                                                               </li>
                 <?php
             }
             ?>
 
             <?php if (in_array('18', $prevnameall)) { ?>
-                                                                                                                                                 <li class="sub-menu">
-                                                                                                                                                       <a href="javascript:;" class="">
-                                                                                                                                                           <i class="icon-cogs"></i>
-                                                                                                                                                           <span>Email Template</span>
-                                                                                                                                                           <span class="arrow"></span>
-                                                                                                                                                       </a>
-                                                                                                                                                       <ul class="sub">
-                                                                                                                                                         
-                                                                                                                                                         
-                                                                                                                                                         <li  <?php if ($pagename == 'email_template.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                             <a href="email_template.php">
-                                                                                                                                                                 <i class="icon-home"></i>
-                                                                                                                                                                Email Template</a>
-                                                                                                                                                         </li> 
-                                                                                                                                                       </ul>
-                                                                                                                                                   </li>
+                                                                                                                                                             <li class="sub-menu">
+                                                                                                                                                                   <a href="javascript:;" class="">
+                                                                                                                                                                       <i class="icon-cogs"></i>
+                                                                                                                                                                       <span>Email Template</span>
+                                                                                                                                                                       <span class="arrow"></span>
+                                                                                                                                                                   </a>
+                                                                                                                                                                   <ul class="sub">
+                                                                                                                                                                     
+                                                                                                                                                                     
+                                                                                                                                                                     <li  <?php if ($pagename == 'email_template.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                         <a href="email_template.php">
+                                                                                                                                                                             <i class="icon-home"></i>
+                                                                                                                                                                            Email Template</a>
+                                                                                                                                                                     </li> 
+                                                                                                                                                                   </ul>
+                                                                                                                                                               </li>
                 <?php
             }
             ?>
 
             <?php if (in_array('12', $prevnameall)) { ?>
-                                                                                                                                                 <li class="sub-menu">
-                                                                                                                                                       <a href="javascript:;" class="">
-                                                                                                                                                           <i class="icon-cogs"></i>
-                                                                                                                                                           <span>Manage Questions</span>
-                                                                                                                                                           <span class="arrow"></span>
-                                                                                                                                                       </a>
-                                                                                                                                                       <ul class="sub">
-                                                                                                                                                         
-                                                                                                                                                          <li  <?php if ($pagename == 'edit_questions.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                             <a href="edit_questions.php">
-                                                                                                                                                                 <i class="icon-home"></i>
-                                                                                                                                                                Add Question</a>
-                                                                                                                                                         </li> 
-                                                                                                                                                         
-                                                                                                                                                         <li  <?php if ($pagename == 'manage_questions.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                             <a href="manage_questions.php">
-                                                                                                                                                                 <i class="icon-home"></i>
-                                                                                                                                                                Manage Questions</a>
-                                                                                                                                                         </li> 
-                                                                                                                                                       </ul>
-                                                                                                                                                   </li>
+                                                                                                                                                             <li class="sub-menu">
+                                                                                                                                                                   <a href="javascript:;" class="">
+                                                                                                                                                                       <i class="icon-cogs"></i>
+                                                                                                                                                                       <span>Manage Questions</span>
+                                                                                                                                                                       <span class="arrow"></span>
+                                                                                                                                                                   </a>
+                                                                                                                                                                   <ul class="sub">
+                                                                                                                                                                     
+                                                                                                                                                                      <li  <?php if ($pagename == 'edit_questions.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                         <a href="edit_questions.php">
+                                                                                                                                                                             <i class="icon-home"></i>
+                                                                                                                                                                            Add Question</a>
+                                                                                                                                                                     </li> 
+                                                                                                                                                                     
+                                                                                                                                                                     <li  <?php if ($pagename == 'manage_questions.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                         <a href="manage_questions.php">
+                                                                                                                                                                             <i class="icon-home"></i>
+                                                                                                                                                                            Manage Questions</a>
+                                                                                                                                                                     </li> 
+                                                                                                                                                                   </ul>
+                                                                                                                                                               </li>
                 <?php
             }
             ?>
             -->
             <!--      <?php if (in_array('13', $prevnameall)) { ?>
-                                                                                                                                                      <li class="sub-menu">
-                                                                                                                                                            <a href="javascript:;" class="">
-                                                                                                                                                                <i class="icon-ban-circle"></i>
-                                                                                                                                                                <span>Report Image</span>
-                                                                                                                                                                <span class="arrow"></span>
-                                                                                                                                                            </a>
-                                                                                                                                                            <ul class="sub">
-                                                                                                                                                              
-                                                                                                                                                              
-                                                                                                                                                              <li  <?php if ($pagename == 'report_image.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                                  <a href="report_image.php">
-                                                                                                                                                                      <i class="icon-ban-circle"></i>
-                                                                                                                                                                     Report Image</a>
-                                                                                                                                                              </li> 
-                                                                                                                                                            </ul>
-                                                                                                                                                        </li>
+                                                                                                                                                                  <li class="sub-menu">
+                                                                                                                                                                        <a href="javascript:;" class="">
+                                                                                                                                                                            <i class="icon-ban-circle"></i>
+                                                                                                                                                                            <span>Report Image</span>
+                                                                                                                                                                            <span class="arrow"></span>
+                                                                                                                                                                        </a>
+                                                                                                                                                                        <ul class="sub">
+                                                                                                                                                                          
+                                                                                                                                                                          
+                                                                                                                                                                          <li  <?php if ($pagename == 'report_image.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                              <a href="report_image.php">
+                                                                                                                                                                                  <i class="icon-ban-circle"></i>
+                                                                                                                                                                                 Report Image</a>
+                                                                                                                                                                          </li> 
+                                                                                                                                                                        </ul>
+                                                                                                                                                                    </li>
                 <?php
             }
             ?>
   
             <?php if (in_array('14', $prevnameall)) { ?>
-                                                                                                                                                      <li class="sub-menu">
-                                                                                                                                                            <a href="javascript:;" class="">
-                                                                                                                                                                <i class="icon-ban-circle"></i>
-                                                                                                                                                                <span>Report User</span>
-                                                                                                                                                                <span class="arrow"></span>
-                                                                                                                                                            </a>
-                                                                                                                                                            <ul class="sub">
-                                                                                                                                                              
-                                                                                                                                                              
-                                                                                                                                                              <li  <?php if ($pagename == 'report_user.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                                  <a href="report_user.php">
-                                                                                                                                                                     <i class="icon-ban-circle"></i>
-                                                                                                                                                                     Report User</a>
-                                                                                                                                                              </li> 
-                                                                                                                                                            </ul>
-                                                                                                                                                        </li>
+                                                                                                                                                                  <li class="sub-menu">
+                                                                                                                                                                        <a href="javascript:;" class="">
+                                                                                                                                                                            <i class="icon-ban-circle"></i>
+                                                                                                                                                                            <span>Report User</span>
+                                                                                                                                                                            <span class="arrow"></span>
+                                                                                                                                                                        </a>
+                                                                                                                                                                        <ul class="sub">
+                                                                                                                                                                          
+                                                                                                                                                                          
+                                                                                                                                                                          <li  <?php if ($pagename == 'report_user.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                              <a href="report_user.php">
+                                                                                                                                                                                 <i class="icon-ban-circle"></i>
+                                                                                                                                                                                 Report User</a>
+                                                                                                                                                                          </li> 
+                                                                                                                                                                        </ul>
+                                                                                                                                                                    </li>
                 <?php
             }
             ?>
             -->
             <!--    <?php if (in_array('11', $prevnameall)) { ?>
-                                                                                                                                                     <li class="sub-menu">
-                                                                                                                                                           <a href="javascript:;" class="">
-                                                                                                                                                            <i class="icon-money"></i>
-                                                                                                                                                               <span>Financial Accounts</span>
-                                                                                                                                                               <span class="arrow"></span>
-                                                                                                                                                           </a>
-                                                                                                                                                           <ul class="sub">
-                                                                                                                                                             
-                                                                                                                                                             
-                                                                                                                                                             <li  <?php if ($pagename == 'financial_accounts.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                                 <a href="financial_accounts.php">
-                                                                                                                                                                    <i class="icon-money"></i>
-                                                                                                                                                                    List Payments</a>
-                                                                                                                                                             </li> 
+                                                                                                                                                                 <li class="sub-menu">
+                                                                                                                                                                       <a href="javascript:;" class="">
+                                                                                                                                                                        <i class="icon-money"></i>
+                                                                                                                                                                           <span>Financial Accounts</span>
+                                                                                                                                                                           <span class="arrow"></span>
+                                                                                                                                                                       </a>
+                                                                                                                                                                       <ul class="sub">
+                                                                                                                                                                         
+                                                                                                                                                                         
+                                                                                                                                                                         <li  <?php if ($pagename == 'financial_accounts.php') { ?>  class="active" <?php } ?>>
+                                                                                                                                                                             <a href="financial_accounts.php">
+                                                                                                                                                                                <i class="icon-money"></i>
+                                                                                                                                                                                List Payments</a>
+                                                                                                                                                                         </li> 
                 -->
                                    <!-- <li  <?php if ($pagename == 'pending_payments.php') { ?>  class="active" <?php } ?>>
                                        <a href="pending_payments.php">

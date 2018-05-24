@@ -44,9 +44,12 @@ if (isset($_REQUEST['submit'])) {
         mysqli_query($con, $insertQuery);
         $last_id = mysqli_insert_id($con);
 
-
-        header('Location:list_english.php');
-        exit();
+        if ($language_id == 1) {
+            header('Location:list_english.php');
+            exit();
+        } else {
+            header('Location:list_arabic.php');
+        }
     }
 }
 
