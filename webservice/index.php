@@ -937,7 +937,7 @@ function ProductsDetails() {
     $stmt->execute();
     $product = $stmt->fetchObject();
 
-    $sqlinterest = "SELECT * from  webshop_interested WHERE userid=:userid";
+    $sqlinterest = "SELECT * from  webshop_interested WHERE userid=:userid and productid='".$product_id."'";
 
     $stmtinterest = $db->prepare($sqlinterest);
     $stmtinterest->bindParam("userid", $user_id);
@@ -6404,7 +6404,7 @@ function getfullMessages() {
                 if ($getStatus11[0]->image != '') {
                     $profile_image = SITE_URL . 'upload/user_image/' . $getStatus11[0]->image;
                 } else {
-                    $profile_image = SITE_URL . 'upload/nouser.jpg';
+                    $profile_image = SITE_URL . 'upload/user_image/nouser.jpg';
                 }
             }
             /* user image */
@@ -7587,7 +7587,7 @@ function UserAuctionpayment() {
         $email = isset($body->email) ? $body->email : '';
         $phone = isset($body->phone) ? $body->phone : '';
 
-        $sql = "SELECT * from webshop_biddetails where productid =:product_id order by id desc limit 0,1";
+        $sql = "SELECT * from webshop_biddetails where productid =:product_id and userid= '".$user_id."'order by id desc limit 0,1";
         $stmt = $db->prepare($sql);
         $stmt->bindParam("product_id", $product_id);
         $stmt->execute();

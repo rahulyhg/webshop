@@ -194,7 +194,7 @@ if ($_REQUEST['action'] == 'edit') {
                                 <thead>
                                     <tr>
 
-                                        <th>User Image</th>           
+                                        <th>Product Image</th>           
                                         <th>User Name</th>
                                         <th>Price</th>
                                         <th>Brand</th>
@@ -236,8 +236,8 @@ if ($num > 0) {
 
 
 
-        if ($uploader['image'] != '') {
-            $image_link = '../upload/user_image/' . $uploader['image'];
+        if ($tools_type['image'] != '') {
+            $image_link = '../upload/product_image/' . $tools_type['image'];
         } else {
             $image_link = '../upload/no.jpg';
         }

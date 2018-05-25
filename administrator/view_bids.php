@@ -228,7 +228,7 @@ if (isset($_POST['ExportCsv'])) {
                             <form action="" method="post">
                <!--<i class="fa fa-edit"></i>Editable Table-->
 
-                                <tr><button type="reset" class="btn blue" onClick="window.location.href = 'list_auction.php'" >Back</button></tr>
+<!--                                <tr><button type="reset" class="btn blue" onClick="window.location.href = 'list_auction.php'" >Back</button></tr>-->
 
                             </form>
                             <span class="tools">
@@ -255,7 +255,7 @@ if (isset($_POST['ExportCsv'])) {
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $sqluery = "SELECT * FROM `webshop_biddetails` WHERE `productid`='" . mysqli_real_escape_string($con, $_REQUEST['id']) . "'AND `uploaderid`='" . mysqli_real_escape_string($con, $_REQUEST['uploader_id']) . "' order by `id` desc";
+                                    $sqluery = "SELECT * FROM `webshop_biddetails` WHERE `productid`='" . mysqli_real_escape_string($con, $_REQUEST['id']) . "'AND `uploaderid`='" . mysqli_real_escape_string($con, $_REQUEST['uploader_id']) . "' order by `bidprice` desc";
                                     $tool_type_details = mysqli_query($con, $sqluery);
                                     //echo $tool_type_details;
                                     //exit;
@@ -277,7 +277,7 @@ if (isset($_POST['ExportCsv'])) {
                                             <tr>
 
                                                 <td>
-                                                    <img src="../upload/user_image/<?php echo $user_details['image']; ?>" height="70" width="70" align="image">
+                                                    <img src="../upload/user_image/<?php if($user_details['image']!=""){echo $user_details['image'];}else{echo 'nouser.jpg';} ?>" height="70" width="70" align="image">
                                                 </td> 
 
                                                 <td>

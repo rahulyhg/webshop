@@ -200,8 +200,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'active') {
 }
 
 
-
-
+$country = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `webshop_countries` WHERE `id`='" .$userRow['country']. "'"));
 
 $moreimage1 = mysqli_query($con, "SELECT * FROM `webshop_products` WHERE `id`='" . $_REQUEST['id'] . "'");
 while ($moreimage = mysqli_fetch_array($moreimage1)) {
@@ -235,7 +234,7 @@ while ($moreimage = mysqli_fetch_array($moreimage1)) {
 
                                     <tr>    
                                         <td> Country</th>
-                                        <td><?php echo $userRow['country']; ?></td>
+                                        <td><?php echo $country['name']; ?></td>
                                     </tr>
 
                                     <tr>    

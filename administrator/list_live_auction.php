@@ -285,7 +285,7 @@ if (isset($_POST['ExportCsv'])) {
                                 <thead>
                                     <tr>
 
-                                        <th>User Image</th>           
+                                        <th>Product Image</th>           
                                         <th>User Name</th>
                                         <th>Price</th>
                                         <th>Brand</th>
@@ -304,7 +304,7 @@ $curdate = date('Y-m-d');
 // echo "select * from  webshop_auction where `status`=1 and (`start_date_time` <= '".$curdate."' && `end_date_time` >='".$curdate."')";
 //exit;
 // $fetch_tools_type=mysqli_query($con,"select * from  webshop_auction where `status`=1 and (`start_date_time` <= '".$curdate."' && `end_date_time` >='".$curdate."')");
-$fetch_tools_type = mysqli_query($con, "select * from  webshop_products where `status`=1 and auctioned = '0'");
+$fetch_tools_type = mysqli_query($con, "select * from  webshop_products where `status`=1 and auctioned = '0' and type=2");
 $num = mysqli_num_rows($fetch_tools_type);
 if ($num > 0) {
     while ($tools_type = mysqli_fetch_array($fetch_tools_type)) {
@@ -319,8 +319,8 @@ if ($num > 0) {
 
 
 
-        if ($uploader['image'] != '') {
-            $image_link = '../upload/user_image/' . $uploader['image'];
+        if ($tools_type['image'] != '') {
+            $image_link = '../upload/product_image/' . $tools_type['image'];
         } else {
             $image_link = '../upload/no.jpg';
         }
