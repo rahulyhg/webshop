@@ -502,15 +502,15 @@ swal("Mail can not be sent",'','error');
                  $scope.addbid2(bid)
                  
             } else if(response.Ack == '2'){
-         $scope.winnermsg ='Auction Is Ended, Please Try Our Other Auctions';
+         $scope.winnermsg ='Congratulation , You Win This Auction. PLease Pay Now';
          $scope.winnerlink = '2';
          $('#password').modal('hide');
           $('#myModal').modal('hide');
            $('#winner').modal('show'); 
            
     }else if(response.Ack == '3'){
-         $scope.winnermsg ='Auction Is Ended';
-         $scope.winnerlink = '2';
+         $scope.winnermsg ='Better Luck Next Time.';
+         $scope.winnerlink = '1';
          $('#password').modal('hide');
           $('#myModal').modal('hide');
            $('#winner').modal('show'); 
@@ -526,6 +526,11 @@ swal("Mail can not be sent",'','error');
           //alert();
           $('#winner').modal('hide');
           $state.go('frontend.searchListing');
+      }
+      $scope.gotolink2 = function(product_id){
+          //alert();
+          $('#winner').modal('hide');
+          $state.go('frontend.auctionpayment',{product_id:btoa(product_id)});
       }
     
     $scope.addbid2 = function(bid){

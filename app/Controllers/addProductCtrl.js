@@ -25,7 +25,7 @@ if($stateParams.id){
 		$window.localStorage["price"]=response.allproduct.price;
                 $window.localStorage["cat_id"]=response.allproduct.cat_id;
                 $window.localStorage["name"]=response.allproduct.name;
-                $window.localStorage["brand"]=response.allproduct.brand;
+                //$window.localStorage["brand"]=response.allproduct.brand;
                 $window.localStorage["currency"]=response.allproduct.currency;
                 $window.localStorage["quantity"]=response.allproduct.quantity;
                 $window.localStorage["brand"]=response.allproduct.brands;
@@ -134,7 +134,8 @@ if( $window.localStorage["price"])
 }
 if( $window.localStorage["brand"])
 {
-    $scope.user2.brand = $window.localStorage["brand"];
+    //$scope.user2.brand = $window.localStorage["brand"];
+     //$scope.sub($scope.user2.brand);
 }
 if( $window.localStorage["currency"])
 {
@@ -398,11 +399,11 @@ $scope.addProduct = function(user2){
     // user2.user_id= $scope.user_id;
 
     $window.localStorage["selected_value"]=$scope.drpmodel;
-    $window.localStorage["cat_id"]=user2.cat_id;
+    //$window.localStorage["cat_id"]=user2.cat_id;
      $window.localStorage["subcat_id"]=user2.subcat_id;
      $window.localStorage["name"]=user2.name;
      $window.localStorage["description"]=user2.description;
-     $window.localStorage["brand"]=user2.brand;
+    // $window.localStorage["brand"]=user2.brand;
      $window.localStorage["price"]=user2.price;
      $window.localStorage["currency"]=user2.currency;
      $window.localStorage["quantity"]=user2.quantity;

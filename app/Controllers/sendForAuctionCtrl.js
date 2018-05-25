@@ -209,7 +209,7 @@ user2.model_year=user2.model_year;
 		console.log(response.Ack);
 		$scope.isExists=1;
 		if(response.Ack == '1') {
-                    alert('Added Successfully.');
+                    swal('Added Successfully.','','success');
                    window.location.reload()
                     $scope.isExists=1;
 		
