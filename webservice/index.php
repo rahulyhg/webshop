@@ -4817,8 +4817,17 @@ function listSubscribed() {
 
 
     try {
+        
+        $sqluser = "SELECT * from webshop_user where id=:user_id";
+        $stmtuser = $db->prepare($sqluser);
+        $stmtuser->bindParam("user_id", $user_id);
+        $stmtuser->execute();
+        $getuser = $stmtuser->fetchObject();
+        
+        $active=$getuser->current_subscription_id;
+        $slotremain=$getuser->slot_no;
 
-        $sql = "SELECT w.id,w.name,w.slots,ws.price,ws.subscription_date,ws.expiry_date from webshop_subscribers as ws inner join webshop_subscription as w on w.id=ws.subscription_id where ws.user_id=:user_id";
+        $sql = "SELECT w.id,w.name,w.slots,ws.price,ws.subscription_date,ws.expiry_date,ws.id as sid from webshop_subscribers as ws inner join webshop_subscription as w on w.id=ws.subscription_id where ws.user_id=:user_id order by ws.id desc";
         $stmt = $db->prepare($sql);
         $stmt->bindParam("user_id", $user_id);
         $stmt->execute();
@@ -4833,6 +4842,9 @@ function listSubscribed() {
                 "slots" => stripslashes($subscription->slots),
                 "subscription_date" => date('d M, Y', strtotime($subscription->subscription_date)),
                 "expiry_date" => date('d M, Y', strtotime($subscription->expiry_date)),
+                "subscribed_id" => $subscription->sid,
+                "active" =>$active,
+                "slot_remain" =>$slotremain,
             );
         }
 
@@ -6528,12 +6540,12 @@ function addUserSubscription() {
     $stmt4->bindParam("expiry_date", $expiry_date);
     $stmt4->bindParam("transaction_id", $transaction_id);
     $stmt4->execute();
-
+    $lastID = $db->lastInsertId();
 
     if ($getSubscriptionDetails->type == "O") {
-        $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no,special_package_id=0 WHERE id=:user_id";
+        $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no,special_package_id=0,current_subscription_id= '".$lastID."'  WHERE id=:user_id";
     } else {
-        $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no WHERE id=:user_id";
+        $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no,current_subscription_id= '".$lastID."' WHERE id=:user_id";
     }
     $slot = $getSubscriptionDetails->slots;
     $stmt = $db->prepare($sql);

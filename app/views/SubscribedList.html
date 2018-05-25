@@ -11,10 +11,15 @@
 								<div class="wishlist-content w-100 float-left">
 									<h6>Package: {{subscription.name}} <span><i class=""></i></span></h6>
 									<b class="d-block mb-2">Price:$ {{subscription.price}}</b>
-									<b class="d-block mb-2">Slots: {{subscription.slots}}</b>
+									<b class="d-block mb-2" ng-if="subscription.subscribed_id==subscription.active">Slots Remain: {{subscription.slot_remain}} ({{subscription.slots}})</b>
+                                                                        <b class="d-block mb-2" ng-if="subscription.subscribed_id!=subscription.active">Slots:{{subscription.slots}}</b>
+
+                                                                        
 									<b class="d-block mb-2">Subscription Date: {{subscription.subscription_date}}</b>
                                                                         <b class="d-block mb-2">Expiry Date: {{subscription.expiry_date}}</b>
-									<p><button type="button" class="btn btn-primary" ng-click="renew(subscription.id)"> Renew</button></p>
+									<p><button type="button" class="btn btn-primary" ng-click="renew(subscription.id)"> Renew</button> <b class="blink" ng-if="subscription.subscribed_id==subscription.active">Active</b></p>
+                                                                        
+                                                                        
 									
 									
 								</div>
