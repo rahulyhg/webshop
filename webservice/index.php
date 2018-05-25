@@ -3425,7 +3425,7 @@ function addProductNew() {
     $stmt->execute();
     $getUserDetails = $stmt->fetchObject();
     $getUserDetailscount = $stmt->rowCount();
-    
+
     $sqltype = "SELECT * from webshop_user where id=:user_id";
     $stmtty = $db->prepare($sqltype);
     $stmtty->bindParam("user_id", $user_id);
@@ -3441,10 +3441,10 @@ function addProductNew() {
                     if ($getUserDetails->slot_no > 0) {
 
                         $sid = $getUserDetails->sid;
-                        
+
 
                         $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,status,size,location,work_hours,subscription_id,state,city,approved) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:status,:size,:location,:work_hours,:subscription_id,:state,:city,:approved)";
-                        
+
 
 
                         $sqlcheckcertifieduser = "SELECT * FROM webshop_user WHERE id =:user_id AND top_user_vendor='1'";
@@ -3454,13 +3454,13 @@ function addProductNew() {
                         $stmtcheck->execute();
                         $count = $stmtcheck->rowCount();
 
-                        $approved="0";
+                        $approved = "0";
 
                         if ($count > 0) {
-                            $approved= "1";
+                            $approved = "1";
                             //
                         }
-                      
+
                         $get_status = "1";
 
                         try {
@@ -3675,14 +3675,14 @@ function addProductNew() {
     } else {
 
         if ($type == '1') {
-            
-            
+
+
             $sqladminfree_no = "SELECT * FROM webshop_sitesettings WHERE id =1 ";
             $db = getConnection();
             $stmtfreeno = $db->prepare($sqladminfree_no);
             $stmtfreeno->execute();
             $getfree_no = $stmtfreeno->fetchObject();
-            $free_no=$getfree_no->free_bid;
+            $free_no = $getfree_no->free_bid;
 
             $sqluserpay_product = "SELECT * FROM webshop_products WHERE uploader_id=:user_id and type=1 and status=1 and user_free_product='P'";
             $db = getConnection();
@@ -3690,13 +3690,13 @@ function addProductNew() {
             $stmtpayno->bindParam("user_id", $user_id);
             $stmtpayno->execute();
             $pcount = $stmtpayno->rowCount();
-            
-             
-            
+
+
+
             $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,location,work_hours,approved,state,city,status) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:location,:work_hours,:approved,:state,:city,:status)";
-             
-             
-           
+
+
+
 
             $sqlcheckcertifieduser = "SELECT * FROM webshop_user WHERE id =:user_id AND top_user_vendor='1'";
             $db = getConnection();
@@ -3705,12 +3705,12 @@ function addProductNew() {
             $stmtcheck->execute();
             $count = $stmtcheck->rowCount();
 
-            
-            if($pcount == $free_no){
-                
+
+            if ($pcount == $free_no) {
+
                 $payment_status = "1";
-            }else{
-                
+            } else {
+
                 $payment_status = "0";
             }
 
@@ -3753,7 +3753,7 @@ function addProductNew() {
                 $stmt->bindParam("size", $size);
                 $stmt->bindParam("state", $state);
                 $stmt->bindParam("city", $city);
-               
+
 
                 $stmt->bindParam("location", $location);
                 $stmt->bindParam("work_hours", $work_hours);
@@ -3761,8 +3761,8 @@ function addProductNew() {
                 $stmt->bindParam("status", $payment_status);
                 $stmt->execute();
                 $lastID = $db->lastInsertId();
-                
-                
+
+
 
                 if (!empty($_FILES['image'])) {
 
@@ -3795,43 +3795,41 @@ function addProductNew() {
                         }
                     }
                 }
-                
-                if($payment_status== 1){
-                    
+
+                if ($payment_status == 1) {
+
                     $sqlupdatefree = "UPDATE webshop_products SET user_free_product='F' WHERE type=1 and status=1 and uploader_id=$user_id ";
                     $stmtupdatefree = $db->prepare($sqlupdatefree);
                     $stmtupdatefree->execute();
-                    
                 }
-                
-                
-                
-                if($payment_status == 0){
-                if ($certified_user == 1) {
-                    $data['Ack'] = 1;
-                    $data['msg'] = 'Product added successfully. To get product live please make payment.';
-                    $data['type'] = $type;
-                    $data['utype'] = 1;
-                    $data['lastid'] = $lastID;
-                    $data['certified_user'] = $certified_user;
-                    $app->response->setStatus(200);
-                    $db = null;
+
+
+
+                if ($payment_status == 0) {
+                    if ($certified_user == 1) {
+                        $data['Ack'] = 1;
+                        $data['msg'] = 'Product added successfully. To get product live please make payment.';
+                        $data['type'] = $type;
+                        $data['utype'] = 1;
+                        $data['lastid'] = $lastID;
+                        $data['certified_user'] = $certified_user;
+                        $app->response->setStatus(200);
+                        $db = null;
+                    } else {
+
+                        $data['Ack'] = 1;
+                        $data['msg'] = 'Product added successfully. Wait for admin approval to pay and live this product.';
+                        $data['type'] = $type;
+                        $data['utype'] = 1;
+                        $data['lastid'] = $lastID;
+                        $data['certified_user'] = $certified_user;
+                    }
                 } else {
 
-                    $data['Ack'] = 1;
-                    $data['msg'] = 'Product added successfully. Wait for admin approval to pay and live this product.';
-                    $data['type'] = $type;
-                    $data['utype'] = 1;
-                    $data['lastid'] = $lastID;
-                    $data['certified_user'] = $certified_user;
-                }
-                }else{
-                    
                     $data['Ack'] = 1;
                     $data['msg'] = 'Congrats Product added successfully. It Was free.';
                     $data['type'] = $type;
                     $data['lastid'] = $lastID;
-                   
                 }
             } catch (PDOException $e) {
                 $data['user_id'] = '';
@@ -5840,85 +5838,85 @@ function ProductListSearch() {
         if (!empty($getAllProducts)) {
             foreach ($getAllProducts as $product) {
                 $sid = $product->subscription_id;
-                
-                if($sid!= 0){
-                $sqlsubs = "SELECT * FROM  webshop_subscribers WHERE id=:id ";
-                $stmtsubs = $db->prepare($sqlsubs);
-                $stmtsubs->bindParam("id", $sid);
-                $stmtsubs->execute();
-                $getsubs = $stmtsubs->fetchObject();
 
-                $cdate = date('Y-m-d');
-               
-                if ($getsubs->expiry_date >= $cdate) {
+                if ($sid != 0) {
+                    $sqlsubs = "SELECT * FROM  webshop_subscribers WHERE id=:id ";
+                    $stmtsubs = $db->prepare($sqlsubs);
+                    $stmtsubs->bindParam("id", $sid);
+                    $stmtsubs->execute();
+                    $getsubs = $stmtsubs->fetchObject();
 
-                    if ($product->image != '') {
-                        $image = SITE_URL . 'upload/product_image/' . $product->image;
-                    } else {
-                        $image = SITE_URL . 'webservice/not-available.jpg';
-                    }
+                    $cdate = date('Y-m-d');
 
+                    if ($getsubs->expiry_date >= $cdate) {
 
-                    $sql2 = "SELECT * FROM  webshop_category WHERE id=:id ";
-                    $stmt2 = $db->prepare($sql2);
-                    $stmt2->bindParam("id", $product->cat_id);
-                    $stmt2->execute();
-                    $getcategory = $stmt2->fetchObject();
-                    if (!empty($getcategory)) {
-                        $categoryname = $getcategory->name;
-                    }
+                        if ($product->image != '') {
+                            $image = SITE_URL . 'upload/product_image/' . $product->image;
+                        } else {
+                            $image = SITE_URL . 'webservice/not-available.jpg';
+                        }
 
 
+                        $sql2 = "SELECT * FROM  webshop_category WHERE id=:id ";
+                        $stmt2 = $db->prepare($sql2);
+                        $stmt2->bindParam("id", $product->cat_id);
+                        $stmt2->execute();
+                        $getcategory = $stmt2->fetchObject();
+                        if (!empty($getcategory)) {
+                            $categoryname = $getcategory->name;
+                        }
 
-                    $sql3 = "SELECT * FROM  webshop_subcategory WHERE id=:id ";
-                    $stmt3 = $db->prepare($sql3);
-                    $stmt3->bindParam("id", $product->subcat_id);
-                    $stmt3->execute();
-                    $getsubcategory = $stmt3->fetchObject();
+
+
+                        $sql3 = "SELECT * FROM  webshop_subcategory WHERE id=:id ";
+                        $stmt3 = $db->prepare($sql3);
+                        $stmt3->bindParam("id", $product->subcat_id);
+                        $stmt3->execute();
+                        $getsubcategory = $stmt3->fetchObject();
 //                if (!empty($getsubcategory)) {
 //                    $subcategoryname = $getsubcategory->name;
 //                }
 //Seller Information
 
-                    $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
-                    $stmt1 = $db->prepare($sql1);
-                    $stmt1->bindParam("id", $product->uploader_id);
-                    $stmt1->execute();
-                    $getUserdetails = $stmt1->fetchObject();
+                        $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
+                        $stmt1 = $db->prepare($sql1);
+                        $stmt1->bindParam("id", $product->uploader_id);
+                        $stmt1->execute();
+                        $getUserdetails = $stmt1->fetchObject();
 
-                    if (!empty($getUserdetails)) {
-                        $seller_name = $getUserdetails->fname . ' ' . $getUserdetails->lname;
-                        $seller_address = $getUserdetails->address;
-                        $seller_phone = $getUserdetails->phone;
-                        $email = $getUserdetails->email;
+                        if (!empty($getUserdetails)) {
+                            $seller_name = $getUserdetails->fname . ' ' . $getUserdetails->lname;
+                            $seller_address = $getUserdetails->address;
+                            $seller_phone = $getUserdetails->phone;
+                            $email = $getUserdetails->email;
 
-                        if ($getUserdetails->image != '') {
-                            $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
+                            if ($getUserdetails->image != '') {
+                                $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
+                            } else {
+                                $profile_image = SITE_URL . 'webservice/no-user.png';
+                            }
                         } else {
-                            $profile_image = SITE_URL . 'webservice/no-user.png';
+                            $profile_image = '';
                         }
-                    } else {
-                        $profile_image = '';
-                    }
 
-                    $data['productList'][] = array(
-                        "id" => stripslashes($product->id),
-                        "image" => stripslashes($image),
-                        "price" => stripslashes($product->price),
-                        "description" => strip_tags(stripslashes($product->description)),
-                        "category_name" => $categoryname,
-                        // "subcategory_name" => $subcategoryname,
-                        "seller_id" => stripslashes($product->uploader_id),
-                        "seller_image" => $profile_image,
-                        "seller_name" => stripslashes($seller_name),
-                        "seller_address" => stripslashes($seller_address),
-                        "seller_phone" => stripslashes($seller_phone),
-                        "productname" => stripslashes($product->name)
-                    );
-                }
-                }else{
-                    
-                    
+                        $data['productList'][] = array(
+                            "id" => stripslashes($product->id),
+                            "image" => stripslashes($image),
+                            "price" => stripslashes($product->price),
+                            "description" => strip_tags(stripslashes($product->description)),
+                            "category_name" => $categoryname,
+                            // "subcategory_name" => $subcategoryname,
+                            "seller_id" => stripslashes($product->uploader_id),
+                            "seller_image" => $profile_image,
+                            "seller_name" => stripslashes($seller_name),
+                            "seller_address" => stripslashes($seller_address),
+                            "seller_phone" => stripslashes($seller_phone),
+                            "productname" => stripslashes($product->name)
+                        );
+                    }
+                } else {
+
+
 
                     if ($product->image != '') {
                         $image = SITE_URL . 'upload/product_image/' . $product->image;
@@ -5943,7 +5941,7 @@ function ProductListSearch() {
                     $stmt3->bindParam("id", $product->subcat_id);
                     $stmt3->execute();
                     $getsubcategory = $stmt3->fetchObject();
-              
+
 
                     $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
                     $stmt1 = $db->prepare($sql1);
@@ -5980,7 +5978,6 @@ function ProductListSearch() {
                         "seller_phone" => stripslashes($seller_phone),
                         "productname" => stripslashes($product->name)
                     );
-                
                 }
             }
 
@@ -6656,93 +6653,93 @@ function listexpiredProducts() {
     $stmt1->bindParam("user_id", $user_id);
     $stmt1->execute();
     $getsubscription = $stmt1->fetchObject();
-    
-    if(!empty($getsubscription)){
-    $sid = $getsubscription->id;
-    
 
-    $sql = "SELECT * from  webshop_products WHERE uploader_id=:user_id and type = '1' and subscription_id=:subscription_id order by id desc";
-    $db = getConnection();
-    $stmt = $db->prepare($sql);
-    $stmt->bindParam("user_id", $user_id);
-    $stmt->bindParam("subscription_id", $sid);
-    $stmt->execute();
-    $getAllProducts = $stmt->fetchAll(PDO::FETCH_OBJ);
-
-    if (!empty($getAllProducts)) {
-        foreach ($getAllProducts as $product) {
+    if (!empty($getsubscription)) {
+        $sid = $getsubscription->id;
 
 
-            if ($product->image != '') {
-                $image = SITE_URL . 'upload/product_image/' . $product->image;
-            } else {
-                $image = SITE_URL . 'webservice/not-available.jpg';
-            }
+        $sql = "SELECT * from  webshop_products WHERE uploader_id=:user_id and type = '1' and subscription_id=:subscription_id order by id desc";
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("user_id", $user_id);
+        $stmt->bindParam("subscription_id", $sid);
+        $stmt->execute();
+        $getAllProducts = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        if (!empty($getAllProducts)) {
+            foreach ($getAllProducts as $product) {
 
 
-            $sql2 = "SELECT * FROM  webshop_category WHERE id=:id ";
-            $stmt2 = $db->prepare($sql2);
-            $stmt2->bindParam("id", $product->cat_id);
-            $stmt2->execute();
-            $getcategory = $stmt2->fetchObject();
-            if (!empty($getcategory)) {
-                $categoryname = $getcategory->name;
-            }
+                if ($product->image != '') {
+                    $image = SITE_URL . 'upload/product_image/' . $product->image;
+                } else {
+                    $image = SITE_URL . 'webservice/not-available.jpg';
+                }
+
+
+                $sql2 = "SELECT * FROM  webshop_category WHERE id=:id ";
+                $stmt2 = $db->prepare($sql2);
+                $stmt2->bindParam("id", $product->cat_id);
+                $stmt2->execute();
+                $getcategory = $stmt2->fetchObject();
+                if (!empty($getcategory)) {
+                    $categoryname = $getcategory->name;
+                }
 
 
 
-            $sql3 = "SELECT * FROM  webshop_subcategory WHERE id=:id ";
-            $stmt3 = $db->prepare($sql3);
-            $stmt3->bindParam("id", $product->subcat_id);
-            $stmt3->execute();
-            $getsubcategory = $stmt3->fetchObject();
+                $sql3 = "SELECT * FROM  webshop_subcategory WHERE id=:id ";
+                $stmt3 = $db->prepare($sql3);
+                $stmt3->bindParam("id", $product->subcat_id);
+                $stmt3->execute();
+                $getsubcategory = $stmt3->fetchObject();
 //            if (!empty($getsubcategory)) {
 //                $subcategoryname = $getsubcategory->name;
 //            }
 //Seller Information
 
-            $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
-            $stmt1 = $db->prepare($sql1);
-            $stmt1->bindParam("id", $product->uploader_id);
-            $stmt1->execute();
-            $getUserdetails = $stmt1->fetchObject();
+                $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
+                $stmt1 = $db->prepare($sql1);
+                $stmt1->bindParam("id", $product->uploader_id);
+                $stmt1->execute();
+                $getUserdetails = $stmt1->fetchObject();
 
-            if (!empty($getUserdetails)) {
-                $seller_name = $getUserdetails->fname . ' ' . $getUserdetails->lname;
-                $seller_address = $getUserdetails->address;
-                $seller_phone = $getUserdetails->phone;
-                $email = $getUserdetails->email;
+                if (!empty($getUserdetails)) {
+                    $seller_name = $getUserdetails->fname . ' ' . $getUserdetails->lname;
+                    $seller_address = $getUserdetails->address;
+                    $seller_phone = $getUserdetails->phone;
+                    $email = $getUserdetails->email;
 
-                if ($getUserdetails->image != '') {
-                    $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
+                    if ($getUserdetails->image != '') {
+                        $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
+                    } else {
+                        $profile_image = SITE_URL . 'webservice/no-user.png';
+                    }
                 } else {
-                    $profile_image = SITE_URL . 'webservice/no-user.png';
+                    $profile_image = '';
                 }
-            } else {
-                $profile_image = '';
+
+                $data['productList'][] = array(
+                    "id" => stripslashes($product->id),
+                    "image" => stripslashes($image),
+                    "price" => stripslashes($product->price),
+                    "description" => strip_tags(stripslashes(substr($product->description, 0, 50))),
+                    "category_name" => $categoryname,
+                    "seller_id" => stripslashes($product->uploader_id),
+                    "seller_image" => $profile_image,
+                    "seller_name" => stripslashes($seller_name),
+                    "seller_address" => stripslashes($seller_address),
+                    "seller_phone" => stripslashes($seller_phone),
+                    "productname" => stripslashes($product->name),
+                    "product_status" => stripslashes($product->product_status),
+                );
             }
 
-            $data['productList'][] = array(
-                "id" => stripslashes($product->id),
-                "image" => stripslashes($image),
-                "price" => stripslashes($product->price),
-                "description" => strip_tags(stripslashes(substr($product->description, 0, 50))),
-                "category_name" => $categoryname,
-                "seller_id" => stripslashes($product->uploader_id),
-                "seller_image" => $profile_image,
-                "seller_name" => stripslashes($seller_name),
-                "seller_address" => stripslashes($seller_address),
-                "seller_phone" => stripslashes($seller_phone),
-                "productname" => stripslashes($product->name),
-                "product_status" => stripslashes($product->product_status),
-            );
+
+            $data['Ack'] = '1';
+            $app->response->setStatus(200);
         }
-
-
-        $data['Ack'] = '1';
-        $app->response->setStatus(200);
-    }
-    }else {
+    } else {
         $data = array();
         $data['productList'] = array();
         $data['Ack'] = '0';
