@@ -508,6 +508,13 @@ swal("Mail can not be sent",'','error');
           $('#myModal').modal('hide');
            $('#winner').modal('show'); 
            
+    }else if(response.Ack == '3'){
+         $scope.winnermsg ='Auction Is Ended';
+         $scope.winnerlink = '2';
+         $('#password').modal('hide');
+          $('#myModal').modal('hide');
+           $('#winner').modal('show'); 
+           
     }
             
         }, function(err) {

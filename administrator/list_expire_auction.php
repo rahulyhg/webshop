@@ -211,7 +211,7 @@ if ($_REQUEST['action'] == 'edit') {
 $curdate = date('Y-m-d');
 
 ////exit;
-$fetch_tools_type = mysqli_query($con, "select * from  webshop_products where `status`=1 and `preferred_date` < '" . $curdate . "' order by id desc");
+$fetch_tools_type = mysqli_query($con, "select * from  webshop_products where `status`=1 and auctioned='1' order by id desc");
 $num = mysqli_num_rows($fetch_tools_type);
 if ($num > 0) {
     while ($tools_type = mysqli_fetch_array($fetch_tools_type)) {

@@ -8735,7 +8735,7 @@ function checkauctionvaliditybeforeaddbid() {
     $stmt1->execute();
     $count = $stmt1->rowCount();
 
-    if ($count > 0) {
+   /* if ($count > 0) {
         $data['Ack'] = '1';
         $app->response->setStatus(200);
     } else {
@@ -8743,10 +8743,10 @@ function checkauctionvaliditybeforeaddbid() {
         $data['auctionwinner'] = '';
         $data['Ack'] = '2';
         $app->response->setStatus(200);
-    }
+    }*/
 
 
-    /* if ($count > 0) {
+     if ($count > 0) {
       $data['Ack'] = '1';
       $app->response->setStatus(200);
       } else {
@@ -8777,7 +8777,7 @@ function checkauctionvaliditybeforeaddbid() {
       $data['Ack'] = '3';
       $app->response->setStatus(200);
       }
-      } */
+      } 
 
 
 
