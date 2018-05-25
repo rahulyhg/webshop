@@ -86,7 +86,7 @@ userService.notificationList(userInfo.user_id).then(function(response) {
 	});
 
 
- $scope.auctionFeesPayment = function(notification_type,auction_id){
+ /*$scope.auctionFeesPayment = function(notification_type,auction_id){
    //  alert('hi');
 
         userService.auctionFees(notification_type,auction_id).then(function(response) {
@@ -113,8 +113,20 @@ userService.notificationList(userInfo.user_id).then(function(response) {
         
        
     
-    }; 
-                      
+    }; */
+    
+    
+    $scope.auctionFeesPayment = function(id){
+     //alert(id);
+        
+           $state.go('frontend.auctionuploadpayment',{product_id:id});
+
+              
+        }
+    
+    
+    
+    
 
 });
 

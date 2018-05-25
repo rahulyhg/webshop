@@ -234,7 +234,7 @@ if ($_REQUEST['action'] == 'edit') {
 
                                         $auctionfees = mysqli_query($con, "UPDATE `webshop_products` SET `auction_fee`='" . $payment_amount . "' WHERE `id` = '" . $item_id . "'");
 
-                                        $requestor_notification = mysqli_query($con, "INSERT into webshop_notification(from_id,to_id,type,msg,date,is_read,last_id) VALUES ('0','" . $requestor_id . "','Product for Auction Approved','Your Product has been approved for auction. You need to pay  $" . $payment_amount . " as auction fee to make your product Go Live.','" . $get_current_date . "','0','" . $item_id . "')");
+                                        $requestor_notification = mysqli_query($con, "INSERT into webshop_notification(from_id,to_id,type,msg,date,is_read,last_id) VALUES ('0','" . $requestor_id . "','Product for Auction Approved','Your Product has been approved for auction. You need to pay  KWD " . $payment_amount . " as auction fee to make your product Go Live.','" . $get_current_date . "','0','" . $item_id . "')");
 
 
                                         header('Location:list_auction.php');
