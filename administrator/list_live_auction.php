@@ -304,7 +304,7 @@ $curdate = date('Y-m-d');
 // echo "select * from  webshop_auction where `status`=1 and (`start_date_time` <= '".$curdate."' && `end_date_time` >='".$curdate."')";
 //exit;
 // $fetch_tools_type=mysqli_query($con,"select * from  webshop_auction where `status`=1 and (`start_date_time` <= '".$curdate."' && `end_date_time` >='".$curdate."')");
-$fetch_tools_type = mysqli_query($con, "select * from  webshop_products where `status`=1 and (`preferred_date` >= '" . $curdate . "')");
+$fetch_tools_type = mysqli_query($con, "select * from  webshop_products where `status`=1 and auctioned = '0'");
 $num = mysqli_num_rows($fetch_tools_type);
 if ($num > 0) {
     while ($tools_type = mysqli_fetch_array($fetch_tools_type)) {

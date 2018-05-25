@@ -593,7 +593,7 @@ a{color: #000}
 .right-icon-btn span {
     width: 40px;
     height: 40px;
-    //border-radius: 50px;
+    border-radius: 10px;
     background: red;
     display: inline-block;
     text-align: right;
@@ -606,7 +606,7 @@ a{color: #000}
 .right-icon-btn1 span  {
     width: 40px;
     height: 40px;
-    //border-radius: 70px;
+    border-radius: 10px;
     background: green;
     display: inline-block;
     text-align: right;
