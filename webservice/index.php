@@ -1701,6 +1701,21 @@ function listmyProducts() {
 //                $subcategoryname = $getsubcategory->name;
 //            }
 //Seller Information
+            
+            
+            if($product->subscription_id!=0){
+            $sql4 = "SELECT * FROM  webshop_subscribers WHERE id=:id ";
+            $stmt4 = $db->prepare($sql4);
+            $stmt4->bindParam("id", $product->subscription_id);
+            $stmt4->execute();
+            $getexpiry = $stmt4->fetchObject();
+            if (!empty($getexpiry)) {
+                $expirydate = date('dS M,Y',strtotime($getexpiry->expiry_date));
+            }
+            }else{
+              $expirydate= "It was free product";  
+            }
+            
 
             $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
             $stmt1 = $db->prepare($sql1);
@@ -1738,7 +1753,8 @@ function listmyProducts() {
                 "productname" => '',
                 "product_status" => stripslashes($product->product_status),
                 "approved" => $product->approved,
-                "live_status" => $product->status
+                "live_status" => $product->status,
+                "expiry_date" => $expirydate
             );
         }
 
@@ -3634,7 +3650,7 @@ function addProductNew() {
 
 
 
-                if (!empty($_FILES['image'])) {
+              /*  if (!empty($_FILES['image'])) {
 
                     if ($_FILES['image']['tmp_name'] != '') {
 
@@ -3654,9 +3670,42 @@ function addProductNew() {
                         $stmt1->bindParam("image", $userfile_name);
                         $stmt1->execute();
                     }
-                }
+                }*/
+
+                if (!empty($_FILES['image'])) {
+
+                                //print_r($_FILES['image']);exit;
+                                foreach ($_FILES['image']['name'] as $key1 => $file) {
 
 
+
+                                    if ($_FILES['image']['tmp_name'][$key1] != '') {
+
+                                        $target_path = "../upload/product_image/";
+
+                                        $userfile_name = $_FILES['image']['name'][$key1];
+
+                                        $userfile_tmp = $_FILES['image']['tmp_name'][$key1];
+
+
+                                        $img = $target_path . $userfile_name;
+                                        move_uploaded_file($userfile_tmp, $img);
+
+                                        $sql = "INSERT INTO webshop_product_image (image,product_id) VALUES (:image,:product_id)";
+
+                                        $stmt = $db->prepare($sql);
+                                        $stmt->bindParam("image", $userfile_name);
+                                        $stmt->bindParam("product_id", $lastID);
+                                        $stmt->execute();
+
+
+                                        $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
+                                        $stmt1 = $db->prepare($sqlimg);
+                                        $stmt1->bindParam("image", $_FILES['image']['name'][0]);
+                                        $stmt1->execute();
+                                    }
+                                }
+                            }
 
 
                 $data['Ack'] = 1;
@@ -3906,7 +3955,7 @@ function addProductNew() {
 
 
 
-                if (!empty($_FILES['image'])) {
+               /* if (!empty($_FILES['image'])) {
 
                     if ($_FILES['image']['tmp_name'] != '') {
 
@@ -3927,8 +3976,38 @@ function addProductNew() {
                         $stmt1->bindParam("image", $userfile_name);
                         $stmt1->execute();
                     }
-                }
+                }*/
+                if (!empty($_FILES['image'])) {
 
+                    //print_r($_FILES['image']);exit;
+                    foreach ($_FILES['image']['name'] as $key1 => $file) {
+
+                        if ($_FILES['image']['tmp_name'][$key1] != '') {
+
+                            $target_path = "../upload/product_image/";
+
+                            $userfile_name = $_FILES['image']['name'][$key1];
+
+                            $userfile_tmp = $_FILES['image']['tmp_name'][$key1];
+
+
+                            $img = $target_path . $userfile_name;
+                            move_uploaded_file($userfile_tmp, $img);
+
+                            $sql = "INSERT INTO webshop_product_image (image,product_id) VALUES (:image,:product_id)";
+
+                            $stmt = $db->prepare($sql);
+                            $stmt->bindParam("image", $userfile_name);
+                            $stmt->bindParam("product_id", $lastID);
+                            $stmt->execute();
+
+                            $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
+                            $stmt1 = $db->prepare($sqlimg);
+                            $stmt1->bindParam("image", $_FILES['image']['name'][0]);
+                            $stmt1->execute();
+                        }
+                    }
+                }
 
                 $data['Ack'] = 1;
                 $data['msg'] = 'Auction added successfully.';
