@@ -337,6 +337,7 @@ $scope.addProduct = function(user2){
 		//console.log('htype',response);
 		$scope.isExists=1;
 		if(response.Ack == '1') {
+                    $window.localStorage["brand"]='';
                     swal(response.msg,'','success');
                     if(response.type == '1'){
                         

@@ -30,7 +30,8 @@
                                                                     
                                                                     <div class="form-group">
 										<label for="staticEmail">Brand</label>
-										<select class="form-control" name="brand" ng-model="user2.brand" ng-change="sub(user2.brand)"  required>
+										<select class="form-control" name="brand" ng-model="user2.brand" ng-click="sub(user2.brand)"  required>
+                                                                                    <option value="" selected>Please Choose a Brand</option>
 											<option  ng-repeat="brandlists in brandlist" value="{{brandlists.id}}">{{brandlists.name}}</option>
 										</select>
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.brand.$error.required"> Please Choose A Brand </span>
