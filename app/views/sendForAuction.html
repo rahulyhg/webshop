@@ -8,7 +8,7 @@
 					<div class="edit-pro p-3">
 						<div class="row">
 							<div class="col-lg-7 col-md-12">
-								<form name="processforauction" ng-submit="processforauction.$valid && processforauction(user2)" novalidate>
+								<form name="processforauctionfrom" ng-submit="processforauctionfrom.$valid && processforauction(user2)" novalidate>
 
 <!--									 <div class="form-group">
 										<label for="staticEmail"> Auction Threshold Bid</label>
@@ -24,7 +24,7 @@
                                                                                     
                                                                                 
                                                                                     <input class="form-control"  ng-model="user2.preferred_date" name="preferred_date" required placeholder="Choose a date" readonly/>
-                                                                                    <span style="color:Red" ng-show="processforauction.preferred_date.$touched && processforauction.preferred_date.$error.required"> Please Choose Auction Date </span>
+                                                                                    <span style="color:Red" ng-show="processforauctionfrom.preferred_date.$touched && processforauctionfrom.preferred_date.$error.required"> Please Choose Auction Date </span>
                                                                                    
                                                                                 
                                                                         
@@ -44,7 +44,7 @@
                                                                                  </div>
                                                                                 </div>
                                                                                 </span>
-                                                                                <span style="color:Red" ng-show="submitted && processforauction.time_slot_id.$touched && processforauction.time_slot_id.$error.required"> Please Choose A Time Slot </span>
+                                                                                <span style="color:Red" ng-show="submitted && processforauctionfrom.time_slot_id.$touched && processforauctionfrom.time_slot_id.$error.required"> Please Choose A Time Slot </span>
                                                                                 
                                                                                 
 									</div>
@@ -56,7 +56,7 @@
                                                                                        <option   value="M">{{language.metal}}</option>  
                                                                                         <option   value="L">{{language.leather}}</option>  
 										</select>
-                                                                                <span style="color:Red" ng-show="submitted && processforauction.breslet_type.$error.required"> Please Choose A Bracelet Type </span>
+                                                                                <span style="color:Red" ng-show="submitted && processforauctionfrom.breslet_type.$error.required"> Please Choose A Bracelet Type </span>
 									</div>
                                                                     <div class="form-group">
 										<label for="staticEmail">Model Year</label>
@@ -65,7 +65,7 @@
                                                                                       <option  ng-repeat="year in YearsList" value="{{year}}">{{year}}</option>    
                                                                                      <!--  <option  ng-repeat="subcategorylists in subcategorylist" value="{{subcategorylists.subcat_id}}">{{subcategorylists.name}}</option>  -->
 										</select>
-                                                                                <span style="color:Red" ng-show="submitted && processforauction.model_year.$error.required"> Please Choose A Model Year </span>
+                                                                                <span style="color:Red" ng-show="submitted && processforauctionfrom.model_year.$error.required"> Please Choose A Model Year </span>
 									</div>
                                                                     
                                     	<div class="form-group">
