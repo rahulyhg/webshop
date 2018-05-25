@@ -1,6 +1,6 @@
 <?php
 
-define('SITE_URL', 'http://localhost/webshop1/webshop/');
+define('SITE_URL', 'http://localhost/webshop/');
 
 function getConnection() {
 
