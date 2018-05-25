@@ -3200,7 +3200,7 @@ function ListNotification() {
             $stmt4 = $db->prepare($sql4);
             $stmt4->bindParam("user_id", $user_id);
             $stmt4->execute();
-
+            $datenoti = explode(' ', $notificationUserdetails->date);
             $all_notifications[] = array(
                 "id" => stripslashes($notificationUserdetails->id),
                 "from_id" => stripslashes($notificationUserdetails->from_id),
@@ -3212,7 +3212,7 @@ function ListNotification() {
                 "message" => stripslashes($notificationUserdetails->msg),
                 "type" => stripslashes($notificationUserdetails->type),
                 "last_id" => stripslashes($notificationUserdetails->last_id),
-                "date" => stripslashes($notificationUserdetails->date),
+                "date" => stripslashes($datenoti[1]),
             );
         }
 
@@ -6191,13 +6191,31 @@ function addmessage() {
     $from_id = isset($body->from_id) ? $body->from_id : '';
     $add_date = date('Y-m-d');
     $is_read = '0';
+    $last_id = '0';
+    $date = date('Y-m-d h:i:s');
 //exit;
     $db = getConnection();
 
     $sql1 = "INSERT INTO  webshop_message (message,to_id,product_id,from_id,is_read,add_date) VALUES (:message,:to_id,:product_id,:from_id,:is_read,:add_date)";
-
+    $sqlnoti = "INSERT INTO  webshop_notification (msg,to_id,from_id,is_read,last_id,date) VALUES (:msg,:to_id,:from_id,:is_read,:last_id,:date)";
+    $sqluser = "SELECT * FROM webshop_user WHERE id=:to_id";
+    $stmtuser = $db->prepare($sqluser);
+    $stmtuser->bindParam("to_id", $to_id);
+    $stmtuser->execute();
+    $getuser = $stmtuser->fetchObject();
 
     try {
+        $messagefornoti = 'You have a new message from' . $getuser->fname . ' ' . $getuser->lname;
+        $type = 'Customer Message';
+        $stmtnoti = $db->prepare($sqlnoti);
+        $stmtnoti->bindParam("msg", $messagefornoti);
+        $stmtnoti->bindParam("to_id", $to_id);
+        $stmtnoti->bindParam("from_id", $from_id);
+        $stmtnoti->bindParam("is_read", $is_read);
+        $stmtnoti->bindParam("date", $date);
+        $stmtnoti->bindParam("last_id", $last_id);
+        $stmtnoti->execute();
+
         $stmt1 = $db->prepare($sql1);
         $stmt1->bindParam("message", $message);
         $stmt1->bindParam("to_id", $to_id);
@@ -8732,49 +8750,47 @@ function checkauctionvaliditybeforeaddbid() {
     $stmt1->execute();
     $count = $stmt1->rowCount();
 
-   /* if ($count > 0) {
-        $data['Ack'] = '1';
-        $app->response->setStatus(200);
-    } else {
-        $data = array();
-        $data['auctionwinner'] = '';
-        $data['Ack'] = '2';
-        $app->response->setStatus(200);
-    }*/
-
-
-     if ($count > 0) {
+    /* if ($count > 0) {
       $data['Ack'] = '1';
-      $app->response->setStatus(200);
-      } else {
-
-      $sql = "SELECT * from  webshop_auction_winner WHERE user_id=:user_id AND product_id=:product_id  order by id desc";
-      $stmt = $db->prepare($sql);
-      $stmt->bindParam("user_id", $user_id);
-      $stmt->bindParam("product_id", $product_id);
-      $stmt->execute();
-      //$count = $stmt->rowCount();
-      $getauctionwinner = $stmt->fetchAll(PDO::FETCH_OBJ);
-
-      if (!empty($getauctionwinner)) {
-      foreach ($getauctionwinner as $winner) {
-
-      $data['auctionwinner'] = stripslashes($winner->user_id);
-
-
-      }
-
-
-      $data['Ack'] = '2';
-
       $app->response->setStatus(200);
       } else {
       $data = array();
       $data['auctionwinner'] = '';
-      $data['Ack'] = '3';
+      $data['Ack'] = '2';
       $app->response->setStatus(200);
-      }
-      } 
+      } */
+
+
+    if ($count > 0) {
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    } else {
+
+        $sql = "SELECT * from  webshop_auction_winner WHERE user_id=:user_id AND product_id=:product_id  order by id desc";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("user_id", $user_id);
+        $stmt->bindParam("product_id", $product_id);
+        $stmt->execute();
+        //$count = $stmt->rowCount();
+        $getauctionwinner = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        if (!empty($getauctionwinner)) {
+            foreach ($getauctionwinner as $winner) {
+
+                $data['auctionwinner'] = stripslashes($winner->user_id);
+            }
+
+
+            $data['Ack'] = '2';
+
+            $app->response->setStatus(200);
+        } else {
+            $data = array();
+            $data['auctionwinner'] = '';
+            $data['Ack'] = '3';
+            $app->response->setStatus(200);
+        }
+    }
 
 
 
