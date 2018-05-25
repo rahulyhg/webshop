@@ -182,8 +182,10 @@
 												<i ng-click="f = null" ng-show="f" class="fa fa-times" aria-hidden="true"></i> 
 												 <img ng-show="myForm.location.files.$valid" ngf-thumbnail="f" class="thumbnail img-responsive" style="height: 150px;"> -->
 			
-												<img style="width: 150px; height: 100px;" ng-show="myForm.user2.image.$valid" ngf-thumbnail="f" class="thumbnail">
-<!--												<video style="width: 150px; height: 100px;" controls ngf-src="f" ng-show="myForm.location.files.$valid" class="thumbnail"></video>-->
+
+												<img style="width: 150px; height: 100px;" ng-show="addProductForm.user2.image.$valid" ngf-thumbnail="f" ngf-resize="{width: 100, height: 100}" class="thumbnail">
+												<!--<video style="width: 150px; height: 100px;" controls ngf-src="f" ng-show="myForm.location.files.$valid" class="thumbnail"></video>-->
+
 											</div>
 										</div>
 									</div>

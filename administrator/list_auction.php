@@ -189,7 +189,7 @@ if ($_REQUEST['action'] == 'edit') {
                                 <thead>
                                     <tr>
 
-                                        <th>User Images</th>           
+                                        <th>Product Images</th>           
                                         <th>User Name</th>
                                         <th>Price</th>
                                         <th>Brand</th>
@@ -290,9 +290,9 @@ if ($_REQUEST['action'] == 'edit') {
                                                     <?php echo stripslashes($uploader['email']); ?>
                                                 </td>
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                      <!--  <td>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <!--  <td>
                                                 <?php echo stripslashes($tools_type['owner_number']); ?>
-                                                                                                                      </td>-->
+                                                                                                                              </td>-->
 
                                                 <td>
                                                     <?php
@@ -421,17 +421,17 @@ if ($_REQUEST['action'] == 'edit') {
 
 <!-- END JAVASCRIPTS -->
 <script>
-                                                jQuery(document).ready(function () {
-                                                    EditableTable.init();
-                                                });
+                                                        jQuery(document).ready(function () {
+                                                            EditableTable.init();
+                                                        });
 </script>
 
 <script>
 
-function edit_alert(){
-    
-    alert('Please edit auction first.');
-}
+    function edit_alert() {
+
+        alert('Please edit auction first.');
+    }
 
 </script>
 </body>
@@ -445,7 +445,7 @@ function edit_alert(){
 function test_mail($to, $firstname) {
     $MailTo = $to;
 
-   
+
     $subject = "GMT24- Auction activation";
 
     $TemplateMessage = "Hello " . $firstname . ",<br /><br / >";

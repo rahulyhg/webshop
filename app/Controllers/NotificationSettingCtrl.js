@@ -81,7 +81,7 @@ $scope.notificationsetting = function(user2){
 		console.log(response.Ack);
 		$scope.isExists=1;
 		if(response.Ack == '1') {
-                    alert('Updated Successfully.');
+                    swal('Updated Successfully.','','success');
                     $window.location.reload()
                     $scope.isExists=1;
 		

@@ -189,7 +189,7 @@ if ($_REQUEST['action'] == 'edit') {
                                 <thead>
                                     <tr>
 
-                                        <th>User Image</th>           
+                                        <th>Product Image</th>           
                                         <th>User Name</th>
                                         <th>Price</th>
                                         <th>Brand</th>
@@ -282,9 +282,9 @@ if ($_REQUEST['action'] == 'edit') {
 
 
 
-                                                                                                                                                                                                                                                                                                                                                                                              <!--  <td>
+                                                                                                                                                                                                                                                                                                                                                                                                              <!--  <td>
                                                 <?php echo stripslashes($tools_type['owner_number']); ?>
-                                                                                                                                                                                                                                                                                                                                                                                                </td>-->
+                                                                                                                                                                                                                                                                                                                                                                                                                </td>-->
 
                                                 <td>
                                                     <?php if ($tools_type['approved'] == '0') { ?>
@@ -294,17 +294,17 @@ if ($_REQUEST['action'] == 'edit') {
                                                     <?php } ?>
                                                 </td>
 
-<!--                                                <td>
-                                                    <?php
-                                                    if ($tools_type['approved'] == '1' && $tools_type['auction_fee_paid'] == '0') {
-                                                        echo '<span style="color:#b00;text-align:center;">Payment Pending</span>';
-                                                    } else if ($tools_type['approved'] == '1' && $tools_type['auction_fee_paid'] == '1') {
-                                                        echo '<span style="color:#468847;text-align:center;">Payment Done</span>';
-                                                    } else {
-                                                        echo '<span style="color:#b94a48;text-align:center;">Admin Approval Required</span>';
-                                                    }
-                                                    ?>
-                                                </td>-->
+                <!--                                                <td>
+                                                <?php
+                                                if ($tools_type['approved'] == '1' && $tools_type['auction_fee_paid'] == '0') {
+                                                    echo '<span style="color:#b00;text-align:center;">Payment Pending</span>';
+                                                } else if ($tools_type['approved'] == '1' && $tools_type['auction_fee_paid'] == '1') {
+                                                    echo '<span style="color:#468847;text-align:center;">Payment Done</span>';
+                                                } else {
+                                                    echo '<span style="color:#b94a48;text-align:center;">Admin Approval Required</span>';
+                                                }
+                                                ?>
+                                                                </td>-->
 
                                                 <td>
                                                     <a  href="add_product.php?id=<?php echo $tools_type['id'] ?>&action=edit"  >
@@ -313,11 +313,11 @@ if ($_REQUEST['action'] == 'edit') {
                                                         <i class="icon-trash"></i></a>
                                                 </td>
 
-<!--                                                <td>
+                <!--                                                <td>
 
-                                                    <a  href="details_auction.php?id=<?php echo $tools_type['id'] ?>&action=details"><i class="icon-eye-open"></i></a>
+                                                                    <a  href="details_auction.php?id=<?php echo $tools_type['id'] ?>&action=details"><i class="icon-eye-open"></i></a>
 
-                                                </td> -->
+                                                                </td> -->
 
 
 
