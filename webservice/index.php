@@ -529,12 +529,14 @@ function changepassword() {
         $stmt->bindParam("user_id", $user_id);
         $stmt->execute();
         $data['Ack'] = 1;
-        $app->response->setStatus(200);
         $data['msg'] = 'Password updated successfully';
+        $app->response->setStatus(200);
+        
     } catch (PDOException $e) {
         $data['Ack'] = 0;
-        $app->response->setStatus(200);
         $data['msg'] = 'Password updation error';
+        $app->response->setStatus(200);
+        
     }
     $app->response->write(json_encode($data));
 }
@@ -6200,6 +6202,7 @@ function listproductMessages() {
 
     $app->response->write(json_encode($data));
 }
+
 
 function getusercontact() {
 

@@ -265,7 +265,7 @@ if (isset($_POST['ExportCsv'])) {
                                     if (mysqli_num_rows($tool_type_details) > 0) {
                                         while ($result = mysqli_fetch_assoc($tool_type_details)) {
 
-
+                                            if($result['product_id']!=""){
                                             if ($result['image'] != '') {
                                                 $image_link = '../upload/tool_image/' . $result['image'];
                                             } else {
@@ -279,6 +279,8 @@ if (isset($_POST['ExportCsv'])) {
                                             $categorydetails = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `webshop_category` WHERE `id`='" . $owner_details['cat_id'] . "'"));
 
                                             $seller_ratings = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `webshop_providerreviews` WHERE `from_id`='" . $result['to_id'] . "' and `to_id`='" . $result['from_id'] . "'"));
+                                            
+                                            $vendor_details = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `webshop_user` WHERE `id`='" . $owner_details['uploader_id'] . "'"));
                                             ?>
 
                                             <tr>
@@ -291,8 +293,10 @@ if (isset($_POST['ExportCsv'])) {
                                                     <?php echo stripslashes($user_details['fname'] . " " . $user_details['lname']); ?>
                                                 </td>
 
+
+                                                
                                                 <td>
-                                                    <?php echo stripslashes($brands['name'] . '/' . $categorydetails['name']); ?>
+                                                    <?php echo stripslashes($vendor_details['fname'] . " " . $vendor_details['lname']); ?>
                                                 </td>
 
                                                 <td>
@@ -353,6 +357,7 @@ if (isset($_POST['ExportCsv'])) {
                                             </tr>
                                             <?php
                                         }
+                                    }
                                     } else {
                                         ?>
                                         <tr>
