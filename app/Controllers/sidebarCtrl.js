@@ -4,7 +4,7 @@
  */
 app.controller('sidebarCtrl', function ($rootScope, $scope, $http, $location,$window) {
 
-alert('ok');
+//alert('ok');
 /*     if ($window.localStorage["userInfo"]) {
 		  
 		  

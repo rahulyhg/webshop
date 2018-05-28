@@ -937,7 +937,7 @@ function ProductsDetails() {
     $stmt->execute();
     $product = $stmt->fetchObject();
 
-    $sqlinterest = "SELECT * from  webshop_interested WHERE userid=:userid and productid='".$product_id."'";
+    $sqlinterest = "SELECT * from  webshop_interested WHERE userid=:userid and productid='" . $product_id . "'";
 
     $stmtinterest = $db->prepare($sqlinterest);
     $stmtinterest->bindParam("userid", $user_id);
@@ -4817,15 +4817,15 @@ function listSubscribed() {
 
 
     try {
-        
+
         $sqluser = "SELECT * from webshop_user where id=:user_id";
         $stmtuser = $db->prepare($sqluser);
         $stmtuser->bindParam("user_id", $user_id);
         $stmtuser->execute();
         $getuser = $stmtuser->fetchObject();
-        
-        $active=$getuser->current_subscription_id;
-        $slotremain=$getuser->slot_no;
+
+        $active = $getuser->current_subscription_id;
+        $slotremain = $getuser->slot_no;
 
         $sql = "SELECT w.id,w.name,w.slots,ws.price,ws.subscription_date,ws.expiry_date,ws.id as sid from webshop_subscribers as ws inner join webshop_subscription as w on w.id=ws.subscription_id where ws.user_id=:user_id order by ws.id desc";
         $stmt = $db->prepare($sql);
@@ -4843,8 +4843,8 @@ function listSubscribed() {
                 "subscription_date" => date('d M, Y', strtotime($subscription->subscription_date)),
                 "expiry_date" => date('d M, Y', strtotime($subscription->expiry_date)),
                 "subscribed_id" => $subscription->sid,
-                "active" =>$active,
-                "slot_remain" =>$slotremain,
+                "active" => $active,
+                "slot_remain" => $slotremain,
             );
         }
 
@@ -6153,34 +6153,36 @@ function listproductMessages() {
 
         $image = '';
         $productname = '';
-        foreach ($getStatus as $status) {
-            $sql1 = "SELECT * from webshop_products WHERE id=:product_id ";
-            $product_id = $status->product_id;
-            $stmt1 = $db->prepare($sql1);
-            $stmt1->bindParam("product_id", $product_id);
-            $stmt1->execute();
-            $getStatus1 = $stmt1->fetchAll(PDO::FETCH_OBJ);
-            if (!empty($getStatus1)) {
-                if ($getStatus1[0]->image != '') {
-                    $image = SITE_URL . 'upload/product_image/' . $getStatus1[0]->image;
-                } else {
-                    $image = SITE_URL . 'webservice/not-available.jpg';
+        if (!empty($getStatus)) {
+            foreach ($getStatus as $status) {
+                $sql1 = "SELECT * from webshop_products WHERE id=:product_id ";
+                $product_id = $status->product_id;
+                $stmt1 = $db->prepare($sql1);
+                $stmt1->bindParam("product_id", $product_id);
+                $stmt1->execute();
+                $getStatus1 = $stmt1->fetchAll(PDO::FETCH_OBJ);
+                if (!empty($getStatus1)) {
+                    if ($getStatus1[0]->image != '') {
+                        $image = SITE_URL . 'upload/product_image/' . $getStatus1[0]->image;
+                    } else {
+                        $image = SITE_URL . 'webservice/not-available.jpg';
+                    }
                 }
+                $today = date_create(date('Y-m-d'));
+                $add_date = date_create($status->add_date);
+                $diff = date_diff($add_date, $today);
+                $date_diff = $diff->format("%a days");
+                $allmeaage[] = array(
+                    'message' => stripslashes($status->message),
+                    'to_id' => stripslashes($status->to_id),
+                    'from_id' => stripslashes($status->from_id),
+                    'product_id' => stripslashes($status->product_id),
+                    'id' => stripslashes($status->id),
+                    'image' => stripslashes($image),
+                    'productname' => '',
+                    'date_diff' => $date_diff,
+                );
             }
-            $today = date_create(date('Y-m-d'));
-            $add_date = date_create($status->add_date);
-            $diff = date_diff($add_date, $today);
-            $date_diff = $diff->format("%a days");
-            $allmeaage[] = array(
-                'message' => stripslashes($status->message),
-                'to_id' => stripslashes($status->to_id),
-                'from_id' => stripslashes($status->from_id),
-                'product_id' => stripslashes($status->product_id),
-                'id' => stripslashes($status->id),
-                'image' => stripslashes($image),
-                'productname' => '',
-                'date_diff' => $date_diff,
-            );
         }
 // print_r($allstatus);
 //exit;
@@ -6543,9 +6545,9 @@ function addUserSubscription() {
     $lastID = $db->lastInsertId();
 
     if ($getSubscriptionDetails->type == "O") {
-        $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no,special_package_id=0,current_subscription_id= '".$lastID."'  WHERE id=:user_id";
+        $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no,special_package_id=0,current_subscription_id= '" . $lastID . "'  WHERE id=:user_id";
     } else {
-        $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no,current_subscription_id= '".$lastID."' WHERE id=:user_id";
+        $sql = "UPDATE  webshop_user SET subscription_id=:subscription_id,slot_no=:slot_no,total_slot=:slot_no,current_subscription_id= '" . $lastID . "' WHERE id=:user_id";
     }
     $slot = $getSubscriptionDetails->slots;
     $stmt = $db->prepare($sql);
@@ -7587,7 +7589,7 @@ function UserAuctionpayment() {
         $email = isset($body->email) ? $body->email : '';
         $phone = isset($body->phone) ? $body->phone : '';
 
-        $sql = "SELECT * from webshop_biddetails where productid =:product_id and userid= '".$user_id."'order by id desc limit 0,1";
+        $sql = "SELECT * from webshop_biddetails where productid =:product_id and userid= '" . $user_id . "'order by id desc limit 0,1";
         $stmt = $db->prepare($sql);
         $stmt->bindParam("product_id", $product_id);
         $stmt->execute();
