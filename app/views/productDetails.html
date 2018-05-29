@@ -179,6 +179,7 @@
                 <div class="left-count">
                     <p><i class="fa fa-user"></i> <span>{{productLists.countuniquebids}}</span></p>
                 </div>
+                
                 <div  class="right-icon-btn1" ng-if="productLists.lastbidvalue >= productLists.thresholdprice">
                     <p> <span tooltips tooltip-template="Minimum bid price reached" tooltip-side="bottom"></span></p>
                 </div>
@@ -204,10 +205,19 @@
                         <p ng-if="productLists.higestbidderbid">{{productLists.maxbiddername}}({{productLists.higestbidderbid}})</p>
                        </h5>
                        
+                       
                         <h5>Your Highest Bid : 
                         <p ng-if="!productLists.maxbid">You have not bid yet</p>
                         <p ng-if="productLists.maxbid">{{productLists.currency_code}}&nbsp;{{productLists.maxbid}}</p>
                        </h5>
+
+                        
+                    <h5> <span onclick="a()">Bid History</span></h5>
+                    
+                        <div id="history" style="display: none">
+                          <p ng-repeat="bidlist in productLists.bidhistory">{{bidlist.name}} ({{bidlist.bidprice}})</p>
+                       </div>
+                
                         <h5>Time Left :  
                         <div class='time-to' ng-if="productLists.preferred_date &&  productLists.type==2">
                             <p countdown='' date='{{productLists.preferred_date}}' style="color:red">&nbsp;</p>
@@ -227,6 +237,7 @@
                         <p ng-if="productLists.nextbidprice > 0">{{productLists.currency_code}}&nbsp;{{productLists.nextbidprice}}</p>
                         <p ng-if="productLists.nextbidprice <= 0">{{productLists.currency_code}}&nbsp;{{productLists.baseauctionprice}}</p>
                        </h6>
+                        
                         <h6>                                         
                             
                             <input type="number" class="form-control btn-round" id="" step="{{productLists.bidincrement}}" tooltips tooltip-template="Bid Increment is multiple of {{productLists.bidincrement}}" tooltip-side="up"  placeholder="Input Your Bid" ng-model="bid.bidprice" name="bidprice" capitalize required>
@@ -370,10 +381,18 @@
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
-
+                       
   </div>
 </div>
-
+<script>
+    
+    function a(){
+       
+        $('#history').toggle();
+       
+    }
+    
+</script>
 <style>
  .loader {
   height: 4px;
