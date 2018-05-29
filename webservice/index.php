@@ -1164,6 +1164,24 @@ function ProductsDetails() {
             $ctime = '';
         }
 
+        
+        $sqlbidhistory = "SELECT w.fname,w.lname,wb.bidprice FROM webshop_biddetails as wb inner join webshop_user as w on w.id=wb.userid WHERE wb.productid=:productid order by wb.id desc limit 0,4";
+        $stmtbidhistory = $db->prepare($sqlbidhistory);
+        $stmtbidhistory->bindParam("productid", $product_id);
+        $stmtbidhistory->execute();
+        $bidhistory = $stmtbidhistory->fetchAll(PDO::FETCH_OBJ);
+        if(!empty($bidhistory)){
+        foreach ($bidhistory as $history) {
+
+
+            $allhistory[] = array(
+                "bidprice" => stripslashes($history->bidprice),
+                "name" => stripslashes($history->fname." ".$history->lname)
+            );
+        }
+        }else{
+           $allhistory=array();
+        }
         //$aucshowtime=
         //$count = $stmtproduct->rowCount();
 
@@ -1208,7 +1226,8 @@ function ProductsDetails() {
             'userlike' => $userlike,
             'is_fav' => $is_fav,
             'maxbiddername' => $higestbiddername,
-            'higestbidderbid' => $higestbidderbid
+            'higestbidderbid' => $higestbidderbid,
+            'bidhistory' => $allhistory
         );
 
 

@@ -97,7 +97,12 @@ $scope.countrylist =''	;
 				$scope.user.country=response.UserDetails.country;
 				$scope.user.zip=response.UserDetails.zip;
 				$scope.user.address=response.UserDetails.address;
-				
+				$scope.user2.city=response.UserDetails.city;
+				$scope.user2.state=response.UserDetails.state;
+				$scope.user2.country=response.UserDetails.country;
+                                
+                                $scope.state($scope.user2.country);
+                                $scope.city($scope.user2.state);
               }else{
 				  
 				$scope.user.fname='';
