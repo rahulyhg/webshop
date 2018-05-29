@@ -531,12 +531,10 @@ function changepassword() {
         $data['Ack'] = 1;
         $data['msg'] = 'Password updated successfully';
         $app->response->setStatus(200);
-        
     } catch (PDOException $e) {
         $data['Ack'] = 0;
         $data['msg'] = 'Password updation error';
         $app->response->setStatus(200);
-        
     }
     $app->response->write(json_encode($data));
 }
@@ -4368,19 +4366,19 @@ function emailverified() {
     $admin_approve = '0';
     $status = '0';
     $verified_date = date('Y-m-d');
-    
-    
+
+
     $sqluser = "SELECT * FROM  webshop_user WHERE id=:user_id ";
     $stmtuser = $db->prepare($sqluser);
     $stmtuser->bindParam("user_id", $user_id);
     $stmtuser->execute();
     $getUserdetails = $stmtuser->fetchObject();
-    
-    if($getUserdetails->type == 1){
-       $admin_approve = '1';
-       $status ='1';
+
+    if ($getUserdetails->type == 1) {
+        $admin_approve = '1';
+        $status = '1';
     }
-    
+
 
     $sql = "UPDATE webshop_user set email_verified=:email_verified,verified_date=:verified_date,is_admin_approved=:is_admin_approved,status=:status WHERE id=:id";
     try {
@@ -4393,10 +4391,10 @@ function emailverified() {
         $stmt->bindParam("status", $status);
         $stmt->bindParam("id", $user_id);
         $stmt->execute();
-        
-        $msg='Email Verified Successfully.Your account is awaiting for the admin approval.You will be notified via email once activated.';
-        if($getUserdetails->type == 1){
-        $msg = 'Email Verified Successfully. You can login now.'; 
+
+        $msg = 'Email Verified Successfully.Your account is awaiting for the admin approval.You will be notified via email once activated.';
+        if ($getUserdetails->type == 1) {
+            $msg = 'Email Verified Successfully. You can login now.';
         }
 
         $data['last_id'] = $user_id;
@@ -6070,7 +6068,6 @@ function ProductListSearch() {
                             "seller_phone" => stripslashes($seller_phone),
                             "productname" => stripslashes($product->name),
                             "top" => stripslashes($top),
-                            
                         );
                     }
                 } else {
@@ -6174,69 +6171,69 @@ function listproductMessages() {
 //exit;
     $db = getConnection();
     $to_id = isset($body->user_id) ? $body->user_id : '';
+    if ($to_id != 0) {
 //    exit;
-    try {
+        try {
 
-        $sql = "SELECT *, (r.from_id + r.to_id) AS dist FROM (SELECT * FROM `webshop_message` as t WHERE ( t.from_id =:to_id OR t.to_id =:to_id ) ORDER BY t.add_date ASC) as r GROUP BY dist ORDER BY r.add_date ASC ";
-        // $sql = "SELECT * from webshop_message WHERE to_id=:to_id or from_id=:to_id ";
-
-
-        $stmt = $db->prepare($sql);
-        $stmt->bindParam("to_id", $to_id);
-        $stmt->execute();
-        $getStatus = $stmt->fetchAll(PDO::FETCH_OBJ);
+            $sql = "SELECT *, (r.from_id + r.to_id) AS dist FROM (SELECT * FROM `webshop_message` as t WHERE ( (t.from_id =:to_id OR t.to_id =:to_id) and product_id!= 0 and to_id!= 0 and from_id!= 0 ) ORDER BY t.add_date ASC) as r GROUP BY dist ORDER BY r.add_date ASC ";
+            // $sql = "SELECT * from webshop_message WHERE to_id=:to_id or from_id=:to_id ";
 
 
-        $image = '';
-        $productname = '';
-        if (!empty($getStatus)) {
-            foreach ($getStatus as $status) {
-                $sql1 = "SELECT * from webshop_products WHERE id=:product_id ";
-                $product_id = $status->product_id;
-                $stmt1 = $db->prepare($sql1);
-                $stmt1->bindParam("product_id", $product_id);
-                $stmt1->execute();
-                $getStatus1 = $stmt1->fetchAll(PDO::FETCH_OBJ);
-                if (!empty($getStatus1)) {
-                    if ($getStatus1[0]->image != '') {
-                        $image = SITE_URL . 'upload/product_image/' . $getStatus1[0]->image;
-                    } else {
-                        $image = SITE_URL . 'webservice/not-available.jpg';
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam("to_id", $to_id);
+            $stmt->execute();
+            $getStatus = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+
+            $image = '';
+            $productname = '';
+            if (!empty($getStatus)) {
+                foreach ($getStatus as $status) {
+                    $sql1 = "SELECT * from webshop_products WHERE id=:product_id ";
+                    $product_id = $status->product_id;
+                    $stmt1 = $db->prepare($sql1);
+                    $stmt1->bindParam("product_id", $product_id);
+                    $stmt1->execute();
+                    $getStatus1 = $stmt1->fetchAll(PDO::FETCH_OBJ);
+                    if (!empty($getStatus1)) {
+                        if ($getStatus1[0]->image != '') {
+                            $image = SITE_URL . 'upload/product_image/' . $getStatus1[0]->image;
+                        } else {
+                            $image = SITE_URL . 'webservice/not-available.jpg';
+                        }
                     }
+                    $today = date_create(date('Y-m-d'));
+                    $add_date = date_create($status->add_date);
+                    $diff = date_diff($add_date, $today);
+                    $date_diff = $diff->format("%a days");
+                    $allmeaage[] = array(
+                        'message' => stripslashes($status->message),
+                        'to_id' => stripslashes($status->to_id),
+                        'from_id' => stripslashes($status->from_id),
+                        'product_id' => stripslashes($status->product_id),
+                        'id' => stripslashes($status->id),
+                        'image' => stripslashes($image),
+                        'productname' => '',
+                        'date_diff' => $date_diff,
+                    );
                 }
-                $today = date_create(date('Y-m-d'));
-                $add_date = date_create($status->add_date);
-                $diff = date_diff($add_date, $today);
-                $date_diff = $diff->format("%a days");
-                $allmeaage[] = array(
-                    'message' => stripslashes($status->message),
-                    'to_id' => stripslashes($status->to_id),
-                    'from_id' => stripslashes($status->from_id),
-                    'product_id' => stripslashes($status->product_id),
-                    'id' => stripslashes($status->id),
-                    'image' => stripslashes($image),
-                    'productname' => '',
-                    'date_diff' => $date_diff,
-                );
             }
-        }
 // print_r($allstatus);
 //exit;
-        $data['message'] = $allmeaage;
-        $data['Ack'] = '1';
+            $data['message'] = $allmeaage;
+            $data['Ack'] = '1';
 // print_r($data);
 //exit;
-        $app->response->setStatus(200);
-    } catch (PDOException $e) {
+            $app->response->setStatus(200);
+        } catch (PDOException $e) {
 
-        $data['Ack'] = 0;
-        $data['msg'] = $e->getMessage();
-        $app->response->setStatus(401);
+            $data['Ack'] = 0;
+            $data['msg'] = $e->getMessage();
+            $app->response->setStatus(401);
+        }
     }
-
     $app->response->write(json_encode($data));
 }
-
 
 function getusercontact() {
 
@@ -7309,14 +7306,14 @@ function adduserpayment() {
     $stmt5 = $db->prepare($sql5);
     $stmt5->execute();
     $getfree = $stmt5->fetchObject();
-    
-    $free_product=$getfree->free_bid;
-    
-    if($free_product!=0){
-        
-        $msg="Your Payment completed successfully. Your product is live now. Upload ".$free_product."  product and get one product upload free.";
-    }else{
-        $msg='Your Payment completed successfully. Your product is live now.';
+
+    $free_product = $getfree->free_bid;
+
+    if ($free_product != 0) {
+
+        $msg = "Your Payment completed successfully. Your product is live now. Upload " . $free_product . "  product and get one product upload free.";
+    } else {
+        $msg = 'Your Payment completed successfully. Your product is live now.';
     }
 
     $data['subscription_id'] = $subscription_id;
@@ -9049,6 +9046,138 @@ function checkauctionvaliditybeforeaddbid() {
 
 
 
+
+    $app->response->write(json_encode($data));
+}
+
+function getfullAdminMessages() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+    $to_id = isset($body->to_id) ? $body->to_id : '';
+    //$product_id = isset($body->product_id) ? $body->product_id : '';
+    $from_id = isset($body->from_id) ? $body->from_id : '';
+    $allmeaage = '';
+    // exit;
+    try {
+
+        $sql = "SELECT * from webshop_message WHERE from_id=$from_id AND to_id=$to_id OR from_id=$to_id AND to_id=$from_id";
+
+        $stmt = $db->prepare($sql);
+        //$stmt->bindParam("to_id", $from_id);
+        //$stmt->bindParam("from_id", $to_id);
+        //$stmt->bindParam("product_id", $product_id);
+
+        $stmt->execute();
+        $getStatus = $stmt->fetchAll(PDO::FETCH_OBJ);
+        // print_r($getStatus);
+        // exit;
+        $categoryname = '';
+        $product_name = '';
+        $profile_image = '';
+        foreach ($getStatus as $status) {
+
+
+
+
+            $profile_image = SITE_URL . 'upload/user_image/nouser.jpg';
+
+
+
+
+
+
+            $allmeaage[] = array(
+                'message' => stripslashes($status->message),
+                'to_id' => stripslashes($status->to_id),
+                'from_id' => stripslashes($status->from_id),
+                'id' => stripslashes($status->id),
+                'image' => $profile_image
+            );
+            //$product_image = $image;
+        }
+
+        $data['fillmessage'] = $allmeaage;
+        $data['product_image'] = $profile_image;
+        $data['product_name'] = '';
+        $data['Ack'] = '1';
+// print_r($data);
+//exit;
+        $app->response->setStatus(200);
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+function adminaddmessage() {
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+//echo 'a';
+//print_r($body);
+    $message = isset($body->message) ? $body->message : '';
+
+
+    $to_id = isset($body->to_id) ? $body->to_id : '';
+    $product_id = 0;
+    $from_id = isset($body->from_id) ? $body->from_id : '';
+    $add_date = date('Y-m-d');
+    $is_read = '0';
+    $last_id = '0';
+    $date = date('Y-m-d h:i:s');
+//exit;
+    $db = getConnection();
+
+    $sql1 = "INSERT INTO  webshop_message (message,to_id,product_id,from_id,is_read,add_date) VALUES (:message,:to_id,:product_id,:from_id,:is_read,:add_date)";
+    $sqlnoti = "INSERT INTO  webshop_notification (msg,to_id,from_id,is_read,last_id,date) VALUES (:msg,:to_id,:from_id,:is_read,:last_id,:date)";
+
+
+    try {
+        $messagefornoti = 'You have a new message from Admin';
+        $type = 'Customer Message';
+        $stmtnoti = $db->prepare($sqlnoti);
+        $stmtnoti->bindParam("msg", $messagefornoti);
+        $stmtnoti->bindParam("to_id", $to_id);
+        $stmtnoti->bindParam("from_id", $from_id);
+        $stmtnoti->bindParam("is_read", $is_read);
+        $stmtnoti->bindParam("date", $date);
+        $stmtnoti->bindParam("last_id", $last_id);
+        $stmtnoti->execute();
+
+        $stmt1 = $db->prepare($sql1);
+        $stmt1->bindParam("message", $message);
+        $stmt1->bindParam("to_id", $to_id);
+        $stmt1->bindParam("product_id", $product_id);
+        $stmt1->bindParam("from_id", $from_id);
+        $stmt1->bindParam("is_read", $is_read);
+        $stmt1->bindParam("add_date", $add_date);
+
+
+
+        $stmt1->execute();
+        $data['Ack'] = '1';
+    } catch (PDOException $e) {
+
+        $data['user_id'] = '';
+        $data['Ack'] = '0';
+        $data['msg'] = $e->getMessage();
+
+        $app->response->setStatus(401);
+    }
 
     $app->response->write(json_encode($data));
 }

@@ -84,6 +84,7 @@ app.constant('JS_REQUIRES', {
         'myLoyalty': ['app/Controllers/myLoyaltyCtrl.js'],
         'loyaltydetails': ['app/Controllers/loyaltydetailsCtrl.js'],
         'filterbylocation': ['app/Controllers/filterbylocationCtrl.js'],
+        'adminmessageDetails': ['app/Controllers/adminmessageDetailsCtrl.js'],
 	
     },
 

@@ -4940,7 +4940,69 @@ var checkauctionvaliditybeforeaddbid = function(product_id,user_id) {
     });
     });
     };
+ var getfullAdminMessages = function(to_id,from_id) {
+        return $q(function(resolve, reject) {
+                
+//var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+var encodedString ='{"to_id":"'+ to_id +'","from_id":"'+ from_id +'"}';
+
+            //alert(encodedString);
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"getfullAdminMessages",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           //console.log(response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           } else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+ };
  
+ var adminaddmessage = function(message) {
+    
+    
+return $q(function(resolve, reject) {
+    //console.log('newmessage',message);
+   // alert(user.product_image);
+    var encodedString ='{"to_id":"'+ message.to_id +'","from_id":"'+ message.from_id +'","message":"'+ message.message +'"}';					   
+    //alert(encodedString);
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"adminaddmessage",
+   data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+              if(response.data.Ack == "1") {
+              resolve(response.data); 
+              // $window.location.href = '#/myjobs';
+           } else {
+                resolve(response.data);
+           }
+                  // $window.location.href = '#/waitlisted';
+
+            }, function (response) {
+                reject(response.data);
+        }); 
+
+//var encodedString ='{"full_name":"'+ user.name +'","email":"'+ user.email +'","password":"'+ user.password +'","phone":"'+ user.phone +'","device_type":"","device_token_id":"","lat":"","lang":"","user_id":"'+ user_id +'"}';					   
+	
+	//console.log(encodedString);
+	//return false;
+	
+	
+	});
+	};
  return {
      
        // homeSettingsSection:homeSettingsSection,
@@ -5094,7 +5156,9 @@ var checkauctionvaliditybeforeaddbid = function(product_id,user_id) {
         liststate:liststate,
         listcity:listcity,
         myproductbylocation:myproductbylocation,
-        checkauctionvaliditybeforeaddbid:checkauctionvaliditybeforeaddbid
+        checkauctionvaliditybeforeaddbid:checkauctionvaliditybeforeaddbid,
+        getfullAdminMessages:getfullAdminMessages,
+        adminaddmessage:adminaddmessage
 
 
 	

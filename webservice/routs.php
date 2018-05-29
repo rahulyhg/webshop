@@ -147,5 +147,7 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/listcity', 'listcity');
     $app->post('/myproductbylocation', 'myproductbylocation');
     $app->post('/checkauctionvaliditybeforeaddbid', 'checkauctionvaliditybeforeaddbid');
+    $app->post('/getfullAdminMessages', 'getfullAdminMessages');
+    $app->post('/adminaddmessage', 'adminaddmessage');
 });
 ?>
