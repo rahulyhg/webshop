@@ -407,7 +407,7 @@ function test_mail($to, $firstname) {
     $MailTo = $to;
 
     $MailFrom = 'info@webshop.com';
-    $subject = "webshop.com- Product Interested";
+    $subject = "GMT24- Product Approval";
 
     $TemplateMessage = "Hello " . $firstname . ",<br /><br / >";
     $TemplateMessage .= "Your product is activated by the admin " . " <br />";
@@ -422,7 +422,7 @@ function test_mail($to, $firstname) {
 
     $MailFrom = 'arunavaguha@natitsolved.com';    //  Your email password
 
-    $MailFromName = 'Webshop';
+    $MailFromName = 'GMT24';
     $MailToName = '';
 
     $YourEamilPassword = "arunavaguha@9734";   //Your email password from which email you send.

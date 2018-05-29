@@ -217,14 +217,14 @@ if (isset($_POST['ExportCsv'])) {
         location.href = "list_vendor.php?cid=" + aa + "&action=active";
     }
 
-    function disable(aa)
+    function disable(aa,name, email)
     {
-        location.href = "list_vendor.php?cid=" + aa + "&action=disable"
+        location.href = "list_vendor.php?cid=" + aa + "&action=disable" + "&name=" + name + "&email=" + email;
 
     }
-    function enable(aa)
+    function enable(aa,name, email)
     {
-        location.href = "list_vendor.php?cid=" + aa + "&action=enable";
+        location.href = "list_vendor.php?cid=" + aa + "&action=enable" + "&name=" + name + "&email=" + email;
     }
 
 </script>
@@ -336,7 +336,7 @@ if (isset($_POST['ExportCsv'])) {
 
                                         $MailTo = $user['email'];
 
-                                        $subject = "webshop.com- Login Approved";
+                                        $subject = "GMT24- Login Approved";
 
                                         $TemplateMessage.="<br/><br />Hi " . $user['fname'] . ",";
                                         $TemplateMessage.="<br>";
@@ -357,7 +357,7 @@ if (isset($_POST['ExportCsv'])) {
 
                                         // $MailFrom='info@natit.us';    //  Your email password
                                         $MailFrom = 'palashsaharana@gmail.com';
-                                        $MailFromName = 'Webshop';
+                                        $MailFromName = 'GMT24';
                                         $MailToName = '';
 
                                         //$YourEamilPassword="Natit2016";   //Your email password from which email you send.
@@ -410,12 +410,14 @@ if (isset($_POST['ExportCsv'])) {
                                     if (isset($_GET['action']) && $_GET['action'] == 'disable') {
                                         $item_id = $_GET['cid'];
                                         mysqli_query($con, "update webshop_user set is_admin_approved='2' where id='" . $item_id . "'");
+                                        test_mail1($_GET['email'], $_GET['name']);
                                         header('Location:list_vendor.php');
                                         exit();
                                     }
                                     if (isset($_GET['action']) && $_GET['action'] == 'enable') {
                                         $item_id = $_GET['cid'];
                                         mysqli_query($con, "update webshop_user set status='1', is_admin_approved='1' where id='" . $item_id . "'");
+                                        test_mail($_GET['email'], $_GET['name']);
                                         header('Location:list_vendor.php');
                                         exit();
                                     }
@@ -428,7 +430,7 @@ if (isset($_POST['ExportCsv'])) {
                                     }
 
 
-                                    $fetch_landlord = mysqli_query($con, "select * from webshop_user WHERE `type`='2' and top_user_vendor =0");
+                                    $fetch_landlord = mysqli_query($con, "select * from webshop_user WHERE `type`='2' and top_user_vendor =0 and email_verified=1");
                                     $num = mysqli_num_rows($fetch_landlord);
                                     if ($num > 0) {
                                         while ($landlord = mysqli_fetch_array($fetch_landlord)) {
@@ -518,7 +520,7 @@ if (isset($_POST['ExportCsv'])) {
 
                                                         echo '<span style="color:#b94a48;text-align:center;">Awaiting</span>';
                                                         ?>
-                                                        <a  onClick="javascript:enable('<?php echo $landlord['id']; ?>');">
+                                                        <a  onClick="javascript:enable('<?php echo $landlord['id']; ?>', '<?php echo $landlord['fname']; ?>', '<?php echo $landlord['email']; ?>');">
                                                             <br>
                                                             Click to Approve</a>
                                                         <?php
@@ -526,14 +528,14 @@ if (isset($_POST['ExportCsv'])) {
 
                                                         echo '<span style="color:#468847;text-align:center;">Approved</span>';
                                                         ?>
-                                                        <a  onClick="javascript:disable('<?php echo $landlord['id']; ?>');">
+                                                        <a  onClick="javascript:disable('<?php echo $landlord['id']; ?>', '<?php echo $landlord['fname']; ?>', '<?php echo $landlord['email']; ?>');">
                                                             <br>
                                                             Click to Reject</a>
                                                         <?php
                                                     } else if ($landlord['is_admin_approved'] == '2') {
                                                         echo '<span style="color:#f44336;text-align:center;">Rejected</span>';
                                                         ?>
-                                                        <a  onClick="javascript:enable('<?php echo $landlord['id']; ?>');">
+                                                        <a  onClick="javascript:enable('<?php echo $landlord['id']; ?>', '<?php echo $landlord['fname']; ?>', '<?php echo $landlord['email']; ?>');">
                                                             <br>
                                                             Click to Approve</a>
                                                     <?php } ?>
@@ -618,3 +620,147 @@ if (isset($_POST['ExportCsv'])) {
 </body>
 <!-- END BODY -->
 </html>
+<?php
+
+//-------------------------------------------------------------------------
+
+
+function test_mail($to, $firstname) {
+    $MailTo = $to;
+
+
+    $subject = "GMT24- Account activation";
+
+    $TemplateMessage = "Hello " . $firstname . ",<br /><br / >";
+    $TemplateMessage .= "Your account is activated by the admin.You can login with your email and password. " . " <br />";
+
+    $TemplateMessage .= "<br /><br />Thanks,<br />";
+    $TemplateMessage .= "GMT24<br />";
+
+
+    $mail = new PHPMailer(true);
+
+    $IsMailType = 'SMTP';
+
+    $MailFrom = 'palashsaharana@gmail.com';    //  Your email password
+
+    $MailFromName = 'GMT24';
+    $MailToName = '';
+
+    $YourEamilPassword = "lsnspyrcimuffblr";   //Your email password from which email you send.
+// If you use SMTP. Please configure the bellow settings.
+
+    $SmtpHost = "smtp.gmail.com"; // sets the SMTP server
+    $SmtpDebug = 0;                     // enables SMTP debug information (for testing)
+    $SmtpAuthentication = true;                  // enable SMTP authentication
+    $SmtpPort = 587;                    // set the SMTP port for the GMAIL server
+    $SmtpUsername = $MailFrom; // SMTP account username
+    $SmtpPassword = $YourEamilPassword;        // SMTP account password
+
+    $mail->IsSMTP();  // telling the class to use SMTP
+    $mail->SMTPDebug = $SmtpDebug;
+    $mail->SMTPAuth = $SmtpAuthentication;     // enable SMTP authentication
+    $mail->Port = $SmtpPort;             // set the SMTP port
+    $mail->Host = $SmtpHost;           // SMTP server
+    $mail->Username = $SmtpUsername; // SMTP account username
+    $mail->Password = $SmtpPassword; // SMTP account password
+
+    if ($MailFromName != '') {
+        $mail->AddReplyTo($MailFrom, $MailFromName);
+        $mail->From = $MailFrom;
+        $mail->FromName = $MailFromName;
+    } else {
+        $mail->AddReplyTo($MailFrom);
+        $mail->From = $MailFrom;
+        $mail->FromName = $MailFrom;
+    }
+
+    if ($MailToName != '') {
+        $mail->AddAddress($MailTo, $MailToName);
+    } else {
+        $mail->AddAddress($MailTo);
+    }
+
+    $mail->SMTPSecure = 'tls';
+    $mail->Subject = $subject;
+
+    $mail->MsgHTML($TemplateMessage);
+
+    try {
+        $mail->Send();
+    } catch (phpmailerException $e) {
+        echo $e->errorMessage(); //Pretty error messages from PHPMailer
+    }
+}
+
+
+
+function test_mail1($to, $firstname) {
+    $MailTo = $to;
+
+
+    $subject = "GMT24- Account Deactivated";
+
+    $TemplateMessage = "Hello " . $firstname . ",<br /><br / >";
+    $TemplateMessage .= "Your account is deactivated by the admin. " . " <br />";
+
+    $TemplateMessage .= "<br /><br />Thanks,<br />";
+    $TemplateMessage .= "GMT24<br />";
+
+
+    $mail = new PHPMailer(true);
+
+    $IsMailType = 'SMTP';
+
+    $MailFrom = 'palashsaharana@gmail.com';    //  Your email password
+
+    $MailFromName = 'GMT24';
+    $MailToName = '';
+
+    $YourEamilPassword = "lsnspyrcimuffblr";   //Your email password from which email you send.
+// If you use SMTP. Please configure the bellow settings.
+
+    $SmtpHost = "smtp.gmail.com"; // sets the SMTP server
+    $SmtpDebug = 0;                     // enables SMTP debug information (for testing)
+    $SmtpAuthentication = true;                  // enable SMTP authentication
+    $SmtpPort = 587;                    // set the SMTP port for the GMAIL server
+    $SmtpUsername = $MailFrom; // SMTP account username
+    $SmtpPassword = $YourEamilPassword;        // SMTP account password
+
+    $mail->IsSMTP();  // telling the class to use SMTP
+    $mail->SMTPDebug = $SmtpDebug;
+    $mail->SMTPAuth = $SmtpAuthentication;     // enable SMTP authentication
+    $mail->Port = $SmtpPort;             // set the SMTP port
+    $mail->Host = $SmtpHost;           // SMTP server
+    $mail->Username = $SmtpUsername; // SMTP account username
+    $mail->Password = $SmtpPassword; // SMTP account password
+
+    if ($MailFromName != '') {
+        $mail->AddReplyTo($MailFrom, $MailFromName);
+        $mail->From = $MailFrom;
+        $mail->FromName = $MailFromName;
+    } else {
+        $mail->AddReplyTo($MailFrom);
+        $mail->From = $MailFrom;
+        $mail->FromName = $MailFrom;
+    }
+
+    if ($MailToName != '') {
+        $mail->AddAddress($MailTo, $MailToName);
+    } else {
+        $mail->AddAddress($MailTo);
+    }
+
+    $mail->SMTPSecure = 'tls';
+    $mail->Subject = $subject;
+
+    $mail->MsgHTML($TemplateMessage);
+
+    try {
+        $mail->Send();
+    } catch (phpmailerException $e) {
+        echo $e->errorMessage(); //Pretty error messages from PHPMailer
+    }
+}
+//---------------------------------------------------------------------------
+?>

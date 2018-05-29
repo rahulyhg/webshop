@@ -42,7 +42,7 @@ var id = $stateParams.id;
 		//$scope.isExists=response.Ack;
 		if(response.Ack == '1') {
                     $scope.exists=1;
-		
+                    $scope.msg=response.msg;
 		//console.log($scope.alljobs);
                 //$window.localStorage["userzip"]='';
 		
