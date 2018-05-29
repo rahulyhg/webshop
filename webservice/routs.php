@@ -149,5 +149,6 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/checkauctionvaliditybeforeaddbid', 'checkauctionvaliditybeforeaddbid');
     $app->post('/getfullAdminMessages', 'getfullAdminMessages');
     $app->post('/adminaddmessage', 'adminaddmessage');
+    $app->post('/getallproductimages', 'getallproductimages');
 });
 ?>

@@ -13,7 +13,26 @@
           <div class="col-lg-7 col-md-6 col-sm-6">
             <div class="details-top p-3 mb-3 position-relative">
               <div class="like"><p class="m-0"><i class="ion-thumbsup"></i> {{productLists.totallike}}</p></div>
-              <img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">
+                <div class="col-sm-12">
+
+      <flex-slider slider-id="slider" flex-slide="imagess in prod" animation="fade" animation-loop="false" sync="#carousel" slideshow="false" control-nav="false" init-delay="100">
+
+        <li>
+          <img ng-src="{{imagess.custom}}">ff
+        </li>
+
+      </flex-slider>
+    </div>
+    <div class="col-sm-12">
+
+      <flex-slider slider-id="carousel" flex-slide="image in prod" animation="slide" animation-loop="false" item-width="210" item-margin="5" as-nav-for="#slider" slideshow="false" control-nav="false">
+        <li>
+          <img ng-src="{{image.thumbnail}}">gg
+        </li>
+      </flex-slider>
+    </div>
+
+              <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
             </div> 
             <div class="details-left" ng-if="productLists">
               <h4>{{productLists.productname}}</h4>
@@ -420,4 +439,15 @@
     95% {left: 120%;}
     to {left: 100%;}
 }  
+
+#carousel img {
+display: block;
+opacity: .5;
+cursor: pointer;
+}
+
+#carousel .flex-active-slide img {
+opacity: 1;
+cursor: default;
+}
 </style>

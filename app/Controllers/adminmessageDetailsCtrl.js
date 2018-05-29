@@ -59,11 +59,14 @@ userService.getfullAdminMessages($scope.to_id,$scope.from_id).then(function(resp
 		//console.log('hello',response);
 		//$scope.isExists=1;
 		if(response.Ack == '1') {
-                  //alert('hii');
+                  if(response.fillmessage){
 		$scope.fillmessage=response.fillmessage;
                 $scope.product_image=response.product_image;
 		console.log('fillmessage',$scope.fillmessage);	
-		
+                }else{
+                    swal('No message from admin','','error');
+                    $state.go('frontend.messagelisting');
+                }
 		} else {
                     console.log('ppp');	
                     $scope.isExists=0;
