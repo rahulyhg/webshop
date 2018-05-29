@@ -15,8 +15,8 @@ app.run(['$rootScope', '$state', '$stateParams',
 
 
 
-        $rootScope.serviceurl = "http://localhost/webshop1/webshop/webservice/frontend/";
-        $rootScope.siteurl = "http://localhost/webshop1/webshop/webservice/frontend/";
+        $rootScope.serviceurl = "http://localhost/webshop/webservice/frontend/";
+        $rootScope.siteurl = "http://localhost/webshop/webservice/frontend/";
 
 
 
@@ -1130,6 +1130,17 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                     label: 'filterbylocation page'
                 },
                 resolve: loadSequence('filterbylocation')
+            })
+            
+            .state('frontend.adminmessageDetails', {
+                url: '/adminmessageDetails/:user_id/:admin_id',
+                templateUrl: 'app/views/adminmessageDetails.html',
+                title: 'adminmessageDetails',
+				controller: 'adminmessageDetailsCtrl',
+                ncyBreadcrumb: {
+                    label: 'Admin Message page'
+                },
+                resolve: loadSequence('adminmessageDetails')
             })
 
           /*   .state('frontend.test', {
