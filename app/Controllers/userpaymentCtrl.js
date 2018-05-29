@@ -7,7 +7,9 @@ app.controller('userpaymentCtrl', function ($rootScope, $scope, $http, $location
     
 $scope.data = {};
 $scope.user = {};
+$scope.value ={};
 //alert('a');
+$scope.value.loyalty_redeem=0;
 if ($window.localStorage["userInfo"]) {
 var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;
@@ -31,6 +33,7 @@ else {
             value.name = value.name;
             value.email = value.email;
             value.phone = value.phone;
+            value.loyalty_redeem = value.loyalty_redeem;
             //console.log('sp',value);
              userService.userpaymentforupload(value).then(function(response) {
 
@@ -39,8 +42,13 @@ else {
                      $window.location.href = response.url;
                     $scope.exists=1;
 
-		//$scope.allsubscriptions();
-		} else {
+		
+		}else if(response.Ack == '2'){
+                    
+                    swal('Sorry ! You have not enough loyalty point.','','error')
+                    
+                    
+                 } else {
                     console.log('ppp');	
                     $scope.exists=0;
 		}

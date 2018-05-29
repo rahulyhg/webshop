@@ -1715,7 +1715,7 @@ function listmyProducts() {
                     $expirydate = date('dS M,Y', strtotime($getexpiry->expiry_date));
                 }
             } else {
-                $expirydate = "It was free product";
+                $expirydate = "Free product";
             }
 
 
@@ -2403,15 +2403,13 @@ function ListOrderBuyer() {
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
     $userid = isset($body->userid) ? $body->userid : '';
-//$type = $body->type;
 
     try {
 
-        $sql = "SELECT * FROM webshop_order WHERE user_id=:user_id  order by `id` DESC";
+        $sql = "SELECT * FROM webshop_auction_winner WHERE user_id=:user_id  order by `id` DESC";
         $db = getConnection();
         $stmt = $db->prepare($sql);
         $stmt->bindParam("user_id", $userid);
-//$stmt->bindParam("type", $type);
         $stmt->execute();
         $getproducts = $stmt->fetchAll(PDO::FETCH_OBJ);
 
@@ -2420,25 +2418,12 @@ function ListOrderBuyer() {
             foreach ($getproducts as $orders) {
 
 
-
-
-                /* 15 feb 2018 kalyan start */
-
-                $sql1 = "SELECT * FROM webshop_bookings WHERE orderid='" . $orders->id . "' ORDER BY id ASC LIMIT 1";
-                $stmt1 = $db->prepare($sql1);
-                $stmt1->execute();
-                $orderlst = $stmt1->fetchObject();
-
-//print_r($orderlst);
-//echo $orderlst->product_id;
-
-                $sql2 = "SELECT * FROM webshop_products WHERE id='" . $orderlst->product_id . "'";
+                $sql2 = "SELECT * FROM webshop_products WHERE id='" . $orders->product_id . "'";
                 $stmt2 = $db->prepare($sql2);
                 $stmt2->execute();
                 $prolst = $stmt2->fetchObject();
 
 
-//print_r($prolst);
                 if ($prolst->image != '') {
                     $pro_image = SITE_URL . 'upload/product_image/' . $prolst->image;
                 } else {
@@ -2447,21 +2432,7 @@ function ListOrderBuyer() {
 
 
 
-
-// $prolist[] = array(
-// "pro_id" => stripslashes($prolst->id),
-// "pro_name" => stripslashes($prolst->name),
-// "pro_image" => $pro_image,
-// "full_name" => stripslashes($usrlst->full_name),
-// "email" => stripslashes($usrlst->email),
-// "image" => stripslashes($user_image),
-// "address" => stripslashes($usrlst->address),
-// "phone" => stripslashes($usrlst->phone),
-// "status" => stripslashes($usrlst->status),
-// 
-//);
-
-                $sql3 = "SELECT * FROM webshop_bookings WHERE orderid='" . $orders->id . "'";
+                $sql3 = "SELECT * FROM webshop_biddetails WHERE productid='" .$orders->product_id. "' and userid = '".$userid."' order by id desc limit 0,1";
                 $stmt3 = $db->prepare($sql3);
                 $stmt3->execute();
                 $orderlst = $stmt3->fetchObject();
@@ -2469,19 +2440,13 @@ function ListOrderBuyer() {
 
 
 
-                /* 15 feb 2018 kalyan end  */
-
                 $allorders[] = array(
                     "id" => stripslashes($orders->id),
-                    "order_id" => stripslashes($orders->unique_id),
-                    //"product_id" => stripslashes($orders->product_id),
-                    "total_price" => stripslashes($orders->total_price),
-                    "order_date" => stripslashes($orders->date),
-                    "shipping_name" => stripslashes($orders->shipping_name),
-                    "shipping_address" => stripslashes($orders->shipping_address),
-                    "transaction_id" => stripslashes($orders->transaction_id),
+                    "total_price" => stripslashes($orderlst->bidprice),
+                    "date" => date('dF M Y',  strtotime($orders->date)),
+                    "status" => $orders->is_paid,
                     "product_image" => $pro_image,
-                    "total_product" => $count
+                    //"total_product" => $count
                 );
             }
             $data['allorders'] = $allorders;
@@ -4719,8 +4684,7 @@ function interestedEmailToVendor() {
 }
 
 function auctionFeesAdvancePayment() {
-// echo "Hello Puja";
-// exit;
+
     $data = array();
 
     $app = \Slim\Slim::getInstance();
@@ -4730,9 +4694,11 @@ function auctionFeesAdvancePayment() {
     $body = json_decode($body2);
 
     $db = getConnection();
-
+    $user_id = isset($body->user_id) ? $body->user_id : '';
     $notificationType = isset($body->notificationType) ? $body->notificationType : '';
-    $auctionId = isset($body->auctionId) ? $body->auctionId : '';
+    $array = explode('_',$body->auctionId);
+    $auctionId =$array[0] ;
+    $loyalty_point = isset($array[1]) ? $array[1] : 0;
     $auction_fee_paid = '1';
 
     $verified_date = date('Y-m-d');
@@ -4746,9 +4712,52 @@ function auctionFeesAdvancePayment() {
         $stmt->bindParam("auctionId", $auctionId);
         $stmt->bindParam("auction_fee_paid", $auction_fee_paid);
         $stmt->execute();
+        
+            $sql7 = "SELECT * from webshop_products where id=:auctionId ";
+            $stmt7 = $db->prepare($sql7);
+            $stmt7->bindParam("auctionId", $auctionId);
+            $stmt7->execute();
+            $productdetails = $stmt7->fetchObject();
+        
+        
+            $sql6 = "SELECT * from webshop_user where id=:user_id ";
+            $stmt6 = $db->prepare($sql6);
+            $stmt6->bindParam("user_id", $user_id);
+            $stmt6->execute();
+            $is_user = $stmt6->fetchObject();
+
+
+            if($loyalty_point!= 0){
+              $total_loyalty=  ($is_user->total_loyalty - $loyalty_point);
+            }else{
+               $total_loyalty= 0; 
+            }
+
+            $sql1 = "UPDATE  webshop_user SET total_loyalty = :loyalty WHERE id=:user_id ";
+            $stmt1 = $db->prepare($sql1);
+            $stmt1->bindParam("loyalty", $total_loyalty);
+            $stmt1->bindParam("user_id", $user_id);
+            $stmt1->execute();
+
+    if ($loyalty_point!= 0) {
+            $date = date('Y-m-d');
+            $type= 1;
+            $sql = "INSERT INTO  webshop_user_loyaliety (pay_amount, user_id,point,add_date,type) VALUES (:pay_amount, :user_id,:point,:date,:type)";
+
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam("pay_amount", $productdetails->auction_fee);
+            $stmt->bindParam("user_id", $user_id);
+            $stmt->bindParam("point", $loyalty_point);
+            $stmt->bindParam("date", $date);
+            $stmt->bindParam("type", $type);
+            $stmt->execute();
+        }
+        
+        
+        
 
         $data['Ack'] = '1';
-        $data['msg'] = 'Payment has been paid successfully.Wait for the admin to make your product GO LIVE.';
+        $data['msg'] = 'Payment has been paid successfully.Wait for the admin to make your auctio GO LIVE.';
 
 
         $app->response->setStatus(200);
@@ -7064,7 +7073,22 @@ function userpaymentforupload() {
     $name = isset($body->name) ? $body->name : '';
     $email = isset($body->email) ? $body->email : '';
     $phone = isset($body->phone) ? $body->phone : '';
-    $paymentId = base64_encode($subscription_id . '_' . $product_id);
+    $loyalty_redeem = isset($body->loyalty_redeem) ? $body->loyalty_redeem : 0;
+    $paymentId = base64_encode($subscription_id . '_' . $product_id .'_'. $loyalty_redeem);
+    
+    
+    
+    $sqlloyalty = "SELECT * from webshop_user where id=:user_id";
+    $stmtloyalty = $db->prepare($sqlloyalty);
+    $stmtloyalty->bindParam("user_id", $user_id);
+    $stmtloyalty->execute();
+    $checkloyalty = $stmtloyalty->fetchObject();
+    
+     
+    
+    
+    
+    
 
     $sql = "SELECT * from webshop_subscription where id =:subscription_id";
     $stmt = $db->prepare($sql);
@@ -7072,8 +7096,11 @@ function userpaymentforupload() {
     $stmt->execute();
     $getSubscriptionValue = $stmt->fetchObject();
 
-
-    $subscriptionprice = $getSubscriptionValue->price;
+    if($loyalty_redeem!=0){
+        $subscriptionprice = ($getSubscriptionValue->price - $loyalty_redeem);
+    }else{
+        $subscriptionprice = $getSubscriptionValue->price;
+    }
 //payment gateway
 
     $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
@@ -7155,9 +7182,16 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
     }
 //end
 
+    
+    if ($loyalty_redeem > $checkloyalty->total_loyalty) {
+
+        $data['Ack'] = 2;
+    }else{
+    
     $data['url'] = $paymentUrl;
     $data['Ack'] = 1;
-
+    
+    }
     $app->response->setStatus(200);
 
 
@@ -7184,6 +7218,7 @@ function adduserpayment() {
 
     $subscription_id = isset($array_id[0]) ? $array_id[0] : '';
     $product_id = isset($array_id[1]) ? $array_id[1] : '';
+    $loyalty_point= isset($array_id[2]) ? $array_id[2] : 0;
 
 //$name = isset($body->name) ? $body->name : '';
 //$email = isset($body->email) ? $body->email : '';
@@ -7228,7 +7263,47 @@ function adduserpayment() {
     $stmtproduct->bindParam("subscription_id", $lastID);
     $stmtproduct->bindParam("pid", $product_id);
     $stmtproduct->execute();
+    
+    
+    $sql6 = "SELECT * from webshop_user where id=:user_id ";
+    $stmt6 = $db->prepare($sql6);
+    $stmt6->bindParam("user_id", $user_id);
+    $stmt6->execute();
+    $is_user = $stmt6->fetchObject();
+    
+    
+    
+    
+    if($loyalty_point!= 0){
+      $total_loyalty=  ($is_user->total_loyalty - $loyalty_point);
+    }else{
+       $total_loyalty= 0; 
+    }
+    
+    $sql = "UPDATE  webshop_user SET total_loyalty = :loyalty WHERE id=:user_id ";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("loyalty", $total_loyalty);
+    $stmt->bindParam("user_id", $user_id);
+    $stmt->execute();
 
+    if ($loyalty_point!= 0) {
+            $date = date('Y-m-d');
+            $type= 1;
+            $sql = "INSERT INTO  webshop_user_loyaliety (pay_amount, user_id,point,add_date,type) VALUES (:pay_amount, :user_id,:point,:date,:type)";
+
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam("pay_amount", $getSubscriptionDetails->price);
+            $stmt->bindParam("user_id", $user_id);
+            $stmt->bindParam("point", $loyalty_point);
+            $stmt->bindParam("date", $date);
+            $stmt->bindParam("type", $type);
+            $stmt->execute();
+        }
+    
+    
+    
+    
+    
 
     $sql5 = "SELECT free_bid from webshop_sitesettings where id = 1";
     $stmt5 = $db->prepare($sql5);
@@ -8242,14 +8317,15 @@ function auctionuploapayment() {
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
     $product_id = isset($body->product_id) ? $body->product_id : '';
+    $loyalty_redeem = isset($body->loyalty_redeem) ? $body->loyalty_redeem : 0;
 
-
-    $paymentId = $product_id;
+    $paymentId = $product_id.'_'.$loyalty_redeem;
 
 
     $name = isset($body->name) ? $body->name : '';
     $email = isset($body->email) ? $body->email : '';
     $phone = isset($body->phone) ? $body->phone : '';
+    
 
     $sql = "SELECT * from webshop_products where id =:product_id ";
     $stmt = $db->prepare($sql);
@@ -8257,8 +8333,21 @@ function auctionuploapayment() {
     $stmt->execute();
     $getProductValue = $stmt->fetchObject();
 
-
-    $productprice = $getProductValue->auction_fee;
+    if($loyalty_redeem!= 0){
+    $productprice = ($getProductValue->auction_fee - $loyalty_redeem);
+    }else{
+       $productprice = $getProductValue->auction_fee; 
+    }
+    
+    
+    $sqlloyalty = "SELECT * from webshop_user where id=:user_id";
+    $stmtloyalty = $db->prepare($sqlloyalty);
+    $stmtloyalty->bindParam("user_id", $user_id);
+    $stmtloyalty->execute();
+    $checkloyalty = $stmtloyalty->fetchObject();
+    
+    
+    
 //payment gateway
 
     $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
@@ -8339,10 +8428,13 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
          */
     }
 //end
+ if ($loyalty_redeem > $checkloyalty->total_loyalty) {
 
+        $data['Ack'] = 2;
+    }else{
     $data['url'] = $paymentUrl;
     $data['Ack'] = 1;
-
+    }
     $app->response->setStatus(200);
 
 

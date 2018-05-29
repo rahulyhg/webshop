@@ -43,22 +43,17 @@ userInfo.user_id ="";
 
   
  $scope.myPurchase = function(){
-          // alert(cat_id);
-           // return false;
+         
              userService.myPurchase($scope.user_id).then(function(response) {
-		//console.log(response.Ack);
+		
 		$scope.isExists=1;
 		if(response.Ack == '1') {
-                    console.log(response);
-                   // alert('Added Successfully.');
-                   // $window.location.reload()
+                    console.log('spandan',response);
+                   
                     $scope.isExists=1;
-                  //  $scope.user='';
+                 
 		$scope.allorders=response.allorders;
-    //$scope.all_pro_img = response.allorders.product_list.
-                
-               // $scope.user_idd=$scope.user_id;
-		//console.log($scope.alljobs);	
+    
 		
 		} else {
                     console.log('ppp');

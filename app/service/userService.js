@@ -3591,8 +3591,8 @@ reject(response);
 
   var auctionFees = function(notificationType,auctionId) {
 return $q(function(resolve, reject) {
-
-  var encodedString ='{"notificationType":"'+ notificationType +'","auctionId":"'+auctionId+'"}';
+    var userInfo = JSON.parse($window.localStorage["userInfo"]);
+  var encodedString ='{"user_id":"'+ userInfo.user_id +'","notificationType":"'+ notificationType +'","auctionId":"'+auctionId+'"}';
 
   //  console.log(encodedString);
   // return false;
@@ -4301,7 +4301,7 @@ return $q(function(resolve, reject) {
     return $q(function(resolve, reject) {
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
     
-     var encodedString ='{"user_id":"'+ userInfo.user_id +'","name":"'+ value.name +'","email":"'+ value.email +'","phone":"'+ value.phone +'","sid":"'+ value.sid +'","pid":"'+ value.pid +'"}';
+     var encodedString ='{"user_id":"'+ userInfo.user_id +'","name":"'+ value.name +'","email":"'+ value.email +'","phone":"'+ value.phone +'","sid":"'+ value.sid +'","pid":"'+ value.pid +'","loyalty_redeem":"'+ value.loyalty_redeem +'"}';
 
     $http({
     method: 'POST',
@@ -4684,7 +4684,7 @@ var uploadAuctionproduct = function(value) {
     return $q(function(resolve, reject) {
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
     
-     var encodedString ='{"user_id":"'+ userInfo.user_id +'","product_id":"'+ value.product_id +'","name":"'+ value.name +'","email":"'+ value.email +'","phone":"'+ value.phone +'"}';
+     var encodedString ='{"user_id":"'+ userInfo.user_id +'","product_id":"'+ value.product_id +'","name":"'+ value.name +'","email":"'+ value.email +'","phone":"'+ value.phone +'","loyalty_redeem":"'+ value.loyalty_redeem +'"}';
 
     $http({
     method: 'POST',
