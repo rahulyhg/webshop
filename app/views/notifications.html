@@ -8,9 +8,9 @@
 					<div class="edit-pro p-3">
 						<ul class="wish-list">
 							<li style="max-width:100% !important;" class="p-3 d-flex" ng-if="isExists==1" ng-repeat="allnoti in all_notifications">
-								<div class="wishlist-image mr-3">
-									<img src="{{allnoti.from_userimg}}" alt="">
-								</div>
+								<!--<div class="wishlist-image mr-3">-->
+									<img src="{{allnoti.from_userimg}}" class="mr-3 thumbnail_upload_img"  style="width:80px;height:80px;" alt="" >
+								<!--</div>-->
 								<div class="wishlist-content">
                                                                     <h6><p ng-bind-html="allnoti.message"> </p><span><i class=""></i></span></h6>
 									
