@@ -1187,10 +1187,10 @@ function ProductsDetails() {
             "seller_phone" => stripslashes($seller_phone),
             "productname" => '',
             "baseauctionprice" => stripslashes($product->baseauctionprice),
-            "thresholdprice" => stripslashes($product->thresholdprice),
+            "thresholdprice" => intval($product->thresholdprice),
             "bidincrement" => stripslashes($product->bidincrement),
             "nextbidprice" => stripslashes($product->nextbidprice),
-            "lastbidvalue" => stripslashes($product->lastbidvalue),
+            "lastbidvalue" => intval($product->lastbidvalue),
             "uploader_id" => stripslashes($product->uploader_id),
             "type" => stripslashes($product->type),
             //"preferred_date" => stripslashes($product->preferred_date),
@@ -3461,7 +3461,7 @@ function addProductNew() {
                         $sid = $getUserDetails->sid;
 
 
-                        $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,status,size,location,work_hours,subscription_id,state,city,approved) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:status,:size,:location,:work_hours,:subscription_id,:state,:city,:approved)";
+                        $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,status,size,location,work_hours,subscription_id,state,city,approved,breslet_type,model_year) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:status,:size,:location,:work_hours,:subscription_id,:state,:city,:approved,:breslet_type,:model_year)";
 
 
 
@@ -3511,6 +3511,8 @@ function addProductNew() {
                             $stmt->bindParam("work_hours", $work_hours);
                             $stmt->bindParam("status", $get_status);
                             $stmt->bindParam("approved", $approved);
+                            $stmt->bindParam("breslet_type", $breslet_type);
+                            $stmt->bindParam("model_year", $model_year);
                             $stmt->execute();
                             $lastID = $db->lastInsertId();
 
@@ -3744,7 +3746,7 @@ function addProductNew() {
 
 
 
-            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,location,work_hours,approved,state,city,status) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:location,:work_hours,:approved,:state,:city,:status)";
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,location,work_hours,approved,state,city,status,breslet_type,model_year) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:location,:work_hours,:approved,:state,:city,:status,:breslet_type,:model_year)";
 
 
 
@@ -3804,7 +3806,8 @@ function addProductNew() {
                 $stmt->bindParam("size", $size);
                 $stmt->bindParam("state", $state);
                 $stmt->bindParam("city", $city);
-
+                $stmt->bindParam("breslet_type", $breslet_type);
+                $stmt->bindParam("model_year", $model_year);
 
                 $stmt->bindParam("location", $location);
                 $stmt->bindParam("work_hours", $work_hours);
@@ -4397,26 +4400,43 @@ function emailverified() {
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
     $email_verified = '1';
-
-
+    $admin_approve = '0';
+    $status = '0';
     $verified_date = date('Y-m-d');
+    
+    
+    $sqluser = "SELECT * FROM  webshop_user WHERE id=:user_id ";
+    $stmtuser = $db->prepare($sqluser);
+    $stmtuser->bindParam("user_id", $user_id);
+    $stmtuser->execute();
+    $getUserdetails = $stmtuser->fetchObject();
+    
+    if($getUserdetails->type == 1){
+       $admin_approve = '1';
+       $status ='1';
+    }
+    
 
-
-    $sql = "UPDATE webshop_user set email_verified=:email_verified,verified_date=:verified_date WHERE id=:id";
+    $sql = "UPDATE webshop_user set email_verified=:email_verified,verified_date=:verified_date,is_admin_approved=:is_admin_approved,status=:status WHERE id=:id";
     try {
 
         $db = getConnection();
         $stmt = $db->prepare($sql);
         $stmt->bindParam("email_verified", $email_verified);
         $stmt->bindParam("verified_date", $verified_date);
+        $stmt->bindParam("is_admin_approved", $admin_approve);
+        $stmt->bindParam("status", $status);
         $stmt->bindParam("id", $user_id);
-
         $stmt->execute();
-
+        
+        $msg='Email Verified Successfully.Your account is awaiting for the admin approval.You will be notified via email once activated.';
+        if($getUserdetails->type == 1){
+        $msg = 'Email Verified Successfully. You can login now.'; 
+        }
 
         $data['last_id'] = $user_id;
         $data['Ack'] = '1';
-        $data['msg'] = 'Email Verified Successfully.Your account is awaiting for the admin approval.You will be notified via email once activated.';
+        $data['msg'] = $msg;
 
 
         $app->response->setStatus(200);
@@ -5185,7 +5205,7 @@ function auctionListSearch() {
                     $seller_address = $getUserdetails->address;
                     $seller_phone = $getUserdetails->phone;
                     $email = $getUserdetails->email;
-
+                    $top = $getUserdetails->top_user_vendor;
                     if ($getUserdetails->image != '') {
                         $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
                     } else {
@@ -5208,7 +5228,8 @@ function auctionListSearch() {
                     "seller_name" => stripslashes($seller_name),
                     "seller_address" => stripslashes($seller_address),
                     "seller_phone" => stripslashes($seller_phone),
-                    "productname" => stripslashes($product->name)
+                    "productname" => stripslashes($product->name),
+                    "top" => stripslashes($top)
                 );
             }
 
@@ -6015,6 +6036,7 @@ function ProductListSearch() {
                             $seller_address = $getUserdetails->address;
                             $seller_phone = $getUserdetails->phone;
                             $email = $getUserdetails->email;
+                            $top = $getUserdetails->top_user_vendor;
 
                             if ($getUserdetails->image != '') {
                                 $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
@@ -6037,7 +6059,9 @@ function ProductListSearch() {
                             "seller_name" => stripslashes($seller_name),
                             "seller_address" => stripslashes($seller_address),
                             "seller_phone" => stripslashes($seller_phone),
-                            "productname" => stripslashes($product->name)
+                            "productname" => stripslashes($product->name),
+                            "top" => stripslashes($top),
+                            
                         );
                     }
                 } else {
@@ -6080,7 +6104,7 @@ function ProductListSearch() {
                         $seller_address = $getUserdetails->address;
                         $seller_phone = $getUserdetails->phone;
                         $email = $getUserdetails->email;
-
+                        $top = $getUserdetails->top_user_vendor;
                         if ($getUserdetails->image != '') {
                             $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
                         } else {
@@ -6102,7 +6126,8 @@ function ProductListSearch() {
                         "seller_name" => stripslashes($seller_name),
                         "seller_address" => stripslashes($seller_address),
                         "seller_phone" => stripslashes($seller_phone),
-                        "productname" => stripslashes($product->name)
+                        "productname" => stripslashes($product->name),
+                        "top" => stripslashes($top)
                     );
                 }
             }
@@ -7205,14 +7230,23 @@ function adduserpayment() {
     $stmtproduct->execute();
 
 
-
-
-
-
+    $sql5 = "SELECT free_bid from webshop_sitesettings where id = 1";
+    $stmt5 = $db->prepare($sql5);
+    $stmt5->execute();
+    $getfree = $stmt5->fetchObject();
+    
+    $free_product=$getfree->free_bid;
+    
+    if($free_product!=0){
+        
+        $msg="Your Payment completed successfully. Your product is live now. Upload ".$free_product."  product and get one product upload free.";
+    }else{
+        $msg='Your Payment completed successfully. Your product is live now.';
+    }
 
     $data['subscription_id'] = $subscription_id;
     $data['Ack'] = 1;
-    $data['msg'] = 'Your Payment completed successfully. Your product is live now.';
+    $data['msg'] = $msg;
     $app->response->setStatus(200);
 
 

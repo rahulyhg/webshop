@@ -283,7 +283,7 @@
 						<div class="row list-item">
 							<div class="col-md-4 mt-3" ng-if="exists==1" ng-repeat="productLists in productList">
 								<div class="card">
-								  <div class="top-product"><img src="app/assets/images/top.png" alt="" /></div>
+								  <div class="top-product" ng-if="productLists.top==1"><img src="app/assets/images/top.png" alt="" /></div>
                                                                   <a href="#/productDetails/{{productLists.id}}"> <img class="card-img-top" src="{{productLists.image}}" alt="Card image cap"></a>
 								  <div class="card-body">
 								    <!--<h5 class="card-title">{{productLists.productname}}</h5>-->
