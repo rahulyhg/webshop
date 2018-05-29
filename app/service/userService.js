@@ -5003,6 +5003,34 @@ return $q(function(resolve, reject) {
 	
 	});
 	};
+        
+        var getallproductimages = function(product_id) {
+        return $q(function(resolve, reject) {
+                
+
+var encodedString ='{"product_id":"'+ product_id +'"}';
+            
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"getallproductimages",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           
+           if(response.data.Ack == "1") {
+         
+              resolve(response.data); 
+           } else {
+          
+              resolve(response.data); 
+           }
+          
+        },function(response) {
+                    
+          reject(response);
+            });
+        });
+ };
  return {
      
        // homeSettingsSection:homeSettingsSection,
@@ -5158,7 +5186,8 @@ return $q(function(resolve, reject) {
         myproductbylocation:myproductbylocation,
         checkauctionvaliditybeforeaddbid:checkauctionvaliditybeforeaddbid,
         getfullAdminMessages:getfullAdminMessages,
-        adminaddmessage:adminaddmessage
+        adminaddmessage:adminaddmessage,
+        getallproductimages:getallproductimages
 
 
 	
