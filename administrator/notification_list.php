@@ -330,22 +330,7 @@ if (isset($_POST['ExportCsv'])) {
 
                                             <tr>
 
-                        <!--  <td>
-                                                <?php if ($tools_type['is_trending'] == '1') { ?>
-                                    <input type="checkbox" checked onClick="javascript:inactive('<?php echo $tools_type['id'] ?>');"><br><br>
-                                    <input type="number" id="ordernumber" value="<?php echo $tools_type['order_numbering'] ?>"onblur="saveorder(this.value,'<?php echo $tools_type['id'] ?>')">
-                                                <?php } else { ?>
-                                    <input type="checkbox" onClick="javascript:active('<?php echo $tools_type['id'] ?>');">
-                                                <?php } ?>
-                        </td> -->
 
-                                                <td>
-                                                    <?php echo stripslashes($user_noti_details['fname'] . " " . $user_noti_details['lname']); ?>
-                                                </td>
-
-                        <!--  <td>
-                         <img src="../upload/user_image/<?php echo $user_noti_details['image']; ?>" height="100" width="100" align="image">
-                        </td> -->
 
                                                 <td>
                                                     <img src="<?php echo $image_link; ?>" height="100" width="100" align="image">
@@ -354,24 +339,6 @@ if (isset($_POST['ExportCsv'])) {
                                                 <td>
                                                     <?php echo stripslashes($tools_type['msg']); ?>
                                                 </td>
-
-
-
-
-                        <!--                <td>
-                          <a  href="add_category.php?id=<?php echo $tools_type['id'] ?>&action=edit">
-                          <i class="icon-edit"></i></a>
-                          <a onClick="javascript:del('<?php echo $tools_type['id']; ?>')">
-                          <i class="icon-trash"></i></a>
-                        </td> -->
-
-                        <!--           <td>
-                                                <?php if ($tools_type['status'] == '1') { ?>
-                                                        <a  onClick="javascript:inactive('<?php echo $tools_type['id'] ?>');">Deactivate</a>
-                                                <?php } else { ?>
-                                                        <a  onClick="javascript:active('<?php echo $tools_type['id'] ?>');">Activate</a>
-                                                <?php } ?>
-                                        </td> -->
 
                                             </tr>
                                             <?php
@@ -389,7 +356,7 @@ if (isset($_POST['ExportCsv'])) {
                                 </tbody>
                             </table>
                             <?php if ($innerPrivileges->listproductcat_delete == '1') { ?>
-                                       <!--<input type="submit" class="btn btn-danger" name="bulk_delete_submit" value="Delete"/>-->
+                                                   <!--<input type="submit" class="btn btn-danger" name="bulk_delete_submit" value="Delete"/>-->
                             <?php } ?>
                             </form>
 
@@ -449,9 +416,9 @@ if (isset($_POST['ExportCsv'])) {
 if ($num > 0) {
     ?>
     <script>
-                                    jQuery(document).ready(function () {
-                                        EditableTable.init();
-                                    });
+                                jQuery(document).ready(function () {
+                                    EditableTable.init();
+                                });
     </script>
     <?php
 }

@@ -1,8 +1,10 @@
 <?php
-include_once("./includes/session.php");
-//include_once("includes/config.php");
-include_once("./includes/config.php");
-//$url=basename(__FILE__)."?".(isset($_SERVER['QUERY_STRING'])?$_SERVER['QUERY_STRING']:'cc=cc');
+include_once('includes/session.php');
+include_once("includes/config.php");
+include_once("includes/functions.php");
+
+
+//$pid=$_REQUEST['id'];
 $sql2 = "SELECT * FROM `webshop_tbladmin` where id='" . $_SESSION['admin_id'] . "'";
 $res = mysqli_query($con, $sql2);
 $row = mysqli_fetch_array($res);
@@ -41,34 +43,48 @@ if (isset($_REQUEST['submit'])) {
     header('Location: notification_settings.php');
     exit();
 }
+//print_r($row);
+// if(isset($_REQUEST['submit']))
+// {
+// //echo "aa"; exit;
+//   $secret_key = isset($_POST['secret_key']) ? $_POST['secret_key'] : '';
+//   $publishable_key = isset($_POST['publishable_key']) ? $_POST['publishable_key'] : '';
+//   //echo $name;
+//   //echo "<br>";
+//   //echo $link;
+//    $fields = array(
+//     'secret_key' => mysql_real_escape_string($secret_key),
+//     'publishable_key' => mysql_real_escape_string($publishable_key)
+//     );
+//     $fieldsList = array();
+//     foreach ($fields as $field => $value) {
+//       $fieldsList[] = '`' . $field . '`' . '=' . "'" . $value . "'";
+//     }
+//    if($_REQUEST['action']=='edit')
+//     {     
+//     $editQuery = "UPDATE `webshop_tbladmin` SET " . implode(', ', $fieldsList)
+//       . " WHERE `id` = '" . mysql_real_escape_string($_REQUEST['id']) . "'";
+//     if (mysql_query($editQuery)) {
+//     $_SESSION['msg'] = "Key Updated Successfully";
+//     }
+//     else {
+//       $_SESSION['msg'] = "Error occuried while updating Key";
+//     }
+//     header('Location:payment_settings.php');
+//     exit();
+//    }
+//    else
+//    {
+//    $addQuery = "INSERT INTO `webshop_tbladmin` (`" . implode('`,`', array_keys($fields)) . "`)"
+//       . " VALUES ('" . implode("','", array_values($fields)) . "')";
+//       //exit;
+//     mysql_query($addQuery);
+//     header('Location:list_category.php');
+//     exit();
+//    }
+// }
 ?>
 
-
-
-
-
-
-<script language="javascript">
-    function del(aa, bb)
-    {
-        var a = confirm("Are you sure, you want to delete this?")
-        if (a)
-        {
-            location.href = "list_membership.php?cid=" + aa + "&action=delete"
-        }
-    }
-
-    function inactive(aa)
-    {
-        location.href = "list_auction.php?cid=" + aa + "&action=inactive"
-
-    }
-    function active(aa)
-    {
-        location.href = "list_auction.php?cid=" + aa + "&action=active";
-    }
-
-</script>
 <!-- Header Start -->
 <?php include ("includes/header.php"); ?>
 <!-- Header End -->
@@ -158,13 +174,13 @@ if (isset($_REQUEST['submit'])) {
                                 </div>
 
 
-                                <!--                                <div class="control-group">
-                                                                    <label class="control-label">Payment Notification</label>
-                                                                    <div class="controls">
-                                                                        <input type="radio" name="payment_notification" value="1" <?php if ('1' == $row['payment_notification']) { ?> checked <?php } ?>>Yes&nbsp;
-                                                                        <input type="radio" name="payment_notification" value="0" <?php if ('0' == $row['payment_notification']) { ?> checked <?php } ?>>No<br>
-                                                                    </div>
-                                                                </div>-->
+                                <div class="control-group">
+                                    <label class="control-label">Payment Notification</label>
+                                    <div class="controls">
+                                        <input type="radio" name="payment_notification" value="1" <?php if ('1' == $row['payment_notification']) { ?> checked <?php } ?>>Yes&nbsp;
+                                        <input type="radio" name="payment_notification" value="0" <?php if ('0' == $row['payment_notification']) { ?> checked <?php } ?>>No<br>
+                                    </div>
+                                </div>
 
                                 <div class="control-group">
                                     <label class="control-label">Review Notification</label>
@@ -182,16 +198,8 @@ if (isset($_REQUEST['submit'])) {
                                     </div>
                                 </div>
 
-                                <!--                                <div class="control-group">
-                                                                    <label class="control-label">Request Brand</label>
-                                                                    <div class="controls">
-                                                                        <input type="radio" name="request_brand" value="1" <?php if ('1' == $row['request_brand']) { ?> checked <?php } ?>>Yes&nbsp;
-                                                                        <input type="radio" name="request_brand" value="0" <?php if ('0' == $row['request_brand']) { ?> checked <?php } ?>>No<br>
-                                                                    </div>
-                                                                </div>-->
-
                                 <div class="control-group">
-                                    <label class="control-label">Interest Notification</label>
+                                    <label class="control-label">Request Brand</label>
                                     <div class="controls">
                                         <input type="radio" name="request_brand" value="1" <?php if ('1' == $row['request_brand']) { ?> checked <?php } ?>>Yes&nbsp;
                                         <input type="radio" name="request_brand" value="0" <?php if ('0' == $row['request_brand']) { ?> checked <?php } ?>>No<br>
@@ -227,17 +235,40 @@ if (isset($_REQUEST['submit'])) {
 <!-- Footer Start -->
 
 <?php include("includes/footer.php"); ?>
+
+<!-- Footer End -->
+<!-- BEGIN JAVASCRIPTS -->
+<!-- Load javascripts at bottom, this will reduce page load time -->
 <script src="js/jquery-1.8.3.min.js"></script>
 <script src="js/jquery.nicescroll.js" type="text/javascript"></script>
 <script type="text/javascript" src="assets/jquery-slimscroll/jquery-ui-1.9.2.custom.min.js"></script>
 <script type="text/javascript" src="assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="assets/fullcalendar/fullcalendar/fullcalendar.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- ie8 fixes -->
+<!--[if lt IE 9]>
+<script src="js/excanvas.js"></script>
+<script src="js/respond.js"></script>
+<![endif]-->
+
 <script src="assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js" type="text/javascript"></script>
 <script src="js/jquery.sparkline.js" type="text/javascript"></script>
 <script src="assets/chart-master/Chart.js"></script>
 <script src="js/jquery.scrollTo.min.js"></script>
 
+
+<!--common script for all pages-->
+<script src="js/common-scripts.js"></script>
+
+<!--script for this page only-->
+
+<script src="js/easy-pie-chart.js"></script>
+<script src="js/sparkline-chart.js"></script>
+<script src="js/home-page-calender.js"></script>
+<script src="js/home-chartjs.js"></script>
+
+<!-- END JAVASCRIPTS -->   
 </body>
 <!-- END BODY -->
 </html>
