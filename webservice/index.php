@@ -295,6 +295,8 @@ function userSignup() {
                 }
             }
 
+
+
             $data['Ack'] = '1';
             $app->response->setStatus(200);
 
@@ -1076,12 +1078,12 @@ function ProductsDetails() {
         $stmtbid->bindParam("productid", $product_id);
         $stmtbid->execute();
         $naxbid = $stmtbid->fetchObject();
-        //$count = $stmtproduct->rowCount();
-        //print_r($naxbid);
+//$count = $stmtproduct->rowCount();
+//print_r($naxbid);
         $yourmaxbid = '';
         if ($naxbid->maxbid != '') {
             $yourmaxbid = $naxbid->maxbid;
-            // echo 'hi';
+// echo 'hi';
         }
 
 
@@ -1093,13 +1095,13 @@ function ProductsDetails() {
         $naxbidmax = $stmtbidmax->fetchObject();
         $higestbiddername = '';
         $higestbidderbid = '';
-        //print_r($naxbidmax);
+//print_r($naxbidmax);
         if (!empty($naxbidmax)) {
             if ($naxbidmax->id != '') {
                 $sqlmaxbidder = "SELECT * FROM webshop_user WHERE id=$naxbidmax->userid ";
                 $stmtmaxbidder = $db->prepare($sqlmaxbidder);
-                //echo 'hi';
-                // exit;
+//echo 'hi';
+// exit;
                 $stmtmaxbidder->execute();
                 $getUserdetailmaxbidder = $stmtmaxbidder->fetchObject();
                 $higestbiddername = $getUserdetailmaxbidder->fname . " " . $getUserdetailmaxbidder->lname;
@@ -1108,7 +1110,7 @@ function ProductsDetails() {
                 $higestbiddername = '';
             }
         }
-        //echo $higestbiddername;exit;
+//echo $higestbiddername;exit;
         $sqlbrand = "SELECT *  FROM webshop_brands WHERE id=:brand_id";
         $stmtbrand = $db->prepare($sqlbrand);
         $stmtbrand->bindParam("brand_id", $product->brands);
@@ -1144,7 +1146,7 @@ function ProductsDetails() {
             $auctiondate = explode(' ', $naxtime_slot_id->start_time);
             $action_date = $auctiondate[0];
             $action_time = $auctiondate[1];
-            //$action_time = date('H:i', strtotime($action_time));
+//$action_time = date('H:i', strtotime($action_time));
         } else {
             $starttime = '';
 
@@ -1164,26 +1166,26 @@ function ProductsDetails() {
             $ctime = '';
         }
 
-        
+
         $sqlbidhistory = "SELECT w.fname,w.lname,wb.bidprice FROM webshop_biddetails as wb inner join webshop_user as w on w.id=wb.userid WHERE wb.productid=:productid order by wb.id desc limit 0,4";
         $stmtbidhistory = $db->prepare($sqlbidhistory);
         $stmtbidhistory->bindParam("productid", $product_id);
         $stmtbidhistory->execute();
         $bidhistory = $stmtbidhistory->fetchAll(PDO::FETCH_OBJ);
-        if(!empty($bidhistory)){
-        foreach ($bidhistory as $history) {
+        if (!empty($bidhistory)) {
+            foreach ($bidhistory as $history) {
 
 
-            $allhistory[] = array(
-                "bidprice" => stripslashes($history->bidprice),
-                "name" => stripslashes($history->fname." ".$history->lname)
-            );
+                $allhistory[] = array(
+                    "bidprice" => stripslashes($history->bidprice),
+                    "name" => stripslashes($history->fname . " " . $history->lname)
+                );
+            }
+        } else {
+            $allhistory = array();
         }
-        }else{
-           $allhistory=array();
-        }
-        //$aucshowtime=
-        //$count = $stmtproduct->rowCount();
+//$aucshowtime=
+//$count = $stmtproduct->rowCount();
 
         $data['productList'] = array(
             "id" => stripslashes($product->id),
@@ -1333,8 +1335,8 @@ function addFavoriteProduct() {
         $stmtdeletefab->bindParam("product_id", $product_id);
         $stmtdeletefab->bindParam("user_id", $user_id);
         $stmtdeletefab->execute();
-        // $contactdetails = $stmt->fetchObject();
-        // $count = $stmt->rowCount();
+// $contactdetails = $stmt->fetchObject();
+// $count = $stmt->rowCount();
     }
 
 
@@ -3212,7 +3214,7 @@ function ListNotification() {
                 "message" => stripslashes($notificationUserdetails->msg),
                 "type" => stripslashes($notificationUserdetails->type),
                 "last_id" => stripslashes($notificationUserdetails->last_id),
-                "date" => stripslashes($datenoti[1]),
+                "date" => stripslashes($datenoti[0]),
             );
         }
 
@@ -3458,7 +3460,7 @@ function addProductNew() {
 
                         if ($count > 0) {
                             $approved = "1";
-                            //
+//
                         }
 
                         $get_status = "1";
@@ -3509,7 +3511,7 @@ function addProductNew() {
 
                             if (!empty($_FILES['image'])) {
 
-                                //print_r($_FILES['image']);exit;
+//print_r($_FILES['image']);exit;
                                 foreach ($_FILES['image']['name'] as $key1 => $file) {
 
 
@@ -3542,6 +3544,29 @@ function addProductNew() {
                                 }
                             }
 
+                            $sqladmin = "SELECT * FROM webshop_tbladmin WHERE id=1";
+
+                            $stmtttadmin = $db->prepare($sqladmin);
+                            $stmtttadmin->execute();
+                            $getadmin = $stmtttadmin->fetchObject();
+                            if ($getadmin->product_upload_notification == 1) {
+                                $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
+
+                                $is_read = '0';
+                                $last_id = '0';
+                                $from_id = '0';
+                                $message = 'New Product added';
+//$type = '2';
+                                $stmttt = $db->prepare($sqlFriend);
+                                $stmttt->bindParam("from_id", $user_id);
+                                $stmttt->bindParam("to_id", $from_id);
+                                $stmttt->bindParam("type", $type);
+                                $stmttt->bindParam("msg", $message);
+
+                                $stmttt->bindParam("last_id", $last_id);
+                                $stmttt->bindParam("is_read", $is_read);
+                                $stmttt->execute();
+                            }
 
                             $data['Ack'] = 1;
                             $data['msg'] = 'Product added successfully.';
@@ -3608,23 +3633,6 @@ function addProductNew() {
                 $stmt->bindParam("thresholdprice", $price);
                 $stmt->bindParam("state", $state);
                 $stmt->bindParam("city", $city);
-                $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
-
-                $is_read = '0';
-                $last_id = '0';
-                $from_id = '0';
-                $message = 'New auction added';
-//$type = '2';
-                $stmttt = $db->prepare($sqlFriend);
-                $stmttt->bindParam("from_id", $user_id);
-                $stmttt->bindParam("to_id", $from_id);
-                $stmttt->bindParam("type", $type);
-                $stmttt->bindParam("msg", $message);
-
-                $stmttt->bindParam("last_id", $last_id);
-                $stmttt->bindParam("is_read", $is_read);
-                $stmttt->execute();
-
 
                 $stmt->bindParam("location", $location);
                 $stmt->bindParam("work_hours", $work_hours);
@@ -3660,7 +3668,7 @@ function addProductNew() {
 
                 if (!empty($_FILES['image'])) {
 
-                    //print_r($_FILES['image']);exit;
+//print_r($_FILES['image']);exit;
                     foreach ($_FILES['image']['name'] as $key1 => $file) {
 
 
@@ -3692,7 +3700,29 @@ function addProductNew() {
                         }
                     }
                 }
+                $sqladmin = "SELECT * FROM webshop_tbladmin WHERE id=1";
 
+                $stmtttadmin = $db->prepare($sqladmin);
+                $stmtttadmin->execute();
+                $getadmin = $stmtttadmin->fetchObject();
+                if ($getadmin->auction_notification == 1) {
+                    $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
+
+                    $is_read = '0';
+                    $last_id = '0';
+                    $from_id = '0';
+                    $message = 'New auction added';
+//$type = '2';
+                    $stmttt = $db->prepare($sqlFriend);
+                    $stmttt->bindParam("from_id", $user_id);
+                    $stmttt->bindParam("to_id", $from_id);
+                    $stmttt->bindParam("type", $type);
+                    $stmttt->bindParam("msg", $message);
+
+                    $stmttt->bindParam("last_id", $last_id);
+                    $stmttt->bindParam("is_read", $is_read);
+                    $stmttt->execute();
+                }
 
                 $data['Ack'] = 1;
                 $data['msg'] = 'Auction added successfully.';
@@ -3802,7 +3832,7 @@ function addProductNew() {
 
                 if (!empty($_FILES['image'])) {
 
-                    //print_r($_FILES['image']);exit;
+//print_r($_FILES['image']);exit;
                     foreach ($_FILES['image']['name'] as $key1 => $file) {
 
                         if ($_FILES['image']['tmp_name'][$key1] != '') {
@@ -3966,7 +3996,7 @@ function addProductNew() {
                   } */
                 if (!empty($_FILES['image'])) {
 
-                    //print_r($_FILES['image']);exit;
+//print_r($_FILES['image']);exit;
                     foreach ($_FILES['image']['name'] as $key1 => $file) {
 
                         if ($_FILES['image']['tmp_name'][$key1] != '') {
@@ -4416,6 +4446,29 @@ function emailverified() {
             $msg = 'Email Verified Successfully. You can login now.';
         }
 
+        $sqladmin = "SELECT * FROM webshop_tbladmin WHERE id=1";
+
+        $stmtttadmin = $db->prepare($sqladmin);
+        $stmtttadmin->execute();
+        $getadmin = $stmtttadmin->fetchObject();
+        if ($getadmin->signup_notification == 1) {
+            $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
+
+            $is_read = '0';
+            $last_id = '0';
+            $from_id = '0';
+            $message = $getUserdetails->fname . ' ' . $getUserdetails->lname . ' Is Newly Registered';
+            //$type = '2';
+            $stmttt = $db->prepare($sqlFriend);
+            $stmttt->bindParam("from_id", $user_id);
+            $stmttt->bindParam("to_id", $from_id);
+            $stmttt->bindParam("type", $type);
+            $stmttt->bindParam("msg", $message);
+
+            $stmttt->bindParam("last_id", $last_id);
+            $stmttt->bindParam("is_read", $is_read);
+            $stmttt->execute();
+        }
         $data['last_id'] = $user_id;
         $data['Ack'] = '1';
         $data['msg'] = $msg;
@@ -4426,7 +4479,7 @@ function emailverified() {
     } catch (PDOException $e) {
         $data['last_id'] = '';
         $data['Ack'] = '0';
-        $data['msg'] = 'Updation Error !!!';
+        $data['msg'] = 'Updation Error!!!';
         echo '{"error":{"text":' . $e->getMessage() . '}}';
         $app->response->setStatus(401);
     }
@@ -4509,7 +4562,7 @@ function auctionapproval() {
     } catch (PDOException $e) {
         $data['last_id'] = '';
         $data['Ack'] = '0';
-        $data['msg'] = 'Updation Error !!!';
+        $data['msg'] = 'Updation Error!!!';
         echo '{"error":{"text":' . $e->getMessage() . '}}';
         $app->response->setStatus(401);
     }
@@ -4561,7 +4614,7 @@ function interestedEmailToVendor() {
     $link = SITE_URL . '#/conatctuser/' . $getdetails->id . '/' . $getproductdetails->id . '/' . $getUserdetails->id;
     $TemplateMessage = "Hello " . $getUserdetails->fname . ",<br /><br / >";
     $TemplateMessage .= $user . " is interested in your product " . $getproductdetails->name . " <br />";
-    //$TemplateMessage .= "<br/>Click this link to verify to conact user <a href='" . $link . "'>" . $link . "</a><br/>";
+//$TemplateMessage .= "<br/>Click this link to verify to conact user <a href='" . $link . "'>" . $link . "</a><br/>";
     $TemplateMessage .= "<br /><br />Thanks,<br />";
     $TemplateMessage .= "webshop.com<br />";
 
@@ -4634,7 +4687,7 @@ function interestedEmailToVendor() {
         $sql_interest = "INSERT INTO  webshop_interested (userid,seller_id,productid,type,interested) VALUES (:userid,:seller_id,:product_id,:type,:interested)";
 
         $stm_interest = $db->prepare($sql_interest);
-        //$add_date = date('Y-m-d');
+//$add_date = date('Y-m-d');
         $interested = 1;
 
         $stm_interest->bindParam("seller_id", $seller_id);
@@ -4649,23 +4702,31 @@ function interestedEmailToVendor() {
     }
 
     /* Notification to the seller start */
-    $message = $user . " is interested in your product " . $getproductdetails->name . "";
+    $sqladmin = "SELECT * FROM webshop_tbladmin WHERE id=1";
 
-    $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, msg, is_read,last_id) VALUES (:from_id, :to_id, :msg, :is_read,:last_id)";
+    $stmtttadmin = $db->prepare($sqladmin);
+    $stmtttadmin->execute();
+    $getadmin = $stmtttadmin->fetchObject();
+    if ($getadmin->interest_notification == 1) {
+        $message = $user . " is interested in your product " . $getproductdetails->name . "";
 
-    $is_read = '0';
-    $last_id = '0';
-    $from_id = '0';
+        $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, msg, is_read,last_id) VALUES (:from_id, :to_id, :msg, :is_read,:last_id)";
 
-    $stmttt = $db->prepare($sqlFriend);
-    $stmttt->bindParam("from_id", $user_id);
-    $stmttt->bindParam("to_id", $seller_id);
-    //$stmttt->bindParam("type", $type);
-    $stmttt->bindParam("msg", $message);
+        $is_read = '0';
+        $last_id = '0';
+        $from_id = '0';
 
-    $stmttt->bindParam("last_id", $last_id);
-    $stmttt->bindParam("is_read", $is_read);
-    $stmttt->execute();
+        $stmttt = $db->prepare($sqlFriend);
+        $stmttt->bindParam("from_id", $user_id);
+        $stmttt->bindParam("to_id", $seller_id);
+//$stmttt->bindParam("type", $type);
+        $stmttt->bindParam("msg", $message);
+
+        $stmttt->bindParam("last_id", $last_id);
+        $stmttt->bindParam("is_read", $is_read);
+        $stmttt->execute();
+    }
+
 
     /* Notification to the seller end */
 
@@ -4807,7 +4868,7 @@ function listSubscriptions() {
     $stmt1->execute();
     $getDetails = $stmt1->fetchObject();
 
-    //$user_array = explode(',', $getDetails->user_id);
+//$user_array = explode(',', $getDetails->user_id);
     $existsuser = $getDetails->special_package_id;
 
     if ($existsuser) {
@@ -5461,7 +5522,7 @@ function getTimeslot() {
     $stmt->execute();
     $getauctiondate = $stmt->fetchAll(PDO::FETCH_OBJ);
 
-    // print_r($getauctiondate);
+// print_r($getauctiondate);
 
 
 
@@ -5504,12 +5565,12 @@ function getTimeslot() {
                     "status" => 0,
                 );
             }
-            //print_r($data);
-            //exit;
+//print_r($data);
+//exit;
         }
     }
-    // print_r($data);
-    //exit;
+// print_r($data);
+//exit;
 
 
     $data['Ack'] = '1';
@@ -6195,7 +6256,7 @@ function listproductMessages() {
         try {
 
             $sql = "SELECT *, (r.from_id + r.to_id) AS dist FROM (SELECT * FROM `webshop_message` as t WHERE ( (t.from_id =:to_id OR t.to_id =:to_id) and product_id!= 0 and to_id!= 0 and from_id!= 0 ) ORDER BY t.add_date ASC) as r GROUP BY dist ORDER BY r.add_date ASC ";
-            // $sql = "SELECT * from webshop_message WHERE to_id=:to_id or from_id=:to_id ";
+// $sql = "SELECT * from webshop_message WHERE to_id=:to_id or from_id=:to_id ";
 
 
             $stmt = $db->prepare($sql);
@@ -6384,16 +6445,24 @@ function addmessage() {
     $getuser = $stmtuser->fetchObject();
 
     try {
-        $messagefornoti = 'You have a new message from' . $getuser->fname . ' ' . $getuser->lname;
-        $type = 'Customer Message';
-        $stmtnoti = $db->prepare($sqlnoti);
-        $stmtnoti->bindParam("msg", $messagefornoti);
-        $stmtnoti->bindParam("to_id", $to_id);
-        $stmtnoti->bindParam("from_id", $from_id);
-        $stmtnoti->bindParam("is_read", $is_read);
-        $stmtnoti->bindParam("date", $date);
-        $stmtnoti->bindParam("last_id", $last_id);
-        $stmtnoti->execute();
+        $sqladmin = "SELECT * FROM webshop_user WHERE id=$to_id";
+
+        $stmtttadmin = $db->prepare($sqladmin);
+        $stmtttadmin->execute();
+        $getuser = $stmtttadmin->fetchObject();
+        if ($getuser->new_message_notify == 1) {
+            $messagefornoti = 'You have a new message from' . $getuser->fname . ' ' . $getuser->lname;
+            $type = 'Customer Message';
+            $stmtnoti = $db->prepare($sqlnoti);
+            $stmtnoti->bindParam("msg", $messagefornoti);
+            $stmtnoti->bindParam("to_id", $to_id);
+            $stmtnoti->bindParam("from_id", $from_id);
+            $stmtnoti->bindParam("is_read", $is_read);
+            $stmtnoti->bindParam("date", $date);
+            $stmtnoti->bindParam("last_id", $last_id);
+            $stmtnoti->execute();
+        }
+
 
         $stmt1 = $db->prepare($sql1);
         $stmt1->bindParam("message", $message);
@@ -6484,7 +6553,7 @@ function getfullMessages() {
                 $stmtcategory->bindParam("id", $getStatus12->cat_id);
                 $stmtcategory->execute();
                 $getcategory = $stmtcategory->fetchObject();
-                //print_r($getcategory);
+//print_r($getcategory);
                 $product_name = $getcategory->name . '/' . $naxbrand->name;
                 if (!empty($getcategory)) {
                     $categoryname = $getcategory->name;
@@ -6509,7 +6578,7 @@ function getfullMessages() {
             $product_image = $image;
         }
 // print_r($allstatus);
-        //exit;
+//exit;
         $data['fillmessage'] = $allmeaage;
         $data['product_image'] = $product_image;
         $data['product_name'] = $product_name;
@@ -6982,7 +7051,7 @@ function markextension() {
 
     $sid = $getsubscription->id;
 
-    //echo $sid;exit;
+//echo $sid;exit;
 
     try {
 
@@ -7036,7 +7105,7 @@ function userpayment() {
     $body = json_decode($body2);
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
-    // echo $user_id;exit;
+// echo $user_id;exit;
     $db = getConnection();
 
     try {
@@ -7048,7 +7117,7 @@ function userpayment() {
         $stmt2->bindParam("id", $user_id);
         $stmt2->execute();
         $getUserDetails = $stmt2->fetchObject();
-        //echo $getUserDetails->user_payment;exit;
+//echo $getUserDetails->user_payment;exit;
         $data['Ack'] = '1';
         $data['payment'] = $getUserDetails->user_payment;
 
@@ -7269,7 +7338,7 @@ function adduserpayment() {
     $stmt4->bindParam("subscription_date", $date);
     $stmt4->bindParam("expiry_date", $expiry_date);
     $stmt4->bindParam("transaction_id", $transaction_id);
-    //$stmt4->bindParam("product_id", $product_id);
+//$stmt4->bindParam("product_id", $product_id);
     $stmt4->execute();
     $lastID = $db->lastInsertId();
 
@@ -7415,6 +7484,74 @@ function addreview() {
     $stmt->bindParam("recomend", $recomend);
     $stmt->execute();
 
+    $sqluser = "SELECT * FROM webshop_user WHERE id=$userid";
+
+    $stmtttuser = $db->prepare($sqluser);
+    $stmtttuser->execute();
+    $getuser = $stmtttuser->fetchObject();
+
+    $sqladmin = "SELECT * FROM webshop_tbladmin WHERE id=1";
+
+    $stmtttadmin = $db->prepare($sqladmin);
+    $stmtttadmin->execute();
+    $getadmin = $stmtttadmin->fetchObject();
+    if ($getadmin->signup_notification == 1) {
+        $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
+
+        $is_read = '0';
+        $last_id = '0';
+        $from_id = '0';
+        $type = '0';
+        $message = $getuser->fname . ' ' . $getuser->lname . ' Reviewed a Product';
+        //$type = '2';
+        $stmttt = $db->prepare($sqlFriend);
+        $stmttt->bindParam("from_id", $userid);
+        $stmttt->bindParam("to_id", $from_id);
+        $stmttt->bindParam("type", $type);
+        $stmttt->bindParam("msg", $message);
+
+        $stmttt->bindParam("last_id", $last_id);
+        $stmttt->bindParam("is_read", $is_read);
+        $stmttt->execute();
+    }
+    $sqlproduct = "SELECT * FROM webshop_products WHERE id=$productid";
+
+    $stmtproduct = $db->prepare($sqlproduct);
+    $stmtproduct->execute();
+    $getproduct = $stmtproduct->fetchObject();
+
+    $sqlowner = "SELECT * FROM webshop_user WHERE id=$getproduct->uploader_id";
+
+    $stmtowner = $db->prepare($sqlowner);
+    $stmtowner->execute();
+    $getowner = $stmtowner->fetchObject();
+
+    $sqlowneruser = "SELECT * FROM webshop_user WHERE id=$getproduct->uploader_id";
+
+    $stmtowneruser = $db->prepare($sqlowneruser);
+    $stmtowneruser->execute();
+    $getowneruser = $stmtowneruser->fetchObject();
+
+    if ($getowneruser->review_notify == 1) {
+        $sqlFriendnotiuser = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id,date) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id,:date)";
+        $date = date('Y-m-d H:i:s');
+        $is_read = '0';
+        $last_id = '0';
+        $from_id = '0';
+        $message = $getuser->fname . ' ' . $getuser->lname . ' Reviewed Your Product';
+        //$type = '2';
+        $stmtttnotiuser = $db->prepare($sqlFriendnotiuser);
+        $stmtttnotiuser->bindParam("from_id", $userid);
+        $stmtttnotiuser->bindParam("to_id", $getowneruser->id);
+        $stmtttnotiuser->bindParam("type", $type);
+        $stmtttnotiuser->bindParam("msg", $message);
+        $stmtttnotiuser->bindParam("date", $date);
+        $stmtttnotiuser->bindParam("last_id", $last_id);
+        $stmtttnotiuser->bindParam("is_read", $is_read);
+        $stmtttnotiuser->execute();
+    }
+
+
     $data['Ack'] = '1';
     $data['Years'] = 'hello';
 
@@ -7427,11 +7564,11 @@ function auctionWinner() {
     $data = array();
 
     $app = \Slim\Slim::getInstance();
-    //$request = $app->request();
-    //$body2 = $app->request->getBody();
-    //$body = json_decode($body2);
-    //mail("spandan@natitsolved.com","GMT24 Auction","Your auction unsuccessfully end","palashsaharana@gmail.com");
-    //echo "spanda";exit;
+//$request = $app->request();
+//$body2 = $app->request->getBody();
+//$body = json_decode($body2);
+//mail("spandan@natitsolved.com","GMT24 Auction","Your auction unsuccessfully end","palashsaharana@gmail.com");
+//echo "spanda";exit;
     $db = getConnection();
 
     $sql = "SELECT * from webshop_products where type= 2 and approved=1 and auctioned=0";
@@ -7439,7 +7576,7 @@ function auctionWinner() {
     $stmt = $db->prepare($sql);
     $stmt->execute();
     $getAuctions = $stmt->fetchAll(PDO::FETCH_OBJ);
-    //print_r($getAuctions);exit;
+//print_r($getAuctions);exit;
     if (!empty($getAuctions)) {
         foreach ($getAuctions as $auction) {
 
@@ -7460,21 +7597,21 @@ function auctionWinner() {
             $stmt1->execute();
             $getdatetimedetail = $stmt1->fetchObject();
 
-            // echo $current_datetime;exit;
-            //print_r($getdatetimedetail);exit;
+// echo $current_datetime;exit;
+//print_r($getdatetimedetail);exit;
             if ($current_datetime > $getdatetimedetail->end_time) {
 
                 $sql2 = "UPDATE webshop_products SET `auctioned`=1 where id = $auction_id";
                 $stmt2 = $db->prepare($sql2);
                 $stmt2->execute();
 
-                //echo $auction_id;exit;
+//echo $auction_id;exit;
                 $sql3 = "SELECT * FROM webshop_biddetails as wb inner join webshop_user as wu on wu.id=wb.userid WHERE wb.productid=$auction_id order by wb.bidprice desc limit 0,1";
                 $stmt3 = $db->prepare($sql3);
                 $stmt3->execute();
                 $getbiddetail_withuser = $stmt3->fetchObject();
-                //print_r($getbiddetail_withuser);exit;
-                //echo $getbiddetail_withuser->id;exit;
+//print_r($getbiddetail_withuser);exit;
+//echo $getbiddetail_withuser->id;exit;
 
                 $sql4 = "SELECT * FROM webshop_biddetails as wb inner join webshop_user as wu on wu.id=wb.uploaderid WHERE wb.productid=$auction_id order by wb.bidprice desc limit 0,1";
                 $stmt4 = $db->prepare($sql4);
@@ -7493,7 +7630,7 @@ function auctionWinner() {
                     send_smtpmail($getbiddetail_withuser->email, "GMT24 Auction", "You are the winner. Please pay and buy the product within 2 days. For buy <a href='" . $actual_link . "'> Click here</a>");
                     send_smtpmail($getbiddetail_withuploader->email, "GMT24 Auction", "Your auction successfully end");
 
-                    //for notification
+//for notification
 
                     $is_read = '0';
                     $last_id = '0';
@@ -7512,8 +7649,8 @@ function auctionWinner() {
                     $stmt5->bindParam("is_read", $is_read);
                     $stmt5->bindParam("last_id", $last_id);
                     $stmt5->execute();
-                    //for notification end
-                    //for winner table
+//for notification end
+//for winner table
                     $date = date('Y-m-d');
                     $cdate = date_create($date);
                     date_add($cdate, date_interval_create_from_date_string("2 days"));
@@ -7526,7 +7663,7 @@ function auctionWinner() {
                     $stmt6->bindParam("date", $current_datetime);
                     $stmt6->bindParam("expiry_date", $expiry_date);
                     $stmt6->execute();
-                    //for winner table end
+//for winner table end
                 } else {
 
                     send_smtpmail($getbiddetail_withuploader->email, "GMT24 Auction", "Your auction unsuccessfully end");
@@ -7590,7 +7727,7 @@ function reviews() {
         } else {
             $reviewss = array();
         }
-        // exit;
+// exit;
         $data['reviews'] = $reviewss;
         $data['Ack'] = '1';
         $app->response->setStatus(200);
@@ -8167,7 +8304,7 @@ function interestinproduct() {
     $stmt->execute();
     $getAllProducts = $stmt->fetchAll(PDO::FETCH_OBJ);
 
-    //print_r($getAllProducts);exit;
+//print_r($getAllProducts);exit;
 
     if (!empty($getAllProducts)) {
         foreach ($getAllProducts as $product) {
@@ -8271,7 +8408,7 @@ function interestedproduct() {
     $stmt->execute();
     $getAllProducts = $stmt->fetchAll(PDO::FETCH_OBJ);
 
-    //print_r($getAllProducts);exit;
+//print_r($getAllProducts);exit;
 
     if (!empty($getAllProducts)) {
         foreach ($getAllProducts as $product) {
@@ -8566,7 +8703,7 @@ function sociallinks() {
     $stmt->execute();
     $getAlllinks = $stmt->fetchAll(PDO::FETCH_OBJ);
 
-    //print_r($getAllProducts);exit;
+//print_r($getAllProducts);exit;
 
     if (!empty($getAlllinks)) {
         foreach ($getAlllinks as $links) {
@@ -8710,7 +8847,7 @@ function checkauctionvalidity() {
         $stmt->bindParam("user_id", $user_id);
         $stmt->bindParam("product_id", $product_id);
         $stmt->execute();
-        //$count = $stmt->rowCount();
+//$count = $stmt->rowCount();
         $getauctionwinner = $stmt->fetchAll(PDO::FETCH_OBJ);
 
         if (!empty($getauctionwinner)) {
@@ -8916,7 +9053,7 @@ function myproductbylocation() {
     $stmt->execute();
     $getAllProducts = $stmt->fetchAll(PDO::FETCH_OBJ);
 
-    //print_r($getAllProducts);exit;
+//print_r($getAllProducts);exit;
 
     if (!empty($getAllProducts)) {
         foreach ($getAllProducts as $product) {
@@ -9041,7 +9178,7 @@ function checkauctionvaliditybeforeaddbid() {
         $stmt->bindParam("user_id", $user_id);
         $stmt->bindParam("product_id", $product_id);
         $stmt->execute();
-        //$count = $stmt->rowCount();
+//$count = $stmt->rowCount();
         $getauctionwinner = $stmt->fetchAll(PDO::FETCH_OBJ);
 
         if (!empty($getauctionwinner)) {
@@ -9079,23 +9216,23 @@ function getfullAdminMessages() {
 
     $db = getConnection();
     $to_id = isset($body->to_id) ? $body->to_id : '';
-    //$product_id = isset($body->product_id) ? $body->product_id : '';
+//$product_id = isset($body->product_id) ? $body->product_id : '';
     $from_id = isset($body->from_id) ? $body->from_id : '';
     $allmeaage = '';
-    // exit;
+// exit;
     try {
 
         $sql = "SELECT * from webshop_message WHERE from_id=$from_id AND to_id=$to_id OR from_id=$to_id AND to_id=$from_id";
 
         $stmt = $db->prepare($sql);
-        //$stmt->bindParam("to_id", $from_id);
-        //$stmt->bindParam("from_id", $to_id);
-        //$stmt->bindParam("product_id", $product_id);
+//$stmt->bindParam("to_id", $from_id);
+//$stmt->bindParam("from_id", $to_id);
+//$stmt->bindParam("product_id", $product_id);
 
         $stmt->execute();
         $getStatus = $stmt->fetchAll(PDO::FETCH_OBJ);
-        // print_r($getStatus);
-        // exit;
+// print_r($getStatus);
+// exit;
         $categoryname = '';
         $product_name = '';
         $profile_image = '';
@@ -9118,7 +9255,7 @@ function getfullAdminMessages() {
                 'id' => stripslashes($status->id),
                 'image' => $profile_image
             );
-            //$product_image = $image;
+//$product_image = $image;
         }
 
         $data['fillmessage'] = $allmeaage;
