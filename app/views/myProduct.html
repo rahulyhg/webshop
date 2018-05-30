@@ -15,7 +15,7 @@
 									<!--<h6>{{ProductList.productname}} <span><i class=""></i></span></h6>-->
 									<p class="mb-1">{{ProductList.description}}</p>
 									<b class="d-block mb-2">KWD {{ProductList.price}}</b>
-                                                                        <b class="d-block mb-2">Expired on: {{ProductList.expiry_date}}</b>
+                                                                        <b ng-if="ProductList.approved==1 && ProductList.live_status==1" class="d-block mb-2">Expired on: {{ProductList.expiry_date}}</b>
 									<!--<p><button type="button" class="btn btn-primary"><i class="ion-android-cart"></i> Buy It</button>-->
                                                                         
                                                                         

@@ -2462,7 +2462,7 @@ function ListOrderBuyer() {
                 $allorders[] = array(
                     "id" => stripslashes($orders->id),
                     "total_price" => stripslashes($orderlst->bidprice),
-                    "date" => date('dF M Y', strtotime($orders->date)),
+                    "date" => date('dS M Y', strtotime($orders->date)),
                     "status" => $orders->is_paid,
                     "product_image" => $pro_image,
                         //"total_product" => $count
@@ -8309,7 +8309,7 @@ function interestinproduct() {
     if (!empty($getAllProducts)) {
         foreach ($getAllProducts as $product) {
 
-            $sql1 = "SELECT * FROM webshop_products WHERE id=:id ";
+            $sql1 = "SELECT * FROM webshop_products WHERE id=:id and auctioned=0";
             $stmt1 = $db->prepare($sql1);
             $stmt1->bindParam("id", $product->productid);
             $stmt1->execute();
@@ -8413,7 +8413,7 @@ function interestedproduct() {
     if (!empty($getAllProducts)) {
         foreach ($getAllProducts as $product) {
 
-            $sql1 = "SELECT * FROM webshop_products WHERE id=:id ";
+            $sql1 = "SELECT * FROM webshop_products WHERE id=:id and auctioned=0";
             $stmt1 = $db->prepare($sql1);
             $stmt1->bindParam("id", $product->productid);
             $stmt1->execute();
