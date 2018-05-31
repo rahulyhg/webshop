@@ -73,7 +73,7 @@ $scope.product_id=$stateParams.id;
                     //alert(response.productList);
 	
 		$scope.productLists=response.productList;
-                $scope.getallproductimages();
+                //$scope.getallproductimages();
                 $scope.is_hide=0;
 		
 		
@@ -585,6 +585,7 @@ swal("Mail can not be sent",'','error');
 		if(response.Ack == '1') {
                     
                 
+	
 		$scope.prod=response.imagespath;
                 console.log('imagess',$scope.prod);
                 

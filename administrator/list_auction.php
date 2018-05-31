@@ -219,7 +219,7 @@ if ($_REQUEST['action'] == 'edit') {
                                         test_mail($_GET['email'], $_GET['name']);
                                         // mail("arunavaguha@natitsolved.com", "My subject", 'hello');
 
-                                        $get_current_date = date('Y-m-d');
+                                        $get_current_date = date('Y-m-d H:i:s');
 
                                         $getuploaderid = mysqli_fetch_array(mysqli_query($con, "SELECT * from webshop_products where id='" . $item_id . "'"));
                                         $requestor_id = $getuploaderid['uploader_id'];
@@ -290,9 +290,9 @@ if ($_REQUEST['action'] == 'edit') {
                                                     <?php echo stripslashes($uploader['email']); ?>
                                                 </td>
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <!--  <td>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <!--  <td>
                                                 <?php echo stripslashes($tools_type['owner_number']); ?>
-                                                                                                                              </td>-->
+                                                                                                                                              </td>-->
 
                                                 <td>
                                                     <?php

@@ -215,25 +215,28 @@ if ($_REQUEST['action'] == 'edit') {
 
 
                                         mysqli_query($con, "update webshop_products set approved='1' where id='" . $item_id . "'");
-
                                         test_mail($_GET['email'], $_GET['name']);
                                         // mail("arunavaguha@natitsolved.com", "My subject", 'hello');
 
-                                        $get_current_date = date('Y-m-d');
+                                        $get_current_date = date('Y-m-d H:i:s');
 
                                         $getuploaderid = mysqli_fetch_array(mysqli_query($con, "SELECT * from webshop_products where id='" . $item_id . "'"));
                                         $requestor_id = $getuploaderid['uploader_id'];
 
                                         $getProductName = mysqli_fetch_array(mysqli_query($con, "SELECT * from webshop_products where id='" . $getuploaderid['id'] . "'"));
+                                        $getusertype = mysqli_fetch_array(mysqli_query($con, "SELECT * from webshop_user where id='" . $requestor_id . "'"));
+                                        // print_r($getusertype);
                                         $productName = $getProductName['name'];
+                                        $actual_link = SITE_URL . "#/userpayment/" . $getProductName['id'];
+
+                                        if ($getusertype['type'] == 1) {
+                                            $notification_msg = 'You Product is Approved by the Admin. Please Pay To Make It Live <p><a href="' . $actual_link . '"> Click here</a></p>';
+                                        } else {
+                                            $notification_msg = 'Your Product is Approved by the Admin.';
+                                        }
+
                                         // $getMinimumBid = $getProductName['price'];
-
-                                        $getpercentage = mysqli_fetch_array(mysqli_query($con, "SELECT * from webshop_sitesettings"));
-
-                                        // $payment_amount = ceil(($getMinimumBid * $getpercentage['threshold_price_percent']) / 100);
-                                        // $auctionfees = mysqli_query($con, "UPDATE `webshop_products` SET `auction_fee`='" . $payment_amount . "' WHERE `id` = '" . $item_id . "'");
-
-                                        $requestor_notification = mysqli_query($con, "INSERT into webshop_notification(from_id,to_id,type,msg,date,is_read,last_id) VALUES ('0','" . $requestor_id . "','Product for Auction Approved','Your Product " . $productName . " has been approved for auction. You need to pay  $" . $get_current_date . "','0','" . $item_id . "')");
+                                        $requestor_notification = mysqli_query($con, "INSERT into webshop_notification(from_id,to_id,type,msg,date,is_read,last_id) VALUES ('0','" . $requestor_id . "','Product for Approved','" . $notification_msg . "',' $get_current_date " . "','0','" . $item_id . "')");
 
 
                                         header('Location:list_product.php');
@@ -282,9 +285,9 @@ if ($_REQUEST['action'] == 'edit') {
 
 
 
-                                                                                                                                                                                                                                                                                                                                                                                                              <!--  <td>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      <!--  <td>
                                                 <?php echo stripslashes($tools_type['owner_number']); ?>
-                                                                                                                                                                                                                                                                                                                                                                                                                </td>-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </td>-->
 
                                                 <td>
                                                     <?php if ($tools_type['approved'] == '0') { ?>
@@ -294,7 +297,7 @@ if ($_REQUEST['action'] == 'edit') {
                                                     <?php } ?>
                                                 </td>
 
-                <!--                                                <td>
+                                                                                                                                                                                                                                                                                                                                                        <!--                                                <td>
                                                 <?php
                                                 if ($tools_type['approved'] == '1' && $tools_type['auction_fee_paid'] == '0') {
                                                     echo '<span style="color:#b00;text-align:center;">Payment Pending</span>';
@@ -304,7 +307,7 @@ if ($_REQUEST['action'] == 'edit') {
                                                     echo '<span style="color:#b94a48;text-align:center;">Admin Approval Required</span>';
                                                 }
                                                 ?>
-                                                                </td>-->
+                                                                                                                                                                                                                                                                                                                                                                                                        </td>-->
 
                                                 <td>
                                                     <a  href="add_product.php?id=<?php echo $tools_type['id'] ?>&action=edit"  >
@@ -313,11 +316,11 @@ if ($_REQUEST['action'] == 'edit') {
                                                         <i class="icon-trash"></i></a>
                                                 </td>
 
-                <!--                                                <td>
+                                                                                                                                                                                                                                                                                                                                                        <!--                                                <td>
 
-                                                                    <a  href="details_auction.php?id=<?php echo $tools_type['id'] ?>&action=details"><i class="icon-eye-open"></i></a>
+                                                                                                                                                                                                                                                                                                                                                                                                            <a  href="details_auction.php?id=<?php echo $tools_type['id'] ?>&action=details"><i class="icon-eye-open"></i></a>
 
-                                                                </td> -->
+                                                                                                                                                                                                                                                                                                                                                                                                        </td> -->
 
 
 
@@ -406,27 +409,27 @@ if ($_REQUEST['action'] == 'edit') {
 function test_mail($to, $firstname) {
     $MailTo = $to;
 
-    $MailFrom = 'info@webshop.com';
-    $subject = "GMT24- Product Approval";
+
+    $subject = "GMT24- Product activation";
 
     $TemplateMessage = "Hello " . $firstname . ",<br /><br / >";
     $TemplateMessage .= "Your product is activated by the admin " . " <br />";
 
     $TemplateMessage .= "<br /><br />Thanks,<br />";
-    $TemplateMessage .= "webshop.com<br />";
+    $TemplateMessage .= "GMT24<br />";
 
 
     $mail = new PHPMailer(true);
 
     $IsMailType = 'SMTP';
 
-    $MailFrom = 'arunavaguha@natitsolved.com';    //  Your email password
+    $MailFrom = 'palashsaharana@gmail.com';    //  Your email password
 
     $MailFromName = 'GMT24';
     $MailToName = '';
 
-    $YourEamilPassword = "arunavaguha@9734";   //Your email password from which email you send.
-    // If you use SMTP. Please configure the bellow settings.
+    $YourEamilPassword = "lsnspyrcimuffblr";   //Your email password from which email you send.
+// If you use SMTP. Please configure the bellow settings.
 
     $SmtpHost = "smtp.gmail.com"; // sets the SMTP server
     $SmtpDebug = 0;                     // enables SMTP debug information (for testing)
