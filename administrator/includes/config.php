@@ -6,7 +6,7 @@ define('BASE_URL', 'http://localhost/webshop/');
 define('TWILO_SID', 'AC192d5c3baa6e3d81e3dc00d759413867');
 define('TWILO_TOKEN', 'ff24340d02dec1e794fde914b315a4de');
 define('PAYPAL_URL', 'https://www.sandbox.paypal.com/cgi-bin/webscr');
-define('BASE_URL', 'http://localhost/webshop1/webshop/');
+define('BASE_URL', 'http://localhost/webshop/');
 define('CHARGE', 1.99);
 define('STRIPE_CHARGE', 199);
 define('TESTMODE', 'on');

@@ -1229,7 +1229,13 @@ function ProductsDetails() {
             'is_fav' => $is_fav,
             'maxbiddername' => $higestbiddername,
             'higestbidderbid' => $higestbidderbid,
-            'bidhistory' => $allhistory
+            'bidhistory' => $allhistory,
+            'breslet_type' => stripslashes($product->breslet_type),
+            'model_year' => stripslashes($product->model_year),
+            'movement' => stripslashes($product->movement),
+            'status_watch' => stripslashes($product->status_watch),
+            'size' => stripslashes($product->size),
+            'date_purchase' => stripslashes($product->date_purchase),
         );
 
 

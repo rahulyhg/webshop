@@ -12,6 +12,7 @@ app.controller("RootScopeCtrl", function ($scope, $location, $rootScope, $http, 
 //    else {
 //        $location.path("/home");
 //    }
+
     if($window.localStorage["language"] == 2){
     $window.localStorage["language"] = 2;
     $scope.lang= 2 ;
