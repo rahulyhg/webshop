@@ -13,34 +13,13 @@
           <div class="col-lg-7 col-md-6 col-sm-6">
             <div class="details-top p-3 mb-3 position-relative">
               <div class="like"><p class="m-0"><i class="ion-thumbsup"></i> {{productLists.totallike}}</p></div>
-                <div class="col-sm-12">
-
-      <flex-slider slider-id="slider" flex-slide="img in prod" animation="fade" animation-loop="false" sync="#carousel" slideshow="false" control-nav="false" init-delay="100">
-
-        <li>
-
-          <img src="{{img.custom}}">ff
-
-        </li>
-
-      </flex-slider>
-    </div>
-    <div class="col-sm-12">
-
-      <flex-slider slider-id="carousel" flex-slide="image in prod" animation="slide" animation-loop="false" item-width="210" item-margin="5" as-nav-for="#slider" slideshow="false" control-nav="false">
-        <li>
-
-          <img src="{{image.thumbnail}}">gg
-
-        </li>
-      </flex-slider>
-    </div>
+                 <img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">
 
               <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
             </div> 
             <div class="details-left" ng-if="productLists">
               <h4>{{productLists.productname}}</h4>
-              <p class="text-secondary">{{productLists.brands}}/{{productLists.category}}</p>
+              <p class="text-secondary">{{productLists.brands}}/{{productLists.category}}({{productLists.gender}})</p>
                                                         <p ng-if="user_id && productLists.interest==0"><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)</p>
 
                                                         
@@ -57,19 +36,35 @@
               <h5>Product Description</h5>
 
               <p>{{productLists.description}}</p>
+              <!-----31/05/2018---->
+              <hr>
+              
+              <h5>Product Bracelet Type</h5>
+
+              <p ng-if="productLists.breslet_type == 'L'">Leather</p>
+              <p ng-if="productLists.breslet_type == 'M'">Metal</p>
+                                                     
+              <hr>
+              
+              <h5>Product Size</h5>
+
+              <p>{{productLists.size}}</p>
+              
                                                         
-                                                        <hr>
+                                                         <!-----31/05/2018----> 
+                                                         <hr>
                                                         <h5 ng-if="productLists.seller_id!=user_id && productLists.type == 2 ">Auction Start Date</h5>
 
               <p ng-if="productLists.seller_id!=user_id && productLists.type == 2 ">{{productLists.action_date}}&nbsp;{{productLists.action_time}}</p>
                                                         
                                                         
                                                         
-                                                        <hr>
+                                                        <hr ng-if="productLists.seller_id!=user_id && productLists.type == 2 ">
                                                         
               <div class="row">
                 <div class="col-sm-6 col-6 py-1">
                   <h4 class="m-0">{{productLists.price}} {{productLists.currency_code}}</h4>
+                  
                 </div>
                 <div class="col-sm-6 col-6 py-1">
                   <ul class="like-links list-unstyled p-0 float-right m-0">
@@ -123,6 +118,10 @@
 <!--              <p class="text-secondary mb-2"><i class="fa fa-phone"></i> {{productLists.seller_address}}</p>-->
               <h5><b>{{productLists.currency_code}} {{productLists.price}} </b></h5>
               <p class="text-success">{{productLists.quantity}}pcs. Available. </p>
+              <p style="color:black">Model year :{{productLists.model_year}}</p>
+              <p style="color:black">Movement :{{productLists.movement}}</p>
+              <p style="color:black" ng-if="productLists.date_purchase">Date of Purchased :{{productLists.date_purchase}}</p>
+              <p style="color:black">Status of the watch :{{productLists.status_watch}}</p>
                                                         <p ng-if="productLists.quantity=='0'" class="text-success">Out of stock.</p>
               <hr>
                                                        
@@ -211,7 +210,7 @@
                 </div>
             </div>
             <figure>
-                <img class="img-fluid" src="{{productLists.image}}" alt="Auction cap">
+                <img src="{{productLists.image}}" alt="Auction cap" height="200" width="200">
             </figure>
              <h5>Auction Date : 
                         <p ng-if="productLists.action_date">{{productLists.action_date}}</p>
@@ -453,5 +452,18 @@ cursor: pointer;
 #carousel .flex-active-slide img {
 opacity: 1;
 cursor: default;
+}
+
+.flexslider .slides > li {
+    display: block;
+    -webkit-backface-visibility: hidden;
+}
+
+#myModal .modal-dialog{
+    overflow-y: initial !important
+}
+#myModal .modal-body{
+    height: 600px;
+    overflow-x: auto;
 }
 </style>

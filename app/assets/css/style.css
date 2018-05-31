@@ -567,10 +567,10 @@ a{color: #000}
 }
 .top-bar-part {
     display: table;
-    width: 100%;
+    width: 93%;
     clear: both;
     vertical-align: baseline;
-    margin-top: -5px;
+    margin-top: -4px;
 }
 .top-bar-part p{
     margin-bottom: 0;
@@ -621,7 +621,7 @@ a{color: #000}
 #myModal .modal-body h5{
     font-size: 15px;
     margin: 5px auto;
-    line-height: 20px;
+    line-height: 17px;
     color: #fff;
     font-weight: 300;
 }
@@ -677,9 +677,9 @@ input[type='submit'].btn-round{
     line-height: 40px;
 }
 #myModal button.close{
-    top: -7px;
+    top: 9px;
     position: absolute;
-    right: -5px;
+    right: 11px;
     color: red;
     opacity: 1;
     border: 0;
