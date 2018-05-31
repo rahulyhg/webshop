@@ -150,5 +150,6 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/getfullAdminMessages', 'getfullAdminMessages');
     $app->post('/adminaddmessage', 'adminaddmessage');
     $app->post('/getallproductimages', 'getallproductimages');
+    $app->post('/updateProfile_app', 'updateProfile_app');
 });
 ?>
