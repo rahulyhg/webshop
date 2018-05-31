@@ -3221,6 +3221,7 @@ function ListNotification() {
                 "type" => stripslashes($notificationUserdetails->type),
                 "last_id" => stripslashes($notificationUserdetails->last_id),
                 "date" => stripslashes($datenoti[0]),
+                "dateformat" => date('dS M Y',strtotime($datenoti[0])),
             );
         }
 
@@ -7625,7 +7626,7 @@ function auctionWinner() {
                 $getbiddetail_withuploader = $stmt4->fetchObject();
 
 
-                if ($getbiddetail_withuser->bidprice > $thresholdprice) {
+                if ($getbiddetail_withuser->bidprice >= $thresholdprice) {
 
 
 
@@ -9396,6 +9397,103 @@ function getallproductimages() {
 
     $app->response->write(json_encode($data));
 }
+
+
+
+function updateProfile_app() {
+
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $fname = isset($body->fname) ? $body->fname : '';
+    $lname = isset($body->lname) ? $body->lname : '';
+    $address = isset($body->address) ? $body->address : '';
+    $phone = isset($body->phone) ? $body->phone : '';
+    $email = isset($body->email) ? $body->email : '';
+    $business_type = isset($body->business_type) ? $body->business_type : '';
+    $gender = isset($body->gender) ? $body->gender : '';
+    $secret_key = isset($body->secret_key) ? $body->secret_key : '';
+    $publish_key = isset($body->publish_key) ? $body->publish_key : '';
+    $bankname = isset($body->bankname) ? $body->bankname : '';
+    $ibanno = isset($body->ibanno) ? $body->ibanno : '';
+    $language_preference = isset($body->language_preference) ? $body->language_preference : '';
+    $country = isset($body->country) ? $body->country : '';
+    $state = isset($body->state) ? $body->state : '';
+    $city = isset($body->city) ? $body->city : '';
+    $country_preference = isset($body->country_preference) ? $body->country_preference : '';
+
+    $currency_preference = isset($body->currency_preference) ? $body->currency_preference : '';
+
+
+
+
+    $latlang = '';
+    $val = '';
+    $value = '';
+    $lat = '';
+    $lang = '';
+
+
+
+
+    $date = date('Y-m-d');
+
+
+    $sql = "UPDATE webshop_user set fname=:fname,lname=:lname ,secret_key=:secret_key,publish_key=:publish_key,email=:email,address=:address,phone=:phone,gender=:gender,business_type=:business_type,my_latitude=:lat,my_longitude=:lang,bankname=:bankname,ibanno=:ibanno,language_preference=:language_preference,country=:country,state=:state,city=:city,country_preference=:country_preference,currency_preference=:currency_preference WHERE id=:id";
+    try {
+
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("fname", $fname);
+        $stmt->bindParam("lname", $lname);
+        $stmt->bindParam("phone", $phone);
+        $stmt->bindParam("email", $email);
+        $stmt->bindParam("business_type", $business_type);
+        $stmt->bindParam("address", $address);
+        $stmt->bindParam("gender", $gender);
+        $stmt->bindParam("publish_key", $publish_key);
+        $stmt->bindParam("secret_key", $secret_key);
+        $stmt->bindParam("lat", $lat);
+        $stmt->bindParam("lang", $lang);
+
+        $stmt->bindParam("bankname", $bankname);
+        $stmt->bindParam("ibanno", $ibanno);
+        $stmt->bindParam("language_preference", $language_preference);
+        $stmt->bindParam("country", $country);
+        $stmt->bindParam("state", $state);
+        $stmt->bindParam("city", $city);
+        $stmt->bindParam("country_preference", $country_preference);
+        $stmt->bindParam("currency_preference", $currency_preference);
+        $stmt->bindParam("id", $user_id);
+
+        $stmt->execute();
+
+       
+
+        $data['last_id'] = $user_id;
+        $data['Ack'] = '1';
+        $data['msg'] = 'Profile Updated Successfully...';
+
+
+        $app->response->setStatus(200);
+        $db = null;
+    } catch (PDOException $e) {
+        $data['last_id'] = '';
+        $data['Ack'] = '0';
+        $data['msg'] = 'Updation Error !!!';
+        echo '{"error":{"text":' . $e->getMessage() . '}}';
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+
+
 
 $app->run();
 ?>

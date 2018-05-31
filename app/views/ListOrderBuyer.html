@@ -28,7 +28,9 @@
                                       <td class="text-center">{{allorder.date}}</td>
                                       <td class="text-center" ng-if="allorder.status==0">Not Purchase</td>
                                       <td class="text-center" ng-if="allorder.status==1">Purchased</td>
+
                                       <td class="text-center"><a href="#/viewwinauction/{{allorder.id}}" class="btn btn-primary btn-dark">View Details</a></td>
+
                                     </tr>
                                     
                                     <tr><td  ng-if="isExists==0">No Records Found.</td></tr>
