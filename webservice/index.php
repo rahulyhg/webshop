@@ -1718,7 +1718,17 @@ function listmyProducts() {
                 $categoryname = $getcategory->name;
             }
 
-
+            
+            $sql21 = "SELECT * FROM  webshop_brands WHERE id=:id ";
+            $stmt21 = $db->prepare($sql21);
+            $stmt21->bindParam("id", $product->brands);
+            $stmt21->execute();
+            $getbrand = $stmt21->fetchObject();
+            if (!empty($getbrand)) {
+                $brand = $getbrand->name;
+            }
+            
+            
 
             $sql3 = "SELECT * FROM  webshop_subcategory WHERE id=:id ";
             $stmt3 = $db->prepare($sql3);
@@ -1772,6 +1782,7 @@ function listmyProducts() {
                 "price" => stripslashes($product->price),
                 "description" => strip_tags(stripslashes(substr($product->description, 0, 50))),
                 "category_name" => $categoryname,
+                "brand_name" => $brand,
                 //"subcategory_name" => $subcategoryname,
                 "seller_id" => stripslashes($product->uploader_id),
                 "seller_image" => $profile_image,
