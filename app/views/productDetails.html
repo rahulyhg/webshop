@@ -234,7 +234,10 @@
                        </h5>
 
                         
-                    <h5> <span onclick="a()">Bid History</span></h5>
+                    <h5> 
+                        <!--<span onclick="a()">Bid History</span>-->
+                        <a ng-click="a()" class="btn btn-primary btn-dark" href="javascript:void(0)">Bid History</a>
+                    </h5>
                     
                         <div id="history" style="display: none">
                           <p ng-repeat="bidlist in productLists.bidhistory">{{bidlist.name}} ({{bidlist.bidprice}})</p>

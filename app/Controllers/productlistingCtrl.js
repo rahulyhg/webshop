@@ -21,7 +21,11 @@ $scope.drpmodel='0';
      //alert("puja "+$window.localStorage["selected_value"]);
 
   }
-
+//if($scope.keyword){
+//   alert($scope.keyword); 
+//}else{
+//   alert(); 
+//}
 var limitStep = 5;
 $scope.limit = limitStep;
 $scope.incrementLimit = function() {
@@ -30,7 +34,7 @@ $scope.incrementLimit = function() {
 
 $scope.brand='';
 if($stateParams.brand){
-    alert($scope.brand);
+    //alert($scope.brand);
 $scope.brand=$stateParams.brand;
 }
 
@@ -71,8 +75,16 @@ $scope.searchListing = function(){
 // 	$scope.brandListing = '';
 // }
 
-
-
+//$window.localStorage["keyword"]
+if($window.localStorage["keyword"]){
+    
+	$scope.keyword=$window.localStorage["keyword"];
+        //alert($scope.keyword);
+        // $window.location.reload();
+}else{
+	$scope.keyword='';
+         //$window.location.reload();
+}
 
 if($window.localStorage["brandListing"]){
 	$scope.brandListing=$window.localStorage["brandListing"];
@@ -156,7 +168,7 @@ if($scope.city_id){
  //spandan end     
 
 //console.log('amount',$scope.amount_max);
- userService.searchproductListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id).then(function(response) {
+ userService.searchproductListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword).then(function(response) {
     // alert();
 
 		

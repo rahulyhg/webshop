@@ -21,6 +21,12 @@ app.controller("RootScopeCtrl", function ($scope, $location, $rootScope, $http, 
     $window.localStorage["language"]=1;
     $scope.lang= 1;
     }
+    
+    if($window.localStorage["keyword"]){
+	$scope.brandName=$window.localStorage["keyword"];
+}else{
+	$scope.brandName='';
+}
     //alert($scope.lang);
     $scope.menuVisible = false;
     $scope.swipeValue = true;
@@ -392,10 +398,22 @@ $scope.forget = function(user) {
 
       	var   brand=angular.element(document.getElementById("brandname")).val();
       	//$scope.brandName =brand.val();
-      	//alert($scope.brandName);
+      	//alert(brand);
 	  //console.log($scope.brandName);
-
-	   userService.getProductsByBrand(brand).then(function(response) {
+if(brand){
+    //$scope.keyword =brand;
+    //alert(location.path());
+    $window.localStorage["keyword"]=brand;
+    $state.go('frontend.productlisting');
+     // $window.location.href = siteurl.'/searchListing';
+    
+      
+}else{
+    $window.localStorage["keyword"]='';
+    $state.go('frontend.productlisting');
+     
+}
+	 /*  userService.getProductsByBrand(brand).then(function(response) {
 		
                 console.log("pp "+response.data);
 	 if(response.Ack == '1') {
@@ -403,12 +421,12 @@ $scope.forget = function(user) {
 				//alert (response.msg);
                 swal ('Added to your Watchlist','','success');
 				//$state.go('frontend.wishlist');
-                $window.location.reload();                
+                //$window.location.reload();                
                                 
                               
                                 
                 }
-  });
+  });*/
 }
 
 
