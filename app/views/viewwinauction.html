@@ -4,12 +4,12 @@
 			<nav aria-label="breadcrumb">
 			  <ol class="breadcrumb">
 			    <li class="breadcrumb-item"><a href="#">Home</a></li>
-			    <li class="breadcrumb-item active">Watches</li>
+			    <li class="breadcrumb-item active">Win/Purchased Auction </li>
 			  </ol>
 			</nav>
 			<div class="details-wrap p-3">
 				<div class="details-top p-3 mb-3 position-relative">
-					<div class="like"><p class="m-0"><i class="ion-thumbsup"></i> {{productLists.totallike}}</p></div>
+					<!--<div class="like"><p class="m-0"><i class="ion-thumbsup"></i> {{productLists.totallike}}</p></div>-->
 					<img src="{{productLists.image}}" style="height:300px;width:300px;" class="ml-auto mr-auto d-block img-fluid">
 				</div>
 				<div class="row">
@@ -17,31 +17,33 @@
 						<div class="details-left">
 							<h4></h4>
 							<p class="text-secondary">{{productLists.brands}}/{{productLists.category}}({{productLists.gender}})</p>
-							<p><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)<a href="" class="d-inline-block pl-3" ng-if="productLists.seller_id!=user_id">Write a review</a></p>
+							<!--<p><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)<a href="" class="d-inline-block pl-3" ng-if="productLists.seller_id!=user_id">Write a review</a></p>-->
 							<hr>
 							<h5>Product Description</h5>
                                                        
 							<p>{{productLists.description}}</p>
 							
-							<hr>
-                                                        <h5>Product Bracelet Type</h5>
-                                                       
-							<p>{{productLists.breslet_type}}</p>
-							<hr>
-                                                        <h5>Product Model Year</h5>
-                                                       
-							<p>{{productLists.model_year}}</p>
+							
+              
+                                                    <h5>Product Bracelet Type</h5>
+
+                                                    <p ng-if="productLists.breslet_type == 'L'">Leather</p>
+                                                    <p ng-if="productLists.breslet_type == 'M'">Metal</p>
+
+                                                    <hr>
+
+                                                    <h5>Product Size</h5>
+
+                                                    <p>{{productLists.size}}</p>
 							<hr>
 							<div class="row">
 								<div class="col-sm-6 col-6 py-1">
 									<h4 class="m-0">{{productLists.currency_code}} {{productLists.price}} </h4><br>
-									<h5>Auction Date</h5>
-							<p>{{productLists.preferred_date}}</p>
-								
+																	
 								</div>
 								<div class="col-sm-6 col-6 py-1">
 									<ul class="like-links list-unstyled p-0 float-right m-0">
-										<li class="d-inline-block mr-2"><a href="" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>
+										<!--<li class="d-inline-block mr-2"><a href="" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>-->
 										<li class="d-inline-block mr-2"><a ng-if="current_user_login=='1' && current_user_type=='1' && quantity!='0'" ng-click="addTocart(productLists.id,productLists.cartquantity)" class="d-block rounded-circle"><i class="ion-android-cart"></i></a></li>
                                                                                 <li class="d-inline-block mr-2"><a ng-if="current_user_login!='1'  && quantity!='0'" ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-android-cart"></i></a></li>
 										<li class="d-inline-block"><a ng-if="current_user_login=='1' && current_user_type=='1'" ng-click="addwishlist(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
@@ -51,7 +53,7 @@
 							</div>
 							<hr>
 							
-							<p class="mb-4" ng-if="productLists.seller_id!=user_id"><a href="" class="btn btn-primary">I am Interested</a></p>
+							
 						</div>
 					</div>
 					<div class="col-lg-3 col-md-4 col-sm-4">
@@ -59,18 +61,18 @@
 						<div class="seller-info p-3 border-secondary border rounded mb-3"  ng-if="productLists.seller_id!=user_id">
 							<h6>Seller Info:</h6>
 							<p class="mb-1">{{productLists.seller_name}}</p>
-							<p class="text-secondary mb-0"><i class="fa fa-map-marker"></i> {{productLists.seller_address}}</p>
-							<p class="text-secondary mb-2"><i class="fa fa-phone"></i> {{productLists.seller_address}}</p>
+							<p class="text-secondary mb-0" ng-if="productLists.location"><i class="fa fa-map-marker"></i> {{productLists.location}}</p>
+							<p class="text-secondary mb-2"><i class="fa fa-phone"></i> {{productLists.owner_number}}</p>
 							<h5><b>{{productLists.currency_code}}{{productLists.price}} </b></h5>
-							<p class="text-success">{{productLists.quantity}}pcs. Available. </p>
-                                                        <p ng-if="productLists.quantity=='0'" class="text-success">Out of stock.</p>
+							
+                                                        
 							<hr>
 							<button type="button" class="btn btn-primary btn-block">Contact Seller</button>
                                                         
 						</div>
 					</div>
 				</div>
-                            <p class="mb-4"><a href="" class="btn btn-primary" ng-click="auctiondetail(user_id,productLists.id)" data-toggle="modal" data-target="#winner">Check Bidding Details</a></p>
+                            <p class="mb-4"></p>
 				<div class="row">
 					<div class="col-lg-12">
 						<div id="accordion" class="accordion mt-2">

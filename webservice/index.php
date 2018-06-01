@@ -1236,6 +1236,7 @@ function ProductsDetails() {
             'status_watch' => stripslashes($product->status_watch),
             'size' => stripslashes($product->size),
             'date_purchase' => stripslashes($product->date_purchase),
+            'owner_number' => stripslashes($product->owner_number),
         );
 
 
@@ -3221,7 +3222,7 @@ function ListNotification() {
                 "type" => stripslashes($notificationUserdetails->type),
                 "last_id" => stripslashes($notificationUserdetails->last_id),
                 "date" => stripslashes($datenoti[0]),
-                "dateformat" => date('dS M Y',strtotime($datenoti[0])),
+                "dateformat" => date('dS M Y', strtotime($datenoti[0])),
             );
         }
 
@@ -5955,9 +5956,10 @@ function ProductListSearch() {
     $country_id = isset($body->country_id) ? $body->country_id : '';
     $state_id = isset($body->state_id) ? $body->state_id : '';
     $city_id = isset($body->city_id) ? $body->city_id : '';
+    $keyword = isset($body->keyword) ? $body->keyword : '';
 
 //print_r($body);
-
+//-----------------------------------------------------------
     $productIds = array();
 
     if ($selected_value == '4') {
@@ -6013,9 +6015,13 @@ function ProductListSearch() {
 
 //spandan
 
-    if ($gender != '') {
+    if ($gender != '' && $keyword == '') {
 
         $sql .= " AND `gender`='" . $gender . "' ";
+    }
+    if ($gender != '' && $keyword != '') {
+
+        $sql .= " AND `gender`='" . $gender . "' OR `gender` LIKE '%" . $keyword . "%'";
     }
 
     if ($brand != '') {
@@ -6026,14 +6032,49 @@ function ProductListSearch() {
 
         $sql .= " AND `breslet_type` = '" . $breslettype . "'";
     }
-    if ($year != '') {
+
+    if ($year != '' && $keyword == '') {
 
         $sql .= " AND model_year = '" . $year . "'";
     }
-    if ($preferred_date != '') {
+    if ($keyword != '') {
+
+        $keywordbrand = "SELECT * FROM webshop_brands WHERE id ='$keyword' OR name='$keyword'";
+        $stmt2 = $db->prepare($keywordbrand);
+
+        $stmt2->execute();
+        $getkeywordbrand = $stmt2->fetchObject();
+        //print_r($getkeywordbrand->id);
+    }
+
+
+
+    if ($keyword != '') {
+
+        $sql .= " AND `model_year` LIKE '%" . $keyword . "%' OR `gender` LIKE '" . $keyword . "%' OR `preferred_date` LIKE '%" . $keyword . "%' OR `brands` LIKE '" . $getkeywordbrand->id . "' OR `name` LIKE '" . $keyword . "' OR `description` LIKE '" . $keyword . "' OR `price` LIKE '" . $keyword . "' OR `movement` LIKE '" . $keyword . "' OR `reference_number` LIKE '" . $keyword . "' OR `owner_number` LIKE '" . $keyword . "'";
+    }
+    // exit;
+    /* if ($year == '' && $keyword != '') {
+
+      $sql .= " AND `model_year` LIKE '%" . $keyword . "%'";
+      }
+      if ($year != '' && $keyword != '') {
+
+      $sql .= " AND model_year = '" . $year . "'OR `model_year` LIKE '%" . $keyword . "%'";
+      } */
+    //exit;
+    /* if ($preferred_date != '' && $keyword != '') {
+
+      $sql .= " AND preferred_date = '" . $preferred_date . "'OR `preferred_date` LIKE '%" . $keyword . "%'";
+      } */
+    if ($preferred_date != '' && $keyword == '') {
 
         $sql .= " AND preferred_date = '" . $preferred_date . "'";
     }
+    /* if ($preferred_date == '' && $keyword != '') {
+
+      $sql .= " OR  `preferred_date` LIKE '%" . $keyword . "%'";
+      } */
 
 
     if ($country_id != '') {
@@ -9398,8 +9439,6 @@ function getallproductimages() {
     $app->response->write(json_encode($data));
 }
 
-
-
 function updateProfile_app() {
 
     $data = array();
@@ -9472,7 +9511,7 @@ function updateProfile_app() {
 
         $stmt->execute();
 
-       
+
 
         $data['last_id'] = $user_id;
         $data['Ack'] = '1';
@@ -9491,9 +9530,6 @@ function updateProfile_app() {
 
     $app->response->write(json_encode($data));
 }
-
-
-
 
 $app->run();
 ?>
