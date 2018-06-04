@@ -68,11 +68,11 @@
                 </div>
                 <div class="col-sm-6 col-6 py-1">
                   <ul class="like-links list-unstyled p-0 float-right m-0">
-                    <li ng-if="user_id && productLists.userlike==0" class="d-inline-block mr-2"><a href="" ng-click="addlike(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>
-                                                                                <li ng-if="user_id && productLists.userlike==1" class="d-inline-block mr-2"><a href="" ng-click="addlike(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i style="color:red" class="ion-thumbsup"></i></a></li>
+                    <!--<li ng-if="user_id && productLists.userlike==0" class="d-inline-block mr-2"><a href="" ng-click="addlike(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>-->
+                                                                                <!--<li ng-if="user_id && productLists.userlike==1" class="d-inline-block mr-2"><a href="" ng-click="addlike(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i style="color:red" class="ion-thumbsup"></i></a></li>-->
                     <li ng-if="!user_id" class="d-inline-block mr-2"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>
 <!--                                                                                <li class="d-inline-block mr-2"><a ng-if="current_user_login!='1'  && quantity!='0'" ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-android-cart"></i></a></li>-->
-                    <li class="d-inline-block"><a ng-if="user_id && productLists.is_fav==0" ng-click="addwishlist(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
+                    <li class="d-inline-block"><a ng-if="user_id && productLists.is_fav==0" ng-click="addwishlist2(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
                                                                                 <li class="d-inline-block"><a ng-if="user_id && productLists.is_fav==1" ng-click="addwishlist(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i style="color:red" class="ion-heart"></i></a></li>
                                                                                <li ng-if="!user_id" class="d-inline-block"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
                   </ul>
@@ -82,7 +82,7 @@
               <div class="row">
                 <div class="col-sm-6">
                                                                     
-                  <p class="mb-4" ng-if="loader1 && productLists.interest==0"><a href="" class="btn btn-primary btn-block" ng-click="emailtothevendorinterest(productLists.seller_id,productLists.type)">I am Interested</a></p>
+                  <p class="mb-4" ng-if="loader1 && productLists.interest==0"><a href="" class="btn btn-primary btn-block" ng-click="emailtothevendorinterest(productLists.seller_id,productLists.type)">Show interest and contact seller .</a></p>
                                                                         <p class="mb-4" ng-if="user_id && loader1 && productLists.seller_id!=user_id && productLists.interest==1"><a href="" class="btn btn-primary btn-block" href="javascript:void(0)">Already interestd</a></p>
                 </div>
                 <div class="col-sm-6" ng-if="user_id && productLists.ctime > productLists.start_time">
@@ -123,6 +123,7 @@
               <p style="color:black" ng-if="productLists.date_purchase">Date of Purchased :{{productLists.date_purchase}}</p>
               <p style="color:black">Status of the watch :{{productLists.status_watch}}</p>
                                                         <p ng-if="productLists.quantity=='0'" class="text-success">Out of stock.</p>
+               <div ng-if="user_id && productLists.interest==1">       
               <hr>
                                                        
               <button ng-if="is_hide==0 && productLists.interest==1" type="button" ng-click="is_clicked()" class="btn btn-primary btn-block">Contact Seller</button>
@@ -143,10 +144,11 @@
                                                               </form>
                                                 </div>
 
-
+</div>
 <div ng-if="!loader" class="loader"></div>
 
             </div>
+            <div ng-if="user_id && productLists.interest==1">
             <hr>
             <h6 class="card-title">Reviews</h6>
                                                 <div class="reviews-holder">
@@ -184,7 +186,7 @@
             </div>
           </div>
         </div>
-        
+        </div>
       </div>
     </div>
   </section>

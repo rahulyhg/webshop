@@ -209,6 +209,23 @@
 							</div>
 							<a href ng-click="incrementLimit()">View All</a>	
 					   </div>
+                                                
+                                                <div class="filter-holder">					    
+							<a class="card-link" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne41">
+								Category
+							</a>
+							<div id="collapseOne41" class="collapse show" ng-init = "getcategory();">
+								 <div  ng-repeat="category in categorylist| limitTo: limit1">
+								<div class="form-check">
+								  <input class="form-check-input" type="checkbox" ng-model="category.Selected" ng-click="updatecheckboxcat(category.Selected,category.id)" ng-checked="user.category.indexOf(category.id)>=0" ng-true-value="'{{category.id.replace('\'', '\\\'')}}'" id="test{{category.id}}">
+								  <label class="form-check-label" for="test{{category.id}}">
+								    {{category.name}}
+								  </label>
+								</div>
+							</div>
+							</div>
+							<a href ng-click="incrementLimit1()">View All</a>	
+					   </div>
 					</div>
 				</div>
 				<div class="col-md-9">
