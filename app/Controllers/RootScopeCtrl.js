@@ -24,8 +24,10 @@ app.controller("RootScopeCtrl", function ($scope, $location, $rootScope, $http, 
     
     if($window.localStorage["keyword"]){
 	$scope.brandName=$window.localStorage["keyword"];
+        $window.localStorage["keyword"] ='';
 }else{
 	$scope.brandName='';
+        $window.localStorage["keyword"]='';
 }
     //alert($scope.lang);
     $scope.menuVisible = false;
@@ -403,7 +405,7 @@ $scope.forget = function(user) {
 if(brand){
     //$scope.keyword =brand;
     //alert(location.path());
-    $window.localStorage["keyword"]=brand;
+    $scope.keyword=brand;
     $state.go('frontend.productlisting');
      // $window.location.href = siteurl.'/searchListing';
     
