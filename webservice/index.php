@@ -1804,6 +1804,7 @@ function listmyProducts() {
         $data = array();
         $data['productList'] = array();
         $data['Ack'] = '0';
+        $data['msg'] = 'Sorry! No record found.';
         $app->response->setStatus(200);
     }
 
@@ -9558,7 +9559,10 @@ function updateProfile_app() {
     $app->response->write(json_encode($data));
 }
 
-/*function listcategory() {
+
+
+function addProductNew_app() {
+
 
     $data = array();
 
@@ -9567,35 +9571,683 @@ function updateProfile_app() {
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
 
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+//echo $user_id;exit;
+    $category = isset($body->cat_id) ? $body->cat_id : '';
+
+    $name = isset($body->name) ? $body->name : '';
+    $description = isset($body->description) ? $body->description : '';
+    $currency = isset($body->currency) ? $body->currency : '';
+    $price = isset($body->price) ? $body->price : '';
+    $quantity = isset($body->quantity) ? $body->quantity : '';
+    $brand = isset($body->brand) ? $body->brand : '';
+    $type = isset($body->type) ? $body->type : '';
+    $preferred_date2 = isset($body->preferred_date) ? $body->preferred_date : '';
+    $movement = isset($body->movement) ? $body->movement : '';
+    $gender = isset($body->gender) ? $body->gender : '';
+    $reference = isset($body->reference) ? $body->reference : '';
+    $date_of_purchase2 = isset($body->date_of_purchase) ? $body->date_of_purchase : '';
+    $status_watch = isset($body->status) ? $body->status : '';
+    $owner_number = isset($body->owner_number) ? $body->owner_number : '';
+    $country = isset($body->country) ? $body->country : '';
+    $size = isset($body->size) ? $body->size : '';
+    $location = isset($body->location) ? $body->location : '';
+    $work_hours = isset($body->work_hours) ? $body->work_hours : '';
+    $model_year = isset($body->model_year) ? $body->model_year : '';
+    $breslet_type = isset($body->breslet_type) ? $body->breslet_type : '';
+    $time_slot_id = isset($body->time_slot_id) ? $body->time_slot_id : '';
+
+    $state = isset($body->state) ? $body->state : '';
+    $city = isset($body->city) ? $body->city : '';
+    $get_status = '0';
+    $status = 0;
+    $quantity = 1;
+    $nextbidprice = $price;
+// $baseauctionprice = isset($body["baseauctionprice"]) ? $body["baseauctionprice"] : '';
+//$thresholdprice = isset($body["thresholdprice"]) ? $body["thresholdprice"] : '';
+
+    /* conversion of date format starts */
+
+    $date_of_purchase1 = str_replace('/', '-', $date_of_purchase2);
+    $date_of_purchase = date('Y-m-d', strtotime($date_of_purchase1 . "+1 days"));
+    $preferred_date1 = str_replace('/', '-', $preferred_date2);
+
+    $preferred_date = $preferred_date2;
+
+    /* conversion of date format ends */
+
+    $date = date("Y-m-d");
+
     $db = getConnection();
 
-    try {
 
-        $sql = "SELECT * from webshop_category";
-        $stmt = $db->prepare($sql);
-        $stmt->execute();
-        $getBrand = $stmt->fetchAll(PDO::FETCH_OBJ);
+    $sqlsubscription = "SELECT ws.id as sid,wu.id,wu.type,ws.expiry_date,wu.slot_no FROM webshop_subscribers as ws inner join webshop_user as wu on wu.id=ws.user_id where ws.user_id=:user_id order by ws.id desc limit 1";
+    $stmt = $db->prepare($sqlsubscription);
+    $stmt->bindParam("user_id", $user_id);
+    $stmt->execute();
+    $getUserDetails = $stmt->fetchObject();
+    $getUserDetailscount = $stmt->rowCount();
 
-        foreach ($getBrand as $brand) {
+    $sqltype = "SELECT * from webshop_user where id=:user_id";
+    $stmtty = $db->prepare($sqltype);
+    $stmtty->bindParam("user_id", $user_id);
+    $stmtty->execute();
+    $gettype = $stmtty->fetchObject();
 
-            $allbrand[] = array(
-                "id" => stripslashes($brand->id),
-                "name" => stripslashes($brand->name)
-            );
+
+
+    if ($gettype->type == 2) {
+        if ($type == '1') {
+            if ($getUserDetailscount > 0) {
+                if ($getUserDetails->expiry_date >= $date) {
+                    if ($getUserDetails->slot_no > 0) {
+
+                        $sid = $getUserDetails->sid;
+
+
+                        $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,status,size,location,work_hours,subscription_id,state,city,approved,breslet_type,model_year) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:status,:size,:location,:work_hours,:subscription_id,:state,:city,:approved,:breslet_type,:model_year)";
+
+
+
+                        $sqlcheckcertifieduser = "SELECT * FROM webshop_user WHERE id =:user_id AND top_user_vendor='1'";
+// $db = getConnection();
+                        $stmtcheck = $db->prepare($sqlcheckcertifieduser);
+                        $stmtcheck->bindParam("user_id", $user_id);
+                        $stmtcheck->execute();
+                        $count = $stmtcheck->rowCount();
+
+                        $approved = "0";
+
+                        if ($count > 0) {
+                            $approved = "1";
+//
+                        }
+
+                        $get_status = "1";
+
+                        try {
+
+                            $db = getConnection();
+                            $stmt = $db->prepare($sql);
+
+                            $stmt->bindParam("user_id", $user_id);
+                            $stmt->bindParam("cat_id", $category);
+                            $stmt->bindParam("name", $brand);
+                            $stmt->bindParam("description", $description);
+                            $stmt->bindParam("currency_code", $currency);
+                            $stmt->bindParam("type", $type);
+                            $stmt->bindParam("price", $price);
+                            $stmt->bindParam("quantity", $quantity);
+                            $stmt->bindParam("add_date", $date);
+                            $stmt->bindParam("brand", $brand);
+                            $stmt->bindParam("movement", $movement);
+                            $stmt->bindParam("gender", $gender);
+                            $stmt->bindParam("reference_number", $reference);
+                            $stmt->bindParam("date_purchase", $date_of_purchase);
+                            $stmt->bindParam("status_watch", $status_watch);
+                            $stmt->bindParam("owner_number", $owner_number);
+                            $stmt->bindParam("country", $country);
+                            $stmt->bindParam("size", $size);
+                            $stmt->bindParam("subscription_id", $sid);
+                            $stmt->bindParam("state", $state);
+                            $stmt->bindParam("city", $city);
+                            $stmt->bindParam("location", $location);
+                            $stmt->bindParam("work_hours", $work_hours);
+                            $stmt->bindParam("status", $get_status);
+                            $stmt->bindParam("approved", $approved);
+                            $stmt->bindParam("breslet_type", $breslet_type);
+                            $stmt->bindParam("model_year", $model_year);
+                            $stmt->execute();
+                            $lastID = $db->lastInsertId();
+
+                            $rest_slot = (($getUserDetails->slot_no) - 1);
+                            $sqlslotupdate = "UPDATE webshop_user SET slot_no=:slot WHERE id=:user_id";
+                            $stmtslot = $db->prepare($sqlslotupdate);
+                            $stmtslot->bindParam("slot", $rest_slot);
+                            $stmtslot->bindParam("user_id", $user_id);
+                            $stmtslot->execute();
+
+
+
+                            if (!empty($_FILES['image'])) {
+
+//print_r($_FILES['image']);exit;
+                                foreach ($_FILES['image']['name'] as $key1 => $file) {
+
+
+
+                                    if ($_FILES['image']['tmp_name'][$key1] != '') {
+
+                                        $target_path = "../upload/product_image/";
+
+                                        $userfile_name = $_FILES['image']['name'][$key1];
+
+                                        $userfile_tmp = $_FILES['image']['tmp_name'][$key1];
+
+
+                                        $img = $target_path . $userfile_name;
+                                        move_uploaded_file($userfile_tmp, $img);
+
+                                        $sql = "INSERT INTO webshop_product_image (image,product_id) VALUES (:image,:product_id)";
+
+                                        $stmt = $db->prepare($sql);
+                                        $stmt->bindParam("image", $userfile_name);
+                                        $stmt->bindParam("product_id", $lastID);
+                                        $stmt->execute();
+
+
+                                        $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
+                                        $stmt1 = $db->prepare($sqlimg);
+                                        $stmt1->bindParam("image", $_FILES['image']['name'][0]);
+                                        $stmt1->execute();
+                                    }
+                                }
+                            }
+
+                            $sqladmin = "SELECT * FROM webshop_tbladmin WHERE id=1";
+
+                            $stmtttadmin = $db->prepare($sqladmin);
+                            $stmtttadmin->execute();
+                            $getadmin = $stmtttadmin->fetchObject();
+                            if ($getadmin->product_upload_notification == 1) {
+                                $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
+
+                                $is_read = '0';
+                                $last_id = '0';
+                                $from_id = '0';
+                                $message = 'New Product added';
+//$type = '2';
+                                $stmttt = $db->prepare($sqlFriend);
+                                $stmttt->bindParam("from_id", $user_id);
+                                $stmttt->bindParam("to_id", $from_id);
+                                $stmttt->bindParam("type", $type);
+                                $stmttt->bindParam("msg", $message);
+
+                                $stmttt->bindParam("last_id", $last_id);
+                                $stmttt->bindParam("is_read", $is_read);
+                                $stmttt->execute();
+                            }
+
+                            $data['Ack'] = 1;
+                            $data['msg'] = 'Product added successfully.';
+                            $data['type'] = $type;
+                            $data['utype'] = 2;
+
+                            $app->response->setStatus(200);
+                            $db = null;
+                        } catch (PDOException $e) {
+                            $data['user_id'] = '';
+                            $data['Ack'] = 0;
+                            $data['msg'] = 'error';
+                            $app->response->setStatus(401);
+                        }
+                    } else {
+                        $data['Ack'] = 0;
+                        $data['msg'] = 'You have no slot to post this. Please subscribe our package to get this benifit.';
+                        $app->response->setStatus(200);
+                    }
+                } else {
+                    $data['Ack'] = 0;
+                    $data['msg'] = 'You have no active subscription. Please subscribe our package to get this benifit.';
+                    $app->response->setStatus(200);
+                }
+            } else {
+                $data['Ack'] = 0;
+                $data['msg'] = 'You have no subscription. Please subscribe our package to get this benifit.';
+                $app->response->setStatus(200);
+            }
+        } else {
+
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city)";
+
+
+
+            try {
+
+                $db = getConnection();
+                $stmt = $db->prepare($sql);
+
+                $stmt->bindParam("user_id", $user_id);
+                $stmt->bindParam("cat_id", $category);
+                $stmt->bindParam("name", $brand);
+                $stmt->bindParam("description", $description);
+                $stmt->bindParam("currency_code", $currency);
+                $stmt->bindParam("type", $type);
+                $stmt->bindParam("price", $price);
+                $stmt->bindParam("quantity", $quantity);
+                $stmt->bindParam("add_date", $date);
+                $stmt->bindParam("brand", $brand);
+                $stmt->bindParam("movement", $movement);
+                $stmt->bindParam("gender", $gender);
+                $stmt->bindParam("reference_number", $reference);
+                $stmt->bindParam("date_purchase", $date_of_purchase);
+                $stmt->bindParam("status_watch", $status_watch);
+                $stmt->bindParam("owner_number", $owner_number);
+                $stmt->bindParam("country", $country);
+                $stmt->bindParam("size", $size);
+
+                $stmt->bindParam("preferred_date", $preferred_date);
+                $stmt->bindParam("breslet_type", $breslet_type);
+                $stmt->bindParam("model_year", $model_year);
+                $stmt->bindParam("time_slot_id", $time_slot_id);
+                $stmt->bindParam("thresholdprice", $price);
+                $stmt->bindParam("state", $state);
+                $stmt->bindParam("city", $city);
+
+                $stmt->bindParam("location", $location);
+                $stmt->bindParam("work_hours", $work_hours);
+                $stmt->bindParam("status", $get_status);
+                $stmt->execute();
+
+                $lastID = $db->lastInsertId();
+
+
+
+
+                /*  if (!empty($_FILES['image'])) {
+
+                  if ($_FILES['image']['tmp_name'] != '') {
+
+                  $target_path = "../upload/product_image/";
+
+                  $userfile_name = $_FILES['image']['name'];
+
+                  $userfile_tmp = $_FILES['image']['tmp_name'];
+
+                  $img = $target_path . $userfile_name;
+
+                  move_uploaded_file($userfile_tmp, $img);
+
+                  $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
+
+                  $stmt1 = $db->prepare($sqlimg);
+                  $stmt1->bindParam("image", $userfile_name);
+                  $stmt1->execute();
+                  }
+                  } */
+
+                if (!empty($_FILES['image'])) {
+
+//print_r($_FILES['image']);exit;
+                    foreach ($_FILES['image']['name'] as $key1 => $file) {
+
+
+
+                        if ($_FILES['image']['tmp_name'][$key1] != '') {
+
+                            $target_path = "../upload/product_image/";
+
+                            $userfile_name = $_FILES['image']['name'][$key1];
+
+                            $userfile_tmp = $_FILES['image']['tmp_name'][$key1];
+
+
+                            $img = $target_path . $userfile_name;
+                            move_uploaded_file($userfile_tmp, $img);
+
+                            $sql = "INSERT INTO webshop_product_image (image,product_id) VALUES (:image,:product_id)";
+
+                            $stmt = $db->prepare($sql);
+                            $stmt->bindParam("image", $userfile_name);
+                            $stmt->bindParam("product_id", $lastID);
+                            $stmt->execute();
+
+
+                            $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
+                            $stmt1 = $db->prepare($sqlimg);
+                            $stmt1->bindParam("image", $_FILES['image']['name'][0]);
+                            $stmt1->execute();
+                        }
+                    }
+                }
+                $sqladmin = "SELECT * FROM webshop_tbladmin WHERE id=1";
+
+                $stmtttadmin = $db->prepare($sqladmin);
+                $stmtttadmin->execute();
+                $getadmin = $stmtttadmin->fetchObject();
+                if ($getadmin->auction_notification == 1) {
+                    $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
+
+                    $is_read = '0';
+                    $last_id = '0';
+                    $from_id = '0';
+                    $message = 'New auction added';
+//$type = '2';
+                    $stmttt = $db->prepare($sqlFriend);
+                    $stmttt->bindParam("from_id", $user_id);
+                    $stmttt->bindParam("to_id", $from_id);
+                    $stmttt->bindParam("type", $type);
+                    $stmttt->bindParam("msg", $message);
+
+                    $stmttt->bindParam("last_id", $last_id);
+                    $stmttt->bindParam("is_read", $is_read);
+                    $stmttt->execute();
+                }
+
+                $data['Ack'] = 1;
+                $data['msg'] = 'Auction added successfully.';
+                $data['type'] = $type;
+                $data['utype'] = 2;
+                $app->response->setStatus(200);
+                $db = null;
+            } catch (PDOException $e) {
+                $data['user_id'] = '';
+                $data['Ack'] = 0;
+                $data['msg'] = 'error';
+                $app->response->setStatus(401);
+            }
         }
+    } else {
 
-        $data['categorylist'] = $allbrand;
-        $data['Ack'] = '1';
-        $app->response->setStatus(200);
-    } catch (PDOException $e) {
+        if ($type == '1') {
 
-        $data['Ack'] = 0;
-        $data['msg'] = $e->getMessage();
-        $app->response->setStatus(401);
+
+            $sqladminfree_no = "SELECT * FROM webshop_sitesettings WHERE id =1 ";
+            $db = getConnection();
+            $stmtfreeno = $db->prepare($sqladminfree_no);
+            $stmtfreeno->execute();
+            $getfree_no = $stmtfreeno->fetchObject();
+            $free_no = $getfree_no->free_bid;
+
+            $sqluserpay_product = "SELECT * FROM webshop_products WHERE uploader_id=:user_id and type=1 and status=1 and user_free_product='P'";
+            $db = getConnection();
+            $stmtpayno = $db->prepare($sqluserpay_product);
+            $stmtpayno->bindParam("user_id", $user_id);
+            $stmtpayno->execute();
+            $pcount = $stmtpayno->rowCount();
+
+
+
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,location,work_hours,approved,state,city,status,breslet_type,model_year) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:location,:work_hours,:approved,:state,:city,:status,:breslet_type,:model_year)";
+
+
+
+
+            $sqlcheckcertifieduser = "SELECT * FROM webshop_user WHERE id =:user_id AND top_user_vendor='1'";
+            $db = getConnection();
+            $stmtcheck = $db->prepare($sqlcheckcertifieduser);
+            $stmtcheck->bindParam("user_id", $user_id);
+            $stmtcheck->execute();
+            $count = $stmtcheck->rowCount();
+
+
+            if ($pcount == $free_no) {
+
+                $payment_status = "1";
+            } else {
+
+                $payment_status = "0";
+            }
+
+            if ($count > 0) {
+                $get_status = "1";
+            } else {
+
+                $get_status = "0";
+            }
+
+            if ($count > 0) {
+                $certified_user = "1";
+            } else {
+
+                $certified_user = "0";
+            }
+
+            try {
+
+                $db = getConnection();
+                $stmt = $db->prepare($sql);
+
+                $stmt->bindParam("user_id", $user_id);
+                $stmt->bindParam("cat_id", $category);
+                $stmt->bindParam("name", $brand);
+                $stmt->bindParam("description", $description);
+                $stmt->bindParam("currency_code", $currency);
+                $stmt->bindParam("type", $type);
+                $stmt->bindParam("price", $price);
+                $stmt->bindParam("quantity", $quantity);
+                $stmt->bindParam("add_date", $date);
+                $stmt->bindParam("brand", $brand);
+                $stmt->bindParam("movement", $movement);
+                $stmt->bindParam("gender", $gender);
+                $stmt->bindParam("reference_number", $reference);
+                $stmt->bindParam("date_purchase", $date_of_purchase);
+                $stmt->bindParam("status_watch", $status_watch);
+                $stmt->bindParam("owner_number", $owner_number);
+                $stmt->bindParam("country", $country);
+                $stmt->bindParam("size", $size);
+                $stmt->bindParam("state", $state);
+                $stmt->bindParam("city", $city);
+                $stmt->bindParam("breslet_type", $breslet_type);
+                $stmt->bindParam("model_year", $model_year);
+
+                $stmt->bindParam("location", $location);
+                $stmt->bindParam("work_hours", $work_hours);
+                $stmt->bindParam("approved", $get_status);
+                $stmt->bindParam("status", $payment_status);
+                $stmt->execute();
+                $lastID = $db->lastInsertId();
+
+
+
+                if (!empty($_FILES['image'])) {
+
+//print_r($_FILES['image']);exit;
+                    foreach ($_FILES['image']['name'] as $key1 => $file) {
+
+                        if ($_FILES['image']['tmp_name'][$key1] != '') {
+
+                            $target_path = "../upload/product_image/";
+
+                            $userfile_name = $_FILES['image']['name'][$key1];
+
+                            $userfile_tmp = $_FILES['image']['tmp_name'][$key1];
+
+
+                            $img = $target_path . $userfile_name;
+                            move_uploaded_file($userfile_tmp, $img);
+
+                            $sql = "INSERT INTO webshop_product_image (image,product_id) VALUES (:image,:product_id)";
+
+                            $stmt = $db->prepare($sql);
+                            $stmt->bindParam("image", $userfile_name);
+                            $stmt->bindParam("product_id", $lastID);
+                            $stmt->execute();
+
+                            $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
+                            $stmt1 = $db->prepare($sqlimg);
+                            $stmt1->bindParam("image", $_FILES['image']['name'][0]);
+                            $stmt1->execute();
+                        }
+                    }
+                }
+
+                if ($payment_status == 1) {
+
+                    $sqlupdatefree = "UPDATE webshop_products SET user_free_product='F' WHERE type=1 and status=1 and uploader_id=$user_id ";
+                    $stmtupdatefree = $db->prepare($sqlupdatefree);
+                    $stmtupdatefree->execute();
+                }
+
+
+
+                if ($payment_status == 0) {
+                    if ($certified_user == 1) {
+                        $data['Ack'] = 1;
+                        $data['msg'] = 'Product added successfully. To get product live please make payment.';
+                        $data['type'] = $type;
+                        $data['utype'] = 1;
+                        $data['lastid'] = $lastID;
+                        $data['certified_user'] = $certified_user;
+                        $app->response->setStatus(200);
+                        $db = null;
+                    } else {
+
+                        $data['Ack'] = 1;
+                        $data['msg'] = 'Product added successfully. Wait for admin approval to pay and live this product.';
+                        $data['type'] = $type;
+                        $data['utype'] = 1;
+                        $data['lastid'] = $lastID;
+                        $data['certified_user'] = $certified_user;
+                    }
+                } else {
+
+                    $data['Ack'] = 1;
+                    $data['msg'] = 'Congrats Product added successfully. It Was free.';
+                    $data['type'] = $type;
+                    $data['lastid'] = $lastID;
+                }
+            } catch (PDOException $e) {
+                $data['user_id'] = '';
+                $data['Ack'] = 0;
+                $data['msg'] = 'error';
+                $app->response->setStatus(401);
+            }
+        } else {
+
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city)";
+
+
+
+            try {
+
+                $db = getConnection();
+                $stmt = $db->prepare($sql);
+
+                $stmt->bindParam("user_id", $user_id);
+                $stmt->bindParam("cat_id", $category);
+//$stmt->bindParam("subcat_id", $subcategory);
+                $stmt->bindParam("name", $brand);
+                $stmt->bindParam("description", $description);
+                $stmt->bindParam("currency_code", $currency);
+                $stmt->bindParam("type", $type);
+                $stmt->bindParam("price", $price);
+                $stmt->bindParam("quantity", $quantity);
+                $stmt->bindParam("add_date", $date);
+                $stmt->bindParam("brand", $brand);
+                $stmt->bindParam("movement", $movement);
+                $stmt->bindParam("gender", $gender);
+                $stmt->bindParam("reference_number", $reference);
+                $stmt->bindParam("date_purchase", $date_of_purchase);
+                $stmt->bindParam("status_watch", $status_watch);
+                $stmt->bindParam("owner_number", $owner_number);
+                $stmt->bindParam("country", $country);
+                $stmt->bindParam("size", $size);
+
+
+
+                $stmt->bindParam("preferred_date", $preferred_date);
+                $stmt->bindParam("breslet_type", $breslet_type);
+                $stmt->bindParam("model_year", $model_year);
+                $stmt->bindParam("time_slot_id", $time_slot_id);
+                $stmt->bindParam("thresholdprice", $price);
+                $stmt->bindParam("state", $state);
+                $stmt->bindParam("city", $city);
+
+                $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
+
+                $is_read = '0';
+                $last_id = '0';
+                $from_id = '0';
+                $message = 'New auction added';
+//$type = '2';
+                $stmttt = $db->prepare($sqlFriend);
+                $stmttt->bindParam("from_id", $user_id);
+                $stmttt->bindParam("to_id", $from_id);
+                $stmttt->bindParam("type", $type);
+                $stmttt->bindParam("msg", $message);
+
+                $stmttt->bindParam("last_id", $last_id);
+                $stmttt->bindParam("is_read", $is_read);
+                $stmttt->execute();
+
+
+                $stmt->bindParam("location", $location);
+                $stmt->bindParam("work_hours", $work_hours);
+                $stmt->bindParam("status", $get_status);
+                $stmt->execute();
+
+                $lastID = $db->lastInsertId();
+
+
+
+
+                /* if (!empty($_FILES['image'])) {
+
+                  if ($_FILES['image']['tmp_name'] != '') {
+
+                  $target_path = "../upload/product_image/";
+
+                  $userfile_name = $_FILES['image']['name'];
+
+                  $userfile_tmp = $_FILES['image']['tmp_name'];
+
+
+                  $img = $target_path . $userfile_name;
+                  move_uploaded_file($userfile_tmp, $img);
+
+
+                  $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
+
+                  $stmt1 = $db->prepare($sqlimg);
+                  $stmt1->bindParam("image", $userfile_name);
+                  $stmt1->execute();
+                  }
+                  } */
+                if (!empty($_FILES['image'])) {
+
+//print_r($_FILES['image']);exit;
+                    foreach ($_FILES['image']['name'] as $key1 => $file) {
+
+                        if ($_FILES['image']['tmp_name'][$key1] != '') {
+
+                            $target_path = "../upload/product_image/";
+
+                            $userfile_name = $_FILES['image']['name'][$key1];
+
+                            $userfile_tmp = $_FILES['image']['tmp_name'][$key1];
+
+
+                            $img = $target_path . $userfile_name;
+                            move_uploaded_file($userfile_tmp, $img);
+
+                            $sql = "INSERT INTO webshop_product_image (image,product_id) VALUES (:image,:product_id)";
+
+                            $stmt = $db->prepare($sql);
+                            $stmt->bindParam("image", $userfile_name);
+                            $stmt->bindParam("product_id", $lastID);
+                            $stmt->execute();
+
+                            $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
+                            $stmt1 = $db->prepare($sqlimg);
+                            $stmt1->bindParam("image", $_FILES['image']['name'][0]);
+                            $stmt1->execute();
+                        }
+                    }
+                }
+
+                $data['Ack'] = 1;
+                $data['msg'] = 'Auction added successfully.';
+                $data['type'] = $type;
+                $data['utype'] = 1;
+                $app->response->setStatus(200);
+                $db = null;
+            } catch (PDOException $e) {
+                $data['user_id'] = '';
+                $data['Ack'] = 0;
+                $data['msg'] = 'error';
+                $app->response->setStatus(401);
+            }
+        }
     }
 
+
     $app->response->write(json_encode($data));
-}*/
+}
+
+
+
 
 $app->run();
 ?>
