@@ -10,7 +10,7 @@
 							<div class="col-lg-7 col-md-12">
 								<form name="addProductForm" ng-submit="addProductForm.$valid && addProduct(user2)" novalidate>
 									 <div class="form-group">
-										<label for="staticEmail"> Movement</label>
+										<label for="staticEmail"> Movement*</label>
                                                                                 <select class="form-control" name="movement" ng-model="user2.movement"  required>
                                                                                     <option value="" selected>Please choose a movement</option>
                                                                                     <option value="Automatic Movement">Automatic</option>
@@ -24,7 +24,7 @@
 
 									 
             <div class="form-group">                                                        
-                <label for="staticEmail">{{language.gender}}</label>                                                  <div class="row m-0">    
+                <label for="staticEmail">{{language.gender}}*</label>                                                  <div class="row m-0">    
          <div class="custom-control custom-radio col-sm-4">
             <input type="radio" id="customRadio1" name="gender" class="custom-control-input" value="Male" ng-model="user2.gender" required>
             <label class="custom-control-label" for="customRadio1">{{language.male}}</label>
@@ -56,14 +56,14 @@
 									</div>-->
                                                                     
                                      <div class="form-group">
-										<label for="staticEmail"> Reference Number</label>
-										<input type="text" class="form-control" id="" ng-pattern="/^[0-9]/" value="" ng-model="user2.reference" name="reference" required>
+										<label for="staticEmail"> Reference Code*</label>
+										<input type="text" class="form-control"  value="" ng-model="user2.reference" name="reference" required>
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.reference.$error.required"> This Field Is Required! </span>
                                                                                
-                                                                                <span style="color:Red" ng-show="addProductForm.reference.$dirty && addProductForm.reference.$error.pattern">Only Number Allowed</span>
+<!--                                                                                <span style="color:Red" ng-show="addProductForm.reference.$dirty && addProductForm.reference.$error.pattern">Only Number Allowed</span>-->
 									</div>
 									<div class="form-group">
-										<label for="staticEmail">Date of Purchased(optional)</label>
+										<label for="staticEmail">Date of Purchased</label>
 										<input type="date" class="form-control" max="{{preferred_date}}" id="" value="" placeholder="" ng-model="user2.date_of_purchase" name="date_of_purchase">
                                                                                 
                                                                                 
@@ -71,7 +71,7 @@
 									</div>
                                                                     
                                                                     <div class="form-group">
-										<label for="staticEmail"> Status of the watch</label>
+										<label for="staticEmail"> Status of the watch*</label>
                                                                                 
 										<select class="form-control" name="status" ng-model="user2.status"  required>
 											<option  ng-repeat="status_list in statuslist" value="{{status_list.name}}">{{status_list.name}}</option>
@@ -88,14 +88,14 @@
 									</div>-->
 									
 									<div class="form-group">
-										<label for="staticEmail">Owner Number</label>
-                                       <input type="text" class="form-control" id=""  ng-model="user2.owner_number" ng-pattern="/^[0-9]/" name="owner_number" required>
+										<label for="staticEmail">Owner Number*</label>
+                                       <input type="number" class="form-control" id=""  ng-model="user2.owner_number" ng-pattern="/^[0-9]/" name="owner_number" min="0" required>
                                        <span style="color:Red" ng-show="submitted && addProductForm.owner_number.$error.required"> This Field Is Required! </span>
                                                                                 
                                                                                 <span style="color:Red" ng-show="addProductForm.owner_number.$dirty && addProductForm.owner_number.$error.pattern">Only Number Allowed</span>
 									</div>
                                                                     <div class="form-group">
-										<label for="staticEmail">Country</label>
+										<label for="staticEmail">Country*</label>
                                                                                 
 										<select class="form-control" name="country" ng-model="user2.country" ng-change="state(user2.country)" required>
 											<option  ng-repeat="country_list in countrylist" value="{{country_list.id}}">{{country_list.name}}</option>
@@ -107,7 +107,7 @@
 
 
                                                                         <div class="form-group">
-										<label for="staticEmail">State</label>
+										<label for="staticEmail">State*</label>
                                                                                 
 										<select class="form-control" name="state" ng-model="user2.state" ng-change="city(user2.state)" required>
 											<option  ng-repeat="statelists in statelist" value="{{statelists.id}}">{{statelists.name}}</option>
@@ -116,7 +116,7 @@
 									</div>
 
                                                                         <div class="form-group">
-										<label for="staticEmail">City</label>
+										<label for="staticEmail">City*</label>
                                                                                 
 										<select class="form-control" name="city" ng-model="user2.city"  required>
 											<option  ng-repeat="citylists in citylist" value="{{citylists.id}}">{{citylists.name}}</option>
@@ -139,7 +139,7 @@
                                                                                 <span style="color:Red" ng-show="addProductForm.country.$dirty && addProductForm.country.$error.pattern">Only Letters Allowed</span>
 									</div>-->
                                                                     <div class="form-group">
-										<label for="staticEmail">Size</label>
+										<label for="staticEmail">Size*</label>
 										<input type="text" class="form-control" id="" value="" ng-pattern="/^[0-9]/" placeholder="" ng-model="user2.size" name="size" required>
                                                                                     <span style="color:Red" ng-show="submitted && addProductForm.size.$error.required">This Field Is Required! </span>                                                                          
                                                                                 <span style="color:Red" ng-show="addProductForm.size.$dirty && addProductForm.size.$error.pattern">Only Number Allowed</span>
@@ -155,20 +155,20 @@
 										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user2.thresholdprice" name="thresholdprice" required>
 									</div>-->
 									 <div class="form-group">
-										<label for="staticEmail">Location(optional)</label>
+										<label for="staticEmail">Location</label>
 										<input type="text" class="form-control" id="" value="" placeholder="" ng-pattern="/^[a-z A-Z]+$/" ng-model="user2.location" name="location" >
                                                                                 
                                                                                 <span style="color:Red" ng-show="addProductForm.location.$dirty && addProductForm.location.$error.pattern">Only Letters Allowed</span>
 									</div>
 
 									<div class="form-group">
-										<label for="staticEmail">Work Hours(optional)</label>
+										<label for="staticEmail">Work Hours</label>
 										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user2.work_hours"  name="work_hours">
                                                                                 
                                                                                <!-- <span style="color:Red" ng-show="addProductForm.work_hours.$dirty && addProductForm.work_hours.$error.pattern">Only Letters Allowed</span>-->
 									</div>
 
-									   <label>Upload the image</label>
+									   <label>Upload the image*</label>
 
                                                                            <div>
 									   <div class="form-group">

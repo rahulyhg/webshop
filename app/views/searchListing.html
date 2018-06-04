@@ -284,8 +284,8 @@
 							    <label for="inputPassword6">Sort By </label>							    
 							    <select class="custom-select form-control mx-sm-3" id="inputGroupSelect01" ng-model="drpmodel" ng-change="cobchange()">
 								    <option value="0" selected="selected">Relevance</option>
-								    <option value="1">Price:low to high</option>
-								    <option value="2">Price:high to low</option>
+								    <option value="1">Price low to high</option>
+								    <option value="2">Price high to low</option>
 								    <option value="3">Newest</option>
 								    <option value="4">Popularity</option>
 								 </select>		
@@ -304,9 +304,11 @@
 								  <div class="card-body">
 								    <!--<h5 class="card-title">{{productLists.productname}}</h5>-->
 								    <p class="card-text"><span>Seller:</span> {{productLists.seller_name}}</p>
+                                                                    <p class="card-text"><span>Brand</span> {{productLists.brand_name}}</p>
+                                                                    <p class="card-text"><span>Category</span> {{productLists.category_name}}</p>
 								    <ul>
-										<li><img src="app/assets/images/check.png" alt="" /><b>${{productLists.price}}</b></li>
-										<li><img src="app/assets/images/badge.png" alt="" />Trusted Seller since 2016</li>
+										<li><img src="app/assets/images/check.png" alt="" /><b>{{productLists.currency}} {{productLists.price}}</b></li>
+<!--										<li><img src="app/assets/images/badge.png" alt="" />Trusted Seller since 2016</li>-->
 									</ul>
 								    <a href="#/productDetails/{{productLists.id}}" class="btn btn-primary">Show Interest</a>
 								  </div>
