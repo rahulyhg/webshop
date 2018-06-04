@@ -648,11 +648,11 @@ reject(response);
     };  
   
 
-    var searchListing = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,preferred_date,country_id,state_id,city_id) {
+    var searchListing = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,preferred_date,country_id,state_id,city_id,categorylisting) {
     return $q(function(resolve, reject) {
         
         //var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'"}';
-        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","preferred_date":"'+preferred_date+'","country_id":"'+country_id+'","state_id":"'+state_id+'","city_id":"'+city_id+'"}';
+        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","preferred_date":"'+preferred_date+'","country_id":"'+country_id+'","state_id":"'+state_id+'","city_id":"'+city_id+'","categorylisting":"'+categorylisting+'"}';
          console.log(encodedString);
          //return false;
 //var encodedString ='{"user_id":"'+ userInfo.user_id +'","name":"'+ user.name +'","description":"'+ user.description +'","email":"'+ user.email +'","phone":"'+ user.phone +'","price":"'+ user.price +'","address":"'+ user.address +'","sundaytime":"'+ user.sundaytime +'","mondaytime":"'+ user.mondaytime +'","tuesdaytime":"'+ user.tuesdaytime +'","wednesdaytime":"'+ user.wednesdaytime +'","thursdaytime":"'+ user.thursdaytime +'","fridaytime":"'+ user.fridaytime +'","saturdaytime":"'+ user.saturdaytime +'"}';
@@ -3962,18 +3962,18 @@ var registernewsletter = function(email) {
     
 };
 
-var searchproductListing = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,country_id,state_id,city_id,keyword) {
+var searchproductListing = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,country_id,state_id,city_id,keyword,category) {
     return $q(function(resolve, reject) {
         
         //var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'"}';
-        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","country_id":"'+country_id+'","state_id":"'+state_id+'","city_id":"'+city_id+'","keyword":"'+keyword+'"}';
+        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","country_id":"'+country_id+'","state_id":"'+state_id+'","city_id":"'+city_id+'","keyword":"'+keyword+'","category":"'+category+'"}';
+        
          console.log('productlist',encodedString);
-        // alert(encodedString)
          //return false;
 //var encodedString ='{"user_id":"'+ userInfo.user_id +'","name":"'+ user.name +'","description":"'+ user.description +'","email":"'+ user.email +'","phone":"'+ user.phone +'","price":"'+ user.price +'","address":"'+ user.address +'","sundaytime":"'+ user.sundaytime +'","mondaytime":"'+ user.mondaytime +'","tuesdaytime":"'+ user.tuesdaytime +'","wednesdaytime":"'+ user.wednesdaytime +'","thursdaytime":"'+ user.thursdaytime +'","fridaytime":"'+ user.fridaytime +'","saturdaytime":"'+ user.saturdaytime +'"}';
 
     
-        // alert(encodedString);    
+         //alert(encodedString);    
     
     
     
@@ -4497,11 +4497,11 @@ var purchaseAuctionproduct = function(value) {
 
 
 
-    var todaysearchListing = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,preferred_date) {
+    var todaysearchListing = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,preferred_date,categorylisting) {
     return $q(function(resolve, reject) {
         
         
-        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","preferred_date":"'+preferred_date+'"}';
+        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","preferred_date":"'+preferred_date+'","categorylisting":"'+categorylisting+'"}';
          
     
     $http({
@@ -5032,6 +5032,35 @@ var encodedString ='{"product_id":"'+ product_id +'"}';
             });
         });
  };
+ 
+ var listcategory = function() {
+        return $q(function(resolve, reject) {
+                
+//var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+//var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+//var encodedString ='{"community_id":"'+ id +'"}';
+            
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"listcategory",
+         //data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           //console.log(response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           } else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+ };
  return {
      
        // homeSettingsSection:homeSettingsSection,
@@ -5188,7 +5217,8 @@ var encodedString ='{"product_id":"'+ product_id +'"}';
         checkauctionvaliditybeforeaddbid:checkauctionvaliditybeforeaddbid,
         getfullAdminMessages:getfullAdminMessages,
         adminaddmessage:adminaddmessage,
-        getallproductimages:getallproductimages
+        getallproductimages:getallproductimages,
+        listcategory:listcategory,
 
 
 	

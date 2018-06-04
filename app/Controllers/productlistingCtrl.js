@@ -8,7 +8,9 @@ app.controller('productlistingCtrl', function ($rootScope, $scope, $http, $locat
 $scope.data = {};
 $scope.user = {};
 $scope.checkboxstr=[];
+$scope.checkboxstrcat=[];
  $scope.user.brand=[];
+  $scope.user.category=[];
  $scope.checkboxstr2=[];
  $scope.user.shop=[];
 //alert('a');
@@ -31,7 +33,11 @@ $scope.limit = limitStep;
 $scope.incrementLimit = function() {
     $scope.limit = '';
 };
-
+var limitStep1 = 5;
+$scope.limit1 = limitStep;
+$scope.incrementLimit1 = function() {
+    $scope.limit1 = '';
+};
 $scope.brand='';
 if($stateParams.brand){
     //alert($scope.brand);
@@ -94,7 +100,12 @@ if($window.localStorage["brandListing"]){
 }else{
 	$scope.brandListing='';
 }
-
+if($window.localStorage["categorylisting"]){
+	$scope.categorylisting=$window.localStorage["categorylisting"];
+        //alert();
+}else{
+	$scope.categorylisting='';
+}
 if($window.localStorage["sellerListing"]){
 	$scope.sellerListing=$window.localStorage["sellerListing"];
 }else{
@@ -171,7 +182,7 @@ if($scope.city_id){
  //spandan end     
 
 //console.log('amount',$scope.amount_max);
- userService.searchproductListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword).then(function(response) {
+ userService.searchproductListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword,$scope.categorylisting).then(function(response) {
     // alert();
 
 		
@@ -357,16 +368,17 @@ $scope.updatecheckboxcat = function(select,cat_id){
 
 	      if (select)
         {
+            //alert(select);
             $scope.user.category.push(select);
         } else {
-            $scope.deleteitem = $scope.user.category.indexOf(brand_id);
+            $scope.deleteitem = $scope.user.category.indexOf(cat_id);
             $scope.user.category.splice($scope.deleteitem, 1);
 
         }
 
-         $scope.checkboxstr = $scope.user.category.toString();
-        $window.localStorage["brandListing"]=$scope.checkboxstr;
-        console.log("Checkbox List",$scope.checkboxstr);
+         $scope.checkboxstrcat = $scope.user.category.toString();
+        $window.localStorage["categorylisting"]=$scope.checkboxstrcat;
+        console.log("Checkbox List",$scope.checkboxstrcat);
         $scope.searchListing();
 
 

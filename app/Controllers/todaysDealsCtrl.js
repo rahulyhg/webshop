@@ -11,6 +11,8 @@ $scope.checkboxstr=[];
  $scope.user.brand=[];
  $scope.checkboxstr2=[];
  $scope.user.shop=[];
+   $scope.user.category=[];
+   $scope.checkboxstrcat=[];
 //alert('a');
  $scope.search = { price_min : '', price_max : '', amount_min : 0, amount_max : 10000 };
 $scope.drpmodel='0';
@@ -30,7 +32,11 @@ $scope.incrementLimit = function() {
 
 $scope.brand='';
 
-
+var limitStep1 = 5;
+$scope.limit1 = limitStep;
+$scope.incrementLimit1 = function() {
+    $scope.limit1 = '';
+};
 if ($window.localStorage["userInfo"]) {
 var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;
@@ -41,7 +47,12 @@ else {
 	userInfo.user_id ="";
 	$scope.user_id=userInfo.user_id;
 }
-
+if($window.localStorage["categorylisting"]){
+	$scope.categorylisting=$window.localStorage["categorylisting"];
+        //alert();
+}else{
+	$scope.categorylisting='';
+}
 $scope.isform1 =0;
 	$scope.form1 = function(user) {
 
@@ -107,7 +118,12 @@ if($scope.year){
 }else{
     $scope.year="";
 }
-
+if($window.localStorage["categorylisting"]){
+	$scope.categorylisting=$window.localStorage["categorylisting"];
+        //alert();
+}else{
+	$scope.categorylisting='';
+}
     
 if($scope.amount_min){
     $scope.amount_min;
@@ -136,7 +152,7 @@ if($scope.preferred_date){
  //spandan end     
 
 //console.log('amount',$scope.amount_max);
- userService.todaysearchListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.preferred_date).then(function(response) {
+ userService.todaysearchListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.preferred_date,$scope.categorylisting).then(function(response) {
      
 
 		
@@ -229,7 +245,27 @@ $scope.getBrands = function(){
 	});
 
 }
+$scope.getcategory = function(){
 
+	userService.listcategoryproduct().then(function(response) {
+		// console.log("ppa "+response.brandlist);
+
+		//$scope.isExists=response.Ack;
+		if(response.Ack == '1') {
+		$scope.categorylist=response.categorylist;
+                //alert();
+		//$scope.listbrands=response.brandList;
+		 console.log("categorylist "+response.categorylist);
+
+  } else {
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+
+}
 
 $scope.changeYearValue = function(selectedYear){
 
@@ -299,8 +335,44 @@ $scope.updatecheckbox2 = function(select,shop_id){
 
 }
 
+$scope.updatecheckboxcat = function(select,cat_id){
 
 
+	      if (select)
+        {
+            //alert(select);
+            $scope.user.category.push(select);
+        } else {
+            $scope.deleteitem = $scope.user.category.indexOf(cat_id);
+            $scope.user.category.splice($scope.deleteitem, 1);
+
+        }
+
+         $scope.checkboxstrcat = $scope.user.category.toString();
+        $window.localStorage["categorylisting"]=$scope.checkboxstrcat;
+        console.log("Checkbox List",$scope.checkboxstrcat);
+        $scope.searchListing();
+
+
+
+}
+userService.listcategoryproduct().then(function(response) {
+		// console.log("ppa "+response.brandlist);
+
+		//$scope.isExists=response.Ack;
+		if(response.Ack == '1') {
+		$scope.categorylist=response.categorylist;
+               // alert();
+		//$scope.listbrands=response.brandList;
+		 //console.log("categorylist "+response.categorylist);
+
+  } else {
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
 //spandan
 
  userService.listAuctionDtates().then(function(response) {

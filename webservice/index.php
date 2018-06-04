@@ -5147,7 +5147,7 @@ function auctionListSearch() {
     $country_id = isset($body->country_id) ? $body->country_id : '';
     $state_id = isset($body->state_id) ? $body->state_id : '';
     $city_id = isset($body->city_id) ? $body->city_id : '';
-
+    $category = isset($body->categorylisting) ? $body->categorylisting : '';
 //print_r($body);exit;
 
     $productIds = array();
@@ -5206,7 +5206,11 @@ function auctionListSearch() {
 
 
 //spandan
+if ($category != '') {
 
+       // $sql .= " AND `cat_id` = '" . $category . "'";
+         $sql .= " AND `cat_id` IN (" . $category . ")";
+    }
     if ($gender != '') {
 
         $sql .= " AND `gender`='" . $gender . "' ";
@@ -5969,7 +5973,7 @@ function ProductListSearch() {
     $state_id = isset($body->state_id) ? $body->state_id : '';
     $city_id = isset($body->city_id) ? $body->city_id : '';
     $keyword = isset($body->keyword) ? $body->keyword : '';
-
+$category = isset($body->category) ? $body->category : '';
 //print_r($body);
 //-----------------------------------------------------------
     $productIds = array();
@@ -6027,6 +6031,11 @@ function ProductListSearch() {
 
 //spandan
 
+    if ($category != '') {
+
+       // $sql .= " AND `cat_id` = '" . $category . "'";
+         $sql .= " AND `cat_id` IN (" . $category . ")";
+    }
     if ($gender != '') {
 
         $sql .= " AND `gender`='" . $gender . "' ";
@@ -6178,14 +6187,14 @@ if ($keyword != '') {
 
 
 
-                        $sql3 = "SELECT * FROM  webshop_subcategory WHERE id=:id ";
+                        $sql3 = "SELECT * FROM  webshop_brands WHERE id=:id ";
                         $stmt3 = $db->prepare($sql3);
-                        $stmt3->bindParam("id", $product->subcat_id);
+                        $stmt3->bindParam("id", $product->brands);
                         $stmt3->execute();
                         $getsubcategory = $stmt3->fetchObject();
-//                if (!empty($getsubcategory)) {
-//                    $subcategoryname = $getsubcategory->name;
-//                }
+                if (!empty($getsubcategory)) {
+                    $subcategoryname = $getsubcategory->name;
+                }
 //Seller Information
 
                         $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
@@ -6216,13 +6225,15 @@ if ($keyword != '') {
                             "price" => stripslashes($product->price),
                             "description" => strip_tags(stripslashes($product->description)),
                             "category_name" => $categoryname,
-                            // "subcategory_name" => $subcategoryname,
+                             "brands" => $subcategoryname,
                             "seller_id" => stripslashes($product->uploader_id),
                             "seller_image" => $profile_image,
                             "seller_name" => stripslashes($seller_name),
                             "seller_address" => stripslashes($seller_address),
                             "seller_phone" => stripslashes($seller_phone),
-                            "productname" => stripslashes($product->name),
+                            "productname" => '',
+                            "currency_code" => stripslashes($product->currency_code),
+                            
                             "top" => stripslashes($top),
                         );
                     }
@@ -6331,7 +6342,7 @@ function listproductMessages() {
 //    exit;
         try {
 
-            $sql = "SELECT *, (r.from_id + r.to_id) AS dist FROM (SELECT * FROM `webshop_message` as t WHERE ( (t.from_id =:to_id OR t.to_id =:to_id) and product_id!= 0 and to_id!= 0 and from_id!= 0 ) ORDER BY t.add_date ASC) as r GROUP BY dist ORDER BY r.add_date ASC ";
+            $sql = "SELECT *, (r.from_id + r.to_id) AS dist FROM (SELECT * FROM `webshop_message` as t WHERE ( (t.from_id =:to_id OR t.to_id =:to_id) and product_id!= 0 and to_id!= 0 and from_id!= 0 ) ORDER BY t.add_date ASC) as r GROUP BY product_id ORDER BY r.add_date ASC ";
 // $sql = "SELECT * from webshop_message WHERE to_id=:to_id or from_id=:to_id ";
 
 
@@ -8173,6 +8184,8 @@ function todayauctionListSearch() {
     $year = isset($body->year) ? $body->year : '';
     $preferred_date = isset($body->preferred_date) ? $body->preferred_date : '';
     $current_date = date('Y-m-d');
+     $category = isset($body->category) ? $body->category : '';
+     
 //print_r($body);exit;
 
     $productIds = array();
@@ -8232,6 +8245,11 @@ function todayauctionListSearch() {
 
 //spandan
 
+    if ($category != '') {
+
+       // $sql .= " AND `cat_id` = '" . $category . "'";
+         $sql .= " AND `cat_id` IN (" . $category . ")";
+    }
     if ($gender != '') {
 
         $sql .= " AND `gender`='" . $gender . "' ";
