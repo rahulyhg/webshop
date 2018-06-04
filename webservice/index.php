@@ -1839,7 +1839,7 @@ function deleteProduct() {
 
         $data['product_id'] = $product_id;
         $data['Ack'] = '1';
-        $data['msg'] = 'Product Removed';
+        $data['msg'] = 'Product deleted successfully';
 
         $app->response->setStatus(200);
         $db = null;
@@ -4338,6 +4338,7 @@ function listmyAuctions() {
     } else {
         $data = array();
         $data['productList'] = array();
+        $data['msg'] = "Sorry! No data found.";
         $data['Ack'] = '0';
         $app->response->setStatus(200);
     }
@@ -5291,14 +5292,14 @@ function auctionListSearch() {
 
 
 
-                $sql3 = "SELECT * FROM  webshop_subcategory WHERE id=:id ";
+                $sql3 = "SELECT * FROM  webshop_brands WHERE id=:id ";
                 $stmt3 = $db->prepare($sql3);
-                $stmt3->bindParam("id", $product->subcat_id);
+                $stmt3->bindParam("id", $product->brands);
                 $stmt3->execute();
                 $getsubcategory = $stmt3->fetchObject();
-//                if (!empty($getsubcategory)) {
-//                    $subcategoryname = $getsubcategory->name;
-//                }
+                if (!empty($getsubcategory)) {
+                    $subcategoryname = $getsubcategory->name;
+                }
 //Seller Information
 
                 $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
@@ -5328,8 +5329,9 @@ function auctionListSearch() {
                     "price" => stripslashes($product->price),
                     "description" => strip_tags(stripslashes($product->description)),
                     "category_name" => $categoryname,
-                    //"subcategory_name" => $subcategoryname,
+                    "brand_name" => $subcategoryname,
 // "preferred_date" => $product->preferred_date,
+                    "currency" => stripslashes($product->currency_code),
                     "seller_id" => stripslashes($product->uploader_id),
                     "seller_image" => $profile_image,
                     "seller_name" => stripslashes($seller_name),
@@ -5529,7 +5531,8 @@ function getTimeslot() {
     $request = $app->request();
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
-//print_r($body);
+    
+
     $acutondate = isset($body->getdate) ? $body->getdate : '';
 // $productid = isset($body->productid) ? $body->productid : '';
 
@@ -10246,7 +10249,63 @@ function addProductNew_app() {
     $app->response->write(json_encode($data));
 }
 
+function getTimeslot_app() {
 
+    echo "dhj";exit;
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    
+    print_r($body);exit;
+   
+    $acutondate = isset($body->getdate) ? $body->getdate : '';
+
+    $sql = "SELECT * FROM  webshop_auctiondates WHERE  date =:acutondate";
+    $db = getConnection();
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("acutondate", $acutondate);
+    $stmt->execute();
+    $getauctiondate = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+    if (!empty($getauctiondate)) {
+        foreach ($getauctiondate as $auction) {
+
+            $sqlexsits = "SELECT * FROM  webshop_products WHERE  time_slot_id =:time_slot_id";
+            $db = getConnection();
+            $stmt1 = $db->prepare($sqlexsits);
+            $stmt1->bindParam("time_slot_id", $auction->id);
+
+            $stmt1->execute();
+            $bookeddatetime = $stmt1->fetchAll(PDO::FETCH_OBJ);
+
+
+            if (!empty($bookeddatetime)) {
+
+                $data['time'][] = array(
+                    'start_time' => date('h:i A', strtotime($auction->start_time)),
+                    'end_time' => date('h:i A', strtotime($auction->end_time)),
+                    'id' => stripslashes($auction->id),
+                    "status" => 1,
+                );
+            } else {
+
+                $data['time'][] = array(
+                    'start_time' => date('h:i A', strtotime($auction->start_time)),
+                    'end_time' => date('h:i A', strtotime($auction->end_time)),
+                    'id' => stripslashes($auction->id),
+                    "status" => 0,
+                );
+            }
+
+        }
+    }
+
+    $data['Ack'] = '1';
+
+    $app->response->write(json_encode($data));
+}
 
 
 $app->run();

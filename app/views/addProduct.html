@@ -16,7 +16,7 @@
 
 
 									<div class="form-group">
-										<label for="staticEmail">Please Select</label>
+										<label for="staticEmail">Please Select*</label>
 										 <select class="form-control" id="cobSRQ2" ng-model="drpmodel" ng-change="cobchange()" required>
 
                                                                                 <option value="0" selected="selected">Please select</option>
@@ -29,7 +29,7 @@
 									    </div>
                                                                     
                                                                     <div class="form-group">
-										<label for="staticEmail">Brand</label>
+										<label for="staticEmail">Brand*</label>
 										<select class="form-control" name="brand" ng-model="user2.brand" ng-click="sub(user2.brand)"  required>
                                                                                     <option value="" selected>Please Choose a Brand</option>
 											<option  ng-repeat="brandlists in brandlist" value="{{brandlists.id}}">{{brandlists.name}}</option>
@@ -38,7 +38,7 @@
                                                                                 
 									</div>
 									<div class="form-group">
-										<label for="staticEmail">Category</label>
+										<label for="staticEmail">Category*</label>
 										<select class="form-control" name="category" ng-model="user2.cat_id"  required>
 											<option  ng-repeat="categorylists in categorylist" value="{{categorylists.id}}">{{categorylists.name}}</option>
 										</select>
@@ -56,7 +56,7 @@
 									</div> -->
                                                                     
                                                                     <div class="form-group">
-										<label for="staticEmail">{{language.breslet}} Type</label>
+										<label for="staticEmail">{{language.bracelet}} Type*</label>
 										<select class="form-control" name="breslet_type" ng-model="user2.breslet_type" required>
 											<option  value="">Please Select</option>  
                                                                                         
@@ -67,23 +67,23 @@
 									</div>
                                                                     
                                                                     <div class="form-group" >
-										<label for="staticEmail">Model Year</label>
+										<label for="staticEmail">Model Year*</label>
 										<select class="form-control" name="model_year" ng-model="user2.model_year"  required>
 											<option  value="">Please Select</option>  
                                                                                       <option  ng-repeat="year in YearsList" value="{{year}}">{{year}}</option>    
                                                                                      <!--  <option  ng-repeat="subcategorylists in subcategorylist" value="{{subcategorylists.subcat_id}}">{{subcategorylists.name}}</option>  -->
 										</select>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.subcategory.$error.required"> Please Choose A Subcategory </span>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.model_year.$error.required"> Please Choose Model year </span>
 									</div>
 									<div class="form-group">
-										<label for="staticEmail">Currency</label>
+										<label for="staticEmail">Currency*</label>
 										<select class="form-control" name="currency" ng-model="user2.currency"  required>
 											<option  ng-repeat="currencylists in currencylist" value="{{currencylists.code}}">{{currencylists.name}}</option>
 										</select>
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.currency.$error.required">Please Choose Currency</span>
 									</div>
                                                                     <div class="form-group" ng-if="drpmodel=='2'">
-										<label for="staticEmail">{{language.auction}} Date</label>
+										<label for="staticEmail">{{language.auction}} Date*</label>
 										<!--<input type="text" class="form-control" id="datepicker" value="" placeholder="" ng-model="user2.preferred_date" name="preferred_date" required>-->
                                                                                 <!--<input type="text" class="form-control" ng-model="user2.preferred_date" date="{{listAuctionDtates}}" name="preferred_date" required datepicker />-->
 <!--                                                                                <datepicker date-format="yyyy-MM-dd" selector="form-control" ng-click="getAuctionTime(user2.preferred_date)" date-enabled-dates="{{listAuctionDtates}}">-->
@@ -99,7 +99,7 @@
 									</div>
                                                                     <div>&nbsp;</div>
                                                                     <div class="form-group" ng-if="drpmodel=='2' && timeslot ">
-										<label for="staticEmail"> {{language.auction}} Timing</label>
+										<label for="staticEmail"> {{language.auction}} Timing*</label>
                                                                                 <span>
                                                                                 <div ng-repeat="time in timeslot" >
                                                                                    
@@ -127,13 +127,13 @@
                                                                     
 									<div class="form-group">
 										<label for="staticEmail">Description</label>
-                                                                                <textarea type="text" class="form-control" id=""  ng-model="user2.description" name="description" required></textarea>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.description.$error.required"> This Field Is Required! </span>
+                                                                                <textarea type="text" class="form-control"   ng-model="user2.description" name="description" ></textarea>
+<!--                                                                                <span style="color:Red" ng-show="submitted && addProductForm.description.$error.required"> This Field Is Required! </span>-->
                                                                                 
 									</div>
 									<div class="form-group">
-										<label for="staticEmail">{{language.price}}</label>
-										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user2.price" name="price" ng-pattern="/^[0-9]/" required>
+										<label for="staticEmail">{{language.price}}*</label>
+										<input type="number" class="form-control" id="" value="" placeholder="" ng-model="user2.price" name="price" min="1" ng-pattern="/^[1-9]/" required>
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.price.$error.required">This Field Is Required! </span>
                                                                                 
                                                                                 <span style="color:Red" ng-show="addProductForm.price.$dirty && addProductForm.price.$error.pattern">Only Numbers Allowed</span>

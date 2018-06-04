@@ -153,6 +153,7 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/updateProfile_app', 'updateProfile_app');
 
     $app->post('/addProductNew_app', 'addProductNew_app');
+    $app->post('/getTimeslot_app', 'getTimeslot_app');
 
 });
 ?>
