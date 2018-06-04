@@ -11,7 +11,9 @@ $scope.checkboxstr=[];
  $scope.user.brand=[];
  $scope.checkboxstr2=[];
  $scope.user.shop=[];
-
+ $scope.user.category=[];
+   $scope.checkboxstrcat=[];
+   $scope.categorylisting='';
 //alert('a');
  $scope.search = { price_min : '', price_max : '', amount_min : 0, amount_max : 10000 };
 $scope.drpmodel='0';
@@ -28,7 +30,11 @@ $scope.limit = limitStep;
 $scope.incrementLimit = function() {
     $scope.limit = '';
 };
-
+var limitStep1 = 5;
+$scope.limit1 = limitStep;
+$scope.incrementLimit1 = function() {
+    $scope.limit1 = '';
+};
 $scope.brand='';
 if($stateParams.brand){
 $scope.brand=$stateParams.brand;
@@ -72,7 +78,12 @@ $scope.searchListing = function(){
 // }
 
 
-
+if($window.localStorage["categorylisting"]){
+	$scope.categorylisting=$window.localStorage["categorylisting"];
+        //alert();
+}else{
+	$scope.categorylisting='';
+}
 
 if($window.localStorage["brandListing"]){
 	$scope.brandListing=$window.localStorage["brandListing"];
@@ -161,9 +172,9 @@ if($scope.city_id){
  //spandan end     
 
 //console.log('amount',$scope.amount_max);
- userService.searchListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.preferred_date,$scope.country_id,$scope.state_id,$scope.city_id).then(function(response) {
+ userService.searchListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.preferred_date,$scope.country_id,$scope.state_id,$scope.city_id,$scope.categorylisting).then(function(response) {
      
-
+//alert($scope.categorylisting);
 		
 		//$scope.isExists=response.Ack;
 		if(response.Ack == '1') {
@@ -193,7 +204,27 @@ $scope.getPrice  = function(amount_min,amount_max){
          $scope.searchListing();
 }
 
+$scope.getcategory = function(){
 
+	userService.listcategoryproduct().then(function(response) {
+		// console.log("ppa "+response.brandlist);
+
+		//$scope.isExists=response.Ack;
+		if(response.Ack == '1') {
+		$scope.categorylist=response.categorylist;
+                //alert();
+		//$scope.listbrands=response.brandList;
+		 console.log("categorylist "+response.categorylist);
+
+  } else {
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+
+}
 $scope.getYears = function(){
 
 	userService.listYears().then(function(response) {
@@ -303,6 +334,44 @@ $scope.updatecheckbox = function(select,brand_id){
 
 }
 
+$scope.updatecheckboxcat = function(select,cat_id){
+
+
+	      if (select)
+        {
+           // alert(select);
+            $scope.user.category.push(select);
+        } else {
+            $scope.deleteitem = $scope.user.category.indexOf(cat_id);
+            $scope.user.category.splice($scope.deleteitem, 1);
+
+        }
+
+         $scope.checkboxstrcat = $scope.user.category.toString();
+        $window.localStorage["categorylisting"]=$scope.checkboxstrcat;
+        console.log("Checkbox List",$scope.checkboxstrcat);
+        $scope.searchListing();
+
+
+
+}
+userService.listcategoryproduct().then(function(response) {
+		// console.log("ppa "+response.brandlist);
+
+		//$scope.isExists=response.Ack;
+		if(response.Ack == '1') {
+		$scope.categorylist=response.categorylist;
+               // alert();
+		//$scope.listbrands=response.brandList;
+		 //console.log("categorylist "+response.categorylist);
+
+  } else {
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
 $scope.updatecheckbox2 = function(select,shop_id){
 
 

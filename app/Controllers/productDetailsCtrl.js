@@ -276,7 +276,7 @@ else {
                    // alert('gg');
 	$scope.loader1 = true;
 		// $scope.productLists=response.productList;
-		swal("Mail Sent Successfully",'','success');
+		//swal("Mail Sent Successfully",'','success');
 		$scope.Showdetails();
 		
 
@@ -573,5 +573,73 @@ swal("Mail can not be sent",'','error');
        
     
     };
+    
+    $scope.addwishlist2 = function(product_id,owner_id){
+	 
+  	var userInfo = JSON.parse($window.localStorage["userInfo"]);	
+	$scope.user_id=userInfo.user_id;
+	 
+
+    userService.addFavWishlist(userInfo.user_id,product_id,owner_id).then(function(response) {
+		
+                
+	 if(response.Ack == '1') {
+				//alert (response.msg);
+                //alert ('Added to your Watchlist');
+				//$state.go('frontend.wishlist');
+                $window.location.reload();                
+                                
+                              
+                                
+                }
+                
+        
+        else {
+//alert ('Already Added in your wishlist'); 
+              //alert('Error !!!!');
+              $window.location.reload();  
+              }
+																	
+	}, function(err) {
+           // alert ('Already Added in your wishlist');
+            $window.location.reload();
+         console.log(err); 
+    });
+	 
+} 
+
+$scope.addlike2 = function(product_id,owner_id){
+	 
+  	var userInfo = JSON.parse($window.localStorage["userInfo"]);	
+	$scope.user_id=userInfo.user_id;
+	 
+
+    userService.addlike(userInfo.user_id,product_id,owner_id).then(function(response) {
+		
+                
+	 if(response.Ack == '1') {
+				//alert (response.msg);
+                //alert ('You liked The Product');
+				//$state.go('frontend.wishlist');
+                $window.location.reload();                
+                                
+                              
+                                
+                }
+                
+        
+        else {
+//alert ('Already Added in your like'); 
+              //alert('Error !!!!');
+              $window.location.reload();  
+              }
+																	
+	}, function(err) {
+           // alert ('Already Added in your wishlist');
+            $window.location.reload();
+         console.log(err); 
+    });
+	 
+}
 });
 

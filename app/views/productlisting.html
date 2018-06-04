@@ -255,20 +255,20 @@
 					   </div>
                                                 
                                                 <div class="filter-holder">					    
-							<a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseOne4">
+							<a class="card-link" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne41">
 								Category
 							</a>
-							<div id="collapseOne4" class="collapse show" ng-init = "getcategory();">
-								 <div  ng-repeat="category in categorylist| limitTo: limit">
+							<div id="collapseOne41" class="collapse show" ng-init = "getcategory();">
+								 <div  ng-repeat="category in categorylist| limitTo: limit1">
 								<div class="form-check">
-								  <input class="form-check-input" type="checkbox" ng-model="category.Selected" ng-click="updatecheckboxcat(category.Selected,category.id)" ng-checked="user.brand.indexOf(category.id)>=0" ng-true-value="'{{category.id.replace('\'', '\\\'')}}'" id="test{{category.id}}">
+								  <input class="form-check-input" type="checkbox" ng-model="category.Selected" ng-click="updatecheckboxcat(category.Selected,category.id)" ng-checked="user.category.indexOf(category.id)>=0" ng-true-value="'{{category.id.replace('\'', '\\\'')}}'" id="test{{category.id}}">
 								  <label class="form-check-label" for="test{{category.id}}">
 								    {{category.name}}
 								  </label>
 								</div>
 							</div>
 							</div>
-							<a href ng-click="incrementLimit()">View All</a>	
+							<a href ng-click="incrementLimit1()">View All</a>	
 					   </div>
 					</div>
 				</div>
@@ -300,9 +300,12 @@
 								  <div class="card-body">
 								    <!--<h5 class="card-title">{{productLists.productname}}</h5>-->
 								    <p class="card-text"><span>Seller:</span> {{productLists.seller_name}}</p>
+                                                                    <p class="card-text"><span>Brand:</span> {{productLists.brands}}</p>
+                                                                    <p class="card-text"><span>Category:</span> {{productLists.category_name}}</p>
+                                                                    
 								    <ul>
-										<li><img src="app/assets/images/check.png" alt="" /><b>${{productLists.price}}</b></li>
-										<li><img src="app/assets/images/badge.png" alt="" />Trusted Seller since 2016</li>
+										<li><img src="app/assets/images/check.png" alt="" /><b>{{productLists.currency_code}}{{productLists.price}}</b></li>
+										<li><img src="app/assets/images/badge.png" alt="" /></li>
 									</ul>
 								    <a href="#/productDetails/{{productLists.id}}" class="btn btn-primary">Show Interest</a>
 								  </div>
