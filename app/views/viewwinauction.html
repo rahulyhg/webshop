@@ -44,9 +44,9 @@
 								<div class="col-sm-6 col-6 py-1">
 									<ul class="like-links list-unstyled p-0 float-right m-0">
 										<!--<li class="d-inline-block mr-2"><a href="" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>-->
-										<li class="d-inline-block mr-2"><a ng-if="current_user_login=='1' && current_user_type=='1' && quantity!='0'" ng-click="addTocart(productLists.id,productLists.cartquantity)" class="d-block rounded-circle"><i class="ion-android-cart"></i></a></li>
+										
                                                                                 <li class="d-inline-block mr-2"><a ng-if="current_user_login!='1'  && quantity!='0'" ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-android-cart"></i></a></li>
-										<li class="d-inline-block"><a ng-if="current_user_login=='1' && current_user_type=='1'" ng-click="addwishlist(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
+										
                                                                                 <li ng-if="current_user_login!='1'" class="d-inline-block"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
 									</ul>
 								</div>
@@ -77,64 +77,8 @@
 					<div class="col-lg-12">
 						<div id="accordion" class="accordion mt-2">
 					        <div class="card mb-0">
-					            <div class="card-header collapsed" data-toggle="collapse" href="#collapseOne">
-					                <a class="card-title">Related Products</a>
-					            </div>
-					            <div id="collapseOne" class="card-body collapse" data-parent="#accordion" >
-					                First collapse
-					                
-					                <div id="cControls" class="carousel slide" data-ride="carousel">
-										<div class="carousel-inner">
-											<div class="carousel-item active">
-												<div class="main-image p-2">
-													<img src="app/assets/images/user.jpg">
-												</div>
-												<div class="content-hold pb-2 pl-2 pr-2">
-													<h6 class="mb-1">Rolex Daytona</h6>
-													<p class="mb-0">Seller: Unimax Bros.</p>
-												</div>
-											</div>
-											<div class="carousel-item">
-												<div class="main-image p-2">
-													<img src="app/assets/images/user.jpg">
-												</div>
-												<div class="content-hold pb-2 pl-2 pr-2">
-													<h6 class="mb-1">Rolex Daytona</h6>
-													<p class="mb-0">Seller: Unimax Bros.</p>
-												</div>
-											</div>
-											<div class="carousel-item">
-												<div class="main-image p-2">
-													<img src="app/assets/images/user.jpg">
-												</div>
-												<div class="content-hold pb-2 pl-2 pr-2">
-													<h6 class="mb-1">Rolex Daytona</h6>
-													<p class="mb-0">Seller: Unimax Bros.</p>
-												</div>
-											</div>
-											<div class="carousel-item">
-												<div class="main-image p-2">
-													<img src="app/assets/images/user.jpg">
-												</div>
-												<div class="content-hold pb-2 pl-2 pr-2">
-													<h6 class="mb-1">Rolex Daytona</h6>
-													<p class="mb-0">Seller: Unimax Bros.</p>
-												</div>
-											</div>
-
-											
-										</div>
-										<a class="carousel-control-prev" href="#cControls" role="button" data-slide="prev">
-											<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-											<span class="sr-only">Previous</span>
-										</a>
-										<a class="carousel-control-next" href="#cControls" role="button" data-slide="next">
-											<span class="carousel-control-next-icon" aria-hidden="true"></span>
-											<span class="sr-only">Next</span>
-										</a>
-									</div>
-
-					            </div>
+					            
+					            
 					            <div class="card-header collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
 					                <a class="card-title">Reviews</a>
 					            </div>
@@ -143,33 +87,31 @@
 
 			            																									<div id="collapseTwo" class="card-body collapse" data-parent="#accordion" >
 					                <div class="reviews-holder">
+                                                            <div ng-repeat="reviewsss in allreviews">
 										<div class="media">
 											<div class="media-left mr-2">
 												<a href="#">
 													<img class="media-object" src="app/assets/images/user2.jpg" alt="">
 												</a>
 											</div>
-											<div class="media-body">
-												<h6 class="media-heading"><span class="rating d-inline-block mr-2"><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i></span>Louise Gregory <span class="date d-inline-block ml-2">- 2 months ago</span></h6>
-												<p class="mb-2">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-												<p><i class="fa fa-check"></i> Yes, I recommend this product. </p>
-												
-											</div>
+											<span class="rating d-inline-block mr-2">
+                                                                                <ng-rating ng-model="reviewsss.rating"
+                                                                                           icon-class="rating.iconClass"
+                                                                                           editable="false"
+                                                                                           stars-count="rating.starsCount"
+                                                                                           based-on="rating.basedOn"
+                                                                                           >
+                                                                                </ng-rating>
+                       
+                                                                            </span>
+                                                                            {{reviewsss.username}} <span class="date d-inline-block ml-2">- {{reviewsss.date}}&nbsp days ago</span></h6>
+                  <p class="mb-2">{{reviewsss.review}}</p>
+                                                                        <div ng-if="reviewsss.recomend == 1">
+                  <p><i class="fa fa-check"></i> Yes, I recommend this product. </p>
+                                                                        </div>
 										</div>
-										<div class="media">
-											<div class="media-left mr-2">
-												<a href="#">
-													<img class="media-object" src="app/assets/images/user2.jpg" alt="">
-												</a>
-											</div>
-											<div class="media-body">
-												<h6 class="media-heading"><span class="rating d-inline-block mr-2"><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i><i class="ion-ios-star"></i></span>Louise Gregory <span class="date d-inline-block ml-2">- 2 months ago</span></h6>
-												<p class="mb-2">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-												<p><i class="fa fa-check"></i> Yes, I recommend this product. </p>
-												
-											</div>
-										</div>
-										<p class="text-right"><a href="" class="btn btn-primary">Add Review</a></p>
+										
+									</div>	
 									</div>
 					            </div>
 					        </div>

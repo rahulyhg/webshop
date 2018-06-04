@@ -73,7 +73,6 @@ $scope.product_id=$stateParams.id;
                     //alert(response.productList);
 	
 		$scope.productLists=response.productList;
-                //$scope.getallproductimages();
                 $scope.is_hide=0;
 		
 		
@@ -574,56 +573,5 @@ swal("Mail can not be sent",'','error');
        
     
     };
-    
-    
-    $scope.getallproductimages = function(){
-           //alert($scope.product_id);
-           // return false;
-             userService.getallproductimages($scope.product_id).then(function(response) {
-		//console.log(response.Ack);
-	
-		if(response.Ack == '1') {
-                    
-                
-	
-		$scope.prod=response.imagespath;
-                console.log('imagess',$scope.prod);
-                
-               
-		
-		} else {
-                    console.log('ppp');	
-                    $scope.exists=0;
-		}
-	
-	
-	
-				   
-	}, function(err) {
-	console.log(err); 
-	});     
-        
-       
-        
-}
-
-
-/*$scope.prod = {imagePaths: []};
-	$scope.prod.imagePaths = [
-      	{ custom: 'http://flexslider.woothemes.com/images/kitchen_adventurer_cheesecake_brownie.jpg', thumbnail: 'http://flexslider.woothemes.com/images/kitchen_adventurer_cheesecake_brownie.jpg' },
-      	{ custom: 'http://flexslider.woothemes.com/images/kitchen_adventurer_lemon.jpg', thumbnail: 'http://flexslider.woothemes.com/images/kitchen_adventurer_lemon.jpg' },
-      	{ custom: 'http://flexslider.woothemes.com/images/kitchen_adventurer_donut.jpg', thumbnail: 'http://flexslider.woothemes.com/images/kitchen_adventurer_donut.jpg' },
-      	{ custom: 'http://flexslider.woothemes.com/images/kitchen_adventurer_caramel.jpg', thumbnail: 'http://flexslider.woothemes.com/images/kitchen_adventurer_caramel.jpg' },
-      	{ custom: 'http://flexslider.woothemes.com/images/kitchen_adventurer_cheesecake_brownie.jpg', thumbnail: 'http://flexslider.woothemes.com/images/kitchen_adventurer_cheesecake_brownie.jpg' },
-      	{ custom: 'http://flexslider.woothemes.com/images/kitchen_adventurer_lemon.jpg', thumbnail: 'http://flexslider.woothemes.com/images/kitchen_adventurer_lemon.jpg' },
-      	{ custom: 'http://flexslider.woothemes.com/images/kitchen_adventurer_donut.jpg', thumbnail: 'http://flexslider.woothemes.com/images/kitchen_adventurer_donut.jpg' },
-      	{ custom: 'http://flexslider.woothemes.com/images/kitchen_adventurer_caramel.jpg', thumbnail: 'http://flexslider.woothemes.com/images/kitchen_adventurer_caramel.jpg' },
-      	{ custom: 'http://flexslider.woothemes.com/images/kitchen_adventurer_cheesecake_brownie.jpg', thumbnail: 'http://flexslider.woothemes.com/images/kitchen_adventurer_cheesecake_brownie.jpg' },
-      	{ custom: 'http://flexslider.woothemes.com/images/kitchen_adventurer_lemon.jpg', thumbnail: 'http://flexslider.woothemes.com/images/kitchen_adventurer_lemon.jpg' },
-      	{ custom: 'http://flexslider.woothemes.com/images/kitchen_adventurer_donut.jpg', thumbnail: 'http://flexslider.woothemes.com/images/kitchen_adventurer_donut.jpg' },
-      	{ custom: 'http://flexslider.woothemes.com/images/kitchen_adventurer_caramel.jpg', thumbnail: 'http://flexslider.woothemes.com/images/kitchen_adventurer_caramel.jpg'}
-      ];*/
-
-
 });
 

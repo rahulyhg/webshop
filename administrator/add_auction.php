@@ -19,6 +19,8 @@ if (isset($_REQUEST['submit'])) {
     $baseauctionprice = isset($_POST['baseauctionprice']) ? $_POST['baseauctionprice'] : '';
     $thresholdprice = isset($_POST['thresholdprice']) ? $_POST['thresholdprice'] : '';
     $bidincrement = isset($_POST['bidincrement']) ? $_POST['bidincrement'] : '';
+    $state = isset($_POST['state']) ? $_POST['state'] : '';
+      $city = isset($_POST['city']) ? $_POST['city'] : '';
     // $start_date_time = isset($_POST['start_date_time']) ? $_POST['start_date_time'] : '';
     // $end_date_time = isset($_POST['end_date_time']) ? $_POST['end_date_time'] : '';
 
@@ -45,6 +47,8 @@ if (isset($_REQUEST['submit'])) {
         // 'start_date_time' => mysqli_real_escape_string($con,$start_date_time),
         //  'end_date_time' => mysqli_real_escape_string($con,$end_date_time),
         'owner_number' => mysqli_real_escape_string($con, $owner_number),
+        'state' => mysqli_real_escape_string($con, $state),
+        'city' => mysqli_real_escape_string($con, $city),
     );
 
     $fieldsList = array();
@@ -132,6 +136,8 @@ if (isset($_REQUEST['submit'])) {
 
 if ($_REQUEST['action'] == 'edit') {
     $categoryRowset = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `webshop_products` WHERE `id`='" . mysqli_real_escape_string($con, $_REQUEST['id']) . "'"));
+    $getallcountry = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `webshop_countries`"));
+    
 }
 
 
@@ -348,11 +354,70 @@ if ($num > 0) {
 
 
                                 <div class="control-group">
-                                    <label class="control-label">Location</label>
+                                    <label class="control-label">Country</label>
                                     <div class="controls">
-                                        <input type="text" class="form-control" placeholder="Enter location" value="<?php echo $categoryRowset['location']; ?>" name="location">
+                                        <?php
+                                        $sql = "SELECT * FROM webshop_countries";
+                                        $resultcountry = mysqli_query($con, $sql);
+                                        ?>
+                                        <select name='country' id="country" disabled>
+                                            <option value=''> Select Country</option>
+                                            <?php
+                                            while ($row = mysqli_fetch_array($resultcountry)) {
+                                                ?>
+                                                <option value='<?php echo $row['id']; ?>'  <?php if ($row['id'] == $categoryRowset['country']) { ?> selected="selected"<?php } ?>><?php echo $row['name']; ?></option>
+                                            <?php }
+                                            ?>
+
+                                        </select>
+
                                     </div>
                                 </div>
+
+                                <div class="control-group">
+                                    <label class="control-label">State</label>
+                                    <div class="controls">
+                                        <?php
+                                        $sql = "SELECT * FROM 	webshop_states";
+                                        $resultstates = mysqli_query($con, $sql);
+                                        ?>
+                                        <select name='state' id="state" disabled>
+                                            <option value=''> Select State</option>
+                                            <?php
+                                            while ($row = mysqli_fetch_array($resultstates)) {
+                                                ?>
+                                                <option value='<?php echo $row['id']; ?>'  <?php if ($row['id'] == $categoryRowset['state']) { ?> selected="selected"<?php } ?>><?php echo $row['name']; ?></option>
+                                            <?php }
+                                            ?>
+
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label">City</label>
+                                    <div class="controls" >
+                                        <?php
+                                        $sql = "SELECT * FROM 	webshop_cities";
+                                        $resultcities = mysqli_query($con, $sql);
+                                        ?>
+                                        <div id="city">
+                                        <select name='city' id="city" disabled>
+                                            <option value=''> Select State</option>
+                                            <?php
+                                            while ($row = mysqli_fetch_array($resultcities)) {
+                                                ?>
+                                                <option value='<?php echo $row['id']; ?>'  <?php if ($row['id'] == $categoryRowset['city']) { ?> selected="selected"<?php } ?>><?php echo $row['name']; ?></option>
+                                            <?php }
+                                            ?>
+
+                                        </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+
 
                                 <div class="control-group">
                                     <label class="control-label">Base Auction Price</label>
@@ -602,7 +667,7 @@ if ($num > 0) {
             },
             country: {
                 required: true,
-                lettersonly: true,
+                
             },
             bidincrement: {
                 required: true,
@@ -618,4 +683,8 @@ if ($num > 0) {
             },
         }
     });
+    
+//    $("#country").click(function(){
+//    alert("The paragraph was clicked.");
+//});
 </script>

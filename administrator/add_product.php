@@ -15,6 +15,8 @@ if (isset($_REQUEST['submit'])) {
     $status_watch = isset($_POST['status_watch']) ? $_POST['status_watch'] : '';
     // $owner_number = isset($_POST['owner_number']) ? $_POST['owner_number'] : '';
     $country = isset($_POST['country']) ? $_POST['country'] : '';
+     $state = isset($_POST['state']) ? $_POST['state'] : '';
+      $city = isset($_POST['city']) ? $_POST['city'] : '';
     $size = isset($_POST['size']) ? $_POST['size'] : '';
     //$location = isset($_POST['location']) ? $_POST['location'] : '';
     // $preferred_date = isset($_POST['preferred_date']) ? $_POST['preferred_date'] : '';
@@ -33,6 +35,8 @@ if (isset($_REQUEST['submit'])) {
         'status_watch' => mysqli_real_escape_string($con, $status_watch),
         'country' => mysqli_real_escape_string($con, $country),
         'size' => mysqli_real_escape_string($con, $size),
+        'state' => mysqli_real_escape_string($con, $state),
+        'city' => mysqli_real_escape_string($con, $city),
     );
 
     $fieldsList = array();
@@ -258,7 +262,65 @@ if ($num > 0) {
                                 <div class="control-group">
                                     <label class="control-label">Country</label>
                                     <div class="controls">
-                                        <input type="text" class="form-control" placeholder="Enter country" value="<?php echo $categoryRowset['country']; ?>" name="country" required>
+                                        <?php
+                                        $sql = "SELECT * FROM webshop_countries";
+                                        $resultcountry = mysqli_query($con, $sql);
+                                        ?>
+                                        <select name='country' id="country" disabled>
+                                            <option value=''> Select Country</option>
+                                            <?php
+                                            while ($row = mysqli_fetch_array($resultcountry)) {
+                                                ?>
+                                                <option value='<?php echo $row['id']; ?>'  <?php if ($row['id'] == $categoryRowset['country']) { ?> selected="selected"<?php } ?>><?php echo $row['name']; ?></option>
+                                            <?php }
+                                            ?>
+
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label">State</label>
+                                    <div class="controls">
+                                        <?php
+                                        $sql = "SELECT * FROM 	webshop_states";
+                                        $resultstates = mysqli_query($con, $sql);
+                                        ?>
+                                        <select name='state' id="state" disabled>
+                                            <option value=''> Select State</option>
+                                            <?php
+                                            while ($row = mysqli_fetch_array($resultstates)) {
+                                                ?>
+                                                <option value='<?php echo $row['id']; ?>'  <?php if ($row['id'] == $categoryRowset['state']) { ?> selected="selected"<?php } ?>><?php echo $row['name']; ?></option>
+                                            <?php }
+                                            ?>
+
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label">City</label>
+                                    <div class="controls" >
+                                        <?php
+                                        $sql = "SELECT * FROM 	webshop_cities";
+                                        $resultcities = mysqli_query($con, $sql);
+                                        ?>
+                                        <div id="city">
+                                        <select name='city' id="city" disabled>
+                                            <option value=''> Select State</option>
+                                            <?php
+                                            while ($row = mysqli_fetch_array($resultcities)) {
+                                                ?>
+                                                <option value='<?php echo $row['id']; ?>'  <?php if ($row['id'] == $categoryRowset['city']) { ?> selected="selected"<?php } ?>><?php echo $row['name']; ?></option>
+                                            <?php }
+                                            ?>
+
+                                        </select>
+                                        </div>
+
                                     </div>
                                 </div>
 
