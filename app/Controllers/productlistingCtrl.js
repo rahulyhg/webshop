@@ -76,13 +76,16 @@ $scope.searchListing = function(){
 // }
 
 //$window.localStorage["keyword"]
-if($window.localStorage["keyword"]){
+if($scope.keyword){
     
-	$scope.keyword=$window.localStorage["keyword"];
+	$scope.keyword=$scope.keyword;
+        $window.localStorage["keyword"] ='';
         //alert($scope.keyword);
         // $window.location.reload();
 }else{
 	$scope.keyword='';
+        $window.localStorage["keyword"] ='';
+       // alert($scope.keyword);
          //$window.location.reload();
 }
 
@@ -262,6 +265,45 @@ $scope.getBrands = function(){
 
 }
 
+userService.listcategoryproduct().then(function(response) {
+		// console.log("ppa "+response.brandlist);
+
+		//$scope.isExists=response.Ack;
+		if(response.Ack == '1') {
+		$scope.categorylist=response.categorylist;
+               // alert();
+		//$scope.listbrands=response.brandList;
+		 //console.log("categorylist "+response.categorylist);
+
+  } else {
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+
+$scope.getcategory = function(){
+
+	userService.listcategoryproduct().then(function(response) {
+		// console.log("ppa "+response.brandlist);
+
+		//$scope.isExists=response.Ack;
+		if(response.Ack == '1') {
+		$scope.categorylist=response.categorylist;
+                //alert();
+		//$scope.listbrands=response.brandList;
+		 console.log("categorylist "+response.categorylist);
+
+  } else {
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+
+}
 
 $scope.changeYearValue = function(selectedYear){
 
@@ -302,6 +344,27 @@ $scope.updatecheckbox = function(select,brand_id){
         }
 
          $scope.checkboxstr = $scope.user.brand.toString();
+        $window.localStorage["brandListing"]=$scope.checkboxstr;
+        console.log("Checkbox List",$scope.checkboxstr);
+        $scope.searchListing();
+
+
+
+}
+
+$scope.updatecheckboxcat = function(select,cat_id){
+
+
+	      if (select)
+        {
+            $scope.user.category.push(select);
+        } else {
+            $scope.deleteitem = $scope.user.category.indexOf(brand_id);
+            $scope.user.category.splice($scope.deleteitem, 1);
+
+        }
+
+         $scope.checkboxstr = $scope.user.category.toString();
         $window.localStorage["brandListing"]=$scope.checkboxstr;
         console.log("Checkbox List",$scope.checkboxstr);
         $scope.searchListing();
