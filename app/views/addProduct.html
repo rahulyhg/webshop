@@ -55,7 +55,7 @@
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.subcategory.$error.required"> Please Choose A Subcategory </span>
 									</div> -->
                                                                     
-                                                                    <div class="form-group">
+<!--                                                                    <div class="form-group">
 										<label for="staticEmail">{{language.bracelet}} Type*</label>
 										<select class="form-control" name="breslet_type" ng-model="user2.breslet_type" required>
 											<option  value="">Please Select</option>  
@@ -64,7 +64,37 @@
                                                                                         <option   value="L">{{language.leather}}</option>  
 										</select>
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.breslet_type.$error.required"> Please Choose A Bracelet Type </span>
-									</div>
+									</div>-->
+
+
+
+
+
+
+<div class="form-group">
+    <label for="staticEmail">{{language.bracelet}} Type*</label>
+    <select class="form-control" name="breslet_type" ng-model="user2.breslet_type" required>
+        <option  value="">Please Select</option>  
+
+        <option ng-repeat="braceletlists in braceletlist" value="{{braceletlists.id}}">{{braceletlists.type}}</option>  
+        
+    </select>
+    <span style="color:Red" ng-show="submitted && addProductForm.breslet_type.$error.required"> Please Choose A Bracelet Type </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                                                     
                                                                     <div class="form-group" >
 										<label for="staticEmail">Model Year*</label>

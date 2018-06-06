@@ -155,6 +155,7 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/addProductNew_app', 'addProductNew_app');
     $app->post('/getTimeslot_app', 'getTimeslot_app');
     $app->post('/imageinsert_app', 'imageinsert_app');
+    $app->post('/listbracelet', 'listbracelet');
 
 });
 ?>

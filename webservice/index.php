@@ -970,13 +970,27 @@ function ProductsDetails() {
 
 
     $userlike = 0;
+    
     $sql_userlike = "SELECT * from  webshop_like WHERE product_id=:product_id AND user_id=:user_id";
-
     $stmt_userlike = $db->prepare($sql_userlike);
     $stmt_userlike->bindParam("product_id", $product_id);
     $stmt_userlike->bindParam("user_id", $user_id);
     $stmt_userlike->execute();
     $userlike = $stmt_userlike->rowCount();
+    
+    $sqlavgr = "SELECT avg(rating) as avgr FROM  webshop_reviews WHERE product_id=:id ";
+    $stmtavgr = $db->prepare($sqlavgr);
+    $stmtavgr->bindParam("id", $product_id);
+    $stmtavgr->execute();
+    $avgrating = $stmtavgr->fetchObject();
+    if (!empty($avgrating)) {
+        $averagerating = $avgrating->avgr;
+    }else{
+        $averagerating=0;
+    }
+    
+    
+    
 
     if (!empty($product)) {
 
@@ -986,6 +1000,20 @@ function ProductsDetails() {
             $image = SITE_URL . 'webservice/not-available.jpg';
         }
 
+        
+        $sqlbracelet = "SELECT * FROM  webshop_bracelet WHERE id=:id ";
+        $stmtbracelet = $db->prepare($sqlbracelet);
+        $stmtbracelet->bindParam("id", $product->breslet_type);
+        $stmtbracelet->execute();
+        $getbracelet = $stmtbracelet->fetchObject();
+        if (!empty($getbracelet)) {
+            $braceletname = $getbracelet->type;
+        }
+        
+        
+        
+        
+        
 
         $sql2 = "SELECT * FROM  webshop_category WHERE id=:id ";
         $stmt2 = $db->prepare($sql2);
@@ -1230,13 +1258,14 @@ function ProductsDetails() {
             'maxbiddername' => $higestbiddername,
             'higestbidderbid' => $higestbidderbid,
             'bidhistory' => $allhistory,
-            'breslet_type' => stripslashes($product->breslet_type),
+            'breslet_type' => stripslashes($braceletname),
             'model_year' => stripslashes($product->model_year),
             'movement' => stripslashes($product->movement),
             'status_watch' => stripslashes($product->status_watch),
             'size' => stripslashes($product->size),
             'date_purchase' => stripslashes($product->date_purchase),
             'owner_number' => stripslashes($product->owner_number),
+            'averagerating' => number_format($averagerating,1)
         );
 
 
@@ -10490,7 +10519,44 @@ function getmaxprice() {
     $app->response->write(json_encode($data));
 }
 
+function listbracelet() {
 
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    try {
+
+        $sql = "SELECT * from webshop_bracelet where status=1";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $getBrand = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        foreach ($getBrand as $brand) {
+
+            $allbrand[] = array(
+                "id" => stripslashes($brand->id),
+                "type" => stripslashes($brand->type)
+            );
+        }
+
+        $data['braceletlist'] = $allbrand;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
 
 $app->run();
 ?>

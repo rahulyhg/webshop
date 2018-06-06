@@ -1,474 +1,484 @@
 
 
-  <section class="innerbody search-list auction-details-pade" ng-init="Showdetails();">
+<section class="innerbody search-list auction-details-pade" ng-init="Showdetails();">
     <div class="container">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active">Watches</li>
-        </ol>
-      </nav>
-      <div class="details-wrap p-3">
-        <div class="row">
-          <div class="col-lg-7 col-md-6 col-sm-6">
-            <div class="details-top p-3 mb-3 position-relative">
-              <div class="like"><p class="m-0"><i class="ion-thumbsup"></i> {{productLists.totallike}}</p></div>
-                 <img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Watches</li>
+            </ol>
+        </nav>
+        <div class="details-wrap p-3">
+            <div class="row">
+                <div class="col-lg-7 col-md-6 col-sm-6">
+                    <div class="details-top p-3 mb-3 position-relative">
+                        <div class="like"><p class="m-0"><i class="ion-thumbsup"></i> {{productLists.totallike}}</p></div>
+                        <img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">
 
-              <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
-            </div> 
-            <div class="details-left" ng-if="productLists">
-              <h4>{{productLists.productname}}</h4>
-              <p class="text-secondary">{{productLists.brands}}/{{productLists.category}}({{productLists.gender}})</p>
-                                                        <p ng-if="user_id && productLists.interest==0"><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)</p>
+                        <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
+                    </div> 
+                    <div class="details-left" ng-if="productLists">
+                        <h4>{{productLists.productname}}</h4>
+                        <p class="text-secondary">{{productLists.brands}}/{{productLists.category}}({{productLists.gender}})</p>
 
-                                                        
-                                                        <p ng-if="!user_id && productLists.interest==0"><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)<a href="" data-toggle="modal" data-target="#login" class="d-inline-block pl-3">Write a review</a></p>
-              <p ng-if="user_id && productLists.interest==1"><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)<a href="" data-toggle="modal" data-target="#myModal1" class="d-inline-block pl-3" >Write a review</a></p>
-                                                        
-                                                        
-                                                       
-                                                        
-                                                        
-                                                        
-              <hr>
-                                                        
-              <h5>Product Description</h5>
+                        <p ng-if="user_id && productLists.interest == 0">
+                                <ng-rating ng-model="productLists.averagerating" icon-class="rating.iconClass" editable="false" stars-count="rating.starsCount" based-on="rating.basedOn"></ng-rating>
+                            ({{productLists.averagerating}})</p>
 
-              <p>{{productLists.description}}</p>
-              <!-----31/05/2018---->
-              <hr>
-              
-              <h5>Product Bracelet Type</h5>
 
-              <p ng-if="productLists.breslet_type == 'L'">Leather</p>
-              <p ng-if="productLists.breslet_type == 'M'">Metal</p>
-                                                     
-              <hr>
-              
-              <h5>Product Size</h5>
+                        <p ng-if="!user_id && productLists.interest == 0">
+                                <ng-rating ng-model="productLists.averagerating" icon-class="rating.iconClass" editable="false" stars-count="rating.starsCount" based-on="rating.basedOn"></ng-rating>
+                             ({{productLists.averagerating}})<a href="" data-toggle="modal" data-target="#login" class="d-inline-block pl-3">Write a review</a></p>
 
-              <p>{{productLists.size}}</p>
-              
-                                                        
-                                                         <!-----31/05/2018----> 
-                                                         <hr>
-                                                        <h5 ng-if="productLists.seller_id!=user_id && productLists.type == 2 ">Auction Start Date</h5>
 
-              <p ng-if="productLists.seller_id!=user_id && productLists.type == 2 ">{{productLists.action_date}}&nbsp;{{productLists.action_time}}</p>
-                                                        
-                                                        
-                                                        
-                                                        <hr ng-if="productLists.seller_id!=user_id && productLists.type == 2 ">
-                                                        
-              <div class="row">
-                <div class="col-sm-6 col-6 py-1">
-                  <h4 class="m-0">{{productLists.price}} {{productLists.currency_code}}</h4>
-                  
+                        <p ng-if="user_id && productLists.interest == 1">
+                                <ng-rating ng-model="productLists.averagerating" icon-class="rating.iconClass" editable="false" stars-count="rating.starsCount" based-on="rating.basedOn"></ng-rating>
+                            ({{productLists.averagerating}})<a href="" data-toggle="modal" data-target="#myModal1" class="d-inline-block pl-3" >Write a review</a></p>
+
+
+
+
+
+
+                        <hr>
+
+                        <h5>Product Description</h5>
+
+                        <p ng-if="productLists.description != ''">{{productLists.description}}</p>
+                        <p ng-if="productLists.description == ''">No description found.</p>
+                        <!-----31/05/2018---->
+                        <hr>
+
+                        <h5>Product Bracelet Type</h5>
+
+                        <p>{{productLists.breslet_type}}</p>
+
+
+                        <hr>
+
+                        <h5>Product Size</h5>
+
+                        <p>{{productLists.size}}</p>
+
+
+                        <!-----31/05/2018----> 
+                        <hr>
+                        <h5 ng-if="productLists.seller_id != user_id && productLists.type == 2">Auction Start Date</h5>
+
+                        <p ng-if="productLists.seller_id != user_id && productLists.type == 2">{{productLists.action_date}}&nbsp;{{productLists.action_time}}</p>
+
+
+
+                        <hr ng-if="productLists.seller_id != user_id && productLists.type == 2">
+
+                        <div class="row">
+                            <div class="col-sm-6 col-6 py-1">
+                                <h4 class="m-0">{{productLists.price}} {{productLists.currency_code}}</h4>
+
+                            </div>
+                            <div class="col-sm-6 col-6 py-1">
+                                <ul class="like-links list-unstyled p-0 float-right m-0">
+                                    <!--<li ng-if="user_id && productLists.userlike==0" class="d-inline-block mr-2"><a href="" ng-click="addlike(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>-->
+                                    <!--<li ng-if="user_id && productLists.userlike==1" class="d-inline-block mr-2"><a href="" ng-click="addlike(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i style="color:red" class="ion-thumbsup"></i></a></li>-->
+                                    <li ng-if="!user_id" class="d-inline-block mr-2"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>
+                                    <!--                                                                                <li class="d-inline-block mr-2"><a ng-if="current_user_login!='1'  && quantity!='0'" ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-android-cart"></i></a></li>-->
+                                    <li class="d-inline-block"><a ng-if="user_id && productLists.is_fav == 0" ng-click="addwishlist2(productLists.id, productLists.seller_id)" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
+                                    <li class="d-inline-block"><a ng-if="user_id && productLists.is_fav == 1" ng-click="addwishlist(productLists.id, productLists.seller_id)" class="d-block rounded-circle"><i style="color:red" class="ion-heart"></i></a></li>
+                                    <li ng-if="!user_id" class="d-inline-block"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-6">
+
+                                <p class="mb-4" ng-if="loader1 && productLists.interest == 0"><a href="" class="btn btn-primary btn-block" ng-click="emailtothevendorinterest(productLists.seller_id, productLists.type)">Show interest and contact seller .</a></p>
+                                <p class="mb-4" ng-if="user_id && loader1 && productLists.seller_id != user_id && productLists.interest == 1"><a href="" class="btn btn-primary btn-block" href="javascript:void(0)">Already interestd</a></p>
+                            </div>
+                            <div class="col-sm-6" ng-if="user_id && productLists.ctime > productLists.start_time">
+
+                                <!--                  <p class="mb-4" ng-if="user_id && productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">Go Live Bidding</a></p>-->
+                                <!--<p class="mb-4" ng-if="user_id && productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#password">Go Live Bidding</a></p>-->
+                                <p class="mb-4" ng-if="user_id && productLists.seller_id != user_id && productLists.type == 2"><a href="" class="btn btn-primary btn-block" ng-click="checkauctionvalidity()">Go Live Bidding</a></p>
+
+                                <!--                                                                        <p class="mb-4" ng-if="productLists.interest==0 && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#login">Go Live Bidding</a></p>   -->
+                            </div>
+                            <div class="col-sm-6" ng-if="!user_id && productLists.ctime > productLists.start_time">
+
+
+                                <p class="mb-4" ng-if="productLists.interest == 0 && productLists.type == 2"><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#login">Go Live Bidding</a></p>   
+                            </div>
+
+                        </div>
+
+                        <p ng-if="!loader1" class="loader"></p>
+
+
+
+                    </div>
                 </div>
-                <div class="col-sm-6 col-6 py-1">
-                  <ul class="like-links list-unstyled p-0 float-right m-0">
-                    <!--<li ng-if="user_id && productLists.userlike==0" class="d-inline-block mr-2"><a href="" ng-click="addlike(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>-->
-                                                                                <!--<li ng-if="user_id && productLists.userlike==1" class="d-inline-block mr-2"><a href="" ng-click="addlike(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i style="color:red" class="ion-thumbsup"></i></a></li>-->
-                    <li ng-if="!user_id" class="d-inline-block mr-2"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>
-<!--                                                                                <li class="d-inline-block mr-2"><a ng-if="current_user_login!='1'  && quantity!='0'" ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-android-cart"></i></a></li>-->
-                    <li class="d-inline-block"><a ng-if="user_id && productLists.is_fav==0" ng-click="addwishlist2(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
-                                                                                <li class="d-inline-block"><a ng-if="user_id && productLists.is_fav==1" ng-click="addwishlist(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i style="color:red" class="ion-heart"></i></a></li>
-                                                                               <li ng-if="!user_id" class="d-inline-block"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
-                  </ul>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-6">
-                                                                    
-                  <p class="mb-4" ng-if="loader1 && productLists.interest==0"><a href="" class="btn btn-primary btn-block" ng-click="emailtothevendorinterest(productLists.seller_id,productLists.type)">Show interest and contact seller .</a></p>
-                                                                        <p class="mb-4" ng-if="user_id && loader1 && productLists.seller_id!=user_id && productLists.interest==1"><a href="" class="btn btn-primary btn-block" href="javascript:void(0)">Already interestd</a></p>
-                </div>
-                <div class="col-sm-6" ng-if="user_id && productLists.ctime > productLists.start_time">
-                                                                    
-<!--                  <p class="mb-4" ng-if="user_id && productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">Go Live Bidding</a></p>-->
-<!--<p class="mb-4" ng-if="user_id && productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#password">Go Live Bidding</a></p>-->
-<p class="mb-4" ng-if="user_id && productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" ng-click="checkauctionvalidity()">Go Live Bidding</a></p>
+                <div class="col-lg-5 col-md-7 col-sm-7">
+                    <!--<div class="share-prod mb-2">Share this product : <a href="" class="d-inline-block text-secondary"><i class="fa fa-facebook"></i></a> <a href="" class="d-inline-block mx-2 text-secondary"><i class="fa fa-twitter"></i></a><a href="" class="d-inline-block text-secondary"><i class="fa fa-google-plus"></i></a></div>-->
+                    <div class="seller-info p-3 border-secondary border rounded mb-3"  ng-if="productLists.seller_id != user_id">
+                        <div ng-if="user_id && productLists.interest == 1">
+                            <h6 class="card-title">Seller Info:</h6>
+                            <p class="mb-1">{{productLists.seller_name}}</p>
+                            <p class="text-secondary mb-0"><i class="fa fa-map-marker"></i> {{productLists.seller_address}}</p>
+                        </div>
+                        <!--              <p class="text-secondary mb-2"><i class="fa fa-phone"></i> {{productLists.seller_address}}</p>-->
+                        <h5><b>{{productLists.currency_code}} {{productLists.price}} </b></h5>
+                        <p class="text-success">{{productLists.quantity}}pcs. Available. </p>
+                        <p style="color:black">Model year :{{productLists.model_year}}</p>
+                        <p style="color:black">Movement :{{productLists.movement}}</p>
+                        <p style="color:black" ng-if="productLists.date_purchase">Date of Purchased :{{productLists.date_purchase}}</p>
+                        <p style="color:black">Status of the watch :{{productLists.status_watch}}</p>
+                        <p ng-if="productLists.quantity == '0'" class="text-success">Out of stock.</p>
+                        <div ng-if="user_id && productLists.interest == 1">       
+                            <hr>
 
-<!--                                                                        <p class="mb-4" ng-if="productLists.interest==0 && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#login">Go Live Bidding</a></p>   -->
+                            <button ng-if="is_hide == 0 && productLists.interest == 1" type="button" ng-click="is_clicked()" class="btn btn-primary btn-block">Contact Seller</button>
+                            <button ng-if="user_id && productLists.interest == 0" type="button" ng-click="is_clicked()" disabled class="btn btn-primary btn-block">Contact Seller</button>
+                            <button ng-if="!user_id && productLists.interest == 0" type="button" ng-click="is_clicked()" class="btn btn-primary btn-block">Contact Seller</button>
+
+                            <div ng-if="user_id && productLists.interest == 1 && is_click == 1">
+
+                                <!--<form class="modal-content animate" name="contacttoseller" ng-submit="contactseller(sellercontact)">-->
+                                <form class="modal-content animate"  ng-submit="addmessage(sellercontact)">
+                                    <h5>Your Message</h5>   
+
+                                    <textarea class="form-control" id="" value="" placeholder="" ng-model="sellercontact.message" name="message" capitalize required></textarea>
+
+                                    <input type="hidden" class="form-control" id="" value="" placeholder="" ng-model="sellercontact.seller_id = productLists.seller_id" name="uploaderid" required>
+
+                                    <input ng-if="loader" type="submit" value="Send" class="btn-round">
+                                </form>
+                            </div>
+
+                        </div>
+                        <div ng-if="!loader" class="loader"></div>
+
+                    </div>
+                    <div ng-if="user_id && productLists.interest == 1">
+                        <hr>
+                        <h6 class="card-title">Reviews</h6>
+                        <div class="reviews-holder">
+                            <div ng-repeat="reviewsss in allreviews" class="media">
+                                <div class="media-left mr-2">
+                                    <a href="#">
+                                        <img class="media-object" src="{{reviewsss.userimage}}" alt="">
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <h6 class="media-heading">
+                                        <span class="rating d-inline-block mr-2">
+                                            <ng-rating ng-model="reviewsss.rating"
+                                                       icon-class="rating.iconClass"
+                                                       editable="false"
+                                                       stars-count="rating.starsCount"
+                                                       based-on="rating.basedOn"
+                                                       >
+                                            </ng-rating>
+
+                                        </span>
+                                        {{reviewsss.username}} <span class="date d-inline-block ml-2">- {{reviewsss.date}}&nbsp days ago</span></h6>
+                                    <p class="mb-2">{{reviewsss.review}}</p>
+                                    <div ng-if="reviewsss.recomend == 1">
+                                        <p><i class="fa fa-check"></i> Yes, I recommend this product. </p>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <p class="text-right"  ng-if="!user_id && productLists.interest == 0"><a href="" data-toggle="modal" data-target="#login" class="btn btn-primary btn-block">Add Review</a></p>
+                            <p class="text-right"  ng-if="user_id && productLists.interest == 0"><button disabled class="btn btn-primary btn-block">Add Review</button></p>
+                            <p class="text-right"  ng-if="user_id && productLists.interest == 1"><a href="" data-toggle="modal" data-target="#myModal1" class="btn btn-primary btn-block">Add Review</a></p>
+                        </div>
+                    </div>
                 </div>
-                                                            <div class="col-sm-6" ng-if="!user_id && productLists.ctime > productLists.start_time">
-                                                                    
- 
-                                                                        <p class="mb-4" ng-if="productLists.interest==0 && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#login">Go Live Bidding</a></p>   
-                </div>
-                                                            
-              </div>
-              
-                                                        <p ng-if="!loader1" class="loader"></p>
-                                                        
-                                                       
-                                                        
             </div>
-          </div>
-          <div class="col-lg-5 col-md-7 col-sm-7">
-            <!--<div class="share-prod mb-2">Share this product : <a href="" class="d-inline-block text-secondary"><i class="fa fa-facebook"></i></a> <a href="" class="d-inline-block mx-2 text-secondary"><i class="fa fa-twitter"></i></a><a href="" class="d-inline-block text-secondary"><i class="fa fa-google-plus"></i></a></div>-->
-            <div class="seller-info p-3 border-secondary border rounded mb-3"  ng-if="productLists.seller_id!=user_id">
-                                                    <div ng-if="user_id && productLists.interest==1">
-                                                    <h6 class="card-title">Seller Info:</h6>
-              <p class="mb-1">{{productLists.seller_name}}</p>
-              <p class="text-secondary mb-0"><i class="fa fa-map-marker"></i> {{productLists.seller_address}}</p>
-                                                </div>
-<!--              <p class="text-secondary mb-2"><i class="fa fa-phone"></i> {{productLists.seller_address}}</p>-->
-              <h5><b>{{productLists.currency_code}} {{productLists.price}} </b></h5>
-              <p class="text-success">{{productLists.quantity}}pcs. Available. </p>
-              <p style="color:black">Model year :{{productLists.model_year}}</p>
-              <p style="color:black">Movement :{{productLists.movement}}</p>
-              <p style="color:black" ng-if="productLists.date_purchase">Date of Purchased :{{productLists.date_purchase}}</p>
-              <p style="color:black">Status of the watch :{{productLists.status_watch}}</p>
-                                                        <p ng-if="productLists.quantity=='0'" class="text-success">Out of stock.</p>
-               <div ng-if="user_id && productLists.interest==1">       
-              <hr>
-                                                       
-              <button ng-if="is_hide==0 && productLists.interest==1" type="button" ng-click="is_clicked()" class="btn btn-primary btn-block">Contact Seller</button>
-                                                        <button ng-if="user_id && productLists.interest==0" type="button" ng-click="is_clicked()" disabled class="btn btn-primary btn-block">Contact Seller</button>
-                                                        <button ng-if="!user_id && productLists.interest==0" type="button" ng-click="is_clicked()" class="btn btn-primary btn-block">Contact Seller</button>
-                                                        
-                                                          <div ng-if="user_id && productLists.interest==1 && is_click==1">
-
-                                                              <!--<form class="modal-content animate" name="contacttoseller" ng-submit="contactseller(sellercontact)">-->
-                                                              <form class="modal-content animate"  ng-submit="addmessage(sellercontact)">
-              <h5>Your Message</h5>   
-
-                                                        <textarea class="form-control" id="" value="" placeholder="" ng-model="sellercontact.message" name="message" capitalize required></textarea>
-                                                        
-                                                         <input type="hidden" class="form-control" id="" value="" placeholder="" ng-model="sellercontact.seller_id=productLists.seller_id" name="uploaderid" required>
-              
-                                                         <input ng-if="loader" type="submit" value="Send" class="btn-round">
-                                                              </form>
-                                                </div>
-
-</div>
-<div ng-if="!loader" class="loader"></div>
-
-            </div>
-            <div ng-if="user_id && productLists.interest==1">
-            <hr>
-            <h6 class="card-title">Reviews</h6>
-                                                <div class="reviews-holder">
-                                                    <div ng-repeat="reviewsss in allreviews" class="media">
-                <div class="media-left mr-2">
-                  <a href="#">
-                    <img class="media-object" src="{{reviewsss.userimage}}" alt="">
-                  </a>
-                </div>
-                <div class="media-body">
-                  <h6 class="media-heading">
-                                                                            <span class="rating d-inline-block mr-2">
-                                                                                <ng-rating ng-model="reviewsss.rating"
-                                                                                           icon-class="rating.iconClass"
-                                                                                           editable="false"
-                                                                                           stars-count="rating.starsCount"
-                                                                                           based-on="rating.basedOn"
-                                                                                           >
-                                                                                </ng-rating>
-                       
-                                                                            </span>
-                                                                            {{reviewsss.username}} <span class="date d-inline-block ml-2">- {{reviewsss.date}}&nbsp days ago</span></h6>
-                  <p class="mb-2">{{reviewsss.review}}</p>
-                                                                        <div ng-if="reviewsss.recomend == 1">
-                  <p><i class="fa fa-check"></i> Yes, I recommend this product. </p>
-                                                                        </div>
-                                                                       
-                  
-                </div>
-              </div>
-
-                                                        <p class="text-right"  ng-if="!user_id && productLists.interest==0"><a href="" data-toggle="modal" data-target="#login" class="btn btn-primary btn-block">Add Review</a></p>
-                                                        <p class="text-right"  ng-if="user_id && productLists.interest==0"><button disabled class="btn btn-primary btn-block">Add Review</button></p>
-              <p class="text-right"  ng-if="user_id && productLists.interest==1"><a href="" data-toggle="modal" data-target="#myModal1" class="btn btn-primary btn-block">Add Review</a></p>
-            </div>
-          </div>
         </div>
-        </div>
-      </div>
     </div>
-  </section>
-  
+</section>
+
 <div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-<form class="modal-content animate" ng-submit="checkauctionvaliditybeforeaddbid(bid)">
-    <!-- Modal content-->
-    <div class="modal-content">     
-        <div class="modal-body">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            
-            <div class="top-bar-part">
-                <div class="left-count">
-                    <p><i class="fa fa-user"></i> <span>{{productLists.countuniquebids}}</span></p>
-                </div>
-                
-                <div  class="right-icon-btn1" ng-if="productLists.lastbidvalue >= productLists.thresholdprice">
-                    <p> <span tooltips tooltip-template="Minimum bid price reached" tooltip-side="bottom"></span></p>
-                </div>
-                <div  class="right-icon-btn" ng-if="productLists.lastbidvalue < productLists.thresholdprice" >
-                    <p><span tooltips tooltip-template="Minimum bid price not reached" tooltip-side="bottom"></span></p>
-                </div>
-            </div>
-            <figure>
-                <img src="{{productLists.image}}" alt="Auction cap" height="200" width="200">
-            </figure>
-            <!-- <h5>Auction Date : 
-                        <p ng-if="productLists.action_date">{{productLists.action_date}}</p>
-                        
-               </h5>
-            <h5>Auction Time : 
-                        <p ng-if="productLists.action_time">{{productLists.action_time}}</p>
-                        
-               </h5>-->
-            <h5>Total No Of Bid(s) : &nbsp; <p>{{productLists.bidcount}}</p></h5>
-<!--            <h5>Total No User Bidding : &nbsp; <p>{{productLists.countuniquebids}}</p></h5>-->
-             <h5> Highest Bidder Name : 
+    <div class="modal-dialog">
+        <form class="modal-content animate" ng-submit="checkauctionvaliditybeforeaddbid(bid)">
+            <!-- Modal content-->
+            <div class="modal-content">     
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                    <div class="top-bar-part">
+                        <div class="left-count">
+                            <p><i class="fa fa-user"></i> <span>{{productLists.countuniquebids}}</span></p>
+                        </div>
+
+                        <div  class="right-icon-btn1" ng-if="productLists.lastbidvalue >= productLists.thresholdprice">
+                            <p> <span tooltips tooltip-template="Minimum bid price reached" tooltip-side="bottom"></span></p>
+                        </div>
+                        <div  class="right-icon-btn" ng-if="productLists.lastbidvalue < productLists.thresholdprice" >
+                            <p><span tooltips tooltip-template="Minimum bid price not reached" tooltip-side="bottom"></span></p>
+                        </div>
+                    </div>
+                    <figure>
+                        <img src="{{productLists.image}}" alt="Auction cap" height="200" width="200">
+                    </figure>
+                    <!-- <h5>Auction Date : 
+                                <p ng-if="productLists.action_date">{{productLists.action_date}}</p>
+                                
+                       </h5>
+                    <h5>Auction Time : 
+                                <p ng-if="productLists.action_time">{{productLists.action_time}}</p>
+                                
+                       </h5>-->
+                    <h5>Total No Of Bid(s) : &nbsp; <p>{{productLists.bidcount}}</p></h5>
+                    <!--            <h5>Total No User Bidding : &nbsp; <p>{{productLists.countuniquebids}}</p></h5>-->
+                    <h5> Highest Bidder Name : 
                         <p ng-if="!productLists.higestbidderbid">No bid yet</p>
                         <p ng-if="productLists.higestbidderbid">{{productLists.maxbiddername}}({{productLists.higestbidderbid}})</p>
-                       </h5>
-                       
-                       
-                        <h5>Your Highest Bid : 
+                    </h5>
+
+
+                    <h5>Your Highest Bid : 
                         <p ng-if="!productLists.maxbid">You have not bid yet</p>
                         <p ng-if="productLists.maxbid">{{productLists.currency_code}}&nbsp;{{productLists.maxbid}}</p>
-                       </h5>
+                    </h5>
 
-                        
+
                     <h5> 
                         <!--<span onclick="a()">Bid History</span>-->
                         <a ng-click="a()" class="btn btn-primary btn-dark" href="javascript:void(0)">Bid History</a>
                     </h5>
-                    
-                        <div id="history" style="display: none">
-                          <p ng-repeat="bidlist in productLists.bidhistory">{{bidlist.name}} ({{bidlist.bidprice}})</p>
-                       </div>
-                
-                        <h5>Time Left :  
-                        <div class='time-to' ng-if="productLists.preferred_date &&  productLists.type==2">
+
+                    <div id="history" style="display: none">
+                        <p ng-repeat="bidlist in productLists.bidhistory">{{bidlist.name}} ({{bidlist.bidprice}})</p>
+                    </div>
+
+                    <h5>Time Left :  
+                        <div class='time-to' ng-if="productLists.preferred_date && productLists.type == 2">
                             <p countdown='' date='{{productLists.preferred_date}}' style="color:red">&nbsp;</p>
                         </div>
-                            </h5>  
-                        <hr>
-                        <div class="p-nm">
-                            <h5>{{productLists.brands}}/{{productLists.category}}<br> <small>({{productLists.gender}})</small></h5>
-                        </div>
-<!--                        <h6>Product Threshold Price : 
-                        <p ng-if="productLists.lastbidvalue >= productLists.thresholdprice" style="color:red">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
-                        <p ng-if="productLists.lastbidvalue < productLists.thresholdprice" style="color:green">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
-                        </h6>-->
-                        <h6>Highest Bid : <p>{{productLists.currency_code}}&nbsp;{{productLists.lastbidvalue}}</p> </h6>
-                        
-                         <h6> Next Minimum Bid : 
+                    </h5>  
+                    <hr>
+                    <div class="p-nm">
+                        <h5>{{productLists.brands}}/{{productLists.category}}<br> <small>({{productLists.gender}})</small></h5>
+                    </div>
+                    <!--                        <h6>Product Threshold Price : 
+                                            <p ng-if="productLists.lastbidvalue >= productLists.thresholdprice" style="color:red">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
+                                            <p ng-if="productLists.lastbidvalue < productLists.thresholdprice" style="color:green">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
+                                            </h6>-->
+                    <h6>Highest Bid : <p>{{productLists.currency_code}}&nbsp;{{productLists.lastbidvalue}}</p> </h6>
+
+                    <h6> Next Minimum Bid : 
                         <p ng-if="productLists.nextbidprice > 0">{{productLists.currency_code}}&nbsp;{{productLists.nextbidprice}}</p>
                         <p ng-if="productLists.nextbidprice <= 0">{{productLists.currency_code}}&nbsp;{{productLists.baseauctionprice}}</p>
-                       </h6>
-                        
-                        <h6>                                         
-                            
-                            <input type="number" class="form-control btn-round" id="" step="{{productLists.bidincrement}}" tooltips tooltip-template="Bid Increment is multiple of {{productLists.bidincrement}}" tooltip-side="up"  placeholder="Input Your Bid" ng-model="bid.bidprice" name="bidprice" capitalize required>
-                        <input type="hidden" class="form-control" id="" value="" placeholder="" ng-model="bid.uploaderid=productLists.uploader_id" name="uploaderid" required>
+                    </h6>
+
+                    <h6>                                         
+
+                        <input type="number" class="form-control btn-round" id="" step="{{productLists.bidincrement}}" tooltips tooltip-template="Bid Increment is multiple of {{productLists.bidincrement}}" tooltip-side="up"  placeholder="Input Your Bid" ng-model="bid.bidprice" name="bidprice" capitalize required>
+                        <input type="hidden" class="form-control" id="" value="" placeholder="" ng-model="bid.uploaderid = productLists.uploader_id" name="uploaderid" required>
                         <input type="hidden" class="form-control" id="" placeholder="" ng-model="productLists.id" name="productid" required>
-                        </h6>
-                       <div ng-if="bid.bidprice < productLists.nextbidprice" class="submit-btn-btn">
-                           <input type="submit" value="Bid Price should be greater than equals to Min Bid"  class="btn-round" disabled >
-                        </div>
-                        <!--<div ng-if="productLists.nextbidprice <= 0">-->
+                    </h6>
+                    <div ng-if="bid.bidprice < productLists.nextbidprice" class="submit-btn-btn">
+                        <input type="submit" value="Bid Price should be greater than equals to Min Bid"  class="btn-round" disabled >
+                    </div>
+                    <!--<div ng-if="productLists.nextbidprice <= 0">-->
 
-                           <div ng-if="bid.bidprice >= productLists.nextbidprice">
-                                <input type="submit" value="Place Bid" class="btn-round">
-                           </div>
-                        <!--</div>-->
-                       
+                    <div ng-if="bid.bidprice >= productLists.nextbidprice">
+                        <input type="submit" value="Place Bid" class="btn-round">
+                    </div>
+                    <!--</div>-->
 
-<!--                        <div ng-if="bid.bidprice >= productLists.nextbidprice">-->
-                            <!--<input type="submit" value="Submit" class="btn-round">-->
-                        <!--</div>-->
-                                                                          
+
+                    <!--                        <div ng-if="bid.bidprice >= productLists.nextbidprice">-->
+                    <!--<input type="submit" value="Submit" class="btn-round">-->
+                    <!--</div>-->
+
                 </div>
-<!--
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>-->
+                <!--
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>-->
             </div>
         </form>
     </div>
 </div>
 
 <div id="myModal1" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-<form class="modal-content animate" ng-submit="addreview(review)">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-       <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
-        <h4 class="modal-title"></h4>
-      </div>
-         
-                                        <div class="modal-body">
-                                           <ul class="list-unstyled">
-      <li  style="margin-bottom:50px">
-        <h1>{{rating.title }}</h1>
-        <ng-rating ng-model="review.rating"
-          icon-class="rating.iconClass"
-          editable="rating.editableRating"
-          stars-count="rating.starsCount"
-          based-on="rating.basedOn"
-          show-grade="false">
-        </ng-rating>
-                       
-      </li>
-    </ul>
-              <hr>
-                                                        <h5>Your Review</h5>   
-                                                        <textarea class="form-control" id="" value="" placeholder="" ng-model="review.review" name="review" capitalize required></textarea>
-                                                        
-                                                        
-                                                        <hr>
-                                                       Recommend this product ? &nbsp;<input type="radio" class="input-field"  name="recomend" value="1" ng-model="review.recomend" required>
-                        <span>Yes</span>
-                        <input type="radio" class="input-field"  name="recomend" value="2" ng-model="review.recomend" required>
-                        <span>No</span>
-                                                 <hr>
-                                                         <div>
-                                                            
-                                                        <div>
-<input type="submit" value="Submit" >
-</div>
-                                                         </div>                                                  
-      </div>
+    <div class="modal-dialog">
+        <form class="modal-content animate" ng-submit="addreview(review)">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                    <h4 class="modal-title"></h4>
+                </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+                <div class="modal-body">
+                    <ul class="list-unstyled">
+                        <li  style="margin-bottom:50px">
+                            <h1>{{rating.title}}</h1>
+                        <ng-rating ng-model="review.rating"
+                                   icon-class="rating.iconClass"
+                                   editable="rating.editableRating"
+                                   stars-count="rating.starsCount"
+                                   based-on="rating.basedOn"
+                                   show-grade="false">
+                        </ng-rating>
+
+                        </li>
+                    </ul>
+                    <hr>
+                    <h5>Your Review</h5>   
+                    <textarea class="form-control" id="" value="" placeholder="" ng-model="review.review" name="review" capitalize required></textarea>
+
+
+                    <hr>
+                    Recommend this product ? &nbsp;<input type="radio" class="input-field"  name="recomend" value="1" ng-model="review.recomend" required>
+                    <span>Yes</span>
+                    <input type="radio" class="input-field"  name="recomend" value="2" ng-model="review.recomend" required>
+                    <span>No</span>
+                    <hr>
+                    <div>
+
+                        <div>
+                            <input type="submit" value="Submit" >
+                        </div>
+                    </div>                                                  
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </form>
     </div>
-</form>
-  </div>
 </div>
 
 
 <div id="password" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-<form class="modal-content animate" ng-submit="checkpassword(pass)">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-       <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
-        <h4 class="modal-title"></h4>
-      </div>
-         
-                                        <div class="modal-body">
-                                                       <h5>Please Enter Your Password Below</h5>   
-                                                       <input type="password" class="input-field"  name="password" value="2" ng-model="pass.password" capitalize required>
-                                                       <p ng-if="error" style="color:red" capitalize> {{error}}</p>
-                                                 <hr>
-                                                         <div>
-                                                            
-                                                        <div>
-<input type="submit" value="Continue" >
-</div>
-                                                         </div>                                                  
-      </div>
+    <div class="modal-dialog">
+        <form class="modal-content animate" ng-submit="checkpassword(pass)">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                    <h4 class="modal-title"></h4>
+                </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+                <div class="modal-body">
+                    <h5>Please Enter Your Password Below</h5>   
+                    <input type="password" class="input-field"  name="password" value="2" ng-model="pass.password" capitalize required>
+                    <p ng-if="error" style="color:red" capitalize> {{error}}</p>
+                    <hr>
+                    <div>
+
+                        <div>
+                            <input type="submit" value="Continue" >
+                        </div>
+                    </div>                                                  
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </form>
     </div>
-</form>
-  </div>
 </div>
 
 
 
 <div id="winner" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+    <div class="modal-dialog">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-       <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
-        <h4 class="modal-title"></h4>
-      </div>
-         
-                                        <div class="modal-body">
-                                                       <h5>{{winnermsg}}</h5>   
-                                                                                                       
-      </div>
-        
-        <div class="modal-body" ng-if="winnerlink==2">
-            <a ng-if="winnerlink==2" class="nav-link" ng-click="gotolink2(productLists.id)" href="javascript:void(0)">Click Here</a> 
-               
-</div>
-        <div class="modal-body" ng-if="winnerlink==1">
-            <a ng-if="winnerlink==1" class="nav-link" ng-click="gotolink()" href="javascript:void(0)">Click Here</a> 
-               
-</div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                <h4 class="modal-title"></h4>
+            </div>
+
+            <div class="modal-body">
+                <h5>{{winnermsg}}</h5>   
+
+            </div>
+
+            <div class="modal-body" ng-if="winnerlink == 2">
+                <a ng-if="winnerlink == 2" class="nav-link" ng-click="gotolink2(productLists.id)" href="javascript:void(0)">Click Here</a> 
+
+            </div>
+            <div class="modal-body" ng-if="winnerlink == 1">
+                <a ng-if="winnerlink == 1" class="nav-link" ng-click="gotolink()" href="javascript:void(0)">Click Here</a> 
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
     </div>
-                       
-  </div>
 </div>
 <script>
-    
-    function a(){
-       
+
+    function a() {
+
         $('#history').toggle();
-       
+
     }
-    
+
 </script>
 <style>
- .loader {
-  height: 4px;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  background-color: #ddd;
-}
-.loader:before{
-  display: block;
-  position: absolute;
-  content: "";
-  left: -200px;
-  width: 200px;
-  height: 4px;
-  background-color: #2980b9;
-  animation: loading 2s linear infinite;
-}
+    .loader {
+        height: 4px;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        background-color: #ddd;
+    }
+    .loader:before{
+        display: block;
+        position: absolute;
+        content: "";
+        left: -200px;
+        width: 200px;
+        height: 4px;
+        background-color: #2980b9;
+        animation: loading 2s linear infinite;
+    }
 
-@keyframes loading {
-    from {left: -200px; width: 30%;}
-    50% {width: 30%;}
-    70% {width: 70%;}
-    80% { left: 50%;}
-    95% {left: 120%;}
-    to {left: 100%;}
-}  
+    @keyframes loading {
+        from {left: -200px; width: 30%;}
+        50% {width: 30%;}
+        70% {width: 70%;}
+        80% { left: 50%;}
+        95% {left: 120%;}
+        to {left: 100%;}
+    }  
 
-#carousel img {
-display: block;
-opacity: .5;
-cursor: pointer;
-}
+    #carousel img {
+        display: block;
+        opacity: .5;
+        cursor: pointer;
+    }
 
-#carousel .flex-active-slide img {
-opacity: 1;
-cursor: default;
-}
+    #carousel .flex-active-slide img {
+        opacity: 1;
+        cursor: default;
+    }
 
-.flexslider .slides > li {
-    display: block;
-    -webkit-backface-visibility: hidden;
-}
+    .flexslider .slides > li {
+        display: block;
+        -webkit-backface-visibility: hidden;
+    }
 
-/*#myModal .modal-dialog{
-    overflow-y: initial !important
-}
-#myModal .modal-body{
-    height: 600px;
-    overflow-x: auto;
-}*/
+    /*#myModal .modal-dialog{
+        overflow-y: initial !important
+    }
+    #myModal .modal-body{
+        height: 600px;
+        overflow-x: auto;
+    }*/
 </style>

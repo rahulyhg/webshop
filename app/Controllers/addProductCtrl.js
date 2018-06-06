@@ -309,6 +309,34 @@ if( $window.localStorage["breslet_type"])
 	});
         
         
+        
+         userService.listbracelet().then(function(response) {
+          
+		$scope.isExists=1;
+		if(response.Ack == '1') {
+                   
+                    $scope.isExists=1;
+                 
+		$scope.braceletlist=response.braceletlist;
+               
+		} else {
+                   
+                    $scope.isExists=0;
+		}
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
              
         $scope.sub = function(cat_id){
           // alert(cat_id);

@@ -175,7 +175,7 @@ if($scope.year){
     $scope.year="";
 }
 
- /*   
+   
 if($scope.amount_min){
     $scope.amount_min;
     $('#min_price').html($scope.amount_min);
@@ -191,7 +191,7 @@ if($scope.amount_max){
     //alert('max');
     $scope.amount_max= 10000;
     $('#max_price').html(10000);
-}*/
+}
 
 if($scope.preferred_date){
     $scope.preferred_date;
