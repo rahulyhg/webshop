@@ -131,9 +131,9 @@
                                                     
                                                     
                                                     <hr>
-                                                    <p>Amount Min: <span id="min_price">0</span><input type="hidden"  ng-model="amount_min" readonly/> </p>
-    <p>Amount Max: <span id="max_price">10000</span><input type="hidden" ng-model="amount_max" readonly/> </p>
-    <slider-range min="0" max="10000" step="50" ng-mouseup="searchListing()" value-min="amount_min" value-max="amount_max"></slider-range>
+                                                    <p>Amount Min: <span id="min_price">{{amount_min}}</span><input type="hidden"  ng-model="amount_min" readonly/> </p>
+    <p>Amount Max: <span id="max_price">{{amount_max}}</span><input type="hidden" ng-model="amount_max" readonly/> </p>
+    <slider-range min="{{amount_min}}" max="{{amount_max}}" step="50" ng-mouseup="searchListing()" value-min="amount_min" value-max="amount_max"></slider-range>
     <hr>
 							<!--<div id="collapseOne" class="collapse show">
 								<div class="form-check">

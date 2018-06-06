@@ -5061,6 +5061,31 @@ var encodedString ='{"product_id":"'+ product_id +'"}';
             });
         });
  };
+ 
+ var getmaxprice = function(type) {
+        return $q(function(resolve, reject) {
+var encodedString ='{"type":"'+ type +'"}';
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"getmaxprice",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           //console.log(response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           } else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+ };
  return {
      
        // homeSettingsSection:homeSettingsSection,
@@ -5219,7 +5244,7 @@ var encodedString ='{"product_id":"'+ product_id +'"}';
         adminaddmessage:adminaddmessage,
         getallproductimages:getallproductimages,
         listcategory:listcategory,
-
+        getmaxprice:getmaxprice,
 
 	
 };
