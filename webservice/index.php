@@ -1632,6 +1632,52 @@ function homeSettings() {
         }
     }
 
+    $sqltopmodel = "SELECT * from  webshop_products where type= '2' && is_top_model = '1'";
+
+    $stmtsqltopmodel = $db->prepare($sqltopmodel);
+    $stmtsqltopmodel->execute();
+    $auctionedProductstopmodel = $stmtsqltopmodel->fetchAll(PDO::FETCH_OBJ);
+    $categoryname ='';
+    if (!empty($auctionedProductstopmodel)) {
+        foreach ($auctionedProductstopmodel as $auctionedtopmodel) {
+
+
+            if ($auctioned->image != '') {
+                $product_image_topmodel = SITE_URL . 'upload/product_image/' . $auctionedtopmodel->image;
+            } else {
+                $product_image_topmodel = SITE_URL . 'webservice/not-available.jpg';
+            }
+            
+            $sqlcategory = "SELECT * FROM  webshop_category WHERE id=:id ";
+            $stmtcategory = $db->prepare($sqlcategory);
+            $stmtcategory->bindParam("id", $auctionedtopmodel->cat_id);
+            $stmtcategory->execute();
+            $getcategory = $stmtcategory->fetchObject();
+            if (!empty($getcategory)) {
+                $categoryname = $getcategory->name;
+            }
+
+            
+            $sql21 = "SELECT * FROM  webshop_brands WHERE id=:id ";
+            $stmt21 = $db->prepare($sql21);
+            $stmt21->bindParam("id", $auctionedtopmodel->brands);
+            $stmt21->execute();
+            $getbrand = $stmt21->fetchObject();
+            if (!empty($getbrand)) {
+                $brand = $getbrand->name;
+            }
+            
+            $top_product_name = $categoryname.'/'.$brand;
+            $topproductList[] = array(
+                "product_id" => stripslashes($auctioned->id),
+                "product_name" => $top_product_name,
+                "product_description" => strip_tags(stripslashes($auctioned->description)),
+                "product_image" => stripslashes($product_image_topmodel),
+            );
+        }
+       
+    }
+    
     $sql3 = "SELECT * from  webshop_products where launched = 1 order by id";
 
     $stmt3 = $db->prepare($sql3);
@@ -1647,7 +1693,8 @@ function homeSettings() {
             } else {
                 $launchedproduct_image = SITE_URL . 'webservice/not-available.jpg';
             }
-
+            
+            $top_product_name = $categoryname.'/'.$brand;
             $launchedproductList[] = array(
                 "product_id" => stripslashes($launched->id),
                 "product_name" => '',
@@ -1670,6 +1717,13 @@ function homeSettings() {
     } else {
         $data['productList'] = array();
     }
+    
+    if (!empty($topproductList)) {
+        $data['topmodellist'] = $topproductList;
+    } else {
+        $data['topmodellist'] = array();
+    }
+    
     if (!empty($launchedproductList)) {
         $data['launchedproductList'] = $launchedproductList;
     } else {
@@ -2017,18 +2071,18 @@ function listCurrency() {
 
     try {
 
-        $sql = "SELECT * from webshop_currency where 1";
+        $sql = "SELECT * from webshop_currency";
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $getCurrency = $stmt->fetchAll(PDO::FETCH_OBJ);
-
+//print_r($getCurrency);exit;
         foreach ($getCurrency as $currency) {
 
             $allcurrency[] = array(
                 "id" => stripslashes($currency->id),
                 "name" => stripslashes($currency->name),
                 "code" => stripslashes($currency->code),
-                "symbol" => stripslashes($currency->symbol),
+                //"symbol" => stripslashes($currency->symbol),
             );
         }
 
@@ -5134,6 +5188,7 @@ function auctionListSearch() {
     $user_id = isset($body->user_id) ? $body->user_id : '';
 
     $brand = isset($body->brand) ? $body->brand : '';
+    
     $brandListing = isset($body->brandList) ? $body->brandList : '';
     $sellerListing = isset($body->sellerList) ? $body->sellerList : '';
     $selected_value = isset($body->selected_value) ? $body->selected_value : '';
@@ -5219,8 +5274,9 @@ if ($category != '') {
 
     if ($brand != '') {
 
-        $sql .= " AND `brands` = '" . $brand . "'";
+       $sql .= " AND `brands` = '" . $brand . "'";
     }
+    
     if ($breslettype != '') {
 
         $sql .= " AND `breslet_type` = '" . $breslettype . "'";
@@ -5266,8 +5322,7 @@ if ($category != '') {
 
 
 
-//echo($sql);
-// exit;
+
 
     try {
         $stmt = $db->prepare($sql);
@@ -5363,7 +5418,7 @@ if ($category != '') {
         $data['msg'] = $e->getMessage();
         $app->response->setStatus(401);
     }
-
+//print_r($data['productList']);exit;
     $app->response->write(json_encode($data));
 }
 
@@ -5802,6 +5857,7 @@ function liststatus() {
             $allstatus[] = array(
                 'name' => stripslashes($status->status),
                 'id' => stripslashes($status->id),
+                'rating'=>stripslashes($status->rating),
             );
         }
 //print_r($data);
@@ -6262,11 +6318,14 @@ if ($keyword != '') {
 
 
 
-                    $sql3 = "SELECT * FROM  webshop_subcategory WHERE id=:id ";
-                    $stmt3 = $db->prepare($sql3);
-                    $stmt3->bindParam("id", $product->subcat_id);
-                    $stmt3->execute();
-                    $getsubcategory = $stmt3->fetchObject();
+                        $sql3 = "SELECT * FROM  webshop_brands WHERE id=:id ";
+                        $stmt3 = $db->prepare($sql3);
+                        $stmt3->bindParam("id", $product->brands);
+                        $stmt3->execute();
+                        $getsubcategory = $stmt3->fetchObject();
+                if (!empty($getsubcategory)) {
+                    $subcategoryname = $getsubcategory->name;
+                }
 
 
                     $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
@@ -6291,20 +6350,22 @@ if ($keyword != '') {
                     }
 
                     $data['productList'][] = array(
-                        "id" => stripslashes($product->id),
-                        "image" => stripslashes($image),
-                        "price" => stripslashes($product->price),
-                        "description" => strip_tags(stripslashes($product->description)),
-                        "category_name" => $categoryname,
-                        // "subcategory_name" => $subcategoryname,
-                        "seller_id" => stripslashes($product->uploader_id),
-                        "seller_image" => $profile_image,
-                        "seller_name" => stripslashes($seller_name),
-                        "seller_address" => stripslashes($seller_address),
-                        "seller_phone" => stripslashes($seller_phone),
-                        "productname" => stripslashes($product->name),
-                        "top" => stripslashes($top)
-                    );
+                            "id" => stripslashes($product->id),
+                            "image" => stripslashes($image),
+                            "price" => stripslashes($product->price),
+                            "description" => strip_tags(stripslashes($product->description)),
+                            "category_name" => $categoryname,
+                             "brands" => $subcategoryname,
+                            "seller_id" => stripslashes($product->uploader_id),
+                            "seller_image" => $profile_image,
+                            "seller_name" => stripslashes($seller_name),
+                            "seller_address" => stripslashes($seller_address),
+                            "seller_phone" => stripslashes($seller_phone),
+                            "productname" => '',
+                            "currency_code" => stripslashes($product->currency_code),
+                            
+                            "top" => stripslashes($top),
+                        );
                 }
             }
 

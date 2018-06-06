@@ -134,7 +134,7 @@
 									<div class="form-group">
 
 										<label for="staticEmail">{{language.price}}*</label>
-										<input type="number" class="form-control" id="" value="" placeholder="" ng-model="user2.price" name="price" min="1" ng-pattern="/^[1-9]/" required>
+										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user2.price" name="price"  ng-pattern="/^[1-9]+$/" required>
 
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.price.$error.required">This Field Is Required! </span>
                                                                                 
