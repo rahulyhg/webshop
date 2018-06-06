@@ -5462,17 +5462,15 @@ function listshops() {
 
     $db = getConnection();
 
-    $user_id = isset($body->user_id) ? $body->user_id : '';
+    //$user_id = isset($body->user_id) ? $body->user_id : '';
 
 
     try {
 
-        if ($user_id == '' || $user_id == 'undefined') {
+       
 
-            $sql = "SELECT * from webshop_user where business_type = '2'";
-        } else {
-            $sql = "SELECT * from webshop_user where business_type = '2' and id!='" . $user_id . "'";
-        }
+            $sql = "SELECT * from webshop_user where type = '2' AND status='1' AND email_verified='1' AND is_admin_approved='1'";
+       
 
 
         $stmt = $db->prepare($sql);
@@ -10558,5 +10556,139 @@ function listbracelet() {
     $app->response->write(json_encode($data));
 }
 
+
+function shopDetails() {
+
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+// $email = $body['email'];
+    $shop_id = $body->shop_id;
+
+    try {
+        $db = getConnection();
+
+
+
+        $sql = "SELECT * FROM  webshop_user WHERE id=:id ";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("id", $shop_id);
+        $stmt->execute();
+        $getUserdetails = $stmt->fetchObject();
+
+        if ($getUserdetails->image != '') {
+            $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
+        } else {
+            $profile_image = SITE_URL . 'webservice/no-user.png';
+        }
+
+       
+        $name = $getUserdetails->fname.' '.$getUserdetails->lname;
+        $countryname='No prefered country added';
+        if($getUserdetails->country_preference != ''){
+           $sqlcountry =  "SELECT * FROM  webshop_countries WHERE `id`='$getUserdetails->country_preference'"; 
+           
+           $stmtcountry = $db->prepare($sqlcountry);
+       
+        $stmtcountry->execute();
+        $getcountry = $stmtcountry->fetchObject();
+        if (!empty($getcountry)) {
+            $countryname = $getcountry->name;
+        }else{
+            $countryname='No prefered country added';
+        }
+        }
+       
+        if($getUserdetails->currency_preference != ''){
+           $sqlcurrency_preference =  "SELECT * FROM  webshop_currency WHERE `code`='$getUserdetails->currency_preference'"; 
+           
+           $stmtcurrency_preference = $db->prepare($sqlcurrency_preference);
+       
+        $stmtcurrency_preference->execute();
+        $getcurrency_preference = $stmtcurrency_preference->fetchObject();
+        if (!empty($getcurrency_preference)) {
+            $currency_preferencename = $getcurrency_preference->name;
+        }else{
+            $currency_preferencename='No currency added';
+        }
+        }
+         
+         if($getUserdetails->country != ''){
+           $sqlusercountry =  "SELECT * FROM  webshop_countries WHERE `id`='$getUserdetails->country'"; 
+           
+           $stmtusercountry = $db->prepare($sqlusercountry);
+       
+        $stmtusercountry->execute();
+        $getusercountry = $stmtusercountry->fetchObject();
+        if (!empty($getusercountry)) {
+            $usercountry = $getusercountry->name;
+        }else{
+            $usercountry='No country added';
+        }
+        }else{
+            $usercountry='No country added'; 
+        }
+      
+         if($getUserdetails->state != ''){
+           $sqlstate =  "SELECT * FROM  webshop_states WHERE `id`='$getUserdetails->state'"; 
+           
+           $stmtstate = $db->prepare($sqlstate);
+       
+        $stmtstate->execute();
+        $getstate = $stmtstate->fetchObject();
+        if (!empty($getstate)) {
+            $state = $getstate->name;
+        }else{
+            $state='No state added';
+        }
+        }else{
+            $state='No state added';
+        }
+     
+         
+
+        $data['UserDetails'] = array(
+            "user_id" => stripslashes($getUserdetails->id),
+            
+            "name" => stripslashes($name),
+            "description" => strip_tags(stripslashes($getUserdetails->description)),
+            "gender" => stripslashes($getUserdetails->gender),
+           "country_preference"=>stripslashes($countryname),
+            "currency_preference"=>stripslashes($currency_preferencename),
+            "email" => stripslashes($getUserdetails->email),
+            "language_preference" => stripslashes($getUserdetails->language_preference),
+           
+            
+            "phone" => stripslashes($getUserdetails->phone),
+            "dob" => stripslashes($getUserdetails->dob),
+            "profile_image" => stripslashes($profile_image),
+            
+            "language_preference" => stripslashes($getUserdetails->language_preference),
+            
+          
+            "country" => stripslashes($usercountry),
+            "state" => stripslashes($state),
+           
+           
+            "currency_preference" => stripslashes($getUserdetails->currency_preference));
+
+
+        $data['Ack'] = '1';
+        $data['msg'] = 'Success';
+        $app->response->setStatus(200);
+
+
+        $db = null;
+    } catch (PDOException $e) {
+        $data['id'] = '';
+        $data['Ack'] = '0';
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+    $app->response->write(json_encode($data));
+}
 $app->run();
 ?>

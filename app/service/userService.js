@@ -5088,8 +5088,7 @@ var encodedString ='{"type":"'+ type +'"}';
  };
  
  
- 
- var listbracelet = function() {
+var listbracelet = function() {
         return $q(function(resolve, reject) {
          
         $http({
@@ -5141,10 +5140,39 @@ var encodedString ='{"type":"'+ type +'"}';
             });
         });
  };
- 
- 
- 
- 
+  
+  
+  
+  var shopDetails = function(shop_id) {
+        return $q(function(resolve, reject) {
+                
+//var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+var encodedString ='{"shop_id":"'+ shop_id +'"}';
+
+           // alert(encodedString);
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"shopDetails",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           console.log(response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           } else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+ };
+  
+
  return {
      
        // homeSettingsSection:homeSettingsSection,
@@ -5304,8 +5332,12 @@ var encodedString ='{"type":"'+ type +'"}';
         getallproductimages:getallproductimages,
         listcategory:listcategory,
         getmaxprice:getmaxprice,
+
         listbracelet:listbracelet,
         packagedetails:packagedetails
+
+        shopDetails:shopDetails,
+
 
 	
 };

@@ -1351,6 +1351,27 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                             },
                             resolve: loadSequence('viewwinauction')
                         })
+                        
+                           .state('frontend.shoplisting', {
+                url: '/shoplisting/:id',
+                templateUrl: 'app/views/shoplisting.html',
+                title: 'shoplisting',
+				controller: 'shoplistingCtrl',
+                ncyBreadcrumb: {
+                    label: 'Shop listing page'
+                },
+                resolve: loadSequence('shoplisting')
+            })
+            .state('frontend.shopDetails', {
+                url: '/shopDetails/:id',
+                templateUrl: 'app/views/shopDetails.html',
+                title: 'productDetails',
+				controller: 'shopDetailsCtrl',
+                ncyBreadcrumb: {
+                    label: 'Shop Details page'
+                },
+                resolve: loadSequence('shopDetails')
+            })
           /*   .state('frontend.test', {
                 url: '/test',
                 templateUrl: 'app/views/test.html',

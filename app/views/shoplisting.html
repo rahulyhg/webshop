@@ -1,0 +1,400 @@
+<section class="innerbody search-list" ng-init="searchListing();">
+		<div class="container">
+			<nav aria-label="breadcrumb">
+			  <ol class="breadcrumb">
+			    <li class="breadcrumb-item"><a href="#">Home</a></li>
+			    <li class="breadcrumb-item active">Watches</li>
+			  </ol>
+			</nav>
+			<div class="search-header widte-bg py-3 px-4 mb-3">
+				<!--<form class="m-0" ng-submit="normalsearch(formdata)">-->
+				  <div class="form-row align-items-center">
+				    <div class="col-sm-4 my-1">
+				      <div class="input-group">
+				        <div class="input-group-prepend">
+				          <div class="input-group-text"><i class="fa fa-user"></i></div>
+				        </div>
+				        
+
+
+                                                <select class="custom-select" id="inputGroupSelect01" ng-change="searchListing()" ng-model="gender">
+                                                            <option value="" selected="selected">Gender</option>
+							    <option value="Male">Male</option>
+							    <option value="Female">Female</option>
+                                                            <option value="Unisex">Unisex</option>
+							    
+						  </select>
+
+
+
+				      </div>
+				    </div>
+				    <div class="col-sm-4 my-1">
+                                        
+					    	<select class="custom-select" id="inputGroupSelect01" ng-model="breslettype" ng-change="searchListing()">
+							    <option value="" selected="selected">Breslet</option>
+							    <option value="L">Leather</option>
+							    <option value="M">Metal</option>
+							    
+						  </select>
+					 </div>
+				   <!--  <div class="col-sm-4 my-1">
+				      <div class="input-group">
+				        <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Username">
+				      </div>
+				    </div> -->
+				     <div class="col-sm-4 my-1">
+					    	 <select class="custom-select" ng-change="searchListing()" ng-model='year' ng-options='year for year in YearsList'></select>
+					 </div>
+<!--				    <div class="col-sm-1 my-1">
+				      <button type="submit" class="btn btn-primary btn-block">Submit</button>
+				    </div>-->
+				  
+                                
+                                
+                                
+<!--                            <div class="col-sm-3 my-1">
+                                        
+                                        <datepicker date-format="yyyy-MM-dd" selector="form-control"  date-enabled-dates="{{listAuctionDtates}}">
+
+                                       <input class="form-control" ng-change="searchListing()"  ng-model="preferred_date" name="preferred_date" required placeholder="Choose auction date" readonly/>
+
+                                    </datepicker>
+                                </div>-->
+                                
+                                
+                                </div>
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+				<!--</form>-->
+			</div>
+			<div class="row d-flex">
+				<div class="col-md-3">
+					<div class="filter widte-bg py-3 px-3">
+						<h3 class="pb-2">Filter By</h3>
+                                                
+                                                
+                                                
+                                                <div class="filter-holder">
+                                                
+                                                    <a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+								Location
+							</a>
+                                                <div class="form-group">
+
+                                                                <select class="form-control" name="country" ng-model="user.country" ng-change="state(user.country)"  required>
+                                                                    <option value="">Select Country</option>
+                                                                    <option  ng-repeat="countrylists in countrylist" value="{{countrylists.id}}">{{countrylists.name}}</option>
+                                                                </select>
+
+
+                                                            </div>
+
+
+                                                            <div class="form-group">
+
+                                                                <select class="form-control" name="state" ng-model="user.state" ng-change="city(user.state)"  required>
+                                                                    <option value="">Select state</option>
+                                                                    <option  ng-repeat="statelists in statelist" value="{{statelists.id}}">{{statelists.name}}</option>
+                                                                </select> 
+                                                            </div>
+
+
+
+                                                            <div class="form-group">
+
+
+                                                                <select class="form-control" name="city_id" ng-change="searchListing()" ng-model='city_id'   required>
+                                                                    <option value="">Select city</option>
+                                                                    <option  ng-repeat="citylists in citylist" value="{{citylists.id}}">{{citylists.name}}</option>
+                                                                </select>  
+                                                            </div>
+                                                
+                                                
+                                                </div>
+                                                
+                                                
+                                                
+						<div class="filter-holder">					    
+							<a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+								Price
+							</a>
+                                                    
+                                                    
+                                                    <hr>
+                                                    <p>Amount Min: <span id="min_price">{{amount_min}}</span><input type="hidden"  ng-model="amount_min" readonly/> </p>
+    <p>Amount Max: <span id="max_price">{{amount_max}}</span><input type="hidden" ng-model="amount_max" readonly/> </p>
+    <slider-range min="{{amount_min}}" max="{{amount_max}}" step="50" ng-mouseup="searchListing()" value-min="amount_min" value-max="amount_max"></slider-range>
+    <hr>
+							<!--<div id="collapseOne" class="collapse show">
+								<div class="form-check">
+								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+								  <label class="form-check-label" for="defaultCheck1">
+								    $25-$49 (3)
+								  </label>
+								</div>
+								<div class="form-check">
+								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+								  <label class="form-check-label" for="defaultCheck2">
+								    $75-$99 (11)
+								  </label>
+								</div>
+								<div class="form-check">
+								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck3">
+								  <label class="form-check-label" for="defaultCheck3">
+								    $100-$199 (31)
+								  </label>
+								</div>
+								<div class="form-check">
+								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck4">
+								  <label class="form-check-label" for="defaultCheck4">
+								    $200-$299 (11)
+								  </label>
+								</div>
+								<div class="form-check">
+								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck5">
+								  <label class="form-check-label" for="defaultCheck5">
+								    $300-$399 (10)
+								  </label>
+								</div>
+							</div>-->
+							<a href="" class="view-all">View All</a>	
+					   </div>
+					   <div class="filter-holder">					    
+							<a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseOne1">
+								Seller
+							</a>
+							<div id="collapseOne4" class="collapse show" ng-init = "getShops();">
+								 <div  ng-repeat="shops in shopOwners| limitTo: limit">
+								<div class="form-check">
+								  <input class="form-check-input" type="checkbox" ng-model="shops.Selected" ng-click="updatecheckbox2(shops.Selected,shops.id)" ng-checked="user.shops.indexOf(shops.id)>=0" ng-true-value="'{{shops.id.replace('\'', '\\\'')}}'" id="test{{shops.id}}">
+								  <label class="form-check-label" for="test{{shops.id}}">
+								    {{shops.name}}
+								  </label>
+								</div>
+							</div>
+							</div>
+							<a href="" class="view-all">View All</a>	
+					   </div>
+					   <div class="filter-holder">					    
+							<a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseOne2">
+								Rating
+							</a>
+							<div id="collapseOne2" class="collapse show">
+								<div class="form-check">
+								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck12">
+								  <label class="form-check-label" for="defaultCheck12">
+								    <i class="fa fa-star active"></i>
+								    <i class="fa fa-star active"></i>
+								    <i class="fa fa-star active"></i>
+								    <i class="fa fa-star active"></i>
+								    <i class="fa fa-star"></i>
+								    & Up (12)
+								  </label>
+								</div>
+								<div class="form-check">
+								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck22">
+								  <label class="form-check-label" for="defaultCheck22">
+								    <i class="fa fa-star active"></i>
+								    <i class="fa fa-star active"></i>
+								    <i class="fa fa-star active"></i>
+								    <i class="fa fa-star"></i>
+								    <i class="fa fa-star"></i>
+								    & Up (12)
+								  </label>
+								</div>
+								<div class="form-check">
+								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck32">
+								  <label class="form-check-label" for="defaultCheck32">
+								    <i class="fa fa-star active"></i>
+								    <i class="fa fa-star active"></i>
+								    <i class="fa fa-star"></i>
+								    <i class="fa fa-star"></i>
+								    <i class="fa fa-star"></i>
+								    & Up (12)
+								  </label>
+								</div>
+								<div class="form-check">
+								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck42">
+								  <label class="form-check-label" for="defaultCheck42">
+								    <i class="fa fa-star active"></i>
+								    <i class="fa fa-star"></i>
+								    <i class="fa fa-star"></i>
+								    <i class="fa fa-star"></i>
+								    <i class="fa fa-star"></i>
+								    & Up (12)
+								  </label>
+								</div>
+							</div>
+							<a href="" class="view-all">View All</a>	
+					   </div>
+						<div class="filter-holder">					    
+							<a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseOne4">
+								Brand
+							</a>
+							<div id="collapseOne4" class="collapse show" ng-init = "getBrands();">
+								 <div  ng-repeat="brandlists in brandlist| limitTo: limit">
+								<div class="form-check">
+								  <input class="form-check-input" type="checkbox" ng-model="brandlists.Selected" ng-click="updatecheckbox(brandlists.Selected,brandlists.id)" ng-checked="user.brand.indexOf(brandlists.id)>=0" ng-true-value="'{{brandlists.id.replace('\'', '\\\'')}}'" id="test{{brandlists.id}}">
+								  <label class="form-check-label" for="test{{brandlists.id}}">
+								    {{brandlists.name}}
+								  </label>
+								</div>
+							</div>
+							</div>
+							<a href ng-click="incrementLimit()">View All</a>	
+					   </div>
+                                                
+                                                <div class="filter-holder">					    
+							<a class="card-link" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne41">
+								Category
+							</a>
+							<div id="collapseOne41" class="collapse show" ng-init = "getcategory();">
+								 <div  ng-repeat="category in categorylist| limitTo: limit1">
+								<div class="form-check">
+								  <input class="form-check-input" type="checkbox" ng-model="category.Selected" ng-click="updatecheckboxcat(category.Selected,category.id)" ng-checked="user.category.indexOf(category.id)>=0" ng-true-value="'{{category.id.replace('\'', '\\\'')}}'" id="test{{category.id}}">
+								  <label class="form-check-label" for="test{{category.id}}">
+								    {{category.name}}
+								  </label>
+								</div>
+							</div>
+							</div>
+							<a href ng-click="incrementLimit1()">View All</a>	
+					   </div>
+					</div>
+				</div>
+				<div class="col-md-9">
+					<div class="widte-bg py-3 px-3">
+						<div class="header-list pb-3">
+							<div class="form-inline pull-left">
+							  <div class="form-group">
+							    <label for="inputPassword6">Sort By </label>							    
+							    <select class="custom-select form-control mx-sm-3" id="inputGroupSelect01" ng-model="drpmodel" ng-change="cobchange()">
+								    <option value="0" selected="selected">Relevance</option>
+								    <option value="1">Price:low to high</option>
+								    <option value="2">Price:high to low</option>
+								    <option value="3">Newest</option>
+								    <option value="4">Popularity</option>
+								 </select>		
+							  </div>
+							</div>
+							<ul class="pull-right grid-list">
+							<!--<li class="list"><i class="fa fa-th-list"></i></li>
+								<li class="grid active"><i class="fa fa-th-large"></i></li>-->
+							</ul>
+						</div>						
+						<div class="row list-item">
+							<div class="col-md-4 mt-3" ng-if="exists==1" ng-repeat="productLists in productList">
+								<div class="card">
+								  <div class="top-product" ng-if="productLists.top==1"><img src="app/assets/images/top.png" alt="" /></div>
+                                                                  <a href="#/productDetails/{{productLists.id}}"> <img class="card-img-top" src="{{productLists.image}}" alt="Card image cap"></a>
+								  <div class="card-body">
+								    <!--<h5 class="card-title">{{productLists.productname}}</h5>-->
+								    <p class="card-text"><span>Seller:</span> {{productLists.seller_name}}</p>
+                                                                    <p class="card-text"><span>Brand:</span> {{productLists.brands}}</p>
+                                                                    <p class="card-text"><span>Category:</span> {{productLists.category_name}}</p>
+                                                                    
+								    <ul>
+										<b>{{productLists.currency_code}} {{productLists.price}}</b></li>
+										
+									</ul>
+								    <a href="#/productDetails/{{productLists.id}}" class="btn btn-primary">Show Interest</a>
+								  </div>
+								</div>
+							</div>
+                                                    <h4 class="col-md-4 mt-3" ng-if="exists==0">No Records Found.</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+		<section class="footer-top">
+		<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-lg-3 border-right">
+				<h4>Contact Information</h4>
+				<p>123 M.R Soroni Park Street Kolkata 700055, India </p>
+				<p>898 456 1223 | 456 231 789</p>
+				<p>company@exmple.com</p>
+			</div>
+			<div class="col-md-6 col-lg-3 border-right">
+				<h4>Newsletter</h4>
+				<p>Lorem Ipsum is simply dummy
+				and type setting industry. </p>
+				<div class="input-group">
+				  <input type="text" class="form-control" placeholder="Enter Your Email" aria-label="Recipient's username" aria-describedby="basic-addon2">
+				  <div class="input-group-append">
+				    <button class="btn" type="button"><i class="fa fa-envelope"></i></button>
+				  </div>
+				</div>
+			</div>
+			<div class="col-md-6 col-lg-3 border-right">
+				<h4>Follow Us</h4>
+				<p>Lorem Ipsum is simply dummy
+				and type setting industry. </p>
+<!--				<div class="social justify-content-between">
+					<a href="" class="fa fa-facebook"></a>
+					<a href="" class="fa fa-twitter"></a>
+					<a href="" class="fa fa-instagram"></a>
+					<a href="" class="fa fa-pinterest"></a>
+					<a href="" class="fa fa-google-plus"></a>
+				</div>-->
+
+                                 <div class="social justify-content-between">
+                                    <div ng-repeat="sociallink in sociallinks">
+					<a  href="{{sociallink.link}}" class="{{sociallink.class}}" ></a>
+                                    </div>
+				</div>   
+			</div>
+			<div class="col-md-6 col-lg-3 download">
+				<h4>Download App</h4>
+				<button class="btn btn-outline-primary"><i class="fa fa-apple"></i><span>Download from App Store</span></button>
+				<button class="btn btn-outline-primary mt-3"><i><img src="app/assets/images/new-collection/play.png" alt="" /></i><span>Download from App Store</span></button>
+			</div>
+		</div>
+		</div>
+	</section>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+<script src="http://jvandemo.github.io/angularjs-google-maps/dist/angularjs-google-maps.js"></script>
+<style>
+    .slider {
+  position: relative;
+  text-align: left;
+  border: 1px solid gray;
+  height: 0.6em;
+}
+
+.slider .handle {
+  position: absolute;
+  z-index: 2;
+  width: 1.2em;
+  height: 1.2em;
+  background-color: gray;
+}
+
+.handle {
+  top: -0.3em;
+  margin-left: -0.6em;
+}
+
+.slider .range {
+  position: absolute;
+  z-index: 1;
+  display: block;
+  font-size: .7em;
+  background-color: red;
+  top: 0;
+  height: 100%;
+}
+    
+</style>

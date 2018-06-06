@@ -18,29 +18,24 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
          <ul class="navbar-nav">
             <li class="nav-item dropdown">
-               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                   <div >{{language.listings}}</div>
+               <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   <div >{{language.brands}}</div>
                  
                </a>
                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <ul>
-                     <li>
-                        <a class="dropdown-item child" href="#/searchListing/">{{language.brands}}</a>
-                        <div class="dropdown-menu">
-                           <!--<h5>BRANDS</h5>-->
-                           <ul >
-                               <div ng-repeat="bradslst in brandsList">
-                              <li><a class="dropdown-item" href="#/searchListing/">{{bradslst.name}} </a></li>
-<!--                              <li><a class="dropdown-item" href="#/searchListing/">{{language.omega}} </a></li>
-                              <li><a class="dropdown-item" href="#/searchListing/">{{language.rolex}} </a></li>
-                              <li><a class="dropdown-item" href="#/searchListing/">{{language.chopard}} </a></li>-->
-                               </div>
-                           </ul>
-                        </div>
+                  <ul class="dropdown-menu1">
+                      <li role="presentation">
+        <div class="input-group input-group-sm search-control"><span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+          <input type="text" class="form-control" placeholder="Brand name" ng-model="query">
+        </div>
+      </li>
+                     <li ng-repeat="bradslst in brandsList | filter:query">
+                         <a class="dropdown-item" href="#/productlisting/{{bradslst.id}}">{{bradslst.name}} </a>
+<!--                    
                      </li>
-                     <li><a  class="dropdown-item" href="#/searchListing/">{{language.services}} </a></li>
+<!--                     <li><a  class="dropdown-item" href="#/searchListing/">{{language.services}} </a></li>
                      <li><a  class="dropdown-item" href="#/searchListing/">{{language.shops}} </a></li>
-                     <li><a  class="dropdown-item" href="#/searchListing/">{{language.offers}} </a></li>
+                     <li><a  class="dropdown-item" href="#/searchListing/">{{language.offers}} </a></li>-->
                   </ul>
                </div>
             </li>
@@ -54,6 +49,23 @@
             <li class="nav-item">
                <a  class="nav-link" href="#/productlisting/">{{language.product}}</a> 
                
+            </li>
+           <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   <div >Shop</div>
+                 
+               </a>
+               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+                  <ul class="dropdown-menu1">
+                      <li role="presentation">
+        <div class="input-group input-group-sm search-control"><span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+          <input type="text" class="form-control" placeholder="Brand name" ng-model="query">
+        </div>
+      </li>
+                     <li ng-repeat="vendor in vendorlist | filter:query">
+                         <a class="dropdown-item" href="#/shopDetails/{{vendor.id}}">{{vendor.name}} </a>
+                  </ul>
+               </div>
             </li>
             <li class="nav-item">
                <a  class="nav-link" href="#/todaysDeals">{{language.Todays_Deals}}</a>
@@ -128,3 +140,9 @@
       </div>
    </div>
 </nav>
+<style>
+.dropdown-menu1{
+   max-height: 300px; /*Provide height in pixels or in other units as per your layout*/
+   overflow-y: auto; /*Provide an auto overflow to diaply scroll*/
+  }  
+    </style>

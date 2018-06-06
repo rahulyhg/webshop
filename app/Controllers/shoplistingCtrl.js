@@ -2,7 +2,7 @@
 /** 
  * controllers used for the login
  */
-app.controller('productlistingCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService,$stateParams) {
+app.controller('shoplistingCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService,$stateParams) {
 
     
 $scope.data = {};
@@ -178,7 +178,7 @@ if($scope.year){
     $scope.year="";
 }
 
-
+    
 if($scope.amount_min){
     $scope.amount_min;
     $('#min_price').html($scope.amount_min);
