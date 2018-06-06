@@ -1,0 +1,197 @@
+
+
+  <section class="innerbody search-list auction-details-pade" ng-init="Showdetails();">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">Watches</li>
+        </ol>
+      </nav>
+      <div class="details-wrap p-3">
+        <div class="row">
+          <div class="col-lg-7 col-md-6 col-sm-6">
+            <div class="details-top p-3 mb-3 position-relative">
+              <div class=""></div>
+                 <img src="{{UserDetails.profile_image}}" class="ml-auto mr-auto d-block img-fluid">
+
+              <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
+            </div> 
+            <div class="details-left" ng-if="UserDetails">
+              <h4>{{UserDetails.name}}</h4>
+              <p class="text-secondary">{{UserDetails.gender}}</p>
+                                                           
+              <hr>
+                                                        
+              <h5>Email id</h5>
+
+              <p>{{UserDetails.email}}</p>
+              <!-----31/05/2018---->
+              <hr>
+              
+              <h5>Phone No</h5>
+
+              
+              <p >{{UserDetails.phone}}</p>
+                                                     
+              <hr>
+              
+              <h5>Preferred Country</h5>
+
+              <p>{{UserDetails.country_preference}}</p>
+              
+                                                        
+                                                         <!-----31/05/2018----> 
+                                                         <hr>
+                                                        <h5 ng-if="productLists.seller_id!=user_id && productLists.type == 2 ">Auction Start Date</h5>
+
+              <p ng-if="productLists.seller_id!=user_id && productLists.type == 2 ">{{productLists.action_date}}&nbsp;{{productLists.action_time}}</p>
+                                                        
+                                                        
+                                                        
+                                                        <hr ng-if="productLists.seller_id!=user_id && productLists.type == 2 ">
+                                                        
+              <div class="row">
+                <div class="col-sm-6 col-6 py-1">
+                  <h4 class="m-0">{{productLists.price}} {{productLists.currency_code}}</h4>
+                  
+                </div>
+                <div class="col-sm-6 col-6 py-1">
+                  <ul class="like-links list-unstyled p-0 float-right m-0">
+                    <!--<li ng-if="user_id && productLists.userlike==0" class="d-inline-block mr-2"><a href="" ng-click="addlike(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>-->
+                                                                                <!--<li ng-if="user_id && productLists.userlike==1" class="d-inline-block mr-2"><a href="" ng-click="addlike(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i style="color:red" class="ion-thumbsup"></i></a></li>-->
+                    <li ng-if="!user_id" class="d-inline-block mr-2"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>
+<!--                                                                                <li class="d-inline-block mr-2"><a ng-if="current_user_login!='1'  && quantity!='0'" ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-android-cart"></i></a></li>-->
+                    <li class="d-inline-block"><a ng-if="user_id && productLists.is_fav==0" ng-click="addwishlist2(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
+                                                                                <li class="d-inline-block"><a ng-if="user_id && productLists.is_fav==1" ng-click="addwishlist(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i style="color:red" class="ion-heart"></i></a></li>
+                                                                               <li ng-if="!user_id" class="d-inline-block"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-6">
+                                                                    
+                  <p class="mb-4" ng-if="loader1 && productLists.interest==0"><a href="" class="btn btn-primary btn-block" ng-click="emailtothevendorinterest(productLists.seller_id,productLists.type)">Show interest and contact seller .</a></p>
+                                                                        <p class="mb-4" ng-if="user_id && loader1 && productLists.seller_id!=user_id && productLists.interest==1"><a href="" class="btn btn-primary btn-block" href="javascript:void(0)">Already interestd</a></p>
+                </div>
+                <div class="col-sm-6" ng-if="user_id && productLists.ctime > productLists.start_time">
+                                                                    
+<!--                  <p class="mb-4" ng-if="user_id && productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">Go Live Bidding</a></p>-->
+<!--<p class="mb-4" ng-if="user_id && productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#password">Go Live Bidding</a></p>-->
+<p class="mb-4" ng-if="user_id && productLists.seller_id!=user_id && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" ng-click="checkauctionvalidity()">Go Live Bidding</a></p>
+
+<!--                                                                        <p class="mb-4" ng-if="productLists.interest==0 && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#login">Go Live Bidding</a></p>   -->
+                </div>
+                                                            <div class="col-sm-6" ng-if="!user_id && productLists.ctime > productLists.start_time">
+                                                                    
+ 
+                                                                        <p class="mb-4" ng-if="productLists.interest==0 && productLists.type == 2 "><a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#login">Go Live Bidding</a></p>   
+                </div>
+                                                            
+              </div>
+              
+                                                        <p ng-if="!loader1" class="loader"></p>
+                                                        
+                                                       
+                                                        
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-7 col-sm-7">
+            <!--<div class="share-prod mb-2">Share this product : <a href="" class="d-inline-block text-secondary"><i class="fa fa-facebook"></i></a> <a href="" class="d-inline-block mx-2 text-secondary"><i class="fa fa-twitter"></i></a><a href="" class="d-inline-block text-secondary"><i class="fa fa-google-plus"></i></a></div>-->
+            <div class="seller-info p-3 border-secondary border rounded mb-3"  ng-if="productLists.seller_id!=user_id">
+                                                    <div ng-if="user_id && productLists.interest==1">
+                                                    <h6 class="card-title">Seller Info:</h6>
+              <p class="mb-1">{{productLists.seller_name}}</p>
+              <p class="text-secondary mb-0"><i class="fa fa-map-marker"></i> {{productLists.seller_address}}</p>
+                                                </div>
+                <p style="color:black">Country :{{UserDetails.country}}</p>
+                <p style="color:black">Governorate :{{UserDetails.state}}</p>
+             
+              <p style="color:black">Preferred Currency :{{UserDetails.currency_preference}}</p>
+              <p style="color:black">Preferred Language  :{{UserDetails.language_preference}}</p>
+              
+             
+                                                        
+               <div></div>
+
+
+            </div>
+            <div></div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+
+
+
+
+
+
+
+
+
+<script>
+    
+    function a(){
+       
+        $('#history').toggle();
+       
+    }
+    
+</script>
+<style>
+ .loader {
+  height: 4px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #ddd;
+}
+.loader:before{
+  display: block;
+  position: absolute;
+  content: "";
+  left: -200px;
+  width: 200px;
+  height: 4px;
+  background-color: #2980b9;
+  animation: loading 2s linear infinite;
+}
+
+@keyframes loading {
+    from {left: -200px; width: 30%;}
+    50% {width: 30%;}
+    70% {width: 70%;}
+    80% { left: 50%;}
+    95% {left: 120%;}
+    to {left: 100%;}
+}  
+
+#carousel img {
+display: block;
+opacity: .5;
+cursor: pointer;
+}
+
+#carousel .flex-active-slide img {
+opacity: 1;
+cursor: default;
+}
+
+.flexslider .slides > li {
+    display: block;
+    -webkit-backface-visibility: hidden;
+}
+
+/*#myModal .modal-dialog{
+    overflow-y: initial !important
+}
+#myModal .modal-body{
+    height: 600px;
+    overflow-x: auto;
+}*/
+</style>

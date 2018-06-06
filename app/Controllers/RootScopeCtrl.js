@@ -55,6 +55,29 @@ app.controller("RootScopeCtrl", function ($scope, $location, $rootScope, $http, 
 	}, function(err) {
          console.log(err); 
     });
+    
+    userService.listshops().then(function(response) {
+       // alert('OK');
+        //exit;
+	
+	
+	if(response.Ack=='1'){
+		
+		console.log('vendorlist',response);
+		$scope.vendorlist=response.shopOwners;
+		
+                
+		}
+		else{
+ 		
+		}
+	
+	
+																  
+	}, function(err) {
+         console.log(err); 
+    });
+    
     $scope.showMenu = function () {
         $scope.menuVisible = !$scope.menuVisible;
     };
