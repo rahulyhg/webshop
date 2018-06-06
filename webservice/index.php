@@ -10330,14 +10330,14 @@ function addProductNew_app() {
 
 function getTimeslot_app() {
 
-    echo "dhj";exit;
+    //echo "dhj";exit;
     $data = array();
     $app = \Slim\Slim::getInstance();
     $request = $app->request();
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
     
-    print_r($body);exit;
+   // print_r($body);exit;
    
     $acutondate = isset($body->getdate) ? $body->getdate : '';
 
@@ -10385,6 +10385,55 @@ function getTimeslot_app() {
 
     $app->response->write(json_encode($data));
 }
+
+
+function imageinsert_app() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+
+
+
+    try {
+
+       
+
+        if (!empty($_FILES['file'])) {
+
+                  if ($_FILES['file']['tmp_name'] != '') {
+
+                  $target_path = "../upload/product_image/";
+                  $userfile_name = $_FILES['file']['name'];
+                  $userfile_tmp = $_FILES['file']['tmp_name'];
+                  $img = $target_path . $userfile_name;
+                  move_uploaded_file($userfile_tmp, $img);
+
+                  }
+                  }
+
+        $image = SITE_URL . 'upload/product_image/' . $userfile_name;
+        $data['Ack'] = 1;
+        $data['name'] = $userfile_name;
+        $data['link'] = $image;
+        $data['msg'] = 'image added successfully.';
+
+        $app->response->setStatus(200);
+        $db = null;
+    } catch (PDOException $e) {
+        
+        $data['Ack'] = 0;
+        $data['msg'] = 'error';
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+
+
 
 
 $app->run();
