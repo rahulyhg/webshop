@@ -10330,14 +10330,14 @@ function addProductNew_app() {
 
 function getTimeslot_app() {
 
-    //echo "dhj";exit;
+   
     $data = array();
     $app = \Slim\Slim::getInstance();
     $request = $app->request();
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
     
-   // print_r($body);exit;
+   
    
     $acutondate = isset($body->getdate) ? $body->getdate : '';
 
