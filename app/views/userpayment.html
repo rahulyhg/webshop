@@ -19,7 +19,7 @@
                                 <div class="form-group">
                                     <label for="staticEmail"> Select Package*</label>
 
-                                    <select class="form-control" name="sid" ng-model="value.sid"  required>
+                                    <select class="form-control" name="sid" ng-model="value.sid"  required ng-change="packagedetails(value.sid)">
                                         <option  ng-repeat="subscription in subscriptionLists" value="{{subscription.id}}">KWD {{subscription.price}}(for {{subscription.duration}} Days)</option>
                                     </select>
                                     <span style="color:Red" ng-show="submitted && addPaymentForm.sid.$error.required">Please Choose A package</span>
@@ -40,16 +40,22 @@
 
                                 <div class="form-group">
                                     <label for="staticEmail"> Mobile Number*</label>
-                                    <input type="text" class="form-control"   name="phone" ng-pattern="/^[0-9]/" ng-model="value.phone" required>
+                                    <input type="text" class="form-control"   name="phone" ng-pattern="/^[0-9]/" ng-model="value.phone"  required>
                                     <span style="color:Red" ng-show="submitted && addPaymentForm.phone.$error.required">This Field Is Required! </span>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="staticEmail"> Loyalty Redeem</label>
-                                    <input type="number" class="form-control"   name="loyalty_redeem" ng-pattern="/^[0-9]/" ng-model="value.loyalty_redeem">
-                                    
+                                    <input type="number" class="form-control"   name="loyalty_redeem" ng-pattern="/^[0-9]+$/" ng-model="value.loyalty_redeem" min="0">
+                                   <span style="color:Red" ng-show="addPaymentForm.loyalty_redeem.$dirty && addPaymentForm.loyalty_redeem.$error.pattern">Only Numbers Allowed</span>  
                                 </div>
-
+                                
+                                <div>
+                                    Loyalty Remaining: {{totalloyalty - value.loyalty_redeem}}<br>
+                                    Pay Amount: 0
+                                
+                                </div><br>
+                                
 
 
                                 <button class="btn btn-primary" ng-click="submitted = true">Process payment</button>

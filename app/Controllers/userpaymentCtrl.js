@@ -87,7 +87,55 @@ $scope.allsubscriptions = function(){
         }
  
  
- 
+userService.myloyalty().then(function(response) {
+     
+		if(response.Ack == '1') {
+                   
+                    $scope.exists=1;
+                    $scope.totalloyalty=response.total_loyalty;
+		
+		
+		} else {
+                    
+                    $scope.totalloyalty= 0;
+                     $scope.exists=0;
+		}
+	
+	
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	}); 
+	
+
+
+ $scope.packagedetails = function (pid) {
+        
+        userService.packagedetails(pid).then(function (response) {
+           
+            $scope.isExists = 1;
+            if (response.Ack == '1') {
+                console.log(response);
+               
+                $scope.isExists = 1;
+               
+                $scope.package = response.packagedetails;
+              
+
+            } else {
+                console.log('ppp');
+                $scope.isExists = 0;
+            }
+
+        }, function (err) {
+            console.log(err);
+        });
+
+    }
+
+
+
 
 	
 });

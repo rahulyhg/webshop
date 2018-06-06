@@ -5088,7 +5088,62 @@ var encodedString ='{"type":"'+ type +'"}';
  };
  
  
- var shopDetails = function(shop_id) {
+var listbracelet = function() {
+        return $q(function(resolve, reject) {
+         
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"listbracelet",
+         
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+          
+           if(response.data.Ack == "1") {
+        
+              resolve(response.data); 
+           } else {
+          
+              resolve(response.data); 
+           }
+          
+        },function(response) {
+                    
+          reject(response);
+            });
+        });
+ };
+ 
+ 
+ var packagedetails = function(p_id) {
+        return $q(function(resolve, reject) {
+       
+    var encodedString ='{"package_id":"'+ p_id +'"}';
+
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"packagedetails",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           console.log(response.data);  
+           if(response.data.Ack == "1") {
+         
+              resolve(response.data); 
+           } else {
+         
+              resolve(response.data); 
+           }
+           
+        },function(response) {
+                     
+          reject(response);
+            });
+        });
+ };
+  
+  
+  
+  var shopDetails = function(shop_id) {
         return $q(function(resolve, reject) {
                 
 //var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
@@ -5116,6 +5171,8 @@ var encodedString ='{"shop_id":"'+ shop_id +'"}';
             });
         });
  };
+  
+
  return {
      
        // homeSettingsSection:homeSettingsSection,
@@ -5275,7 +5332,12 @@ var encodedString ='{"shop_id":"'+ shop_id +'"}';
         getallproductimages:getallproductimages,
         listcategory:listcategory,
         getmaxprice:getmaxprice,
+
+        listbracelet:listbracelet,
+        packagedetails:packagedetails
+
         shopDetails:shopDetails,
+
 
 	
 };

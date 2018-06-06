@@ -178,7 +178,7 @@ if($scope.year){
     $scope.year="";
 }
 
-    
+
 if($scope.amount_min){
     $scope.amount_min;
     $('#min_price').html($scope.amount_min);

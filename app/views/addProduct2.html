@@ -74,11 +74,53 @@
 										<label for="staticEmail"> Status of the watch*</label>
                                                                                 
 										<select class="form-control" name="status" ng-model="user2.status"  required>
-											<option  ng-repeat="status_list in statuslist" value="{{status_list.name}}">{{status_list.name}}</option>
+                                                                                    <option  ng-repeat="status_list in statuslist" value="{{status_list.name}}">{{status_list.name}} 
+                                
+
+                           </option>
 										</select>
+                                                                                
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.status.$error.required">Please Choose A Status</span>
 									</div>
                                       
+
+
+
+
+
+
+
+<!--								<div class="form-group">
+								   <label for="exampleInputEmail1">Status of the watch*</label>
+								 
+								    <div class="dropdown select-dropdown">
+                                      <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">Choose watch status
+                                      <span class="caret"></span></button>
+
+                                      <ul class="dropdown-menu">
+                                      			
+
+<li ng-repeat="status_list in statuslist"><label> <input type="checkbox" name="" value=""><span>{{status_list.name}}</span>
+        <span ng-bind-html="status_list.rating"></span>
+    </label></li>
+
+                                      </ul>
+                                    </div>
+								</div>-->
+							
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!--                                                                        <div class="form-group">
 										<label for="staticEmail"> Status of the watch</label>
 										<input type="text" class="form-control" id="" value="" ng-model="user2.status" name="status" required>
@@ -107,7 +149,7 @@
 
 
                                                                         <div class="form-group">
-										<label for="staticEmail">State*</label>
+										<label for="staticEmail">Governorate*</label>
                                                                                 
 										<select class="form-control" name="state" ng-model="user2.state" ng-change="city(user2.state)" required>
 											<option  ng-repeat="statelists in statelist" value="{{statelists.id}}">{{statelists.name}}</option>
@@ -115,14 +157,14 @@
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.state.$error.required">Please Choose A State</span>
 									</div>
 
-                                                                        <div class="form-group">
+<!--                                                                        <div class="form-group">
 										<label for="staticEmail">City*</label>
                                                                                 
 										<select class="form-control" name="city" ng-model="user2.city"  required>
 											<option  ng-repeat="citylists in citylist" value="{{citylists.id}}">{{citylists.name}}</option>
 										</select>
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.city.$error.required">Please Choose A City</span>
-									</div>
+									</div>-->
 
 
 
