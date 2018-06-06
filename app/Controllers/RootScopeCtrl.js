@@ -34,7 +34,27 @@ app.controller("RootScopeCtrl", function ($scope, $location, $rootScope, $http, 
     $scope.swipeValue = true;
     $scope.loader = true;
      $scope.language= '';
-     
+     userService.listbrand().then(function(response) {
+       // alert('OK');
+        //exit;
+	
+	
+	if(response.Ack=='1'){
+		
+		console.log('brandsList',response);
+		$scope.brandsList=response.brandlist;
+		
+                
+		}
+		else{
+ 		
+		}
+	
+	
+																  
+	}, function(err) {
+         console.log(err); 
+    });
     $scope.showMenu = function () {
         $scope.menuVisible = !$scope.menuVisible;
     };
@@ -82,7 +102,7 @@ if(userInfo.user_type=='1'){
 console.log($scope.current_user_type);     
      
      
-     
+      
      
      
 userService.getAccountDetails(userInfo.user_id).then(function(response) {
@@ -269,11 +289,11 @@ userService.notiCount(userInfo.user_id).then(function(response) {
                        
                        if(response.UserDetails.user_type==1)
                        {
-                       $state.go('frontend.my_account'); 
+                      // $state.go('frontend.my_account'); 
                    }
                    else
                    {
-                        $state.go('frontend.vendordashboard'); 
+                      //  $state.go('frontend.vendordashboard'); 
                    }
  
  	

@@ -17,9 +17,16 @@
 									<b class="d-block mb-2">$ {{ProductList.price}}</b>
 									<!--<p><button type="button" class="btn btn-primary"><i class="ion-android-cart"></i> Buy It</button>-->
                                                                         <div class="row">
-                                                                            <div class="col-sm-6">
+                                                                            <div class="col-sm-12" ng-if="ProductList.approved == 0">
 									<button type="button" ng-click="deleteProduct(ProductList.id)" class="btn btn-primary btn-dark"><i class="ion-trash-a"></i> Delete</button>
                                                                             </div>
+                                                                             <div class="col-sm-6" ng-if="ProductList.approved == 1">
+									<button type="button" ng-click="deleteProduct(ProductList.id)" class="btn btn-primary btn-dark"><i class="ion-trash-a"></i> Delete</button>
+                                                                            </div>
+                                                                             <div class="col-sm-12" ng-if="ProductList.approved == 0">
+                                                                <button type="button" ng-click="auctionFeesPayment(ProductList.id)" disabled="disabled" class="btn btn-primary btn-dark"> Awaiting Admin Approval</button>
+                                                                            </div>
+                                                                            
                                                                             <div class="col-sm-6" ng-if="ProductList.auction_fee_paid == 0 && ProductList.approved == 1">
                                                                 <button type="button" ng-click="auctionFeesPayment(ProductList.id)" class="btn btn-primary btn-dark"> Pay Now</button>
                                                                             </div>

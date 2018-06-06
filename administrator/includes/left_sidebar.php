@@ -547,7 +547,22 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                 <?php
             }
             ?>
+<li class="sub-menu">
+                <a href="javascript:;" class="">
+                    <i class="icon-tasks"></i>
+                    <span>Manage Top Models</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub">
 
+                    <li>
+                        <a href="add_topmodels.php">
+                            Add Top Models</a>
+                    </li>
+
+
+                </ul>
+            </li>
 
             <?php if (in_array('20', $prevnameall)) { ?>
                 <!--                <li class="sub-menu">

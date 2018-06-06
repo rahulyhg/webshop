@@ -36,9 +36,11 @@ $scope.isform1 =0;
 	
 	if(response.Ack=='1'){
 		
-		console.log(response);
+		console.log('homesite',response);
 		$scope.brandList=response.brandList;
-		//$scope.allorderproducts=response.all_products;
+		$scope.topmodellist=response.topmodellist;
+                $scope.launchedproductList=response.launchedproductList;
+                
 		}
 		else{
  		
