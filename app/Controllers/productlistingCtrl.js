@@ -13,8 +13,17 @@ $scope.checkboxstrcat=[];
   $scope.user.category=[];
  $scope.checkboxstr2=[];
  $scope.user.shop=[];
+ $scope.maxprice =0;
+ $scope.minprice=0;
+ $scope.search = { price_min : '', price_max : '', amount_min : '', amount_max : '' };
+  
+	
+       
 //alert('a');
- $scope.search = { price_min : '', price_max : '', amount_min : 0, amount_max : 10000 };
+ 
+  
+  //alert('h'+$scope.maxprice);
+ console.log('search_obj',$scope.search);
 $scope.drpmodel='0';
  $scope.cobchange=function(){
 
@@ -61,15 +70,44 @@ $scope.isform1 =0;
 	$scope.isform1 =1;
 
 }
+
+
 //$scope.brand=$stateParams.brand;
 
-$scope.amount_min = $scope.search.amount_min;
-$scope.amount_max = $scope.search.amount_max;
 
 
- //alert($scope.brand);
+
+// alert($scope.amount_max);
 $scope.searchListing = function(){
-   // alert($scope.amount_max);
+    
+    userService.getmaxprice(2).then(function(response) {
+    // alert();
+
+		
+		//$scope.isExists=response.Ack;
+		if(response.Ack == '1') {
+                    $scope.exists=1;
+		$scope.maxprice=response.maxprice;
+                $scope.minprice=response.minprice;
+                $scope.search.amount_min=$scope.minprice;
+                $scope.search.amount_max=$scope.maxprice;
+               // $scope.amount_min = $scope.search.amount_min;
+                //$scope.amount_max = $scope.search.amount_max;
+		//console.log($scope.alljobs);
+                //$window.localStorage["userzip"]='';
+		
+		} else {
+                    
+                     $scope.exists=0;
+		}
+	
+	
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+  //alert($scope.amount_max);
 // if ($window.localStorage["brandListing"]) {
 
 // 	$scope.brandListing=$window.localStorage["brandListing"];
@@ -137,10 +175,11 @@ if($scope.year){
     $scope.year="";
 }
 
-    
+ /*   
 if($scope.amount_min){
     $scope.amount_min;
     $('#min_price').html($scope.amount_min);
+    
 }else{
     $scope.amount_min= 0;
     $('#min_price').html($scope.amount_min);
@@ -149,9 +188,10 @@ if($scope.amount_max){
     $scope.amount_max;
     $('#max_price').html($scope.amount_max);
 }else{
+    //alert('max');
     $scope.amount_max= 10000;
     $('#max_price').html(10000);
-}
+}*/
 
 if($scope.preferred_date){
     $scope.preferred_date;

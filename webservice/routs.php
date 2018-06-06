@@ -136,7 +136,7 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/addlike', 'addlike');
     $app->post('/sociallinks', 'sociallinks');
     $app->post('/auctionuploapayment', 'auctionuploapayment');
-
+    $app->post('/getmaxprice', 'getmaxprice');
     $app->post('/myLoyalty', 'myLoyalty');
 
 
