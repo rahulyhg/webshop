@@ -2,7 +2,7 @@
 /** 
  * controllers used for the login
  */
-app.controller('productlistingCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService,$stateParams) {
+app.controller('shoplistingCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService,$stateParams) {
 
     
 $scope.data = {};

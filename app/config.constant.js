@@ -60,7 +60,8 @@ app.constant('JS_REQUIRES', {
         //Suman
         'forgot_password': ['app/Controllers/forgot_passwordCtrl.js'],
         //Suman
-
+        'shoplisting': ['app/Controllers/shoplistingCtrl.js'],
+        'shopDetails': ['app/Controllers/shopDetailsCtrl.js'],
 
         //spandan
 
