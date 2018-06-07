@@ -301,7 +301,7 @@ if (isset($_POST['ExportCsv'])) {
                                         <th>Key</th>
                                         <th>Word</th>
                                         <th>Language</th>
-                                        <th>Action</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -350,28 +350,7 @@ if (isset($_POST['ExportCsv'])) {
                                                     ?>
                                                 </td>
 
-                                                <td>
-                                                    <a  href="add_membership.php?id=<?php echo $tools_type['id'] ?>&action=edit">
-                                                        <i class="icon-edit"></i></a> 
-                                                    <a onClick="javascript:del('<?php echo $tools_type['id']; ?>')">
-                                                        <i class="icon-trash"></i></a>
-                                                </td>
-
-                                                                                                                                                                <!--    <td>
-                                                                                                                                                                 <img src="../upload/product_image/<?php echo $tools_type['image']; ?>" height="100" width="100" align="image">
-                                                                                                                                                                </td>  -->
-
-
-                                                                                                                                                                <!--    <td>
-
-                                                                                                                                                                    <a  href="details_product.php?id=<?php echo $tools_type['id'] ?>&action=details"><i class="icon-eye-open"></i></a>
-                                                                                                                                                                  <a  href="add_product.php?id=<?php echo $tools_type['id'] ?>&action=edit">
-                                                                                                                                                                  <i class="icon-edit"></i></a>
-                                                                                                                                                                  <a onClick="javascript:del('<?php echo $tools_type['id']; ?>')">
-                                                                                                                                                                  <i class="icon-trash"></i></a>
-                                                                                                                                                                </td> -->
-
-
+                                                
                                             </tr>
                                             <?php
                                             $i++;

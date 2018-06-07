@@ -5227,6 +5227,43 @@ var encodedString ='{"shop_id":"'+ shop_id +'"}';
         });
  };
 
+var searchproductListinglatest = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,country_id,state_id,city_id,keyword,category) {
+    return $q(function(resolve, reject) {
+        
+        //var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'"}';
+        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","country_id":"'+country_id+'","state_id":"'+state_id+'","city_id":"'+city_id+'","keyword":"'+keyword+'","category":"'+category+'"}';
+        
+         console.log('productlist',encodedString);
+         //return false;
+//var encodedString ='{"user_id":"'+ userInfo.user_id +'","name":"'+ user.name +'","description":"'+ user.description +'","email":"'+ user.email +'","phone":"'+ user.phone +'","price":"'+ user.price +'","address":"'+ user.address +'","sundaytime":"'+ user.sundaytime +'","mondaytime":"'+ user.mondaytime +'","tuesdaytime":"'+ user.tuesdaytime +'","wednesdaytime":"'+ user.wednesdaytime +'","thursdaytime":"'+ user.thursdaytime +'","fridaytime":"'+ user.fridaytime +'","saturdaytime":"'+ user.saturdaytime +'"}';
+
+    
+         //alert(encodedString);    
+    
+    
+    
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"searchproductListinglatest",
+   data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    //console.log('ok');
+    resolve(response.data); 
+    } else {
+    //console.log('ok2');
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    //console.log(response);  
+    reject(response);
+    });
+    });
+    };
  return {
      
        // homeSettingsSection:homeSettingsSection,
@@ -5390,7 +5427,7 @@ var encodedString ='{"shop_id":"'+ shop_id +'"}';
         listbracelet:listbracelet,
         packagedetails:packagedetails,
         shopDetails:shopDetails,
-
+        searchproductListinglatest:searchproductListinglatest,
         myauctionpayamount:myauctionpayamount,
 
 
