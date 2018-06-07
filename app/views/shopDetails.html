@@ -108,8 +108,10 @@
                 <p style="color:black">Country :{{UserDetails.country}}</p>
                 <p style="color:black">Governorate :{{UserDetails.state}}</p>
              
-              <p style="color:black">Preferred Currency :{{UserDetails.currency_preference}}</p>
-              <p style="color:black">Preferred Language  :{{UserDetails.language_preference}}</p>
+              <p style="color:black"ng-if="UserDetails.currency_preference">Preferred Currency :{{UserDetails.currency_preference}}</p>
+              <p style="color:black" ng-if="!UserDetails.currency_preference">Preferred Currency :NA</p>
+              <p style="color:black" ng-if="UserDetails.language_preference">Preferred Language  :{{UserDetails.language_preference}}</p>
+               <p style="color:black" ng-if="!UserDetails.language_preference">Preferred Language  :NA</p>
               
              
                                                         

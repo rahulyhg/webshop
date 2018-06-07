@@ -321,17 +321,10 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                         <a href="list_arabic.php">
                             List Arabic Words</a>
                     </li>
-                    <!--                    <li>
-                                            <a href="#">
-                                                Arabic</a>
-                                        </li>-->
-
-
+                   
 
                 </ul>
             </li>
-
-
 
 
             <?php if (in_array('3', $prevnameall)) { ?>
@@ -343,17 +336,7 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                     </a>
                     <ul class="sub">
 
-                                                                                                                                                                               <!--  <li  <?php if ($pagename == 'add_owner.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                                                    <a href="add_owner.php">
-                                                                                                                                                                                        <i class="icon-user"></i>
-                                                                                                                                                                                        Add Owner</a>
-                                                                                                                                                                                </li> -->
-
-                                                                                                                                                                               <!--  <li  <?php if ($pagename == 'list_owner.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                                                    <a href="list_owner.php">
-                                                                                                                                                                                        <i class="icon-user"></i>
-                                                                                                                                                                                       List Owner</a>
-                                                                                                                                                                                </li>  -->
+                                                                                                                                                                           </li>  -->
                         <li  <?php if ($pagename == 'list_user.php') { ?>  class="active" <?php } ?>>
                             <a href="list_user.php">
                                 <i class="icon-user"></i>
@@ -406,32 +389,6 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
             }
             ?>
 
-
-
-            <!-- <?php if (in_array('17', $prevnameall)) { ?>
-                                                                                                                                                                        <li class="sub-menu">
-                                                                                                                                                                              <a href="javascript:;" class="">
-                                                                                                                                                                                  <i class="icon-briefcase"></i>
-                                                                                                                                                                                  <span>Business <br> Management</span>
-                                                                                                                                                                                  <span class="arrow"></span>
-                                                                                                                                                                              </a>
-                                                                                                                                                                              <ul class="sub">
-                                                                                                                                                                                 <li  <?php if ($pagename == 'add_business.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                                                    <a href="add_business.php">
-                                                                                                                                                                                        <i class="icon-briefcase"></i>
-                                                                                                                                                                                        Add Business</a>
-                                                                                                                                                                                </li>
-                                                                                                                                                                                
-                                                                                                                                                                                <li  <?php if ($pagename == 'list_business.php') { ?>  class="active" <?php } ?>>
-                                                                                                                                                                                    <a href="list_business.php">
-                                                                                                                                                                                        <i class="icon-briefcase"></i>
-                                                                                                                                                                                       List Business</a>
-                                                                                                                                                                                </li> 
-                                                                                                                                                                              </ul>
-                                                                                                                                                                          </li>
-                <?php
-            }
-            ?> -->
 
             <?php if (in_array('4', $prevnameall)) { ?>
                 <li class="sub-menu">
@@ -568,6 +525,24 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                 </ul>
             </li>
 
+            <li class="sub-menu">
+                <a href="javascript:;" class="">
+                    <i class="icon-tasks"></i>
+                    <span>Manage Latest Deal</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub">
+
+                    <li>
+                        <a href="add_leatest_deal.php">
+                            Add Latest Deal</a>
+                    </li>
+
+                    
+
+                </ul>
+            </li>
+            
             <?php if (in_array('20', $prevnameall)) { ?>
                 <!--                <li class="sub-menu">
                                     <a href="javascript:;" class="">

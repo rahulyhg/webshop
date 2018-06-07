@@ -10608,8 +10608,10 @@ function shopDetails() {
         if (!empty($getcountry)) {
             $countryname = $getcountry->name;
         }else{
-            $countryname='No prefered country added';
+            $countryname='NA';
         }
+        }else{
+            $countryname='NA';
         }
        
         if($getUserdetails->currency_preference != ''){
@@ -10622,8 +10624,10 @@ function shopDetails() {
         if (!empty($getcurrency_preference)) {
             $currency_preferencename = $getcurrency_preference->name;
         }else{
-            $currency_preferencename='No currency added';
+            $currency_preferencename='NA';
         }
+        }else{
+            $currency_preferencename='NA';
         }
          
          if($getUserdetails->country != ''){
@@ -10636,10 +10640,10 @@ function shopDetails() {
         if (!empty($getusercountry)) {
             $usercountry = $getusercountry->name;
         }else{
-            $usercountry='No country added';
+            $usercountry='NA';
         }
         }else{
-            $usercountry='No country added'; 
+            $usercountry='NA'; 
         }
       
          if($getUserdetails->state != ''){
@@ -10652,17 +10656,16 @@ function shopDetails() {
         if (!empty($getstate)) {
             $state = $getstate->name;
         }else{
-            $state='No state added';
+            $state='NA';
         }
         }else{
-            $state='No state added';
+            $state='NA';
         }
      
          
 
         $data['UserDetails'] = array(
             "user_id" => stripslashes($getUserdetails->id),
-            
             "name" => stripslashes($name),
             "description" => strip_tags(stripslashes($getUserdetails->description)),
             "gender" => stripslashes($getUserdetails->gender),
@@ -10670,8 +10673,6 @@ function shopDetails() {
             "currency_preference"=>stripslashes($currency_preferencename),
             "email" => stripslashes($getUserdetails->email),
             "language_preference" => stripslashes($getUserdetails->language_preference),
-           
-            
             "phone" => stripslashes($getUserdetails->phone),
             "dob" => stripslashes($getUserdetails->dob),
             "profile_image" => stripslashes($profile_image),
@@ -10833,7 +10834,6 @@ function getmaxprice2() {
     $app->response->write(json_encode($data));
 }
 
-
 function contactinfo() {
     $data = array();
     $app = \Slim\Slim::getInstance();
@@ -10875,6 +10875,392 @@ function contactinfo() {
     $app->response->write(json_encode($data));
 }
 
+function searchproductListinglatest() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+
+    $brand = isset($body->brand) ? $body->brand : '';
+    $brandListing = isset($body->brandList) ? $body->brandList : '';
+    $sellerListing = isset($body->sellerList) ? $body->sellerList : '';
+    $selected_value = isset($body->selected_value) ? $body->selected_value : '';
+    $amount_min = isset($body->amount_min) ? $body->amount_min : '';
+    $amount_max = isset($body->amount_max) ? $body->amount_max : '';
+
+    $gender = isset($body->gender) ? $body->gender : '';
+    $breslettype = isset($body->breslettype) ? $body->breslettype : '';
+    $year = isset($body->year) ? $body->year : '';
+    $preferred_date = isset($body->preferred_date) ? $body->preferred_date : '';
+
+    $country_id = isset($body->country_id) ? $body->country_id : '';
+    $state_id = isset($body->state_id) ? $body->state_id : '';
+    $city_id = isset($body->city_id) ? $body->city_id : '';
+    $keyword = isset($body->keyword) ? $body->keyword : '';
+$category = isset($body->category) ? $body->category : '';
+//print_r($body);
+//-----------------------------------------------------------
+    $productIds = array();
+
+    if ($selected_value == '4') {
+
+        $new_sql = "SELECT * from webshop_reviews order by rating desc";
+        $stmt2 = $db->prepare($new_sql);
+        $stmt2->execute();
+        $total_rows = $stmt2->rowCount();
+        $getIds = $stmt2->fetchAll(PDO::FETCH_OBJ);
+
+
+        if ($total_rows > 0) {
+
+            foreach ($getIds as $product) {
+
+                array_push($productIds, $product->product_id);
+            }
+        }
+
+        $productIds = array_unique($productIds);
+
+// print_r($productIds);
+// exit;
+
+        $productIds = implode(",", $productIds);
+        $sql = "SELECT * from webshop_products where status = 1 and is_leatest_deal='1' and approved='1' and type='1' and is_discard='0' and uploader_id !='" . $user_id . "' and id IN(" . $productIds . ")";
+    } else {
+
+
+        $sql = "SELECT * from  webshop_products where status=1 and is_leatest_deal='1' and approved='1' and type='1' and is_discard='0'  and uploader_id !='" . $user_id . "'";
+    }
+
+    if ($amount_min != '' && $amount_max != '') {
+
+        $sql .= " AND `price` BETWEEN " . $amount_min . " " . "AND" . " " . $amount_max . "";
+    } else if ($amount_min == '' && $amount_max != '') {
+        $amount_min = 0.00;
+        $sql .= " AND `price` BETWEEN " . $amount_min . " " . "AND" . " " . $amount_max . "";
+    } else if ($amount_min != '' && $amount_max == '') {
+        $amount_max = 10000.00;
+        $sql .= " AND `price` BETWEEN " . $amount_min . " " . "AND" . " " . $amount_max . "";
+    }
+
+    if ($brandListing != '') {
+
+        $sql .= " AND `brands` IN (" . $brandListing . ")";
+    }
+    if ($sellerListing != '') {
+
+        $sql .= " AND `uploader_id` IN (" . $sellerListing . ")";
+    }
+
+
+//spandan
+
+    if ($category != '') {
+
+       // $sql .= " AND `cat_id` = '" . $category . "'";
+         $sql .= " AND `cat_id` IN (" . $category . ")";
+    }
+    if ($gender != '') {
+
+        $sql .= " AND `gender`='" . $gender . "' ";
+    }
+   
+
+    if ($brand != '') {
+
+        $sql .= " AND `brands` = '" . $brand . "'";
+    }
+    if ($breslettype != '') {
+
+        $sql .= " AND `breslet_type` = '" . $breslettype . "'";
+    }
+
+    if ($year != '') {
+
+        $sql .= " AND model_year = '" . $year . "'";
+    }
+    $keybrandid ='';
+    $keycatid='';
+   if ($keyword != '') {
+
+        $keywordbrand = "SELECT * FROM webshop_brands WHERE id ='$keyword' OR name='$keyword'";
+        $stmt2 = $db->prepare($keywordbrand);
+
+        $stmt2->execute();
+        $getkeywordbrand = $stmt2->fetchObject();
+        if(!empty($getkeywordbrand)){
+           $keybrandid = $getkeywordbrand->id; 
+        }else{
+            $keybrandid = '';
+        }
+        //print_r($getkeywordbrand->id);
+    }
+if ($keyword != '') {
+
+        $keywordcategory = "SELECT * FROM webshop_category WHERE id ='$keyword' OR name='$keyword'";
+        $stmtcategory = $db->prepare($keywordcategory);
+
+        $stmtcategory->execute();
+        $getkeywordcategory = $stmtcategory->fetchObject();
+         if(!empty($getkeywordcategory)){
+           $keycatid = $getkeywordcategory->id; 
+        }else{
+            $keycatid = '';
+        }
+    }
+
+   // exit;
+    if ($keyword != '') {
+
+        $sql .= " AND `model_year` LIKE '%" . $keyword . "%' OR `gender` LIKE '" . $keyword . "%' OR `preferred_date` LIKE '%" . $keyword . "%' OR `brands` LIKE '" . $keybrandid . "' OR `name` LIKE '" . $keyword . "' OR `description` LIKE '" . $keyword . "' OR `price` LIKE '" . $keyword . "' OR `movement` LIKE '" . $keyword . "' OR `reference_number` LIKE '" . $keyword . "' OR `owner_number` LIKE '" . $keyword . "' OR `cat_id` LIKE '" . $keycatid . "'";
+    }
+     //exit;
+    /* if ($year == '' && $keyword != '') {
+
+      $sql .= " AND `model_year` LIKE '%" . $keyword . "%'";
+      }
+      if ($year != '' && $keyword != '') {
+
+      $sql .= " AND model_year = '" . $year . "'OR `model_year` LIKE '%" . $keyword . "%'";
+      } */
+    //exit;
+    /* if ($preferred_date != '' && $keyword != '') {
+
+      $sql .= " AND preferred_date = '" . $preferred_date . "'OR `preferred_date` LIKE '%" . $keyword . "%'";
+      } */
+    if ($preferred_date != '' && $keyword == '') {
+
+        $sql .= " AND preferred_date = '" . $preferred_date . "'";
+    }
+    /* if ($preferred_date == '' && $keyword != '') {
+
+      $sql .= " OR  `preferred_date` LIKE '%" . $keyword . "%'";
+      } */
+
+
+    if ($country_id != '') {
+
+        $sql .= " AND country = '" . $country_id . "'";
+    }
+    if ($state_id != '') {
+
+        $sql .= " AND state = '" . $state_id . "'";
+    }
+    if ($city_id != '') {
+
+        $sql .= " AND city = '" . $city_id . "'";
+    }
+
+
+//spandan end
+
+    if ($selected_value == '1') {
+
+        $sql .= " ORDER BY price ASC";
+    }
+    if ($selected_value == '2') {
+
+        $sql .= " ORDER BY price DESC";
+    }
+    if ($selected_value == '3') {
+
+        $sql .= " ORDER BY add_date DESC";
+    }
+
+
+
+//    echo($sql);
+//    exit;
+
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $getAllProducts = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+
+        if (!empty($getAllProducts)) {
+            foreach ($getAllProducts as $product) {
+                $sid = $product->subscription_id;
+
+                if ($sid != 0) {
+                    $sqlsubs = "SELECT * FROM  webshop_subscribers WHERE id=:id ";
+                    $stmtsubs = $db->prepare($sqlsubs);
+                    $stmtsubs->bindParam("id", $sid);
+                    $stmtsubs->execute();
+                    $getsubs = $stmtsubs->fetchObject();
+
+                    $cdate = date('Y-m-d');
+
+                    if ($getsubs->expiry_date >= $cdate) {
+
+                        if ($product->image != '') {
+                            $image = SITE_URL . 'upload/product_image/' . $product->image;
+                        } else {
+                            $image = SITE_URL . 'webservice/not-available.jpg';
+                        }
+
+
+                        $sql2 = "SELECT * FROM  webshop_category WHERE id=:id ";
+                        $stmt2 = $db->prepare($sql2);
+                        $stmt2->bindParam("id", $product->cat_id);
+                        $stmt2->execute();
+                        $getcategory = $stmt2->fetchObject();
+                        if (!empty($getcategory)) {
+                            $categoryname = $getcategory->name;
+                        }
+
+
+
+                        $sql3 = "SELECT * FROM  webshop_brands WHERE id=:id ";
+                        $stmt3 = $db->prepare($sql3);
+                        $stmt3->bindParam("id", $product->brands);
+                        $stmt3->execute();
+                        $getsubcategory = $stmt3->fetchObject();
+                if (!empty($getsubcategory)) {
+                    $subcategoryname = $getsubcategory->name;
+                }
+//Seller Information
+
+                        $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
+                        $stmt1 = $db->prepare($sql1);
+                        $stmt1->bindParam("id", $product->uploader_id);
+                        $stmt1->execute();
+                        $getUserdetails = $stmt1->fetchObject();
+
+                        if (!empty($getUserdetails)) {
+                            $seller_name = $getUserdetails->fname . ' ' . $getUserdetails->lname;
+                            $seller_address = $getUserdetails->address;
+                            $seller_phone = $getUserdetails->phone;
+                            $email = $getUserdetails->email;
+                            $top = $getUserdetails->top_user_vendor;
+
+                            if ($getUserdetails->image != '') {
+                                $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
+                            } else {
+                                $profile_image = SITE_URL . 'webservice/no-user.png';
+                            }
+                        } else {
+                            $profile_image = '';
+                        }
+
+                        $data['productList'][] = array(
+                            "id" => stripslashes($product->id),
+                            "image" => stripslashes($image),
+                            "price" => stripslashes($product->price),
+                            "description" => strip_tags(stripslashes($product->description)),
+                            "category_name" => $categoryname,
+                             "brands" => $subcategoryname,
+                            "seller_id" => stripslashes($product->uploader_id),
+                            "seller_image" => $profile_image,
+                            "seller_name" => stripslashes($seller_name),
+                            "seller_address" => stripslashes($seller_address),
+                            "seller_phone" => stripslashes($seller_phone),
+                            "productname" => '',
+                            "currency_code" => stripslashes($product->currency_code),
+                            
+                            "top" => stripslashes($top),
+                        );
+                    }
+                } else {
+
+
+
+                    if ($product->image != '') {
+                        $image = SITE_URL . 'upload/product_image/' . $product->image;
+                    } else {
+                        $image = SITE_URL . 'webservice/not-available.jpg';
+                    }
+
+
+                    $sql2 = "SELECT * FROM  webshop_category WHERE id=:id ";
+                    $stmt2 = $db->prepare($sql2);
+                    $stmt2->bindParam("id", $product->cat_id);
+                    $stmt2->execute();
+                    $getcategory = $stmt2->fetchObject();
+                    if (!empty($getcategory)) {
+                        $categoryname = $getcategory->name;
+                    }
+
+
+
+                        $sql3 = "SELECT * FROM  webshop_brands WHERE id=:id ";
+                        $stmt3 = $db->prepare($sql3);
+                        $stmt3->bindParam("id", $product->brands);
+                        $stmt3->execute();
+                        $getsubcategory = $stmt3->fetchObject();
+                if (!empty($getsubcategory)) {
+                    $subcategoryname = $getsubcategory->name;
+                }
+
+
+                    $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
+                    $stmt1 = $db->prepare($sql1);
+                    $stmt1->bindParam("id", $product->uploader_id);
+                    $stmt1->execute();
+                    $getUserdetails = $stmt1->fetchObject();
+
+                    if (!empty($getUserdetails)) {
+                        $seller_name = $getUserdetails->fname . ' ' . $getUserdetails->lname;
+                        $seller_address = $getUserdetails->address;
+                        $seller_phone = $getUserdetails->phone;
+                        $email = $getUserdetails->email;
+                        $top = $getUserdetails->top_user_vendor;
+                        if ($getUserdetails->image != '') {
+                            $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
+                        } else {
+                            $profile_image = SITE_URL . 'webservice/no-user.png';
+                        }
+                    } else {
+                        $profile_image = '';
+                    }
+
+                    $data['productList'][] = array(
+                            "id" => stripslashes($product->id),
+                            "image" => stripslashes($image),
+                            "price" => stripslashes($product->price),
+                            "description" => strip_tags(stripslashes($product->description)),
+                            "category_name" => $categoryname,
+                             "brands" => $subcategoryname,
+                            "seller_id" => stripslashes($product->uploader_id),
+                            "seller_image" => $profile_image,
+                            "seller_name" => stripslashes($seller_name),
+                            "seller_address" => stripslashes($seller_address),
+                            "seller_phone" => stripslashes($seller_phone),
+                            "productname" => '',
+                            "currency_code" => stripslashes($product->currency_code),
+                            
+                            "top" => stripslashes($top),
+                        );
+                }
+            }
+
+
+            $data['Ack'] = '1';
+            $app->response->setStatus(200);
+        } else {
+            $data = array();
+            $data['productList'] = array();
+            $data['Ack'] = '0';
+            $app->response->setStatus(200);
+        }
+    } catch (PDOException $e) {
+        print_r($e);
+        exit;
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
 
 $app->run();
 ?>

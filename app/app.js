@@ -1,5 +1,5 @@
 var app = angular.module("angularblank", ['oc.lazyLoad','ncy-angular-breadcrumb','ui.router','ngRoute','ngTouch',
-        'ngSanitize','ngFileUpload','ngMap','720kb.datepicker','ngRating','720kb.tooltips']);
+        'ngSanitize','ngFileUpload','ngMap','720kb.datepicker','ngRating','720kb.tooltips','rzModule']);
 app.run(['$rootScope', '$state', '$stateParams',
     function ($rootScope, $state, $stateParams,$scope) {
         // Attach Fastclick for eliminating the 300ms delay between a physical tap and the firing of a click event on mobile browsers
@@ -1184,6 +1184,17 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                     label: 'Shop Details page'
                 },
                 resolve: loadSequence('shopDetails')
+            })
+            
+            .state('frontend.latestdeal', {
+                url: '/latestdeal',
+                templateUrl: 'app/views/latestdeal.html',
+                title: 'latestdeal',
+				controller: 'latestdealCtrl',
+                ncyBreadcrumb: {
+                    label: 'Latest Deal page'
+                },
+                resolve: loadSequence('latestdeal')
             })
           /*   .state('frontend.test', {
                 url: '/test',
