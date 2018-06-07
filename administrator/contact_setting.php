@@ -5,144 +5,44 @@ include_once("includes/functions.php");
 
 
      //$pid=$_REQUEST['id'];
-    $sql2="SELECT * FROM `webshop_sitesettings` where id='1'"; 
+    $sql2="SELECT * FROM `webshop_contact_info` where id='1'"; 
     $res=mysqli_query($con,$sql2);
     $row=mysqli_fetch_array($res);
 
     if(isset($_REQUEST['submit']))
   {
-   //$email=$_REQUEST['email'];
+  
    
-   $free_bid = isset($_POST['free_bid']) ? $_POST['free_bid'] : '';
-   $free_bid_status = isset($_POST['free_bid_status']) ? $_POST['free_bid_status'] : '';
-   //$publishable_key = isset($_POST['publishable_key']) ? $_POST['publishable_key'] : '';
+   $address = isset($_POST['address']) ? $_POST['address'] : '';
+   $phone = isset($_POST['phone']) ? $_POST['phone'] : '';
+   $email = isset($_POST['email']) ? $_POST['email'] : '';
    
-   $fields = array('free_bid' => mysqli_real_escape_string($con,$free_bid),
-       'free_bid_status' => mysqli_real_escape_string($con,$free_bid_status)
+   
+   $fields = array('address' => mysqli_real_escape_string($con,$address),
+       'phone' => mysqli_real_escape_string($con,$phone),
+       'email' => mysqli_real_escape_string($con,$email)
                   );
      $fieldsList = array();
     foreach ($fields as $field => $value) {
       $fieldsList[] = '`' . $field . '`' . '=' . "'" . $value . "'";
     }
    // print_r($fieldsList);exit;
-   $editQuery = "UPDATE `webshop_sitesettings` SET " . implode(', ', $fieldsList)
+   $editQuery = "UPDATE `webshop_contact_info` SET " . implode(', ', $fieldsList)
       . " WHERE `id` = '1'";
 
     if (mysqli_query($con,$editQuery)) {
-      $_SESSION['msg'] = "Free product Updated Successfully";
+      $_SESSION['msg'] = "Contact info Updated Successfully";
     }
     else {
-      $_SESSION['msg'] = "Error occuried while updating Free Bid";
+      $_SESSION['msg'] = "Error occuried while updating contact info";
     }
 
-    header('Location: freebid_settings.php');
+    header('Location: contact_setting.php');
     exit();
     
   
   }
-//print_r($row);
-// if(isset($_REQUEST['submit']))
 
-// {
-
-// //echo "aa"; exit;
-
-//   $secret_key = isset($_POST['secret_key']) ? $_POST['secret_key'] : '';
-
-//   $publishable_key = isset($_POST['publishable_key']) ? $_POST['publishable_key'] : '';
-
-//   //echo $name;
-//   //echo "<br>";
-//   //echo $link;
-
-
-  
-
-
-
-//    $fields = array(
-
-//     'secret_key' => mysql_real_escape_string($secret_key),
-
-//     'publishable_key' => mysql_real_escape_string($publishable_key)
-
-//     );
-
-
-
-//     $fieldsList = array();
-
-//     foreach ($fields as $field => $value) {
-
-//       $fieldsList[] = '`' . $field . '`' . '=' . "'" . $value . "'";
-
-//     }
-
-           
-
-//    if($_REQUEST['action']=='edit')
-
-//     {     
-
-//     $editQuery = "UPDATE `webshop_tbladmin` SET " . implode(', ', $fieldsList)
-
-//       . " WHERE `id` = '" . mysql_real_escape_string($_REQUEST['id']) . "'";
-
-
-
-//     if (mysql_query($editQuery)) {
-
-//     $_SESSION['msg'] = "Key Updated Successfully";
-
-//     }
-
-//     else {
-
-//       $_SESSION['msg'] = "Error occuried while updating Key";
-
-//     }
-
-
-
-//     header('Location:payment_settings.php');
-
-//     exit();
-
-  
-
-//    }
-
-//    else
-
-//    {
-
-   
-
-//    $addQuery = "INSERT INTO `webshop_tbladmin` (`" . implode('`,`', array_keys($fields)) . "`)"
-
-//       . " VALUES ('" . implode("','", array_values($fields)) . "')";
-
-      
-
-//       //exit;
-
-//     mysql_query($addQuery);
-
-
-
-//     header('Location:list_category.php');
-
-//     exit();
-
-  
-
-//    }
-
-        
-
-        
-
-// }
   
 ?>
 
@@ -180,7 +80,7 @@ include_once("includes/functions.php");
                    <!-- END THEME CUSTOMIZER-->
                   <!-- BEGIN PAGE TITLE & BREADCRUMB-->
                    <h3 class="page-title">
-                     Free Product Upload settings
+                     Contact Information settings
                    </h3>
                    <ul class="breadcrumb">
                        <li>
@@ -188,7 +88,7 @@ include_once("includes/functions.php");
                            <span class="divider">/</span>
                        </li>
                        <li>
-                           <a href="#">Free Product Upload settings</a>
+                           <a href="#">Contact Information settings</a>
                            <span class="divider">/</span>
                        </li>
                        
@@ -208,7 +108,7 @@ include_once("includes/functions.php");
                     <!-- BEGIN SAMPLE FORMPORTLET-->
                     <div class="widget green">
                         <div class="widget-title">
-                            <h4><i class="icon-reorder"></i>Free Product Upload Settings</h4>
+                            <h4><i class="icon-reorder"></i>Contact Information Settings</h4>
                             <span class="tools">
                             <a href="javascript:;" class="icon-chevron-down"></a>
                             <a href="javascript:;" class="icon-remove"></a>
@@ -216,41 +116,32 @@ include_once("includes/functions.php");
                         </div>
                         <div class="widget-body">
                             <!-- BEGIN FORM-->
-                          <form action="freebid_settings.php" class="form-horizontal" method="post"  enctype="multipart/form-data">
+                          <form action="contact_setting.php" class="form-horizontal" method="post"  enctype="multipart/form-data">
 
                            
                            
                                 
                                 <div class="control-group">
-                                <label class="control-label">Free Product Upload</label>
+                                <label class="control-label">Address</label>
                                 <div class="controls">
-                                <input type="text" class="form-control" placeholder="Enter text" value="<?php echo $row['free_bid'];?>" name="free_bid" >
+                                    <textarea class="form-control" placeholder="Enter address" name="address" ><?php echo $row['address'];?></textarea>
                                 </div>
                                 </div>
-                              
-                              
                               
                               <div class="control-group">
-                                <label class="control-label">status</label>
+                                <label class="control-label">Phone</label>
                                 <div class="controls">
-                                    <select class="form-control" name="free_bid_status">
-                                        <option value="1" <?php if($row['free_bid_status']==1){echo "selected";}?> >Active</option>
-                                        <option value="0" <?php if($row['free_bid_status']==0){echo "selected";}?>>Inactive</option>
-                                    </select>
-                                    
+                                <input type="text" class="form-control" placeholder="Enter phone no" value="<?php echo $row['phone'];?>" name="phone" >
                                 </div>
                                 </div>
                               
-                              
-                              
-                                
-                                <!-- <div class="control-group">
-                                <label class="control-label">Stripe Publishable Key</label>
+                              <div class="control-group">
+                                <label class="control-label">Email</label>
                                 <div class="controls">
-                                <input type="text" class="form-control" placeholder="Enter text" value="<?php echo $row['publishable_key'];?>" name="publishable_key" >
+                                <input type="email" class="form-control" placeholder="Enter email" value="<?php echo $row['email'];?>" name="email" >
                                 </div>
                                 </div>
-                                 -->
+                              
                               
                               
                                 <div class="form-actions">

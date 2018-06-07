@@ -5226,6 +5226,35 @@ var encodedString ='{"shop_id":"'+ shop_id +'"}';
             });
         });
  };
+ 
+ 
+ var contactinfo = function() {
+        return $q(function(resolve, reject) {
+         
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"contactinfo",
+         //data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           
+           if(response.data.Ack == "1") {
+        
+              resolve(response.data); 
+           } else {
+          
+              resolve(response.data); 
+           }
+          
+        },function(response) {
+                      
+          reject(response);
+            });
+        });
+ };
+ 
+ 
+ 
 
 var searchproductListinglatest = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,country_id,state_id,city_id,keyword,category) {
     return $q(function(resolve, reject) {
@@ -5427,8 +5456,11 @@ var searchproductListinglatest = function(user_id,brand,brandList,sellerList,sel
         listbracelet:listbracelet,
         packagedetails:packagedetails,
         shopDetails:shopDetails,
+
         searchproductListinglatest:searchproductListinglatest,
+
         myauctionpayamount:myauctionpayamount,
+        contactinfo:contactinfo,
 
 
 };
