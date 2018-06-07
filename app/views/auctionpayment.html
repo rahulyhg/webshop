@@ -39,10 +39,14 @@
 
                                 <div class="form-group">
                                     <label for="staticEmail"> Loyalty Redeem</label>
-                                    <input type="number" class="form-control"   name="loyalty_redeem" ng-pattern="/^[0-9]/" ng-model="value.loyalty_redeem">
-                                    
+                                    <input type="number" class="form-control"   name="loyalty_redeem" ng-pattern="/^[0-9]+$/" min="0" ng-model="value.loyalty_redeem">
+                                    <span style="color:Red" ng-show="addPaymentForm.loyalty_redeem.$dirty && addPaymentForm.loyalty_redeem.$error.pattern">Only Numbers Allowed</span> 
                                 </div>
-
+                                <div>
+                                    Loyalty Remaining: {{totalloyalty - value.loyalty_redeem}}<br>
+                                    Pay Amount: {{totalamount.price - value.loyalty_redeem}}
+                                
+                                </div><br>
 
 
                                 <button class="btn btn-primary" ng-click="submitted = true">Process payment</button>
