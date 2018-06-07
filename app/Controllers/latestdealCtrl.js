@@ -2,7 +2,7 @@
 /** 
  * controllers used for the login
  */
-app.controller('productlistingCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService,$stateParams) {
+app.controller('latestdealCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService,$stateParams) {
 
     
 $scope.data = {};
@@ -28,7 +28,7 @@ $scope.drpmodel='0';
  $scope.cobchange=function(){
 
  	$window.localStorage["selected_value"]=$scope.drpmodel;
- 	$scope.searchListing(); 
+ 	$scope.searchproductListinglatest(); 
      //alert("puja "+$window.localStorage["selected_value"]);
 
   }
@@ -107,7 +107,7 @@ userService.getmaxprice(2).then(function(response) {
 
 
 // alert($scope.amount_max);
-$scope.searchListing = function(){
+$scope.searchproductListinglatest = function(){
     
     
 
@@ -115,13 +115,11 @@ if($scope.keyword){
     
 	$scope.keyword=$scope.keyword;
         $window.localStorage["keyword"] ='';
-        //alert($scope.keyword);
-        // $window.location.reload();
+        
 }else{
 	$scope.keyword='';
         $window.localStorage["keyword"] ='';
-       // alert($scope.keyword);
-         //$window.location.reload();
+      
 }
 
 if($window.localStorage["brandListing"]){
@@ -215,7 +213,7 @@ if($scope.city_id){
  //spandan end     
 
 //console.log('amount',$scope.amount_max);
- userService.searchproductListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword,$scope.categorylisting).then(function(response) {
+ userService.searchproductListinglatest($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword,$scope.categorylisting).then(function(response) {
     // alert();
 
 		
@@ -244,7 +242,7 @@ $scope.getPrice  = function(amount_min,amount_max){
 //alert(amount_min +''+amount_max);
 	$scope.amount_min = amount_min;
         $scope.amount_max = amount_max;
-         $scope.searchListing();
+         $scope.searchproductListinglatest();
 }
 
 
@@ -296,8 +294,7 @@ $scope.getBrands = function(){
 		//$scope.isExists=response.Ack;
 		if(response.Ack == '1') {
 		$scope.brandlist=response.brandlist;
-		//$scope.listbrands=response.brandList;
-		// console.log("ppag "+response.brandList);
+		
 
   } else {
 		}
@@ -354,7 +351,7 @@ $scope.changeYearValue = function(selectedYear){
 	$window.localStorage["selectedYear"]=$scope.selectedYear;
 	alert("pp"+$scope.selectedYear);
 
-	 $scope.searchListing();
+	 $scope.searchproductListinglatest();
 
 }
 
@@ -390,7 +387,7 @@ $scope.updatecheckbox = function(select,brand_id){
          $scope.checkboxstr = $scope.user.brand.toString();
         $window.localStorage["brandListing"]=$scope.checkboxstr;
         console.log("Checkbox List",$scope.checkboxstr);
-        $scope.searchListing();
+        $scope.searchproductListinglatest();
 
 
 
@@ -412,7 +409,7 @@ $scope.updatecheckboxcat = function(select,cat_id){
          $scope.checkboxstrcat = $scope.user.category.toString();
         $window.localStorage["categorylisting"]=$scope.checkboxstrcat;
         console.log("Checkbox List",$scope.checkboxstrcat);
-        $scope.searchListing();
+        $scope.searchproductListinglatest();
 
 
 
@@ -433,7 +430,7 @@ $scope.updatecheckbox2 = function(select,shop_id){
          $scope.checkboxstr2 = $scope.user.shop.toString();
         $window.localStorage["sellerListing"]=$scope.checkboxstr2;
         console.log("Checkbox List2",$scope.checkboxstr2);
-        $scope.searchListing();
+        $scope.searchproductListinglatest();
 
 
 
@@ -511,7 +508,7 @@ userService.listcountry().then(function(response) {
         
         $scope.country_id=c_id;
        
-        $scope.searchListing();
+        $scope.searchproductListinglatest();
 
     }
 
@@ -539,7 +536,7 @@ userService.listcountry().then(function(response) {
 
         $scope.state_id=s_id;
        
-        $scope.searchListing();
+        $scope.searchproductListinglatest();
 
     }
 

@@ -87,6 +87,7 @@ app.constant('JS_REQUIRES', {
         'filterbylocation': ['app/Controllers/filterbylocationCtrl.js'],
         'adminmessageDetails': ['app/Controllers/adminmessageDetailsCtrl.js'],
         'viewwinauction': ['app/Controllers/viewwinauctionCtrl.js'],
+        'latestdeal': ['app/Controllers/latestdealCtrl.js'],
 	
     },
 

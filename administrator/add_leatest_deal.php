@@ -11,13 +11,13 @@ require_once("includes/class.phpmailer.php");
 function inactive(aa)
    { 
        //alert('inactive');
-       location.href="add_topmodels.php?cid="+ aa +"&action=inactive"
+       location.href="add_leatest_deal.php?cid="+ aa +"&action=inactive"
 
    } 
    function active(aa)
    {
        //alert('active');
-     location.href="add_topmodels.php?cid="+aa+"&action=active";
+     location.href="add_leatest_deal.php?cid="+aa+"&action=active";
    } 
 
    
@@ -92,9 +92,9 @@ function inactive(aa)
                                      <thead>
                             <tr>
                           <!--   <th>Webshop Id</th> -->
-                           <th>Top Model</th>
+                           <th>Latest Deal</th>
                                   <th>Image</th>
-                <th>Model Name</th>
+                <th>Products Name</th>
               </tr>
             </thead>
         <tbody>
@@ -104,18 +104,18 @@ function inactive(aa)
   if(isset($_GET['action']) && $_GET['action']=='inactive')
 {
    $item_id=$_GET['cid'];
-  mysqli_query($con,"update webshop_products set is_top_model='0' where id='".$item_id."'");
+  mysqli_query($con,"update webshop_products set is_leatest_deal='0' where id='".$item_id."'");
   
-         header('Location:add_topmodels.php');
+         header('Location:add_leatest_deal.php');
   exit();
 }
 if(isset($_GET['action']) && $_GET['action']=='active')
 {
    $item_id=$_GET['cid'];
-  mysqli_query($con,"update webshop_products set is_top_model='1'  where id='".$item_id."'");
+  mysqli_query($con,"update webshop_products set is_leatest_deal='1'  where id='".$item_id."'");
             
 
-  header('Location:add_topmodels.php');
+  header('Location:add_leatest_deal.php');
 
   exit();
 }
@@ -123,7 +123,7 @@ if(isset($_GET['action']) && $_GET['action']=='active')
     if(isset($_GET['action']) && $_GET['action']=='disable')
 {
    $item_id=$_GET['cid'];
-  mysqli_query($con,"update webshop_products set is_top_model='0' where id='".$item_id."'");
+  mysqli_query($con,"update webshop_products set is_leatest_deal='0' where id='".$item_id."'");
          header('Location:list_topvendor.php');
   exit();
 }
@@ -149,7 +149,7 @@ if(isset($_GET['action']) && $_GET['action']=='active')
         $uploader_id = $landlord['uploader_id'];
         $uploadename=mysqli_query($con,"select * from webshop_user where id=$uploader_id");
         $landlorduploadername=mysqli_fetch_array($uploadename);
-        // $is_top_model = $landlord['is_top_model'];
+        // $is_leatest_deal = $landlord['is_leatest_deal'];
         
            ?>
               
@@ -158,8 +158,8 @@ if(isset($_GET['action']) && $_GET['action']=='active')
 
                  <td>
                     
-                     <input type="checkbox" <?php if($landlord['is_top_model'] == '1'){ echo 'checked=checked'; }else{ echo ''; } ?> onClick="<?php if($landlord["is_top_model"] == '1'){ echo 'javascript:inactive('.$id.')';}else{ echo 'javascript:active('.$id.')';} ?>" />
-                    <?php if($is_top_model == 1){ echo 'uncheck to remove top model'; }else{ echo 'check for top model'; } ?>
+                     <input type="checkbox" <?php if($landlord['is_leatest_deal'] == '1'){ echo 'checked=checked'; }else{ echo ''; } ?> onClick="<?php if($landlord["is_leatest_deal"] == '1'){ echo 'javascript:inactive('.$id.')';}else{ echo 'javascript:active('.$id.')';} ?>" />
+                    <?php if($is_leatest_deal == 1){ echo 'uncheck to remove from latest deal'; }else{ echo 'check for latest deal'; } ?>
                 </td> 
 
                   <td>
