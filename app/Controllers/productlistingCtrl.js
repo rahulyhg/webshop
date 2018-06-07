@@ -23,7 +23,7 @@ $scope.checkboxstrcat=[];
  
   
   //alert('h'+$scope.maxprice);
- console.log('search_obj',$scope.search);
+ //console.log('search_obj',$scope.search);
 $scope.drpmodel='0';
  $scope.cobchange=function(){
 
@@ -48,9 +48,9 @@ $scope.incrementLimit1 = function() {
     $scope.limit1 = '';
 };
 $scope.brand='';
-if($stateParams.brand){
+if($stateParams.id){
     //alert($scope.brand);
-$scope.brand=$stateParams.brand;
+$scope.brand=$stateParams.id;
 }
 
 if ($window.localStorage["userInfo"]) {
@@ -74,13 +74,7 @@ $scope.isform1 =0;
 
 //$scope.brand=$stateParams.brand;
 
-
-
-
-// alert($scope.amount_max);
-$scope.searchListing = function(){
-    
-    userService.getmaxprice(2).then(function(response) {
+userService.getmaxprice(2).then(function(response) {
     // alert();
 
 		
@@ -91,10 +85,10 @@ $scope.searchListing = function(){
                 $scope.minprice=response.minprice;
                 //$scope.amount_min = response.maxprice;
                 
-                $scope.search.amount_min=$scope.minprice;
+                //$scope.search.amount_min=$scope.minprice;
                  $scope.minprice=response.minprice;
                 $scope.search.amount_max=$scope.maxprice;
-                $scope.amount_min = $scope.search.amount_min;
+               // $scope.amount_min = $scope.search.amount_min;
                 $scope.amount_max = $scope.search.amount_max;
 		//console.log($scope.alljobs);
                 //$window.localStorage["userzip"]='';
@@ -110,19 +104,13 @@ $scope.searchListing = function(){
 	}, function(err) {
 	console.log(err); 
 	});
-  //alert($scope.amount_max);
-// if ($window.localStorage["brandListing"]) {
 
-// 	$scope.brandListing=$window.localStorage["brandListing"];
-      
-// }
-// else if($scope.brand !=''){
-// 	$scope.brandListing = $scope.brand;
-// }else{
-// 	$scope.brandListing = '';
-// }
 
-//$window.localStorage["keyword"]
+// alert($scope.amount_max);
+$scope.searchListing = function(){
+    
+    
+
 if($scope.keyword){
     
 	$scope.keyword=$scope.keyword;
@@ -180,15 +168,17 @@ if($scope.year){
 
 
 if($scope.amount_min){
-    $scope.amount_min;
+    $scope.amount_min = $scope.amount_min;
     $('#min_price').html($scope.amount_min);
+    
     
 }else{
     $scope.amount_min= 0;
+    alert();
     $('#min_price').html($scope.amount_min);
 }	
 if($scope.amount_max){
-    $scope.amount_max;
+    $scope.amount_max = $scope.amount_max;
     $('#max_price').html($scope.amount_max);
 }else{
     //alert('max');
