@@ -10699,8 +10699,6 @@ function shopDetails() {
     $app->response->write(json_encode($data));
 }
 
-
-
 function packagedetails() {
     $data = array();
     $app = \Slim\Slim::getInstance();
@@ -10775,6 +10773,63 @@ function myauctionpayamount() {
     $app->response->write(json_encode($data));
 }
 
+function getmaxprice2() {
+
+    
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    $type = isset($body->type) ? $body->type : '';
+    $db = getConnection();
+
+    
+
+    try {
+
+        $sqlmin = "SELECT MIN(price) from webshop_products";
+        $stmtmin = $db->prepare($sqlmin);
+        $stmtmin->execute();
+        $getminprice = $stmtmin->fetchAll();
+        
+        $sqlmax = "SELECT MAX(price) from webshop_products";
+        $stmtmax = $db->prepare($sqlmax);
+        $stmtmax->execute();
+        $getmaxprice = $stmtmax->fetchAll();
+
+        
+        if (!empty($getminprice)) {
+            $minprice = $getminprice[0][0];
+            
+            //$data['Ack'] = '1';
+           // $app->response->setStatus(200);
+        }else{
+            $minprice ='';
+        }
+        if(!empty($getmaxprice)){
+          // $data['minprice'] = $getminprice[0][0];
+            $maxprice = $getmaxprice[0][0]; 
+        }else{
+            $maxprice ='';
+        } 
+       
+            $data['minprice']=$minprice;
+            $data['maxprice']=$maxprice;
+            
+            $data['Ack'] = '1';
+            $app->response->setStatus(200);
+       
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
 
 $app->run();
 ?>
