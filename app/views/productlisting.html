@@ -131,43 +131,14 @@
                                                     
                                                     
                                                     <hr>
-                                                    <p>Amount Min: <span id="min_price">{{amount_min}}</span><input type="hidden"  ng-model="amount_min" readonly/> </p>
-    <p>Amount Max: <span id="max_price">{{amount_max}}</span><input type="hidden" ng-model="amount_max" readonly/> </p>
-    <slider-range min="{{amount_min}}" max="{{amount_max}}" step="50" ng-mouseup="searchListing()" value-min="amount_min" value-max="amount_max"></slider-range>
+                                                    <p>Amount Min: <span id="min_price">{{amount_min}}</span>
+                                                        <input type="hidden"  ng-model="amount_min" readonly/> </p>
+                                                        <p>Amount Max: <span id="max_price">{{amount_max}}</span>
+                                                        <input type="hidden" ng-model="amount_max" readonly/> </p>
+    <slider-range min="{{amount_min}}" max="{{amount_max}}" step="10" ng-mouseup="searchListing()" value-min="amount_min" value-max="amount_max"></slider-range>
     <hr>
-							<!--<div id="collapseOne" class="collapse show">
-								<div class="form-check">
-								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-								  <label class="form-check-label" for="defaultCheck1">
-								    $25-$49 (3)
-								  </label>
-								</div>
-								<div class="form-check">
-								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-								  <label class="form-check-label" for="defaultCheck2">
-								    $75-$99 (11)
-								  </label>
-								</div>
-								<div class="form-check">
-								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck3">
-								  <label class="form-check-label" for="defaultCheck3">
-								    $100-$199 (31)
-								  </label>
-								</div>
-								<div class="form-check">
-								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck4">
-								  <label class="form-check-label" for="defaultCheck4">
-								    $200-$299 (11)
-								  </label>
-								</div>
-								<div class="form-check">
-								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck5">
-								  <label class="form-check-label" for="defaultCheck5">
-								    $300-$399 (10)
-								  </label>
-								</div>
-							</div>-->
-							<a href="" class="view-all">View All</a>	
+							
+							
 					   </div>
 					   <div class="filter-holder">					    
 							<a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseOne1">

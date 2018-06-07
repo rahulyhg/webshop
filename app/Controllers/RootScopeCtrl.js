@@ -1,4 +1,4 @@
-app.controller("RootScopeCtrl", function ($scope, $location, $rootScope, $http, $state, $window, $q, $templateCache, $interval, userService,Upload,$timeout) {
+app.controller("RootScopeCtrl", function ($scope,$rootScope, $location, $rootScope, $http, $state, $window, $q, $templateCache, $interval, userService,Upload,$timeout) {
 //    $scope.loggedindetails = myAuth.getAdminAuthorisation();
 //
 //    if ($scope.loggedindetails) {
@@ -77,6 +77,41 @@ app.controller("RootScopeCtrl", function ($scope, $location, $rootScope, $http, 
 	}, function(err) {
          console.log(err); 
     });
+    
+    
+    
+   /* userService.getmaxprice2().then(function(response) {
+    // alert();
+
+		
+		//$scope.isExists=response.Ack;
+		if(response.Ack == '1') {
+                    $scope.exists=1;
+		$scope.maxprice=response.maxprice;
+                $scope.minprice=response.minprice;
+                //$scope.amount_min = response.maxprice;
+                
+                $scope.search.amount_min=$scope.minprice;
+                 $scope.minprice=response.minprice;
+                $scope.search.amount_max=$scope.maxprice;
+                $scope.amount_min = $scope.search.amount_min;
+                $scope.amount_max = $scope.search.amount_max;
+                $rootScope.amount_max = $scope.search.amount_max;
+		//console.log($scope.alljobs);
+                //$window.localStorage["userzip"]='';
+		
+		} else {
+                    
+                     $scope.exists=0;
+		}
+	
+	
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});*/
+    
     
     $scope.showMenu = function () {
         $scope.menuVisible = !$scope.menuVisible;
