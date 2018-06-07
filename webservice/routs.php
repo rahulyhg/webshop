@@ -159,7 +159,8 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/listbracelet', 'listbracelet');
 
     $app->post('/shopDetails', 'shopDetails');
-
+    $app->post('/packagedetails', 'packagedetails');
+    $app->post('/myauctionpayamount', 'myauctionpayamount');
 
 });
 ?>

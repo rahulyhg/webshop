@@ -7449,6 +7449,11 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
     if ($loyalty_redeem > $checkloyalty->total_loyalty) {
 
         $data['Ack'] = 2;
+    }else if($subscriptionprice == 0){
+        
+        $data['url'] = SITE_URL . '#/successUserpayment/' . $paymentId.'/123';
+        $data['Ack'] = 1;
+        
     } else {
 
         $data['url'] = $paymentUrl;
@@ -8119,10 +8124,13 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
              */
         }
 //end
-
+        if($productprice== 0){
+            $data['url'] = SITE_URL . '#/successAuctionpayment/' . $paymentId .'/123';
+            $data['Ack'] = 1;
+        }else{
         $data['url'] = $paymentUrl;
         $data['Ack'] = 1;
-
+        }
         $app->response->setStatus(200);
     }
 
@@ -10690,5 +10698,83 @@ function shopDetails() {
     }
     $app->response->write(json_encode($data));
 }
+
+
+
+function packagedetails() {
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $package_id = isset($body->package_id) ? $body->package_id : '';
+    
+    $sql = "SELECT * from  webshop_subscription WHERE id=:id ";
+    $db = getConnection();
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("id", $package_id);
+    $stmt->execute();
+    $product = $stmt->fetchObject();
+
+    if (!empty($product)) {
+
+       
+        $data['packagedetails'] = array(
+            "id" => stripslashes($product->id),
+            "price" => stripslashes($product->price),
+          
+        );
+
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    } else {
+        $data = array();
+        $data['packagedetails'] = array();
+        $data['Ack'] = '0';
+        $app->response->setStatus(200);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+function myauctionpayamount() {
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $product_id = base64_decode($body->product_id);
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $db = getConnection();
+    $sql = "SELECT * from webshop_biddetails where productid =:product_id and userid= '" . $user_id . "'order by id desc limit 0,1";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("product_id", $product_id);
+        $stmt->execute();
+        $getProductValue = $stmt->fetchObject();
+
+    if (!empty($getProductValue)) {
+
+       
+        $data['amountdetails'] = array(
+            //"id" => stripslashes($getProductValue->id),
+            "price" => stripslashes($getProductValue->bidprice),
+          
+        );
+
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    } else {
+        $data = array();
+        $data['amountdetails'] = array();
+        $data['Ack'] = '0';
+        $app->response->setStatus(200);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+
 $app->run();
 ?>

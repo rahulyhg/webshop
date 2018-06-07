@@ -5143,6 +5143,37 @@ var listbracelet = function() {
   
   
   
+ var myauctionpayamount = function(pid) {
+        return $q(function(resolve, reject) {
+            
+    var userInfo = JSON.parse($window.localStorage["userInfo"]);
+    var encodedString ='{"product_id":"'+ pid +'","user_id":"'+ userInfo.user_id +'"}';
+
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"myauctionpayamount",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           console.log(response.data);  
+           if(response.data.Ack == "1") {
+         
+              resolve(response.data); 
+           } else {
+         
+              resolve(response.data); 
+           }
+           
+        },function(response) {
+                     
+          reject(response);
+            });
+        });
+ }; 
+  
+  
+  
+  
   var shopDetails = function(shop_id) {
         return $q(function(resolve, reject) {
                 
@@ -5334,9 +5365,9 @@ var encodedString ='{"shop_id":"'+ shop_id +'"}';
         getmaxprice:getmaxprice,
 
         listbracelet:listbracelet,
-        packagedetails:packagedetails
-
+        packagedetails:packagedetails,
         shopDetails:shopDetails,
+        myauctionpayamount:myauctionpayamount,
 
 
 	

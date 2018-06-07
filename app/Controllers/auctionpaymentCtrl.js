@@ -78,8 +78,52 @@ else {
               
 }
  
+ userService.myloyalty().then(function(response) {
+     
+		if(response.Ack == '1') {
+                   
+                    $scope.exists=1;
+                    $scope.totalloyalty=response.total_loyalty;
+		
+		
+		} else {
+                    
+                    $scope.totalloyalty= 0;
+                     $scope.exists=0;
+		}
+	
+	
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
  
- 
+ userService.myauctionpayamount($stateParams.product_id).then(function(response) {
+     
+		if(response.Ack == '1') {
+                   
+                    $scope.exists=1;
+                    $scope.totalamount=response.amountdetails;
+		
+		
+		} else {
+                    
+                    $scope.totalamount= 0;
+                     $scope.exists=0;
+		}
+	
+	
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	}); 
+
+
+
+
+
 
 	
 });
