@@ -869,7 +869,22 @@ userService.sociallinks().then(function(response) {
     });
 	
 	
-	
+userService.contactinfo().then(function(response) {
+	 if(response.Ack == '1') {
+		
+               $scope.contactinfo = response.contactinfo;
+               
+                                   
+                }
+               
+        else {
+
+              }
+																	
+	}, function(err) {
+            
+         console.log(err); 
+    });	
     
 
 

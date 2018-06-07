@@ -107,7 +107,11 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                                 Manage Percentage</a>
                         </li> 
 
-
+                        <li>
+                            <a href="contact_setting.php">
+                                <i class="icon-bulb"></i>
+                                Manage Contact Info</a>
+                        </li>
                     </ul>
                 </li>
 

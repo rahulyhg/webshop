@@ -2562,7 +2562,7 @@ function ListOrderBuyer() {
 
 
                 $allorders[] = array(
-                    "id" => stripslashes($orders->id),
+                    "id" => stripslashes($orders->product_id),
                     "total_price" => stripslashes($orderlst->bidprice),
                     "date" => date('dS M Y', strtotime($orders->date)),
                     "status" => $orders->is_paid,
@@ -3851,6 +3851,7 @@ function addProductNew() {
             $stmtfreeno->execute();
             $getfree_no = $stmtfreeno->fetchObject();
             $free_no = $getfree_no->free_bid;
+            $free_status = $getfree_no->free_bid_status;
 
             $sqluserpay_product = "SELECT * FROM webshop_products WHERE uploader_id=:user_id and type=1 and status=1 and user_free_product='P'";
             $db = getConnection();
@@ -3874,7 +3875,7 @@ function addProductNew() {
             $count = $stmtcheck->rowCount();
 
 
-            if ($pcount == $free_no) {
+            if ($pcount == $free_no && $free_status==1 && $free_no > 0) {
 
                 $payment_status = "1";
             } else {
@@ -7578,12 +7579,13 @@ function adduserpayment() {
     $getfree = $stmt5->fetchObject();
 
     $free_product = $getfree->free_bid;
+    $free_status = $getfree->free_bid_status;
 
-    if ($free_product != 0) {
+    if ($free_product != 0 && $free_status==1) {
 
         $msg = "Your Payment completed successfully. Your product is live now. Upload " . $free_product . "  product and get one product upload free.";
     } else {
-        $msg = 'Your Payment completed successfully. Your product is live now.';
+        $msg = "Your Payment completed successfully. Your product is live now. Upload more product and get one product upload free.";
     }
 
     $data['subscription_id'] = $subscription_id;
@@ -10830,6 +10832,49 @@ function getmaxprice2() {
 
     $app->response->write(json_encode($data));
 }
+
+
+function contactinfo() {
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+
+    $sql = "SELECT * from  webshop_contact_info WHERE id=1";
+    $db = getConnection();
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+    $getAlllinks = $stmt->fetchObject();
+
+//print_r($getAllProducts);exit;
+
+    if (!empty($getAlllinks)) {
+       
+
+            $data['contactinfo'] = array(
+                "id" => stripslashes($getAlllinks->id),
+                "address" => stripslashes($getAlllinks->address),
+                "phone" => stripslashes($getAlllinks->phone),
+                "email" => stripslashes($getAlllinks->email),
+            );
+        
+
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    } else {
+        $data = array();
+        $data['contactinfo'] = array();
+        $data['Ack'] = '0';
+        $app->response->setStatus(200);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
 
 $app->run();
 ?>

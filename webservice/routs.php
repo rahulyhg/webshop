@@ -161,6 +161,7 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/shopDetails', 'shopDetails');
     $app->post('/packagedetails', 'packagedetails');
     $app->post('/myauctionpayamount', 'myauctionpayamount');
+    $app->post('/contactinfo', 'contactinfo');
 
 });
 ?>
