@@ -1661,7 +1661,7 @@ function homeSettings() {
         }
     }
 
-   $sqltopmodel = "SELECT * from  webshop_products where type= '1' && is_top_model = '1'";
+   $sqltopmodel = "SELECT * from  webshop_top_model where status= '1' ";
 
     $stmtsqltopmodel = $db->prepare($sqltopmodel);
     $stmtsqltopmodel->execute();
@@ -1671,36 +1671,17 @@ function homeSettings() {
         foreach ($auctionedProductstopmodel as $auctionedtopmodel) {
 
 
-            if ($auctioned->image != '') {
+            if ($auctionedtopmodel->image != '') {
                 $product_image_topmodel = SITE_URL . 'upload/product_image/' . $auctionedtopmodel->image;
             } else {
                 $product_image_topmodel = SITE_URL . 'webservice/not-available.jpg';
             }
             
-            $sqlcategory = "SELECT * FROM  webshop_category WHERE id=:id ";
-            $stmtcategory = $db->prepare($sqlcategory);
-            $stmtcategory->bindParam("id", $auctionedtopmodel->cat_id);
-            $stmtcategory->execute();
-            $getcategory = $stmtcategory->fetchObject();
-            if (!empty($getcategory)) {
-                $categoryname = $getcategory->name;
-            }
-
+           
             
-            $sql21 = "SELECT * FROM  webshop_brands WHERE id=:id ";
-            $stmt21 = $db->prepare($sql21);
-            $stmt21->bindParam("id", $auctionedtopmodel->brands);
-            $stmt21->execute();
-            $getbrand = $stmt21->fetchObject();
-            if (!empty($getbrand)) {
-                $brand = $getbrand->name;
-            }
-            
-            $top_product_name = $categoryname.'/'.$brand;
             $topproductList[] = array(
-                "product_id" => stripslashes($auctioned->id),
-                "product_name" => $top_product_name,
-                "product_description" => strip_tags(stripslashes($auctioned->description)),
+                "product_id" => stripslashes($auctionedtopmodel->id),
+                "product_name" => stripslashes($auctionedtopmodel->name),
                 "product_image" => stripslashes($product_image_topmodel),
             );
         }
@@ -3700,11 +3681,19 @@ function addProductNew() {
                 $app->response->setStatus(200);
             }
         } else {
+            
+            
+            $sqlsetting = "SELECT * FROM webshop_sitesettings WHERE id=1";
+            $db = getConnection();
+            $stmtsetting = $db->prepare($sqlsetting);
+            $stmtsetting->execute();
+            $getsetting = $stmtsetting->fetchObject();
 
-            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city)";
-
-
-
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city,approved,auction_fee) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city,:approved,:auction_fee)";
+            
+            $approved=1;
+            $payment_amount = ceil(($price * $getsetting->threshold_price_percent) / 100);
+            
             try {
 
                 $db = getConnection();
@@ -3740,6 +3729,8 @@ function addProductNew() {
                 $stmt->bindParam("location", $location);
                 $stmt->bindParam("work_hours", $work_hours);
                 $stmt->bindParam("status", $get_status);
+                $stmt->bindParam("approved", $approved);
+                $stmt->bindParam("auction_fee", $payment_amount);
                 $stmt->execute();
 
                 $lastID = $db->lastInsertId();
@@ -4008,11 +3999,17 @@ function addProductNew() {
                 $app->response->setStatus(401);
             }
         } else {
+            
+            $sqlsetting = "SELECT * FROM webshop_sitesettings WHERE id=1";
+            $db = getConnection();
+            $stmtsetting = $db->prepare($sqlsetting);
+            $stmtsetting->execute();
+            $getsetting = $stmtsetting->fetchObject();
 
-            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city)";
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city,approved,auction_fee) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city,:approved,:auction_fee)";
 
-
-
+            $approved= 1;
+            $payment_amount = ceil(($price * $getsetting->threshold_price_percent) / 100);
             try {
 
                 $db = getConnection();
@@ -4047,6 +4044,8 @@ function addProductNew() {
                 $stmt->bindParam("thresholdprice", $price);
                 $stmt->bindParam("state", $state);
                 $stmt->bindParam("city", $city);
+                $stmt->bindParam("approved", $approved);
+                $stmt->bindParam("auction_fee", $payment_amount);
 
                 $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
 
@@ -8777,6 +8776,12 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
     if ($loyalty_redeem > $checkloyalty->total_loyalty) {
 
         $data['Ack'] = 2;
+        
+    }else if($productprice==0){
+        
+        $data['url'] = SITE_URL . '#/successAuctionuploadpayment/' . $paymentId . '/123';
+        $data['Ack'] = 1;
+        
     } else {
         $data['url'] = $paymentUrl;
         $data['Ack'] = 1;

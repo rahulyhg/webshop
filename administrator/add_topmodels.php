@@ -1,48 +1,168 @@
-<?php
+<?php 
 include_once("./includes/session.php");
 //include_once("includes/config.php");
 include_once("./includes/config.php");
-require_once("includes/class.phpmailer.php");
-//$url=basename(__FILE__)."?".(isset($_SERVER['QUERY_STRING'])?$_SERVER['QUERY_STRING']:'cc=cc');
+$url=basename(__FILE__)."?".(isset($_SERVER['QUERY_STRING'])?$_SERVER['QUERY_STRING']:'cc=cc');
 ?>
-<script type="text/javascript">
+<?php
 
 
-    function inactive(aa)
-    {
-        //alert('inactive');
-        location.href = "add_topmodels.php?cid=" + aa + "&action=inactive"
+if((!isset($_REQUEST['submit'])) && (!isset($_REQUEST['action'])))
+{
 
+ $sql="select * from webshop_top_model  where id<>''";
+                                                        
+
+ 
+
+$record=mysqli_query($con,$sql);
+
+
+}
+
+if(isset($_REQUEST['submit']))
+{
+
+	$name = isset($_POST['name']) ? $_POST['name'] : '';
+	
+	$fields = array(
+		'name' => mysqli_real_escape_string($con,$name),
+		
+		);
+
+		$fieldsList = array();
+		foreach ($fields as $field => $value) {
+			$fieldsList[] = '`' . $field . '`' . '=' . "'" . $value . "'";
+		}
+					 
+	 if($_REQUEST['action']=='edit')
+	  {		  
+	  $editQuery = "UPDATE `webshop_top_model` SET " . implode(', ', $fieldsList)
+			. " WHERE `id` = '" . mysqli_real_escape_string($con,$_REQUEST['id']) . "'";
+
+		if (mysqli_query($con,$editQuery)) {
+		
+		if($_FILES['image']['tmp_name']!='')
+		{
+		$target_path="../upload/product_image/";
+		$userfile_name = $_FILES['image']['name'];
+		$userfile_tmp = $_FILES['image']['tmp_name'];
+		$img_name =$userfile_name;
+		$img=$target_path.$img_name;
+		move_uploaded_file($userfile_tmp, $img);
+		
+		$image =mysqli_query($con,"UPDATE `webshop_top_model` SET `image`='".$img_name."' WHERE `id` = '" . mysqli_real_escape_string($con,$_REQUEST['id']) . "'");
+		}
+		
+		
+			$_SESSION['msg'] = "Top model Updated Successfully";
+		}
+		else {
+			$_SESSION['msg'] = "Error occuried while updating top model";
+		}
+
+		header('Location:list_top_models.php');
+		exit();
+	
+	 }
+	 else
+	 {
+	 
+	 $addQuery = "INSERT INTO `webshop_top_model` (`" . implode('`,`', array_keys($fields)) . "`)"
+			. " VALUES ('" . implode("','", array_values($fields)) . "')";
+			
+			//exit;
+		mysqli_query($con,$addQuery);
+		$last_id=mysqli_insert_id($con);
+		if($_FILES['image']['tmp_name']!='')
+		{
+		$target_path="../upload/product_image/";
+		$userfile_name = $_FILES['image']['name'];
+		$userfile_tmp = $_FILES['image']['tmp_name'];
+		$img_name =$userfile_name;
+		$img=$target_path.$img_name;
+		move_uploaded_file($userfile_tmp, $img);
+		//echo $img_name; exit;
+		
+		$image =mysqli_query($con,"UPDATE `webshop_top_model` SET `image`='".$img_name."' WHERE `id` = '" . $last_id . "'");
+		}
+		 
+/*		if (mysqli_query($con,$addQuery)) {
+		
+			$_SESSION['msg'] = "Category Added Successfully";
+		}
+		else {
+			$_SESSION['msg'] = "Error occuried while adding Category";
+		}
+		*/
+		header('Location:list_top_models.php');
+		exit();
+	
+	 }
+				
+				
+}
+
+if($_REQUEST['action']=='edit')
+{
+$categoryRowset = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_top_model` WHERE `id`='".mysqli_real_escape_string($con,$_REQUEST['id'])."'"));
+
+}
+
+
+/*Bulk Category Delete*/
+if(isset($_REQUEST['bulk_delete_submit'])){
+    
+    
+  
+        echo $idArr = $_REQUEST['checked_id']; exit;
+        foreach($idArr as $id){
+             //echo "UPDATE `makeoffer_banner` SET status='0' WHERE id=".$id;
+            mysqli_query($con,"DELETE FROM `webshop_top_model` WHERE id=".$id);
+        }
+        $_SESSION['success_msg'] = 'Top model have been deleted successfully.';
+        
+        //die();
+        
+        header("Location:list_top_models.php");
     }
-    function active(aa)
-    {
-        //alert('active');
-        location.href = "add_topmodels.php?cid=" + aa + "&action=active";
-    }
 
 
 
-</script>
-<!-- Header Start -->
+if(isset($_GET['action']) && $_GET['action']=='delete')
+{
+	$item_id=$_GET['cid'];
+	mysqli_query($con,"delete from  webshop_top_model where id='".$item_id."'");
+	//$_SESSION['msg']=message('deleted successfully',1);
+	header('Location:list_top_models.php');
+	exit();
+}
+?>
+
+
+    
+
+
+ <!-- Header Start -->
 <?php include ("includes/header.php"); ?>
 <!-- Header End -->
-<!-- BEGIN CONTAINER -->
-<div id="container" class="row-fluid">
-    <!-- BEGIN SIDEBAR -->
+ <!-- BEGIN CONTAINER -->
+   <div id="container" class="row-fluid">
+      <!-- BEGIN SIDEBAR -->
 
     <?php include("includes/left_sidebar.php"); ?>
 
-    <!-- END SIDEBAR -->
-    <!-- BEGIN PAGE -->
-    <div id="main-content">
-        <!-- BEGIN PAGE CONTAINER-->
-        <div class="container-fluid">
+      <!-- END SIDEBAR -->
+      <!-- BEGIN PAGE -->
+      <div id="main-content">
+         <!-- BEGIN PAGE CONTAINER-->
+         <div class="container-fluid">
             <!-- BEGIN PAGE HEADER-->
             <div class="row-fluid">
-                <div class="span12">
-                    <!-- BEGIN THEME CUSTOMIZER-->
-                    <div id="theme-change" class="hidden-phone">
-                        <i class="icon-cogs"></i>
+               <div class="span12">
+                   <!-- BEGIN THEME CUSTOMIZER-->
+                   <div id="theme-change" class="hidden-phone">
+                       <i class="icon-cogs"></i>
                         <span class="settings">
                             <span class="text">Theme Color:</span>
                             <span class="colors">
@@ -53,23 +173,34 @@ require_once("includes/class.phpmailer.php");
                                 <span class="color-red" data-style="red"></span>
                             </span>
                         </span>
-                    </div>
-                    <!-- END THEME CUSTOMIZER-->
-                    <!-- BEGIN PAGE TITLE & BREADCRUMB-->
-                    <h3 class="page-title">Model list</h3>
-                    <ul class="breadcrumb">
-                        <li>
-                            <a href="#">Home</a>
-                            <span class="divider">/</span>
-                        </li>
-                        <li>
-                            <a href="#">Model list</a>
+                   </div>
+                   <!-- END THEME CUSTOMIZER-->
+                  <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                   <h3 class="page-title">
+                   Top Model <small><?php echo $_REQUEST['action']=='edit'?"Edit":"Add";?> Top Model</small>
+                   </h3>
+                   <ul class="breadcrumb">
+                       <li>
+                           <a href="#">Home</a>
+                           <span class="divider">/</span>
+                       </li>
+                       <li>
+                           <a href="#">Top Model</a>
+                           <span class="divider">/</span>
+                       </li>
+                       
+                       <li>
+                          <span><?php echo $_REQUEST['action']=='edit'?"Edit":"Add";?> Top Model</span>
+                          
+                       </li>
+                       
+                       
 
-                        </li>
-
-                    </ul>
-                    <!-- END PAGE TITLE & BREADCRUMB-->
-                </div>
+                       
+                       
+                   </ul>
+                   <!-- END PAGE TITLE & BREADCRUMB-->
+               </div>
             </div>
             <!-- END PAGE HEADER-->
             <!-- BEGIN PAGE CONTENT-->
@@ -78,185 +209,46 @@ require_once("includes/class.phpmailer.php");
                     <!-- BEGIN SAMPLE FORMPORTLET-->
                     <div class="widget green">
                         <div class="widget-title">
-                            <h4><i class="icon-reorder"></i>List Models</h4>
-
+                            <h4><i class="icon-reorder"></i>Add Top Model</h4>
                             <span class="tools">
-                                <a href="javascript:;" class="icon-chevron-down"></a>
-                                <a href="javascript:;" class="icon-remove"></a>
+                            <a href="javascript:;" class="icon-chevron-down"></a>
+                            <a href="javascript:;" class="icon-remove"></a>
                             </span>
                         </div>
                         <div class="widget-body">
-                            <!-- BEGIN Table-->
+                            <!-- BEGIN FORM-->
+                        <form class="form-horizontal" method="post" action="add_topmodels.php" enctype="multipart/form-data">
 
-                            <table class="table table-striped table-hover table-bordered" id="editable-sample">
-                                <thead>
-                                    <tr>
-                                  <!--   <th>Webshop Id</th> -->
-                                        <th>Top Model</th>
-                                        <th>Image</th>
-                                        <th>Model Name</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    if (isset($_GET['action']) && $_GET['action'] == 'inactive') {
-                                        $item_id = $_GET['cid'];
-                                        mysqli_query($con, "update webshop_products set is_top_model='0' where id='" . $item_id . "'");
+                          <input type="hidden" name="id" value="<?php echo $_REQUEST['id'];?>" />
+                          <input type="hidden" name="action" value="<?php echo $_REQUEST['action'];?>" />  
+                           
+                                
+                                <div class="control-group">
+                                    <label class="control-label">Name</label>
+                                    <div class="controls">
+                                    <input type="text" class="form-control" placeholder="Enter text" value="<?php echo $categoryRowset['name'];?>" name="name" required>
+                                    </div>
+                                </div>
+                          
+                          
+                          
 
-                                        header('Location:add_topmodels.php');
-                                        exit();
-                                    }
-                                    if (isset($_GET['action']) && $_GET['action'] == 'active') {
-                                        $item_id = $_GET['cid'];
-                                        mysqli_query($con, "update webshop_products set is_top_model='1'  where id='" . $item_id . "'");
+                                  <div class="control-group">
+                                    <label class="control-label">Image Upload</label>
+                                    <div class="controls">
+                                        <input type="file" name="image" class=" btn blue"  ><?php if($categoryRowset['image']!=''){?><br><a href="../upload/product_image/<?php echo $categoryRowset['image'];?>" target="_blank">View</a><?php }?>
+                                    </div>
+                                </div>
+                                
 
-
-                                        header('Location:add_topmodels.php');
-
-                                        exit();
-                                    }
-
-                                    if (isset($_GET['action']) && $_GET['action'] == 'disable') {
-                                        $item_id = $_GET['cid'];
-                                        mysqli_query($con, "update webshop_products set is_top_model='0' where id='" . $item_id . "'");
-                                        header('Location:list_topvendor.php');
-                                        exit();
-                                    }
-
-
-                                    $fetch_landlord = mysqli_query($con, "SELECT * from  webshop_products where status=1 and approved='1' and type='1' and is_discard='0'");
-                                    $num = mysqli_num_rows($fetch_landlord);
-
-                                    if ($num > 0) {
-                                        while ($landlord = mysqli_fetch_array($fetch_landlord)) {
-                                            
-                                            
-                                            if($landlord['subscription_id']!=0){  
-                                         $getsubscription = mysqli_query($con, "select * from webshop_subscribers where id= '".$landlord['subscription_id']."'");   
-                                         $subscriptiondetails = mysqli_fetch_array($getsubscription);
-                                         
-                                            $cdate = date('Y-m-d');
-                                           if($subscriptiondetails['expiry_date'] >= $cdate){ 
-
-                                            if ($landlord['image'] != '') {
-                                                $image_link = '../upload/product_image/' . $landlord['image'];
-                                            } else {
-                                                $image_link = '../upload/no.jpg';
-                                            }
-
-                                            $id = $landlord["id"];
-                                            $uploader_id = $landlord['uploader_id'];
-                                            $uploadename = mysqli_query($con, "select * from webshop_user where id=$uploader_id");
-                                            $landlorduploadername = mysqli_fetch_array($uploadename);
-                                            // $is_top_model = $landlord['is_top_model'];
-                                            ?>
-
-                                            <tr>
-
-
-                                                <td>
-
-                                                    <input type="checkbox" <?php if ($landlord['is_top_model'] == '1') {
-                                        echo 'checked=checked';
-                                    } else {
-                                        echo '';
-                                    } ?> onClick="<?php if ($landlord["is_top_model"] == '1') {
-                                        echo 'javascript:inactive(' . $id . ')';
-                                    } else {
-                                        echo 'javascript:active(' . $id . ')';
-                                    } ?>" />
-        <?php if ($is_top_model == 1) {
-            echo 'uncheck to remove top model';
-        } else {
-            echo 'check for top model';
-        } ?>
-                                                </td> 
-
-                                                <td>
-                                                    <img src="<?php echo $image_link; ?>" height="100" width="100" align="image">
-                                                </td>
-
-
-                                                <td>
-        <?php echo $landlorduploadername['fname'] . ' ' . $landlorduploadername['lname']; ?>
-
-                                                </td>
-
-
-
-
-                                            </tr>
-                                            <?php
-                                           }
-                                            }else{
-                                                
-                                             if ($landlord['image'] != '') {
-                                                $image_link = '../upload/product_image/' . $landlord['image'];
-                                            } else {
-                                                $image_link = '../upload/no.jpg';
-                                            }
-
-                                            $id = $landlord["id"];
-                                            $uploader_id = $landlord['uploader_id'];
-                                            $uploadename = mysqli_query($con, "select * from webshop_user where id=$uploader_id");
-                                            $landlorduploadername = mysqli_fetch_array($uploadename);
-                                            // $is_top_model = $landlord['is_top_model'];
-                                            ?>
-
-                                            <tr>
-
-
-                                                <td>
-
-                                                    <input type="checkbox" <?php if ($landlord['is_top_model'] == '1') {
-                                        echo 'checked=checked';
-                                    } else {
-                                        echo '';
-                                    } ?> onClick="<?php if ($landlord["is_top_model"] == '1') {
-                                        echo 'javascript:inactive(' . $id . ')';
-                                    } else {
-                                        echo 'javascript:active(' . $id . ')';
-                                    } ?>" />
-        <?php if ($is_top_model == 1) {
-            echo 'uncheck to remove top model';
-        } else {
-            echo 'check for top model';
-        } ?>
-                                                </td> 
-
-                                                <td>
-                                                    <img src="<?php echo $image_link; ?>" height="100" width="100" align="image">
-                                                </td>
-
-
-                                                <td>
-        <?php echo $landlorduploadername['fname'] . ' ' . $landlorduploadername['lname']; ?>
-
-                                                </td>
-
-
-
-
-                                            </tr>   
-                                              
-                                        <?php    }
-                                        }
-                                    } else {
-                                        ?>
-                                        <tr>
-                                            <td colspan="5">Sorry, no record found.</td>
-                                        </tr>
-
-                                        <?php
-                                    }
-                                    ?>
-
-                                </tbody>
-                            </table>
-
-
-
-                            <!-- END Table-->
+                                
+                              
+                                <div class="form-actions">
+                                    <button type="submit" class="btn blue" name="submit"><i class="icon-ok"></i> Save</button>
+                                    <button type="reset" class="btn"><i class=" icon-remove"></i> Cancel</button>
+                                </div>
+                            </form>
+                            <!-- END FORM-->
                         </div>
                     </div>
                     <!-- END SAMPLE FORM PORTLET-->
@@ -264,55 +256,55 @@ require_once("includes/class.phpmailer.php");
             </div>
             <div class="row-fluid">
                 <div class="span12">
-
+                   
                 </div>
             </div>
 
             <!-- END PAGE CONTENT-->
-        </div>
-        <!-- END PAGE CONTAINER-->
-    </div>
-    <!-- END PAGE -->
-</div>
-<!-- END CONTAINER -->
+         </div>
+         <!-- END PAGE CONTAINER-->
+      </div>
+      <!-- END PAGE -->
+   </div>
+   <!-- END CONTAINER -->
 
-<!-- Footer Start -->
+   <!-- Footer Start -->
 
-<?php include("includes/footer.php"); ?>
+   <?php include("includes/footer.php"); ?>
 
-<!-- Footer End -->
+   <!-- Footer End -->
+    <!-- BEGIN JAVASCRIPTS -->
+   <!-- Load javascripts at bottom, this will reduce page load time -->
+   <script src="js/jquery-1.8.3.min.js"></script>
+   <script src="js/jquery.nicescroll.js" type="text/javascript"></script>
+   <script type="text/javascript" src="assets/jquery-slimscroll/jquery-ui-1.9.2.custom.min.js"></script>
+   <script type="text/javascript" src="assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+   <script src="assets/fullcalendar/fullcalendar/fullcalendar.min.js"></script>
+   <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 
-<!-- BEGIN JAVASCRIPTS -->
-<!-- Load javascripts at bottom, this will reduce page load time -->
-<script src="js/jquery-1.8.3.min.js"></script>
-<!--<script src="js/jquery.nicescroll.js" type="text/javascript"></script>-->
-<script src="assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="js/jquery.blockui.js"></script>
-<!-- ie8 fixes -->
-<!--[if lt IE 9]>
-<script src="js/excanvas.js"></script>
-<script src="js/respond.js"></script>
-<![endif]-->
-<script type="text/javascript" src="assets/uniform/jquery.uniform.min.js"></script>
-<?php if ($num > 0) { ?>
-    <script type="text/javascript" src="assets/data-tables/jquery.dataTables.js"></script>
-<?php } ?>
-<script type="text/javascript" src="assets/data-tables/DT_bootstrap.js"></script>
-<script src="js/jquery.scrollTo.min.js"></script>
+   <!-- ie8 fixes -->
+   <!--[if lt IE 9]>
+   <script src="js/excanvas.js"></script>
+   <script src="js/respond.js"></script>
+   <![endif]-->
+
+   <script src="assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js" type="text/javascript"></script>
+   <script src="js/jquery.sparkline.js" type="text/javascript"></script>
+   <script src="assets/chart-master/Chart.js"></script>
+   <script src="js/jquery.scrollTo.min.js"></script>
 
 
-<!--common script for all pages-->
-<script src="js/common-scripts.js"></script>
+   <!--common script for all pages-->
+   <script src="js/common-scripts.js"></script>
 
-<!--script for this page only-->
-<script src="js/editable-table.js"></script>
+   <!--script for this page only-->
 
-<!-- END JAVASCRIPTS -->
-<script>
-    jQuery(document).ready(function () {
-        EditableTable.init();
-    });
-</script>
+   <script src="js/easy-pie-chart.js"></script>
+   <script src="js/sparkline-chart.js"></script>
+   <script src="js/home-page-calender.js"></script>
+   <script src="js/home-chartjs.js"></script>
+
+   <!-- END JAVASCRIPTS -->   
 </body>
 <!-- END BODY -->
 </html>

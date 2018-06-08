@@ -9,7 +9,7 @@
 			<div class="search-header widte-bg py-3 px-4 mb-3">
 				<!--<form class="m-0" ng-submit="normalsearch(formdata)">-->
 				  <div class="form-row align-items-center">
-				    <div class="col-sm-3 my-1">
+				    <div class="col-sm-4 my-1">
 				      <div class="input-group">
 				        <div class="input-group-prepend">
 				          <div class="input-group-text"><i class="fa fa-user"></i></div>
@@ -29,7 +29,7 @@
 
 				      </div>
 				    </div>
-				    <div class="col-sm-3 my-1">
+				    <div class="col-sm-4 my-1">
                                         
 					    	<select class="custom-select" id="inputGroupSelect01" ng-model="breslettype" ng-change="searchListing()">
 							    <option value="" selected="selected">Breslet</option>
@@ -43,9 +43,15 @@
 				        <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Username">
 				      </div>
 				    </div> -->
-				     <div class="col-sm-3 my-1">
+                                   
+                                   
+                                   
+<!--				     <div class="col-sm-3 my-1">
 					    	 <select class="custom-select" ng-change="searchListing()" ng-model='year' ng-options='year for year in YearsList'></select>
-					 </div>
+					 </div>-->
+                                   
+                                   
+                                   
 <!--				    <div class="col-sm-1 my-1">
 				      <button type="submit" class="btn btn-primary btn-block">Submit</button>
 				    </div>-->
@@ -53,7 +59,7 @@
                                 
                                 
                                 
-                            <div class="col-sm-3 my-1">
+                            <div class="col-sm-4 my-1">
                                         
                                         <datepicker date-format="yyyy-MM-dd" selector="form-control"  date-enabled-dates="{{listAuctionDtates}}">
 
@@ -82,7 +88,38 @@
 					<div class="filter widte-bg py-3 px-3">
 						<h3 class="pb-2">Filter By</h3>
                                                 
-                                                
+                                                <div class="filter-holder">					    
+							<a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseOne4">
+								Brand
+							</a>
+							<div id="collapseOne4" class="collapse show" ng-init = "getBrands();">
+								 <div  ng-repeat="brandlists in brandlist| limitTo: limit">
+								<div class="form-check">
+								  <input class="form-check-input" type="checkbox" ng-model="brandlists.Selected" ng-click="updatecheckbox(brandlists.Selected,brandlists.id)" ng-checked="user.brand.indexOf(brandlists.id)>=0" ng-true-value="'{{brandlists.id.replace('\'', '\\\'')}}'" id="test{{brandlists.id}}">
+								  <label class="form-check-label" for="test{{brandlists.id}}">
+								    {{brandlists.name}}
+								  </label>
+								</div>
+							</div>
+							</div>
+							<a href ng-click="incrementLimit()">View All</a>	
+					   </div>
+                                                 <div class="filter-holder">					    
+							<a class="card-link" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne41">
+								Category
+							</a>
+							<div id="collapseOne41" class="collapse show" ng-init = "getcategory();">
+								 <div  ng-repeat="category in categorylist| limitTo: limit1">
+								<div class="form-check">
+								  <input class="form-check-input" type="checkbox" ng-model="category.Selected" ng-click="updatecheckboxcat(category.Selected,category.id)" ng-checked="user.category.indexOf(category.id)>=0" ng-true-value="'{{category.id.replace('\'', '\\\'')}}'" id="test{{category.id}}">
+								  <label class="form-check-label" for="test{{category.id}}">
+								    {{category.name}}
+								  </label>
+								</div>
+							</div>
+							</div>
+							<a href ng-click="incrementLimit1()">View All</a>	
+					   </div>
                                                 
                                                 <div class="filter-holder">					    
 							<a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseOne1">
@@ -111,14 +148,14 @@
 
 
 
-                                                            <div class="form-group">
+<!--                                                            <div class="form-group">
 
 
                                                                 <select class="form-control" name="city_id" ng-change="searchListing()" ng-model='city_id'  required>
                                                                     <option value="">Select city</option>
                                                                     <option  ng-repeat="citylists in citylist" value="{{citylists.id}}">{{citylists.name}}</option>
                                                                 </select>  
-                                                            </div>   
+                                                            </div>   -->
                                                             
                                                             
                                                             
@@ -140,39 +177,7 @@
     <p>Amount Max: <span id="max_price">10000</span><input type="hidden" ng-model="amount_max" readonly/> </p>
     <slider-range min="0" max="10000" step="50" ng-mouseup="searchListing()" value-min="amount_min" value-max="amount_max"></slider-range>
     <hr>
-							<!--<div id="collapseOne" class="collapse show">
-								<div class="form-check">
-								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-								  <label class="form-check-label" for="defaultCheck1">
-								    $25-$49 (3)
-								  </label>
-								</div>
-								<div class="form-check">
-								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-								  <label class="form-check-label" for="defaultCheck2">
-								    $75-$99 (11)
-								  </label>
-								</div>
-								<div class="form-check">
-								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck3">
-								  <label class="form-check-label" for="defaultCheck3">
-								    $100-$199 (31)
-								  </label>
-								</div>
-								<div class="form-check">
-								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck4">
-								  <label class="form-check-label" for="defaultCheck4">
-								    $200-$299 (11)
-								  </label>
-								</div>
-								<div class="form-check">
-								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck5">
-								  <label class="form-check-label" for="defaultCheck5">
-								    $300-$399 (10)
-								  </label>
-								</div>
-							</div>-->
-							<a href="" class="view-all">View All</a>	
+								
 					   </div>
 					   <div class="filter-holder">					    
 							<a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseOne1">
@@ -242,38 +247,7 @@
 							</div>
 							<a href="" class="view-all">View All</a>	
 					   </div>
-						<div class="filter-holder">					    
-							<a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseOne4">
-								Brand
-							</a>
-							<div id="collapseOne4" class="collapse show" ng-init = "getBrands();">
-								 <div  ng-repeat="brandlists in brandlist| limitTo: limit">
-								<div class="form-check">
-								  <input class="form-check-input" type="checkbox" ng-model="brandlists.Selected" ng-click="updatecheckbox(brandlists.Selected,brandlists.id)" ng-checked="user.brand.indexOf(brandlists.id)>=0" ng-true-value="'{{brandlists.id.replace('\'', '\\\'')}}'" id="test{{brandlists.id}}">
-								  <label class="form-check-label" for="test{{brandlists.id}}">
-								    {{brandlists.name}}
-								  </label>
-								</div>
-							</div>
-							</div>
-							<a href ng-click="incrementLimit()">View All</a>	
-					   </div>
-                                                 <div class="filter-holder">					    
-							<a class="card-link" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne41">
-								Category
-							</a>
-							<div id="collapseOne41" class="collapse show" ng-init = "getcategory();">
-								 <div  ng-repeat="category in categorylist| limitTo: limit1">
-								<div class="form-check">
-								  <input class="form-check-input" type="checkbox" ng-model="category.Selected" ng-click="updatecheckboxcat(category.Selected,category.id)" ng-checked="user.category.indexOf(category.id)>=0" ng-true-value="'{{category.id.replace('\'', '\\\'')}}'" id="test{{category.id}}">
-								  <label class="form-check-label" for="test{{category.id}}">
-								    {{category.name}}
-								  </label>
-								</div>
-							</div>
-							</div>
-							<a href ng-click="incrementLimit1()">View All</a>	
-					   </div>
+						
 					</div>
 				</div>
 				<div class="col-md-9">
@@ -400,3 +374,4 @@
 }
     
 </style>
+

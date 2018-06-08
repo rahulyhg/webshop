@@ -195,7 +195,7 @@ if ($_REQUEST['action'] == 'edit') {
                                         <th>Brand</th>
                                         <th>email</th>
                                        <!-- <th>Owner Number</th>-->
-                                        <th>Admin Approval</th>
+                                        <!--<th>Admin Approval</th>-->
                                         <th>Payment Status</th>
                                         <th>Quick Links</th>
                                         <th>Details</th>
@@ -294,7 +294,7 @@ if ($_REQUEST['action'] == 'edit') {
                                                 <?php echo stripslashes($tools_type['owner_number']); ?>
                                                                                                                                               </td>-->
 
-                                                <td>
+<!--                                                <td>
                                                     <?php
                                                     if ($tools_type['approved'] == '0') {
 
@@ -310,7 +310,7 @@ if ($_REQUEST['action'] == 'edit') {
                                                         ?>
                                                         <a  onClick="javascript:inactive('<?php echo $tools_type['id']; ?>');">Click to deactivate</a>
                                                     <?php } ?>
-                                                </td>
+                                                </td>-->
 
                                                 <td>
                                                     <?php
