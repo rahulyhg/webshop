@@ -53,25 +53,23 @@ require_once("includes/class.phpmailer.php");
                                 <span class="color-red" data-style="red"></span>
                             </span>
                         </span>
+                    </div>
+                    <!-- END THEME CUSTOMIZER-->
+                    <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                    <h3 class="page-title">Model list</h3>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">Home</a>
+                            <span class="divider">/</span>
+                        </li>
+                        <li>
+                            <a href="#">Model list</a>
 
-                   </div>
-                   <!-- END THEME CUSTOMIZER-->
-                  <!-- BEGIN PAGE TITLE & BREADCRUMB-->
-                   <h3 class="page-title">Latest Deal list</h3>
-                   <ul class="breadcrumb">
-                       <li>
-                           <a href="#">Home</a>
-                           <span class="divider">/</span>
-                       </li>
-                       <li>
-                           <a href="#">Latest Deal list</a>
-                        
-                       </li>
-                       
-                   </ul>
-                   <!-- END PAGE TITLE & BREADCRUMB-->
-               </div>
+                        </li>
 
+                    </ul>
+                    <!-- END PAGE TITLE & BREADCRUMB-->
+                </div>
             </div>
             <!-- END PAGE HEADER-->
             <!-- BEGIN PAGE CONTENT-->
@@ -80,9 +78,7 @@ require_once("includes/class.phpmailer.php");
                     <!-- BEGIN SAMPLE FORMPORTLET-->
                     <div class="widget green">
                         <div class="widget-title">
-
-                        <h4><i class="icon-reorder"></i>List Latest Deal</h4>
-                             
+                            <h4><i class="icon-reorder"></i>List Models</h4>
 
                             <span class="tools">
                                 <a href="javascript:;" class="icon-chevron-down"></a>
