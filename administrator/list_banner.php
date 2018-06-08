@@ -333,8 +333,8 @@ while($row=mysqli_fetch_object($record))
                  <!-- <a  href="list_banner.php?id=<?php echo $row->id ?>&action=delete"" class="delete">
                   Delete </a> -->
 
-                    <a onClick="javascript:del('<?php echo $row->id; ?>')">
-                  <i class="icon-trash"></i> </a>
+<!--                    <a onClick="javascript:del('<?php echo $row->id; ?>')">
+                  <i class="icon-trash"></i> </a>-->
                 </td>
               </tr>
                                                        <?php

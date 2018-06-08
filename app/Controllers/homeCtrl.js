@@ -81,6 +81,28 @@ $scope.registernewsletter = function(email){
         
 }
 
+
+
+userService.banner().then(function(response) {
+	 if(response.Ack == '1') {
+		
+               $scope.banner = response.banner;
+               
+                                   
+                }
+               
+        else {
+
+              }
+																	
+	}, function(err) {
+            
+         console.log(err); 
+    });	
+
+
+
+
 	
 });
 

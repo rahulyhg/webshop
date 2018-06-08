@@ -89,6 +89,8 @@ app.constant('JS_REQUIRES', {
         'viewwinauction': ['app/Controllers/viewwinauctionCtrl.js'],
         'latestdeal': ['app/Controllers/latestdealCtrl.js'],
 	
+        'usertoppayment': ['app/Controllers/usertoppaymentCtrl.js'],
+        'successUsertoppayment': ['app/Controllers/successUsertoppaymentCtrl.js'],
     },
 
     //*** angularJS Modules

@@ -1,7 +1,7 @@
 	<div id="carouselExampleControls" class="carousel slide new_mt" data-ride="carousel">
 	  <div class="carousel-inner">
 	    <div class="carousel-item active">
-	      <img class="d-block w-100" src="app/assets/images/banner1.png" alt="First slide" style="height: 100vh;">
+	      <img class="d-block w-100" src="{{banner.image}}" alt="First slide" style="height: 100vh;">
 
 <!-- 			<div class="scroller-container">
 				<a class="icon ion-android-arrow-down"></a>
@@ -11,9 +11,9 @@
 	      	<div class="container">
 		      	<div class="row">
 			      	<div class="col-lg-6 ml-auto border-left">
-				      	<h1 class="mb-3">The Worldwide Marketplace for Luxury Watches</h1>
-				      	<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type </p>
-				      	<button class="btn btn-outline-primary">View Product</button>
+				      	<h1 class="mb-3">{{banner.name}}</h1>
+				      	<p>{{banner.description}}</p>
+				      	<!--<button class="btn btn-outline-primary">View Product</button>-->
 			      	</div>
 		      	</div>
 	      	</div>

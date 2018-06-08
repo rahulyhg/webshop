@@ -1,0 +1,71 @@
+<style>
+    .ovr {
+        text-decoration: line-through;
+    }    
+</style>
+<section class="innerbody" ng-init="allsubscriptions()">
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-lg-4 col-md-12" ></div>
+            <div class="col-lg-4 col-md-12">
+                <h5 class="common-title p-3 mb-0">Customer Details</h5>
+                <div class="edit-pro p-3">
+                    <div class="row">
+                       
+                        <div class="col-lg-12 col-md-12">
+                            <form name="addPaymentForm" ng-submit="addPaymentForm.$valid && addPayment(value)"  novalidate>
+
+                                <div class="form-group">
+                                    <label for="staticEmail"> Select Package*</label>
+
+                                    <select class="form-control" name="sid" ng-model="value.sid"  required ng-change="packagedetails(value.sid)">
+                                        <option  ng-repeat="subscription in subscriptionLists" value="{{subscription.id}}">KWD {{subscription.price}}(for {{subscription.duration}} Days)</option>
+                                    </select>
+                                    <span style="color:Red" ng-show="submitted && addPaymentForm.sid.$error.required">Please Choose A package</span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="staticEmail"> Name*</label>
+                                    <input type="text" class="form-control"  name="name" ng-model="value.name" required>
+                                    <span style="color:Red" ng-show="submitted && addPaymentForm.name.$error.required">This Field Is Required! </span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="staticEmail"> Email*</label>
+                                    <input type="email" class="form-control"  name="email"  ng-model="value.email" required>
+                                    
+                                    <span style="color:Red" ng-show="submitted && addPaymentForm.email.$error.required">This Field Is Required! </span>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="staticEmail"> Mobile Number*</label>
+                                    <input type="text" class="form-control"   name="phone" ng-pattern="/^[0-9]/" ng-model="value.phone"  required>
+                                    <span style="color:Red" ng-show="submitted && addPaymentForm.phone.$error.required">This Field Is Required! </span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="staticEmail"> Loyalty Redeem</label>
+                                    <input type="number" class="form-control"   name="loyalty_redeem" ng-pattern="/^[0-9]+$/" ng-model="value.loyalty_redeem" min="0">
+                                   <span style="color:Red" ng-show="addPaymentForm.loyalty_redeem.$dirty && addPaymentForm.loyalty_redeem.$error.pattern">Only Numbers Allowed</span>  
+                                </div>
+                                
+                                <div>
+                                    Loyalty Remaining: {{totalloyalty - value.loyalty_redeem}}<br>
+                                    Pay Amount: {{package.price - value.loyalty_redeem}}
+                                
+                                </div><br>
+                                
+
+
+                                <button class="btn btn-primary" ng-click="submitted = true">Process payment</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-12" ></div>
+        </div>
+    </div>
+</section>

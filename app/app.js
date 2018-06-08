@@ -1196,6 +1196,41 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                 },
                 resolve: loadSequence('latestdeal')
             })
+            
+            
+            .state('frontend.usertoppayment', {
+                url: '/usertoppayment/:pid',
+                templateUrl: 'app/views/usertoppayment.html',
+                title: 'usertoppayment',
+		controller: 'usertoppaymentCtrl',
+                ncyBreadcrumb: {
+                    label: 'payment page'
+                },
+                resolve: loadSequence('usertoppayment')
+            })
+            
+            .state('frontend.successUsertoppayment', {
+                url: '/successUsertoppayment/:id/:oid',
+                templateUrl: 'app/views/successUsertoppayment.html',
+                title: 'success',
+				controller: 'successUsertoppaymentCtrl',
+                ncyBreadcrumb: {
+                    label: 'success page'
+                },
+                resolve: loadSequence('successUsertoppayment')
+            })
+            
+            .state('frontend.cancelUsertoppayment', {
+                url: '/cancelUsertoppayment/:id/:oid',
+                templateUrl: 'app/views/cancelUsertoppayment.html',
+                title: 'cancel',
+				controller: 'cancelUsertoppaymentCtrl',
+                ncyBreadcrumb: {
+                    label: 'cancel page'
+                },
+                resolve: loadSequence('cancelUsertoppayment')
+            })
+            
           /*   .state('frontend.test', {
                 url: '/test',
                 templateUrl: 'app/views/test.html',

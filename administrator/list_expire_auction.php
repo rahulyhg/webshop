@@ -203,7 +203,7 @@ if ($_REQUEST['action'] == 'edit') {
                                         <th>Bid</th>
                                        <!-- <th>Quick Links</th>-->
                                         <th>Details</th>
-
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -234,7 +234,29 @@ if ($num > 0) {
 
         $getBrands = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `webshop_brands` WHERE `id`='" . $tools_type['brands'] . "'"));
 
-
+        
+        
+        $auctionendDetails = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `webshop_auction_winner` WHERE `product_id`='" . $tools_type['id'] . "'"));
+        if(!empty($auctionendDetails)){
+            $cdate=date('Y-m-d');
+           if($auctionendDetails['is_paid']==0 && $auctionendDetails['expiry_date'] > $cdate){
+               
+               $paymentstatus="Payment Pending";
+               
+           }else if($cdate > $auctionendDetails['expiry_date'] && $auctionendDetails['is_paid']==0){
+            
+            $paymentstatus="Payment date expired"; 
+            
+            }else{
+               
+              $paymentstatus="Paid"; 
+           }
+            
+            
+        }else{
+            $paymentstatus="Invalid Auction";
+        }
+        
 
         if ($tools_type['image'] != '') {
             $image_link = '../upload/product_image/' . $tools_type['image'];
@@ -291,7 +313,11 @@ if ($num > 0) {
 
                                                 </td> 
 
+                                                <td>
 
+                                                    <?php echo $paymentstatus;?>
+
+                                                </td> 
 
                                             </tr>
         <?php
