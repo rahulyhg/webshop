@@ -543,6 +543,8 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                 </ul>
             </li>
             
+            
+            
             <?php if (in_array('20', $prevnameall)) { ?>
                 <!--                <li class="sub-menu">
                                     <a href="javascript:;" class="">
@@ -639,7 +641,23 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                 </ul>
             </li>
 
+<li class="sub-menu">
+                <a href="javascript:;" class="">
+                    <i class="icon-tasks"></i>
+                    <span>Special Auction</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub">
 
+                    <li>
+                        <a href="add_special_auction.php">
+                            Add Special Auction</a>
+                    </li>
+
+                    
+
+                </ul>
+            </li>
             <?php if (in_array('9', $prevnameall)) { ?>
                 <li class="sub-menu">
                     <a href="javascript:;" class="">

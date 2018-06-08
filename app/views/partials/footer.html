@@ -19,7 +19,7 @@
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title mx-auto" id="exampleModalLabel">Sign UP</h5>
+	        <h5 class="modal-title mx-auto" id="exampleModalLabel">{{language.signup}}</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
@@ -52,42 +52,42 @@
                                         
                                     
 		        </div>
-                                    <span><div ng-if="user.type == '1'">SignUp as a User</div></span>
-                                    <span><div ng-if="user.type == '2'">SignUp as a Vendor</div></span>
+                                    <span><div ng-if="user.type == '1'">{{language.signup}} as a User</div></span>
+                                    <span><div ng-if="user.type == '2'">{{language.signup}} as a Vendor</div></span>
                     
                     </div>
                     
                    
                     
 			  <div class="form-group">
-			    <label for="name">First Name</label>
+			    <label for="name">{{language.first_name}}</label>
 			    <input type="text" class="form-control" id="name" aria-describedby="name" ng-pattern="/^[a-z A-Z]+$/" placeholder="Enter First name" ng-model="user.fname" name="fname" required >
                             <span style="color:Red" ng-show="registerForm.fname.$error.required">  </span>
 
                             <span style="color:Red" ng-show="registerForm.fname.$dirty && registerForm.fname.$error.pattern">Only Letters Allowed</span>
 			  </div>
                     <div class="form-group">
-			    <label for="name">Last Name</label>
+			    <label for="name">{{language.last_name}}</label>
 			    <input type="text" class="form-control" id="name" aria-describedby="name" ng-pattern="/^[a-z A-Z]+$/" placeholder="Enter last name" ng-model="user.lname" name="lname" required>
                             <span style="color:Red" ng-show="registerForm.lname.$error.required">  </span>
 
                             <span style="color:Red" ng-show="registerForm.lname.$dirty && registerForm.lname.$error.pattern">Only Letters Allowed</span>
 			  </div>
 			  <div class="form-group">
-			    <label for="number">Mobile</label>
+			    <label for="number">{{language.mobile_number}}</label>
 			    <input type="text" class="form-control" id="number" placeholder="Mobile number" ng-pattern="/^\d+$/" name="phone" ng-model="user.phone" required>
                             <span style="color:Red" ng-show="registerForm.phone.$error.required">  </span>
 
                             <span style="color:Red" ng-show="registerForm.phone.$dirty && registerForm.phone.$error.pattern">Only Numbers Allowed</span>
 			  </div>
 			  <div class="form-group">
-			    <label for="email">Email</label>
+			    <label for="email">{{language.email_address}}</label>
 			    <input type="email" class="form-control" id="email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" placeholder="Enter email" name="email" ng-model="user.email" required>
                             <span style="color:Red" ng-show="registerForm.email.$error.required">  </span>
                             <span style="color:Red" ng-show="registerForm.email.$dirty && registerForm.email.$error.pattern">Enter valid emailid</span>
 			  </div>
 			<div class="form-group">
-			    <label for="attachment">Password</label>
+			    <label for="attachment">{{language.password}}</label>
 			    <input type="password" class="form-control" ng-pattern="/^.{6,}$/" name="password" id="attachment" placeholder="Password" ng-model="user.password" required>
                             <span style="color:Red" ng-show="registerForm.password.$error.required">  </span>
                             <span style="color:Red" ng-show="registerForm.password.$dirty && registerForm.password.$error.pattern">Atleast 6 character nedded</span>
@@ -101,11 +101,11 @@
                             
 			  </div>
 			  <div class="form-group">
-			  	<button type="submit" ng-if="loader" ng-click="checkoptions()" class="btn btn-block btn-primary" ng-disabled="registerForm.$invalid">Register</button>
+			  	<button type="submit" ng-if="loader" ng-click="checkoptions()" class="btn btn-block btn-primary" ng-disabled="registerForm.$invalid">{{language.register}}</button>
                                 <div  ng-if="!loader" class="loaderfooter"></div>
 			  </div>
 			</form>
-			<p class="or">OR</p>
+			<p class="or">{{language.or}}</p>
 			<ul class="social-login">
 				<li class="facebook"><a class="fa fa-facebook"></a></li>
 				<li class="googleplus"><a class="fa fa-google-plus"></a></li>
@@ -121,7 +121,7 @@
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title mx-auto" id="exampleModalLabel">LOGIN</h5>
+	        <h5 class="modal-title mx-auto" id="exampleModalLabel">{{language.login}}</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
@@ -129,33 +129,33 @@
 	      <div class="modal-body">
 	        <form name="loginForm" ng-submit="login(user)" novalidate>	        
 			  <div class="form-group">
-			    <label for="name">Email Address</label>
+			    <label for="name">{{language.email_address}}</label>
 			    <input type="text" class="form-control" id="name" aria-describedby="name" ng-model="user.email" placeholder="Enter name">
 			  </div>
 			  <div class="form-group">
-			    <label for="number">Password</label>
+			    <label for="number">{{language.password}}</label>
 			    <input type="password" class="form-control" id="number" placeholder="Password" ng-model="user.password">
 			  </div>
 			  <div class="form-check form-group">
 			    <input type="checkbox" class="form-check-input" id="exampleCheck2">
-			    <label class="form-check-label" for="exampleCheck2">Remember me</label>
-			    <a href="#" data-toggle="modal" data-target="#forget" data-dismiss="modal" class="forgot-password pull-right">Forgot password ?</a>
+			    <label class="form-check-label" for="exampleCheck2">{{language.remember_me}}</label>
+			    <a href="#" data-toggle="modal" data-target="#forget" data-dismiss="modal" class="forgot-password pull-right">{{language.forgot_password}} ?</a>
 			  </div>
 			  <div class="form-group">
 			  	<button type="submit" class="btn btn-block btn-primary" ng-disabled="loginForm.$invalid">Sign In</button>
 			  </div>
                     
                         <div class="form-group">
-                            <a   class="btn btn-block btn-primary" href="#" data-toggle="modal" data-target="#loginvendor" data-dismiss="modal">Vendor Login</a>
+                            <a   class="btn btn-block btn-primary" href="#" data-toggle="modal" data-target="#loginvendor" data-dismiss="modal">{{language.vendor_login}}</a>
 			  </div>
 			</form>
-			<p class="or">OR</p>
+			<p class="or">{{language.or}}</p>
 			<ul class="social-login">
 				<li class="facebook"><a class="fa fa-facebook"></a></li>
 				<li class="googleplus"><a class="fa fa-google-plus"></a></li>
 			</ul>
 			<div class="footer">
-				<p>Dont have an account? <a href="#" data-toggle="modal" data-target="#exampleModal" data-dismiss="modal">Sign Up</a></p>
+				<p>{{language.dont_have_an_account}} <a href="#" data-toggle="modal" data-target="#exampleModal" data-dismiss="modal">{{language.signup}}</a></p>
 			</div>
 	      </div>
 	    </div>
@@ -168,7 +168,7 @@
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title mx-auto" id="exampleModalLabel">Vendor Login</h5>
+	        <h5 class="modal-title mx-auto" id="exampleModalLabel"> {{language.vendor_login}}</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
@@ -176,17 +176,17 @@
 	      <div class="modal-body">
 	        <form name="loginForm" ng-submit="login(user)" novalidate>	        
 			  <div class="form-group">
-			    <label for="name">Email Address</label>
+			    <label for="name">{{language.email_address}}</label>
 			    <input type="text" class="form-control" id="name" aria-describedby="name" ng-model="user.email" placeholder="Enter name">
 			  </div>
 			  <div class="form-group">
-			    <label for="number">Password</label>
+			    <label for="number">{{language.password}}</label>
 			    <input type="password" class="form-control" id="number" placeholder="Password" ng-model="user.password">
 			  </div>
 			  <div class="form-check form-group">
 			    <input type="checkbox" class="form-check-input" id="exampleCheck2">
-			    <label class="form-check-label" for="exampleCheck2">Remember me</label>
-			    <a href="#" data-toggle="modal" data-target="#forget" data-dismiss="modal" class="forgot-password pull-right">Forgot password ?</a>
+			    <label class="form-check-label" for="exampleCheck2">{{language.remember_me}}</label>
+			    <a href="#" data-toggle="modal" data-target="#forget" data-dismiss="modal" class="forgot-password pull-right">{{language.forgot_password}} ?</a>
 			  </div>
 			  <div class="form-group">
 			  	<button type="submit" class="btn btn-block btn-primary" ng-disabled="loginForm.$invalid">Sign In</button>
@@ -194,13 +194,13 @@
                     
                         
 			</form>
-			<p class="or">OR</p>
+			<p class="or">{{language.or}}</p>
 			<ul class="social-login">
 				<li class="facebook"><a class="fa fa-facebook"></a></li>
 				<li class="googleplus"><a class="fa fa-google-plus"></a></li>
 			</ul>
 			<div class="footer">
-				<p>Dont have an account? <a href="#" data-toggle="modal" data-target="#exampleModal" data-dismiss="modal">Sign Up</a></p>
+				<p>{{language.dont_have_an_account}} <a href="#" data-toggle="modal" data-target="#exampleModal" data-dismiss="modal"> 	{{language.signup}}</a></p>
 			</div>
 	      </div>
 	    </div>
@@ -214,7 +214,7 @@
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title mx-auto" id="exampleModalLabel">Forget Password</h5>
+	        <h5 class="modal-title mx-auto" id="exampleModalLabel">{{language.forgot_password}}</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
@@ -222,7 +222,7 @@
 	      <div class="modal-body">
 	        <form name="forgetForm" ng-submit="forget(user)" novalidate>	        
 			  <div class="form-group">
-			    <label for="name">Email Address</label>
+			    <label for="name">{{language.email_address}}</label>
 			    <input type="email" class="form-control" id="name" aria-describedby="name" ng-model="user.email" placeholder="Enter email">
 			  </div>
 			  
