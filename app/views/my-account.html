@@ -35,7 +35,10 @@
 									</div>
 									<div class="form-group">
 										<label for="staticEmail">{{language.mobile_number}}</label>
-										<input type="text" class="form-control" id="" value="" placeholder="9831635919" ng-model="user.phone" name="phone" required>
+										<input type="text" class="form-control" id="" value="" placeholder="9831635919" ng-model="user.phone" name="phone" ng-pattern="/^[1-9][0-9]*$/" required>
+                                                                                 <span style="color:Red" ng-show="submitted && myaccountForm.phone.$error.required">This Field Is Required! </span>
+                                                                                <span style="color:Red" ng-show="myaccountForm.phone.$dirty && myaccountForm.phone.$error.pattern">Only Numbers Allowed</span>
+                                                                                
 									</div>
 									<div class="form-group">
 										<label for="staticEmail">{{language.email}}</label>
@@ -66,28 +69,13 @@
 										</select> 
                                                                     </div>
                                                                     
-                                                                    
-                                                                    
-<!--                                                                    <div class="form-group">
-										<label for="staticEmail">City</label>
-                                                                                
-                                                                                    <select class="form-control" name="state" ng-model="user.city"   required>
-                                                                                    <option value="">Please select a city</option>
-											<option  ng-repeat="citylists in citylist" value="{{citylists.id}}">{{citylists.name}}</option>
-										</select>  
-                                                                    </div>-->
-                                                                    
-                                                                    
-<!--									<div class="form-group">
-										<label for="staticEmail">Address</label>
-										<input type="text" class="form-control" id="" value="" placeholder="California, CA, United States" ng-model="user.address" name="address" required>
-									</div>-->
+    
                                                                     <div class="form-group" tooltips tooltip-template="Contact your bank for the details" tooltip-side="top">
 										<label for="staticEmail">IBAN Number</label>
-										<input type="text" ng-pattern="/^[1-9]+$/"  ng-minlength="20" ng-maxlength="34" class="form-control" id="" value="" placeholder="IBAN Number" ng-model="user.ibanno" name="ibanno" required>
+										<input type="text"   ng-minlength="20" ng-maxlength="34" class="form-control" id="" value="" placeholder="IBAN Number" ng-model="user.ibanno" name="ibanno" required>
                                                                                 <span style="color:Red" ng-show="submitted && myaccountForm.ibanno.$error.required">This Field Is Required! </span>
                                                                                 
-                                                                                <span style="color:Red" ng-show="myaccountForm.ibanno.$dirty && myaccountForm.ibanno.$error.pattern">Only Numbers Allowed</span>
+                                                                                <!--<span style="color:Red" ng-show="myaccountForm.ibanno.$dirty && myaccountForm.ibanno.$error.pattern">Only Numbers Allowed</span>-->
                                                                                 <span style="color:Red"  ng-show="((myaccountForm.ibanno.$error.minlength ||myaccountForm.ibanno.$error.maxlength) && myaccountForm.ibanno.$dirty) && !myaccountForm.ibanno.$error.pattern">IBAN No must be between 20-34 digits.</span>
 									</div>
                                                                     <div class="form-group">
@@ -123,28 +111,6 @@
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.currency.$error.required">Please Choose Currency</span>
 									</div>
 
-
-
-
-
-                                          <!--   hidden by puja as on 12.3.2018    -->              
-                                                                  <!--   <div class="form-group" ng-if="current_user_type=='2'">
-										<label for="staticEmail">Secret Key</label>
-										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user.secret_key" name="secret_key" required>
-									</div>
-                                                                    
-                                                                    <div class="form-group" ng-if="current_user_type=='2'">
-										<label for="staticEmail">Publish Key</label>
-										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user.publish_key" name="publish_key" required>
-									</div> -->
-
-								<!-- 	hide section end as on 12.3.2018 -->
-<!--									<div class="form-group">
-										<label for="staticEmail">Civil ID Attachment</label>
-										<input type="text" class="form-control" id="" value="" placeholder="ED5846L">
-									</div>-->
-                                                                
-                                                                <!------------------------------->
                                                                 <div class="form-group">
                                                                     <label for="staticEmail">Civil ID Attachment1</label>
                                                                 <div class="btn btn-default" ngf-select ng-model="user.civilid1" name="civilid1" ngf-pattern="'image/*'"
