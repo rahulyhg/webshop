@@ -11,13 +11,13 @@ require_once("includes/class.phpmailer.php");
 function inactive(aa)
    { 
        //alert('inactive');
-       location.href="add_leatest_deal.php?cid="+ aa +"&action=inactive"
+       location.href="add_special_auction.php?cid="+ aa +"&action=inactive"
 
    } 
    function active(aa)
    {
        //alert('active');
-     location.href="add_leatest_deal.php?cid="+aa+"&action=active";
+     location.href="add_special_auction.php?cid="+aa+"&action=active";
    } 
 
    
@@ -56,14 +56,14 @@ function inactive(aa)
                    </div>
                    <!-- END THEME CUSTOMIZER-->
                   <!-- BEGIN PAGE TITLE & BREADCRUMB-->
-                   <h3 class="page-title">Latest Deal list</h3>
+                   <h3 class="page-title">Special auction list</h3>
                    <ul class="breadcrumb">
                        <li>
                            <a href="#">Home</a>
                            <span class="divider">/</span>
                        </li>
                        <li>
-                           <a href="#">Latest Deal list</a>
+                           <a href="#">Special auction list</a>
                         
                        </li>
                        
@@ -78,7 +78,7 @@ function inactive(aa)
                     <!-- BEGIN SAMPLE FORMPORTLET-->
                     <div class="widget green">
                         <div class="widget-title">
-                        <h4><i class="icon-reorder"></i>List Latest Deal</h4>
+                        <h4><i class="icon-reorder"></i>List Special auction</h4>
                              
                             <span class="tools">
                             <a href="javascript:;" class="icon-chevron-down"></a>
@@ -92,9 +92,9 @@ function inactive(aa)
                                      <thead>
                             <tr>
                           <!--   <th>Webshop Id</th> -->
-                           <th>Latest Deal</th>
+                           <th>Special auction</th>
                                   <th>Image</th>
-                <th>Products Name</th>
+                <th>Special auction Name</th>
               </tr>
             </thead>
         <tbody>
@@ -104,18 +104,18 @@ function inactive(aa)
   if(isset($_GET['action']) && $_GET['action']=='inactive')
 {
    $item_id=$_GET['cid'];
-  mysqli_query($con,"update webshop_products set is_leatest_deal='0' where id='".$item_id."'");
+  mysqli_query($con,"update webshop_products set is_special_auction='0' where id='".$item_id."'");
   
-         header('Location:add_leatest_deal.php');
+         header('Location:add_special_auction.php');
   exit();
 }
 if(isset($_GET['action']) && $_GET['action']=='active')
 {
    $item_id=$_GET['cid'];
-  mysqli_query($con,"update webshop_products set is_leatest_deal='1'  where id='".$item_id."'");
+  mysqli_query($con,"update webshop_products set is_special_auction='1'  where id='".$item_id."'");
             
 
-  header('Location:add_leatest_deal.php');
+  header('Location:add_special_auction.php');
 
   exit();
 }
@@ -123,13 +123,13 @@ if(isset($_GET['action']) && $_GET['action']=='active')
     if(isset($_GET['action']) && $_GET['action']=='disable')
 {
    $item_id=$_GET['cid'];
-  mysqli_query($con,"update webshop_products set is_leatest_deal='0' where id='".$item_id."'");
+  mysqli_query($con,"update webshop_products set is_special_auction='0' where id='".$item_id."'");
          header('Location:list_topvendor.php');
   exit();
 }
 
 
-                                                        $fetch_landlord=mysqli_query($con,"SELECT * from  webshop_products where status=1 and approved='1' and type='1' and is_discard='0'");
+                                                        $fetch_landlord=mysqli_query($con,"SELECT * from  webshop_products where status=1 and type='2' and auctioned ='0'");
                                                          $num=mysqli_num_rows($fetch_landlord);
                                                        
                                                         if($num>0)
@@ -149,7 +149,7 @@ if(isset($_GET['action']) && $_GET['action']=='active')
         $uploader_id = $landlord['uploader_id'];
         $uploadename=mysqli_query($con,"select * from webshop_user where id=$uploader_id");
         $landlorduploadername=mysqli_fetch_array($uploadename);
-        // $is_leatest_deal = $landlord['is_leatest_deal'];
+        // $is_special_auction = $landlord['is_special_auction'];
         
            ?>
               
@@ -158,8 +158,8 @@ if(isset($_GET['action']) && $_GET['action']=='active')
 
                  <td>
                     
-                     <input type="checkbox" <?php if($landlord['is_leatest_deal'] == '1'){ echo 'checked=checked'; }else{ echo ''; } ?> onClick="<?php if($landlord["is_leatest_deal"] == '1'){ echo 'javascript:inactive('.$id.')';}else{ echo 'javascript:active('.$id.')';} ?>" />
-                    <?php if($is_leatest_deal == 1){ echo 'uncheck to remove from latest deal'; }else{ echo 'check for latest deal'; } ?>
+                     <input type="checkbox" <?php if($landlord['is_special_auction'] == '1'){ echo 'checked=checked'; }else{ echo ''; } ?> onClick="<?php if($landlord["is_special_auction"] == '1'){ echo 'javascript:inactive('.$id.')';}else{ echo 'javascript:active('.$id.')';} ?>" />
+                    <?php if($is_special_auction == 1){ echo 'uncheck to remove special auction'; }else{ echo 'check for special auction'; } ?>
                 </td> 
 
                   <td>

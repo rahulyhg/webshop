@@ -1661,7 +1661,7 @@ function homeSettings() {
         }
     }
 
-    $sqltopmodel = "SELECT * from  webshop_products where type= '2' && is_top_model = '1'";
+   $sqltopmodel = "SELECT * from  webshop_products where type= '1' && is_top_model = '1'";
 
     $stmtsqltopmodel = $db->prepare($sqltopmodel);
     $stmtsqltopmodel->execute();
@@ -10903,7 +10903,7 @@ function searchproductListinglatest() {
     $country_id = isset($body->country_id) ? $body->country_id : '';
     $state_id = isset($body->state_id) ? $body->state_id : '';
     $city_id = isset($body->city_id) ? $body->city_id : '';
-    $keyword = isset($body->keyword) ? $body->keyword : '';
+    
 $category = isset($body->category) ? $body->category : '';
 //print_r($body);
 //-----------------------------------------------------------
@@ -10986,63 +10986,12 @@ $category = isset($body->category) ? $body->category : '';
 
         $sql .= " AND model_year = '" . $year . "'";
     }
-    $keybrandid ='';
-    $keycatid='';
-   if ($keyword != '') {
-
-        $keywordbrand = "SELECT * FROM webshop_brands WHERE id ='$keyword' OR name='$keyword'";
-        $stmt2 = $db->prepare($keywordbrand);
-
-        $stmt2->execute();
-        $getkeywordbrand = $stmt2->fetchObject();
-        if(!empty($getkeywordbrand)){
-           $keybrandid = $getkeywordbrand->id; 
-        }else{
-            $keybrandid = '';
-        }
-        //print_r($getkeywordbrand->id);
-    }
-if ($keyword != '') {
-
-        $keywordcategory = "SELECT * FROM webshop_category WHERE id ='$keyword' OR name='$keyword'";
-        $stmtcategory = $db->prepare($keywordcategory);
-
-        $stmtcategory->execute();
-        $getkeywordcategory = $stmtcategory->fetchObject();
-         if(!empty($getkeywordcategory)){
-           $keycatid = $getkeywordcategory->id; 
-        }else{
-            $keycatid = '';
-        }
-    }
-
-   // exit;
-    if ($keyword != '') {
-
-        $sql .= " AND `model_year` LIKE '%" . $keyword . "%' OR `gender` LIKE '" . $keyword . "%' OR `preferred_date` LIKE '%" . $keyword . "%' OR `brands` LIKE '" . $keybrandid . "' OR `name` LIKE '" . $keyword . "' OR `description` LIKE '" . $keyword . "' OR `price` LIKE '" . $keyword . "' OR `movement` LIKE '" . $keyword . "' OR `reference_number` LIKE '" . $keyword . "' OR `owner_number` LIKE '" . $keyword . "' OR `cat_id` LIKE '" . $keycatid . "'";
-    }
-     //exit;
-    /* if ($year == '' && $keyword != '') {
-
-      $sql .= " AND `model_year` LIKE '%" . $keyword . "%'";
-      }
-      if ($year != '' && $keyword != '') {
-
-      $sql .= " AND model_year = '" . $year . "'OR `model_year` LIKE '%" . $keyword . "%'";
-      } */
-    //exit;
-    /* if ($preferred_date != '' && $keyword != '') {
-
-      $sql .= " AND preferred_date = '" . $preferred_date . "'OR `preferred_date` LIKE '%" . $keyword . "%'";
-      } */
-    if ($preferred_date != '' && $keyword == '') {
+   
+    if ($preferred_date != '') {
 
         $sql .= " AND preferred_date = '" . $preferred_date . "'";
     }
-    /* if ($preferred_date == '' && $keyword != '') {
 
-      $sql .= " OR  `preferred_date` LIKE '%" . $keyword . "%'";
-      } */
 
 
     if ($country_id != '') {

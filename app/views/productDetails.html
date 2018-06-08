@@ -21,19 +21,19 @@
                         <h4>{{productLists.productname}}</h4>
                         <p class="text-secondary">{{productLists.brands}}/{{productLists.category}}({{productLists.gender}})</p>
 
-                        <p ng-if="user_id && productLists.interest == 0">
+                        <div ng-if="user_id && productLists.interest == 0">
                                 <ng-rating ng-model="productLists.averagerating" icon-class="rating.iconClass" editable="false" stars-count="rating.starsCount" based-on="rating.basedOn"></ng-rating>
-                            ({{productLists.averagerating}})</p>
+                            ({{productLists.averagerating}})</div>
 
 
-                        <p ng-if="!user_id && productLists.interest == 0">
+                        <div ng-if="!user_id && productLists.interest == 0">
                                 <ng-rating ng-model="productLists.averagerating" icon-class="rating.iconClass" editable="false" stars-count="rating.starsCount" based-on="rating.basedOn"></ng-rating>
-                             ({{productLists.averagerating}})<a href="" data-toggle="modal" data-target="#login" class="d-inline-block pl-3">Write a review</a></p>
+                             ({{productLists.averagerating}})<a href="" data-toggle="modal" data-target="#login" class="d-inline-block pl-3">Write a review</a></div>
 
 
-                        <p ng-if="user_id && productLists.interest == 1">
+                        <div ng-if="user_id && productLists.interest == 1">
                                 <ng-rating ng-model="productLists.averagerating" icon-class="rating.iconClass" editable="false" stars-count="rating.starsCount" based-on="rating.basedOn"></ng-rating>
-                            ({{productLists.averagerating}})<a href="" data-toggle="modal" data-target="#myModal1" class="d-inline-block pl-3" >Write a review</a></p>
+                            ({{productLists.averagerating}})<a href="" data-toggle="modal" data-target="#myModal1" class="d-inline-block pl-3" >Write a review</a></div>
 
 
 
@@ -474,6 +474,9 @@
         -webkit-backface-visibility: hidden;
     }
 
+    .ng-rating-group, .ng-rating-group--hover {
+    color: #D3D3D3;
+}
     /*#myModal .modal-dialog{
         overflow-y: initial !important
     }
