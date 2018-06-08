@@ -17,7 +17,7 @@
 								  <div class="media-body">
                                                                        
                                                                       <div class="message-bg-me mb-5" ng-if="user_id == message_list.from_id && message_list.message">
-                                                                      <p >{{message_list.message}}</p>
+                                                                      <p ng-bind-html="message_list.message"></p>
                                                                       </div>
                                                                      
                                                                     

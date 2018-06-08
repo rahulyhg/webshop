@@ -7,7 +7,13 @@ $url=basename(__FILE__)."?".(isset($_SERVER['QUERY_STRING'])?$_SERVER['QUERY_STR
 <?php
 
 if(!empty($_POST['language'])) {
-	$query =mysqli_query($con,"SELECT * FROM webshop_user WHERE  default_language IN('All','".$_POST['language']."') and type = 1");
+    
+    if($_POST['language'] != 'all'){
+       $query =mysqli_query($con,"SELECT * FROM webshop_user WHERE  language_preference IN('All','".$_POST['language']."') and type = 1 and email_verified=1"); 
+    }else if($_POST['language'] == 'all'){
+        $query =mysqli_query($con,"SELECT * FROM webshop_user WHERE  email_verified=1 and type = 1");
+    }
+	
 ?>
 	<!-- <option value="">Select SubCategory</option> -->
 <?php

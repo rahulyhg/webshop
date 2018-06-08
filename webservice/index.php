@@ -952,7 +952,7 @@ function ProductsDetails() {
         $interested = 0;
     }
 
-    $sqltotallike = "SELECT * from  webshop_like WHERE product_id=:product_id";
+    $sqltotallike = "SELECT * from  webshop_favourite WHERE product_id=:product_id";
 
     $stmttotallike = $db->prepare($sqltotallike);
     $stmttotallike->bindParam("product_id", $product_id);
@@ -6433,7 +6433,7 @@ function listproductMessages() {
 //    exit;
         try {
 
-            $sql = "SELECT *, (r.from_id + r.to_id) AS dist FROM (SELECT * FROM `webshop_message` as t WHERE ( (t.from_id =:to_id OR t.to_id =:to_id) and product_id!= 0 and to_id!= 0 and from_id!= 0 ) ORDER BY t.add_date ASC) as r GROUP BY product_id ORDER BY r.add_date ASC ";
+            $sql = "SELECT *, (r.from_id + r.to_id) AS dist FROM (SELECT * FROM `webshop_message` as t WHERE ( (t.from_id =:to_id OR t.to_id =:to_id) and product_id!= 0 and to_id!= 0 and from_id!= 0 ) ORDER BY t.add_date ASC) as r GROUP  ORDER BY r.add_date ASC ";
 // $sql = "SELECT * from webshop_message WHERE to_id=:to_id or from_id=:to_id ";
 
 

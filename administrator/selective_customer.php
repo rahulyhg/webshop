@@ -16,14 +16,33 @@ if (isset($_REQUEST['submit'])) {
         $email = implode(',', $_REQUEST['email']);
     } 
     $new_email = explode(',', $email);
-
+ //print_r($new_email);
     foreach ($new_email as $email_id) {
+        
+        //$getusersql = "";
+        // $email_id;
+        
         $TemplateMessage = '';
 
         $SQL = "SELECT * FROM `webshop_user` where email='" . $email_id . "'";
         $result = mysqli_query($con,$SQL);
-        $row1 = mysqli_fetch_array($con,$result);
-
+        $row=mysqli_fetch_assoc($result);
+       // $row1 = mysqli_fetch_assoc($con,$result);
+       
+        $messagetoid = $row['id'];
+       
+        $from_id = '0';
+    $add_date = date('Y-m-d');
+    $is_read = '0';
+    $last_id = '0';
+    $product_id ='0';
+    $date = date('Y-m-d h:i:s');
+    $messagenoti = 'You have a new message from admin';
+     $insert_message = mysqli_query($con, "INSERT into webshop_message(from_id,to_id,message,add_date) VALUES ('0','".$messagetoid."','".strip_tags($message)."','".$add_date."')");
+     
+     $insert_messagenoti = mysqli_query($con, "INSERT into webshop_notification(from_id,to_id,msg,date) VALUES ('0','".$messagetoid."','".strip_tags($messagenoti)."','".$date."')");
+    //mysqli_query($insert_message);
+    
           $MailTo = $email_id;  
  
      
@@ -192,6 +211,7 @@ $YourEamilPassword="lsnspyrcimuffblr";
                                     <div class="controls">
                                      <select name="language" onchange="selectiveCustomers(this.value)" >
                       <option value="">Select One</option>
+                      <option value="all">All</option>
                       <option value="Arabic" >Arabic</option>
                        <option value="English" >English</option>
                                             </select>
@@ -199,18 +219,18 @@ $YourEamilPassword="lsnspyrcimuffblr";
                                 </div>
 
                             
-                               <div class="control-group">
+<!--                               <div class="control-group">
                                     <label class="control-label">All</label>
                                     <div class="controls">
                                 <input type="checkbox" class="form-control" id="sel_user">&nbsp;Select Customer
                                     </div>
-                                </div>
+                                </div>-->
                             
                              
                                   <div class="control-group">
                             <label class="control-label">Select Customer</label>
                             <div class="controls">
-                             <select id="selectError" name="email[]" multiple disabled>
+                             <select id="selectError" name="email[]" multiple required>
                              </select>
 
 
@@ -294,15 +314,15 @@ $YourEamilPassword="lsnspyrcimuffblr";
  <script src="assets/ckeditor/ckeditor.js" type="text/javascript"></script>
  <script>
     $(document).ready(function (e) {
-        $("#sel_user").click(function () {
-            if ($("#sel_user").is(':checked'))
-            {
-
-                $("#selectError").attr("disabled", false);
-            } else {
-                $("#selectError").attr("disabled", true);
-            }
-        });
+//        $("#sel_user").click(function () {
+//            if ($("#sel_user").is(':checked'))
+//            {
+//
+//                $("#selectError").attr("disabled", false);
+//            } else {
+//                $("#selectError").attr("disabled", true);
+//            }
+//        });
     });
 </script>
  <script>
@@ -316,6 +336,8 @@ $YourEamilPassword="lsnspyrcimuffblr";
   }
   });
 }
+
+
    </script>
    <!-- END JAVASCRIPTS -->   
 </body>
