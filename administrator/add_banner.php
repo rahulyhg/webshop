@@ -231,6 +231,15 @@ if(isset($_GET['action']) && $_GET['action']=='delete')
                                     <input type="text" class="form-control" placeholder="Enter text" value="<?php echo $categoryRowset['name'];?>" name="name" required>
                                     </div>
                                 </div>
+                          
+                          
+                          
+                          <div class="control-group">
+                                    <label class="control-label">Description</label>
+                                    <div class="controls">
+                                        <textarea class="form-control" placeholder="Enter text"  name="description" required><?php echo $categoryRowset['description'];?></textarea>
+                                    </div>
+                                </div>
 
                                   <div class="control-group">
                                     <label class="control-label">Image Upload</label>

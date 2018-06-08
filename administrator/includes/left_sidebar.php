@@ -70,17 +70,17 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                                 Manage Social Media</a>
                         </li>
 
-                        <li>
+<!--                        <li>
                             <a href="add_banner.php">
                                 <i class="icon-bulb"></i>
                                 Add Banner</a>
-                        </li>
+                        </li>-->
 
 
                         <li>
                             <a href="list_banner.php">
                                 <i class="icon-bulb"></i>
-                                List Banner</a>
+                                Banner Management</a>
                         </li>
 
                         <!--                        <li>

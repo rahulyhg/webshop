@@ -175,7 +175,13 @@ $scope.marksold = function(id){
 }
 
 
+$scope.marktop = function(lid){
+        
+           
+           $state.go('frontend.usertoppayment',{pid:lid}); 
 
+              
+}
 
 
 

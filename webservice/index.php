@@ -3875,7 +3875,7 @@ function addProductNew() {
             $count = $stmtcheck->rowCount();
 
 
-            if ($pcount == $free_no && $free_status==1 && $free_no > 0) {
+            if ($pcount >= $free_no && $free_status==1 && $free_no > 0) {
 
                 $payment_status = "1";
             } else {
@@ -6142,8 +6142,7 @@ $category = isset($body->category) ? $body->category : '';
 
         $sql .= " AND model_year = '" . $year . "'";
     }
-    $keybrandid ='';
-    $keycatid='';
+    
    if ($keyword != '') {
 
         $keywordbrand = "SELECT * FROM webshop_brands WHERE id ='$keyword' OR name='$keyword'";
@@ -6175,7 +6174,7 @@ if ($keyword != '') {
    // exit;
     if ($keyword != '') {
 
-        $sql .= " AND `model_year` LIKE '%" . $keyword . "%' OR `gender` LIKE '" . $keyword . "%' OR `preferred_date` LIKE '%" . $keyword . "%' OR `brands` LIKE '" . $keybrandid . "' OR `name` LIKE '" . $keyword . "' OR `description` LIKE '" . $keyword . "' OR `price` LIKE '" . $keyword . "' OR `movement` LIKE '" . $keyword . "' OR `reference_number` LIKE '" . $keyword . "' OR `owner_number` LIKE '" . $keyword . "' OR `cat_id` LIKE '" . $keycatid . "'";
+        $sql .= " AND `model_year` LIKE '%" . $keyword . "%' OR `gender` LIKE '" . $keyword . "%' OR `preferred_date` LIKE '%" . $keyword . "%' OR `brands` LIKE '" . $keybrandid . "' OR `name` LIKE '" . $keyword . "' OR `description` LIKE '" . $keyword . "' OR `price` LIKE '" . $keyword . "' OR `movement` LIKE '" . $keyword . "' OR `reference_number` LIKE '" . $keyword . "' OR `owner_number` LIKE '" . $keyword . "' OR `cat_id` LIKE '" . $keycatid . "' AND type=1 ";
     }
      //exit;
     /* if ($year == '' && $keyword != '') {
@@ -6191,7 +6190,7 @@ if ($keyword != '') {
 
       $sql .= " AND preferred_date = '" . $preferred_date . "'OR `preferred_date` LIKE '%" . $keyword . "%'";
       } */
-    if ($preferred_date != '' && $keyword == '') {
+    if ($preferred_date != '') {
 
         $sql .= " AND preferred_date = '" . $preferred_date . "'";
     }
@@ -11261,6 +11260,61 @@ if ($keyword != '') {
 
     $app->response->write(json_encode($data));
 }
+
+
+
+function banner() {
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+
+    $sql = "SELECT * from  webshop_banner WHERE id=1";
+    $db = getConnection();
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+    
+    $getAlllinks = $stmt->fetchObject();
+
+//print_r($getAllProducts);exit;
+
+    if (!empty($getAlllinks)) {
+        
+       if ($getAlllinks->image != '') {
+                            $image = SITE_URL . 'upload/banner/' . $getAlllinks->image;
+                        } else {
+                            $image = SITE_URL . 'webservice/not-available.jpg';
+                        }
+
+            $data['banner'] = array(
+                "id" => stripslashes($getAlllinks->id),
+                "name" => stripslashes($getAlllinks->name),
+                "description" => stripslashes($getAlllinks->description),
+                "image" => $image,
+                
+            );
+        
+
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    } else {
+        $data = array();
+        $data['banner'] = array();
+        $data['Ack'] = '0';
+        $app->response->setStatus(200);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+
+
+
+
 
 $app->run();
 ?>

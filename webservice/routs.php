@@ -166,6 +166,7 @@ $app->group('/frontend', function () use ($app) {
 
     
      $app->post('/searchproductListinglatest', 'searchproductListinglatest');
+     $app->post('/banner', 'banner');
 
 });
 ?>
