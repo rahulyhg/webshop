@@ -5637,11 +5637,11 @@ var encodedString ='{"user_id":"'+ user_id +'"}';
         
  };
  
-  var tomobileverifying = function(userid) {
+  var tomobileverifying = function(userid,otp) {
 return $q(function(resolve, reject) {
 
-  var encodedString ='{"user_id":"'+ userid +'"}';
-
+  var encodedString ='{"user_id":"'+ userid +'","otp":"'+ otp +'"}';
+//alert(encodedString);
 $http({
 method: 'POST',
   url: $rootScope.serviceurl+"tomobileverifying",
@@ -5654,7 +5654,7 @@ headers: {'Content-Type': 'application/json'}
       resolve(response.data); 
    } else {
                     console.log('ok2');
-        reject(response);
+        resolve(response);
    }
 
 
@@ -5683,6 +5683,34 @@ headers: {'Content-Type': 'application/json'}
    } else {
                     console.log('ok2');
         reject(response);
+   }
+
+
+        },function(response) {
+console.log(response);  
+reject(response);
+});
+});
+};
+
+var resend = function(user_id) {
+return $q(function(resolve, reject) {
+
+  var encodedString ='{"user_id":"'+ user_id +'"}';
+
+$http({
+method: 'POST',
+  url: $rootScope.serviceurl+"resend",
+data: encodedString,
+headers: {'Content-Type': 'application/json'}
+}).then(function (response) {
+
+   if(response.data.Ack == "1") {
+                   console.log('ok');
+      resolve(response.data); 
+   } else {
+                    console.log('ok2');
+        resolve(response);
    }
 
 
@@ -5872,8 +5900,8 @@ reject(response);
         get_total_product:get_total_product,
         get_total_auctioned_product:get_total_auctioned_product,
         tomobileverifying:tomobileverifying,
-        getotp:getotp
-        
+        getotp:getotp,
+        resend:resend
 
 };
 });

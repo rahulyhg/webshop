@@ -392,13 +392,31 @@ $scope.loader = false;
             $scope.loader = true;
             
 	//alert('Successfully Registered.The account activation email has been sent.');	
-        swal("Successfully Registered.The account activation email has been sent.", "", "success");
-        $window.location.href = response.smslink;
-	 $window.location.reload();
+        
+        if(response.smsstatus == 1){
+            
+            swal("Successfully Registered.The account activation email has been sent.", "", "success")
+.then((value) => {
+    if(value == true){
+        $('#exampleModal').modal('hide');
+            $window.location.href = response.smslink;
+    }
+  //swal(`The returned value is: ${value}`);
+});
+           // swal("Successfully Registered.The account activation email has been sent.", "", "success");
+//            $('#exampleModal').modal('hide');
+//            $window.location.href = response.smslink;
+        }
+        else{
+             swal("Please Signup Again.", "", "error");
+             $window.location.reload();
+        }
+            
+	 //$window.location.reload();
 		} 
                 else
                 {
-                  alert(response.msg);   
+                  swal(response.msg,'success');   
                   $scope.loader = true;
                 }
         

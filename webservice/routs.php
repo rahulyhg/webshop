@@ -177,7 +177,8 @@ $app->group('/frontend', function () use ($app) {
        $app->post('/get_total_product', 'get_total_product');
        $app->post('/get_total_auctioned_product', 'get_total_auctioned_product');
         $app->post('/tomobileverifying', 'tomobileverifying');
-         $app->post('/getotp', 'getotp');
+         $app->post('/resend', 'resend');
+         
        
 
 

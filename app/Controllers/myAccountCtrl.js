@@ -6,10 +6,12 @@ app.controller('myAccountCtrl', function ($rootScope, $scope, $http, $location,$
 
 $scope.data = {};
 $scope.user = {};
- $scope.latlng = [-25.363882,131.044922];
- 
- 
-
+// $scope.latlng = [-25.363882,131.044922];
+// 
+// 
+//  $scope.getpos = function(event){
+$scope.phonecheck='';
+//  };
 
 $scope.getCurrentUserType();   
 //console.log($scope.current_user_type);
@@ -32,6 +34,7 @@ $scope.getCurrentUserType();
 				$scope.user.address=response.UserDetails.address;
 				$scope.user.user_id=response.UserDetails.user_id;
 				$scope.user.phone=response.UserDetails.phone;
+                                $scope.phonecheck = response.UserDetails.phone;
 				$scope.user.location=response.UserDetails.location;
                                 $scope.user.business_type=response.UserDetails.business_type;
 				$scope.user.city=response.UserDetails.city;
@@ -254,7 +257,85 @@ userService.listcountry().then(function(response) {
         }); 
 
 } 
+
+
+$scope.verifyotp = function(phoneno) {
+    var userInfo = JSON.parse($window.localStorage["userInfo"]);
+        user_id=userInfo.user_id; 
+    if(phoneno && phoneno !='undefined' && phoneno != $scope.phonecheck){
+        
+        userService.resend(user_id).then(function(response) {
+        if(response.Ack == '1'){
+            	 $('#check_otp').modal('show');
+        }else{
+            swal("There is problem to send OTP to your Mobile.Please try again", "", "error")
+                .then((value) => {
+                    if(value == true){
+
+                            $window.location.reload();
+                    }
+                  //swal(`The returned value is: ${value}`);
+                });
+        }
+   														   
+ }, function(err) {
+         console.log(err); 
+    });
+        
+        
+        
+        
+       
+    }
+}
+
+ $scope.check_otp = function(pass){
+        
+       
+         
+        pass.password=pass.password;
+        var userInfo = JSON.parse($window.localStorage["userInfo"]);
+        pass.user_id=userInfo.user_id; 
+        
+        userService.tomobileverifying(pass.user_id,pass.password).then(function(response) {
 	
+	console.log("zzzdfdzsxfdz",response);  
+	 if(response.Ack == '1'){
+				  
+			//$scope.msg='There is problem in verifying your email.';
+				
+			 swal("Successfully Verified Your Mobile No.", "", "success")
+                .then((value) => {
+                    if(value == true){
+
+                            $('#check_otp').modal('hide');
+                    }
+
+                });	
+
+                 }else{
+
+                 swal("There is problem in verifying your Mobile No.Please try again", "", "error")
+                .then((value) => {
+                    if(value == true){
+
+                            $window.location.reload();
+                    }
+                  //swal(`The returned value is: ${value}`);
+                });
+
+                 }
+	
+	
+	
+														   
+ }, function(err) {
+         console.log(err); 
+    }); 
+    
+        
+       
+ }
 
 });
 
