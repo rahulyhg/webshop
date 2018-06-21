@@ -35,7 +35,7 @@
 									</div>
 									<div class="form-group">
 										<label for="staticEmail">{{language.mobile_number}}</label>
-										<input type="text" class="form-control" id="" value="" placeholder="9831635919" ng-model="user.phone" name="phone" ng-pattern="/^[1-9][0-9]*$/" required>
+                                                                                <input type="text" class="form-control" id="" ng-blur="verifyotp(user.phone)" value="" placeholder="9831635919" ng-model="user.phone" name="phone" ng-pattern="/^[1-9][0-9]*$/" required>
                                                                                  <span style="color:Red" ng-show="submitted && myaccountForm.phone.$error.required">{{language.this_field_is_required}} </span>
                                                                                 <span style="color:Red" ng-show="myaccountForm.phone.$dirty && myaccountForm.phone.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}} </span>
                                                                                 
@@ -166,7 +166,38 @@
 			</div>
 		</div>
 	</section>
-	
+	<div id="check_otp" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <form class="modal-content animate" ng-submit="check_otp(pass)">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                    <h4 class="modal-title"></h4>
+                </div>
+
+                <div class="modal-body">
+                    <h5>Please Enter Your Password Below</h5>   
+                    <input type="password" class="input-field"  name="password" value="2" ng-model="pass.password" capitalize required>
+                    <p ng-if="error" style="color:red" capitalize> {{error}}</p>
+                    <hr>
+                    <div>
+
+                        <div>
+                            <input type="submit" value="Continue" >
+                             <button type="button">Resend</button>
+                        </div>
+                    </div>                                                  
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 <style>
     
     .fa{
@@ -216,7 +247,9 @@ top: 3%;
             "description": 'Vashi'
         }*/
     ];
+
      function initMap() {
+
         var mapOptions = {
             center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
             zoom: 8,

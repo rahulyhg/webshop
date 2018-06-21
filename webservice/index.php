@@ -318,13 +318,29 @@ function userSignup() {
         $country_code = $getCode->phonecode;
        $smsphoneno = $getCode->phonecode.$phone;
        $smsphoneno = (int)$smsphoneno;
-            $actual_link1 = SITE_URL . "#/mobileverify/" .  base64_encode($lastID);
-       $mobilemessage= "Your Mobile Verification Code Is:" . $smsotopcode;
+            $otpverifylink = "#/mobileverify/" .  base64_encode($lastID);
+       $mobilemessage= "Your+Mobile+Verification+Code+Is:+$smsotopcode";
         $smslink ='http://www.kwtsms.com/API/send/?username=gmt24&password=aljassar&sender=KWT-MESSAGE&mobile='.$smsphoneno.'&lang=2&message='.$mobilemessage;
-       $data['smslink']=$smslink;
+       //$data['smslink']=$smslink;
           
+       $curl_handle=curl_init();
+        curl_setopt($curl_handle,CURLOPT_URL,$smslink);
+        curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
+        curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
+        $buffer = curl_exec($curl_handle);
+        curl_close($curl_handle);
+        
+        if (empty($buffer)){
+            $data['smsstatus']='0';
+        }
+        else{
+             $data['smsstatus'] ='1';
+        }
+       
+       
             
             $data['Ack'] = '1';
+            $data['smslink'] =$otpverifylink;
             $app->response->setStatus(200);
 
             $db = null;
@@ -12512,6 +12528,7 @@ function tomobileverifying() {
     $db = getConnection();
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
+    $otp = isset($body->otp) ? $body->otp : '';
     $user_id=base64_decode($user_id);
     $is_mobile_verified = '1';
     $admin_approve = '0';
@@ -12525,12 +12542,10 @@ function tomobileverifying() {
     $stmtuser->execute();
     $getUserdetails = $stmtuser->fetchObject();
 
-    if ($getUserdetails->type == 1) {
-        $admin_approve = '1';
-        $status = '1';
-    }
-
-
+    //$data['Ack'] = 0;
+if(!empty($getUserdetails)){
+    if($getUserdetails->sms_verify_number == $otp)
+    {
     $sql = "UPDATE webshop_user set is_mobile_verified=:is_mobile_verified,verified_date=:verified_date,is_admin_approved=:is_admin_approved,status=:status WHERE id=:id";
     try {
 
@@ -12543,41 +12558,18 @@ function tomobileverifying() {
         $stmt->bindParam("id", $user_id);
         $stmt->execute();
 
-        $msg = 'Mobile+no+Verified+Successfully.Your+account+is+awaiting+for+the+admin+approval.You+will+be+notified+via+email+once+activated.';
-        if ($getUserdetails->type == 1) {
-            if($getUserdetails->email_verified == 1){
-            $msg = 'Mobile Number Verified Successfully.You ';
-            }else{
-                
-            }
-        }
+       // $msg = 'Mobile+no+Verified+Successfully.Your+account+is+awaiting+for+the+admin+approval.You+will+be+notified+via+email+once+activated.';
+        
 
-        $sqladmin = "SELECT * FROM webshop_tbladmin WHERE id=1";
+       // $sqladmin = "SELECT * FROM webshop_tbladmin WHERE id=1";
 
-        $stmtttadmin = $db->prepare($sqladmin);
-        $stmtttadmin->execute();
-        $getadmin = $stmtttadmin->fetchObject();
-        if ($getadmin->signup_notification == 1) {
-            $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
-
-            $is_read = '0';
-            $last_id = '0';
-            $from_id = '0';
-            $message = $getUserdetails->fname . ' ' . $getUserdetails->lname . ' Is Newly Registered';
-            //$type = '2';
-            $stmttt = $db->prepare($sqlFriend);
-            $stmttt->bindParam("from_id", $user_id);
-            $stmttt->bindParam("to_id", $from_id);
-            $stmttt->bindParam("type", $type);
-            $stmttt->bindParam("msg", $message);
-
-            $stmttt->bindParam("last_id", $last_id);
-            $stmttt->bindParam("is_read", $is_read);
-            $stmttt->execute();
-        }
-        $data['last_id'] = $user_id;
+       // $stmtttadmin = $db->prepare($sqladmin);
+       // $stmtttadmin->execute();
+       // $getadmin = $stmtttadmin->fetchObject();
+       
+        
         $data['Ack'] = '1';
-        $data['msg'] = $msg;
+        //$data['msg'] = $msg;
 
 
         $app->response->setStatus(200);
@@ -12585,12 +12577,120 @@ function tomobileverifying() {
     } catch (PDOException $e) {
         $data['last_id'] = '';
         $data['Ack'] = '0';
-        $data['msg'] = 'Updation Error!!!';
+       
         echo '{"error":{"text":' . $e->getMessage() . '}}';
         $app->response->setStatus(401);
     }
+    
+}else{
+    $data['Ack'] = '0';
+$app->response->setStatus(200);
+}
+}else{
+    $data['Ack'] = '0';
+$app->response->setStatus(200);
+}
 
     $app->response->write(json_encode($data));
 }
+
+function resend() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+   // $otp = isset($body->otp) ? $body->otp : '';
+    $user_id=base64_decode($user_id);
+  
+    $is_mobile_verified = '1';
+    $admin_approve = '0';
+    $status = '0';
+    $verified_date = date('Y-m-d');
+
+
+    $sqluser = "SELECT * FROM  webshop_user WHERE id=:user_id ";
+    $stmtuser = $db->prepare($sqluser);
+    $stmtuser->bindParam("user_id", $user_id);
+    $stmtuser->execute();
+    $getUserdetails = $stmtuser->fetchObject();
+ 
+    //$data['Ack'] = 0;
+if(!empty($getUserdetails)){
+    
+    
+    $country_id= $getUserdetails->country;
+        $phone = $getUserdetails->phone;
+             $sqlcountrycode = "SELECT * FROM webshop_countries WHERE id='$country_id'";
+        $stmtcountrycode = $db->prepare($sqlcountrycode);
+        $stmtcountrycode->execute();
+        $getCode = $stmtcountrycode->fetchObject();
+        $country_code = $getCode->phonecode;
+       $smsphoneno = $getCode->phonecode.$phone;
+       $smsphoneno = (int)$smsphoneno;
+       $smsotopcode=mt_rand(1111,9999);
+
+           // $otpverifylink = "#/mobileverify/" .  base64_encode($lastID);
+       $mobilemessage= "Your+Mobile+Verification+Code+Is:+$smsotopcode";
+        $smslink ='http://www.kwtsms.com/API/send/?username=gmt24&password=aljassar&sender=KWT-MESSAGE&mobile='.$smsphoneno.'&lang=2&message='.$mobilemessage;
+       //$data['smslink']=$smslink;
+          
+       $curl_handle=curl_init();
+        curl_setopt($curl_handle,CURLOPT_URL,$smslink);
+        curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
+        curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
+        $buffer = curl_exec($curl_handle);
+        curl_close($curl_handle);
+        
+        if (empty($buffer)){
+            $data['smsstatus']='0';
+        }
+        else{
+             $data['smsstatus'] ='1';
+        }
+    $sms_verify_number = $smsotopcode;
+    $sql = "UPDATE webshop_user set sms_verify_number=:sms_verify_number WHERE id=:id";
+    try {
+
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("sms_verify_number", $sms_verify_number);
+        $stmt->bindParam("id", $user_id);
+        $stmt->execute();
+
+       
+        
+        $data['Ack'] = '1';
+        //$data['msg'] = $msg;
+
+
+        $app->response->setStatus(200);
+        $db = null;
+    } catch (PDOException $e) {
+        $data['last_id'] = '';
+        $data['Ack'] = '0';
+       
+        echo '{"error":{"text":' . $e->getMessage() . '}}';
+        $app->response->setStatus(401);
+    }
+    
+
+}else{
+   
+    $data['Ack'] = '0';
+$app->response->setStatus(200);
+}
+
+    $app->response->write(json_encode($data));
+}
+
+
 $app->run();
 ?>

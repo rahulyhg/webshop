@@ -92,6 +92,7 @@ app.constant('JS_REQUIRES', {
         'usertoppayment': ['app/Controllers/usertoppaymentCtrl.js'],
         'successUsertoppayment': ['app/Controllers/successUsertoppaymentCtrl.js'],
         'allshopDetails': ['app/Controllers/allshopDetailsCtrl.js'],
+        'mobileverify': ['app/Controllers/mobileverifyCtrl.js'],
     },
 
     //*** angularJS Modules
