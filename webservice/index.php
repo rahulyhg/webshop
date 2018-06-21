@@ -51,10 +51,10 @@ function userSignup() {
     $long = isset($body->long) ? $body->long : '';
     $phone = isset($body->phone) ? $body->phone : '';
     $city = isset($body->city) ? $body->city : '';
+    $city = isset($body->city) ? $body->city : '';
     $type = isset($body->type) ? $body->type : '';
+    $country = isset($body->country) ? $body->country : '';
     $add_date = date('Y-m-d');
-
-
     $db = getConnection();
 
     $sql = "SELECT * FROM  webshop_user WHERE  email=:email OR phone=:phone";
@@ -64,13 +64,15 @@ function userSignup() {
     $stmt->bindParam("phone", $phone);
     $stmt->execute();
     $usersCount = $stmt->rowCount();
-
+    $smsotopcode=mt_rand(1111,9999);
     if ($usersCount == 0) {
 
         $newpass = md5($password);
+       $is_mobile_verified =  0;
+       $sms_verify_number = $smsotopcode;
 //$status=1;
 
-        $sql = "INSERT INTO  webshop_user (fname,lname, email, password, type, device_type, device_token_id, add_date, address, my_latitude,my_longitude,city,phone) VALUES (:fname,:lname, :email, :password, :type, :device_type, :device_token_id, :add_date, :address, :my_latitude, :my_longitude, :city, :phone)";
+        $sql = "INSERT INTO  webshop_user (fname,lname, email, password, type, device_type, device_token_id, add_date, address, my_latitude,my_longitude,city,phone,is_mobile_verified,country,sms_verify_number) VALUES (:fname,:lname, :email, :password, :type, :device_type, :device_token_id, :add_date, :address, :my_latitude, :my_longitude, :city, :phone,:is_mobile_verified,:country,:sms_verify_number)";
         try {
 
             $stmt = $db->prepare($sql);
@@ -82,6 +84,9 @@ function userSignup() {
             $stmt->bindParam("device_type", $device_type);
             $stmt->bindParam("device_token_id", $device_token_id);
             $stmt->bindParam("add_date", $add_date);
+            $stmt->bindParam("is_mobile_verified", $is_mobile_verified);
+             $stmt->bindParam("country", $country);
+            $stmt->bindParam("sms_verify_number", $sms_verify_number);
 // $stmt->bindParam("status", $status);
             $stmt->bindParam("address", $address);
             $stmt->bindParam("my_latitude", $lat);
@@ -92,9 +97,12 @@ function userSignup() {
 
 
             $lastID = $db->lastInsertId();
+            
+            
             $data['last_id'] = $lastID;
             $data['Ack'] = '1';
             $data['msg'] = 'Registered Successfully...';
+          
 
 
             $sql = "SELECT * FROM  webshop_user WHERE id=:id ";
@@ -149,7 +157,7 @@ function userSignup() {
 
             /* mailt to user or vendor start */
             $MailTo = $email;
-
+          
             $actual_link = SITE_URL . "#/emailverify/" . $lastID;
             $MailFrom = 'webshop.com';
             $subject = "webshop.com- Thank you for registering";
@@ -165,12 +173,12 @@ function userSignup() {
 
             $IsMailType = 'SMTP';
 
-            $MailFrom = 'palashsaharana@gmail.com';    //  Your email password
+            $MailFrom = 'mail@natitsolved.com';    //  Your email password
 
             $MailFromName = 'Webshop';
             $MailToName = '';
 
-            $YourEamilPassword = "lsnspyrcimuffblr";   //Your email password from which email you send.
+            $YourEamilPassword = "Natit#2019";   //Your email password from which email you send.
 // If you use SMTP. Please configure the bellow settings.
 
             $SmtpHost = "smtp.gmail.com"; // sets the SMTP server
@@ -214,10 +222,13 @@ function userSignup() {
             } catch (phpmailerException $e) {
                 echo $e->errorMessage(); //Pretty error messages from PHPMailer
             }
+            
+
+       
             /* mail to user or vendor ends here */
 
-            if ($getUserdetails->type == '2') {
-                /* mail to admin start */
+          if ($getUserdetails->type == '2') {
+                
 
                 $adminsql = "SELECT * FROM  webshop_tbladmin WHERE id= '1' ";
                 $adminstmt = $db->prepare($adminsql);
@@ -242,12 +253,12 @@ function userSignup() {
 
                     $IsMailType = 'SMTP';
 
-                    $MailFrom = 'palashsaharana@gmail.com';    //  Your email password
+                    $MailFrom = 'mail@natitsolved.com';    //  Your email password
 
                     $MailFromName = 'Webshop';
                     $MailToName = '';
 
-                    $YourEamilPassword = "lsnspyrcimuffblr";   //Your email password from which email you send.
+                    $YourEamilPassword = "Natit#2019";   //Your email password from which email you send.
 // If you use SMTP. Please configure the bellow settings.
 
                     $SmtpHost = "smtp.gmail.com"; // sets the SMTP server
@@ -291,12 +302,28 @@ function userSignup() {
                     } catch (phpmailerException $e) {
                         echo $e->errorMessage(); //Pretty error messages from PHPMailer
                     }
-                    /* mail to admin ends here */
-                }
+                    
+                } 
             }
-
-
-
+          //  echo $lastID;
+            //exit;
+            
+        
+        $country_id= $country;
+        
+             $sqlcountrycode = "SELECT * FROM webshop_countries WHERE id='$country_id'";
+        $stmtcountrycode = $db->prepare($sqlcountrycode);
+        $stmtcountrycode->execute();
+        $getCode = $stmtcountrycode->fetchObject();
+        $country_code = $getCode->phonecode;
+       $smsphoneno = $getCode->phonecode.$phone;
+       $smsphoneno = (int)$smsphoneno;
+            $actual_link1 = SITE_URL . "#/mobileverify/" .  base64_encode($lastID);
+       $mobilemessage= "Your Mobile Verification Code Is:" . $smsotopcode;
+        $smslink ='http://www.kwtsms.com/API/send/?username=gmt24&password=aljassar&sender=KWT-MESSAGE&mobile='.$smsphoneno.'&lang=2&message='.$mobilemessage;
+       $data['smslink']=$smslink;
+          
+            
             $data['Ack'] = '1';
             $app->response->setStatus(200);
 
@@ -411,8 +438,6 @@ function forgetpassword() {
     $byeamil = findByConditionArray(array('email' => $email), ' webshop_user');
     if (!empty($byeamil)) {
 
-
-
         $sql = "SELECT * FROM  webshop_user WHERE email=:email ";
         $db = getConnection();
         $stmt = $db->prepare($sql);
@@ -424,46 +449,32 @@ function forgetpassword() {
         $password = rand(1111, 9999);
         $forgot_pass_otp = md5($password);
 
-
         $sql = "UPDATE  webshop_user SET password=:password WHERE email=:email";
         $stmt = $db->prepare($sql);
         $stmt->bindParam("password", $forgot_pass_otp);
         $stmt->bindParam("email", $email);
         $stmt->execute();
 
-
         $MailTo = $email;
-
         $MailFrom = 'info@webshop.com';
         $subject = "webshop.com- Your Password Request";
-
         $TemplateMessage = "Hello " . $getUserdetails->fname . "<br /><br / >";
         $TemplateMessage .= "You have asked for your new password. Your Password is OTP below :<br />";
         $TemplateMessage .= "<br />Password :" . $password;
-
         $TemplateMessage .= "<br /><br />Thanks,<br />";
         $TemplateMessage .= "webshop.com<br />";
-
-
         $mail = new PHPMailer(true);
-
         $IsMailType = 'SMTP';
-
-        $MailFrom = 'palashsaharana@gmail.com';    //  Your email password
-
+        $MailFrom = 'mail@natitsolved.com';  
         $MailFromName = 'Webshop';
         $MailToName = '';
-
-        $YourEamilPassword = "lsnspyrcimuffblr";   //Your email password from which email you send.
-// If you use SMTP. Please configure the bellow settings.
-
+        $YourEamilPassword = "Natit#2019"; 
         $SmtpHost = "smtp.gmail.com"; // sets the SMTP server
         $SmtpDebug = 0;                     // enables SMTP debug information (for testing)
         $SmtpAuthentication = true;                  // enable SMTP authentication
         $SmtpPort = 587;                    // set the SMTP port for the GMAIL server
         $SmtpUsername = $MailFrom; // SMTP account username
         $SmtpPassword = $YourEamilPassword;        // SMTP account password
-
         $mail->IsSMTP();  // telling the class to use SMTP
         $mail->SMTPDebug = $SmtpDebug;
         $mail->SMTPAuth = $SmtpAuthentication;     // enable SMTP authentication
@@ -628,53 +639,86 @@ function updateProfile() {
         $stmt->bindParam("country_preference", $country_preference);
         $stmt->bindParam("currency_preference", $currency_preference);
         $stmt->bindParam("id", $user_id);
-
+       // $lastID = $db->lastInsertId();
         $stmt->execute();
 
-        if (!empty($_FILES['civilid1'])) {
+//        if (!empty($_FILES['civilid1'])) {
+//
+//            if ($_FILES['civilid1']['tmp_name'] != '') {
+//
+//                $target_path = "../upload/user_image/";
+//
+//                $usercivilid1_name = $_FILES['civilid1']['name'];
+//
+//                $userfile_tmp = $_FILES['civilid1']['tmp_name'];
+//
+//                $img = $target_path . $usercivilid1_name;
+//
+//                move_uploaded_file($userfile_tmp, $img);
+//
+//                $sqlimgcivilid1 = "UPDATE webshop_user SET civilid1=:image WHERE id=$user_id";
+//
+//                $stmtcivilid1 = $db->prepare($sqlimgcivilid1);
+//                $stmtcivilid1->bindParam("image", $usercivilid1_name);
+//                $stmtcivilid1->execute();
+//            }
+//        }
+//
+//        if (!empty($_FILES['civilid2'])) {
+//
+//            if ($_FILES['civilid2']['tmp_name'] != '') {
+//
+//                $target_path = "../upload/user_image/";
+//
+//                $usercivilid2_name = $_FILES['civilid2']['name'];
+//
+//                $userfile_tmp = $_FILES['civilid2']['tmp_name'];
+//
+//                $img = $target_path . $usercivilid2_name;
+//
+//                move_uploaded_file($userfile_tmp, $img);
+//
+//                $sqlimgcivilid2 = "UPDATE webshop_user SET civilid2=:image WHERE id=$user_id";
+//
+//                $stmtcivilid2 = $db->prepare($sqlimgcivilid2);
+//                $stmtcivilid2->bindParam("image", $usercivilid2_name);
+//                $stmtcivilid2->execute();
+//            }
+//        }
 
-            if ($_FILES['civilid1']['tmp_name'] != '') {
+        
+         if (!empty($_FILES['image'])) {
 
-                $target_path = "../upload/user_image/";
+//print_r($_FILES['image']);exit;
+                                foreach ($_FILES['image']['name'] as $key1 => $file) {
 
-                $usercivilid1_name = $_FILES['civilid1']['name'];
 
-                $userfile_tmp = $_FILES['civilid1']['tmp_name'];
 
-                $img = $target_path . $usercivilid1_name;
+                                    if ($_FILES['image']['tmp_name'][$key1] != '') {
 
-                move_uploaded_file($userfile_tmp, $img);
+                                        $target_path = "../upload/user_image/";
 
-                $sqlimgcivilid1 = "UPDATE webshop_user SET civilid1=:image WHERE id=$user_id";
+                                        $userfile_name = $_FILES['image']['name'][$key1];
 
-                $stmtcivilid1 = $db->prepare($sqlimgcivilid1);
-                $stmtcivilid1->bindParam("image", $usercivilid1_name);
-                $stmtcivilid1->execute();
-            }
-        }
+                                        $userfile_tmp = $_FILES['image']['tmp_name'][$key1];
 
-        if (!empty($_FILES['civilid2'])) {
 
-            if ($_FILES['civilid2']['tmp_name'] != '') {
+                                        $img = $target_path . $userfile_name;
+                                        move_uploaded_file($userfile_tmp, $img);
 
-                $target_path = "../upload/user_image/";
+                                        $sqlimg = "UPDATE webshop_user SET civilid1=:civilid1 WHERE id=$user_id";
+                                        $stmt1 = $db->prepare($sqlimg);
+                                        $stmt1->bindParam("civilid1", $_FILES['image']['name'][0]);
+                                        $stmt1->execute();
 
-                $usercivilid2_name = $_FILES['civilid2']['name'];
 
-                $userfile_tmp = $_FILES['civilid2']['tmp_name'];
-
-                $img = $target_path . $usercivilid2_name;
-
-                move_uploaded_file($userfile_tmp, $img);
-
-                $sqlimgcivilid2 = "UPDATE webshop_user SET civilid2=:image WHERE id=$user_id";
-
-                $stmtcivilid2 = $db->prepare($sqlimgcivilid2);
-                $stmtcivilid2->bindParam("image", $usercivilid2_name);
-                $stmtcivilid2->execute();
-            }
-        }
-
+                                        $sqlimg = "UPDATE webshop_user SET civilid2=:civilid2 WHERE id=$user_id";
+                                        $stmt1 = $db->prepare($sqlimg);
+                                        $stmt1->bindParam("civilid2", $_FILES['image']['name'][1]);
+                                        $stmt1->execute();
+                                    }
+                                }
+                            }
 
 
         if (@$_FILES['profile_image']['tmp_name'] != '') {
@@ -723,7 +767,7 @@ function userprofile() {
     $request = $app->request();
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
-
+$images =array();
 // $email = $body['email'];
     $user_id = $body->user_id;
 
@@ -744,15 +788,15 @@ function userprofile() {
         }
 
         if ($getUserdetails->civilid1 != '') {
-            $civilid1 = SITE_URL . 'upload/user_image/' . $getUserdetails->civilid1;
+            $images[] = SITE_URL . 'upload/user_image/' . $getUserdetails->civilid1;
         } else {
-            $civilid1 = SITE_URL . 'webservice/no-user.png';
+            $images[] = '';
         }
 
         if ($getUserdetails->civilid2 != '') {
-            $civilid2 = SITE_URL . 'upload/user_image/' . $getUserdetails->civilid2;
+            $images[] = SITE_URL . 'upload/user_image/' . $getUserdetails->civilid2;
         } else {
-            $civilid2 = SITE_URL . 'webservice/no-user.png';
+            $images[] = '';
         }
 
 
@@ -783,13 +827,14 @@ function userprofile() {
             "ibanno" => stripslashes($getUserdetails->ibanno),
             "bankname" => stripslashes($getUserdetails->bankname),
             "language_preference" => stripslashes($getUserdetails->language_preference),
-            "civilid1" => stripslashes($civilid1),
-            "civilid2" => stripslashes($civilid2),
+           // "civilid1" => stripslashes($civilid1),
+           // "civilid2" => stripslashes($civilid2),
             "add_date" => stripslashes($getUserdetails->add_date),
             "country" => stripslashes($getUserdetails->country),
             "state" => stripslashes($getUserdetails->state),
             "city" => stripslashes($getUserdetails->city),
             "country_preference" => stripslashes($getUserdetails->country_preference),
+            'images'=>$images,
             "currency_preference" => stripslashes($getUserdetails->currency_preference));
 
 
@@ -930,6 +975,7 @@ function ProductsDetails() {
 
 
     $product_id = isset($body->product_id) ? $body->product_id : '';
+     $product_id = urldecode ( base64_decode($product_id) ) ;
     $user_id = isset($body->user_id) ? $body->user_id : '';
 
     $sql = "SELECT * from  webshop_products WHERE id=:id order by id desc";
@@ -994,12 +1040,65 @@ function ProductsDetails() {
 
     if (!empty($product)) {
 
-        if ($product->image != '') {
+       /* if ($product->image != '') {
             $image = SITE_URL . 'upload/product_image/' . $product->image;
         } else {
             $image = SITE_URL . 'webservice/not-available.jpg';
+        } */
+        $price = $product->price;
+       if($user_id){
+                              
+                        $sqlnewuser = "SELECT * FROM webshop_user WHERE id=$user_id ";
+                        $stmtnewuser = $db->prepare($sqlnewuser);
+                        //$stmt1->bindParam("id", $product->uploader_id);
+                        $stmtnewuser->execute();
+                        $getUserdetails1 = $stmtnewuser->fetchObject();
+                        
+                        if (!empty($getUserdetails1)) {
+                             
+                                $userselected_currency = $getUserdetails1->currency_preference;
+                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'USD' AND currency_code ='$getUserdetails1->currency_preference' ";
+                        $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                            $price = $product->price * $currency['currency_rate_to_usd'];
+                            //echo 'yes';
+                        }  
+                        }else{
+                            $price = $product->price;
+                           // echo 'NO';
+                        }
+                              
+                            
+                        } else {
+                           $price = $product->price;
+                        }
+                    }else{
+                        $price = $product->price;
+                    } 
+        
+        
+        $sqlproduct_imaget = "SELECT * FROM  webshop_product_image WHERE product_id=:product_id ";
+        $stmtproduct_imaget = $db->prepare($sqlproduct_imaget);
+        $stmtproduct_imaget->bindParam("product_id", $product->id);
+        $stmtproduct_imaget->execute();
+        $get_product_imaget = $stmtproduct_imaget->fetchAll(PDO::FETCH_OBJ);
+        if (!empty($get_product_imaget)) {
+           foreach($get_product_imaget as $img){
+              $image[]=array(
+                  'src'=>SITE_URL . 'upload/product_image/' .$img->image,
+                  'desc'=>$img->image,
+              ); 
+           }
+            
+        }else{
+            $image = SITE_URL . 'webservice/not-available.jpg';
         }
-
+        
         
         $sqlbracelet = "SELECT * FROM  webshop_bracelet WHERE id=:id ";
         $stmtbracelet = $db->prepare($sqlbracelet);
@@ -1008,6 +1107,8 @@ function ProductsDetails() {
         $getbracelet = $stmtbracelet->fetchObject();
         if (!empty($getbracelet)) {
             $braceletname = $getbracelet->type;
+        }else{
+            $braceletname = '';
         }
         
         
@@ -1212,13 +1313,77 @@ function ProductsDetails() {
         } else {
             $allhistory = array();
         }
+        $baseauctionprice = $product->baseauctionprice;
+        $thresholdprice = $product->thresholdprice;
+        $bidincrement = $product->bidincrement;
+         $nextbidprice = $product->nextbidprice;
+         $lastbidvalue = $product->lastbidvalue;
+        
+        if($product->type == 2){
+            if($user_id){
+                              
+                        $sqlnewuser = "SELECT * FROM webshop_user WHERE id=$user_id ";
+                        $stmtnewuser = $db->prepare($sqlnewuser);
+                        //$stmt1->bindParam("id", $product->uploader_id);
+                        $stmtnewuser->execute();
+                        $getUserdetails1 = $stmtnewuser->fetchObject();
+                        
+                        if (!empty($getUserdetails1)) {
+                             
+                                $userselected_currency = $getUserdetails1->currency_preference;
+                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'USD' AND currency_code ='$getUserdetails1->currency_preference' ";
+                        $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                                $currency['currency_rate_to_usd'].'<br>';
+                                $currency['currency_code'].'<br>';
+                            $baseauctionprice = $product->baseauctionprice * $currency['currency_rate_to_usd'];
+                            $thresholdprice = $product->thresholdprice * $currency['currency_rate_to_usd'];
+                            $bidincrement = $product->bidincrement * $currency['currency_rate_to_usd'];
+                            $nextbidprice = $product->nextbidprice * $currency['currency_rate_to_usd'];
+                            $lastbidvalue = $product->lastbidvalue * $currency['currency_rate_to_usd'];
+                            //echo 'yes';
+                        }  
+                        }else{
+                            $baseauctionprice = $product->baseauctionprice;
+                            $thresholdprice = $product->thresholdprice;
+                            $bidincrement = $product->bidincrement;
+                             $nextbidprice = $product->nextbidprice;
+                             $lastbidvalue = $product->lastbidvalue;
+                           // echo 'NO';
+                        }
+                              
+                            
+                        } else {
+                           $baseauctionprice = $product->baseauctionprice;
+                           $thresholdprice = $product->thresholdprice;
+                           $bidincrement = $product->bidincrement;
+                            $nextbidprice = $product->nextbidprice;
+                            $lastbidvalue = $product->lastbidvalue;
+                        }
+                    }else{
+                        $baseauctionprice = $product->baseauctionprice;
+                        $thresholdprice = $product->thresholdprice;
+                        $thresholdprice = $product->bidincrement;
+                         $nextbidprice = $product->nextbidprice;
+                         $lastbidvalue = $product->lastbidvalue;
+                    }
+        }
+        
+        
+        //echo $price;exit;
 //$aucshowtime=
 //$count = $stmtproduct->rowCount();
-
+//$date_purchase = $product->date_purchase;
+$date_purchase = date('dS M,Y', strtotime($product->date_purchase));
         $data['productList'] = array(
             "id" => stripslashes($product->id),
-            "image" => stripslashes($image),
-            "price" => stripslashes($product->price),
+            "image" => $image,
+            "price" => stripslashes($price),
             "is_fav" => stripslashes($is_fav),
             "description" => strip_tags(stripslashes($product->description)),
             "category_name" => stripslashes($categoryname),
@@ -1232,11 +1397,11 @@ function ProductsDetails() {
             "seller_address" => stripslashes($seller_address),
             "seller_phone" => stripslashes($seller_phone),
             "productname" => '',
-            "baseauctionprice" => stripslashes($product->baseauctionprice),
-            "thresholdprice" => intval($product->thresholdprice),
-            "bidincrement" => stripslashes($product->bidincrement),
-            "nextbidprice" => stripslashes($product->nextbidprice),
-            "lastbidvalue" => intval($product->lastbidvalue),
+            "baseauctionprice" => stripslashes($baseauctionprice),
+            "thresholdprice" => intval($thresholdprice),
+            "bidincrement" => stripslashes($bidincrement),
+            "nextbidprice" => stripslashes($nextbidprice),
+            "lastbidvalue" => intval($lastbidvalue),
             "uploader_id" => stripslashes($product->uploader_id),
             "type" => stripslashes($product->type),
             //"preferred_date" => stripslashes($product->preferred_date),
@@ -1263,7 +1428,7 @@ function ProductsDetails() {
             'movement' => stripslashes($product->movement),
             'status_watch' => stripslashes($product->status_watch),
             'size' => stripslashes($product->size),
-            'date_purchase' => stripslashes($product->date_purchase),
+            'date_purchase' => stripslashes($date_purchase),
             'owner_number' => stripslashes($product->owner_number),
             'averagerating' => number_format($averagerating,1)
         );
@@ -2789,22 +2954,6 @@ function checkout() {
 
 
 
-
-//}
-
-    /* else{
-
-      $data['Ack'] = 2;
-      $data['msg'] = 'No Driver Available';
-      $app->response->setStatus(200);
-
-      } */
-
-
-
-
-
-
     $app->response->write(json_encode($data));
 }
 
@@ -3487,6 +3636,14 @@ function addProductNew() {
     $status = 0;
     $quantity = 1;
     $nextbidprice = $price;
+    
+    $db = getConnection();
+    $sqlusd = "SELECT * from webshop_currency_rates where currency_code='$currency'";
+    $stmtusd = $db->prepare($sqlusd);
+    //$stmtusd->bindParam("user_id", $user_id);
+    $stmtusd->execute();
+    $getusd = $stmtusd->fetchObject();
+    $price = $price / $getusd->currency_rate_to_usd;
 // $baseauctionprice = isset($body["baseauctionprice"]) ? $body["baseauctionprice"] : '';
 //$thresholdprice = isset($body["thresholdprice"]) ? $body["thresholdprice"] : '';
 
@@ -3502,7 +3659,7 @@ function addProductNew() {
 
     $date = date("Y-m-d");
 
-    $db = getConnection();
+    
 
 
     $sqlsubscription = "SELECT ws.id as sid,wu.id,wu.type,ws.expiry_date,wu.slot_no FROM webshop_subscribers as ws inner join webshop_user as wu on wu.id=ws.user_id where ws.user_id=:user_id order by ws.id desc limit 1";
@@ -3517,7 +3674,8 @@ function addProductNew() {
     $stmtty->bindParam("user_id", $user_id);
     $stmtty->execute();
     $gettype = $stmtty->fetchObject();
-
+    
+    
 
 
     if ($gettype->type == 2) {
@@ -4727,12 +4885,12 @@ function interestedEmailToVendor() {
 
     $IsMailType = 'SMTP';
 
-    $MailFrom = 'palashsaharana@gmail.com';    //  Your email password
+    $MailFrom = 'mail@natitsolved.com';    //  Your email password
 
     $MailFromName = 'Webshop';
     $MailToName = '';
 
-    $YourEamilPassword = "lsnspyrcimuffblr";   //Your email password from which email you send.
+    $YourEamilPassword = "Natit#2019";   //Your email password from which email you send.
 // If you use SMTP. Please configure the bellow settings.
 
     $SmtpHost = "smtp.gmail.com"; // sets the SMTP server
@@ -5233,6 +5391,10 @@ function auctionListSearch() {
     $state_id = isset($body->state_id) ? $body->state_id : '';
     $city_id = isset($body->city_id) ? $body->city_id : '';
     $category = isset($body->categorylisting) ? $body->categorylisting : '';
+    $movement = isset($body->movement) ? $body->movement : '';
+    
+    $size_amount_max = isset($body->size_amount_max) ? $body->size_amount_max : '';
+    $size_amount_min = isset($body->size_amount_min) ? $body->size_amount_min : '';
 //print_r($body);exit;
 
     $productIds = array();
@@ -5262,11 +5424,11 @@ function auctionListSearch() {
         $productIds = implode(",", $productIds);
 
 
-        $sql = "SELECT * from webshop_products where status = 1 and type='2' and auctioned ='0' and uploader_id !='" . $user_id . "' and id IN(" . $productIds . ")";
+        $sql = "SELECT * from webshop_products where status = 1 and type='2' and auctioned ='0' and id IN(" . $productIds . ")";
     } else {
 
 
-        $sql = "SELECT * from  webshop_products where status=1 and type='2' and auctioned ='0'  and uploader_id !='" . $user_id . "'";
+        $sql = "SELECT * from  webshop_products where status=1 and type='2' and auctioned ='0'";
     }
 
     if ($amount_min != '' && $amount_max != '') {
@@ -5280,9 +5442,24 @@ function auctionListSearch() {
         $sql .= " AND `price` BETWEEN " . $amount_min . " " . "AND" . " " . $amount_max . "";
     }
 
+    if ($size_amount_min != '' && $size_amount_max != '') {
+
+        $sql .= " AND `size` BETWEEN " . $size_amount_min . " " . "AND" . " " . $size_amount_max . "";
+    } else if ($size_amount_min == '' && $size_amount_max != '') {
+        $size_amount_min = 0.00;
+        $sql .= " AND `size` BETWEEN " . $size_amount_min . " " . "AND" . " " . $size_amount_max . "";
+    } else if ($size_amount_min != '' && $size_amount_max == '') {
+        $size_amount_max = 1000.00;
+        $sql .= " AND `size` BETWEEN " . $size_amount_min . " " . "AND" . " " . $size_amount_max . "";
+    }
     if ($brandListing != '') {
 
         $sql .= " AND `brands` IN (" . $brandListing . ")";
+    }
+    
+    if ($movement != '') {
+
+        $sql .= " AND `movement` IN (" . $movement . ")";
     }
     if ($sellerListing != '') {
 
@@ -5350,7 +5527,7 @@ if ($category != '') {
     }
 
 
-
+//echo $sql;exit;
 
 
     try {
@@ -5361,7 +5538,7 @@ if ($category != '') {
 
         if (!empty($getAllProducts)) {
             foreach ($getAllProducts as $product) {
-
+                 $price =$product->price;
                 if ($product->image != '') {
                     $image = SITE_URL . 'upload/product_image/' . $product->image;
                 } else {
@@ -5395,7 +5572,7 @@ if ($category != '') {
                 $stmt1->bindParam("id", $product->uploader_id);
                 $stmt1->execute();
                 $getUserdetails = $stmt1->fetchObject();
-
+               // $price='';
                 if (!empty($getUserdetails)) {
                     $seller_name = $getUserdetails->fname . ' ' . $getUserdetails->lname;
                     $seller_address = $getUserdetails->address;
@@ -5407,14 +5584,51 @@ if ($category != '') {
                     } else {
                         $profile_image = SITE_URL . 'webservice/no-user.png';
                     }
+                    
+                    
+                     
                 } else {
                     $profile_image = '';
                 }
-
+                
+                if($user_id){
+                        $sqlnewuser = "SELECT * FROM webshop_user WHERE id=$user_id ";
+                        $stmtnewuser = $db->prepare($sqlnewuser);
+                        //$stmt1->bindParam("id", $product->uploader_id);
+                        $stmtnewuser->execute();
+                        $getUserdetails1 = $stmtnewuser->fetchObject();
+                        
+                        if (!empty($getUserdetails1)) {
+                             
+                                $userselected_currency = $getUserdetails1->currency_preference;
+                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'USD' AND currency_code ='$getUserdetails1->currency_preference' ";
+                        $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                            $price = $product->price * $currency['currency_rate_to_usd'];
+                            //echo 'yes';
+                        }  
+                        }else{
+                            $price = $product->price;
+                            //echo 'NO';
+                        }
+                              
+                            
+                        } else {
+                           $price = $product->price;
+                        }
+                    }else{
+                        $price = $product->price;
+                    }
+                $product_encoded_id =  urlencode ( base64_encode($product->id));
                 $data['productList'][] = array(
-                    "id" => stripslashes($product->id),
+                    "id" => stripslashes($product_encoded_id),
                     "image" => stripslashes($image),
-                    "price" => stripslashes($product->price),
+                    "price" => stripslashes($price),
                     "description" => strip_tags(stripslashes($product->description)),
                     "category_name" => $categoryname,
                     "brand_name" => $subcategoryname,
@@ -5537,9 +5751,40 @@ function bidsubmit() {
     $bidprice = isset($body->bidprice) ? $body->bidprice : '';
     $nextbidprice = isset($body->nextbidprice) ? $body->nextbidprice : '';
     $uploaderid = isset($body->uploaderid) ? $body->uploaderid : '';
-
+ $db = getConnection();
+    if($userid){
+                              
+                        $sqlnewuser = "SELECT * FROM webshop_user WHERE id=$userid ";
+                        $stmtnewuser = $db->prepare($sqlnewuser);
+                        //$stmt1->bindParam("id", $product->uploader_id);
+                        $stmtnewuser->execute();
+                        $getUserdetails1 = $stmtnewuser->fetchObject();
+                        
+                        if (!empty($getUserdetails1)) {
+                             
+                                $userselected_currency = $getUserdetails1->currency_preference;
+                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'USD' AND currency_code ='$getUserdetails1->currency_preference' ";
+                        $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                            $bidprice = $bidprice / $currency['currency_rate_to_usd'];
+                            $nextbidprice = $nextbidprice / $currency['currency_rate_to_usd'];
+                            //echo 'yes';
+                        }  
+                        }
+                              
+                            
+                        } 
+                    }
+    
+    
+    
     $sql = "INSERT INTO  webshop_biddetails (userid,productid,bidprice,nextbidprice,uploaderid,date) VALUES (:userid,:productid,:bidprice,:nextbidprice,:uploaderid,:date)";
-    $db = getConnection();
+   
     $stmt = $db->prepare($sql);
     $stmt->bindParam("userid", $userid);
     $stmt->bindParam("productid", $productid);
@@ -6060,6 +6305,10 @@ function ProductListSearch() {
     $city_id = isset($body->city_id) ? $body->city_id : '';
     $keyword = isset($body->keyword) ? $body->keyword : '';
 $category = isset($body->category) ? $body->category : '';
+$movement = isset($body->movement) ? $body->movement : '';
+$size_amount_max = isset($body->size_amount_max) ? $body->size_amount_max : '';
+$size_amount_min = isset($body->size_amount_min) ? $body->size_amount_min : '';
+$top_product = isset($body->top_product) ? $body->top_product : '';
 //print_r($body);
 //-----------------------------------------------------------
     $productIds = array();
@@ -6087,11 +6336,11 @@ $category = isset($body->category) ? $body->category : '';
 // exit;
 
         $productIds = implode(",", $productIds);
-        $sql = "SELECT * from webshop_products where status = 1 and approved='1' and type='1' and is_discard='0' and uploader_id !='" . $user_id . "' and id IN(" . $productIds . ")";
+        $sql = "SELECT * from webshop_products where status = 1 and approved='1' and type='1' and is_discard='0' and id IN(" . $productIds . ")";
     } else {
 
 
-        $sql = "SELECT * from  webshop_products where status=1 and approved='1' and type='1' and is_discard='0'  and uploader_id !='" . $user_id . "'";
+        $sql = "SELECT * from  webshop_products where status=1 and approved='1' and type='1' and is_discard='0' ";
     }
 
     if ($amount_min != '' && $amount_max != '') {
@@ -6104,7 +6353,17 @@ $category = isset($body->category) ? $body->category : '';
         $amount_max = 10000.00;
         $sql .= " AND `price` BETWEEN " . $amount_min . " " . "AND" . " " . $amount_max . "";
     }
+//size
+    if ($size_amount_min != '' && $size_amount_max != '') {
 
+        $sql .= " AND `size` BETWEEN " . $size_amount_min . " " . "AND" . " " . $size_amount_max . "";
+    } else if ($size_amount_min == '' && $size_amount_max != '') {
+        $size_amount_min = 0.00;
+        $sql .= " AND `size` BETWEEN " . $size_amount_min . " " . "AND" . " " . $size_amount_max . "";
+    } else if ($size_amount_min != '' && $size_amount_max == '') {
+        $size_amount_max = 1000.00;
+        $sql .= " AND `size` BETWEEN " . $size_amount_min . " " . "AND" . " " . $size_amount_max . "";
+    }
     if ($brandListing != '') {
 
         $sql .= " AND `brands` IN (" . $brandListing . ")";
@@ -6114,7 +6373,10 @@ $category = isset($body->category) ? $body->category : '';
         $sql .= " AND `uploader_id` IN (" . $sellerListing . ")";
     }
 
+if ($movement != '') {
 
+        $sql .= " AND `movement` IN ('" . $movement . "')";
+    }
 //spandan
 
     if ($category != '') {
@@ -6126,12 +6388,11 @@ $category = isset($body->category) ? $body->category : '';
 
         $sql .= " AND `gender`='" . $gender . "' ";
     }
-   
+   if ($top_product != '') {
 
-    if ($brand != '') {
-
-        $sql .= " AND `brands` = '" . $brand . "'";
+        $sql .= " AND `gender`='" . $top_product . "' ";
     }
+
     if ($breslettype != '') {
 
         $sql .= " AND `breslet_type` = '" . $breslettype . "'";
@@ -6141,7 +6402,7 @@ $category = isset($body->category) ? $body->category : '';
 
         $sql .= " AND model_year = '" . $year . "'";
     }
-    
+    //echo $sql;
    if ($keyword != '') {
 
         $keywordbrand = "SELECT * FROM webshop_brands WHERE id ='$keyword' OR name='$keyword'";
@@ -6230,7 +6491,7 @@ if ($keyword != '') {
 
 
 
-//    echo($sql);
+//    echo $sql;
 //    exit;
 
     try {
@@ -6242,7 +6503,7 @@ if ($keyword != '') {
         if (!empty($getAllProducts)) {
             foreach ($getAllProducts as $product) {
                 $sid = $product->subscription_id;
-
+                $price =$product->price;
                 if ($sid != 0) {
                     $sqlsubs = "SELECT * FROM  webshop_subscribers WHERE id=:id ";
                     $stmtsubs = $db->prepare($sqlsubs);
@@ -6287,7 +6548,8 @@ if ($keyword != '') {
                         $stmt1->bindParam("id", $product->uploader_id);
                         $stmt1->execute();
                         $getUserdetails = $stmt1->fetchObject();
-
+                        $userselected_currency='';
+                        
                         if (!empty($getUserdetails)) {
                             $seller_name = $getUserdetails->fname . ' ' . $getUserdetails->lname;
                             $seller_address = $getUserdetails->address;
@@ -6300,14 +6562,49 @@ if ($keyword != '') {
                             } else {
                                 $profile_image = SITE_URL . 'webservice/no-user.png';
                             }
+                            
+                            
                         } else {
                             $profile_image = '';
                         }
-
+                         if($user_id){
+                        $sqlnewuser = "SELECT * FROM webshop_user WHERE id=$user_id ";
+                        $stmtnewuser = $db->prepare($sqlnewuser);
+                        //$stmt1->bindParam("id", $product->uploader_id);
+                        $stmtnewuser->execute();
+                        $getUserdetails1 = $stmtnewuser->fetchObject();
+                        
+                        if (!empty($getUserdetails1)) {
+                             
+                                $userselected_currency = $getUserdetails1->currency_preference;
+                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'USD' AND currency_code ='$getUserdetails1->currency_preference' ";
+                        $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                            $price = $product->price * $currency['currency_rate_to_usd'];
+                            //echo 'yes';
+                        }  
+                        }else{
+                            $price = $product->price;
+                            //echo 'NO';
+                        }
+                              
+                            
+                        } else {
+                           $price = $product->price;
+                        }
+                    }else{
+                        $price = $product->price;
+                    }
+                    $product_encoded_id =  urlencode ( base64_encode($product->id));
                         $data['productList'][] = array(
-                            "id" => stripslashes($product->id),
+                            "id" => stripslashes($product_encoded_id),
                             "image" => stripslashes($image),
-                            "price" => stripslashes($product->price),
+                            "price" => stripslashes($price),
                             "description" => strip_tags(stripslashes($product->description)),
                             "category_name" => $categoryname,
                              "brands" => $subcategoryname,
@@ -6359,7 +6656,7 @@ if ($keyword != '') {
                     $stmt1->bindParam("id", $product->uploader_id);
                     $stmt1->execute();
                     $getUserdetails = $stmt1->fetchObject();
-
+                       // $price ='';
                     if (!empty($getUserdetails)) {
                         $seller_name = $getUserdetails->fname . ' ' . $getUserdetails->lname;
                         $seller_address = $getUserdetails->address;
@@ -6371,14 +6668,48 @@ if ($keyword != '') {
                         } else {
                             $profile_image = SITE_URL . 'webservice/no-user.png';
                         }
+                        
+                        
+                        
                     } else {
                         $profile_image = '';
                     }
-
+                    if($user_id){
+                    $sqlnewuser = "SELECT * FROM webshop_user WHERE id=$user_id ";
+                        $stmtnewuser = $db->prepare($sqlnewuser);
+                        //$stmt1->bindParam("id", $product->uploader_id);
+                        $stmtnewuser->execute();
+                        $getUserdetails1 = $stmtnewuser->fetchObject();
+                        
+                        if (!empty($getUserdetails1)) {
+                             
+                                $userselected_currency = $getUserdetails1->currency_preference;
+                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'USD' AND currency_code ='$getUserdetails1->currency_preference' ";
+                        $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                            $price = $product->price * $currency['currency_rate_to_usd'];
+                            //echo 'yes';
+                        }  
+                        }else{
+                            $price = $product->price;
+                            //echo 'NO';
+                        }
+                              
+                            
+                        } else {
+                           $price = $product->price;
+                        }
+                }
+                $product_encoded_id =  urlencode ( base64_encode($product->id));
                     $data['productList'][] = array(
-                            "id" => stripslashes($product->id),
+                            "id" => stripslashes($product_encoded_id),
                             "image" => stripslashes($image),
-                            "price" => stripslashes($product->price),
+                            "price" => stripslashes($price),
                             "description" => strip_tags(stripslashes($product->description)),
                             "category_name" => $categoryname,
                              "brands" => $subcategoryname,
@@ -7750,7 +8081,7 @@ function auctionWinner() {
 //$request = $app->request();
 //$body2 = $app->request->getBody();
 //$body = json_decode($body2);
-//mail("spandan@natitsolved.com","GMT24 Auction","Your auction unsuccessfully end","palashsaharana@gmail.com");
+//mail("spandan@natitsolved.com","GMT24 Auction","Your auction unsuccessfully end","mail@natitsolved.com");
 //echo "spanda";exit;
     $db = getConnection();
 
@@ -7931,12 +8262,12 @@ function send_smtpmail($MailTo, $subject, $TemplateMessage, $MailAttachment = nu
 
     $IsMailType = 'SMTP';
 
-    $MailFrom = 'palashsaharana@gmail.com';    //  Your email password
+    $MailFrom = 'mail@natitsolved.com';    //  Your email password
 
     $MailFromName = 'GMT24';
     $MailToName = '';
 
-    $YourEamilPassword = "lsnspyrcimuffblr";   //Your email password from which email you send.
+    $YourEamilPassword = "Natit#2019";   //Your email password from which email you send.
 // If you use SMTP. Please configure the bellow settings.
 
     $SmtpHost = "smtp.gmail.com"; // sets the SMTP server
@@ -9024,6 +9355,7 @@ function checkauctionvalidity() {
     $body = json_decode($body2);
 
     $product_id = isset($body->product_id) ? $body->product_id : '';
+     $product_id = urldecode ( base64_decode($product_id) ) ;
     $user_id = isset($body->userid) ? $body->userid : '';
     $db = getConnection();
     $sql1 = "SELECT * FROM webshop_products WHERE id=:product_id AND auctioned=0";
@@ -9032,7 +9364,7 @@ function checkauctionvalidity() {
     $stmt1->bindParam("product_id", $product_id);
     $stmt1->execute();
     $count = $stmt1->rowCount();
-
+//exit;
 
 
 
@@ -9048,7 +9380,7 @@ function checkauctionvalidity() {
         $stmt->execute();
 //$count = $stmt->rowCount();
         $getauctionwinner = $stmt->fetchAll(PDO::FETCH_OBJ);
-
+       // print_r($getauctionwinner);exit;
         if (!empty($getauctionwinner)) {
             foreach ($getauctionwinner as $winner) {
 
@@ -10909,6 +11241,10 @@ function searchproductListinglatest() {
     $city_id = isset($body->city_id) ? $body->city_id : '';
     
 $category = isset($body->category) ? $body->category : '';
+$movement = isset($body->movement) ? $body->movement : '';
+
+$size_amount_max = isset($body->size_amount_max) ? $body->size_amount_max : '';
+    $size_amount_min = isset($body->size_amount_min) ? $body->size_amount_min : '';
 //print_r($body);
 //-----------------------------------------------------------
     $productIds = array();
@@ -10936,11 +11272,11 @@ $category = isset($body->category) ? $body->category : '';
 // exit;
 
         $productIds = implode(",", $productIds);
-        $sql = "SELECT * from webshop_products where status = 1 and is_leatest_deal='1' and approved='1' and type='1' and is_discard='0' and uploader_id !='" . $user_id . "' and id IN(" . $productIds . ")";
+        $sql = "SELECT * from webshop_products where status = 1 and is_leatest_deal='1' and approved='1' and type='1' and is_discard='0' and id IN(" . $productIds . ")";
     } else {
 
 
-        $sql = "SELECT * from  webshop_products where status=1 and is_leatest_deal='1' and approved='1' and type='1' and is_discard='0'  and uploader_id !='" . $user_id . "'";
+        $sql = "SELECT * from  webshop_products where status=1 and is_leatest_deal='1' and approved='1' and type='1' and is_discard='0'";
     }
 
     if ($amount_min != '' && $amount_max != '') {
@@ -10954,6 +11290,16 @@ $category = isset($body->category) ? $body->category : '';
         $sql .= " AND `price` BETWEEN " . $amount_min . " " . "AND" . " " . $amount_max . "";
     }
 
+    if ($size_amount_min != '' && $size_amount_max != '') {
+
+        $sql .= " AND `size` BETWEEN " . $size_amount_min . " " . "AND" . " " . $size_amount_max . "";
+    } else if ($size_amount_min == '' && $size_amount_max != '') {
+        $size_amount_min = 0.00;
+        $sql .= " AND `size` BETWEEN " . $size_amount_min . " " . "AND" . " " . $size_amount_max . "";
+    } else if ($size_amount_min != '' && $size_amount_max == '') {
+        $size_amount_max = 1000.00;
+        $sql .= " AND `size` BETWEEN " . $size_amount_min . " " . "AND" . " " . $size_amount_max . "";
+    }
     if ($brandListing != '') {
 
         $sql .= " AND `brands` IN (" . $brandListing . ")";
@@ -10963,18 +11309,22 @@ $category = isset($body->category) ? $body->category : '';
         $sql .= " AND `uploader_id` IN (" . $sellerListing . ")";
     }
 
+if ($movement != '') {
 
+        $sql .= " AND `movement` IN ('" . $movement . "')";
+    }
 //spandan
+   
 
     if ($category != '') {
 
        // $sql .= " AND `cat_id` = '" . $category . "'";
          $sql .= " AND `cat_id` IN (" . $category . ")";
     }
-    if ($gender != '') {
-
-        $sql .= " AND `gender`='" . $gender . "' ";
-    }
+//    if ($gender != '') {
+//
+//        $sql .= " AND `gender`='" . $gender . "' ";
+//    }
    
 
     if ($brand != '') {
@@ -11027,10 +11377,13 @@ $category = isset($body->category) ? $body->category : '';
         $sql .= " ORDER BY add_date DESC";
     }
 
+if ($gender != '') {
 
+       // $sql .= " AND `cat_id` = '" . $category . "'";
+         $sql .= " AND `gender` IN (" . $gender . ")";
+    }
 
-//    echo($sql);
-//    exit;
+    
 
     try {
         $stmt = $db->prepare($sql);
@@ -11041,7 +11394,7 @@ $category = isset($body->category) ? $body->category : '';
         if (!empty($getAllProducts)) {
             foreach ($getAllProducts as $product) {
                 $sid = $product->subscription_id;
-
+                 $price =$product->price;
                 if ($sid != 0) {
                     $sqlsubs = "SELECT * FROM  webshop_subscribers WHERE id=:id ";
                     $stmtsubs = $db->prepare($sqlsubs);
@@ -11086,7 +11439,9 @@ $category = isset($body->category) ? $body->category : '';
                         $stmt1->bindParam("id", $product->uploader_id);
                         $stmt1->execute();
                         $getUserdetails = $stmt1->fetchObject();
-
+                        
+                        //$price ='';
+                                               
                         if (!empty($getUserdetails)) {
                             $seller_name = $getUserdetails->fname . ' ' . $getUserdetails->lname;
                             $seller_address = $getUserdetails->address;
@@ -11099,14 +11454,54 @@ $category = isset($body->category) ? $body->category : '';
                             } else {
                                 $profile_image = SITE_URL . 'webservice/no-user.png';
                             }
+                            
                         } else {
                             $profile_image = '';
                         }
+                       
+                           if($user_id){
+                              
+                        $sqlnewuser = "SELECT * FROM webshop_user WHERE id=$user_id ";
+                        $stmtnewuser = $db->prepare($sqlnewuser);
+                        //$stmt1->bindParam("id", $product->uploader_id);
+                        $stmtnewuser->execute();
+                        $getUserdetails1 = $stmtnewuser->fetchObject();
+                        
+                        if (!empty($getUserdetails1)) {
+                             
+                                $userselected_currency = $getUserdetails1->currency_preference;
+                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'USD' AND currency_code ='$getUserdetails1->currency_preference' ";
+                        $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                            $price = $product->price * $currency['currency_rate_to_usd'];
+                            //echo 'yes';
+                        }  
+                        }else{
+                            $price = $product->price;
+                           // echo 'NO';
+                        }
+                              
+                            
+                        } else {
+                           $price = $product->price;
+                        }
+                    }else{
+                        $price = $product->price;
+                    }
+                       
+                        
 
+
+                        $product_encoded_id =  urlencode ( base64_encode($product->id));
                         $data['productList'][] = array(
-                            "id" => stripslashes($product->id),
+                            "id" => stripslashes($product_encoded_id),
                             "image" => stripslashes($image),
-                            "price" => stripslashes($product->price),
+                            "price" => stripslashes($price),
                             "description" => strip_tags(stripslashes($product->description)),
                             "category_name" => $categoryname,
                              "brands" => $subcategoryname,
@@ -11121,6 +11516,7 @@ $category = isset($body->category) ? $body->category : '';
                             "top" => stripslashes($top),
                         );
                     }
+                    //print_r($data['productList']);exit;
                 } else {
 
 
@@ -11137,6 +11533,7 @@ $category = isset($body->category) ? $body->category : '';
                     $stmt2->bindParam("id", $product->cat_id);
                     $stmt2->execute();
                     $getcategory = $stmt2->fetchObject();
+                    
                     if (!empty($getcategory)) {
                         $categoryname = $getcategory->name;
                     }
@@ -11158,7 +11555,8 @@ $category = isset($body->category) ? $body->category : '';
                     $stmt1->bindParam("id", $product->uploader_id);
                     $stmt1->execute();
                     $getUserdetails = $stmt1->fetchObject();
-
+                    //print_r($getUserdetails);
+                    //$price ='';
                     if (!empty($getUserdetails)) {
                         $seller_name = $getUserdetails->fname . ' ' . $getUserdetails->lname;
                         $seller_address = $getUserdetails->address;
@@ -11170,14 +11568,51 @@ $category = isset($body->category) ? $body->category : '';
                         } else {
                             $profile_image = SITE_URL . 'webservice/no-user.png';
                         }
+                        
                     } else {
                         $profile_image = '';
                     }
-
+                    
+                   if($user_id){
+                              
+                        $sqlnewuser = "SELECT * FROM webshop_user WHERE id=$user_id ";
+                        $stmtnewuser = $db->prepare($sqlnewuser);
+                        //$stmt1->bindParam("id", $product->uploader_id);
+                        $stmtnewuser->execute();
+                        $getUserdetails1 = $stmtnewuser->fetchObject();
+                        
+                        if (!empty($getUserdetails1)) {
+                             
+                                $userselected_currency = $getUserdetails1->currency_preference;
+                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'USD' AND currency_code ='$getUserdetails1->currency_preference' ";
+                        $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                            $price = $product->price * $currency['currency_rate_to_usd'];
+                            //echo 'yes';
+                        }  
+                        }else{
+                            $price = $product->price;
+                           // echo 'NO';
+                        }
+                              
+                            
+                        } else {
+                           $price = $product->price;
+                        }
+                    }else{
+                        $price = $product->price;
+                    }
+                   // exit;
+                    $product_encoded_id =  urlencode ( base64_encode($product->id));
                     $data['productList'][] = array(
-                            "id" => stripslashes($product->id),
+                            "id" => stripslashes($product_encoded_id),
                             "image" => stripslashes($image),
-                            "price" => stripslashes($product->price),
+                            "price" => stripslashes($price),
                             "description" => strip_tags(stripslashes($product->description)),
                             "category_name" => $categoryname,
                              "brands" => $subcategoryname,
@@ -11194,10 +11629,11 @@ $category = isset($body->category) ? $body->category : '';
                 }
             }
 
-
+            
             $data['Ack'] = '1';
             $app->response->setStatus(200);
-        } else {
+            
+       } else {
             $data = array();
             $data['productList'] = array();
             $data['Ack'] = '0';
@@ -11211,7 +11647,7 @@ $category = isset($body->category) ? $body->category : '';
         $data['msg'] = $e->getMessage();
         $app->response->setStatus(401);
     }
-
+    //exit; 
     $app->response->write(json_encode($data));
 }
 
@@ -11266,9 +11702,895 @@ function banner() {
 }
 
 
+function getmovement() {
+
+    $data = array();
+$app = \Slim\Slim::getInstance();
+        $a[1] = 'Automatic Movement';
+        $a[2] = 'Quartz Movement';
+        $a[3] = 'Other Movement';
+        
+        for ($i=1;$i<=3;$i++) {
+            
+            $allbrand[] = array(
+                'id' => stripslashes($i),
+                "name" => $a[$i],
+                
+            );
+        }
+
+        $data['movementlist'] = $allbrand;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    
+
+    $app->response->write(json_encode($data));
+}
+
+function ShopListSearch() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+
+    $brand = isset($body->brand) ? $body->brand : '';
+    $brandListing = isset($body->brandList) ? $body->brandList : '';
+    $sellerListing = isset($body->sellerList) ? $body->sellerList : '';
+    $selected_value = isset($body->selected_value) ? $body->selected_value : '';
+    $amount_min = isset($body->amount_min) ? $body->amount_min : '';
+    $amount_max = isset($body->amount_max) ? $body->amount_max : '';
+
+    $gender = isset($body->gender) ? $body->gender : '';
+    $breslettype = isset($body->breslettype) ? $body->breslettype : '';
+    $year = isset($body->year) ? $body->year : '';
+    $preferred_date = isset($body->preferred_date) ? $body->preferred_date : '';
+
+    $country_id = isset($body->country_id) ? $body->country_id : '';
+    $state_id = isset($body->state_id) ? $body->state_id : '';
+    $city_id = isset($body->city_id) ? $body->city_id : '';
+    $keyword = isset($body->keyword) ? $body->keyword : '';
+$category = isset($body->category) ? $body->category : '';
+$movement = isset($body->movement) ? $body->movement : '';
+$shop_id = isset($body->shop_id) ? $body->shop_id : '';
+//print_r($body);
+//-----------------------------------------------------------
+    $productIds = array();
+
+    if ($selected_value == '4') {
+
+        $new_sql = "SELECT * from webshop_reviews order by rating desc";
+        $stmt2 = $db->prepare($new_sql);
+        $stmt2->execute();
+        $total_rows = $stmt2->rowCount();
+        $getIds = $stmt2->fetchAll(PDO::FETCH_OBJ);
+
+
+        if ($total_rows > 0) {
+
+            foreach ($getIds as $product) {
+
+                array_push($productIds, $product->product_id);
+            }
+        }
+
+        $productIds = array_unique($productIds);
+
+        $productIds = implode(",", $productIds);
+        $sql = "SELECT * from webshop_products where status = 1 and approved='1' and type='1' and is_discard='0' and id IN(" . $productIds . ")";
+    } else {
+
+
+        $sql = "SELECT * from  webshop_products where status=1 and approved='1' and type='1' and is_discard='0' ";
+    }
+
+    if ($amount_min != '' && $amount_max != '') {
+
+        $sql .= " AND `price` BETWEEN " . $amount_min . " " . "AND" . " " . $amount_max . "";
+    } else if ($amount_min == '' && $amount_max != '') {
+        $amount_min = 0.00;
+        $sql .= " AND `price` BETWEEN " . $amount_min . " " . "AND" . " " . $amount_max . "";
+    } else if ($amount_min != '' && $amount_max == '') {
+        $amount_max = 10000.00;
+        $sql .= " AND `price` BETWEEN " . $amount_min . " " . "AND" . " " . $amount_max . "";
+    }
+
+    if ($brandListing != '') {
+
+        $sql .= " AND `brands` IN (" . $brandListing . ")";
+    }
+    if ($sellerListing != '') {
+
+        $sql .= " AND `uploader_id` IN (" . $sellerListing . ")";
+    }
+
+if ($movement != '') {
+
+        $sql .= " AND `movement` IN ('" . $movement . "')";
+    }
+    
+    if ($shop_id != '') {
+
+        $sql .= " AND `uploader_id` IN ('" . $shop_id . "')";
+    }
+
+    if ($category != '') {
+
+         $sql .= " AND `cat_id` IN (" . $category . ")";
+    }
+    if ($gender != '') {
+
+        $sql .= " AND `gender`='" . $gender . "' ";
+    }
+   
+    if ($breslettype != '') {
+
+        $sql .= " AND `breslet_type` = '" . $breslettype . "'";
+    }
+
+    if ($year != '') {
+
+        $sql .= " AND model_year = '" . $year . "'";
+    }
+    
+   // exit;
+    if ($keyword != '') {
+
+        $sql .= " AND `model_year` LIKE '%" . $keyword . "%' OR `gender` LIKE '" . $keyword . "%' OR `preferred_date` LIKE '%" . $keyword . "%' OR `brands` LIKE '" . $keybrandid . "' OR `name` LIKE '" . $keyword . "' OR `description` LIKE '" . $keyword . "' OR `price` LIKE '" . $keyword . "' OR `movement` LIKE '" . $keyword . "' OR `reference_number` LIKE '" . $keyword . "' OR `owner_number` LIKE '" . $keyword . "' OR `cat_id` LIKE '" . $keycatid . "' AND type=1 ";
+    }
+    
+    if ($preferred_date != '') {
+
+        $sql .= " AND preferred_date = '" . $preferred_date . "'";
+    }
+   
+
+
+    if ($country_id != '') {
+
+        $sql .= " AND country = '" . $country_id . "'";
+    }
+    if ($state_id != '') {
+
+        $sql .= " AND state = '" . $state_id . "'";
+    }
+    if ($city_id != '') {
+
+        $sql .= " AND city = '" . $city_id . "'";
+    }
+
+//spandan end
+
+    if ($selected_value == '1') {
+
+        $sql .= " ORDER BY price ASC";
+    }
+    if ($selected_value == '2') {
+
+        $sql .= " ORDER BY price DESC";
+    }
+    if ($selected_value == '3') {
+
+        $sql .= " ORDER BY add_date DESC";
+    }
 
 
 
 
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $getAllProducts = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+
+        if (!empty($getAllProducts)) {
+            foreach ($getAllProducts as $product) {
+                $sid = $product->subscription_id;
+                 $price =$product->price;
+                if ($sid != 0) {
+                    $sqlsubs = "SELECT * FROM  webshop_subscribers WHERE id=:id ";
+                    $stmtsubs = $db->prepare($sqlsubs);
+                    $stmtsubs->bindParam("id", $sid);
+                    $stmtsubs->execute();
+                    $getsubs = $stmtsubs->fetchObject();
+
+                    $cdate = date('Y-m-d');
+
+                    if ($getsubs->expiry_date >= $cdate) {
+
+                        if ($product->image != '') {
+                            $image = SITE_URL . 'upload/product_image/' . $product->image;
+                        } else {
+                            $image = SITE_URL . 'webservice/not-available.jpg';
+                        }
+
+
+                        $sql2 = "SELECT * FROM  webshop_category WHERE id=:id ";
+                        $stmt2 = $db->prepare($sql2);
+                        $stmt2->bindParam("id", $product->cat_id);
+                        $stmt2->execute();
+                        $getcategory = $stmt2->fetchObject();
+                        if (!empty($getcategory)) {
+                            $categoryname = $getcategory->name;
+                        }
+
+
+
+                        $sql3 = "SELECT * FROM  webshop_brands WHERE id=:id ";
+                        $stmt3 = $db->prepare($sql3);
+                        $stmt3->bindParam("id", $product->brands);
+                        $stmt3->execute();
+                        $getsubcategory = $stmt3->fetchObject();
+                if (!empty($getsubcategory)) {
+                    $subcategoryname = $getsubcategory->name;
+                }
+//Seller Information
+
+                        $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
+                        $stmt1 = $db->prepare($sql1);
+                        $stmt1->bindParam("id", $product->uploader_id);
+                        $stmt1->execute();
+                        $getUserdetails = $stmt1->fetchObject();
+                           // $price ='';
+                        if (!empty($getUserdetails)) {
+                            $seller_name = $getUserdetails->fname . ' ' . $getUserdetails->lname;
+                            $seller_address = $getUserdetails->address;
+                            $seller_phone = $getUserdetails->phone;
+                            $email = $getUserdetails->email;
+                            $top = $getUserdetails->top_user_vendor;
+
+                            if ($getUserdetails->image != '') {
+                                $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
+                            } else {
+                                $profile_image = SITE_URL . 'webservice/no-user.png';
+                            }
+                            
+                            
+                            
+                        } else {
+                            $profile_image = '';
+                        }
+                        if($user_id){
+                        $sqlnewuser = "SELECT * FROM webshop_user WHERE id=$user_id ";
+                        $stmtnewuser = $db->prepare($sqlnewuser);
+                        //$stmt1->bindParam("id", $product->uploader_id);
+                        $stmtnewuser->execute();
+                        $getUserdetails1 = $stmtnewuser->fetchObject();
+                        
+                        if (!empty($getUserdetails1)) {
+                             
+                                $userselected_currency = $getUserdetails1->currency_preference;
+                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'USD' AND currency_code ='$getUserdetails1->currency_preference' ";
+                        $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                            $price = $product->price * $currency['currency_rate_to_usd'];
+                            //echo 'yes';
+                        }  
+                        }else{
+                            $price = $product->price;
+                            //echo 'NO';
+                        }
+                              
+                            
+                        } else {
+                           $price = $product->price;
+                        }
+                    }else{
+                        $price = $product->price;
+                    }
+                        $product_encoded_id =  urlencode ( base64_encode($product->id));
+                        $data['productList'][] = array(
+                            "id" => stripslashes($product_encoded_id),
+                            "image" => stripslashes($image),
+                            "price" => stripslashes($price),
+                            "description" => strip_tags(stripslashes($product->description)),
+                            "category_name" => $categoryname,
+                             "brands" => $subcategoryname,
+                            "seller_id" => stripslashes($product->uploader_id),
+                            "seller_image" => $profile_image,
+                            "seller_name" => stripslashes($seller_name),
+                            "seller_address" => stripslashes($seller_address),
+                            "seller_phone" => stripslashes($seller_phone),
+                            "productname" => '',
+                            "currency_code" => stripslashes($product->currency_code),
+                            
+                            "top" => stripslashes($top),
+                        );
+                    }
+                } else {
+
+
+
+                    if ($product->image != '') {
+                        $image = SITE_URL . 'upload/product_image/' . $product->image;
+                    } else {
+                        $image = SITE_URL . 'webservice/not-available.jpg';
+                    }
+
+
+                    $sql2 = "SELECT * FROM  webshop_category WHERE id=:id ";
+                    $stmt2 = $db->prepare($sql2);
+                    $stmt2->bindParam("id", $product->cat_id);
+                    $stmt2->execute();
+                    $getcategory = $stmt2->fetchObject();
+                    if (!empty($getcategory)) {
+                        $categoryname = $getcategory->name;
+                    }
+
+
+
+                        $sql3 = "SELECT * FROM  webshop_brands WHERE id=:id ";
+                        $stmt3 = $db->prepare($sql3);
+                        $stmt3->bindParam("id", $product->brands);
+                        $stmt3->execute();
+                        $getsubcategory = $stmt3->fetchObject();
+                if (!empty($getsubcategory)) {
+                    $subcategoryname = $getsubcategory->name;
+                }
+
+
+                    $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
+                    $stmt1 = $db->prepare($sql1);
+                    $stmt1->bindParam("id", $product->uploader_id);
+                    $stmt1->execute();
+                    $getUserdetails = $stmt1->fetchObject();
+                   // $$price ='';
+                    if (!empty($getUserdetails)) {
+                        $seller_name = $getUserdetails->fname . ' ' . $getUserdetails->lname;
+                        $seller_address = $getUserdetails->address;
+                        $seller_phone = $getUserdetails->phone;
+                        $email = $getUserdetails->email;
+                        $top = $getUserdetails->top_user_vendor;
+                        if ($getUserdetails->image != '') {
+                            $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
+                        } else {
+                            $profile_image = SITE_URL . 'webservice/no-user.png';
+                        }
+                        
+                        
+                    } else {
+                        $profile_image = '';
+                    }
+                    
+                    $sqlnewuser = "SELECT * FROM webshop_user WHERE id=$user_id ";
+                        $stmtnewuser = $db->prepare($sqlnewuser);
+                        //$stmt1->bindParam("id", $product->uploader_id);
+                        $stmtnewuser->execute();
+                        $getUserdetails1 = $stmtnewuser->fetchObject();
+                        
+                        if (!empty($getUserdetails1)) {
+                             
+                                $userselected_currency = $getUserdetails1->currency_preference;
+                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'USD' AND currency_code ='$getUserdetails1->currency_preference' ";
+                        $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                            $price = $product->price * $currency['currency_rate_to_usd'];
+                            //echo 'yes';
+                        }  
+                        }else{
+                            $price = $product->price;
+                            //echo 'NO';
+                        }
+                              
+                            
+                        } else {
+                           $price = $product->price;
+                        }
+                            $product_encoded_id =  urlencode ( base64_encode($product->id));
+                    $data['productList'][] = array(
+                            "id" => stripslashes($product_encoded_id),
+                            "image" => stripslashes($image),
+                            "price" => stripslashes($price),
+                            "description" => strip_tags(stripslashes($product->description)),
+                            "category_name" => $categoryname,
+                             "brands" => $subcategoryname,
+                            "seller_id" => stripslashes($product->uploader_id),
+                            "seller_image" => $profile_image,
+                            "seller_name" => stripslashes($seller_name),
+                            "seller_address" => stripslashes($seller_address),
+                            "seller_phone" => stripslashes($seller_phone),
+                            "productname" => '',
+                            "currency_code" => stripslashes($product->currency_code),
+                            
+                            "top" => stripslashes($top),
+                        );
+                }
+            }
+
+
+            $data['Ack'] = '1';
+            $app->response->setStatus(200);
+        } else {
+            $data = array();
+            $data['productList'] = array();
+            $data['Ack'] = '0';
+            $app->response->setStatus(200);
+        }
+    } catch (PDOException $e) {
+        print_r($e);
+        exit;
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+
+function allShopListing() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+
+    $brand = isset($body->brand) ? $body->brand : '';
+    $brandListing = isset($body->brandList) ? $body->brandList : '';
+    $sellerListing = isset($body->sellerList) ? $body->sellerList : '';
+    $selected_value = isset($body->selected_value) ? $body->selected_value : '';
+    $amount_min = isset($body->amount_min) ? $body->amount_min : '';
+    $amount_max = isset($body->amount_max) ? $body->amount_max : '';
+
+    $gender = isset($body->gender) ? $body->gender : '';
+    $breslettype = isset($body->breslettype) ? $body->breslettype : '';
+    $year = isset($body->year) ? $body->year : '';
+    $preferred_date = isset($body->preferred_date) ? $body->preferred_date : '';
+
+    $country_id = isset($body->country_id) ? $body->country_id : '';
+    $state_id = isset($body->state_id) ? $body->state_id : '';
+    $city_id = isset($body->city_id) ? $body->city_id : '';
+    $keyword = isset($body->keyword) ? $body->keyword : '';
+$category = isset($body->category) ? $body->category : '';
+$movement = isset($body->movement) ? $body->movement : '';
+$shop_id = isset($body->shop_id) ? $body->shop_id : '';
+//print_r($body);
+//-----------------------------------------------------------
+
+  
+
+
+        $sql = "SELECT * from webshop_user where type = '2' AND status='1' AND email_verified='1' AND is_admin_approved='1'";
+ 
+
+   
+   
+    if ($gender != '') {
+
+        $sql .= " AND `gender`='" . $gender . "' ";
+    }
+   
+
+
+    if ($country_id != '') {
+
+        $sql .= " AND country = '" . $country_id . "'";
+    }
+    if ($state_id != '') {
+
+        $sql .= " AND state = '" . $state_id . "'";
+    }
+    if ($city_id != '') {
+
+        $sql .= " AND city = '" . $city_id . "'";
+    }
+
+
+
+
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $getAllshop = $stmt->fetchAll(PDO::FETCH_OBJ);
+        //print_r($getAllProducts);exit;
+
+        if (!empty($getAllshop)) {
+            foreach ($getAllshop as $shops) {
+
+
+
+                        if (!empty($shops)) {
+                            
+
+                            if ($shops->image != '') {
+                                $profile_image = SITE_URL . 'upload/user_image/' . $shops->image;
+                            } else {
+                                $profile_image = SITE_URL . 'webservice/no-user.png';
+                            }
+                        } else {
+                            $profile_image = '';
+                        }
+                        $seller_name = $shops->fname.' '.$shops->lname;
+                        $data['allshoplist'][] = array(
+                            "id" => stripslashes($shops->id),
+                            
+                     
+                            "seller_image" => $profile_image,
+                            "seller_name" => stripslashes($seller_name),
+                            //"seller_address" => stripslashes($seller_address),
+                            "seller_phone" => stripslashes($shops->phone),
+                            "gender" => stripslashes($shops->gender),
+                            
+                            
+                           // "top" => stripslashes($top),
+                        );
+                    }
+                   
+        
+            }
+
+
+            $data['Ack'] = '1';
+            $app->response->setStatus(200);
+       
+    } catch (PDOException $e) {
+        print_r($e);
+        exit;
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+
+function deleteimage() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    $filename = isset($body->filename) ? $body->filename : '';
+
+    //$table_name = isset($body->table_name) ? $body->table_name : '';
+    $link = $filename;
+    $link_array = explode('/',$link);
+     $actual_filename = end($link_array);
+//echo '<br>';
+         $sql = "SELECT * from webshop_user where civilid1 = '$actual_filename' OR civilid2='$actual_filename'";
+ 
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $getAllshop = $stmt->fetchAll();
+//        echo '<pre>';
+//       print_r($getAllshop);exit;
+$sqldelete='';
+        if (!empty($getAllshop)) {
+            if($getAllshop[0]['civilid1'] == $actual_filename){
+               $sqldelete = "UPDATE webshop_user SET civilid1 = ''"; 
+            }
+            if($getAllshop[0]['civilid2'] == $actual_filename){
+               $sqldelete = "UPDATE webshop_user SET civilid2 = ''"; 
+            }
+            if($sqldelete !=''){
+              $stmt1 = $db->prepare($sqldelete);
+            $stmt1->execute();  
+            }
+               
+             
+            }
+
+
+            $data['Ack'] = '1';
+            $app->response->setStatus(200);
+       
+    } catch (PDOException $e) {
+        print_r($e);
+        exit;
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+function getgender() {
+
+    $data = array();
+$app = \Slim\Slim::getInstance();
+        $a[1] = 'Male';
+        $a[2] = 'Female';
+        $a[3] = 'Unisex';
+        
+        
+        for ($i=1;$i<=3;$i++) {
+            
+            $allbrand[] = array(
+                'id' => stripslashes($i),
+                "name" => $a[$i],
+                
+            );
+        }
+
+        $data['genderlist'] = $allbrand;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    
+
+    $app->response->write(json_encode($data));
+}
+
+function get_total_normaluser() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    try {
+
+        $sql = "SELECT * FROM webshop_user WHERE type='1' and status = '1' and email_verified='1'";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+       // $getBrand = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+       $count = $stmt->rowCount();
+       if($count > 0){
+
+        $data['normaluserlist'] = $count;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+       }else{
+          $data['normaluserlist'] = 0;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200); 
+       }
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+function get_total_reviews() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $db = getConnection();
+
+    try {
+
+        $sql = "SELECT * FROM webshop_reviews WHERE userid='$user_id' ";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+       // $getBrand = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+       $count = $stmt->rowCount();
+       if($count > 0){
+
+        $data['reviewlist'] = $count;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+       }else{
+          $data['reviewlist'] = 0;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200); 
+       }
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+function get_total_product() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $db = getConnection();
+
+    try {
+
+        $sql = "SELECT * FROM webshop_products WHERE uploader_id='$user_id' and type='1' ";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+       // $getBrand = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+       $count = $stmt->rowCount();
+       if($count > 0){
+
+        $data['productlist'] = $count;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+       }else{
+          $data['productlist'] = 0;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200); 
+       }
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+function get_total_auctioned_product() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $db = getConnection();
+
+    try {
+
+        $sql = "SELECT * FROM webshop_products WHERE uploader_id='$user_id' and type='2'";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+       // $getBrand = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+       $count = $stmt->rowCount();
+       if($count > 0){
+
+        $data['auctionlist'] = $count;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+       }else{
+          $data['auctionlist'] = 0;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200); 
+       }
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+function tomobileverifying() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $user_id=base64_decode($user_id);
+    $is_mobile_verified = '1';
+    $admin_approve = '0';
+    $status = '0';
+    $verified_date = date('Y-m-d');
+
+
+    $sqluser = "SELECT * FROM  webshop_user WHERE id=:user_id ";
+    $stmtuser = $db->prepare($sqluser);
+    $stmtuser->bindParam("user_id", $user_id);
+    $stmtuser->execute();
+    $getUserdetails = $stmtuser->fetchObject();
+
+    if ($getUserdetails->type == 1) {
+        $admin_approve = '1';
+        $status = '1';
+    }
+
+
+    $sql = "UPDATE webshop_user set is_mobile_verified=:is_mobile_verified,verified_date=:verified_date,is_admin_approved=:is_admin_approved,status=:status WHERE id=:id";
+    try {
+
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("is_mobile_verified", $is_mobile_verified);
+        $stmt->bindParam("verified_date", $verified_date);
+        $stmt->bindParam("is_admin_approved", $admin_approve);
+        $stmt->bindParam("status", $status);
+        $stmt->bindParam("id", $user_id);
+        $stmt->execute();
+
+        $msg = 'Mobile+no+Verified+Successfully.Your+account+is+awaiting+for+the+admin+approval.You+will+be+notified+via+email+once+activated.';
+        if ($getUserdetails->type == 1) {
+            if($getUserdetails->email_verified == 1){
+            $msg = 'Mobile Number Verified Successfully.You ';
+            }else{
+                
+            }
+        }
+
+        $sqladmin = "SELECT * FROM webshop_tbladmin WHERE id=1";
+
+        $stmtttadmin = $db->prepare($sqladmin);
+        $stmtttadmin->execute();
+        $getadmin = $stmtttadmin->fetchObject();
+        if ($getadmin->signup_notification == 1) {
+            $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
+
+            $is_read = '0';
+            $last_id = '0';
+            $from_id = '0';
+            $message = $getUserdetails->fname . ' ' . $getUserdetails->lname . ' Is Newly Registered';
+            //$type = '2';
+            $stmttt = $db->prepare($sqlFriend);
+            $stmttt->bindParam("from_id", $user_id);
+            $stmttt->bindParam("to_id", $from_id);
+            $stmttt->bindParam("type", $type);
+            $stmttt->bindParam("msg", $message);
+
+            $stmttt->bindParam("last_id", $last_id);
+            $stmttt->bindParam("is_read", $is_read);
+            $stmttt->execute();
+        }
+        $data['last_id'] = $user_id;
+        $data['Ack'] = '1';
+        $data['msg'] = $msg;
+
+
+        $app->response->setStatus(200);
+        $db = null;
+    } catch (PDOException $e) {
+        $data['last_id'] = '';
+        $data['Ack'] = '0';
+        $data['msg'] = 'Updation Error!!!';
+        echo '{"error":{"text":' . $e->getMessage() . '}}';
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
 $app->run();
 ?>

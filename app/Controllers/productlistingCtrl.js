@@ -12,10 +12,16 @@ $scope.checkboxstrcat=[];
  $scope.user.brand=[];
   $scope.user.category=[];
  $scope.checkboxstr2=[];
+ $scope.movements=[];
  $scope.user.shop=[];
+  $scope.user.movement=[];
  $scope.maxprice =0;
  $scope.minprice=0;
+  $scope.size_amount_min=0;
+   $scope.size_amount_max=0;
+    
  $scope.search = { price_min : '', price_max : '', amount_min : '', amount_max : '' };
+
   
 	
        
@@ -75,7 +81,7 @@ $scope.isform1 =0;
 //$scope.brand=$stateParams.brand;
 
 userService.getmaxprice(2).then(function(response) {
-    // alert();
+     //alert('getmaxprice');
 
 		
 		//$scope.isExists=response.Ack;
@@ -84,12 +90,12 @@ userService.getmaxprice(2).then(function(response) {
 		$scope.maxprice=response.maxprice;
                 $scope.minprice=response.minprice;
                 //$scope.amount_min = response.maxprice;
-                
+                // $scope.search = { price_min : '', price_max : '', amount_min : $scope.minprice, amount_max : $scope.maxprice };
                 //$scope.search.amount_min=$scope.minprice;
                  $scope.minprice=response.minprice;
-                $scope.search.amount_max=$scope.maxprice;
+                $scope.amount_max=$scope.maxprice;
                // $scope.amount_min = $scope.search.amount_min;
-                $scope.amount_max = $scope.search.amount_max;
+                //$scope.amount_min = $scope.minprice;
 		//console.log($scope.alljobs);
                 //$window.localStorage["userzip"]='';
 		
@@ -147,6 +153,13 @@ if($window.localStorage["selected_value"]){
 	$scope.selected_value='';
 }
 
+
+if($window.localStorage["movementListing"]){
+	$scope.movementListing=$window.localStorage["movementListing"];
+        
+}else{
+	$scope.movementListing='';
+}
 //spandan
 if($scope.gender){
     $scope.gender;
@@ -186,6 +199,26 @@ if($scope.amount_max){
     $('#max_price').html(10000);
 }
 
+if($scope.size_amount_max){
+    $scope.size_amount_max = $scope.size_amount_max;
+    $('#max_size_price').html($scope.size_amount_max);
+}else{
+    //alert('max');
+    $scope.size_amount_max= 1000;
+    $('#max_size_price').html(1000);
+}
+
+if($scope.size_amount_min){
+    $scope.size_amount_min = $scope.size_amount_min;
+    $('#min_size_price').html($scope.size_amount_min);
+    
+    
+}else{
+    $scope.size_amount_min= 0;
+   // alert();
+    $('#min_size_price').html($scope.amount_min);
+}
+
 if($scope.preferred_date){
     $scope.preferred_date;
 }else{
@@ -209,16 +242,47 @@ if($scope.city_id){
     $scope.city_id;
 }else{
     $scope.city_id="";
-}       
+}  
+
+if($scope.top_prodct){
+    $scope.top_prodct;
+}else{
+    $scope.top_prodct="";
+}
+//if($scope.minprice){
+//    $scope.amount_min = $scope.minprice;
+//    $('#min_price').html($scope.minprice);
+//}else{
+//    //alert('max');
+//    $scope.size_amount_max= 1000;
+//    $('#min_price').html(0);
+//}
+userService.listbracelet().then(function(response) {
+          
+		$scope.isExists=1;
+		if(response.Ack == '1') {
+                   
+                    $scope.isExists=1;
+                 
+		$scope.braceletlist=response.braceletlist;
+               
+		} else {
+                   
+                    $scope.isExists=0;
+		}
+				   
+	}, function(err) {
+	console.log(err); 
+	});
 
 
  //spandan end     
 
 //console.log('amount',$scope.amount_max);
- userService.searchproductListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword,$scope.categorylisting).then(function(response) {
+ userService.searchproductListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword,$scope.categorylisting,$scope.movementListing,$scope.size_amount_max,$scope.size_amount_min,$scope.top_prodct).then(function(response) {
     // alert();
 
-		
+		//alert($scope.movementListing+'d');
 		//$scope.isExists=response.Ack;
 		if(response.Ack == '1') {
                     $scope.exists=1;
@@ -268,23 +332,6 @@ $scope.getYears = function(){
 }
 
 
-// $scope.getval = function(){
-//     alert('hello');
-//     userService.listYears().then(function(response) {
-		
-// 		if(response.Ack == '1') {
-// 		$scope.YearsList=response.Years;
-// 		console.log($scope.YearsList);
-
-
-//   } else {
-// 		}
-	
-				   
-// 	}, function(err) {
-// 	console.log(err); 
-// 	});
-// }
 $scope.getYears();
 
 
@@ -364,7 +411,7 @@ $scope.getShops = function(){
 	userService.listshops($scope.user_id).then(function(response) {
 		if(response.Ack == '1') {
 		$scope.shopOwners=response.shopOwners;
-
+console.log('shopsss',$scope.shopOwners);
   } else {
 		}
 	
@@ -375,8 +422,32 @@ $scope.getShops = function(){
 
 }
 
-$scope.updatecheckbox = function(select,brand_id){
+$scope.getmovements = function(){
+   // alert();
+userService.getmovement().then(function(response) {
+          
+		$scope.isExists=1;
+		if(response.Ack == '1') {
+                   
+                    $scope.isExists=1;
+                 
+		$scope.movementlist=response.movementlist;
+                console.log('movementssss',$scope.movementlist);
+               
+		} else {
+                   
+                    $scope.isExists=0;
+		}
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+        };
+        
+       
 
+$scope.updatecheckbox = function(select,brand_id){
+//alert(select);
 
 	      if (select)
         {
@@ -396,14 +467,18 @@ $scope.updatecheckbox = function(select,brand_id){
 
 }
 
+
+
+       
 $scope.updatecheckboxcat = function(select,cat_id){
 
 
 	      if (select)
         {
-            //alert(select);
+           // alert('yes');
             $scope.user.category.push(select);
         } else {
+           // alert('select');
             $scope.deleteitem = $scope.user.category.indexOf(cat_id);
             $scope.user.category.splice($scope.deleteitem, 1);
 
@@ -420,12 +495,14 @@ $scope.updatecheckboxcat = function(select,cat_id){
 
 $scope.updatecheckbox2 = function(select,shop_id){
 
-
+//alert(select);
 	      if (select)
         {
             $scope.user.shop.push(select);
+            //alert(select);
         } else {
             $scope.deleteitem = $scope.user.shop.indexOf(shop_id);
+           // alert($scope.deleteitem);
             $scope.user.shop.splice($scope.deleteitem, 1);
 
         }
@@ -438,8 +515,55 @@ $scope.updatecheckbox2 = function(select,shop_id){
 
 
 }
+/*
+$scope.updatecheckbox23 = function(select,movement2){
+
+ alert(select);
+	      if (select)
+        {
+           // alert('yes');
+            $scope.user.movement.push(select);
+        } else {
+           // alert($scope.user.movement);
+            $scope.deleteitem = $scope.user.movement.indexOf(movement2);
+             alert($scope.deleteitem);
+            $scope.user.movement.splice($scope.deleteitem, 1);
+
+        }
+
+         $scope.checkboxstr23 = $scope.user.movement.toString();
+        $window.localStorage["movementListing"]=$scope.checkboxstr23;
+        console.log("Checkbox List2",$scope.checkboxstr23);
+        $scope.searchListing();
 
 
+
+}*/
+
+
+
+$scope.updatecheckboxmovement = function(select,movement2){
+//alert(select);
+	      if (select)
+        {
+            $scope.user.movement.push(select);
+            //alert(select);
+        } else {
+            $scope.deleteitem = $scope.user.movement.indexOf(movement2);
+           // alert($scope.deleteitem);
+            $scope.user.movement.splice($scope.deleteitem, 1);
+
+        }
+
+         $scope.movements = $scope.user.movement.toString();
+        $window.localStorage["movementListing"]=$scope.movements;
+        //console.log("Checkbox List2",$scope.checkboxstr23);
+       $scope.searchListing()
+
+
+
+
+}
 
 //spandan
 
@@ -544,7 +668,21 @@ userService.listcountry().then(function(response) {
     }
 
 
+$scope.top_productss = function () {
+        
+              
+        $scope.top_prodct='1';
+       
+        $scope.searchListing();
 
+    }
+$scope.top_productss2 = function () {
+        
+              
+        $scope.top_prodct='';
+       
+        $scope.searchListing();
 
+    }
 });
 

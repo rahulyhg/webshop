@@ -10,14 +10,14 @@
                 <p class="loc"><i class="fa fa-map-marker" aria-hidden="true"></i> {{user.address}}</p>	
         </div>
         <ul class="sattings_menu">
-                <li><a href="#/profile" class="active">Edit Profile</a></li>
+                <li><a href="#/profile" class="active">{{language.edit}} {{language.profile}}</a></li>
                 
-                <!--<li><a href="#/">View All Gyms</a></li>
+                <!--<li><a href="#/">View All {{language.Gym}}s</a></li>
                 <li><a href="#/">View All Trainer</a></li>-->
                 
-                <li class="divider"><a href="#/changepass">Change Password</a></li>
-                 <li class="divider"><a href="#/listorder">List Order</a></li> 
-                   <li><a href="#/mymessagesend">Message</a></li>
+                <li class="divider"><a href="#/changepass">{{language.Change_password}}</a></li>
+                 <li class="divider"><a href="#/listorder">{{language.list}} {{language.order}}</a></li> 
+                   <li><a href="#/mymessagesend">{{language.messages}}</a></li>
                 <!--<li><a href="javascript:void();">Settings</a></li>-->
                 <li><a href="javascript:void();" ng-click="logout();">Logout</a></li>
         </ul>
@@ -35,12 +35,12 @@
                 <p class="loc"><i class="fa fa-map-marker" aria-hidden="true"></i> {{user.address}}</p>	
         </div>
         <ul class="sattings_menu">
-                <li><a href="#/profile" class="active">Edit Profile</a></li>
-                  <li class="divider"><a href="#/changepass">Change Password</a></li>
+                <li><a href="#/profile" class="active">{{language.edit}} {{language.profile}}</a></li>
+                  <li class="divider"><a href="#/changepass">{{language.Change_password}}</a></li>
                 <li><a href="#/newclass">Add Classes</a></li>
-                <li><a href="#/classlist">List Classes</a></li>
-                 <li><a href="#/listordertrainer">List Order</a></li>
-                  <li><a href="#/mymessagesend">Message</a></li>
+                <li><a href="#/classlist">{{language.list}} Classes</a></li>
+                 <li><a href="#/listordertrainer">{{language.list}} {{language.order}}</a></li>
+                  <li><a href="#/mymessagesend">{{language.messages}}</a></li>
               
                
                 <!--<li><a href="javascript:void();">Settings</a></li>-->
@@ -55,25 +55,25 @@
                 <div class="img">
                         <img src="{{sidebar_image}}"/>
                 </div>
-                <!--<p class="name">Gym User</p>-->
+                <!--<p class="name">{{language.Gym}} User</p>-->
                 <p class="name">{{user.full_name}}</p>
                 <p class="loc"><i class="fa fa-map-marker" aria-hidden="true"></i> {{user.address}}</p>	
         </div>
         <ul class="sattings_menu">
-                <li><a href="#/profile" class="active">Edit Profile</a></li>
-                  <li class="divider"><a href="#/changepass">Change Password</a></li>
-                 <li ng-if="sidebar_is_stripe=='1'"><a href="#/newgym">Manage Gym</a></li>
-                  <li ng-if="sidebar_is_stripe!='1'"><a href="#/addstripe">Manage Gym</a></li>
-                 <li><a href="#/managestripe">Manage Stripe Details</a></li>
+                <li><a href="#/profile" class="active">{{language.edit}} {{language.profile}}</a></li>
+                  <li class="divider"><a href="#/changepass">{{language.Change_password}}</a></li>
+                 <li ng-if="sidebar_is_stripe=='1'"><a href="#/newgym">{{language.manage}} {{language.Gym}}</a></li>
+                  <li ng-if="sidebar_is_stripe!='1'"><a href="#/addstripe">{{language.manage}} {{language.Gym}}</a></li>
+                 <li><a href="#/managestripe">{{language.manage}} Stripe Details</a></li>
                 
                 <li><a href="#/newtrainer">Add Trainer</a></li>
-                <li><a href="#/trainerlist">List Trainer</a></li>
+                <li><a href="#/trainerlist">{{language.list}} Trainer</a></li>
                 
                 <li><a href="#/newauction">Add Auction</a></li>
-                <li><a href="#/auctionlist">List Auction</a></li>
+                <li><a href="#/auctionlist">{{language.list}} Auction</a></li>
                 
-                <li><a href="#/messagelist">Message</a></li>
-                  <li><a href="#/listordergym">List Order</a></li>
+                <li><a href="#/messagelist">{{language.messages}}</a></li>
+                  <li><a href="#/listordergym">{{language.list}} {{language.order}}</a></li>
                 <li><a href="#/notification">Notification</a></li>
                 
                

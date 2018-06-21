@@ -73,9 +73,21 @@
 
                             <span style="color:Red" ng-show="registerForm.lname.$dirty && registerForm.lname.$error.pattern">Only Letters Allowed</span>
 			  </div>
+                    
+                     <div class="form-group">
+			    <label for="name">{{language.country}}</label>
+			    <select class="form-control" name="country" ng-model="user.country" required>
+                                                                     <option value="">{{language.select}} {{language.country}}</option>
+                                                                    <option  ng-repeat="countrylists in countrylist" value="{{countrylists.id}}">{{countrylists.name}}</option>
+                                                                </select>
+                            <span style="color:Red" ng-show="registerForm.country.$error.required">  </span>
+
+                            <!--<span style="color:Red" ng-show="registerForm.lname.$dirty && registerForm.lname.$error.pattern">Only Letters Allowed</span>-->
+			  </div>
+                    
 			  <div class="form-group">
 			    <label for="number">{{language.mobile_number}}</label>
-			    <input type="text" class="form-control" id="number" placeholder="Mobile number" ng-pattern="/^\d+$/" name="phone" ng-model="user.phone" required>
+			    <input type="text" class="form-control" ng-blur="getotp(user.phone,user.country)" id="number" placeholder="Mobile number" ng-pattern="/^\d+$/" name="phone" ng-model="user.phone" required>
                             <span style="color:Red" ng-show="registerForm.phone.$error.required">  </span>
 
                             <span style="color:Red" ng-show="registerForm.phone.$dirty && registerForm.phone.$error.pattern">Only Numbers Allowed</span>

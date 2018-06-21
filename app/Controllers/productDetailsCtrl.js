@@ -58,7 +58,29 @@ $scope.isform1 =0;
 }
 
  
-$scope.product_id=$stateParams.id;  
+$scope.product_id=atob($stateParams.id);  
+
+$scope._Index = 0;
+
+    // if a current image is the same as requested image
+    $scope.isActive = function (index) {
+        return $scope._Index === index;
+    };
+
+    // show prev image
+    $scope.showPrev = function () {
+        $scope._Index = ($scope._Index > 0) ? --$scope._Index : $scope.photos.length - 1;
+    };
+
+    // show next image
+    $scope.showNext = function () {
+        $scope._Index = ($scope._Index < $scope.photos.length - 1) ? ++$scope._Index : 0;
+    };
+
+    // show a certain image
+    $scope.showPhoto = function (index) {
+        $scope._Index = index;
+    };
  
  $scope.Showdetails = function(){
    //  alert('hi');
@@ -372,7 +394,7 @@ swal("Mail can not be sent",'','error');
     }else if(response.Ack == '3'){
        
                      $scope.winnermsg ='Better Luck Next Time,Please Try Our Other Auctions';
-                     $scope.winnerlink = '2';
+                     $scope.winnerlink = '1';
                      $('#myModal').modal('hide');
                       $('#password').modal('hide');
                      $('#winner').modal('show');

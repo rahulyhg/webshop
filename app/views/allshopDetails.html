@@ -1,0 +1,258 @@
+<section class="innerbody search-list" ng-init="searchListing();">
+		<div class="container">
+			<nav aria-label="breadcrumb">
+			  <ol class="breadcrumb">
+			    <li class="breadcrumb-item"><a href="#">{{language.home}}</a></li>
+			    <li class="breadcrumb-item active">{{language.all_shops}}</li>
+			  </ol>
+			</nav>
+			<div class="search-header widte-bg py-3 px-4 mb-3">
+				<!--<form class="m-0" ng-submit="normalsearch(formdata)">-->
+<!--				  <div class="form-row align-items-center">
+				    <div class="col-sm-4 my-1">
+				      <div class="input-group">
+				        <div class="input-group-prepend">
+				          <div class="input-group-text"><i class="fa fa-user"></i></div>
+				        </div>
+				        
+
+
+                                                <select class="custom-select" id="inputGroupSelect01" ng-change="searchListing()" ng-model="gender">
+                                                            <option value="" selected="selected">Gender</option>
+							    <option value="Male">Male</option>
+							    <option value="Female">Female</option>
+                                                            <option value="Unisex">Unisex</option>
+							    
+						  </select>
+
+
+
+				      </div>
+				    </div>
+				    <div class="col-sm-4 my-1">
+                                        <select class="form-control"  ng-model="breslettype" ng-change="searchListing()">
+        <option  value="">Please Select Bracelet Type</option>  
+
+        <option ng-repeat="braceletlists in braceletlist" value="{{braceletlists.id}}">{{braceletlists.type}}</option>  
+        
+    </select>
+                                        
+					    	<select class="custom-select" id="inputGroupSelect01" ng-model="breslettype" ng-change="searchListing()">
+							    <option value="" selected="selected">Breslet</option>
+							    <option value="L">Leather</option>
+							    <option value="M">Metal</option>
+							    
+						  </select>
+					 </div>
+				     <div class="col-sm-4 my-1">
+				      <div class="input-group">
+				        <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Username">
+				      </div>
+				    </div> 
+				     <div class="col-sm-4 my-1">
+					    	 <select class="custom-select" ng-change="searchListing()" ng-model='year' ng-options='year for year in YearsList'></select>
+                                                 <select class="form-control"  ng-model="year" ng-change="searchListing()">
+                                                    <option  value="">Please Select Model Year</option>  
+
+                                                    <option ng-repeat="year in YearsList" value="{{year}}">{{year}}</option>  
+
+                                                </select>
+					 </div>
+				    <div class="col-sm-1 my-1">
+				      <button type="submit" class="btn btn-primary btn-block">Submit</button>
+				    </div>
+				  
+                                
+                                
+                                
+                            <div class="col-sm-3 my-1">
+                                        
+                                        <datepicker date-format="yyyy-MM-dd" selector="form-control"  date-enabled-dates="{{listAuctionDtates}}">
+
+                                       <input class="form-control" ng-change="searchListing()"  ng-model="preferred_date" name="preferred_date" required placeholder="Choose auction date" readonly/>
+
+                                    </datepicker>
+                                </div>
+                                
+                                
+                                </div>-->
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+				<!--</form>-->
+			</div>
+			<div class="row d-flex">
+				<div class="col-md-3">
+					<div class="filter widte-bg py-3 px-3">
+						<h3 class="pb-2">{{language.filter_by}}</h3>
+                                                
+                                                
+                                                <div class="filter-holder">
+                                                
+                                                    <a class="card-link" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOnelocation" href="javascript:void(0)">
+								{{language.location}}
+							</a>
+                                                    <div class="in collapse show" id="collapseOnelocation" >
+                                                <div class="form-group">
+
+                                                                <select class="form-control" name="country" ng-model="user.country" ng-change="state(user.country)"  required>
+                                                                    <option value="">{{language.select}} {{language.country}}</option>
+                                                                    <option  ng-repeat="countrylists in countrylist" value="{{countrylists.id}}">{{countrylists.name}}</option>
+                                                                </select>
+
+
+                                                            </div>
+
+
+                                                            <div class="form-group">
+
+                                                                <select class="form-control" name="state" ng-model="user.state" ng-change="city(user.state)"  required>
+                                                                    <option value="">{{language.select}} {{language.state}}</option>
+                                                                    <option  ng-repeat="statelists in statelist" value="{{statelists.id}}">{{statelists.name}}</option>
+                                                                </select> 
+                                                            </div>
+
+
+
+<!--                                                            <div class="form-group">
+
+
+                                                                <select class="form-control" name="city_id" ng-change="searchListing()" ng-model='city_id'   required>
+                                                                    <option value="">Select city</option>
+                                                                    <option  ng-repeat="citylists in citylist" value="{{citylists.id}}">{{citylists.name}}</option>
+                                                                </select>  
+                                                            </div>-->
+                                                
+                                                </div>
+                                                </div>
+                                                
+                                                
+                                                
+						
+					   
+					</div>
+				</div>
+				<div class="col-md-9">
+					<div class="widte-bg py-3 px-3">
+						<div class="header-list pb-3">
+							<div class="form-inline pull-left">
+							  
+							</div>
+							<ul class="pull-right grid-list">
+							<!--<li class="list"><i class="fa fa-th-list"></i></li>
+								<li class="grid active"><i class="fa fa-th-large"></i></li>-->
+							</ul>
+						</div>						
+						<div class="row list-item">
+							<div class="col-md-4 mt-3" ng-if="exists==1" ng-repeat="shopslist in allshoplist">
+								<div class="card">
+								  <div class="top-product" ng-if="shopslist.top==1"><img src="app/assets/images/top.png" alt="" /></div>
+                                                                  <a href="#/shopDetails/{{shopslist.id}}"> <img class="card-img-top" src="{{shopslist.seller_image}}" alt="Card image cap"></a>
+								  <div class="card-body">
+								    <!--<h5 class="card-title">{{shopslist.productname}}</h5>-->
+								    <p class="card-text"><span>{{language.seller}}:</span> {{shopslist.seller_name}}</p>
+<!--                                                                    <p class="card-text"><span>{{language.brands}}:</span> {{shopslist.gender}}</p>
+                                                                    <p class="card-text"><span>{{language.category}}:</span> {{shopslist.seller_phone}}</p>-->
+                                                                    
+                                                                    
+                                                                    
+								    
+								    <!--<a href="#/shopDetails/{{shopslist.id}}" class="btn btn-primary">{{language.show_interest}}</a>-->
+								  </div>
+								</div>
+							</div>
+                                                    <h4 class="col-md-4 mt-3" ng-if="exists==0">{{language.no_records_found}}</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+		<section class="footer-top">
+		<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-lg-3 border-right">
+				<h4>{{language.contact_information}}</h4>
+				<p>123 M.R Soroni Park Street Kolkata 700055, India </p>
+				<p>898 456 1223 | 456 231 789</p>
+				<p>company@exmple.com</p>
+			</div>
+			<div class="col-md-6 col-lg-3 border-right">
+				<h4>{{language.newsletter}}</h4>
+				<p>Lorem Ipsum is simply dummy
+				and type setting industry. </p>
+				<div class="input-group">
+				  <input type="text" class="form-control" placeholder="Enter Your Email" aria-label="Recipient's username" aria-describedby="basic-addon2">
+				  <div class="input-group-append">
+				    <button class="btn" type="button"><i class="fa fa-envelope"></i></button>
+				  </div>
+				</div>
+			</div>
+			<div class="col-md-6 col-lg-3 border-right">
+				<h4>{{language.follow_us}}</h4>
+				<p>Lorem Ipsum is simply dummy
+				and type setting industry. </p>
+<!--				<div class="social justify-content-between">
+					<a href="" class="fa fa-facebook"></a>
+					<a href="" class="fa fa-twitter"></a>
+					<a href="" class="fa fa-instagram"></a>
+					<a href="" class="fa fa-pinterest"></a>
+					<a href="" class="fa fa-google-plus"></a>
+				</div>-->
+
+                                 <div class="social justify-content-between">
+                                    <div ng-repeat="sociallink in sociallinks">
+					<a  href="{{sociallink.link}}" class="{{sociallink.class}}" ></a>
+                                    </div>
+				</div>   
+			</div>
+			<div class="col-md-6 col-lg-3 download">
+				<h4>{{language.download_app}}</h4>
+				<button class="btn btn-outline-primary"><i class="fa fa-apple"></i><span>Download from App Store</span></button>
+				<button class="btn btn-outline-primary mt-3"><i><img src="app/assets/images/new-collection/play.png" alt="" /></i><span>Download from App Store</span></button>
+			</div>
+		</div>
+		</div>
+	</section>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+<script src="http://jvandemo.github.io/angularjs-google-maps/dist/angularjs-google-maps.js"></script>
+<style>
+    .slider {
+  position: relative;
+  text-align: left;
+  border: 1px solid gray;
+  height: 0.6em;
+}
+
+.slider .handle {
+  position: absolute;
+  z-index: 2;
+  width: 1.2em;
+  height: 1.2em;
+  background-color: gray;
+}
+
+.handle {
+  top: -0.3em;
+  margin-left: -0.6em;
+}
+
+.slider .range {
+  position: absolute;
+  z-index: 1;
+  display: block;
+  font-size: .7em;
+  background-color: red;
+  top: 0;
+  height: 100%;
+}
+    
+</style>

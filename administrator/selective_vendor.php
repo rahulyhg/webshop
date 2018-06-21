@@ -213,12 +213,12 @@ $YourEamilPassword="lsnspyrcimuffblr";
                                 </div>
 
                             
-<!--                               <div class="control-group">
+                                <div class="control-group">
                                     <label class="control-label">All</label>
                                     <div class="controls">
-                                <input type="checkbox" class="form-control" id="sel_user">&nbsp;Select Vendor
+                                <input type="checkbox" class="form-control" id="select_all">&nbsp;Select All Vendor
                                     </div>
-                                </div>-->
+                                </div>
                             
                              
                                   <div class="control-group">
@@ -321,15 +321,28 @@ $YourEamilPassword="lsnspyrcimuffblr";
 </script>
  <script>
    function selectiveVendors(val) {
+       
   $.ajax({
   type: "POST",
   url: "get_selectivevendors.php",
   data:'language='+val,
   success: function(data){
+     // alert(data);
     $("#selectError").html(data);
   }
   });
 }
+
+$('#select_all').click(function() {
+    
+    if ($("#select_all").is(':checked'))
+            {
+               $('#selectError option').prop('selected', true);
+            } else {
+                $("#selectError option").prop('selected', false);
+            }
+   
+});
    </script>
    <!-- END JAVASCRIPTS -->   
 </body>

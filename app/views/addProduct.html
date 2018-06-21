@@ -8,7 +8,7 @@
 			<div class="row">
 				<div class="col-lg-3 col-md-4" data-ng-include=" 'app/views/partials/sidebar.html' " ></div>
 				<div class="col-lg-9 col-md-8">
-					<h5 class="common-title p-3 mb-0">Add Product</h5>
+					<h5 class="common-title p-3 mb-0">{{language.add_product}}</h5>
 					<div class="edit-pro p-3">
 						<div class="row">
 							<div class="col-lg-7 col-md-12">
@@ -16,12 +16,12 @@
 
 
 									<div class="form-group">
-										<label for="staticEmail">Please Select*</label>
+										<label for="staticEmail">{{language.please}} {{language.select}}*</label>
 										 <select class="form-control" id="cobSRQ2" ng-model="drpmodel" ng-change="cobchange()" required>
 
-                                                                                <option value="0" selected="selected">Please select</option>
-   										<option value="1" >Product</option>
-   										<option value="2">Auction</option>
+                                                                                <option value="0" selected="selected">{{language.please}} {{language.select}}</option>
+   										<option value="1" >{{language.product}}</option>
+   										<option value="2">{{language.auction}}</option>
 
 
 										</select>
@@ -29,9 +29,9 @@
 									    </div>
                                                                     
                                                                     <div class="form-group">
-										<label for="staticEmail">Brand*</label>
+										<label for="staticEmail">{{language.brands}}*</label>
 										<select class="form-control" name="brand" ng-model="user2.brand" ng-click="sub(user2.brand)"  required>
-                                                                                    <option value="" selected>Please Choose a Brand</option>
+                                                                                    <option value="" selected>{{language.please}} {{language.Choose}} {{language.a}} {{language.brands}}</option>
 											<option  ng-repeat="brandlists in brandlist" value="{{brandlists.id}}">{{brandlists.name}}</option>
 										</select>
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.brand.$error.required"> Please Choose A Brand </span>

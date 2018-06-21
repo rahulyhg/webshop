@@ -3,7 +3,7 @@
       <a class="navbar-brand" href="#"><img src="app/assets/images/logo.png" alt="" /></a>
       <div class="input-group col-lg-6 ml-auto">
           
-        <input type="text" class="form-control" placeholder="Search your product" ng-model="brandName" id="brandname" aria-label="Recipient's username" aria-describedby="basic-addon2"> 
+        <input type="text" class="form-control" style="color:white" placeholder="{{language.search}} {{language.your}} {{language.product}}" ng-model="brandName" id="brandname" aria-label="Recipient's username"  aria-describedby="basic-addon2"> 
          <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button" ng-click="getbrandname()"><i class="fa fa-search"></i></button>
          </div>
@@ -19,14 +19,14 @@
          <ul class="navbar-nav">
             <li class="nav-item dropdown">
                <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                   <div >{{language.brands}}</div>
+                   {{language.brands}}
                  
                </a>
                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <ul class="dropdown-menu1">
                       <li role="presentation">
         <div class="input-group input-group-sm search-control"><span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-          <input type="text" class="form-control" placeholder="Brand name" ng-model="query">
+          <input type="text" class="form-control" placeholder="{{language.brands}} {{language.Name}}" ng-model="query">
         </div>
       </li>
                      <li ng-repeat="bradslst in brandsList | filter:query">
@@ -52,23 +52,25 @@
             </li>
            <li class="nav-item dropdown">
                <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                   <div >{{language.shops}}</div>
+                   {{language.shops}}
                  
                </a>
                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
                   <ul class="dropdown-menu1">
                       <li role="presentation">
         <div class="input-group input-group-sm search-control"><span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-          <input type="text" class="form-control" placeholder="Brand name" ng-model="query">
+          <input type="text" class="form-control" placeholder="{{language.shop}} {{language.Name}}" ng-model="query">
         </div>
       </li>
+      <li><a class="dropdown-item" href="#/allshopDetails/">{{language.all_shops}}</a></li>
                      <li ng-repeat="vendor in vendorlist | filter:query">
                          <a class="dropdown-item" href="#/shopDetails/{{vendor.id}}">{{vendor.name}} </a>
+                     </li>
                   </ul>
                </div>
             </li>
             <li class="nav-item">
-               <a  class="nav-link" href="#/latestdeal">Latest Deals</a>
+               <a  class="nav-link" href="#/latestdeal">{{language.latest}} {{language.deals}}</a>
                 
             </li>
 <!--            <li class="nav-item">
@@ -87,9 +89,9 @@
                <img src="{{sidebar_image}}" alt="">
                </a>
                <div class="dropdown-menu" aria-labelledby="navbarDrop">
-                   <a ng-if="current_user_type=='2'" class="dropdown-item" href="#/vendordashboard">My Dashboard</a>
-                  <a class="dropdown-item" href="#/my_account">View Profile</a>
-                  <a class="dropdown-item" style="cursor:pointer" ng-click="logout();">Logout</a>
+                   <a ng-if="current_user_type=='2'" class="dropdown-item" href="#/vendordashboard">{{language.my}} {{language.dashboard}}</a>
+                  <a class="dropdown-item" href="#/my_account">{{language.view}} {{language.profile}}</a>
+                  <a class="dropdown-item" style="cursor:pointer" ng-click="logout();">{{language.logout}}</a>
                </div>
             </li>
             <li class="nav-item icon-link" ng-if="current_user_login=='1'">
@@ -125,12 +127,15 @@
             </li>-->
             
             <li class="nav-item dropdown" >
-               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<!--               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                USA (USD) <img src="app/assets/images/map.png" alt="" />
+               </a>-->
+                <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               {{selectedlanguage}}
                </a>
                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-                  <a class="dropdown-item" ng-click="selectedlaguage('1')" href="#">English</a>
-                  <a class="dropdown-item" ng-click="selectedlaguage('2')" href="#">Arabic</a>
+                  <a class="dropdown-item" ng-click="selectedlaguage('1')" href="javascript:void(0)">English</a>
+                  <a class="dropdown-item" ng-click="selectedlaguage('2')" href="javascript:void(0)">Arabic</a>
                   <!--<a class="dropdown-item" href="#">Services</a>
                      <a class="dropdown-item" href="#">Shops</a>
                      <a class="dropdown-item" href="#">Offers</a>-->

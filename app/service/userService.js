@@ -113,8 +113,8 @@ var encodedString ='{"email":"'+ email +'","password":"'+ password +'","device_t
 var signup = function(user) {
 
  return $q(function(resolve, reject) {
-var encodedString ='{"fname":"'+ user.fname +'","lname":"'+ user.lname +'","email":"'+ user.email +'","password":"'+ user.password +'","phone":"'+ user.phone +'","device_type":"","type":"'+ user.type +'","device_token_id":"","my_latitude":"","my_longitude":""}';             
- // alert(encodedString);
+var encodedString ='{"fname":"'+ user.fname +'","lname":"'+ user.lname +'","email":"'+ user.email +'","password":"'+ user.password +'","phone":"'+ user.phone +'","device_type":"","type":"'+ user.type +'","device_token_id":"","my_latitude":"","my_longitude":"","country":"'+user.country+'"}';             
+  //alert(encodedString);
  // return false;
   
   $http({
@@ -648,11 +648,11 @@ reject(response);
     };  
   
 
-    var searchListing = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,preferred_date,country_id,state_id,city_id,categorylisting) {
+    var searchListing = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,preferred_date,country_id,state_id,city_id,categorylisting,movement,size_amount_max,size_amount_min) {
     return $q(function(resolve, reject) {
         
         //var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'"}';
-        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","preferred_date":"'+preferred_date+'","country_id":"'+country_id+'","state_id":"'+state_id+'","city_id":"'+city_id+'","categorylisting":"'+categorylisting+'"}';
+        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","preferred_date":"'+preferred_date+'","country_id":"'+country_id+'","state_id":"'+state_id+'","city_id":"'+city_id+'","categorylisting":"'+categorylisting+'","movement":"'+movement+'","size_amount_max":"'+size_amount_max+'","size_amount_min":"'+size_amount_min+'"}';
          console.log(encodedString);
          //return false;
 //var encodedString ='{"user_id":"'+ userInfo.user_id +'","name":"'+ user.name +'","description":"'+ user.description +'","email":"'+ user.email +'","phone":"'+ user.phone +'","price":"'+ user.price +'","address":"'+ user.address +'","sundaytime":"'+ user.sundaytime +'","mondaytime":"'+ user.mondaytime +'","tuesdaytime":"'+ user.tuesdaytime +'","wednesdaytime":"'+ user.wednesdaytime +'","thursdaytime":"'+ user.thursdaytime +'","fridaytime":"'+ user.fridaytime +'","saturdaytime":"'+ user.saturdaytime +'"}';
@@ -3962,11 +3962,11 @@ var registernewsletter = function(email) {
     
 };
 
-var searchproductListing = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,country_id,state_id,city_id,keyword,category) {
+var searchproductListing = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,country_id,state_id,city_id,keyword,category,movement,size_amount_max,size_amount_min,top_product) {
     return $q(function(resolve, reject) {
         
         //var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'"}';
-        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","country_id":"'+country_id+'","state_id":"'+state_id+'","city_id":"'+city_id+'","keyword":"'+keyword+'","category":"'+category+'"}';
+        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","country_id":"'+country_id+'","state_id":"'+state_id+'","city_id":"'+city_id+'","keyword":"'+keyword+'","category":"'+category+'","movement":"'+movement+'","size_amount_max":"'+size_amount_max+'","size_amount_min":"'+size_amount_min+'","top_product":"'+top_product+'"}';
         
          console.log('productlist',encodedString);
          //return false;
@@ -5256,11 +5256,11 @@ var encodedString ='{"shop_id":"'+ shop_id +'"}';
  
  
 
-var searchproductListinglatest = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,country_id,state_id,city_id,keyword,category) {
+var searchproductListinglatest = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,country_id,state_id,city_id,keyword,category,movement,size_amount_max,size_amount_min) {
     return $q(function(resolve, reject) {
         
         //var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'"}';
-        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","country_id":"'+country_id+'","state_id":"'+state_id+'","city_id":"'+city_id+'","keyword":"'+keyword+'","category":"'+category+'"}';
+        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","country_id":"'+country_id+'","state_id":"'+state_id+'","city_id":"'+city_id+'","keyword":"'+keyword+'","category":"'+category+'","movement":"'+movement+'","size_amount_max":"'+size_amount_max+'","size_amount_min":"'+size_amount_min+'"}';
         
          console.log('productlist',encodedString);
          //return false;
@@ -5351,10 +5351,347 @@ var searchproductListinglatest = function(user_id,brand,brandList,sellerList,sel
     });
     }; 
     
+  var getmovement = function() {
+        return $q(function(resolve, reject) {
+                
+//var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+//var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+//var encodedString ='{"community_id":"'+ id +'"}';
+            
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"getmovement",
+         //data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           //console.log(response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           } else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+ };  
+    
+   var ShopListing = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,country_id,state_id,city_id,keyword,category,movement,shop_id) {
+    return $q(function(resolve, reject) {
+        
+        //var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'"}';
+        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","country_id":"'+country_id+'","state_id":"'+state_id+'","city_id":"'+city_id+'","keyword":"'+keyword+'","category":"'+category+'","movement":"'+movement+'","shop_id":"'+shop_id+'"}';
+        
+         console.log('productlist',encodedString);
+         //return false;
+//var encodedString ='{"user_id":"'+ userInfo.user_id +'","name":"'+ user.name +'","description":"'+ user.description +'","email":"'+ user.email +'","phone":"'+ user.phone +'","price":"'+ user.price +'","address":"'+ user.address +'","sundaytime":"'+ user.sundaytime +'","mondaytime":"'+ user.mondaytime +'","tuesdaytime":"'+ user.tuesdaytime +'","wednesdaytime":"'+ user.wednesdaytime +'","thursdaytime":"'+ user.thursdaytime +'","fridaytime":"'+ user.fridaytime +'","saturdaytime":"'+ user.saturdaytime +'"}';
+
+    
+         //alert(encodedString);    
     
     
     
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"ShopListSearch",
+   data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
     
+    if(response.data.Ack == "1") {
+    //console.log('ok');
+    resolve(response.data); 
+    } else {
+    //console.log('ok2');
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    //console.log(response);  
+    reject(response);
+    });
+    });
+    }; 
+    
+    var allShopListing = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,country_id,state_id,city_id,keyword,category,movement,shop_id) {
+    return $q(function(resolve, reject) {
+        
+        //var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'"}';
+        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","country_id":"'+country_id+'","state_id":"'+state_id+'","city_id":"'+city_id+'","keyword":"'+keyword+'","category":"'+category+'","movement":"'+movement+'","shop_id":"'+shop_id+'"}';
+        
+         console.log('productlist',encodedString);
+         //return false;
+//var encodedString ='{"user_id":"'+ userInfo.user_id +'","name":"'+ user.name +'","description":"'+ user.description +'","email":"'+ user.email +'","phone":"'+ user.phone +'","price":"'+ user.price +'","address":"'+ user.address +'","sundaytime":"'+ user.sundaytime +'","mondaytime":"'+ user.mondaytime +'","tuesdaytime":"'+ user.tuesdaytime +'","wednesdaytime":"'+ user.wednesdaytime +'","thursdaytime":"'+ user.thursdaytime +'","fridaytime":"'+ user.fridaytime +'","saturdaytime":"'+ user.saturdaytime +'"}';
+
+    
+         //alert(encodedString);    
+    
+    
+    
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"allShopListing",
+   data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    //console.log('ok');
+    resolve(response.data); 
+    } else {
+    //console.log('ok2');
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    //console.log(response);  
+    reject(response);
+    });
+    });
+    }; 
+    
+     var deleteimage = function(filename,table_name) {
+        return $q(function(resolve, reject) {
+                
+//var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+var encodedString ='{"filename":"'+ filename +'"}';
+
+           // alert(encodedString);
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"deleteimage",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           console.log(response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           } else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+ };
+ 
+ var getgender = function() {
+        return $q(function(resolve, reject) {
+                
+//var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+//var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+//var encodedString ='{"community_id":"'+ id +'"}';
+            
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"getgender",
+         //data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           //console.log(response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           } else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+    };
+        var get_total_normaluser = function() {
+        return $q(function(resolve, reject) {
+                
+//var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+//var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+//var encodedString ='{"community_id":"'+ id +'"}';
+            
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"get_total_normaluser",
+         //data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           //console.log(response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           } else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+        
+        
+ }; 
+ 
+ var get_total_reviews = function(user_id) {
+        return $q(function(resolve, reject) {
+                
+//var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+//var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+var encodedString ='{"user_id":"'+ user_id +'"}';
+            
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"get_total_reviews",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           //console.log(response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           } else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+        
+        
+ }; 
+ 
+ var get_total_product = function(user_id) {
+        return $q(function(resolve, reject) {
+                
+//var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+//var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+var encodedString ='{"user_id":"'+ user_id +'"}';
+            
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"get_total_product",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           //console.log(response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           } else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+        
+        
+ }; 
+ 
+ var get_total_auctioned_product = function(user_id) {
+        return $q(function(resolve, reject) {
+                
+//var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+//var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+var encodedString ='{"user_id":"'+ user_id +'"}';
+            
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"get_total_auctioned_product",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           //console.log(response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           } else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+        
+        
+ };
+ 
+  var tomobileverifying = function(userid) {
+return $q(function(resolve, reject) {
+
+  var encodedString ='{"user_id":"'+ userid +'"}';
+
+$http({
+method: 'POST',
+  url: $rootScope.serviceurl+"tomobileverifying",
+data: encodedString,
+headers: {'Content-Type': 'application/json'}
+}).then(function (response) {
+
+   if(response.data.Ack == "1") {
+                   console.log('ok');
+      resolve(response.data); 
+   } else {
+                    console.log('ok2');
+        reject(response);
+   }
+
+
+        },function(response) {
+console.log(response);  
+reject(response);
+});
+});
+};
+
+var getotp = function(mobileno,countryid) {
+return $q(function(resolve, reject) {
+
+  var encodedString ='{"mobileno":"'+ mobileno +'","countryid":"'+ countryid +'"}';
+
+$http({
+method: 'POST',
+  url: $rootScope.serviceurl+"getotp",
+data: encodedString,
+headers: {'Content-Type': 'application/json'}
+}).then(function (response) {
+
+   if(response.data.Ack == "1") {
+                   console.log('ok');
+      resolve(response.data); 
+   } else {
+                    console.log('ok2');
+        reject(response);
+   }
+
+
+        },function(response) {
+console.log(response);  
+reject(response);
+});
+});
+};
  return {
      
        // homeSettingsSection:homeSettingsSection,
@@ -5525,6 +5862,18 @@ var searchproductListinglatest = function(user_id,brand,brandList,sellerList,sel
         contactinfo:contactinfo,
         banner:banner,
         userpaymentfortop:userpaymentfortop,
+        getmovement:getmovement,
+        ShopListing:ShopListing,
+        allShopListing:allShopListing,
+        deleteimage:deleteimage,
+        getgender:getgender,
+        get_total_normaluser:get_total_normaluser,
+        get_total_reviews:get_total_reviews,
+        get_total_product:get_total_product,
+        get_total_auctioned_product:get_total_auctioned_product,
+        tomobileverifying:tomobileverifying,
+        getotp:getotp
+        
 
 };
 });

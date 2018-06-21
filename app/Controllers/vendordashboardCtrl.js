@@ -59,7 +59,81 @@ $scope.wishlist = function(){
         
 
 
-
+ userService.get_total_normaluser().then(function(response) {
+       // alert('OK');
+        //exit;
+	
+	
+	if(response.Ack=='1'){
+		
+		console.log('normaluserlist',response);
+		$scope.normaluserlist=response.normaluserlist;
+		
+                
+		}
+		
+	
+																  
+	}, function(err) {
+         console.log(err); 
+    });
+    
+    userService.get_total_auctioned_product($scope.user_id).then(function(response) {
+       // alert('OK');
+        //exit;
+	
+	
+	if(response.Ack=='1'){
+		
+		console.log('auctionlist',response);
+		$scope.auctionlist=response.auctionlist;
+		
+                
+		}
+		
+	
+																  
+	}, function(err) {
+         console.log(err); 
+    });
+    
+        userService.get_total_product($scope.user_id).then(function(response) {
+        //alert('OK');
+        //exit;
+	
+	
+	if(response.Ack=='1'){
+		
+		console.log('productlist',response);
+		$scope.productlist=response.productlist;
+		
+                
+		}
+		
+	
+																  
+	}, function(err) {
+         console.log(err); 
+    });
+    
+         userService.get_total_reviews($scope.user_id).then(function(response) {
+       // alert('OK1');
+        //exit;
+	
+	
+	if(response.Ack=='1'){
+		
+		console.log('reviewlist',response);
+		$scope.reviewlist=response.reviewlist;
+		
+                
+		}
+		
+	
+																  
+	}, function(err) {
+         console.log(err); 
+    });
 	
 });
 

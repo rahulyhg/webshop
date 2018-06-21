@@ -10,42 +10,54 @@
 				<!--<form class="m-0" ng-submit="normalsearch(formdata)">-->
 				  <div class="form-row align-items-center">
 				    <div class="col-sm-4 my-1">
-				      <div class="input-group">
-				        <div class="input-group-prepend">
+				      <!--<div class="input-group">-->
+<!--				        <div class="input-group-prepend">
 				          <div class="input-group-text"><i class="fa fa-user"></i></div>
-				        </div>
+				        </div>-->
 				        
 
 
-                                                <select class="custom-select" id="inputGroupSelect01" ng-change="searchListing()" ng-model="gender">
+<!--                                                <select class="custom-select" id="inputGroupSelect01" ng-change="searchListing()" ng-model="gender">
                                                             <option value="" selected="selected">Gender</option>
 							    <option value="Male">Male</option>
 							    <option value="Female">Female</option>
                                                             <option value="Unisex">Unisex</option>
 							    
-						  </select>
+						  </select>-->
 
 
 
-				      </div>
+				      <!--</div>-->
 				    </div>
 				    <div class="col-sm-4 my-1">
+<!--                                        <select class="form-control"  ng-model="breslettype" ng-change="searchListing()">
+        <option  value="">Please Select Bracelet Type</option>  
+
+        <option ng-repeat="braceletlists in braceletlist" value="{{braceletlists.id}}">{{braceletlists.type}}</option>  
+        
+    </select>-->
                                         
-					    	<select class="custom-select" id="inputGroupSelect01" ng-model="breslettype" ng-change="searchListing()">
+<!--					    	<select class="custom-select" id="inputGroupSelect01" ng-model="breslettype" ng-change="searchListing()">
 							    <option value="" selected="selected">Breslet</option>
 							    <option value="L">Leather</option>
 							    <option value="M">Metal</option>
 							    
-						  </select>
+						  </select>-->
 					 </div>
 				   <!--  <div class="col-sm-4 my-1">
 				      <div class="input-group">
 				        <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Username">
 				      </div>
 				    </div> -->
-				     <div class="col-sm-4 my-1">
+<!--				     <div class="col-sm-4 my-1">
 					    	 <select class="custom-select" ng-change="searchListing()" ng-model='year' ng-options='year for year in YearsList'></select>
-					 </div>
+                                                 <select class="form-control"  ng-model="year" ng-change="searchListing()">
+                                                    <option  value="">Please Select Model Year</option>  
+
+                                                    <option ng-repeat="year in YearsList" value="{{year}}">{{year}}</option>  
+
+                                                </select>
+					 </div>-->
 <!--				    <div class="col-sm-1 my-1">
 				      <button type="submit" class="btn btn-primary btn-block">Submit</button>
 				    </div>-->
@@ -80,19 +92,53 @@
 			<div class="row d-flex">
 				<div class="col-md-3">
 					<div class="filter widte-bg py-3 px-3">
-						<h3 class="pb-2">Filter By</h3>
+						<h3 class="pb-2">{{language.filter_by}}</h3>
                                                 
+                                                <div class="filter-holder">
+                                                    <!--<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#collapseOne4">Simple collapsible</button>-->
+							<a class="card-link"  data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne4" href="javascript:void(0)">
+								{{language.brands}}
+							</a>
+							<div id="collapseOne4" class="in collapse show" ng-init = "getBrands();">
+								 <div  ng-repeat="brandlists in brandlist| limitTo: limit">
+								<div class="form-check">
+								  <input class="form-check-input" type="checkbox" ng-model="brandlists.Selected" ng-click="updatecheckbox(brandlists.Selected,brandlists.id)" ng-checked="user.brand.indexOf(brandlists.id)>=0" ng-true-value="'{{brandlists.id.replace('\'', '\\\'')}}'" id="test{{brandlists.id}}">
+								  <label class="form-check-label" for="test{{brandlists.id}}">
+								    {{brandlists.name}}
+								  </label>
+								</div>
+							</div>
+							</div>
+							<a href ng-click="incrementLimit()">{{language.view_all}}</a>	
+					   </div>
                                                 
+                                                <div class="filter-holder">					    
+							<a class="card-link" data-toggle="collapse" data-parent="#accordion1" data-target="#collapseOne41" href="javascript:void(0)">
+								{{language.category}}
+							</a>
+							<div id="collapseOne41" class="in collapse show" ng-init = "getcategory();">
+								 <div  ng-repeat="category in categorylist| limitTo: limit1">
+								<div class="form-check">
+								  <input class="form-check-input" type="checkbox" ng-model="category.Selected" ng-click="updatecheckboxcat(category.Selected,category.id)" ng-checked="user.category.indexOf(category.id)>=0" ng-true-value="'{{category.id.replace('\'', '\\\'')}}'" id="test{{category.id}}">
+								  <label class="form-check-label" for="test{{category.id}}">
+								    {{category.name}}
+								  </label>
+								</div>
+							</div>
+							</div>
+							<a href ng-click="incrementLimit1()">{{language.view_all}}</a>	
+					   </div>
                                                 
                                                 <div class="filter-holder">
                                                 
-                                                    <a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-								Location
+                                                    <a class="card-link" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOnelocation" href="javascript:void(0)">
+								{{language.location}}
 							</a>
+                                                    <div class="in collapse show" id="collapseOnelocation" >
                                                 <div class="form-group">
 
                                                                 <select class="form-control" name="country" ng-model="user.country" ng-change="state(user.country)"  required>
-                                                                    <option value="">Select Country</option>
+                                                                     <option value="">{{language.select}} {{language.country}}</option>
                                                                     <option  ng-repeat="countrylists in countrylist" value="{{countrylists.id}}">{{countrylists.name}}</option>
                                                                 </select>
 
@@ -103,64 +149,192 @@
                                                             <div class="form-group">
 
                                                                 <select class="form-control" name="state" ng-model="user.state" ng-change="city(user.state)"  required>
-                                                                    <option value="">Select state</option>
+                                                                    <option value="">{{language.select}} {{language.state}}</option>
                                                                     <option  ng-repeat="statelists in statelist" value="{{statelists.id}}">{{statelists.name}}</option>
                                                                 </select> 
                                                             </div>
 
 
 
-                                                            <div class="form-group">
+<!--                                                            <div class="form-group">
 
 
                                                                 <select class="form-control" name="city_id" ng-change="searchListing()" ng-model='city_id'   required>
                                                                     <option value="">Select city</option>
                                                                     <option  ng-repeat="citylists in citylist" value="{{citylists.id}}">{{citylists.name}}</option>
                                                                 </select>  
-                                                            </div>
-                                                
+                                                            </div>-->
                                                 
                                                 </div>
+                                                </div>
                                                 
-                                                
+                                                <div class="filter-holder">					    
+							<a class="card-link" data-toggle="collapse" data-parent="#accordiongender" data-target="#collapseOnegender" href="javascript:void(0)">
+								{{language.gender}}
+							</a>
+                                                     <div class="in collapse show" id="collapseOnegender" >
+							<select class="custom-select" id="inputGroupSelect01" ng-change="searchListing()" ng-model="gender">
+                                                            <option value="" selected="selected">{{language.select}} {{language.gender}}</option>
+							    <option value="Male">{{language.male}}</option>
+							    <option value="Female">{{language.female}}</option>
+                                                            <option value="Unisex">{{language.unisex}}</option>
+							    
+						  </select>
+                                                     </div>
+							
+					   </div>
                                                 
 						<div class="filter-holder">					    
-							<a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-								Price
+							<a class="card-link" data-toggle="collapse" data-parent="#accordion"  data-target="#collapseOneprice" href="javascript:void(0)">
+								{{language.price}}
 							</a>
                                                     
                                                     
                                                     <hr>
-                                                    <p>Amount Min: <span id="min_price">{{amount_min}}</span>
+                                                    <div class="in collapse show" id="collapseOneprice" >
+                                                    <p>{{language.amount_min}} :  <span id="min_price">{{amount_min}}</span>
                                                         <input type="hidden"  ng-model="amount_min" readonly/> </p>
-                                                        <p>Amount Max: <span id="max_price">{{amount_max}}</span>
-                                                        <input type="hidden" ng-model="amount_max" readonly/> </p>
+                                                        <p>{{language.amount_max}} : <span id="max_price">{{amount_max}}</span>
+                                                        <input type="hidden" ng-model="amount_min" readonly/> </p>
     <slider-range min="{{amount_min}}" max="{{amount_max}}" step="10" ng-mouseup="searchListing()" value-min="amount_min" value-max="amount_max"></slider-range>
     <hr>
-							
+                                                    </div>	
 							
 					   </div>
-					   <div class="filter-holder">					    
-							<a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseOne1">
-								Seller
+                                                
+                                                <div class="filter-holder">					    
+							<a class="card-link" data-toggle="collapse" data-parent="#accordiongender" data-target="#collapseOneCondition" href="javascript:void(0)">
+								{{language.more}} {{language.filters}}
 							</a>
-							<div id="collapseOne4" class="collapse show" ng-init = "getShops();">
+                                                     <div class="collapse" id="collapseOneCondition" >
+							<div class="form-group">
+                                                              <a class="card-link" data-toggle="collapse" data-parent="#accordionbracelet" data-target="#collapseOnebracelet" href="javascript:void(0)">
+								{{language.bracelet}} {{language.type}}
+							</a>
+                                                            <div id="collapseOnebracelet" class="in collapse show">
+                                                         <select class="form-control"  ng-model="breslettype" ng-change="searchListing()">
+                                                            <option  value="">{{language.please}} {{language.select}} {{language.bracelet}} {{language.type}}</option>  
+
+                                                            <option ng-repeat="braceletlists in braceletlist" value="{{braceletlists.id}}">{{braceletlists.type}}</option>  
+
+                                                        </select>
+                                                            </div>
+                                                        </div>
+                                                         <div class="form-group">
+                                                          
+                                                              <a class="card-link" data-toggle="collapse" data-parent="#accordionmodelyear" data-target="#collapseOnemodelyear" href="javascript:void(0)">
+								{{language.model}} {{language.year}}
+							</a>
+                                                            <div id="collapseOnemodelyear" class="in collapse show">   
+                                                         <select class="form-control"  ng-model="year" ng-change="searchListing()">
+                                                    <option  value="">{{language.please}} {{language.select}} {{language.model}} {{language.year}}</option>  
+
+                                                    <option ng-repeat="year in YearsList" value="{{year}}">{{year}}</option>  
+
+                                                </select>
+                                                         </div>     
+                                                      </div>  
+                                                         
+                                                         <div class="form-group">
+                                                         <a class="card-link" data-toggle="collapse" data-parent="#accordionm" data-target="#collapseOnemovement" href="javascript:void(0)">
+								{{language.movement}}
+							</a>
+							<div id="collapseOnemovement" class="in collapse show" ng-init = "getmovements();">
+								 <div  ng-repeat="move in movementlist| limitTo: limit">
+								<div class="form-check">
+                                                                    
+								  <input class="form-check-input" type="checkbox" ng-model="move.Selected" ng-click="updatecheckboxmovement(move.Selected,move.name)" ng-checked="user.move.indexOf(move.name)>=0" ng-true-value="'{{move.name.replace('\'', '\\\'')}}'" id="test{{move.id}}">
+                                                                  <!--<input class="form-check-input" type="checkbox" ng-model="brandlists.Selected" ng-click="updatecheckbox(brandlists.Selected,brandlists.id)" ng-checked="user.brand.indexOf(brandlists.id)>=0" ng-true-value="'{{brandlists.id.replace('\'', '\\\'')}}'" id="test{{brandlists.id}}">-->
+								  <label class="form-check-label" for="movement{{move.id}}">
+								    {{move.name}}
+								  </label>
+								</div>
+							</div>
+							</div>
+                                                      </div>
+                                                         
+                                                         
+                                                         <div class="form-group">
+                                                         <a class="card-link" data-toggle="collapse" data-parent="#accordion"  data-target="#collapseOnesize" href="javascript:void(0)">
+								{{language.size}}
+							</a>
+                                                    
+                                                    
+                                                    <hr>
+                                                    <div class="in collapse show" id="collapseOnesize" >
+                                                    <p>{{language.size}} {{language.amount_max}} : <span id="min_size_price">{{size_amount_min}}</span>
+                                                        <input type="hidden"  ng-model="size_amount_min" readonly/> </p>
+                                                        <p>{{language.size}} {{language.amount_min}} : <span id="max_size_price">{{size_amount_max}}</span>
+                                                        <input type="hidden" ng-model="size_amount_max" readonly/> </p>
+    <slider-range min="0" max="1000" step="10" ng-mouseup="searchListing()" value-min="size_amount_min" value-max="size_amount_max"></slider-range>
+    <hr>
+                                                    </div>
+                                                      </div>
+                                                         
+                                                         <div class="form-group">
+                                                         <a class="card-link" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOneseller" href="javascript:void(0)">
+								{{language.seller}}
+							</a>
+							<div id="collapseOneseller" class="collapse" ng-init = "getShops();">
 								 <div  ng-repeat="shops in shopOwners| limitTo: limit">
 								<div class="form-check">
+                                                                    
 								  <input class="form-check-input" type="checkbox" ng-model="shops.Selected" ng-click="updatecheckbox2(shops.Selected,shops.id)" ng-checked="user.shops.indexOf(shops.id)>=0" ng-true-value="'{{shops.id.replace('\'', '\\\'')}}'" id="test{{shops.id}}">
-								  <label class="form-check-label" for="test{{shops.id}}">
+								  <label class="form-check-label" for="shop{{shops.id}}">
 								    {{shops.name}}
 								  </label>
 								</div>
 							</div>
 							</div>
-							<a href="" class="view-all">View All</a>	
+                                                      </div>
+                                                         
+                                                     </div>
+								
 					   </div>
-					   <div class="filter-holder">					    
-							<a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseOne2">
+                                                
+                                                
+                                                
+                                                
+<!--                                                <div class="filter-holder">					    
+							<a class="card-link" data-toggle="collapse" data-parent="#accordion"  data-target="#collapseOnesize" href="javascript:void(0)">
+								Size
+							</a>
+                                                    
+                                                    
+                                                    <hr>
+                                                    <div class="collapse" id="collapseOnesize" >
+                                                    <p>Size Amount Min: <span id="min_size_price">{{size_amount_min}}</span>
+                                                        <input type="hidden"  ng-model="size_amount_min" readonly/> </p>
+                                                        <p>Size Amount Max: <span id="max_size_price">{{size_amount_max}}</span>
+                                                        <input type="hidden" ng-model="size_amount_max" readonly/> </p>
+    <slider-range min="0" max="1000" step="10" ng-mouseup="searchListing()" value-min="size_amount_min" value-max="size_amount_max"></slider-range>
+    <hr>
+                                                    </div>	
+							
+					   </div>-->
+                                                
+<!--					   <div class="filter-holder">					    
+							<a class="card-link" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOneseller" href="javascript:void(0)">
+								Seller
+							</a>
+							<div id="collapseOneseller" class="collapse" ng-init = "getShops();">
+								 <div  ng-repeat="shops in shopOwners| limitTo: limit">
+								<div class="form-check">
+                                                                    
+								  <input class="form-check-input" type="checkbox" ng-model="shops.Selected" ng-click="updatecheckbox2(shops.Selected,shops.id)" ng-checked="user.shops.indexOf(shops.id)>=0" ng-true-value="'{{shops.id.replace('\'', '\\\'')}}'" id="test{{shops.id}}">
+								  <label class="form-check-label" for="shop{{shops.id}}">
+								    {{shops.name}}
+								  </label>
+								</div>
+							</div>
+							</div>
+							<a href="" class="view-all">{{language.view_all}}</a>	
+					   </div>-->
+<!--					   <div class="filter-holder">					    
+							<a class="card-link" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOnerating" href="javascript:void(0)">
 								Rating
 							</a>
-							<div id="collapseOne2" class="collapse show">
+							<div id="collapseOnerating" class="collapse">
 								<div class="form-check">
 								  <input class="form-check-input" type="checkbox" value="" id="defaultCheck12">
 								  <label class="form-check-label" for="defaultCheck12">
@@ -206,41 +380,26 @@
 								  </label>
 								</div>
 							</div>
-							<a href="" class="view-all">View All</a>	
-					   </div>
-						<div class="filter-holder">					    
-							<a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseOne4">
-								Brand
+							<a href="" class="view-all">{{language.view_all}}</a>	
+					   </div>-->
+<!--						<div class="filter-holder">					    
+							<a class="card-link" data-toggle="collapse" data-parent="#accordionm" data-target="#collapseOnemovement" href="javascript:void(0)">
+								Movement
 							</a>
-							<div id="collapseOne4" class="collapse show" ng-init = "getBrands();">
-								 <div  ng-repeat="brandlists in brandlist| limitTo: limit">
+							<div id="collapseOnemovement" class="collapse" ng-init = "getmovements();">
+								 <div  ng-repeat="move in movementlist| limitTo: limit">
 								<div class="form-check">
-								  <input class="form-check-input" type="checkbox" ng-model="brandlists.Selected" ng-click="updatecheckbox(brandlists.Selected,brandlists.id)" ng-checked="user.brand.indexOf(brandlists.id)>=0" ng-true-value="'{{brandlists.id.replace('\'', '\\\'')}}'" id="test{{brandlists.id}}">
-								  <label class="form-check-label" for="test{{brandlists.id}}">
-								    {{brandlists.name}}
+                                                                    
+								  <input class="form-check-input" type="checkbox" ng-model="move.Selected" ng-click="updatecheckboxmovement(move.Selected,move.name)" ng-checked="user.move.indexOf(move.name)>=0" ng-true-value="'{{move.name.replace('\'', '\\\'')}}'" id="test{{move.id}}">
+                                                                  <input class="form-check-input" type="checkbox" ng-model="brandlists.Selected" ng-click="updatecheckbox(brandlists.Selected,brandlists.id)" ng-checked="user.brand.indexOf(brandlists.id)>=0" ng-true-value="'{{brandlists.id.replace('\'', '\\\'')}}'" id="test{{brandlists.id}}">
+								  <label class="form-check-label" for="movement{{move.id}}">
+								    {{move.name}}
 								  </label>
 								</div>
 							</div>
 							</div>
-							<a href ng-click="incrementLimit()">View All</a>	
-					   </div>
-                                                
-                                                <div class="filter-holder">					    
-							<a class="card-link" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne41">
-								Category
-							</a>
-							<div id="collapseOne41" class="collapse show" ng-init = "getcategory();">
-								 <div  ng-repeat="category in categorylist| limitTo: limit1">
-								<div class="form-check">
-								  <input class="form-check-input" type="checkbox" ng-model="category.Selected" ng-click="updatecheckboxcat(category.Selected,category.id)" ng-checked="user.category.indexOf(category.id)>=0" ng-true-value="'{{category.id.replace('\'', '\\\'')}}'" id="test{{category.id}}">
-								  <label class="form-check-label" for="test{{category.id}}">
-								    {{category.name}}
-								  </label>
-								</div>
-							</div>
-							</div>
-							<a href ng-click="incrementLimit1()">View All</a>	
-					   </div>
+							<a href="" class="view-all">{{language.view_all}}</a>	
+					   </div>-->
 					</div>
 				</div>
 				<div class="col-md-9">
@@ -248,14 +407,20 @@
 						<div class="header-list pb-3">
 							<div class="form-inline pull-left">
 							  <div class="form-group">
-							    <label for="inputPassword6">Sort By </label>							    
+							    <label for="inputPassword6">{{language.short_by}} </label>							    
 							    <select class="custom-select form-control mx-sm-3" id="inputGroupSelect01" ng-model="drpmodel" ng-change="cobchange()">
-								    <option value="0" selected="selected">Relevance</option>
-								    <option value="1">Price:low to high</option>
-								    <option value="2">Price:high to low</option>
-								    <option value="3">Newest</option>
-								    <option value="4">Popularity</option>
+								    <option value="0" selected="selected">{{language.relevance}}</option>
+								    <option value="1">{{language.price}}:{{language.low_to_high}}</option>
+								    <option value="2">{{language.price}}:{{language.high_to_low}}</option>
+								    <option value="3">{{language.newest}}</option>
+								    <option value="4">{{language.popularity}}</option>
 								 </select>		
+							  </div>
+                                                            
+                                                            <div class="form-group left">
+														    
+							   <button class="btn btn-primary" ng-if="top_prodct == '1'" ng-click="top_productss2()">{{language.all}} {{language.product}}</button>
+                                                           <button class="btn btn-primary top-product123" ng-if="top_prodct != '1'" ng-click="top_productss()">{{language.top_products}}</button>
 							  </div>
 							</div>
 							<ul class="pull-right grid-list">
@@ -266,26 +431,29 @@
 						<div class="row list-item">
 							<div class="col-md-4 mt-3" ng-if="exists==1" ng-repeat="productLists in productList">
 								<div class="card">
+                                                                    
 								  <div class="top-product" ng-if="productLists.top==1"><img src="app/assets/images/top.png" alt="" /></div>
                                                                   <a href="#/productDetails/{{productLists.id}}"> <img class="card-img-top" src="{{productLists.image}}" alt="Card image cap"></a>
 								  <div class="card-body">
 								    <!--<h5 class="card-title">{{productLists.productname}}</h5>-->
-								    <p class="card-text"><span>Seller:</span> {{productLists.seller_name}}</p>
-                                                                    <p class="card-text"><span>Brand:</span> {{productLists.brands}}</p>
-                                                                    <p class="card-text"><span>Category:</span> {{productLists.category_name}}</p>
+								   <p class="card-text"><span>{{language.seller}}:</span> {{productLists.seller_name}}</p>
+                                                                    <p class="card-text"><span>{{language.brands}}:</span> {{productLists.brands}}</p>
+                                                                    <p class="card-text"><span>{{language.category}}:</span> {{productLists.category_name}}</p>
                                                                     
 								    <ul>
 										<b>{{productLists.currency_code}} {{productLists.price}}</b></li>
 										
 									</ul>
-								    <a href="#/productDetails/{{productLists.id}}" class="btn btn-primary">Show Interest</a>
+								    <a href="#/productDetails/{{productLists.id}}" class="btn btn-primary">{{language.show_interest}}</a>
 								  </div>
 								</div>
 							</div>
-                                                    <h4 class="col-md-4 mt-3" ng-if="exists==0">No Records Found.</h4>
+                                                    <h4 class="col-md-4 mt-3" ng-if="exists==0">{{language.no_records_found}}</h4>
 						</div>
 					</div>
 				</div>
+                            
+                            
 			</div>
 		</div>
 	</section>
@@ -293,13 +461,13 @@
 		<div class="container">
 		<div class="row">
 			<div class="col-md-6 col-lg-3 border-right">
-				<h4>Contact Information</h4>
+				<h4>{{language.contact_information}}</h4>
 				<p>123 M.R Soroni Park Street Kolkata 700055, India </p>
 				<p>898 456 1223 | 456 231 789</p>
 				<p>company@exmple.com</p>
 			</div>
 			<div class="col-md-6 col-lg-3 border-right">
-				<h4>Newsletter</h4>
+				<h4>{{language.newsletter}}</h4>
 				<p>Lorem Ipsum is simply dummy
 				and type setting industry. </p>
 				<div class="input-group">
@@ -310,7 +478,7 @@
 				</div>
 			</div>
 			<div class="col-md-6 col-lg-3 border-right">
-				<h4>Follow Us</h4>
+				<h4>{{language.follow_us}}</h4>
 				<p>Lorem Ipsum is simply dummy
 				and type setting industry. </p>
 <!--				<div class="social justify-content-between">
@@ -328,7 +496,7 @@
 				</div>   
 			</div>
 			<div class="col-md-6 col-lg-3 download">
-				<h4>Download App</h4>
+				<h4>{{language.download_app}}</h4>
 				<button class="btn btn-outline-primary"><i class="fa fa-apple"></i><span>Download from App Store</span></button>
 				<button class="btn btn-outline-primary mt-3"><i><img src="app/assets/images/new-collection/play.png" alt="" /></i><span>Download from App Store</span></button>
 			</div>
@@ -367,5 +535,7 @@
   top: 0;
   height: 100%;
 }
-    
+.left {
+    padding-left: 275px !important;
+} 
 </style>
