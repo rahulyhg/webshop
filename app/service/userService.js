@@ -5697,10 +5697,38 @@ var resend = function(user_id) {
 return $q(function(resolve, reject) {
 
   var encodedString ='{"user_id":"'+ user_id +'"}';
-
+//alert(encodedString);
 $http({
 method: 'POST',
   url: $rootScope.serviceurl+"resend",
+data: encodedString,
+headers: {'Content-Type': 'application/json'}
+}).then(function (response) {
+
+   if(response.data.Ack == "1") {
+                   console.log('ok');
+      resolve(response.data); 
+   } else {
+                    console.log('ok2');
+        resolve(response);
+   }
+
+
+        },function(response) {
+console.log(response);  
+reject(response);
+});
+});
+};
+
+var resend1 = function(user_id) {
+return $q(function(resolve, reject) {
+
+  var encodedString ='{"user_id":"'+ user_id +'"}';
+//alert(encodedString);
+$http({
+method: 'POST',
+  url: $rootScope.serviceurl+"resend1",
 data: encodedString,
 headers: {'Content-Type': 'application/json'}
 }).then(function (response) {
@@ -5901,7 +5929,8 @@ reject(response);
         get_total_auctioned_product:get_total_auctioned_product,
         tomobileverifying:tomobileverifying,
         getotp:getotp,
-        resend:resend
+        resend:resend,
+        resend1:resend1
 
 };
 });

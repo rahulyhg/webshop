@@ -263,7 +263,8 @@ $scope.verifyotp = function(phoneno) {
 
     if(phoneno && phoneno !='undefined' && phoneno != $scope.phonecheck){
         
-        userService.resend($scope.user_id).then(function(response) {
+        userService.resend1($scope.user_id).then(function(response) {
+           // alert(response.Ack);
         if(response.Ack == '1'){
             	 $('#check_otp').modal('show');
         }else{
@@ -308,14 +309,8 @@ $scope.verifyotp = function(phoneno) {
 
                  }else{
 
-                 swal("There is problem in verifying your Mobile No.Please try again", "", "error")
-                .then((value) => {
-                    if(value == true){
-
-                            $window.location.reload();
-                    }
-                  //swal(`The returned value is: ${value}`);
-                });
+                 swal("Please Enter Correct OTP", "", "error")
+                
 
                  }
 	
@@ -330,5 +325,25 @@ $scope.verifyotp = function(phoneno) {
        
  }
 
+
+$scope.resendotp = function(phoneno) {
+
+    
+        
+        userService.resend1($scope.user_id).then(function(response) {
+           // alert(response.Ack);
+        if(response.Ack == '1'){
+            	 $('#check_otp').modal('show');
+        }else{
+            swal("There is problem to send OTP to your Mobile.Please try again", "", "error")
+              
+        }
+   														   
+ }, function(err) {
+         console.log(err); 
+    });
+        
+  
+}
 });
 

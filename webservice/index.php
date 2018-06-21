@@ -12691,6 +12691,179 @@ $app->response->setStatus(200);
     $app->response->write(json_encode($data));
 }
 
+function resend1() {
 
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+   // $otp = isset($body->otp) ? $body->otp : '';
+    //$user_id=base64_decode($user_id);
+  
+    $is_mobile_verified = '1';
+    $admin_approve = '0';
+    $status = '0';
+    $verified_date = date('Y-m-d');
+
+
+    $sqluser = "SELECT * FROM  webshop_user WHERE id=:user_id ";
+    $stmtuser = $db->prepare($sqluser);
+    $stmtuser->bindParam("user_id", $user_id);
+    $stmtuser->execute();
+    $getUserdetails = $stmtuser->fetchObject();
+ 
+    //$data['Ack'] = 0;
+if(!empty($getUserdetails)){
+    
+    
+    $country_id= $getUserdetails->country;
+        $phone = $getUserdetails->phone;
+             $sqlcountrycode = "SELECT * FROM webshop_countries WHERE id='$country_id'";
+        $stmtcountrycode = $db->prepare($sqlcountrycode);
+        $stmtcountrycode->execute();
+        $getCode = $stmtcountrycode->fetchObject();
+        $country_code = $getCode->phonecode;
+       $smsphoneno = $getCode->phonecode.$phone;
+       $smsphoneno = (int)$smsphoneno;
+       $smsotopcode=mt_rand(1111,9999);
+
+           // $otpverifylink = "#/mobileverify/" .  base64_encode($lastID);
+       $mobilemessage= "Your+Mobile+Verification+Code+Is:+$smsotopcode";
+        $smslink ='http://www.kwtsms.com/API/send/?username=gmt24&password=aljassar&sender=KWT-MESSAGE&mobile='.$smsphoneno.'&lang=2&message='.$mobilemessage;
+       //$data['smslink']=$smslink;
+          
+       $curl_handle=curl_init();
+        curl_setopt($curl_handle,CURLOPT_URL,$smslink);
+        curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
+        curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
+        $buffer = curl_exec($curl_handle);
+        curl_close($curl_handle);
+        
+        if (empty($buffer)){
+            $data['smsstatus']='0';
+        }
+        else{
+             $data['smsstatus'] ='1';
+        }
+    $sms_verify_number = $smsotopcode;
+    $sql = "UPDATE webshop_user set sms_verify_number=:sms_verify_number WHERE id=:id";
+    try {
+
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("sms_verify_number", $sms_verify_number);
+        $stmt->bindParam("id", $user_id);
+        $stmt->execute();
+
+       
+        
+        $data['Ack'] = '1';
+        //$data['msg'] = $msg;
+
+
+        $app->response->setStatus(200);
+        $db = null;
+    } catch (PDOException $e) {
+        $data['last_id'] = '';
+        $data['Ack'] = '0';
+       
+        echo '{"error":{"text":' . $e->getMessage() . '}}';
+        $app->response->setStatus(401);
+    }
+    
+
+}else{
+   
+    $data['Ack'] = '0';
+$app->response->setStatus(200);
+}
+
+    $app->response->write(json_encode($data));
+}
+/*
+function currency_rates() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    $sqluser = "SELECT * FROM  webshop_currency";
+    $stmtuser = $db->prepare($sqluser);
+    
+    $stmtuser->execute();
+    $getCurrencydetails = $stmtuser->fetchObject();
+ 
+    //$data['Ack'] = 0;
+if(!empty($getCurrencydetails)){
+    
+  
+        foreach($getCurrencydetails as $currency){
+            $smslink ='http://free.currencyconverterapi.com/api/v5/convert?q=USD_INR&compact=y';
+            $curl_handle=curl_init();
+        curl_setopt($curl_handle,CURLOPT_URL,$smslink);
+        curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
+        curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
+        $buffer = curl_exec($curl_handle);
+        curl_close($curl_handle);
+        }  
+        
+       //$data['smslink']=$smslink;
+          
+       
+        
+        if (empty($buffer)){
+            $data['smsstatus']='0';
+        }
+        else{
+             $data['smsstatus'] ='1';
+        }
+    $sms_verify_number = $smsotopcode;
+    $sql = "UPDATE webshop_user set sms_verify_number=:sms_verify_number WHERE id=:id";
+    try {
+
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("sms_verify_number", $sms_verify_number);
+        $stmt->bindParam("id", $user_id);
+        $stmt->execute();
+
+       
+        
+        $data['Ack'] = '1';
+        //$data['msg'] = $msg;
+
+
+        $app->response->setStatus(200);
+        $db = null;
+    } catch (PDOException $e) {
+        $data['last_id'] = '';
+        $data['Ack'] = '0';
+       
+        echo '{"error":{"text":' . $e->getMessage() . '}}';
+        $app->response->setStatus(401);
+    }
+    
+
+}else{
+   
+    $data['Ack'] = '0';
+$app->response->setStatus(200);
+}
+
+    $app->response->write(json_encode($data));
+}*/
 $app->run();
 ?>
