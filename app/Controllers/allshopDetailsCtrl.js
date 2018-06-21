@@ -2,7 +2,7 @@
 /** 
  * controllers used for the login
  */
-app.controller('shopDetailsCtrl', function ($rootScope, $scope,$interval, $http, $location,$timeout,$window, $state,$stateParams, userService) {
+app.controller('allshopDetailsCtrl', function ($rootScope, $scope,$interval, $http, $location,$timeout,$window, $state,$stateParams, userService) {
 
     
 $scope.data = {};
@@ -20,9 +20,7 @@ $scope.checkboxstrmove =[];
  $scope.minprice=0;
  $scope.search = { price_min : '', price_max : '', amount_min : '', amount_max : '' };
 $scope.shop_id=$stateParams.id; 
-     
-  $scope.size_amount_min=0;
-   $scope.size_amount_max=0;
+  
 	
        
 //alert('a');
@@ -54,7 +52,10 @@ $scope.incrementLimit1 = function() {
     $scope.limit1 = '';
 };
 $scope.brand='';
-
+if($stateParams.id){
+    //alert($scope.brand);
+$scope.brand=$stateParams.id;
+}
 
 if ($window.localStorage["userInfo"]) {
 var userInfo = JSON.parse($window.localStorage["userInfo"]);	
@@ -218,28 +219,7 @@ if($scope.city_id){
     $scope.city_id;
 }else{
     $scope.city_id="";
-}  
-
-
-if($scope.size_amount_max){
-    $scope.size_amount_max = $scope.size_amount_max;
-    $('#max_size_price').html($scope.size_amount_max);
-}else{
-    //alert('max');
-    $scope.size_amount_max= 1000;
-    $('#max_size_price').html(1000);
-}
-
-if($scope.size_amount_min){
-    $scope.size_amount_min = $scope.size_amount_min;
-    $('#min_size_price').html($scope.size_amount_min);
-    
-    
-}else{
-    $scope.size_amount_min= 0;
-   // alert();
-    $('#min_price').html($scope.amount_min);
-}
+}       
 userService.listbracelet().then(function(response) {
           
 		$scope.isExists=1;
@@ -260,34 +240,16 @@ userService.listbracelet().then(function(response) {
 
 
  //spandan end     
-if($scope.size_amount_max){
-    $scope.size_amount_max = $scope.size_amount_max;
-    $('#max_size_price').html($scope.size_amount_max);
-}else{
-    //alert('max');
-    $scope.size_amount_max= 1000;
-    $('#max_size_price').html(1000);
-}
 
-if($scope.size_amount_min){
-    $scope.size_amount_min = $scope.size_amount_min;
-    $('#min_size_price').html($scope.size_amount_min);
-    
-    
-}else{
-    $scope.size_amount_min= 0;
-   // alert();
-    $('#min_size_price').html($scope.amount_min);
-}
 //console.log('amount',$scope.amount_max);
- userService.ShopListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword,$scope.categorylisting,$scope.movementListing,$scope.shop_id,$scope.size_amount_max,$scope.size_amount_min).then(function(response) {
+ userService.allShopListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword,$scope.categorylisting,$scope.movementListing,$scope.shop_id).then(function(response) {
     // alert();
 
 		//alert($scope.movementListing);
 		//$scope.isExists=response.Ack;
 		if(response.Ack == '1') {
                     $scope.exists=1;
-		$scope.productList=response.productList;
+		$scope.allshoplist=response.allshoplist;
 		//console.log($scope.alljobs);
                 //$window.localStorage["userzip"]='';
 		

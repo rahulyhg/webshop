@@ -181,7 +181,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'active') {
 
 
 
-        mysqli_query($con, "INSERT into webshop_notification(from_id,to_id,type,msg,date,is_read,last_id) VALUES ('0','" . $requestor_id . "','Auction Product Live','Your Product " . $productName . " is Live. The Product will stay live for 24 hours.','" . $get_current_date . "','0','" . $_REQUEST['id'] . "')");
+        mysqli_query($con, "INSERT into webshop_notification(from_id,to_id,type,msg,date,is_read,last_id) VALUES ('0','" . $requestor_id . "','Auction Product Live','Your Product  is Live. The Product will stay live for 24 hours.','" . $get_current_date . "','0','" . $_REQUEST['id'] . "')");
 
         $getAllUsers = mysqli_query($con, "SELECT * from webshop_user where type= '1'");
         $getrows = mysqli_num_rows($getAllUsers);
@@ -189,7 +189,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'active') {
 
             while ($get_all_users = mysqli_fetch_array($getAllUsers)) {
 
-                mysqli_query($con, "INSERT into webshop_notification(from_id,to_id,type,msg,date,is_read,last_id) VALUES ('0','" . $get_all_users['id'] . "','Product Added for Auction','A Product " . $productName . " has been added for auction.The Auction Date is " . $preferred_date . " .The Product will stay live for that day .','" . $get_current_date . "','0','0')");
+                mysqli_query($con, "INSERT into webshop_notification(from_id,to_id,type,msg,date,is_read,last_id) VALUES ('0','" . $get_all_users['id'] . "','Product Added for Auction','A Product  has been added for auction.The Auction Date is " . $preferred_date . " .The Product will stay live for that day .','" . $get_current_date . "','0','0')");
             }
         }
     }

@@ -9,11 +9,28 @@
             </ol>
         </nav>
         <div class="details-wrap p-3">
-            <div class="row">
+            <div class="row">   
                 <div class="col-lg-7 col-md-6 col-sm-6">
                     <div class="details-top p-3 mb-3 position-relative">
                         <div class="like"><p class="m-0"><i class="ion-thumbsup"></i> {{productLists.totallike}}</p></div>
-                        <img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">
+                        	<div class="slider_n">
+
+        <!-- enumerate all photos -->
+        <img ng-repeat="photo in productLists.image" class="slide_n" ng-swipe-right="showPrev()" ng-swipe-left="showNext()" ng-show="isActive($index)" ng-src="{{photo.src}}" />
+
+        <!-- prev / next controls -->
+<!--        <a class="arrow prev"  ng-click="showPrev()"></a>
+        <a class="arrow next"  ng-click="showNext()"></a>-->
+
+        <!-- extra navigation controls -->
+        <ul class="nav_n">
+            <li ng-repeat="photo in productLists.image" ng-class="{'active':isActive($index)}">
+                <img src="{{photo.src}}" alt="{{photo.desc}}" title="{{photo.desc}}" ng-click="showPhoto($index);" />
+            </li>
+        </ul>
+
+    </div>
+                        <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
 
                         <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
                     </div> 
@@ -92,7 +109,7 @@
                         <div class="row">
                             <div class="col-sm-6">
 
-                                <p class="mb-4" ng-if="loader1 && productLists.interest == 0"><a href="" class="btn btn-primary btn-block" ng-click="emailtothevendorinterest(productLists.seller_id, productLists.type)">Show interest and contact seller .</a></p>
+                                <p class="mb-4" ng-if="loader1 && productLists.interest == 0"><a href="" class="btn btn-primary btn-block" ng-click="emailtothevendorinterest(productLists.seller_id, productLists.type)">Show Interest and Seller Details .</a></p>
                                 <p class="mb-4" ng-if="user_id && loader1 && productLists.seller_id != user_id && productLists.interest == 1"><a href="" class="btn btn-primary btn-block" href="javascript:void(0)">Already interestd</a></p>
                             </div>
                             <div class="col-sm-6" ng-if="user_id && productLists.ctime > productLists.start_time">
@@ -222,7 +239,30 @@
                         </div>
                     </div>
                     <figure>
-                        <img src="{{productLists.image}}" alt="Auction cap" height="200" width="200">
+                        <!--<img src="{{productLists.image}}" alt="Auction cap" height="200" width="200">-->
+
+                       
+                        	<div class="slider_n">
+
+        <!-- enumerate all photos -->
+        <!--<img ng-repeat="photo in productLists.image" class="slide_n" ng-swipe-right="showPrev()" ng-swipe-left="showNext()" ng-show="isActive($index)" ng-src="{{photo.src}}" />-->
+
+        <!-- prev / next controls -->
+<!--        <a class="arrow prev"  ng-click="showPrev()"></a>
+        <a class="arrow next"  ng-click="showNext()"></a>-->
+
+        <!-- extra navigation controls -->
+<!--        <ul class="nav_n">
+            <li ng-repeat="photo in productLists.image" ng-class="{'active':isActive($index)}">
+                <img src="{{photo.src}}" alt="{{photo.desc}}" title="{{photo.desc}}" ng-click="showPhoto($index);" />
+            </li>
+        </ul>-->
+
+    
+                        <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
+
+                        <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
+          
                     </figure>
                     <!-- <h5>Auction Date : 
                                 <p ng-if="productLists.action_date">{{productLists.action_date}}</p>

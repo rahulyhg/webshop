@@ -301,7 +301,7 @@ if ($num > 0) {
                                     </div>
                                 </div>
 
-                                <div class="control-group">
+<!--                                <div class="control-group">
                                     <label class="control-label">City</label>
                                     <div class="controls" >
                                         <?php
@@ -322,7 +322,7 @@ if ($num > 0) {
                                         </div>
 
                                     </div>
-                                </div>
+                                </div>-->
 
                                 <div class="control-group">
                                     <label class="control-label">Size</label>

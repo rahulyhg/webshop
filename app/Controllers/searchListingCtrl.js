@@ -11,12 +11,37 @@ $scope.checkboxstr=[];
  $scope.user.brand=[];
  $scope.checkboxstr2=[];
  $scope.user.shop=[];
+  
  $scope.user.category=[];
    $scope.checkboxstrcat=[];
+   $scope.checkboxstrmove =[];
+   $scope.user.movements=[];
    $scope.categorylisting='';
+    $scope.maxprice =0;
+ $scope.minprice=0;
+  $scope.size_amount_min=0;
+   $scope.size_amount_max=0;
 //alert('a');
  $scope.search = { price_min : '', price_max : '', amount_min : 0, amount_max : 10000 };
 $scope.drpmodel='0';
+
+userService.listbracelet().then(function(response) {
+          
+		$scope.isExists=1;
+		if(response.Ack == '1') {
+                   
+                    $scope.isExists=1;
+                 
+		$scope.braceletlist=response.braceletlist;
+               
+		} else {
+                   
+                    $scope.isExists=0;
+		}
+				   
+	}, function(err) {
+	console.log(err); 
+	});
  $scope.cobchange=function(){
 
  	$window.localStorage["selected_value"]=$scope.drpmodel;
@@ -62,7 +87,36 @@ $scope.brand=$stateParams.brand;
 $scope.amount_min = $scope.search.amount_min;
 $scope.amount_max = $scope.search.amount_max;
 
+userService.getmaxprice(2).then(function(response) {
+     //alert('getmaxprice');
 
+		
+		//$scope.isExists=response.Ack;
+		if(response.Ack == '1') {
+                    $scope.exists=1;
+		$scope.maxprice=response.maxprice;
+                $scope.minprice=response.minprice;
+                //$scope.amount_min = response.maxprice;
+                // $scope.search = { price_min : '', price_max : '', amount_min : $scope.minprice, amount_max : $scope.maxprice };
+                //$scope.search.amount_min=$scope.minprice;
+                 $scope.minprice=response.minprice;
+                $scope.amount_max=$scope.maxprice;
+               // $scope.amount_min = $scope.search.amount_min;
+               // $scope.amount_min = $scope.minprice;
+		//console.log($scope.alljobs);
+                //$window.localStorage["userzip"]='';
+		
+		} else {
+                    
+                     $scope.exists=0;
+		}
+	
+	
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
  //alert($scope.brand);
 $scope.searchListing = function(){
    // alert($scope.amount_max);
@@ -166,13 +220,42 @@ if($scope.city_id){
 }else{
     $scope.city_id="";
 }
+
+
+if($window.localStorage["movementListing"]){
+	$scope.movementListing=$window.localStorage["movementListing"];
+        
+}else{
+	$scope.movementListing='';
+}
+
+
+if($scope.size_amount_max){
+    $scope.size_amount_max = $scope.size_amount_max;
+    $('#max_size_price').html($scope.size_amount_max);
+}else{
+    //alert('max');
+    $scope.size_amount_max= 1000;
+    $('#max_size_price').html(1000);
+}
+
+if($scope.size_amount_min){
+    $scope.size_amount_min = $scope.size_amount_min;
+    $('#min_size_price').html($scope.size_amount_min);
+    
+    
+}else{
+    $scope.size_amount_min= 0;
+   // alert();
+    $('#min_size_price').html($scope.amount_min);
+}
  //alert($scope.city_id);      
 //alert($scope.preferred_date);
 
  //spandan end     
 
 //console.log('amount',$scope.amount_max);
- userService.searchListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.preferred_date,$scope.country_id,$scope.state_id,$scope.city_id,$scope.categorylisting).then(function(response) {
+ userService.searchListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.preferred_date,$scope.country_id,$scope.state_id,$scope.city_id,$scope.categorylisting,$scope.movementListing,$scope.size_amount_max,$scope.size_amount_min).then(function(response) {
      
 //alert($scope.categorylisting);
 		
@@ -313,6 +396,27 @@ $scope.getShops = function(){
 
 }
 
+$scope.getmovements = function(){
+   // alert();
+userService.getmovement().then(function(response) {
+          
+		$scope.isExists=1;
+		if(response.Ack == '1') {
+                   
+                    $scope.isExists=1;
+                 
+		$scope.movementlist=response.movementlist;
+                console.log('movementssss',$scope.movementlist);
+               
+		} else {
+                   
+                    $scope.isExists=0;
+		}
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+        };
 $scope.updatecheckbox = function(select,brand_id){
 
 
@@ -393,7 +497,26 @@ $scope.updatecheckbox2 = function(select,shop_id){
 
 }
 
+$scope.updatecheckboxmovement= function(select,movement_id){
 
+
+	      if (select)
+        {
+            $scope.user.movements.push(select);
+        } else {
+            $scope.deleteitem = $scope.user.movements.indexOf(movement_id);
+            $scope.user.movements.splice($scope.deleteitem, 1);
+
+        }
+
+         $scope.checkboxstrmove = $scope.user.movements.toString();
+        $window.localStorage["movementListing"]=$scope.checkboxstrmove;
+       // console.log("Checkbox List2",$scope.checkboxstr2);
+        $scope.searchListing();
+
+
+
+}
 
 //spandan
 

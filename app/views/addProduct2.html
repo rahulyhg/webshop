@@ -2,7 +2,7 @@
 	<section class="innerbody">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-3 col-md-4" data-ng-include=" 'app/views/partials/sidebar.html' " ></div>
+				<div class="col-lg-3 col-md-4"  data-ng-include=" 'app/views/partials/sidebar.html' " ></div>
 				<div class="col-lg-9 col-md-8">
 					<h5 class="common-title p-3 mb-0">Add Product</h5>
 					<div class="edit-pro p-3">
@@ -131,7 +131,7 @@
 									
 									<div class="form-group">
 										<label for="staticEmail">Owner Number*</label>
-                                       <input type="number" class="form-control" id=""  ng-model="user2.owner_number" ng-pattern="/^[0-9]/" name="owner_number" min="0" required>
+                                       <input type="text" class="form-control" id="Owner_number"  ng-model="user2.owner_number" ng-pattern="/^[1-9][0-9]*$/" name="owner_number"  required>
                                        <span style="color:Red" ng-show="submitted && addProductForm.owner_number.$error.required"> This Field Is Required! </span>
                                                                                 
                                                                                 <span style="color:Red" ng-show="addProductForm.owner_number.$dirty && addProductForm.owner_number.$error.pattern">Only Number Allowed</span>
@@ -182,7 +182,7 @@
 									</div>-->
                                                                     <div class="form-group">
 										<label for="staticEmail">Size*</label>
-										<input type="text" class="form-control" id="" value="" ng-pattern="/^[0-9]/" placeholder="" ng-model="user2.size" name="size" required>
+										<input type="text" class="form-control" id="" value="" ng-pattern="/^[1-9][0-9]*$/" placeholder="" ng-model="user2.size" name="size" required>
                                                                                     <span style="color:Red" ng-show="submitted && addProductForm.size.$error.required">This Field Is Required! </span>                                                                          
                                                                                 <span style="color:Red" ng-show="addProductForm.size.$dirty && addProductForm.size.$error.pattern">Only Number Allowed</span>
 									</div>
@@ -214,7 +214,7 @@
 
                                                                            <div>
 									   <div class="form-group">
-										<div class="btn btn-primary" ngf-select ng-model="user2.image" ngf-multiple="true" ngf-fix-orientation="true">Add Photos
+										<div class="btn btn-primary" accept="image/*" name="image" ngf-select ng-model="user2.image" ngf-multiple="true" ngf-max-files="5" ngf-fix-orientation="true">Add Photos
 										</div>
 									</div>
 									<div class="form-group">
@@ -224,13 +224,15 @@
 												<i ng-click="f = null" ng-show="f" class="fa fa-times" aria-hidden="true"></i> 
 												 <img ng-show="myForm.location.files.$valid" ngf-thumbnail="f" class="thumbnail img-responsive" style="height: 150px;"> -->
 			
-
+                                                                                                <a class="deleteHandle" ng-click="deleteFile($index)"><i class="fa fa-close"></i></a>
 												<img style="width: 150px; height: 100px;" ng-show="addProductForm.user2.image.$valid" ngf-thumbnail="f" ngf-resize="{width: 100, height: 100}" class="thumbnail">
+                                                                                                
 												<!--<video style="width: 150px; height: 100px;" controls ngf-src="f" ng-show="myForm.location.files.$valid" class="thumbnail"></video>-->
 
 											</div>
 										</div>
 									</div>
+                                                                               <span style="color:Red" ng-show="addProductForm.image.$error.maxFiles">Can upload only two images.</span>
                                                                            </div>
 
 
@@ -280,3 +282,11 @@
 	  </div>
 	</div>
 
+<style>
+    
+    .fa{
+        position: absolute;
+left: 18%;
+top: 3%;
+    }
+</style>

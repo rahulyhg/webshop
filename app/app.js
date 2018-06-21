@@ -1,5 +1,5 @@
 var app = angular.module("angularblank", ['oc.lazyLoad','ncy-angular-breadcrumb','ui.router','ngRoute','ngTouch',
-        'ngSanitize','ngFileUpload','ngMap','720kb.datepicker','ngRating','720kb.tooltips','rzModule']);
+        'ngSanitize','ngFileUpload','ngMap','720kb.datepicker','ngRating','720kb.tooltips','rzModule','angularLoad']);
 app.run(['$rootScope', '$state', '$stateParams',
     function ($rootScope, $state, $stateParams,$scope) {
         // Attach Fastclick for eliminating the 300ms delay between a physical tap and the firing of a click event on mobile browsers
@@ -1230,7 +1230,27 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                 },
                 resolve: loadSequence('cancelUsertoppayment')
             })
+            .state('frontend.allshopDetails', {
+                url: '/allshopDetails/:id',
+                templateUrl: 'app/views/allshopDetails.html',
+                title: 'allshopDetailsCtrl',
+				controller: 'allshopDetailsCtrl',
+                ncyBreadcrumb: {
+                    label: 'Shop Details page'
+                },
+                resolve: loadSequence('allshopDetails')
+            })
             
+            .state('frontend.mobileverify', {
+                url: '/mobileverify/:id',
+                templateUrl: 'app/views/mobileverify.html',
+                title: 'mobileverify',
+                controller: 'mobileverifyCtrl',
+                ncyBreadcrumb: {
+                    label: 'Mobile Number Verify page'
+                },
+               resolve: loadSequence('mobileverify')
+            })
           /*   .state('frontend.test', {
                 url: '/test',
                 templateUrl: 'app/views/test.html',

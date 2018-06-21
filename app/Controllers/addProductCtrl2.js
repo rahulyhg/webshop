@@ -458,6 +458,41 @@ $scope.state = function (c_id) {
 
     }
 
+$scope.deleteFile = function(idx) {
+   
+     //var filename = idx;
+     $scope.user2.image.splice(idx, 1);
+//     if (filename) {
+//          $http.delete('/api/files/'+file.id).then(function(response){
+//               if (response.status == 200) {
+//                    $scope.files.splice(idx, 1);
+//               }
+//         });
+//      } else {
+//           $scope.files.splice(idx, 1);
+//      }
+/*
+ userService.deleteimage(filename).then(function (response) {
+
+            $scope.isExists = 1;
+            if (response.Ack == '1') {
+                console.log(response);
+
+                $scope.isExists = 1;
+
+                $scope.citylist = response.citylist;
+
+
+            } else {
+                console.log('ppp');
+                $scope.isExists = 0;
+            }
+
+        }, function (err) {
+            console.log(err);
+        }); */
+
+}
 	
 
 });

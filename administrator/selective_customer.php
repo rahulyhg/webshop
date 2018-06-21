@@ -14,6 +14,7 @@ if (isset($_REQUEST['submit'])) {
 
     if (!empty($_REQUEST['email'])) {
         $email = implode(',', $_REQUEST['email']);
+       
     } 
     $new_email = explode(',', $email);
  //print_r($new_email);
@@ -219,12 +220,12 @@ $YourEamilPassword="lsnspyrcimuffblr";
                                 </div>
 
                             
-<!--                               <div class="control-group">
+                               <div class="control-group">
                                     <label class="control-label">All</label>
                                     <div class="controls">
-                                <input type="checkbox" class="form-control" id="sel_user">&nbsp;Select Customer
+                                <input type="checkbox" class="form-control" id="select_all">&nbsp;Select All Customer
                                     </div>
-                                </div>-->
+                                </div>
                             
                              
                                   <div class="control-group">
@@ -336,7 +337,16 @@ $YourEamilPassword="lsnspyrcimuffblr";
   }
   });
 }
-
+$('#select_all').click(function() {
+    
+    if ($("#select_all").is(':checked'))
+            {
+               $('#selectError option').prop('selected', true);
+            } else {
+                $("#selectError option").prop('selected', false);
+            }
+   
+});
 
    </script>
    <!-- END JAVASCRIPTS -->   

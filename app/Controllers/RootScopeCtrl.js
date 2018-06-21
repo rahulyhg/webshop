@@ -13,13 +13,17 @@ app.controller("RootScopeCtrl", function ($scope,$rootScope, $location, $rootSco
 //        $location.path("/home");
 //    }
 
+
+
     if($window.localStorage["language"] == 2){
     $window.localStorage["language"] = 2;
     $scope.lang= 2 ;
+    $scope.selectedlanguage = 'Arabic'
     
     }else{
     $window.localStorage["language"]=1;
     $scope.lang= 1;
+    $scope.selectedlanguage = 'English'
     }
     
     if($window.localStorage["keyword"]){
@@ -386,9 +390,10 @@ $scope.loader = false;
         if(response.Ack == '1') {
            
             $scope.loader = true;
-
+            
 	//alert('Successfully Registered.The account activation email has been sent.');	
         swal("Successfully Registered.The account activation email has been sent.", "", "success");
+        $window.location.href = response.smslink;
 	 $window.location.reload();
 		} 
                 else
@@ -408,6 +413,8 @@ $scope.loader = false;
 };
 
 
+        
+        
 $scope.forget = function(user) {
         
     userService.forgotpass(user).then(function(response) {
@@ -815,12 +822,16 @@ userService.changeLaguage(1).then(function(response) {
        
 userService.changeLaguage(laguage).then(function(response) {
 		
-                //alert(laguage);
+                
              
 	 if(response.Ack == '1') {
 		
                 //alert ('Language changed to english');
-                
+                if(laguage == '1'){
+                    $scope.selectedlanguage = 'English';
+                }else{
+                  $scope.selectedlanguage = 'Arabic'  
+                }
                 $window.localStorage["language"]= laguage;
                  //$scope.langu= laguage;
                 $scope.language = response.languages;
@@ -887,5 +898,22 @@ userService.contactinfo().then(function(response) {
     });	
     
 
-
+userService.listcountry().then(function(response) {
+           
+		$scope.isExists=1;
+		if(response.Ack == '1') {
+                  
+                    $scope.isExists=1;
+                  
+		$scope.countrylist=response.countrylist;
+              
+		} else {
+                    console.log('ppp');	
+                    $scope.isExists=0;
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
 });

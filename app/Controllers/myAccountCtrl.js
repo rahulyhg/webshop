@@ -6,6 +6,9 @@ app.controller('myAccountCtrl', function ($rootScope, $scope, $http, $location,$
 
 $scope.data = {};
 $scope.user = {};
+ $scope.latlng = [-25.363882,131.044922];
+ 
+ 
 
 
 $scope.getCurrentUserType();   
@@ -41,8 +44,9 @@ $scope.getCurrentUserType();
                                 $scope.user.ibanno=response.UserDetails.ibanno;
                                 $scope.user.bankname=response.UserDetails.bankname;
                                 $scope.user.language_preference=response.UserDetails.language_preference;
-                                $scope.user.civilid1=response.UserDetails.civilid1;
-                                $scope.user.civilid2=response.UserDetails.civilid2;
+                                //$scope.user.civilid1=response.UserDetails.civilid1;
+                                //$scope.user.civilid2=response.UserDetails.civilid2;
+                                $scope.user.image=response.UserDetails.images;
                                 $scope.user.country_preference=response.UserDetails.country_preference;
                                 $scope.user.currency_preference=response.UserDetails.currency_preference;
                                 
@@ -218,7 +222,38 @@ userService.listcountry().then(function(response) {
     
     
     
-    
+   $scope.deleteFile = function(idx,filename) {
+//    alert(filename);
+//    alert(idx);
+     //var filename = idx;
+     $scope.image = $scope.user.image.splice(idx, 1);
+     console.log('delete',$scope.user.image);
+//     if (filename) {
+//          $http.delete('/api/files/'+file.id).then(function(response){
+//               if (response.status == 200) {
+//                    $scope.files.splice(idx, 1);
+//               }
+//         });
+//      } else {
+//           $scope.files.splice(idx, 1);
+//      }
+
+ userService.deleteimage(filename).then(function (response) {
+
+            $scope.isExists = 1;
+            if (response.Ack == '1') {
+                console.log(response);
+
+               // $scope.getAccountDetails();
+
+
+            } 
+
+        }, function (err) {
+            console.log(err);
+        }); 
+
+} 
 	
 
 });

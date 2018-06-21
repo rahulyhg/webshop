@@ -4,16 +4,16 @@
 			<div class="row">
 				<div class="col-lg-3 col-md-4" data-ng-include=" 'app/views/partials/sidebar.html' " ></div>
 				<div class="col-lg-9 col-md-8">
-					<h5 class="common-title p-3 mb-0">Edit Profile</h5>
+					<h5 class="common-title p-3 mb-0">{{language.edit}} {{language.profile}}</h5>
 					<div class="edit-pro p-3">
 						<div class="row">
 							<div class="col-lg-7 col-md-12">
 								<form name="myaccountForm" ng-submit="myaccountForm.$valid && updateProfile(user)" novalidate>
 									<div class="form-group" ng-if="current_user_type=='2'">
-										<label for="staticEmail">Shop or individual</label>
+										<label for="staticEmail">{{language.shop_or_individual}}</label>
 										<select class="form-control" ng-model="user.business_type" name="business_type">
-											<option value="1">Individual</option>
-                                                                                        <option value="2">Shop</option>
+											<option value="1">{{language.individual}}</option>
+                                                                                        <option value="2">{{language.shop}}</option>
 										</select>
 									</div>
 									<div class="form-group">
@@ -28,7 +28,7 @@
 										<label for="staticEmail">{{language.gender}}</label>
                                                                                 
                                                                                     <select class="form-control" ng-model="user.gender" name="gender" required>
-                                                                                    <option value="" selected>Please Select Your gender</option>
+                                                                                    <option value="" selected>{{language.please}} {{language.select}} {{language.your}} {{language.gender}}</option>
                                                                                     <option value="Male">{{language.male}}</option>
 											<option value="Female">{{language.female}}</option>
 										</select>  
@@ -36,8 +36,8 @@
 									<div class="form-group">
 										<label for="staticEmail">{{language.mobile_number}}</label>
 										<input type="text" class="form-control" id="" value="" placeholder="9831635919" ng-model="user.phone" name="phone" ng-pattern="/^[1-9][0-9]*$/" required>
-                                                                                 <span style="color:Red" ng-show="submitted && myaccountForm.phone.$error.required">This Field Is Required! </span>
-                                                                                <span style="color:Red" ng-show="myaccountForm.phone.$dirty && myaccountForm.phone.$error.pattern">Only Numbers Allowed</span>
+                                                                                 <span style="color:Red" ng-show="submitted && myaccountForm.phone.$error.required">{{language.this_field_is_required}} </span>
+                                                                                <span style="color:Red" ng-show="myaccountForm.phone.$dirty && myaccountForm.phone.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}} </span>
                                                                                 
 									</div>
 									<div class="form-group">
@@ -50,9 +50,9 @@
                                                                     
                                                                     
                                                                     <div class="form-group">
-										<label for="staticEmail">Country</label>
+										<label for="staticEmail">{{language.country}}</label>
 										<select class="form-control" name="country" ng-model="user.country" ng-change="state(user.country)"  required>
-                                                                                    <option value="">Please select a Country</option>
+                                                                                    <option value="">{{language.please}} {{language.select}} {{language.a}} {{language.country}}</option>
 											<option  ng-repeat="countrylists in countrylist" value="{{countrylists.id}}">{{countrylists.name}}</option>
 										</select>
                                                                                 
@@ -61,40 +61,40 @@
                                                                     
                                                                     
                                                                     <div class="form-group">
-										<label for="staticEmail">Governorate</label>
+										<label for="staticEmail">{{language.state}}</label>
                                                                                 
                                                                                    <select class="form-control" name="state" ng-model="user.state" ng-change="city(user.state)">
-                                                                                    <option value="">Please select a state</option>
+                                                                                    <option value="">{{language.please}} {{language.select}} {{language.a}} {{language.state}}</option>
 											<option  ng-repeat="statelists in statelist" value="{{statelists.id}}">{{statelists.name}}</option>
 										</select> 
                                                                     </div>
                                                                     
     
                                                                     <div class="form-group" tooltips tooltip-template="Contact your bank for the details" tooltip-side="top">
-										<label for="staticEmail">IBAN Number</label>
+										<label for="staticEmail">IBAN {{language.number}}</label>
 										<input type="text"   ng-minlength="20" ng-maxlength="34" class="form-control" id="" value="" placeholder="IBAN Number" ng-model="user.ibanno" name="ibanno" required>
-                                                                                <span style="color:Red" ng-show="submitted && myaccountForm.ibanno.$error.required">This Field Is Required! </span>
+                                                                                <span style="color:Red" ng-show="submitted && myaccountForm.ibanno.$error.required">{{language.this_field_is_required}}! </span>
                                                                                 
                                                                                 <!--<span style="color:Red" ng-show="myaccountForm.ibanno.$dirty && myaccountForm.ibanno.$error.pattern">Only Numbers Allowed</span>-->
                                                                                 <span style="color:Red"  ng-show="((myaccountForm.ibanno.$error.minlength ||myaccountForm.ibanno.$error.maxlength) && myaccountForm.ibanno.$dirty) && !myaccountForm.ibanno.$error.pattern">IBAN No must be between 20-34 digits.</span>
 									</div>
                                                                     <div class="form-group">
-										<label for="staticEmail">Bank Name</label>
+										<label for="staticEmail">{{language.Bank}} {{language.Name}}</label>
 										<input type="text" class="form-control" id="" value="" placeholder="Bank Name" ng-model="user.bankname" name="bankname" required>
 									</div>
                                                                    <div class="form-group">
-										<label for="staticEmail">Preferred Language</label>
+										<label for="staticEmail">{{language.preferred}} {{language.language}}</label>
 										<select class="form-control" ng-model="user.language_preference" name="language_preference">
-                                                                                    <option value="" selected>Please Select Your Language</option>
+                                                                                    <option value="" selected>{{language.please}} {{language.select}} {{language.your}} {{language.language}}</option>
 											<option value="Arabic">Arabic</option>
 											<option value="English">English</option>
 										</select>
 									</div>
 
                                                                         <div class="form-group">
-										<label for="staticEmail">Preferred Country</label>
+										<label for="staticEmail">{{language.preferred}} {{language.country}}</label>
 										<select class="form-control" name="country_preference" ng-model="user.country_preference" required>
-                                                                                    <option value="">Please select prefer Country</option>
+                                                                                    <option value="">{{language.please}} {{language.select}} {{language.preferred}} {{language.country}}</option>
 											<option  ng-repeat="countrylists in countrylist" value="{{countrylists.id}}">{{countrylists.name}}</option>
 										</select>
                                                                                 
@@ -103,19 +103,49 @@
 
 
                                                                         <div class="form-group">
-										<label for="staticEmail">Preferred Currency</label>
+										<label for="staticEmail">{{language.preferred}} {{language.currency}}</label>
 										<select class="form-control" name="currency_preference" ng-model="user.currency_preference"  required>
-										<option value="">Please select prefer Currency</option>	
+										<option value="">{{language.please}} {{language.select}} {{language.preferred}} {{language.currency}}</option>	
                                                                                     <option  ng-repeat="currencylists in currencylist" value="{{currencylists.code}}">{{currencylists.name}}</option>
 										</select>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.currency.$error.required">Please Choose Currency</span>
+                                                                                <span style="color:Red" ng-show="submitted && myaccountForm.currency.$error.required">{{language.please}} {{language.Choose}} {{language.currency}}</span>
 									</div>
 
-                                                                <div class="form-group">
+                                                                    <div>
+									   <div class="form-group">
+                                                                               <label for="staticEmail">{{language.Civil_ID}} {{language.Attachment}}</label>
+										<div class="btn btn-primary" accept="image/*" ngf-select ng-model="user.image" ngf-max-files="2" ngf-multiple="true" name="image" ngf-fix-orientation="true">{{language.add}} {{language.photos}}
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="row">
+                                                                                    
+											<div class="col-sm-3" ng-repeat="f in user.image">
+<!--												{{f.name}} 
+												<i ng-click="f = null" ng-show="f" class="fa fa-times" aria-hidden="true"></i> 
+												 <img ng-show="myForm.location.files.$valid" ngf-thumbnail="f" class="thumbnail img-responsive" style="height: 150px;"> -->
+                                                                                                 
+                                                                                                <a ng-if="f" class="deleteHandle" ng-click="deleteFile($index,f)"><i class="fa fa-close"></i>{{f.name}}</a>
+												<img ng-if="f" style="width: 150px; height: 100px;" ng-show="myaccountForm.user.image.$valid" ngf-thumbnail="f" ngf-resize="{width: 100, height: 100}" class="thumbnail">
+												<!--<video style="width: 150px; height: 100px;" controls ngf-src="f" ng-show="myForm.location.files.$valid" class="thumbnail"></video>-->
+
+											</div>
+										</div>
+                                                                            <span style="color:Red" ng-show="myaccountForm.image.$error.maxFiles">Can upload only two images.</span>
+                                                                            
+                                                                            
+									</div>
+                                                                           </div>
+                                                                    	<div class="form-group">
+										<div class="row">
+                                                                                    fzgfs
+                                                                                    </div>
+                                                                           </div>
+<!--                                                                <div class="form-group">
                                                                     <label for="staticEmail">Civil ID Attachment1</label>
                                                                 <div class="btn btn-default" ngf-select ng-model="user.civilid1" name="civilid1" ngf-pattern="'image/*'"
                         ngf-accept="'image/*'"  ngf-min-height="100"  required>Browse</div>
-                                                      <!--<span style="color:Red" ng-if="addProductForm.movement.$error.required && !user2.image" >Upload Image with Minimum Height:420 And Minimum Width:420</span>-->
+                                                      <span style="color:Red" ng-if="myaccountForm.movement.$error.required && !user.image" >Upload Image with Minimum Height:420 And Minimum Width:420</span>
                                                       
                         <img class="thumbnail_upload_img" ngf-thumbnail="user.civilid1"  style="width:50px;height:50px;">
                         </div>
@@ -123,12 +153,12 @@
                                                                     <label for="staticEmail">Civil ID Attachment2</label>
                                                                 <div class="btn btn-default" ngf-select ng-model="user.civilid2" name="civilid2" ngf-pattern="'image/*'"
                         ngf-accept="'image/*'"  ngf-min-height="100"  required>Browse</div>
-                                                      <!--<span style="color:Red" ng-if="addProductForm.movement.$error.required && !user2.image" >Upload Image with Minimum Height:420 And Minimum Width:420</span>-->
+                                                      <span style="color:Red" ng-if="myaccountForm.movement.$error.required && !user.image" >Upload Image with Minimum Height:420 And Minimum Width:420</span>
                                                       
                         <img class="thumbnail_upload_img" ngf-thumbnail="user.civilid2"  style="width:50px;height:50px;">
-                        </div>       
+                        </div>       -->
                                                                 <!------------------------------->
-									<button class="btn btn-primary" ng-click="submitted=true">Save Changes</button>
+									<button class="btn btn-primary" ng-click="submitted=true">{{language.save_changes}}</button>
 								</form>
 							</div>
 						</div>
@@ -137,4 +167,12 @@
 			</div>
 		</div>
 	</section>
-		
+	
+<style>
+    
+    .fa{
+        position: absolute;
+left: 18%;
+top: 3%;
+    }
+</style>	
