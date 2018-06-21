@@ -99,7 +99,11 @@ $scope.getCurrentUserType();
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
         $scope.user_id = userInfo.user_id;
 
-        //alert($scope.user_id)
+        //alert(user.my_latitude);
+        
+        user.my_latitude = angular.element('#lat').val();
+        user.my_longitude = angular.element('#long').val();
+        user.address = angular.element('#address').val();
         userService.updateProfile(user, $scope.user_id).then(function (response) {
 
             console.log(response);

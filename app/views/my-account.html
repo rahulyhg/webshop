@@ -140,6 +140,22 @@
 										<div id="dvMap" style="width: 500px; height: 500px">
 </div>
                                                                            </div>
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                <input type="hidden"  id="lat" ng-model="user.my_latitude" name="my_latitude" >
+									
+                  <input type="hidden"  id="long" ng-model="user.my_longitude" name="my_longitude" >                                                  
+                                                                    
+                   <input type="hidden" id="address" value="" placeholder="" ng-model="user.address" name="address" >                                                  
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
 <!--                                                                <div class="form-group">
                                                                     <label for="staticEmail">Civil ID Attachment1</label>
                                                                 <div class="btn btn-default" ngf-select ng-model="user.civilid1" name="civilid1" ngf-pattern="'image/*'"
@@ -281,7 +297,12 @@ top: 3%;
                             lat = marker.getPosition().lat();
                             lng = marker.getPosition().lng();
                             address = results[0].formatted_address;
-                            alert("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + address);
+                            //alert("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + address);                           
+                            //document.getElementById("lat").value=lat;
+                           
+                            $('#lat').val(lat);
+                            $('#long').val(lng);
+                            $('#address').val(address);
                         }
                     });
                 });

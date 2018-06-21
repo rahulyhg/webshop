@@ -595,7 +595,8 @@ function updateProfile() {
 
     $currency_preference = isset($body["currency_preference"]) ? $body["currency_preference"] : '';
 
-
+    $lat = isset($body["my_latitude"]) ? $body["my_latitude"] : '';
+    $lang = isset($body["my_longitude"]) ? $body["my_longitude"] : '';
 
     /* if (get_lat_long($address)) {
       $latlang = get_lat_long($address);
@@ -615,8 +616,8 @@ function updateProfile() {
     $latlang = '';
     $val = '';
     $value = '';
-    $lat = '';
-    $lang = '';
+   // $lat = '';
+   // $lang = '';
 
 
 //print_r($latlang);
