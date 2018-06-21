@@ -177,7 +177,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <h5>Please Enter Your Password Below</h5>   
+                    <h5>Please Enter Your OTP Below</h5>   
                     <input type="password" class="input-field"  name="password" value="2" ng-model="pass.password" capitalize required>
                     <p ng-if="error" style="color:red" capitalize> {{error}}</p>
                     <hr>
@@ -185,7 +185,7 @@
 
                         <div>
                             <input type="submit" value="Continue" >
-                             <button type="button">Resend</button>
+                             <button ng-click="resendotp()" type="button">Resend</button>
                         </div>
                     </div>                                                  
                 </div>
