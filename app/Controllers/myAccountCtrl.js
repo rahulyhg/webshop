@@ -260,22 +260,15 @@ userService.listcountry().then(function(response) {
 
 
 $scope.verifyotp = function(phoneno) {
-    var userInfo = JSON.parse($window.localStorage["userInfo"]);
-        user_id=userInfo.user_id; 
+
     if(phoneno && phoneno !='undefined' && phoneno != $scope.phonecheck){
         
-        userService.resend(user_id).then(function(response) {
+        userService.resend($scope.user_id).then(function(response) {
         if(response.Ack == '1'){
             	 $('#check_otp').modal('show');
         }else{
             swal("There is problem to send OTP to your Mobile.Please try again", "", "error")
-                .then((value) => {
-                    if(value == true){
-
-                            $window.location.reload();
-                    }
-                  //swal(`The returned value is: ${value}`);
-                });
+              
         }
    														   
  }, function(err) {
@@ -295,9 +288,9 @@ $scope.verifyotp = function(phoneno) {
          
         pass.password=pass.password;
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
-        pass.user_id=userInfo.user_id; 
+        //pass.user_id=userInfo.user_id; 
         
-        userService.tomobileverifying(pass.user_id,pass.password).then(function(response) {
+        userService.tomobileverifying(pass.user_id,$scope.user_id).then(function(response) {
 	
 	console.log("zzzdfdzsxfdz",response);  
 	 if(response.Ack == '1'){
