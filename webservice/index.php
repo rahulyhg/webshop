@@ -12932,7 +12932,7 @@ function userpaymentfortop() {
     $loyalty_redeem = isset($body->loyalty_redeem) ? $body->loyalty_redeem : 0;
     $paymentId = base64_encode($subscription_id . '_' . $product_id . '_' . $loyalty_redeem);
 
-
+    
 
     $sqlloyalty = "SELECT * from webshop_user where id=:user_id";
     $stmtloyalty = $db->prepare($sqlloyalty);
@@ -13197,10 +13197,10 @@ function currency_rates() {
     $data = array();
 
     $app = \Slim\Slim::getInstance();
-    $request = $app->request();
-    $body = ($request->post());
-    $body2 = $app->request->getBody();
-    $body = json_decode($body2);
+//    $request = $app->request();
+//    $body = ($request->post());
+//    $body2 = $app->request->getBody();
+//    $body = json_decode($body2);
 
     $db = getConnection();
 
@@ -13222,15 +13222,22 @@ if(!empty($getCurrencydetails)){
         $amount = curl_exec($curl_handle);
         curl_close($curl_handle);
         
-        if (empty($amount)){
-           $sql = "UPDATE webshop_currency_rates set currency_rate_to_usd='$amount' WHERE currency_code='$currency->code'";
+        $aa='USD_'.$currency->code;
+        $a=json_decode($amount);
+        $array = json_decode( json_encode($a), true);
+        $amount= $array[$aa]['val'];
+
+        if (!empty($amount)){
+           $sql = "UPDATE webshop_currency_rates set currency_rate_to_usd='".$amount."' WHERE currency_code= '$currency->code'";
+          
+            $stmt = $db->prepare($sql);
+            $stmt->execute();  
         }
-        $stmt = $db->prepare($sql);
-        $stmt->execute();
+        
         } 
         
-    
-
+    $data['Ack'] = '1';
+    $app->response->setStatus(200);
 }else{
    
     $data['Ack'] = '0';
