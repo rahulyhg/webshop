@@ -5721,10 +5721,10 @@ reject(response);
 });
 };
 
-var resend1 = function(user_id) {
+var resend1 = function(user_id,phoneno) {
 return $q(function(resolve, reject) {
 
-  var encodedString ='{"user_id":"'+ user_id +'"}';
+  var encodedString ='{"user_id":"'+ user_id +'","phoneno":"'+ phoneno +'"}';
 //alert(encodedString);
 $http({
 method: 'POST',
@@ -5748,6 +5748,7 @@ reject(response);
 });
 });
 };
+
 
 
 var adduserpaymenttop = function(id) {
@@ -5780,6 +5781,36 @@ var adduserpaymenttop = function(id) {
 
 
 
+
+
+ var getproductpictures = function() {
+        return $q(function(resolve, reject) {
+                
+//var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+//var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+//var encodedString ='{"community_id":"'+ id +'"}';
+            
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"getproductpictures",
+         //data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           //console.log(response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           } else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+ };
 
  return {
      
@@ -5964,7 +5995,11 @@ var adduserpaymenttop = function(id) {
         getotp:getotp,
         resend:resend,
         resend1:resend1,
-        adduserpaymenttop:adduserpaymenttop
+
+        adduserpaymenttop:adduserpaymenttop,
+
+        getproductpictures:getproductpictures
+
 
 };
 });

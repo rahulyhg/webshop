@@ -165,6 +165,7 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/contactinfo', 'contactinfo');
 
     
+
     $app->post('/searchproductListinglatest', 'searchproductListinglatest');
     $app->post('/banner', 'banner');
     $app->post('/getmovement', 'getmovement');
@@ -180,9 +181,10 @@ $app->group('/frontend', function () use ($app) {
 
     $app->post('/resend', 'resend');
     $app->post('/resend1', 'resend1');
-
+    $app->post('/getproductpictures', 'getproductpictures');
     $app->post('/userpaymentfortop', 'userpaymentfortop');
     $app->post('/adduserproducttop', 'adduserproducttop');
+
        
 
 
