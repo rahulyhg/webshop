@@ -2023,7 +2023,8 @@ function listmyProducts() {
             }
             $id = urlencode ( base64_encode($product->id));
             $data['productList'][] = array(
-                "id" => stripslashes($id),
+                "id" => stripslashes($product->id),
+                "product_id"=> stripslashes($id),
                 "image" => stripslashes($image),
                 "price" => stripslashes($product->price),
                 "description" => strip_tags(stripslashes(substr($product->description, 0, 50))),
@@ -6518,7 +6519,7 @@ if ($keyword != '') {
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $getAllProducts = $stmt->fetchAll(PDO::FETCH_OBJ);
-
+ $cdate = date('Y-m-d');
 
         if (!empty($getAllProducts)) {
             foreach ($getAllProducts as $product) {
@@ -6536,7 +6537,7 @@ if ($keyword != '') {
                     $stmtsubs->execute();
                     $getsubs = $stmtsubs->fetchObject();
 
-                    $cdate = date('Y-m-d');
+                   
 
                     if ($getsubs->expiry_date >= $cdate) {
                         
