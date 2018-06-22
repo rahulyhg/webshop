@@ -1251,6 +1251,24 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                 },
                resolve: loadSequence('mobileverify')
             })
+            
+            
+            
+             .state('frontend.successUserpaymentTop', {
+                url: '/successUserpaymentTop/:id/:oid',
+                templateUrl: 'app/views/successUserpaymentTop.html',
+                title: 'success',
+				controller: 'successUserpaymentTopCtrl',
+                ncyBreadcrumb: {
+                    label: 'success page'
+                },
+                resolve: loadSequence('successUserpaymentTop')
+            })
+            
+            
+            
+            
+            
           /*   .state('frontend.test', {
                 url: '/test',
                 templateUrl: 'app/views/test.html',

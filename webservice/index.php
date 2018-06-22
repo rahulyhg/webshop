@@ -995,7 +995,7 @@ function ProductsDetails() {
      $product_id = urldecode ( base64_decode($product_id) ) ;
     $user_id = isset($body->user_id) ? $body->user_id : '';
 
-    $sql = "SELECT * from  webshop_products WHERE id=:id order by id desc";
+    $sql = "SELECT * from  webshop_products WHERE id=:id ";
     $db = getConnection();
     $stmt = $db->prepare($sql);
     $stmt->bindParam("id", $product_id);
@@ -2039,7 +2039,8 @@ function listmyProducts() {
                 "product_status" => stripslashes($product->product_status),
                 "approved" => $product->approved,
                 "live_status" => $product->status,
-                "expiry_date" => $expirydate
+                "expiry_date" => $expirydate,
+                "top_product" => $product->top_product
             );
         }
 
@@ -6323,11 +6324,11 @@ function ProductListSearch() {
     $state_id = isset($body->state_id) ? $body->state_id : '';
     $city_id = isset($body->city_id) ? $body->city_id : '';
     $keyword = isset($body->keyword) ? $body->keyword : '';
-$category = isset($body->category) ? $body->category : '';
-$movement = isset($body->movement) ? $body->movement : '';
-$size_amount_max = isset($body->size_amount_max) ? $body->size_amount_max : '';
-$size_amount_min = isset($body->size_amount_min) ? $body->size_amount_min : '';
-$top_product = isset($body->top_product) ? $body->top_product : '';
+    $category = isset($body->category) ? $body->category : '';
+    $movement = isset($body->movement) ? $body->movement : '';
+    $size_amount_max = isset($body->size_amount_max) ? $body->size_amount_max : '';
+    $size_amount_min = isset($body->size_amount_min) ? $body->size_amount_min : '';
+    $top_product = isset($body->top_product) ? $body->top_product : '';
 //print_r($body);
 //-----------------------------------------------------------
     $productIds = array();
@@ -6409,7 +6410,7 @@ if ($movement != '') {
     }
    if ($top_product != '') {
 
-        $sql .= " AND `gender`='" . $top_product . "' ";
+        $sql .= " AND `top_product_status`='" . $top_product . "' ";
     }
 
     if ($breslettype != '') {
@@ -6523,7 +6524,12 @@ if ($keyword != '') {
             foreach ($getAllProducts as $product) {
                 $sid = $product->subscription_id;
                 $price =$product->price;
+                $topsid=$product->top_product;
+                
+                
                 if ($sid != 0) {
+                    
+                    
                     $sqlsubs = "SELECT * FROM  webshop_subscribers WHERE id=:id ";
                     $stmtsubs = $db->prepare($sqlsubs);
                     $stmtsubs->bindParam("id", $sid);
@@ -6533,6 +6539,31 @@ if ($keyword != '') {
                     $cdate = date('Y-m-d');
 
                     if ($getsubs->expiry_date >= $cdate) {
+                        
+                        
+                    if($topsid!= 0){    
+                    $sqlsubs_top = "SELECT * FROM  webshop_subscribers WHERE id=:id ";
+                    $stmtsubs_top = $db->prepare($sqlsubs_top);
+                    $stmtsubs_top->bindParam("id", $topsid);
+                    $stmtsubs_top->execute();
+                    $getsubs_top = $stmtsubs_top->fetchObject();
+
+                       if ($getsubs_top->expiry_date >= $cdate) {
+                           
+                          $top_product_status =1;
+                           
+                       }else{
+                           
+                            $top_product_status =0;
+                       } 
+                        
+                    } else{
+                           
+                            $top_product_status =0;
+                       }   
+                        
+                        
+                        
 
                         if ($product->image != '') {
                             $image = SITE_URL . 'upload/product_image/' . $product->image;
@@ -6636,6 +6667,7 @@ if ($keyword != '') {
                             "currency_code" => stripslashes($product->currency_code),
                             
                             "top" => stripslashes($top),
+                            "top_product" => stripslashes($top_product_status),
                         );
                     }
                 } else {
@@ -6657,6 +6689,28 @@ if ($keyword != '') {
                     if (!empty($getcategory)) {
                         $categoryname = $getcategory->name;
                     }
+                    
+                    
+                    if($topsid!= 0){    
+                    $sqlsubs_top = "SELECT * FROM  webshop_subscribers WHERE id=:id ";
+                    $stmtsubs_top = $db->prepare($sqlsubs_top);
+                    $stmtsubs_top->bindParam("id", $topsid);
+                    $stmtsubs_top->execute();
+                    $getsubs_top = $stmtsubs_top->fetchObject();
+
+                       if ($getsubs_top->expiry_date >= $cdate) {
+                           
+                          $top_product_status =1;
+                           
+                       }else{
+                           
+                            $top_product_status =0;
+                       } 
+                        
+                    } else{
+                           
+                            $top_product_status =0;
+                       } 
 
 
 
@@ -6741,6 +6795,7 @@ if ($keyword != '') {
                             "currency_code" => stripslashes($product->currency_code),
                             
                             "top" => stripslashes($top),
+                            "top_product" => stripslashes($top_product_status),    
                         );
                 }
             }
@@ -7713,9 +7768,10 @@ function userpaymentforupload() {
     } else {
         $subscriptionprice = $getSubscriptionValue->price;
     }
+    
 //payment gateway
 
-    $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
+/*    $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
 
     $user = "testapi@myfatoorah.com"; // Will Be Provided by Myfatoorah
     $password = "E55D0"; // Will Be Provided by Myfatoorah
@@ -7791,10 +7847,10 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
           $PayTxnID = $doc->getElementsByTagName("PayTxnID");
           $PayTxnID = $PayTxnID->item(0)->nodeValue;
          */
-    }
+ /*   }*/
 //end
 
-
+$paymentUrl= SITE_URL . '#/successUserpayment/' . $paymentId.'/123';
     if ($loyalty_redeem > $checkloyalty->total_loyalty) {
 
         $data['Ack'] = 2;
@@ -7921,7 +7977,7 @@ function adduserpayment() {
 
 
 
-    $sql5 = "SELECT free_bid from webshop_sitesettings where id = 1";
+    $sql5 = "SELECT free_bid,free_bid_status from webshop_sitesettings where id = 1";
     $stmt5 = $db->prepare($sql5);
     $stmt5->execute();
     $getfree = $stmt5->fetchObject();
@@ -11414,6 +11470,7 @@ if ($gender != '') {
             foreach ($getAllProducts as $product) {
                 $sid = $product->subscription_id;
                  $price =$product->price;
+                 $topsid=$product->top_product;
                 if ($sid != 0) {
                     $sqlsubs = "SELECT * FROM  webshop_subscribers WHERE id=:id ";
                     $stmtsubs = $db->prepare($sqlsubs);
@@ -11424,6 +11481,38 @@ if ($gender != '') {
                     $cdate = date('Y-m-d');
 
                     if ($getsubs->expiry_date >= $cdate) {
+                        
+                        
+                        
+                        
+                        if($topsid!= 0){    
+                    $sqlsubs_top = "SELECT * FROM  webshop_subscribers WHERE id=:id ";
+                    $stmtsubs_top = $db->prepare($sqlsubs_top);
+                    $stmtsubs_top->bindParam("id", $topsid);
+                    $stmtsubs_top->execute();
+                    $getsubs_top = $stmtsubs_top->fetchObject();
+
+                       if ($getsubs_top->expiry_date >= $cdate) {
+                           
+                          $top_product_status =1;
+                           
+                       }else{
+                           
+                            $top_product_status =0;
+                       } 
+                        
+                    } else{
+                           
+                            $top_product_status =0;
+                       }
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
 
                         if ($product->image != '') {
                             $image = SITE_URL . 'upload/product_image/' . $product->image;
@@ -11533,12 +11622,33 @@ if ($gender != '') {
                             "currency_code" => stripslashes($product->currency_code),
                             
                             "top" => stripslashes($top),
+                            "top_product" => stripslashes($top_product_status),
                         );
                     }
                     //print_r($data['productList']);exit;
                 } else {
+    
+                    
+                    if($topsid!= 0){    
+                    $sqlsubs_top = "SELECT * FROM  webshop_subscribers WHERE id=:id ";
+                    $stmtsubs_top = $db->prepare($sqlsubs_top);
+                    $stmtsubs_top->bindParam("id", $topsid);
+                    $stmtsubs_top->execute();
+                    $getsubs_top = $stmtsubs_top->fetchObject();
 
-
+                       if ($getsubs_top->expiry_date >= $cdate) {
+                           
+                          $top_product_status =1;
+                           
+                       }else{
+                           
+                            $top_product_status =0;
+                       } 
+                        
+                    } else{
+                           
+                            $top_product_status =0;
+                       }
 
                     if ($product->image != '') {
                         $image = SITE_URL . 'upload/product_image/' . $product->image;
@@ -11644,6 +11754,7 @@ if ($gender != '') {
                             "currency_code" => stripslashes($product->currency_code),
                             
                             "top" => stripslashes($top),
+                            "top_product" => stripslashes($top_product_status),
                         );
                 }
             }
@@ -12793,6 +12904,293 @@ $app->response->setStatus(200);
     $app->response->write(json_encode($data));
 }
 
+
+
+function userpaymentfortop() {
+
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+
+
+
+    $subscription_id = isset($body->sid) ? $body->sid : '';
+    $product_id = isset($body->pid) ? $body->pid : '';
+    $name = isset($body->name) ? $body->name : '';
+    $email = isset($body->email) ? $body->email : '';
+    $phone = isset($body->phone) ? $body->phone : '';
+    $loyalty_redeem = isset($body->loyalty_redeem) ? $body->loyalty_redeem : 0;
+    $paymentId = base64_encode($subscription_id . '_' . $product_id . '_' . $loyalty_redeem);
+
+
+
+    $sqlloyalty = "SELECT * from webshop_user where id=:user_id";
+    $stmtloyalty = $db->prepare($sqlloyalty);
+    $stmtloyalty->bindParam("user_id", $user_id);
+    $stmtloyalty->execute();
+    $checkloyalty = $stmtloyalty->fetchObject();
+
+
+
+
+
+
+
+    $sql = "SELECT * from webshop_subscription where id =:subscription_id";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("subscription_id", $subscription_id);
+    $stmt->execute();
+    $getSubscriptionValue = $stmt->fetchObject();
+
+    if ($loyalty_redeem != 0) {
+        $subscriptionprice = ($getSubscriptionValue->price - $loyalty_redeem);
+    } else {
+        $subscriptionprice = $getSubscriptionValue->price;
+    }
+    
+//payment gateway
+
+/*    $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
+
+    $user = "testapi@myfatoorah.com"; // Will Be Provided by Myfatoorah
+    $password = "E55D0"; // Will Be Provided by Myfatoorah
+    $post_string = '<?xml version="1.0" encoding="windows-1256"?>
+<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+<soap12:Body>
+<PaymentRequest xmlns="http://tempuri.org/">
+<req>
+<CustomerDC>
+<Name>' . $name . '</Name>
+<Email>' . $email . '</Email>
+<Mobile>' . $phone . '</Mobile>
+</CustomerDC>
+<MerchantDC>
+<merchant_code>999999</merchant_code>
+<merchant_username>testapi@myfatoorah.com</merchant_username>
+<merchant_password>E55D0</merchant_password>
+<merchant_ReferenceID>201454542102</merchant_ReferenceID>
+<ReturnURL>' . SITE_URL . '#/successUserpaymentTop/' . $paymentId . '/</ReturnURL>
+<merchant_error_url>' . SITE_URL . '#/cancel</merchant_error_url>
+</MerchantDC>
+<lstProductDC>
+<ProductDC>
+<product_name>Product Upload</product_name>
+<unitPrice>' . $subscriptionprice . '</unitPrice>
+<qty>1</qty>
+</ProductDC>
+</lstProductDC>
+</req>
+</PaymentRequest>
+</soap12:Body>
+</soap12:Envelope>';
+    $soap_do = curl_init();
+    curl_setopt($soap_do, CURLOPT_URL, $url);
+    curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 10);
+    curl_setopt($soap_do, CURLOPT_TIMEOUT, 10);
+    curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($soap_do, CURLOPT_POST, true);
+    curl_setopt($soap_do, CURLOPT_POSTFIELDS, $post_string);
+    curl_setopt($soap_do, CURLOPT_HTTPHEADER, array('Content-Type: text/xml; charset=utf-8', 'Content-Length:
+' . strlen($post_string)));
+    curl_setopt($soap_do, CURLOPT_USERPWD, $user . ":" . $password); //User Name, Password To be provided by Myfatoorah
+    curl_setopt($soap_do, CURLOPT_HTTPHEADER, array(
+        'Content-type: text/xml'
+    ));
+    $result = curl_exec($soap_do);
+    $err = curl_error($soap_do);
+//curl_close($soap_do);
+//print_r($result);exit;   
+    $file_contents = htmlspecialchars(curl_exec($soap_do));
+    curl_close($soap_do);
+    $doc = new DOMDocument();
+    $doc->loadXML(html_entity_decode($file_contents));
+//echo $doc;exit;
+    $ResponseCode = $doc->getElementsByTagName("ResponseCode");
+    $ResponseCode = $ResponseCode->item(0)->nodeValue;
+//echo $ResponseCode;exit;
+    $ResponseMessage = $doc->getElementsByTagName("ResponseMessage");
+    $ResponseMessage = $ResponseMessage->item(0)->nodeValue;
+//echo $ResponseMessage;exit;
+    if ($ResponseCode == 0) {
+        $paymentUrl = $doc->getElementsByTagName("paymentURL");
+        $paymentUrl = $paymentUrl->item(0)->nodeValue;
+//echo $paymentUrl;exit;
+
+        /* $OrderID = $doc->getElementsByTagName("OrderID");
+          $OrderID = $OrderID->item(0)->nodeValue;
+          $Paymode = $doc->getElementsByTagName("Paymode");
+          $Paymode = $Paymode->item(0)->nodeValue;
+          $PayTxnID = $doc->getElementsByTagName("PayTxnID");
+          $PayTxnID = $PayTxnID->item(0)->nodeValue;
+         */
+ /*   }*/
+//end
+
+    $paymentUrl= SITE_URL . '#/successUserpaymentTop/' . $paymentId.'/123';
+    if ($loyalty_redeem > $checkloyalty->total_loyalty) {
+
+        $data['Ack'] = 2;
+    }else if($subscriptionprice == 0){
+        
+        $data['url'] = SITE_URL . '#/successUserpaymentTop/' . $paymentId.'/123';
+        $data['Ack'] = 1;
+        
+    } else {
+
+        $data['url'] = $paymentUrl;
+        $data['Ack'] = 1;
+    }
+    $app->response->setStatus(200);
+
+
+    $app->response->write(json_encode($data));
+}
+
+
+function adduserproducttop() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+    $encodeid = base64_decode($body->return_id);
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+
+
+    $array_id = explode('_', $encodeid);
+
+
+    $subscription_id = isset($array_id[0]) ? $array_id[0] : '';
+    $product_id = isset($array_id[1]) ? $array_id[1] : '';
+    $loyalty_point = isset($array_id[2]) ? $array_id[2] : 0;
+
+//$name = isset($body->name) ? $body->name : '';
+//$email = isset($body->email) ? $body->email : '';
+//$phone = isset($body->phone) ? $body->phone : '';
+//payment gateway
+//end
+
+
+
+    $sql3 = "SELECT * from webshop_subscription where id =:subscription_id";
+    $stmt3 = $db->prepare($sql3);
+    $stmt3->bindParam("subscription_id", $subscription_id);
+    $stmt3->execute();
+    $getSubscriptionDetails = $stmt3->fetchObject();
+
+
+
+    $sql4 = "INSERT INTO  webshop_subscribers (user_id,subscription_id,price,subscription_date,expiry_date,transaction_id) VALUES (:user_id,:subscription_id,:price,:subscription_date,:expiry_date,:transaction_id)";
+
+
+    $days = $getSubscriptionDetails->duration;
+    $date = date('Y-m-d');
+    $cdate = date_create($date);
+    date_add($cdate, date_interval_create_from_date_string("$days days"));
+    $expiry_date = date_format($cdate, "Y-m-d");
+    $transaction_id = "pay-12376";
+
+
+    $stmt4 = $db->prepare($sql4);
+    $stmt4->bindParam("user_id", $user_id);
+    $stmt4->bindParam("subscription_id", $subscription_id);
+    $stmt4->bindParam("price", $getSubscriptionDetails->price);
+    $stmt4->bindParam("subscription_date", $date);
+    $stmt4->bindParam("expiry_date", $expiry_date);
+    $stmt4->bindParam("transaction_id", $transaction_id);
+//$stmt4->bindParam("product_id", $product_id);
+    $stmt4->execute();
+    $lastID = $db->lastInsertId();
+
+    $sqlproductupdate = "UPDATE webshop_products SET status=1, top_product=:subscription_id,top_product_status=1 WHERE id=:pid";
+    $stmtproduct = $db->prepare($sqlproductupdate);
+    $stmtproduct->bindParam("subscription_id", $lastID);
+    $stmtproduct->bindParam("pid", $product_id);
+    $stmtproduct->execute();
+
+
+    $sql6 = "SELECT * from webshop_user where id=:user_id ";
+    $stmt6 = $db->prepare($sql6);
+    $stmt6->bindParam("user_id", $user_id);
+    $stmt6->execute();
+    $is_user = $stmt6->fetchObject();
+
+
+
+
+    if ($loyalty_point != 0) {
+        $total_loyalty = ($is_user->total_loyalty - $loyalty_point);
+    } else {
+        $total_loyalty = 0;
+    }
+
+    $sql = "UPDATE  webshop_user SET total_loyalty = :loyalty WHERE id=:user_id ";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam("loyalty", $total_loyalty);
+    $stmt->bindParam("user_id", $user_id);
+    $stmt->execute();
+
+    if ($loyalty_point != 0) {
+        $date = date('Y-m-d');
+        $type = 1;
+        $sql = "INSERT INTO  webshop_user_loyaliety (pay_amount, user_id,point,add_date,type) VALUES (:pay_amount, :user_id,:point,:date,:type)";
+
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("pay_amount", $getSubscriptionDetails->price);
+        $stmt->bindParam("user_id", $user_id);
+        $stmt->bindParam("point", $loyalty_point);
+        $stmt->bindParam("date", $date);
+        $stmt->bindParam("type", $type);
+        $stmt->execute();
+    }
+
+
+
+
+
+
+   /* $sql5 = "SELECT free_bid,free_bid_status from webshop_sitesettings where id = 1";
+    $stmt5 = $db->prepare($sql5);
+    $stmt5->execute();
+    $getfree = $stmt5->fetchObject();
+
+    $free_product = $getfree->free_bid;
+    $free_status = $getfree->free_bid_status;*/
+
+   // if ($free_product != 0 && $free_status==1) {
+
+        //$msg = "Your Payment completed successfully. Your product is live now. Upload " . $free_product . "  product and get one product upload free.";
+   // } else {
+        $msg = "Your Payment completed successfully. Your product is Top product now.";
+    //}
+
+    $data['subscription_id'] = $subscription_id;
+    $data['Ack'] = 1;
+    $data['msg'] = $msg;
+    $app->response->setStatus(200);
+
+
+    $app->response->write(json_encode($data));
+}
+
+
 function currency_rates() {
 
     $data = array();
@@ -12949,5 +13347,12 @@ function getproductpictures() {
 
     $app->response->write(json_encode($data));
 }
+
+
+
+
+
+
+
 $app->run();
 ?>

@@ -90,7 +90,7 @@ app.constant('JS_REQUIRES', {
         'latestdeal': ['app/Controllers/latestdealCtrl.js'],
 	
         'usertoppayment': ['app/Controllers/usertoppaymentCtrl.js'],
-        'successUsertoppayment': ['app/Controllers/successUsertoppaymentCtrl.js'],
+        'successUserpaymentTop': ['app/Controllers/successUserpaymentTopCtrl.js'],
         'allshopDetails': ['app/Controllers/allshopDetailsCtrl.js'],
         'mobileverify': ['app/Controllers/mobileverifyCtrl.js'],
     },
