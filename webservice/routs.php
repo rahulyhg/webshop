@@ -180,6 +180,7 @@ $app->group('/frontend', function () use ($app) {
 
          $app->post('/resend', 'resend');
           $app->post('/resend1', 'resend1');
+           $app->post('/getproductpictures', 'getproductpictures');
          
 
        

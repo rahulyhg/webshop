@@ -7,7 +7,7 @@ app.controller('addProductCtrl2', function ($rootScope, $state, $scope, $http, $
 $scope.data = {};
 $scope.user = {};
 $scope.user2 = {};
-
+$scope.loader = true;
 $scope.getCurrentUserType();   
 //console.log($scope.current_user_type);
 
@@ -298,7 +298,7 @@ $scope.addProduct = function(user2){
     
     //console.log('he',user2);
     //return false;
-    
+        $scope.loader = false;
     
      var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;
@@ -342,6 +342,7 @@ $scope.addProduct = function(user2){
 		//console.log('htype',response);
 		$scope.isExists=1;
 		if(response.Ack == '1') {
+                    $scope.loader = true;
                     $window.localStorage["brand"]='';
                     swal(response.msg,'','success');
                     if(response.type == '1'){
@@ -360,6 +361,7 @@ $scope.addProduct = function(user2){
                    }
                        
                         }else{
+                         // $scope.loader = false;  
                     $state.go('frontend.myProduct');
                 }
                     $scope.isExists=1;
@@ -373,6 +375,7 @@ $scope.addProduct = function(user2){
                 }
 		
 		}else if(response.Ack == '0'){
+                    $scope.loader = true;
                    swal(response.msg,'','error');
                    
                    

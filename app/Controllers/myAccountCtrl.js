@@ -267,7 +267,7 @@ $scope.verifyotp = function(phoneno) {
 
     if(phoneno && phoneno !='undefined' && phoneno != $scope.phonecheck){
         
-        userService.resend1($scope.user_id).then(function(response) {
+        userService.resend1($scope.user_id,phoneno).then(function(response) {
            // alert(response.Ack);
         if(response.Ack == '1'){
             	 $('#check_otp').modal('show');

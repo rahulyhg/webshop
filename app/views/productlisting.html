@@ -109,7 +109,8 @@
 								</div>
 							</div>
 							</div>
-							<a href ng-click="incrementLimit()">{{language.view_all}}</a>	
+							<a href ng-if="limit < count" ng-click="incrementLimit()">{{language.view_all}}</a>	
+                                                        <!--<a href ng-if="limit = count" ng-click="incrementless()">View Less</a>-->
 					   </div>
                                                 
                                                 <div class="filter-holder">					    
@@ -126,7 +127,7 @@
 								</div>
 							</div>
 							</div>
-							<a href ng-click="incrementLimit1()">{{language.view_all}}</a>	
+							<a href ng-if="limit1 < count1" ng-click="incrementLimit1()">{{language.view_all}}</a>	
 					   </div>
                                                 
                                                 <div class="filter-holder">

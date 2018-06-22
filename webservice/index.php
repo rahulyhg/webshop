@@ -2021,9 +2021,9 @@ function listmyProducts() {
             } else {
                 $profile_image = '';
             }
-
+            $id = urlencode ( base64_encode($product->id));
             $data['productList'][] = array(
-                "id" => stripslashes($product->id),
+                "id" => stripslashes($id),
                 "image" => stripslashes($image),
                 "price" => stripslashes($product->price),
                 "description" => strip_tags(stripslashes(substr($product->description, 0, 50))),
@@ -2179,7 +2179,7 @@ function listCategory() {
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $getCategory = $stmt->fetchAll(PDO::FETCH_OBJ);
-
+        $count1 = $stmt->rowCount();
         foreach ($getCategory as $category) {
 
             $allcategory[] = array(
@@ -2189,6 +2189,7 @@ function listCategory() {
         }
 
         $data['categorylist'] = $allcategory;
+         $data['count1'] = $count1;
         $data['Ack'] = '1';
         $app->response->setStatus(200);
     } catch (PDOException $e) {
@@ -3544,7 +3545,7 @@ function listbrand() {
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $getBrand = $stmt->fetchAll(PDO::FETCH_OBJ);
-
+        $count = $stmt->rowCount();
         foreach ($getBrand as $brand) {
 
             $allbrand[] = array(
@@ -3554,6 +3555,7 @@ function listbrand() {
         }
 
         $data['brandlist'] = $allbrand;
+        $data['count']=$count;
         $data['Ack'] = '1';
         $app->response->setStatus(200);
     } catch (PDOException $e) {
@@ -12705,6 +12707,8 @@ function resend1() {
     $db = getConnection();
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
+        $phoneno = isset($body->phoneno) ? $body->phoneno : '';
+
    // $otp = isset($body->otp) ? $body->otp : '';
     //$user_id=base64_decode($user_id);
   
@@ -12725,7 +12729,7 @@ if(!empty($getUserdetails)){
     
     
     $country_id= $getUserdetails->country;
-        $phone = $getUserdetails->phone;
+        $phone = $phoneno;
              $sqlcountrycode = "SELECT * FROM webshop_countries WHERE id='$country_id'";
         $stmtcountrycode = $db->prepare($sqlcountrycode);
         $stmtcountrycode->execute();
@@ -12788,7 +12792,7 @@ $app->response->setStatus(200);
 
     $app->response->write(json_encode($data));
 }
-/*
+
 function currency_rates() {
 
     $data = array();
@@ -12803,59 +12807,29 @@ function currency_rates() {
 
     $sqluser = "SELECT * FROM  webshop_currency";
     $stmtuser = $db->prepare($sqluser);
-    
     $stmtuser->execute();
-    $getCurrencydetails = $stmtuser->fetchObject();
+    $getCurrencydetails = $stmtuser->fetchAll(PDO::FETCH_OBJ);
  
     //$data['Ack'] = 0;
 if(!empty($getCurrencydetails)){
     
   
         foreach($getCurrencydetails as $currency){
-            $smslink ='http://free.currencyconverterapi.com/api/v5/convert?q=USD_INR&compact=y';
+            $smslink ='http://free.currencyconverterapi.com/api/v5/convert?q=USD_'.$currency->code.'&compact=y';
             $curl_handle=curl_init();
         curl_setopt($curl_handle,CURLOPT_URL,$smslink);
         curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
         curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
-        $buffer = curl_exec($curl_handle);
+        $amount = curl_exec($curl_handle);
         curl_close($curl_handle);
-        }  
         
-       //$data['smslink']=$smslink;
-          
-       
-        
-        if (empty($buffer)){
-            $data['smsstatus']='0';
+        if (empty($amount)){
+           $sql = "UPDATE webshop_currency_rates set currency_rate_to_usd='$amount' WHERE currency_code='$currency->code'";
         }
-        else{
-             $data['smsstatus'] ='1';
-        }
-    $sms_verify_number = $smsotopcode;
-    $sql = "UPDATE webshop_user set sms_verify_number=:sms_verify_number WHERE id=:id";
-    try {
-
-        $db = getConnection();
         $stmt = $db->prepare($sql);
-        $stmt->bindParam("sms_verify_number", $sms_verify_number);
-        $stmt->bindParam("id", $user_id);
         $stmt->execute();
-
-       
+        } 
         
-        $data['Ack'] = '1';
-        //$data['msg'] = $msg;
-
-
-        $app->response->setStatus(200);
-        $db = null;
-    } catch (PDOException $e) {
-        $data['last_id'] = '';
-        $data['Ack'] = '0';
-       
-        echo '{"error":{"text":' . $e->getMessage() . '}}';
-        $app->response->setStatus(401);
-    }
     
 
 }else{
@@ -12865,6 +12839,115 @@ $app->response->setStatus(200);
 }
 
     $app->response->write(json_encode($data));
-}*/
+}
+
+function getproductpictures() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    try {
+
+        $sqlspecialauction = "SELECT * from webshop_products where is_special_auction = '1' ORDER BY RAND() LIMIT 1";
+        $stmtspecialauction = $db->prepare($sqlspecialauction);
+        $stmtspecialauction->execute();
+        $getSpecialauction = $stmtspecialauction->fetchObject();
+           if(!empty($getSpecialauction)){
+              
+                   if ($getSpecialauction->image != '') {
+                    $imageSpecialauction = SITE_URL . 'upload/product_image/' . $getSpecialauction->image;
+                } else {
+                    $imageSpecialauction = SITE_URL . 'app/assets/images/new-collection/itm1.png';
+                } 
+              
+              
+           } else {
+                    $imageSpecialauction = SITE_URL . 'app/assets/images/new-collection/itm1.png';
+                }
+             
+        
+        $sqltopmodel = "SELECT * from webshop_products where is_top_model = '1' ORDER BY RAND() LIMIT 1";
+        $stmttopmodel = $db->prepare($sqltopmodel);
+        $stmttopmodel->execute();
+        $getTopmodel = $stmttopmodel->fetchObject();
+        //print_r($getTopmodel);exit;
+        if(!empty($getTopmodel)){
+               
+                  if ($getTopmodel->image != '') {
+                    $imagetopmodel = SITE_URL . 'upload/product_image/' . $getTopmodel->image;
+                } else {
+                    $imagetopmodel = SITE_URL . 'app/assets/images/new-collection/itm3.png';
+                } 
+              
+              
+           }else {
+                    $imagetopmodel = SITE_URL . 'app/assets/images/new-collection/itm3.png';
+                } 
+       
+        
+        $sqlwomenwatch = "SELECT * from webshop_products where gender = 'Female' ORDER BY RAND() LIMIT 1";
+        $stmtwomenwatch = $db->prepare($sqlwomenwatch);
+        $stmtwomenwatch->execute();
+        $getWomenwatch = $stmtwomenwatch->fetchObject();
+        if(!empty($getWomenwatch)){
+               
+                   if ($getWomenwatch->image != '') {
+                    $imageWomenwatch = SITE_URL . 'upload/product_image/' . $getWomenwatch->image;
+                } else {
+                    $imageWomenwatch = SITE_URL . 'app/assets/images/new-collection/itm4.png';
+                } 
+               
+              
+           }else {
+                    $imageWomenwatch = SITE_URL . 'app/assets/images/new-collection/itm4.png';
+                } 
+        
+        $sqlcertifieduser = "SELECT * from webshop_user where top_user_vendor = '1'";
+        $stmtcertifieduser = $db->prepare($sqlcertifieduser);
+        $stmtcertifieduser->execute();
+        $getCertifieduser = $stmtcertifieduser->fetchObject();
+        
+       
+        $sqlcertifieduserimage = "SELECT * from webshop_products where uploader_id = '$getCertifieduser->id'";
+        $stmtcertifieduserimage = $db->prepare($sqlcertifieduserimage);
+        $stmtcertifieduserimage->execute();
+        $certifieduserimage = $stmtcertifieduserimage->fetchObject();
+          if(!empty($certifieduserimage)){
+               
+                   if ($certifieduserimage->image != '') {
+                    $imageCertifiedwatch = SITE_URL . 'upload/product_image/' . $certifieduserimage->image;
+                } else {
+                    $imageCertifiedwatch = SITE_URL . 'app/assets/images/new-collection/itm4.png';
+                } 
+               
+              
+           }else {
+                    $imageCertifiedwatch = SITE_URL . 'app/assets/images/new-collection/itm4.png';
+                } 
+
+        $data['imageSpecialauction'] = $imageSpecialauction;
+        $data['imagetopmodel'] = $imagetopmodel;
+        $data['imageWomenwatch'] = $imageWomenwatch;
+        $data['imageCertifiedwatch'] = $imageCertifiedwatch;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['imageSpecialauction'] = '';
+        $data['imagetopmodel'] = '';
+        $data['imageWomenwatch'] = '';
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
 $app->run();
 ?>

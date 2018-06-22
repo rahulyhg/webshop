@@ -19,6 +19,8 @@ $scope.checkboxstrcat=[];
  $scope.minprice=0;
   $scope.size_amount_min=0;
    $scope.size_amount_max=0;
+   $scope.count =0;
+   $scope.count1 =0;
     
  $scope.search = { price_min : '', price_max : '', amount_min : '', amount_max : '' };
 
@@ -43,15 +45,22 @@ $scope.drpmodel='0';
 //}else{
 //   alert(); 
 //}
+
 var limitStep = 5;
 $scope.limit = limitStep;
+//alert($scope.limit);
 $scope.incrementLimit = function() {
-    $scope.limit = '';
+    $scope.limit = $scope.limit+5;
+};
+$scope.incrementless = function() {
+    $scope.limit = 5;
+   $scope.getBrands();
 };
 var limitStep1 = 5;
 $scope.limit1 = limitStep;
 $scope.incrementLimit1 = function() {
-    $scope.limit1 = '';
+    $scope.limit1 = $scope.limit1+5;
+    
 };
 $scope.brand='';
 if($stateParams.id){
@@ -343,6 +352,7 @@ $scope.getBrands = function(){
 		//$scope.isExists=response.Ack;
 		if(response.Ack == '1') {
 		$scope.brandlist=response.brandlist;
+                $scope.count = response.count;
 		//$scope.listbrands=response.brandList;
 		// console.log("ppag "+response.brandList);
 
@@ -362,6 +372,7 @@ userService.listcategoryproduct().then(function(response) {
 		//$scope.isExists=response.Ack;
 		if(response.Ack == '1') {
 		$scope.categorylist=response.categorylist;
+                //$scope.count1 =response.count1;
                // alert();
 		//$scope.listbrands=response.brandList;
 		 //console.log("categorylist "+response.categorylist);
@@ -382,6 +393,7 @@ $scope.getcategory = function(){
 		//$scope.isExists=response.Ack;
 		if(response.Ack == '1') {
 		$scope.categorylist=response.categorylist;
+                $scope.count1 = response.count1;
                 //alert();
 		//$scope.listbrands=response.brandList;
 		 console.log("categorylist "+response.categorylist);
