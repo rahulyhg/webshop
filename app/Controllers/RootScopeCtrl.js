@@ -82,7 +82,20 @@ app.controller("RootScopeCtrl", function ($scope,$rootScope, $location, $rootSco
          console.log(err); 
     });
     
-    
+    userService.getproductpictures().then(function(response) {
+        
+       // $scope.specia_auction_image=response.shopOwners;
+         $scope.imageSpecialauction =response.imageSpecialauction;
+        $scope.imagetopmodel = response.imagetopmodel;
+        $scope.imageWomenwatch = response.imageWomenwatch;
+        $scope.imageCertifiedwatch = response.imageCertifiedwatch;
+       // alert('imageSpecialauction=>'+$scope.imageSpecialauction+'imagetopmodel=>'+$scope.imagetopmodel+'imageWomenwatch=>'+$scope.imageWomenwatch);
+        
+            
+	}, function(err) {
+		//swal('Error found!!','','error');
+         console.log(err); 
+    });
     
    /* userService.getmaxprice2().then(function(response) {
     // alert();
