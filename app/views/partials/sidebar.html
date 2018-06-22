@@ -16,12 +16,13 @@
 						</div>
 						<ul class="sidebar-menu list-unstyled mb-0">
 							<li class="active"><a href="#/my_account"><span><i class="ion-ios-person"></i></span>{{language.my_gmt24}}</a></li>
+                                                        
                                                         <li><a href="#/change_password"><span><i class="ion-ios-person"></i></span> {{language.change_password}}</a></li>
                                                         
                                                         
                                                         <li ng-if="current_user_type=='1'"><a href="#/myLoyalty"><span><i class="ion-ios-person"></i></span> {{language.my}} {{language.loyalty}}</a></li>
                                                         
-                                                         <li><a href="#/addProduct/"><span><i class="fa fa-plus"></i></i></span> {{language.add_product}}</a></li>
+                                                         <li><a href="#/addProduct/"><span><i class="fa fa-plus"></i></span> {{language.add_product}}</a></li>
                                                          
                                                          
                                                          
@@ -35,10 +36,9 @@
                                                          
                                                          
                                                          <li ng-if="current_user_type=='1'"><a href="#/wishlist"><span><i class="ion-heart"></i></span> {{language.favorite_or_wishlist}}</a></li>
-							<!-- <li ng-if="current_user_type=='2'"><a href="#/addAuction"><span><i class="fa-gavel"></i></span> Add Auction</a></li> -->
+							
 							<li><a href="#/myAuction"><span><i class="fa fa-gavel"></i></span> {{language.my_auction}}</a></li>
-<!--                                                        <li ng-if="current_user_type=='2'"><a href="#/ListOrderSeller"><span><i class="fa-gavel"></i></span> List Order</a></li>
-                                                         <li ng-if="current_user_type=='1'"><a href="#/ListOrderBuyer"><span><i class="fa-gavel"></i></span> List Order</a></li>-->
+                                                        
 
                                                          <li><a href="#/ListOrderBuyer"><span><i class="fa fa-gavel"></i></span> {{language.Purchased}}/{{language.Won}} {{language.auction}} </a></li>
 
@@ -58,8 +58,11 @@
 							<li><a href="#/notifications"><span><i class="ion-android-notifications"></i></span>{{language.notifications}} </a></li>
 							<li><a href="#/notification_settings"><span><i class="ion-android-settings"></i></span> {{language.notification_settings}}</a></li>
 							<li><a href="#/messagelisting"><span><i class="ion-ios-email"></i></span>{{language.messages}}</a></li>
-							<!--<li><a href=""><span><i class="ion-android-settings"></i></span> Settings</a></li>-->
+							
 							<li><a ng-click="logout();"><span><i class="ion-log-out"></i></span>{{language.logout}} </a></li>
 						</ul>
 					</div>
-			
+<!--<li><a href=""><span><i class="ion-android-settings"></i></span> Settings</a></li>-->
+			<!-- <li ng-if="current_user_type=='2'"><a href="#/addAuction"><span><i class="fa-gavel"></i></span> Add Auction</a></li> -->
+<!--                                                        <li ng-if="current_user_type=='2'"><a href="#/ListOrderSeller"><span><i class="fa-gavel"></i></span> List Order</a></li>
+                                                         <li ng-if="current_user_type=='1'"><a href="#/ListOrderBuyer"><span><i class="fa-gavel"></i></span> List Order</a></li>-->

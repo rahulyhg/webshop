@@ -165,23 +165,24 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/contactinfo', 'contactinfo');
 
     
-     $app->post('/searchproductListinglatest', 'searchproductListinglatest');
-     $app->post('/banner', 'banner');
-     $app->post('/getmovement', 'getmovement');
-     $app->post('/ShopListSearch', 'ShopListSearch');
-     $app->post('/allShopListing', 'allShopListing');
-      $app->post('/deleteimage', 'deleteimage');
-       $app->post('/getgender', 'getgender');      
-       $app->post('/get_total_normaluser', 'get_total_normaluser');
-       $app->post('/get_total_reviews', 'get_total_reviews');
-       $app->post('/get_total_product', 'get_total_product');
-       $app->post('/get_total_auctioned_product', 'get_total_auctioned_product');
-        $app->post('/tomobileverifying', 'tomobileverifying');
+    $app->post('/searchproductListinglatest', 'searchproductListinglatest');
+    $app->post('/banner', 'banner');
+    $app->post('/getmovement', 'getmovement');
+    $app->post('/ShopListSearch', 'ShopListSearch');
+    $app->post('/allShopListing', 'allShopListing');
+    $app->post('/deleteimage', 'deleteimage');
+    $app->post('/getgender', 'getgender');      
+    $app->post('/get_total_normaluser', 'get_total_normaluser');
+    $app->post('/get_total_reviews', 'get_total_reviews');
+    $app->post('/get_total_product', 'get_total_product');
+    $app->post('/get_total_auctioned_product', 'get_total_auctioned_product');
+    $app->post('/tomobileverifying', 'tomobileverifying');
 
-         $app->post('/resend', 'resend');
-          $app->post('/resend1', 'resend1');
-         
+    $app->post('/resend', 'resend');
+    $app->post('/resend1', 'resend1');
 
+    $app->post('/userpaymentfortop', 'userpaymentfortop');
+    $app->post('/adduserproducttop', 'adduserproducttop');
        
 
 

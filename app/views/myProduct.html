@@ -9,6 +9,7 @@
 						<ul class="wish-list">
 							<li class="p-3 ng-scope col-md-4 float-left ml-1" ng-repeat="ProductList in productLists">
 								<div class="wishlist-image w-100 float-left">
+                                                                    <div class="top-product" ng-if="ProductList.top_product!= 0"><img src="app/assets/images/top.png" alt="" /></div>
 									  <a href="#/productDetails/{{ProductList.id}}"><img src="{{ProductList.image}}" alt="" class="img-fluid"></a>
 								</div>
 								<div class="wishlist-content w-100 float-left">
@@ -26,7 +27,7 @@
 									<div ng-if="ProductList.approved==1 && ProductList.live_status==1">
                                                                             <p><div class="row">
                                                                             <div class="col-md-6">    
-                                                                                <button type="button" ng-click="deleteProduct(ProductList.id)" class="btn btn-primary btn-dark"><i class="ion-trash-a"></i>{{language.delete}}</button>
+                                                                                <button type="button" ng-click="deleteProduct(ProductList.id)" class="btn btn-primary btn-dark">{{language.delete}}</button>
                                                                             </div>
 <!--                                                                                <div class="col-md-6"> 
                                                                                     <a href='#/addProduct/{{ProductList.id}}' class="btn btn-primary btn-dark"><i class="ion-creat-outline"></i> Edit</a>
@@ -44,7 +45,7 @@
                                                                             <button type="button" disabled="" class="btn btn-primary btn-dark"> {{language.sold}}</button>
                                                                         </p>
                                                                         
-                                                                        <p>
+                                                                        <p ng-if="ProductList.top_product==0">
                                                                         <button type="button" ng-click="marktop(ProductList.id)" class="btn btn-primary btn-dark">{{language.mark_as_top}}</button>
                                                                         </p>
                                                                         </div>

@@ -5748,6 +5748,39 @@ reject(response);
 });
 });
 };
+
+
+var adduserpaymenttop = function(id) {
+    return $q(function(resolve, reject) {
+        var userInfo = JSON.parse($window.localStorage["userInfo"]);
+    
+     var encodedString ='{"user_id":"'+ userInfo.user_id +'","return_id":"'+ id +'"}';
+
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"adduserproducttop",
+    data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    resolve(response.data); 
+    } else {
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    reject(response);
+    });
+    });
+    };
+
+
+
+
+
+
  return {
      
        // homeSettingsSection:homeSettingsSection,
@@ -5930,7 +5963,8 @@ reject(response);
         tomobileverifying:tomobileverifying,
         getotp:getotp,
         resend:resend,
-        resend1:resend1
+        resend1:resend1,
+        adduserpaymenttop:adduserpaymenttop
 
 };
 });
