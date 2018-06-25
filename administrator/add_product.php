@@ -162,13 +162,14 @@ if ($num > 0) {
                         <div class="widget-body">
                             <!-- BEGIN FORM-->
                             <form class="form-horizontal" method="post" enctype="multipart/form-data">
-
-                                <div class="control-group">
+                                
+                                
+<!--                                <div class="control-group">
                                     <label class="control-label">Name</label>
                                     <div class="controls">
                                         <input type="text" class="form-control" placeholder="Enter name" value="<?php echo $categoryRowset['name']; ?>" name="name" required>
                                     </div>
-                                </div>
+                                </div>-->
 
                                 <div class="control-group">
                                     <label class="control-label">Price</label>
@@ -200,6 +201,7 @@ if ($num > 0) {
                                     <div class="controls">
                                         <input type="radio" name="gender" value="Female" <?php if ('Female' == $categoryRowset['gender']) { ?> checked <?php } ?>>Female&nbsp;
                                         <input type="radio" name="gender" value="Male" <?php if ('Male' == $categoryRowset['gender']) { ?> checked <?php } ?>>Male<br>
+                                        <input type="radio" name="gender" value="Unisex" <?php if ('Unisex' == $categoryRowset['gender']) { ?> checked <?php } ?>>Unisex<br>
                                     </div>
                                 </div>
 
@@ -217,7 +219,7 @@ if ($num > 0) {
                                         $sql = "SELECT * FROM webshop_brands";
                                         $result = mysqli_query($con, $sql);
                                         ?>
-                                        <select name='brand'>
+                                        <select name='brand' disabled="true">
                                             <option value=''> Select Brand</option>
                                             <?php
                                             while ($row = mysqli_fetch_array($result)) {
@@ -230,7 +232,25 @@ if ($num > 0) {
                                     </div>
                                 </div>
 
+                                <div class="control-group">
+                                    <label class="control-label">Categoty</label>
+                                    <div class="controls">
+                                        <?php
+                                        $sql = "SELECT * FROM webshop_category";
+                                        $result = mysqli_query($con, $sql);
+                                        ?>
+                                        <select disabled="true">
+                                            <option value=''> Select Categoty</option>
+                                            <?php
+                                            while ($row = mysqli_fetch_array($result)) {
+                                                ?>
+                                                <option value='<?php echo $row['id']; ?>'  <?php if ($row['id'] == $categoryRowset['cat_id']) { ?> selected="selected"<?php } ?>><?php echo $row['name']; ?></option>
+                                            <?php }
+                                            ?>
 
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="control-group">
                                     <label class="control-label">Reference Number</label>
                                     <div class="controls">
@@ -238,12 +258,12 @@ if ($num > 0) {
                                     </div>
                                 </div>
 
-                                <div class="control-group">
+<!--                                <div class="control-group">
                                     <label class="control-label">Date of Purchase</label>
                                     <div class="controls">
                                         <input type="text" class="form-control" placeholder="Enter purchase date" value="<?php echo $categoryRowset['date_purchase']; ?>" id="datepickerpurchase" name="date_purchase" required>
                                     </div>
-                                </div>
+                                </div>-->
 
                                 <div class="control-group">
                                     <label class="control-label">Watch Status</label>

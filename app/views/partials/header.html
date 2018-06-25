@@ -5,7 +5,8 @@
           
         <input type="text" class="form-control" style="color:white" placeholder="{{language.search}} {{language.your}} {{language.product}}" ng-model="brandName" id="brandname" aria-label="Recipient's username"  aria-describedby="basic-addon2"> 
          <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" ng-click="getbrandname()"><i class="fa fa-search"></i></button>
+            <button ng-if="$state.current.name != 'frontend.productlisting'" class="btn btn-outline-secondary" type="button" ng-click="getbrandname()"><i class="fa fa-search"></i></button>
+          <button ng-if="$state.current.name == 'frontend.productlisting'" class="btn btn-outline-secondary" type="button" ng-click="searchListing()"><i class="fa fa-search"></i></button>
          </div>
       </div>
    </div>
@@ -18,8 +19,10 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
          <ul class="navbar-nav">
             <li class="nav-item dropdown">
+               
                <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                    {{language.brands}}
+                   
                  
                </a>
                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
