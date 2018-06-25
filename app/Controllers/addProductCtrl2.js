@@ -330,13 +330,17 @@ $scope.addProduct = function(user2){
         user2.owner_number=user2.owner_number;
          user2.country=user2.country;
           user2.size=user2.size;
-           user2.location=user2.location;
+           user2.location=angular.element('#address').val();
             user2.work_hours=user2.work_hours;
              user2.image= user2.image;
              user2.baseauctionprice= user2.baseauctionprice;
              user2.thresholdprice= user2.thresholdprice;
              user2.state=user2.state;
              user2.city=user2.city;
+             
+            
+            //alert(user2.location);
+             
 //console.log(user2);
              userService.addproduct(user2).then(function(response) {
 		//console.log('htype',response);
@@ -380,7 +384,7 @@ $scope.addProduct = function(user2){
                    
                    
                 } else {
-                    
+                     $scope.loader = true;
                     console.log('ppp');	
                     $scope.isExists=0;
 		}
@@ -390,7 +394,7 @@ $scope.addProduct = function(user2){
 				   
 	}, function(err) {
 	console.log(err); 
-	});     
+	});    
      
 }
 
