@@ -70,7 +70,7 @@ $scope.addauctionpayment = function(){
 	
 		if(response.Ack == '1') {
                    $scope.exists=1;
-		
+		$state.go('frontend.myAuction');
 		
 		
 
@@ -87,6 +87,18 @@ $scope.addauctionpayment = function(){
     
     };
 
+
+
+
+        $scope.myauction = function(){
+   
+		$state.go('frontend.myAuction');
 	
+        };
+
+
+
+
+
 });
 

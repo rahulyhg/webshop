@@ -107,14 +107,17 @@ $scope.markextension = function(id){
                    // alert('Added Successfully.');
                    // $window.location.reload()
                     $scope.exists=1;
+                    
+                     swal(response.msg,'','success');
                   //  $scope.user='';
 		$scope.expiredproduct();
                // $scope.user_idd=$scope.user_id;
 		//console.log($scope.alljobs);	
 		
 		} else {
+                    swal(response.msg,'','error');
                     console.log('ppp');	
-                    $scope.exists=0;
+                    $scope.exists=1;
 		}
 	
 	

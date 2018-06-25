@@ -255,7 +255,7 @@ if ($_REQUEST['action'] == 'edit') {
 
 
 
-                                            if ($uploader['image'] != '') {
+                                            if ($tools_type['image'] != '') {
                                                 $image_link = '../upload/product_image/' . $tools_type['image'];
                                             } else {
                                                 $image_link = '../upload/no.jpg';

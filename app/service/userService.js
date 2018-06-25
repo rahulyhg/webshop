@@ -5811,6 +5811,37 @@ var adduserpaymenttop = function(id) {
             });
         });
  };
+ 
+ 
+ var topsubscriptions = function() {
+    return $q(function(resolve, reject) {
+        var userInfo = JSON.parse($window.localStorage["userInfo"]);
+    var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+    
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"listtopSubscriptions",
+    data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+    
+    if(response.data.Ack == "1") {
+    resolve(response.data); 
+    } else {
+  resolve(response.data); 
+    } 
+    
+    
+    },function(response) {
+    reject(response);
+    });
+    });
+    };
+ 
+ 
+ 
+ 
+ 
 
  return {
      
@@ -5998,7 +6029,8 @@ var adduserpaymenttop = function(id) {
 
         adduserpaymenttop:adduserpaymenttop,
 
-        getproductpictures:getproductpictures
+        getproductpictures:getproductpictures,
+        topsubscriptions:topsubscriptions,
 
 
 };
