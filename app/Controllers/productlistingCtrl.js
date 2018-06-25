@@ -122,19 +122,29 @@ userService.getmaxprice(2).then(function(response) {
 
 
 // alert($scope.amount_max);
-$scope.searchListing = function(){
+$rootScope.searchListing = function(){
     
     
-
-if($scope.keyword){
+    var   brand=angular.element(document.getElementById("brandname")).val();
+    //alert(brand)
+if( brand !='')
+{
+    $scope.keyword=brand;
+        $window.localStorage["keyword"] =brand;
+}
+else if($scope.keyword){
     
 	$scope.keyword=$scope.keyword;
+        //alert($scope.keyword);
         $window.localStorage["keyword"] ='';
         //alert($scope.keyword);
         // $window.location.reload();
 }else{
-	$scope.keyword='';
+        
+            $scope.keyword='';
         $window.localStorage["keyword"] ='';
+       
+	
        // alert($scope.keyword);
          //$window.location.reload();
 }
@@ -300,7 +310,7 @@ userService.listbracelet().then(function(response) {
                 //$window.localStorage["userzip"]='';
 		
 		} else {
-                    
+                    $scope.productList= '';
                      $scope.exists=0;
 		}
 	

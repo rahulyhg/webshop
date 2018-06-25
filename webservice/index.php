@@ -366,6 +366,7 @@ function userlogin() {
 
     $data = array();
 
+    
     $app = \Slim\Slim::getInstance();
     $request = $app->request();
     $body = ($request->post());
@@ -378,7 +379,9 @@ function userlogin() {
     $status = 1;
     $is_admin_approved = '1';
     $email_verified = '1';
-
+    $mobile_verified = '1';
+   
+    //if()
 
     $sql = "SELECT * FROM webshop_user WHERE email='" . $email . "' AND password='" . $password . "' AND status='" . $status . "' AND is_admin_approved ='" . $is_admin_approved . "' AND email_verified='" . $email_verified . "'";
 
@@ -393,17 +396,44 @@ function userlogin() {
         if ($userCount == 0) {
             $data['Ack'] = '0';
             $data['msg'] = 'Username Or Password Is Invalid !!!';
+            
+            
             $app->response->setStatus(200);
         } else {
 
             if ($user->status == 0) {
                 $data['Ack'] = '0';
                 $data['msg'] = 'Account Is Not Activated yet';
+                
                 $app->response->setStatus(200);
             } else {
-
-                $data['Ack'] = '1';
-                $data['msg'] = 'Loggedin Successfully';
+                $sql1= "SELECT * FROM webshop_user WHERE email='" . $email . "' AND is_mobile_verified='1'";
+                $stmt123 = $db->prepare($sql1);
+                $stmt123->execute();
+                $usermobile = $stmt123->fetchObject();
+                //print_r($usermobile);
+                //exit;
+                $usermobileCount = $stmt123->rowCount();
+                if($usermobileCount == 0){
+                    
+                    $sql12= "SELECT * FROM webshop_user WHERE email='" . $email . "'";
+                $stmt1234 = $db->prepare($sql12);
+                $stmt1234->execute();
+                $usermobile4 = $stmt1234->fetchObject();
+                    
+                    $data['Ack'] = '4';
+                     $data['msg'] = 'Please Verify Your Mobile Number ';
+                    $data['mobileverify'] =base64_encode($usermobile4->id) ; 
+                   
+               
+                }else{
+                    $data['Ack'] = '1';
+                    $data['msg'] = 'Loggedin Successfully';
+                   
+                
+                }
+                
+                
 
 
                 if ($user->image != '') {
@@ -992,7 +1022,7 @@ function ProductsDetails() {
 
 
     $product_id = isset($body->product_id) ? $body->product_id : '';
-     $product_id = urldecode ( base64_decode($product_id) ) ;
+     $product_id = urldecode ( base64_decode($product_id) );
     $user_id = isset($body->user_id) ? $body->user_id : '';
 
     $sql = "SELECT * from  webshop_products WHERE id=:id ";
@@ -1401,7 +1431,7 @@ $date_purchase = date('dS M,Y', strtotime($product->date_purchase));
             "id" => stripslashes($product->id),
             "image" => $image,
             "price" => stripslashes($price),
-            "is_fav" => stripslashes($is_fav),
+           // "is_fav" => stripslashes($is_fav),
             "description" => strip_tags(stripslashes($product->description)),
             "category_name" => stripslashes($categoryname),
             // "subcategory_name" => stripslashes($subcategoryname),
@@ -1436,7 +1466,7 @@ $date_purchase = date('dS M,Y', strtotime($product->date_purchase));
             'interest' => $interested,
             'totallike' => $totallike,
             'userlike' => $userlike,
-            'is_fav' => $is_fav,
+            //'is_fav' => $is_fav,
             'maxbiddername' => $higestbiddername,
             'higestbidderbid' => $higestbidderbid,
             'bidhistory' => $allhistory,
@@ -1453,6 +1483,7 @@ $date_purchase = date('dS M,Y', strtotime($product->date_purchase));
 
 
         $data['Ack'] = '1';
+        $data['is_fav']=$is_fav;
         $app->response->setStatus(200);
     } else {
         $data = array();
@@ -1529,6 +1560,7 @@ function addFavoriteProduct() {
             $lastID = $db->lastInsertId();
             $data['last_id'] = $lastID;
             $data['Ack'] = '1';
+            $data['is_fav'] = '1';
             $data['msg'] = 'Added Successfully...';
 
 
@@ -1555,10 +1587,11 @@ function addFavoriteProduct() {
         $stmtdeletefab->execute();
 // $contactdetails = $stmt->fetchObject();
 // $count = $stmt->rowCount();
+        $data['is_fav'] = '0';
     }
 
 
-
+    
     $app->response->write(json_encode($data));
 }
 
@@ -3664,7 +3697,7 @@ function addProductNew() {
     //$stmtusd->bindParam("user_id", $user_id);
     $stmtusd->execute();
     $getusd = $stmtusd->fetchObject();
-    $price = $price / $getusd->currency_rate_to_usd;
+    $price = $price * $getusd->currency_rate_to_usd;
 // $baseauctionprice = isset($body["baseauctionprice"]) ? $body["baseauctionprice"] : '';
 //$thresholdprice = isset($body["thresholdprice"]) ? $body["thresholdprice"] : '';
 
@@ -4705,7 +4738,8 @@ function emailverified() {
     $stmtuser->bindParam("user_id", $user_id);
     $stmtuser->execute();
     $getUserdetails = $stmtuser->fetchObject();
-
+    $type =$getUserdetails->type;
+     //print_r($getUserdetails);exit;
     if ($getUserdetails->type == 1) {
         $admin_approve = '1';
         $status = '1';
@@ -4727,6 +4761,7 @@ function emailverified() {
         $msg = 'Email Verified Successfully.Your account is awaiting for the admin approval.You will be notified via email once activated.';
         if ($getUserdetails->type == 1) {
             $msg = 'Email Verified Successfully. You can login now.';
+            
         }
 
         $sqladmin = "SELECT * FROM webshop_tbladmin WHERE id=1";
@@ -4754,7 +4789,7 @@ function emailverified() {
         }
         $data['last_id'] = $user_id;
         $data['Ack'] = '1';
-        $data['msg'] = $msg;
+        $data['msg'] = 'Email Verified Successfully.Your account is awaiting for the admin approval.You will be notified via email once activated.';
 
 
         $app->response->setStatus(200);
@@ -6357,11 +6392,11 @@ function ProductListSearch() {
 // exit;
 
         $productIds = implode(",", $productIds);
-        $sql = "SELECT * from webshop_products where status = 1 and approved='1' and type='1' and is_discard='0' and id IN(" . $productIds . ")";
+        $sql = "SELECT * from webshop_products where status = 1 and approved='1' and type='1' and product_status='0' and is_discard='0' and id IN(" . $productIds . ")";
     } else {
 
 
-        $sql = "SELECT * from  webshop_products where status=1 and approved='1' and type='1' and is_discard='0' ";
+        $sql = "SELECT * from  webshop_products where status=1 and approved='1' and type='1' and product_status='0' and is_discard='0' ";
     }
 
     if ($amount_min != '' && $amount_max != '') {
@@ -6451,11 +6486,24 @@ if ($keyword != '') {
             $keycatid = '';
         }
     }
+if ($keyword != '') {
 
+        $keyworduser = "SELECT * FROM webshop_user WHERE fname ='$keyword' OR lname='$keyword'";
+        $stmtuploaderuser = $db->prepare($keyworduser);
+
+        $stmtuploaderuser->execute();
+        $getuploaderuser = $stmtuploaderuser->fetchObject();
+        if(!empty($getuploaderuser)){
+           $keyuserid = $getuploaderuser->id; 
+        }else{
+            $keyuserid = '';
+        }
+        //print_r($getkeywordbrand->id);
+    }
    // exit;
     if ($keyword != '') {
 
-        $sql .= " AND `model_year` LIKE '%" . $keyword . "%' OR `gender` LIKE '" . $keyword . "%' OR `preferred_date` LIKE '%" . $keyword . "%' OR `brands` LIKE '" . $keybrandid . "' OR `name` LIKE '" . $keyword . "' OR `description` LIKE '" . $keyword . "' OR `price` LIKE '" . $keyword . "' OR `movement` LIKE '" . $keyword . "' OR `reference_number` LIKE '" . $keyword . "' OR `owner_number` LIKE '" . $keyword . "' OR `cat_id` LIKE '" . $keycatid . "' AND type=1 ";
+        $sql .= " AND `model_year` LIKE '%" . $keyword . "%' OR `gender` LIKE '" . $keyword . "%' OR `preferred_date` LIKE '%" . $keyword . "%' OR `brands` LIKE '" . $keybrandid . "' OR `name` LIKE '" . $keyword . "' OR `description` LIKE '" . $keyword . "' OR `price` LIKE '" . $keyword . "' OR `movement` LIKE '" . $keyword . "' OR `reference_number` LIKE '" . $keyword . "' OR `owner_number` LIKE '" . $keyword . "' OR `cat_id` LIKE '" . $keycatid . "' AND type=1 OR `uploader_id` LIKE '".$keyuserid."'";
     }
      //exit;
     /* if ($year == '' && $keyword != '') {

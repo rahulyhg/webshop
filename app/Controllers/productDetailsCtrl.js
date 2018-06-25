@@ -609,7 +609,7 @@ swal("Mail can not be sent",'','error');
 				//alert (response.msg);
                 //alert ('Added to your Watchlist');
 				//$state.go('frontend.wishlist');
-                $window.location.reload();                
+              //  $window.location.reload();                
                                 
                               
                                 
@@ -619,7 +619,7 @@ swal("Mail can not be sent",'','error');
         else {
 //alert ('Already Added in your wishlist'); 
               //alert('Error !!!!');
-              $window.location.reload();  
+            //  $window.location.reload();  
               }
 																	
 	}, function(err) {
@@ -643,7 +643,7 @@ $scope.addlike2 = function(product_id,owner_id){
 				//alert (response.msg);
                 //alert ('You liked The Product');
 				//$state.go('frontend.wishlist');
-                $window.location.reload();                
+               // $window.location.reload();                
                                 
                               
                                 
@@ -653,7 +653,7 @@ $scope.addlike2 = function(product_id,owner_id){
         else {
 //alert ('Already Added in your like'); 
               //alert('Error !!!!');
-              $window.location.reload();  
+             // $window.location.reload();  
               }
 																	
 	}, function(err) {

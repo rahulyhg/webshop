@@ -14,7 +14,7 @@ app.controller("RootScopeCtrl", function ($scope,$rootScope, $location, $rootSco
 //    }
 
 
-
+    //$scope.mobileverify = '';
     if($window.localStorage["language"] == 2){
     $window.localStorage["language"] = 2;
     $scope.lang= 2 ;
@@ -379,6 +379,10 @@ userService.notiCount(userInfo.user_id).then(function(response) {
         }, 1000 );
        
 }
+ }else if(response.Ack == '4'){
+     $scope.mobileverify = response.mobileverify;
+     $('#login').modal('hide'); 
+     $state.go('frontend.mobileverify');
  }
  else
  {
@@ -429,7 +433,7 @@ $scope.loader = false;
 		} 
                 else
                 {
-                  swal(response.msg,'success');   
+                  swal(response.msg,'','success');   
                   $scope.loader = true;
                 }
         
@@ -513,6 +517,8 @@ $scope.forget = function(user) {
   }  */
 
       $scope.getbrandname = function(){
+
+
 
       	var   brand=angular.element(document.getElementById("brandname")).val();
       	//$scope.brandName =brand.val();

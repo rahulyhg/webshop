@@ -20,7 +20,7 @@ app.controller('emailVerifyCtrl', function($rootScope, $scope, $http, $location,
 				
 				
 				  
-			  }else{
+			  }else {
 
 			  	$scope.msg='';
 

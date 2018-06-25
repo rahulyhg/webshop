@@ -17,8 +17,11 @@ app.run(['$rootScope', '$state', '$stateParams',
 
 
 
-        $rootScope.serviceurl = "http://localhost/webshop1/webshop/webservice/frontend/";
-        $rootScope.siteurl = "http://localhost/webshop1/webshop/webservice/frontend/";
+        $rootScope.serviceurl = "http://localhost/webshop1/webshop/webservice/index.php/frontend/";
+        $rootScope.siteurl = "http://localhost/webshop1/webshop/webservice/index.php/frontend/";
+        
+       //  $rootScope.serviceurl = "http://localhost/webshop1/webshop/webservice/frontend/";
+        //$rootScope.siteurl = "http://localhost/webshop1/webshop/webservice/frontend/";
 
        //$rootScope.serviceurl = "http://localhost/webshop/webservice/frontend/";
         //$rootScope.siteurl = "http://localhost/ webshop/webservice/frontend/";
