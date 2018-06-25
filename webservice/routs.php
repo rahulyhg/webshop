@@ -185,7 +185,8 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/userpaymentfortop', 'userpaymentfortop');
     $app->post('/adduserproducttop', 'adduserproducttop');
 
-    $app->get('/currency_rates', 'currency_rates');   
+    $app->get('/currency_rates', 'currency_rates'); 
+    $app->post('/listtopSubscriptions', 'listtopSubscriptions');
 
 
 });

@@ -58,7 +58,7 @@ $scope.isform1 =0;
 }
 
  
-$scope.product_id=atob($stateParams.id);  
+$scope.product_id= $stateParams.id; 
 
 $scope._Index = 0;
 

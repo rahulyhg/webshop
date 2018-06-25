@@ -19,13 +19,13 @@
 									
                                                                             <p>
                                                                                
-                                                                                <button type="button" ng-click="markextension(ProductList.id)" class="btn btn-primary btn-dark"> Get Extension</button> 
+                                                                                <button type="button" ng-click="markextension(ProductList.id)" class="btn btn-primary btn-dark" onclick="return confirm('Are you sure to extend this product with your current slot?')"> Get Extension</button> 
                                                                             </p> 
                                                                                
                                                                                 
                                                                                
                                                                                <p> 
-                                                                                   <button type="button" ng-click="deleteProduct(ProductList.id)" class="btn btn-primary btn-dark"><i class="ion-trash-a"></i> Remove</button>
+                                                                                   <button type="button" ng-click="deleteProduct(ProductList.id)" class="btn btn-primary btn-dark" onclick="return confirm('Are you sure to remove this product?')"><i class="ion-trash-a"></i> Remove</button>
                                                                             </p>
                                                                        
                                                                         

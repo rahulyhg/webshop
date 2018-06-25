@@ -196,18 +196,13 @@
 										<label for="staticEmail">Threshold Price</label>
 										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user2.thresholdprice" name="thresholdprice" required>
 									</div>-->
-									 <div class="form-group">
-										<label for="staticEmail">Location</label>
-										<input type="text" class="form-control" id="address" value="" placeholder="" ng-pattern="/^[a-z A-Z]+$/" ng-model="user2.location" name="location" readonly>
-                                                                                
-                                                                                <span style="color:Red" ng-show="addProductForm.location.$dirty && addProductForm.location.$error.pattern">Only Letters Allowed</span>
-									</div>
+									 
                                                                        
                                                                        
                                                                        
-                <!--<input type="hidden"  id="lat" ng-model="user.my_latitude" name="my_latitude" >-->
+                <input type="hidden"  id="lat" ng-model="user2.my_latitude" name="my_latitude" >
 									
-                <!--<input type="hidden"  id="long" ng-model="user.my_longitude" name="my_longitude" >-->  
+                <input type="hidden"  id="long" ng-model="user2.my_longitude" name="my_longitude" >  
                                                                        
                                                                        
                                                                        
@@ -253,7 +248,12 @@
 </div>
                                                                            </div>
                                                                            
-                                                                           
+                                                                           <div class="form-group">
+										<label for="staticEmail">Location</label>
+										<input type="text" class="form-control" id="address" value="" placeholder="" ng-pattern="/^[a-z A-Z]+$/" ng-model="user2.location" name="location" readonly>
+                                                                                
+                                                                                
+									</div>
                                                                            
                                                                            
                                                                            
@@ -437,93 +437,72 @@ top: 3%;
 </style>
 
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyDnTqCZqlvuWG1KNrNh9slnA_EqiJmiX9g&callback=initMap" async defer></script>
-<script type="text/javascript">
-    var markers = [
-        {
-            "title": 'Alibaug',
-            "lat": '18.641400',
-            "lng": '72.872200',
-            "description": 'Alibaug is a coastal town and a municipal council in Raigad District in the Konkan region of Maharashtra, India.'
-        }/*,
-        {
-            "title": 'Lonavla',
-            "lat": '18.750000',
-            "lng": '73.416700',
-            "description": 'Lonavla'
-        },
-        {
-            "title": 'Mumbai',
-            "lat": '18.964700',
-            "lng": '72.825800',
-            "description": 'Mumbai formerly Bombay, is the capital city of the Indian state of Maharashtra.'
-        },
-        {
-            "title": 'Pune',
-            "lat": '18.523600',
-            "lng": '73.847800',
-            "description": 'Pune is the seventh largest metropolis in India, the second largest in the state of Maharashtra after Mumbai.'
-        },
-        {
-            "title": 'Thane',
-            "lat": '19.182800',
-            "lng": '72.961200',
-            "description": 'Thane'
-        },
-        {
-            "title": 'Vashi',
-            "lat": '18.750000',
-            "lng": '73.033300',
-            "description": 'Vashi'
-        }*/
-    ];
+<script>
 
-     function initMap() {
-
-        var mapOptions = {
-            center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
-            zoom: 3,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        var infoWindow = new google.maps.InfoWindow();
-        var latlngbounds = new google.maps.LatLngBounds();
-        var geocoder = geocoder = new google.maps.Geocoder();
-        var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
-        for (var i = 0; i < markers.length; i++) {
-            var data = markers[i]
-            var myLatlng = new google.maps.LatLng(data.lat, data.lng);
-            var marker = new google.maps.Marker({
-                position: myLatlng,
-                map: map,
-                title: data.title,
-                draggable: true,
-                animation: google.maps.Animation.DROP
-            });
-            (function (marker, data) {
-                google.maps.event.addListener(marker, "click", function (e) {
-                    infoWindow.setContent(data.description);
-                    infoWindow.open(map, marker);
-                });
-                google.maps.event.addListener(marker, "dragend", function (e) {
-                    var lat, lng, address;
-                    geocoder.geocode({ 'latLng': marker.getPosition() }, function (results, status) {
-                        if (status == google.maps.GeocoderStatus.OK) {
-                            lat = marker.getPosition().lat();
-                            lng = marker.getPosition().lng();
-                            address = results[0].formatted_address;
-                            //alert("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + address);                           
-                            //document.getElementById("lat").value=lat;
-                           
-                            $('#lat').val(lat);
-                            $('#long').val(lng);
-                            $('#address').val(address);
-                        }
-                    });
-                });
-            })(marker, data);
-            latlngbounds.extend(marker.position);
-        }
-        var bounds = new google.maps.LatLngBounds();
-        map.setCenter(latlngbounds.getCenter());
-        map.fitBounds(latlngbounds);
+function initMap() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
     }
+}
+
+    
+    function showPosition(position) {
+    var myLatLng = {lat: position.coords.latitude, lng: position.coords.longitude};
+
+    $('#lat').val(position.coords.latitude);
+    $('#long').val(position.coords.longitude);
+
+    
+    var map = new google.maps.Map(document.getElementById('dvMap'), {
+      zoom: 17,
+      center: myLatLng
+    });
+
+    var marker = new google.maps.Marker({
+      position: myLatLng,
+      map: map,
+      title: address,
+      draggable:true,
+    });
+
+
+                google.maps.event.addListener(marker, 'dragend', function() 
+                    {
+                        geocodePosition(marker.getPosition());
+                    });
+
+                    function geocodePosition(pos) 
+                    {
+                        var lat, lng, address;
+                       geocoder = new google.maps.Geocoder();
+                       geocoder.geocode
+                        ({
+                            latLng: pos
+                        }, 
+                            function(results, status) 
+                            {
+                                if (status == google.maps.GeocoderStatus.OK) 
+                                {
+                                     lat = pos.lat();
+                                     lng = pos.lng();
+                                     address = results[0].formatted_address;
+                                    //alert("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + address);
+                                    $('#lat').val(lat);
+                                    $('#long').val(lng);
+                                    $('#address').val(address);
+                                } 
+                                else 
+                                {
+                                    $("#mapErrorMsg").html('Cannot determine address at this location.'+status).show(100);
+                                }
+                            }
+                        );
+                    }
+
+
+}
+ 
+    
 </script>

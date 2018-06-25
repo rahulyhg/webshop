@@ -30,6 +30,27 @@ date_default_timezone_set('UTC');
   return $array;
   } */
 
+
+
+function ip_details() {
+    
+    
+  if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+    $ip = $_SERVER['HTTP_CLIENT_IP'];
+  } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+  } else {
+    $ip = $_SERVER['REMOTE_ADDR'];
+  }
+  
+  $json = file_get_contents("http://ipinfo.io/{$ip}/geo");
+  $details = json_decode($json, true);
+  //return $details;
+
+print_r($details);exit;
+$details = ip_details($ipaddress);
+echo $details['city'];
+}
 function userSignup() {
 
     $data = array();
@@ -1970,7 +1991,7 @@ function listmyProducts() {
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
 
-    $sql = "SELECT * from  webshop_products WHERE uploader_id=:user_id and type = '1' order by id desc";
+    $sql = "SELECT * from  webshop_products WHERE uploader_id=:user_id and type = '1' and is_discard=0 order by id desc";
     $db = getConnection();
     $stmt = $db->prepare($sql);
     $stmt->bindParam("user_id", $user_id);
@@ -2109,7 +2130,7 @@ function deleteProduct() {
 
     $db = getConnection();
 
-    $sql = "DELETE from webshop_products WHERE id=:product_id and uploader_id=:user_id";
+    $sql = "UPDATE webshop_products  SET `is_discard`=1 WHERE id=:product_id and uploader_id=:user_id";
 
     try {
         $db = getConnection();
@@ -3686,6 +3707,9 @@ function addProductNew() {
 
     $state = isset($body["state"]) ? $body["state"] : '';
     $city = isset($body["city"]) ? $body["city"] : '';
+    
+    $latitude = isset($body["my_latitude"]) ? $body["my_latitude"] : '';
+    $longitude = isset($body["my_longitude"]) ? $body["my_longitude"] : '';
     $get_status = '0';
     $status = 0;
     $quantity = 1;
@@ -3741,7 +3765,7 @@ function addProductNew() {
                         $sid = $getUserDetails->sid;
 
 
-                        $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,status,size,location,work_hours,subscription_id,state,city,approved,breslet_type,model_year) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:status,:size,:location,:work_hours,:subscription_id,:state,:city,:approved,:breslet_type,:model_year)";
+                        $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,status,size,location,work_hours,subscription_id,state,city,approved,breslet_type,model_year,my_latitude,my_longitude) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:status,:size,:location,:work_hours,:subscription_id,:state,:city,:approved,:breslet_type,:model_year,:my_latitude,:my_longitude)";
 
 
 
@@ -3793,6 +3817,8 @@ function addProductNew() {
                             $stmt->bindParam("approved", $approved);
                             $stmt->bindParam("breslet_type", $breslet_type);
                             $stmt->bindParam("model_year", $model_year);
+                            $stmt->bindParam("my_latitude", $latitude);
+                            $stmt->bindParam("my_longitude", $longitude);
                             $stmt->execute();
                             $lastID = $db->lastInsertId();
 
@@ -3901,7 +3927,7 @@ function addProductNew() {
             $stmtsetting->execute();
             $getsetting = $stmtsetting->fetchObject();
 
-            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city,approved,auction_fee) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city,:approved,:auction_fee)";
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city,approved,auction_fee,my_latitude,my_longitude) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city,:approved,:auction_fee,:my_latitude,:my_longitude)";
             
             $approved=1;
             $payment_amount = ceil(($price * $getsetting->threshold_price_percent) / 100);
@@ -3943,6 +3969,8 @@ function addProductNew() {
                 $stmt->bindParam("status", $get_status);
                 $stmt->bindParam("approved", $approved);
                 $stmt->bindParam("auction_fee", $payment_amount);
+                $stmt->bindParam("my_latitude", $latitude);
+                $stmt->bindParam("my_longitude", $longitude);
                 $stmt->execute();
 
                 $lastID = $db->lastInsertId();
@@ -4065,7 +4093,7 @@ function addProductNew() {
 
 
 
-            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,location,work_hours,approved,state,city,status,breslet_type,model_year) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:location,:work_hours,:approved,:state,:city,:status,:breslet_type,:model_year)";
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,location,work_hours,approved,state,city,status,breslet_type,model_year,my_latitude,my_longitude) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:location,:work_hours,:approved,:state,:city,:status,:breslet_type,:model_year,:my_latitude,:my_longitude)";
 
 
 
@@ -4132,6 +4160,8 @@ function addProductNew() {
                 $stmt->bindParam("work_hours", $work_hours);
                 $stmt->bindParam("approved", $get_status);
                 $stmt->bindParam("status", $payment_status);
+                $stmt->bindParam("my_latitude", $latitude);
+                $stmt->bindParam("my_longitude", $longitude);
                 $stmt->execute();
                 $lastID = $db->lastInsertId();
 
@@ -4218,7 +4248,7 @@ function addProductNew() {
             $stmtsetting->execute();
             $getsetting = $stmtsetting->fetchObject();
 
-            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city,approved,auction_fee) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city,:approved,:auction_fee)";
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city,approved,auction_fee,my_latitude,my_longitude) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city,:approved,:auction_fee,:my_latitude,:my_longitude)";
 
             $approved= 1;
             $payment_amount = ceil(($price * $getsetting->threshold_price_percent) / 100);
@@ -4258,6 +4288,8 @@ function addProductNew() {
                 $stmt->bindParam("city", $city);
                 $stmt->bindParam("approved", $approved);
                 $stmt->bindParam("auction_fee", $payment_amount);
+                $stmt->bindParam("my_latitude", $latitude);
+                $stmt->bindParam("my_longitude", $longitude);
 
                 $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
 
@@ -7532,7 +7564,7 @@ function markProduct() {
     $app->response->write(json_encode($data));
 }
 
-function listexpiredProducts() {
+/*function listexpiredProducts() {
     $data = array();
     $app = \Slim\Slim::getInstance();
     $request = $app->request();
@@ -7544,7 +7576,7 @@ function listexpiredProducts() {
 
 
 
-    $sql1 = "SELECT * from  webshop_subscribers WHERE user_id=:user_id  order by id desc limit 1,1";
+    $sql1 = "SELECT * from  webshop_subscribers WHERE user_id=:user_id  order by id desc";
     $db = getConnection();
     $stmt1 = $db->prepare($sql1);
     $stmt1->bindParam("user_id", $user_id);
@@ -7644,7 +7676,140 @@ function listexpiredProducts() {
     }
 
     $app->response->write(json_encode($data));
+}*/
+
+
+function listexpiredProducts() {
+    $data = array();
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+
+    $cdate =date('Y-m-d');
+
+    $sql1 = "SELECT * from  webshop_subscribers WHERE user_id=:user_id  order by id desc";
+    $db = getConnection();
+    $stmt1 = $db->prepare($sql1);
+    $stmt1->bindParam("user_id", $user_id);
+    $stmt1->execute();
+    $getsubscriptions = $stmt1->fetchAll(PDO::FETCH_OBJ);
+
+    if (!empty($getsubscriptions)) {
+        
+        foreach($getsubscriptions as $getsubscription){
+            
+            
+            
+            if($getsubscription->expiry_date < $cdate){
+        
+                //echo "sp";exit;
+                 $sid = $getsubscription->id;
+                 
+            }else{
+                
+                $sid = '';
+                }
+
+        $sql = "SELECT * from  webshop_products WHERE uploader_id=:user_id and type = '1' and is_discard='0' and subscription_id=:subscription_id order by id desc";
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("user_id", $user_id);
+        $stmt->bindParam("subscription_id", $sid);
+        $stmt->execute();
+        $getAllProducts = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        if (!empty($getAllProducts)) {
+            foreach ($getAllProducts as $product) {
+
+
+                if ($product->image != '') {
+                    $image = SITE_URL . 'upload/product_image/' . $product->image;
+                } else {
+                    $image = SITE_URL . 'webservice/not-available.jpg';
+                }
+
+
+                $sql2 = "SELECT * FROM  webshop_category WHERE id=:id ";
+                $stmt2 = $db->prepare($sql2);
+                $stmt2->bindParam("id", $product->cat_id);
+                $stmt2->execute();
+                $getcategory = $stmt2->fetchObject();
+                if (!empty($getcategory)) {
+                    $categoryname = $getcategory->name;
+                }
+
+
+
+                $sql3 = "SELECT * FROM  webshop_subcategory WHERE id=:id ";
+                $stmt3 = $db->prepare($sql3);
+                $stmt3->bindParam("id", $product->subcat_id);
+                $stmt3->execute();
+                $getsubcategory = $stmt3->fetchObject();
+//            if (!empty($getsubcategory)) {
+//                $subcategoryname = $getsubcategory->name;
+//            }
+//Seller Information
+
+                $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
+                $stmt1 = $db->prepare($sql1);
+                $stmt1->bindParam("id", $product->uploader_id);
+                $stmt1->execute();
+                $getUserdetails = $stmt1->fetchObject();
+
+                if (!empty($getUserdetails)) {
+                    $seller_name = $getUserdetails->fname . ' ' . $getUserdetails->lname;
+                    $seller_address = $getUserdetails->address;
+                    $seller_phone = $getUserdetails->phone;
+                    $email = $getUserdetails->email;
+
+                    if ($getUserdetails->image != '') {
+                        $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
+                    } else {
+                        $profile_image = SITE_URL . 'webservice/no-user.png';
+                    }
+                } else {
+                    $profile_image = '';
+                }
+
+                $data['productList'][] = array(
+                    "id" => base64_encode(stripslashes($product->id)),
+                    "image" => stripslashes($image),
+                    "price" => stripslashes($product->price),
+                    "description" => strip_tags(stripslashes(substr($product->description, 0, 50))),
+                    "category_name" => $categoryname,
+                    "seller_id" => stripslashes($product->uploader_id),
+                    "seller_image" => $profile_image,
+                    "seller_name" => stripslashes($seller_name),
+                    "seller_address" => stripslashes($seller_address),
+                    "seller_phone" => stripslashes($seller_phone),
+                    "productname" => stripslashes($product->name),
+                    "product_status" => stripslashes($product->product_status),
+                );
+            }
+
+
+            $data['Ack'] = '1';
+            $app->response->setStatus(200);
+        }
+    }
+        
+    } else {
+        $data = array();
+        $data['productList'] = array();
+        $data['Ack'] = '0';
+        $app->response->setStatus(200);
+    }
+
+    $app->response->write(json_encode($data));
 }
+
+
+
+
 
 function markextension() {
 
@@ -7686,7 +7851,7 @@ function markextension() {
 
     try {
 
-
+        if($getUserDetails->slot_no > 0){
         $sql2 = "UPDATE  webshop_products SET subscription_id=:subscription_id WHERE id=:id";
         $db = getConnection();
         $stmt2 = $db->prepare($sql2);
@@ -7709,10 +7874,18 @@ function markextension() {
 
 
         $data['Ack'] = '1';
-        $data['msg'] = 'Product extended Successfully';
+        $data['msg'] = 'Product extended Successfully with you new subscription slot.';
 
         $app->response->setStatus(200);
         $db = null;
+        }else{
+            
+        $data['Ack'] = '2';
+        $data['msg'] = 'Sorry! You have no slot to extend this product.';
+
+        $app->response->setStatus(200);
+        $db = null; 
+        }
     } catch (PDOException $e) {
 
 
@@ -13405,7 +13578,50 @@ function getproductpictures() {
 }
 
 
+function listtopSubscriptions() {
 
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+
+    $db = getConnection();
+
+    $sql = "SELECT * from webshop_subscription where status = 1 and type='N' and subscription_for=3";
+
+
+    try {
+
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $getSubscriptions = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+        foreach ($getSubscriptions as $subscription) {
+
+            $allsubscriptions[] = array(
+                "id" => stripslashes($subscription->id),
+                "name" => stripslashes($subscription->name),
+                "price" => stripslashes($subscription->price),
+                "duration" => stripslashes($subscription->duration),
+            );
+        }
+
+        $data['subscriptionlist'] = $allsubscriptions;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
 
 
 

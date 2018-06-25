@@ -44,15 +44,16 @@
                                     <span style="color:Red" ng-show="submitted && addPaymentForm.phone.$error.required">This Field Is Required! </span>
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group" ng-if="current_user_type=='1'">
                                     <label for="staticEmail"> Loyalty Redeem</label>
                                     <input type="number" class="form-control"   name="loyalty_redeem" ng-pattern="/^[0-9]+$/" ng-model="value.loyalty_redeem" min="0">
                                    <span style="color:Red" ng-show="addPaymentForm.loyalty_redeem.$dirty && addPaymentForm.loyalty_redeem.$error.pattern">Only Numbers Allowed</span>  
                                 </div>
                                 
                                 <div>
-                                    Loyalty Remaining: {{totalloyalty - value.loyalty_redeem}}<br>
-                                    Pay Amount: {{package.price - value.loyalty_redeem}}
+                                    <p ng-if="current_user_type=='1'">
+                                        Loyalty Remaining: {{totalloyalty - value.loyalty_redeem}}</p>
+                                    <p>Pay Amount: {{package.price - value.loyalty_redeem}}</p>
                                 
                                 </div><br>
                                 

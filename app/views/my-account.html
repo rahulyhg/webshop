@@ -227,7 +227,9 @@ top: 3%;
 </style>
 
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyDnTqCZqlvuWG1KNrNh9slnA_EqiJmiX9g&callback=initMap" async defer></script>
-<script type="text/javascript">
+
+
+<!--<script type="text/javascript">
     var markers = [
         {
             "title": 'Alibaug',
@@ -316,4 +318,76 @@ top: 3%;
         map.setCenter(latlngbounds.getCenter());
         map.fitBounds(latlngbounds);
     }
+</script>-->
+
+
+<script>
+
+function initMap() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+    
+    function showPosition(position) {
+    var myLatLng = {lat: position.coords.latitude, lng: position.coords.longitude};
+
+    $('#lat').val(position.coords.latitude);
+    $('#long').val(position.coords.longitude);
+    //$('#address').val(address);
+
+
+    var map = new google.maps.Map(document.getElementById('dvMap'), {
+      zoom: 17,
+      center: myLatLng
+    });
+
+    var marker = new google.maps.Marker({
+      position: myLatLng,
+      map: map,
+      title: address,
+      draggable:true,
+    });
+
+
+                google.maps.event.addListener(marker, 'dragend', function() 
+                    {
+                        geocodePosition(marker.getPosition());
+                    });
+
+                    function geocodePosition(pos) 
+                    {
+                        var lat, lng, address;
+                       geocoder = new google.maps.Geocoder();
+                       geocoder.geocode
+                        ({
+                            latLng: pos
+                        }, 
+                            function(results, status) 
+                            {
+                                if (status == google.maps.GeocoderStatus.OK) 
+                                {
+                                     lat = pos.lat();
+                                     lng = pos.lng();
+                                     address = results[0].formatted_address;
+                                    //alert("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + address);
+                                    $('#lat').val(lat);
+                                    $('#long').val(lng);
+                                    $('#address').val(address);
+                                } 
+                                else 
+                                {
+                                    $("#mapErrorMsg").html('Cannot determine address at this location.'+status).show(100);
+                                }
+                            }
+                        );
+                    }
+
+
+}
+ 
+    
 </script>

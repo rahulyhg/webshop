@@ -204,7 +204,26 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                 </ul>
             </li>   
 
+            <li class="sub-menu">
+                <a href="javascript:;" class="">
+                    <i class="icon-tasks"></i>
+                    <span>Product Subscription</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub">
 
+                    <li>
+                        <a href="add_top_subscription.php">
+                            Add Subscription</a>
+                    </li>
+
+                    <li>
+                        <a href="list_top_subscription.php">
+                            List Subscription</a>
+                    </li>
+
+                </ul>
+            </li>
 
             <li class="sub-menu">
                 <a href="javascript:;" class="">

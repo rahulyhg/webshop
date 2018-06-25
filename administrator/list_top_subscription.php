@@ -8,7 +8,7 @@ if(isset($_GET['action']) && $_GET['action']=='delete')
   $item_id=$_GET['cid'];
   mysqli_query($con,"delete from  webshop_subscription where id='".$item_id."'");
   //$_SESSION['msg']=message('deleted successfully',1);
-  header('Location:list_user_subscription.php');
+  header('Location:list_top_subscription.php');
   exit();
 }
 
@@ -58,7 +58,7 @@ if (isset($_REQUEST['submit'])) {
 
         if ($last_id != "" || $last_id != 0) {
         
-           header("location:list_user_subscription.php");
+           header("location:list_top_subscription.php");
             $_SESSION['MSG'] = 3;
             exit();
         } else {
@@ -81,7 +81,7 @@ if (isset($_REQUEST['submit'])) {
 
 
 
-            header("location:list_user_subscription.php");
+            header("location:list_top_subscription.php");
             $_SESSION['MSG'] = 1;
             exit();
         } else {
@@ -108,21 +108,21 @@ if(isset($_REQUEST['bulk_delete_submit'])){
         
         //die();
         
-        header("Location:list_user_subscription.php");
+        header("Location:list_top_subscription.php");
     }
 
 if(isset($_GET['action']) && $_GET['action']=='inactive')
 {
 	 $item_id=$_GET['cid'];
 	mysqli_query($con,"update webshop_subscription set status='0' where id='".$item_id."'");
-         header('Location:list_user_subscription.php');
+         header('Location:list_top_subscription.php');
 	exit();
 }
 if(isset($_GET['action']) && $_GET['action']=='active')
 {
 	 $item_id=$_GET['cid'];
 	mysqli_query($con,"update webshop_subscription set status='1' where id='".$item_id."'");
-         header('Location:list_user_subscription.php');
+         header('Location:list_top_subscription.php');
 	exit();
 }
 
@@ -152,18 +152,18 @@ $categoryRowset = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_s
       var a=confirm("Are you sure, you want to delete this?")
       if (a)
       {
-        location.href="list_user_subscription.php?cid="+ aa +"&action=delete"
+        location.href="list_top_subscription.php?cid="+ aa +"&action=delete"
       }  
    } 
    
 function inactive(aa)
    { 
-       location.href="list_user_subscription.php?cid="+ aa +"&action=inactive"
+       location.href="list_top_subscription.php?cid="+ aa +"&action=inactive"
 
    } 
    function active(aa)
    {
-     location.href="list_user_subscription.php?cid="+aa+"&action=active";
+     location.href="list_top_subscription.php?cid="+aa+"&action=active";
    } 
 
    </script>
@@ -200,14 +200,14 @@ function inactive(aa)
                    </div>
                    <!-- END THEME CUSTOMIZER-->
                   <!-- BEGIN PAGE TITLE & BREADCRUMB-->
-                   <h3 class="page-title">User Subscription list</h3>
+                   <h3 class="page-title">Top Product Subscription list</h3>
                    <ul class="breadcrumb">
                        <li>
                            <a href="#">Home</a>
                            <span class="divider">/</span>
                        </li>
                        <li>
-                           <a href="#">User Subscription list</a>
+                           <a href="#">Top Product Subscription list</a>
                         
                        </li>
                         
@@ -249,7 +249,7 @@ function inactive(aa)
                             </thead>
                         <tbody>
                             <?php
-                                                        $fetch_subscription=mysqli_query($con,"select * from webshop_subscription where subscription_for=1");
+                                                        $fetch_subscription=mysqli_query($con,"select * from webshop_subscription where subscription_for=3");
                                                         $num=mysqli_num_rows($fetch_subscription);
                                                         if($num>0)
                                                         {
@@ -279,7 +279,7 @@ function inactive(aa)
                 
                 
                 <td>
-                  <a  href="add_user_subscription.php?id=<?php echo $subscription['id'] ?>&action=edit">
+                  <a  href="add_top_subscription.php?id=<?php echo $subscription['id'] ?>&action=edit">
                   <i class="icon-edit"></i></a>
                    <a onClick="javascript:del('<?php echo $subscription['id']; ?>')">
                   <i class="icon-trash"></i></a>

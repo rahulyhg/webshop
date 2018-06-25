@@ -65,7 +65,7 @@ else {
  
 $scope.allsubscriptions = function(){
 
- userService.usersubscriptions().then(function(response) {
+ userService.topsubscriptions().then(function(response) {
      
     
 		if(response.Ack == '1') {
