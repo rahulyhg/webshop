@@ -365,7 +365,7 @@ $uploader = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_user` W
                 
 
                 <td>
-                   $<?php echo stripslashes($tools_type['tpoint']);?>
+                   $<?php echo stripslashes($uploader['total_loyalty']);?>
                 </td>
                 
                  <!-- <td>
