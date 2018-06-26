@@ -323,11 +323,11 @@ function inactive(aa)
                           
                  <td>
                   <?php
-                  if($result['type'] == 1){
-                       echo stripslashes($result['used_date']);
-                     }else{ 
+//                  if($result['type'] == 1){
+//                       echo stripslashes($result['used_date']);
+//                     }else{ 
                          echo stripslashes($result['add_date']) ; 
-                        }
+                        //}
                  // echo stripslashes($result['add_date']);
                   ?>
                 </td>

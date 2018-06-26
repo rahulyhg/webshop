@@ -8158,7 +8158,27 @@ function adduserpayment() {
     $stmtproduct->bindParam("pid", $product_id);
     $stmtproduct->execute();
 
+    
+    
+    //new
+    
+        $payamount=$getSubscriptionDetails->price -$loyalty_point;
+        
+        $sql2 = "SELECT * from webshop_loyalietypoint where from_price <= :bidprice AND to_price >= :bidprice";
+        $stmt2 = $db->prepare($sql2);
+        $stmt2->bindParam("bidprice", $payamount);
+        $stmt2->execute();
+        $biddetails = $stmt2->fetchAll(PDO::FETCH_OBJ);
 
+//        if ($loyalty_point != 0) {
+//            $total_loyalty = (($is_user[0]->total_loyalty + $biddetails[0]->point) - $loyalty_point);
+//        } else {
+//            $total_loyalty = $is_user[0]->total_loyalty + $biddetails[0]->point;
+//        }
+        
+    //new
+    
+    
     $sql6 = "SELECT * from webshop_user where id=:user_id ";
     $stmt6 = $db->prepare($sql6);
     $stmt6->bindParam("user_id", $user_id);
@@ -8169,9 +8189,9 @@ function adduserpayment() {
 
 
     if ($loyalty_point != 0) {
-        $total_loyalty = ($is_user->total_loyalty - $loyalty_point);
+        $total_loyalty = (($is_user->total_loyalty + $biddetails[0]->point) - $loyalty_point);
     } else {
-        $total_loyalty = 0;
+        $total_loyalty = ($is_user->total_loyalty + $biddetails[0]->point);
     }
 
     $sql = "UPDATE  webshop_user SET total_loyalty = :loyalty WHERE id=:user_id ";
@@ -8180,6 +8200,7 @@ function adduserpayment() {
     $stmt->bindParam("user_id", $user_id);
     $stmt->execute();
 
+    //loyalty debit
     if ($loyalty_point != 0) {
         $date = date('Y-m-d');
         $type = 1;
@@ -8194,7 +8215,19 @@ function adduserpayment() {
         $stmt->execute();
     }
 
+    //loyalty credit
+    
+    if ($biddetails[0]->point) {
+            $date = date('Y-m-d');
+            $sql = "INSERT INTO  webshop_user_loyaliety (pay_amount, user_id,point,add_date) VALUES (:pay_amount, :user_id,:point,:date)";
 
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam("pay_amount", $payamount);
+            $stmt->bindParam("user_id", $user_id);
+            $stmt->bindParam("point", $biddetails[0]->point);
+            $stmt->bindParam("date", $date);
+            $stmt->execute();
+        }
 
 
 
@@ -13346,7 +13379,23 @@ function adduserproducttop() {
     $stmtproduct->bindParam("subscription_id", $lastID);
     $stmtproduct->bindParam("pid", $product_id);
     $stmtproduct->execute();
+    
+    
+    
+    
+    
+    //new
+    
+        $payamount=$getSubscriptionDetails->price - $loyalty_point;
+        $sql2 = "SELECT * from webshop_loyalietypoint where from_price <= :bidprice AND to_price >= :bidprice";
+        $stmt2 = $db->prepare($sql2);
+        $stmt2->bindParam("bidprice", $payamount);
+        $stmt2->execute();
+        $biddetails = $stmt2->fetchAll(PDO::FETCH_OBJ);
 
+   //new 
+    
+    
 
     $sql6 = "SELECT * from webshop_user where id=:user_id ";
     $stmt6 = $db->prepare($sql6);
@@ -13356,11 +13405,10 @@ function adduserproducttop() {
 
 
 
-
     if ($loyalty_point != 0) {
-        $total_loyalty = ($is_user->total_loyalty - $loyalty_point);
+        $total_loyalty = (($is_user->total_loyalty + $biddetails[0]->point) - $loyalty_point);
     } else {
-        $total_loyalty = 0;
+        $total_loyalty = $is_user->total_loyalty + $biddetails[0]->point;
     }
 
     $sql = "UPDATE  webshop_user SET total_loyalty = :loyalty WHERE id=:user_id ";
@@ -13369,6 +13417,7 @@ function adduserproducttop() {
     $stmt->bindParam("user_id", $user_id);
     $stmt->execute();
 
+    //debit
     if ($loyalty_point != 0) {
         $date = date('Y-m-d');
         $type = 1;
@@ -13383,7 +13432,21 @@ function adduserproducttop() {
         $stmt->execute();
     }
 
+//credit
+    
+     if ($biddetails[0]->point) {
+            $date = date('Y-m-d');
+            $sql = "INSERT INTO  webshop_user_loyaliety (pay_amount, user_id,point,add_date) VALUES (:pay_amount, :user_id,:point,:date)";
 
+
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam("pay_amount", $payamount);
+            $stmt->bindParam("user_id", $user_id);
+            $stmt->bindParam("point", $biddetails[0]->point);
+            $stmt->bindParam("date", $date);
+
+            $stmt->execute();
+        }
 
 
 
