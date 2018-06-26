@@ -953,4 +953,29 @@ userService.listcountry().then(function(response) {
 	}, function(err) {
 	console.log(err); 
 	});
+        
+        
+     $scope.sendtoproduct = function(link){
+         if(link == 'sp_auction'){
+          $scope.is_special_auction='1'; 
+          $state.go('frontend.searchListing');
+         }
+         
+         if(link == 'top_product'){
+          $scope.top_prodct='1';
+            //$windos.location.href='#/productlisting/';
+          $state.go('frontend.productlisting');
+         }
+         
+         if(link == 'top_seller'){
+          $scope.top_user_vendor='1'; 
+          $state.go('frontend.productlisting');
+         }
+         
+         if(link == 'Female'){
+          $scope.$scope.gender='Female'; 
+          $state.go('frontend.productlisting');
+         }
+         
+    };    
 });

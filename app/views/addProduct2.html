@@ -70,18 +70,37 @@
                                                                                 
 									</div>
                                                                     
-                                                                    <div class="form-group">
+<!--                                                                    <div class="form-group">
 										<label for="staticEmail"> Status of the watch*</label>
                                                                                 
 										<select class="form-control" name="status" ng-model="user2.status"  required>
-                                                                                    <option  ng-repeat="status_list in statuslist" value="{{status_list.name}}">{{status_list.name}} 
-                                
-
-                           </option>
+                                                                                    <option  ng-repeat="status_list in statuslist" value="{{status_list.name}}">{{status_list.name}} </option>
 										</select>
                                                                                 
+                                                                                
+                                                                                
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.status.$error.required">Please Choose A Status</span>
-									</div>
+									</div>-->
+                                                                        <div class="form-group">
+                                                                            <label for="staticEmail"> Status of the watch*</label>
+                                                                           <div class="dropdown status-watch-wrap">
+                                                                                <!--<p class="btn btn-outline-dark btn-block dropdown-toggle" data-toggle="dropdown"> Status of the watch</p>-->
+                                                                                <!--<div class="dropdown-menu">-->
+
+                                                                                    <ul class="list-unstyled status-watch">
+                                                                                        <li class="init"><a href="javascript:void(0)"><span>Please Select Your Watch Status</span> <p></p></a></li>
+                                                                                        <li data-value="Mint"> <a  ng-click="selectedstatus('Mint')" href="javascript:void(0)"><span>Mint</span> <p><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></p></a></li>
+                                                                                        <li data-value="Excellent"> <a  ng-click="selectedstatus('Excellent')" href="javascript:void(0)"><span>Excellent</span> <p><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></p></a></li>
+                                                                                        <li data-value="Good"> <a  ng-click="selectedstatus('Good')" href="javascript:void(0)"><span>Good </span> <p><i class="fa fa-star"></i> <i class="fa fa-star"></i><i class="fa fa-star"></i></p></a></li>
+                                                                                        <li data-value="Fair"> <a ng-click="selectedstatus('Fair')" href="javascript:void(0)"><span>Fair</span> <p><i class="fa fa-star"></i> <i class="fa fa-star"></i></p></a></li>
+                                                                                        <li data-value="Poor"> <a  ng-click="selectedstatus('Poor')" href="javascript:void(0)"><span>Poor</span> <p><i class="fa fa-star"></i></p></a></li>
+                                                                                        
+                                                                                    </ul>
+                                                                                  
+                                                                                 
+                                                                                <!--</div>-->
+                                                                              </div>
+                                                                        </div>
                                       
 
 
@@ -503,6 +522,16 @@ function initMap() {
 
 
 }
- 
+ $("ul.status-watch").on("click", ".init", function() {
+    $(this).closest("ul.status-watch").children('li:not(.init)').toggle();
+});
+
+var allOptions = $("ul.status-watch").children('li:not(.init)');
+$("ul.status-watch").on("click", "li:not(.init)", function() {
+    allOptions.removeClass('selected');
+    $(this).addClass('selected');
+    $("ul.status-watch").children('.init').html($(this).html());
+    allOptions.toggle();
+});
     
 </script>

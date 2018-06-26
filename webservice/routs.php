@@ -187,7 +187,8 @@ $app->group('/frontend', function () use ($app) {
 
     $app->get('/currency_rates', 'currency_rates'); 
     $app->post('/listtopSubscriptions', 'listtopSubscriptions');
-
+    $app->get('/get_total_subcriptions', 'get_total_subcriptions');
+    $app->get('/get_total_messages', 'get_total_messages');
 
 });
 ?>

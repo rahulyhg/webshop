@@ -59,7 +59,7 @@ $scope.wishlist = function(){
         
 
 
- userService.get_total_normaluser().then(function(response) {
+ userService.get_total_subcriptions($scope.user_id).then(function(response) {
        // alert('OK');
         //exit;
 	
@@ -67,8 +67,8 @@ $scope.wishlist = function(){
 	if(response.Ack=='1'){
 		
 		console.log('normaluserlist',response);
-		$scope.normaluserlist=response.normaluserlist;
-		
+		$scope.subcriptions=response.subcriptions;
+		alert($scope.subcriptions);
                 
 		}
 		
@@ -78,6 +78,8 @@ $scope.wishlist = function(){
          console.log(err); 
     });
     
+   
+   
     userService.get_total_auctioned_product($scope.user_id).then(function(response) {
        // alert('OK');
         //exit;
@@ -125,6 +127,25 @@ $scope.wishlist = function(){
 		
 		console.log('reviewlist',response);
 		$scope.reviewlist=response.reviewlist;
+		
+                
+		}
+		
+	
+																  
+	}, function(err) {
+         console.log(err); 
+    });
+    
+      userService.get_total_messages($scope.user_id).then(function(response) {
+       // alert('OK1');
+        //exit;
+	
+	
+	if(response.Ack=='1'){
+		
+		console.log('reviewlist',response);
+		$scope.messagelist=response.messagelist;
 		
                 
 		}

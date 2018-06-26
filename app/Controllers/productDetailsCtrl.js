@@ -59,7 +59,7 @@ $scope.isform1 =0;
 
  
 $scope.product_id= $stateParams.id; 
-
+$scope.product_id1=atob($stateParams.id); 
 $scope._Index = 0;
 
     // if a current image is the same as requested image
@@ -108,7 +108,7 @@ $scope._Index = 0;
 	console.log(err); 
 	});
         
-       userService.reviews($scope.product_id).then(function(response) {
+       userService.reviews($scope.product_id1).then(function(response) {
 
 	//$scope.isExists=response.Ack;
 		if(response.Ack == '1') {
@@ -137,7 +137,7 @@ $scope._Index = 0;
  $scope.emailtothevendor = function(seller_id,message){
    //  alert('hi');
  $scope.loader = false;
- var product_id = $stateParams.id;
+ var product_id = atob($stateParams.id);
  //alert(message);
  if(userInfo.user_id){
 
@@ -249,7 +249,7 @@ else {
         //$scope.checkauctionvaliditybeforeaddbid();
         bid.bidincrement=5;
     bid.bidprice=bid.bidprice;
-    bid.productid =$scope.product_id;
+    bid.productid =$scope.product_id1;
     bid.userid = $scope.user_id;
    // bid.uploaderid = bid.uploaderid;
     bid.uploaderid = $scope.productLists.uploader_id;
@@ -286,7 +286,7 @@ else {
  $scope.emailtothevendorinterest = function(seller_id,type){
    //  alert('hi');
  $scope.loader1 = false;
-       var product_id = $stateParams.id;
+       var product_id = atob($stateParams.id);
  if(userInfo.user_id){
 
         userService.interestedEmail(userInfo.user_id,seller_id,product_id,type).then(function(response) {
@@ -326,7 +326,7 @@ swal("Mail can not be sent",'','error');
        
     review.review=review.review;
     review.rating=review.rating;    
-    review.productid =$scope.product_id;
+    review.productid =$scope.product_id1;
     review.userid = $scope.user_id;
     review.recomend =review.recomend;
    
@@ -381,7 +381,8 @@ swal("Mail can not be sent",'','error');
     $scope.checkauctionvalidity = function(){
          
         
-        userService.checkauctionvalidity($scope.product_id,userInfo.user_id).then(function(response) {
+        userService.checkauctionvalidity($scope.product_id1,userInfo.user_id).then(function(response) {
+            alert($scope.product_id1);
              if(response.Ack == '1') { 
                  $('#password').modal('show');
                  
@@ -451,7 +452,7 @@ swal("Mail can not be sent",'','error');
  message.message=message.message;
   message.to_id=message.seller_id;
    message.from_id=userInfo.user_id; 
-   message.product_id =$scope.product_id;
+   message.product_id =$scope.product_id1;
   // message.user_id=;
              userService.addmessage(message).then(function(response) {
 		//console.log('htype',response);
@@ -512,14 +513,14 @@ swal("Mail can not be sent",'','error');
             $scope.checkauctionvaliditybeforeaddbid = function(bid){
                 bid.bidincrement=5;
     bid.bidprice=bid.bidprice;
-    bid.productid =$scope.product_id;
+    bid.productid =$scope.product_id1;
     bid.userid = $scope.user_id;
    // bid.uploaderid = bid.uploaderid;
     bid.uploaderid = $scope.productLists.uploader_id;
     if($scope.productLists.bidincrement && $scope.productLists.bidincrement!= 0 ){
     bid.bidincrement = $scope.productLists.bidincrement;
     }
-        userService.checkauctionvaliditybeforeaddbid($scope.product_id,userInfo.user_id).then(function(response) {
+        userService.checkauctionvaliditybeforeaddbid($scope.product_id1,userInfo.user_id).then(function(response) {
              if(response.Ack == '1') { 
                  $scope.addbid2(bid)
                  
@@ -562,7 +563,7 @@ swal("Mail can not be sent",'','error');
         //$scope.checkauctionvaliditybeforeaddbid();
         bid.bidincrement=5;
     bid.bidprice=bid.bidprice;
-    bid.productid =$scope.product_id;
+    bid.productid =$scope.product_id1;
     bid.userid = $scope.user_id;
    // bid.uploaderid = bid.uploaderid;
     bid.uploaderid = $scope.productLists.uploader_id;

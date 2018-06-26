@@ -6491,7 +6491,7 @@ if ($movement != '') {
         $sql .= " AND model_year = '" . $year . "'";
     }
     //echo $sql;
-   if ($keyword != '') {
+   if ($keyword != '' && $keyword != 'undefined') {
 
         $keywordbrand = "SELECT * FROM webshop_brands WHERE id ='$keyword' OR name='$keyword'";
         $stmt2 = $db->prepare($keywordbrand);
@@ -6505,7 +6505,7 @@ if ($movement != '') {
         }
         //print_r($getkeywordbrand->id);
     }
-if ($keyword != '') {
+if ($keyword != '' && $keyword != 'undefined') {
 
         $keywordcategory = "SELECT * FROM webshop_category WHERE id ='$keyword' OR name='$keyword'";
         $stmtcategory = $db->prepare($keywordcategory);
@@ -6518,7 +6518,7 @@ if ($keyword != '') {
             $keycatid = '';
         }
     }
-if ($keyword != '') {
+if ($keyword != '' && $keyword != 'undefined') {
 
         $keyworduser = "SELECT * FROM webshop_user WHERE fname ='$keyword' OR lname='$keyword'";
         $stmtuploaderuser = $db->prepare($keyworduser);
@@ -6533,7 +6533,7 @@ if ($keyword != '') {
         //print_r($getkeywordbrand->id);
     }
    // exit;
-    if ($keyword != '') {
+    if ($keyword != '' && $keyword != 'undefined') {
 
         $sql .= " AND `model_year` LIKE '%" . $keyword . "%' OR `gender` LIKE '" . $keyword . "%' OR `preferred_date` LIKE '%" . $keyword . "%' OR `brands` LIKE '" . $keybrandid . "' OR `name` LIKE '" . $keyword . "' OR `description` LIKE '" . $keyword . "' OR `price` LIKE '" . $keyword . "' OR `movement` LIKE '" . $keyword . "' OR `reference_number` LIKE '" . $keyword . "' OR `owner_number` LIKE '" . $keyword . "' OR `cat_id` LIKE '" . $keycatid . "' AND type=1 OR `uploader_id` LIKE '".$keyuserid."'";
     }
@@ -6734,6 +6734,7 @@ if ($keyword != '') {
                     $product_encoded_id =  urlencode ( base64_encode($product->id));
                         $data['productList'][] = array(
                             "id" => stripslashes($product_encoded_id),
+                            "product_id"=>stripslashes($product->id),
                             "image" => stripslashes($image),
                             "price" => stripslashes($price),
                             "description" => strip_tags(stripslashes($product->description)),
@@ -6918,7 +6919,7 @@ function listproductMessages() {
 //    exit;
         try {
 
-            $sql = "SELECT *, (r.from_id + r.to_id) AS dist FROM (SELECT * FROM `webshop_message` as t WHERE ( (t.from_id =:to_id OR t.to_id =:to_id) and product_id!= 0 and to_id!= 0 and from_id!= 0 ) ORDER BY t.add_date ASC) as r GROUP  ORDER BY r.add_date ASC ";
+            $sql = "SELECT *, (r.from_id + r.to_id) AS dist FROM (SELECT * FROM `webshop_message` as t WHERE ( (t.from_id =:to_id OR t.to_id =:to_id) and product_id!= 0 and to_id!= 0 and from_id!= 0 ) ORDER BY t.add_date ASC) as r  ORDER BY r.add_date ASC ";
 // $sql = "SELECT * from webshop_message WHERE to_id=:to_id or from_id=:to_id ";
 
 
@@ -7169,7 +7170,7 @@ function getfullMessages() {
     try {
 
         $sql = "SELECT * from webshop_message WHERE from_id=:from_id AND to_id=:to_id OR from_id=:to_id AND to_id=:from_id AND product_id=:product_id";
-
+        
         $stmt = $db->prepare($sql);
         $stmt->bindParam("to_id", $from_id);
         $stmt->bindParam("from_id", $to_id);
@@ -7242,6 +7243,14 @@ function getfullMessages() {
         }
 // print_r($allstatus);
 //exit;
+         $sqlupdateread = "UPDATE webshop_message SET is_read='1' WHERE from_id=:from_id AND to_id=:to_id OR from_id=:to_id AND to_id=:from_id AND product_id=:product_id";
+         //$sqlupdateread = "SELECT * from webshop_products WHERE id=:product_id";
+        $stmtupdateread = $db->prepare($sqlupdateread);
+        $stmtupdateread->bindParam("to_id", $from_id);
+        $stmtupdateread->bindParam("from_id", $to_id);
+        $stmtupdateread->bindParam("product_id", $product_id);
+        $stmtupdateread->execute();
+        
         $data['fillmessage'] = $allmeaage;
         $data['product_image'] = $product_image;
         $data['product_name'] = $product_name;
@@ -9652,7 +9661,7 @@ function checkauctionvalidity() {
     $body = json_decode($body2);
 
     $product_id = isset($body->product_id) ? $body->product_id : '';
-     $product_id = urldecode ( base64_decode($product_id) ) ;
+    // $product_id = urldecode ( base64_decode($product_id) ) ;
     $user_id = isset($body->userid) ? $body->userid : '';
     $db = getConnection();
     $sql1 = "SELECT * FROM webshop_products WHERE id=:product_id AND auctioned=0";
@@ -9661,7 +9670,7 @@ function checkauctionvalidity() {
     $stmt1->bindParam("product_id", $product_id);
     $stmt1->execute();
     $count = $stmt1->rowCount();
-//exit;
+
 
 
 
@@ -12812,45 +12821,6 @@ function get_total_product() {
     $app->response->write(json_encode($data));
 }
 
-function get_total_auctioned_product() {
-
-    $data = array();
-
-    $app = \Slim\Slim::getInstance();
-    $request = $app->request();
-    $body2 = $app->request->getBody();
-    $body = json_decode($body2);
-    $user_id = isset($body->user_id) ? $body->user_id : '';
-    $db = getConnection();
-
-    try {
-
-        $sql = "SELECT * FROM webshop_products WHERE uploader_id='$user_id' and type='2'";
-        $stmt = $db->prepare($sql);
-        $stmt->execute();
-       // $getBrand = $stmt->fetchAll(PDO::FETCH_OBJ);
-
-       $count = $stmt->rowCount();
-       if($count > 0){
-
-        $data['auctionlist'] = $count;
-        $data['Ack'] = '1';
-        $app->response->setStatus(200);
-       }else{
-          $data['auctionlist'] = 0;
-        $data['Ack'] = '1';
-        $app->response->setStatus(200); 
-       }
-    } catch (PDOException $e) {
-
-        $data['Ack'] = 0;
-        $data['msg'] = $e->getMessage();
-        $app->response->setStatus(401);
-    }
-
-    $app->response->write(json_encode($data));
-}
-
 function tomobileverifying() {
 
     $data = array();
@@ -13623,8 +13593,140 @@ function listtopSubscriptions() {
     $app->response->write(json_encode($data));
 }
 
+function get_total_subcriptions() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $db = getConnection();
+    $cuurr_date = date('Y-m-d');
+    try {
+
+        $sql = "SELECT * FROM webshop_subscribers WHERE uploader_id='$user_id' AND '$cuurr_date' < expiry_date";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $getsub = $stmt->fetchAll(PDO::FETCH_OBJ);
+        if(!empty($getsub)){
+          $count = $stmt->rowCount();
+       if($count > 0){
+
+        $data['subcriptions'] = $count;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+       }else{
+          $data['subcriptions'] = 0;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200); 
+       }  
+        }else{
+           $data['subcriptions'] = 0;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);  
+        }
+       
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+function get_total_auctioned_product() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $db = getConnection();
+
+    try {
+
+        $sql = "SELECT * FROM webshop_products WHERE uploader_id='$user_id' and type='2'";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $getauc = $stmt->fetchAll(PDO::FETCH_OBJ);
+        if(!empty($getauc)){
+          $count = $stmt->rowCount();
+       if($count > 0){
+
+        $data['auctionlist'] = $count;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+       }else{
+          $data['auctionlist'] = 0;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200); 
+       }  
+        }else{
+            $data['auctionlist'] = 0;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200); 
+        }
+       
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
 
 
+function get_total_messages() {
 
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $db = getConnection();
+
+    try {
+
+        $sql = "SELECT * FROM webshop_message WHERE to_id='$user_id' and is_read='1'";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $getmes = $stmt->fetchAll(PDO::FETCH_OBJ);
+        if(!empty($getauc)){
+          $count = $stmt->rowCount();
+       if($count > 0){
+
+        $data['messagelist'] = $count;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200);
+       }else{
+          $data['messagelist'] = 0;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200); 
+       }  
+        }else{
+            $data['messagelist'] = 0;
+        $data['Ack'] = '1';
+        $app->response->setStatus(200); 
+        }
+       
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
 $app->run();
 ?>
