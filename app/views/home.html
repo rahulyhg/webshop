@@ -77,11 +77,12 @@
 	<section class="new-collection">
 		<ul>
 			<li>
-				<img src="{{imageSpecialauction}}" alt="" />
+				<!--<img src="{{imageSpecialauction}}" alt="" />-->
+                                <img src="app/assets/images/new-collection/itm1.png" alt="" />
 				<div class="collection-text">
-					<h2>Best sellers and iconic watches</h2>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-					<!--<button class="btn btn-outline-primary">View Product</button>-->			
+					<h2>Special Auctions</h2>
+					<p></p>
+					<button ng-click="sendtoproduct('sp_auction')" class="btn btn-outline-primary">View</button>			
 				</div>
 			</li>
 			<li>
@@ -89,25 +90,28 @@
 					<li>
 						<img src="app/assets/images/new-collection/itm2.png" alt="" />
 						<div class="collection-text">
-							<h2>Rolex, Omega, Breitling <br/>& Co. for beginners</h2>
-							<!--<button class="btn btn-outline-primary">View Product</button>-->			
+							<h2>Top products <br/></h2>
+							<button ng-click="sendtoproduct('top_product')" class="btn btn-outline-primary">View</button>			
 						</div>
 					</li>
 					<li>
-						<img src="{{imageWomenwatch}}" alt="" height='237px'/>
+						<!--<img src="{{imageWomenwatch}}" alt="" height='237px'/>-->
+                                                <img src="app/assets/images/new-collection/itm3.png" alt="" />
 						<div class="collection-text">
-							<h2></h2>
-							<!--<button class="btn btn-outline-primary"></button>-->			
+							<h2>Ladies' watches </h2>
+							<button ng-click="sendtoproduct('Female')" class="btn btn-outline-primary">View</button>			
 						</div>
 					</li>
 				</ul>
 			</li>
 			<li>
-				<img src="{{imageCertifiedwatch}}" alt="" />
+				<!--<img src="{{imageCertifiedwatch}}" alt="" />-->
+                                <img src="app/assets/images/new-collection/itm4.png" alt="" />
 				<div class="collection-text">
-					<h2>Ladies' watches</h2>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-					<!--<button class="btn btn-outline-primary">View Product</button>-->			
+					<h2>Top Seller</h2>
+					<p></p>
+                                        <button ng-click="sendtoproduct('top_seller')" class="btn btn-outline-primary">View</button>
+								
 				</div>
 			</li>
 		</ul>

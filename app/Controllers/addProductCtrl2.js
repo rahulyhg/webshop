@@ -465,6 +465,13 @@ $scope.state = function (c_id) {
 
     }
 
+$scope.selectedstatus = function(status){
+  console.log(status);
+     //Here you will get the selected location.
+    $scope.user2.status = status;
+   // alert($scope.user2.status);
+ }
+
 $scope.deleteFile = function(idx) {
    
      //var filename = idx;

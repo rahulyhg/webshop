@@ -21,6 +21,12 @@ $scope.checkboxstr=[];
  $scope.minprice=0;
   $scope.size_amount_min=0;
    $scope.size_amount_max=0;
+   if($scope.is_special_auction){
+       $scope.is_special_auction=$scope.is_special_auction;
+   }else{
+     $scope.is_special_auction=0;  
+   }
+   
 //alert('a');
  $scope.search = { price_min : '', price_max : '', amount_min : 0, amount_max : 10000 };
 $scope.drpmodel='0';

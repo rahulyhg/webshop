@@ -5513,36 +5513,7 @@ var encodedString ='{"filename":"'+ filename +'"}';
             });
         });
     };
-        var get_total_normaluser = function() {
-        return $q(function(resolve, reject) {
-                
-//var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
-//var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
-//var encodedString ='{"community_id":"'+ id +'"}';
-            
-        $http({
-         method: 'POST',
-         url: $rootScope.serviceurl+"get_total_normaluser",
-         //data: encodedString,
-         headers: {'Content-Type': 'application/json'}
-         }).then(function (response) {
-           //console.log(response.data);  
-           if(response.data.Ack == "1") {
-         //console.log('ok');
-              resolve(response.data); 
-           } else {
-          //console.log('ok2');
-              resolve(response.data); 
-           }
-           //console.log(response); 
-        },function(response) {
-                     //console.log(response);  
-          reject(response);
-            });
-        });
-        
-        
- }; 
+     
  
  var get_total_reviews = function(user_id) {
         return $q(function(resolve, reject) {
@@ -5605,6 +5576,7 @@ var encodedString ='{"user_id":"'+ user_id +'"}';
         
         
  }; 
+ 
  
  var get_total_auctioned_product = function(user_id) {
         return $q(function(resolve, reject) {
@@ -5839,9 +5811,67 @@ var adduserpaymenttop = function(id) {
     };
  
  
+ var get_total_subcriptions = function(user_id) {
+        return $q(function(resolve, reject) {
+                
+//var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+//var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+var encodedString ='{"user_id":"'+ user_id +'"}';
+            
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"get_total_subcriptions",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           //console.log(response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           } else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+        
+        
+ };
  
- 
- 
+ var get_total_messages = function(user_id) {
+        return $q(function(resolve, reject) {
+                
+//var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+//var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+var encodedString ='{"user_id":"'+ user_id +'"}';
+            
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"get_total_messages",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           //console.log(response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           } else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+        
+        
+ };
 
  return {
      
@@ -6018,7 +6048,7 @@ var adduserpaymenttop = function(id) {
         allShopListing:allShopListing,
         deleteimage:deleteimage,
         getgender:getgender,
-        get_total_normaluser:get_total_normaluser,
+        get_total_subcriptions:get_total_subcriptions,
         get_total_reviews:get_total_reviews,
         get_total_product:get_total_product,
         get_total_auctioned_product:get_total_auctioned_product,
@@ -6031,7 +6061,7 @@ var adduserpaymenttop = function(id) {
 
         getproductpictures:getproductpictures,
         topsubscriptions:topsubscriptions,
-
+        get_total_messages:get_total_messages,
 
 };
 });
