@@ -704,15 +704,15 @@ $('#editable-sample').dataTable({
     ....
     "bDestroy": true
 });*/
-
-    $('#editable-sample').DataTable( {
-        "paging":   true,
-        "ordering": true,
-        "info":     false,
-        stateSave: true
-
-
-$(".table_link").on("click", function(){
-  $('#editable-sample').DataTable().state.clear();
-});
+//
+//    $('#editable-sample').DataTable( {
+//        "paging":   true,
+//        "ordering": true,
+//        "info":     false,
+//        stateSave: true
+//
+//
+//$(".table_link").on("click", function(){
+//  $('#editable-sample').DataTable().state.clear();
+//});
 </script>
