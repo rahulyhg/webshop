@@ -1139,9 +1139,9 @@ function ProductsDetails() {
                         if(!empty($getallcurrency)){
                            foreach($getallcurrency as $currency){
                                // $currency['currency_rate_to_usd'];
-                            $price = $price * $currency['currency_rate_to_usd'];
+                            $price = $price / $currency['currency_rate_to_usd'];
                             $price = round($price);
-                            $bidincrement = $product->bidincrement * $currency['currency_rate_to_usd'];
+                            $bidincrement = $product->bidincrement / $currency['currency_rate_to_usd'];
                             $bidincrement = round($bidincrement);
                             //echo 'yes';
                         }  
@@ -1308,7 +1308,7 @@ function ProductsDetails() {
                                 $getallcurrency = $stmtcurrency->fetchall();
                                  if(!empty($getallcurrency)){
                            foreach($getallcurrency as $currency){
-                            $yourmaxbid = $naxbid->maxbid * $currency['currency_rate_to_usd'];
+                            $yourmaxbid = $naxbid->maxbid / $currency['currency_rate_to_usd'];
                             $yourmaxbid = round($yourmaxbid);
                             
                             //echo 'yes';
@@ -1433,7 +1433,7 @@ function ProductsDetails() {
                                 $getallcurrencybidprice = $stmtcurrencybidprice->fetchall();
                                  if(!empty($getallcurrencybidprice)){
                            foreach($getallcurrencybidprice as $currency){
-                            $historybidprice = $history->bidprice * $currency['currency_rate_to_usd'];
+                            $historybidprice = $history->bidprice / $currency['currency_rate_to_usd'];
                             $historybidprice = round($historybidprice);
                             
                             //echo 'yes';
@@ -1491,15 +1491,15 @@ function ProductsDetails() {
                            foreach($getallcurrency as $currency){
                                // $currency['currency_rate_to_usd'].'<br>';
                                // $currency['currency_code'].'<br>';
-                            $baseauctionprice = $product->baseauctionprice * $currency['currency_rate_to_usd'];
+                            $baseauctionprice = $product->baseauctionprice / $currency['currency_rate_to_usd'];
                             $baseauctionprice = round($baseauctionprice);
-                            $thresholdprice = $product->thresholdprice * $currency['currency_rate_to_usd'];
+                            $thresholdprice = $product->thresholdprice / $currency['currency_rate_to_usd'];
                             $thresholdprice = round($thresholdprice);
-                            $bidincrement = $product->bidincrement * $currency['currency_rate_to_usd'];
+                            $bidincrement = $product->bidincrement / $currency['currency_rate_to_usd'];
                             $bidincrement = round($bidincrement);
-                            $nextbidprice = $product->nextbidprice * $currency['currency_rate_to_usd'];
+                            $nextbidprice = $product->nextbidprice / $currency['currency_rate_to_usd'];
                             $nextbidprice = round($nextbidprice);
-                            $lastbidvalue = $product->lastbidvalue * $currency['currency_rate_to_usd'];
+                            $lastbidvalue = $product->lastbidvalue / $currency['currency_rate_to_usd'];
                             $lastbidvalue = round($lastbidvalue);
                             //echo 'yes';
                         }  
@@ -2106,7 +2106,7 @@ function listmyProducts() {
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
 
-
+$price='';
     $user_id = isset($body->user_id) ? $body->user_id : '';
 
     $sql = "SELECT * from  webshop_products WHERE uploader_id=:user_id and type = '1' and is_discard=0 order by id desc";
@@ -4250,6 +4250,7 @@ function addProductNew() {
             $getfree_no = $stmtfreeno->fetchObject();
             $free_no = $getfree_no->free_bid;
             $free_status = $getfree_no->free_bid_status;
+            $free_valid_days = $getfree_no->valid_days;
 
             $sqluserpay_product = "SELECT * FROM webshop_products WHERE uploader_id=:user_id and type=1 and status=1 and user_free_product='P'";
             $db = getConnection();
@@ -4331,7 +4332,7 @@ function addProductNew() {
                 $stmt->bindParam("my_longitude", $longitude);
                 $stmt->execute();
                 $lastID = $db->lastInsertId();
-
+                $product_id=$lastID;
 
 
                 if (!empty($_FILES['image'])) {
@@ -4371,6 +4372,38 @@ function addProductNew() {
                     $sqlupdatefree = "UPDATE webshop_products SET user_free_product='F' WHERE type=1 and status=1 and uploader_id=$user_id ";
                     $stmtupdatefree = $db->prepare($sqlupdatefree);
                     $stmtupdatefree->execute();
+                    
+                    
+                   //free product duration 
+                    
+                    $sql4 = "INSERT INTO  webshop_subscribers (user_id,subscription_date,expiry_date,transaction_id) VALUES (:user_id,:subscription_date,:expiry_date,:transaction_id)";
+                    
+                    $days = $free_valid_days;
+                    $date = date('Y-m-d');
+                    $cdate = date_create($date);
+                    date_add($cdate, date_interval_create_from_date_string("$days days"));
+                    $expiry_date = date_format($cdate, "Y-m-d");
+                    $transaction_id = "pay-12376";
+
+
+                    $stmt4 = $db->prepare($sql4);
+                    $stmt4->bindParam("user_id", $user_id);
+                    $stmt4->bindParam("subscription_date", $date);
+                    $stmt4->bindParam("expiry_date", $expiry_date);
+                    $stmt4->bindParam("transaction_id", $transaction_id);
+                
+                    $stmt4->execute();
+                    $lastIDs = $db->lastInsertId();
+
+                    $sqlproductupdate = "UPDATE webshop_products SET status=1, subscription_id=:subscription_id WHERE id=:pid";
+                    $stmtproduct = $db->prepare($sqlproductupdate);
+                    $stmtproduct->bindParam("subscription_id", $lastIDs);
+                    $stmtproduct->bindParam("pid", $product_id);
+                    $stmtproduct->execute();
+
+                   //end free product duration 
+                    
+                   
                 }
 
 
@@ -5491,7 +5524,8 @@ function listSubscribed() {
 
     $db = getConnection();
 
-
+    //$allsubscriptions[]=array();
+    
     try {
 
         $sqluser = "SELECT * from webshop_user where id=:user_id";
@@ -5508,7 +5542,7 @@ function listSubscribed() {
         $stmt->bindParam("user_id", $user_id);
         $stmt->execute();
         $getSubscriptions = $stmt->fetchAll(PDO::FETCH_OBJ);
-
+        if(!empty($getSubscriptions)){
         foreach ($getSubscriptions as $subscription) {
 
             $allsubscriptions[] = array(
@@ -5527,6 +5561,13 @@ function listSubscribed() {
         $data['subscribedLists'] = $allsubscriptions;
         $data['Ack'] = '1';
         $app->response->setStatus(200);
+        }else{
+           
+        $data['subscribedLists'] = "";
+        $data['Ack'] = '0';
+        $app->response->setStatus(200);
+            
+        }
     } catch (PDOException $e) {
 
         $data['Ack'] = 0;
@@ -5927,7 +5968,7 @@ if ($category != '') {
                         //print_r($getallcurrency);exit;
                         if(!empty($getallcurrency)){
                            foreach($getallcurrency as $currency){
-                            $price = $product->price * $currency['currency_rate_to_usd'];
+                            $price = $product->price / $currency['currency_rate_to_usd'];
                             $currency_pref =$getUserdetails1->currency_preference;
                         }  
                         }else{
@@ -6866,8 +6907,33 @@ if ($keyword != '' && $keyword != 'undefined') {
                     $getsubs = $stmtsubs->fetchObject();
 
                    
+                    if($product->top_product_status ==1){
+                        
+                    $sqlsubs_top = "SELECT * FROM  webshop_subscribers WHERE id=:id ";
+                    $stmtsubs_top = $db->prepare($sqlsubs_top);
+                    $stmtsubs_top->bindParam("id", $topsid);
+                    $stmtsubs_top->execute();
+                    $getsubs_top = $stmtsubs_top->fetchObject();
+                      
+                    if($getsubs_top->expiry_date > $getsubs->expiry_date){
+                       
+                        $productexpirydate= $getsubs_top->expiry_date;
+                        
+                    }else{
+                        
+                        $productexpirydate= $getsubs->expiry_date;
+                        
+                    }
+                        
+                    }else{
+                        
+                        $productexpirydate= $getsubs->expiry_date;
+                    }
+                    
+                    
+                    
 
-                    if ($getsubs->expiry_date >= $cdate) {
+                    if ($productexpirydate >= $cdate) {
                         
                         
                     if($topsid!= 0){    
@@ -6964,7 +7030,7 @@ if ($keyword != '' && $keyword != 'undefined') {
                         //print_r($getallcurrency);exit;
                         if(!empty($getallcurrency)){
                            foreach($getallcurrency as $currency){
-                            $price = $product->price * $currency['currency_rate_to_usd'];
+                            $price = $product->price / $currency['currency_rate_to_usd'];
                             $currency_pref=$getUserdetails1->currency_preference;
                             //echo 'yes';
                         }  
@@ -12269,7 +12335,7 @@ if ($gender != '') {
                         //print_r($getallcurrency);exit;
                         if(!empty($getallcurrency)){
                            foreach($getallcurrency as $currency){
-                            $price = $product->price * $currency['currency_rate_to_usd'];
+                            $price = $product->price / $currency['currency_rate_to_usd'];
                             //echo 'yes';
                         }  
                         }else{
@@ -12653,7 +12719,7 @@ if ($movement != '') {
                         //print_r($getallcurrency);exit;
                         if(!empty($getallcurrency)){
                            foreach($getallcurrency as $currency){
-                            $price = $product->price * $currency['currency_rate_to_usd'];
+                            $price = $product->price / $currency['currency_rate_to_usd'];
                            $currency_pref=$getUserdetails1->currency_preference;
                         }  
                         }else{

@@ -35,7 +35,7 @@ $scope.allsubscriptions = function(){
     
 		if(response.Ack == '1') {
                     $scope.exists=1;
-		$scope.subscribedLists=response.subscribedLists;
+                    $scope.subscribedLists=response.subscribedLists;
 		
 		} else {
                     
