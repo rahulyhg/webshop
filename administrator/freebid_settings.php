@@ -15,10 +15,12 @@ include_once("includes/functions.php");
    
    $free_bid = isset($_POST['free_bid']) ? $_POST['free_bid'] : '';
    $free_bid_status = isset($_POST['free_bid_status']) ? $_POST['free_bid_status'] : '';
+   $valid_days = isset($_POST['valid_days']) ? $_POST['valid_days'] : '';
    //$publishable_key = isset($_POST['publishable_key']) ? $_POST['publishable_key'] : '';
    
    $fields = array('free_bid' => mysqli_real_escape_string($con,$free_bid),
-       'free_bid_status' => mysqli_real_escape_string($con,$free_bid_status)
+       'free_bid_status' => mysqli_real_escape_string($con,$free_bid_status),
+       'valid_days' => mysqli_real_escape_string($con,$valid_days)
                   );
      $fieldsList = array();
     foreach ($fields as $field => $value) {
@@ -222,11 +224,22 @@ include_once("includes/functions.php");
                            
                                 
                                 <div class="control-group">
-                                <label class="control-label">Free Product Upload</label>
+                                <label class="control-label">No of Product Upload to get free</label>
                                 <div class="controls">
                                 <input type="text" class="form-control" placeholder="Enter text" value="<?php echo $row['free_bid'];?>" name="free_bid" >
                                 </div>
                                 </div>
+                              
+                              
+                              
+                              <div class="control-group">
+                                <label class="control-label">Free Product Valid Days</label>
+                                <div class="controls">
+                                    <input type="number" class="form-control" placeholder="Enter Days (eg. 7)" value="<?php echo $row['valid_days'];?>" name="valid_days" min="0">
+                                </div>
+                                </div>
+                              
+                              
                               
                               
                               
