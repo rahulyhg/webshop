@@ -3,7 +3,7 @@
  * controllers used for the My Account
  */
 app.controller('NotificationSettingCtrl', function ($rootScope, $scope, $http, $location,$timeout, $q, userService,$window,Upload) {
-
+ $window.scrollTo(0, 0);
 $scope.data = {};
 $scope.user2 = {};
 

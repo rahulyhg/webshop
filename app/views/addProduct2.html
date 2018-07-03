@@ -89,6 +89,7 @@
 
                                                                                     <ul class="list-unstyled status-watch">
                                                                                         <li class="init"><a href="javascript:void(0)"><span>Please Select Your Watch Status</span> <p></p></a></li>
+                                                                                        <li data-value="Mint"> <a  ng-click="selectedstatus('New')" href="javascript:void(0)"><span>New</span> <p></p></a></li>
                                                                                         <li data-value="Mint"> <a  ng-click="selectedstatus('Mint')" href="javascript:void(0)"><span>Mint</span> <p><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></p></a></li>
                                                                                         <li data-value="Excellent"> <a  ng-click="selectedstatus('Excellent')" href="javascript:void(0)"><span>Excellent</span> <p><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></p></a></li>
                                                                                         <li data-value="Good"> <a  ng-click="selectedstatus('Good')" href="javascript:void(0)"><span>Good </span> <p><i class="fa fa-star"></i> <i class="fa fa-star"></i><i class="fa fa-star"></i></p></a></li>
@@ -237,8 +238,10 @@
 
                                                                            <div>
 									   <div class="form-group">
-										<div class="btn btn-primary" accept="image/*" name="image" ngf-select ng-model="user2.image" ngf-multiple="true" ngf-max-files="5" ngf-fix-orientation="true">Add Photos
+                                                                               <div class="btn btn-primary" accept="image/*" name="image" ngf-select ng-model="user2.image" ngf-keep="true" ngf-multiple="true" ngf-max-files="5" ngf-fix-orientation="true">Add Photos
 										</div>
+<!--                                                                                 <div class="btn btn-primary" ngf-change="selectFiles($files)"   accept="image/*" name="image" ngf-select ng-model="user2.image" ngf-multiple="true" ngf-max-files="5" ngf-fix-orientation="true">Add Photos
+										</div>-->
 									</div>
 									<div class="form-group">
 										<div class="row">
@@ -255,7 +258,7 @@
 											</div>
 										</div>
 									</div>
-                                                                               <span style="color:Red" ng-show="addProductForm.image.$error.maxFiles">Can upload only two images.</span>
+                                                                               <span style="color:Red" ng-show="addProductForm.image.$error.maxFiles">Can upload only five images.</span>
                                                                            </div>
 
                                                                            

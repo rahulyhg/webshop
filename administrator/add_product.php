@@ -121,7 +121,7 @@ if ($num > 0) {
                     <!-- END THEME CUSTOMIZER-->
                     <!-- BEGIN PAGE TITLE & BREADCRUMB-->
                     <h3 class="page-title">
-                        Auction <small><?php echo $_REQUEST['action'] == 'edit' ? "Edit" : "Add"; ?>  Product</small>
+                        Product <small><?php echo $_REQUEST['action'] == 'edit' ? "Edit" : "Add"; ?>  Product</small>
                     </h3>
                     <ul class="breadcrumb">
                         <li>
@@ -129,7 +129,7 @@ if ($num > 0) {
                             <span class="divider">/</span>
                         </li>
                         <li>
-                            <a href="#"> Auction</a>
+                            <a href="#"> Product</a>
                             <span class="divider">/</span>
                         </li>
 
@@ -143,6 +143,8 @@ if ($num > 0) {
 
 
                     </ul>
+                    
+                   <button onclick="goBack()">Go Back</button>
                     <!-- END PAGE TITLE & BREADCRUMB-->
                 </div>
             </div>
@@ -390,7 +392,7 @@ if ($num > 0) {
                                 -->
                                 <div class="form-actions">
                                     <button type="submit" class="btn blue" name="submit"><i class="icon-ok"></i> Save</button>
-                                    <button type="reset" class="btn"><i class=" icon-remove"></i> Cancel</button>
+                                    <button type="reset" id="cancle_product_edit" class="btn"><i class=" icon-remove"></i> Cancel</button>
                                 </div>
                             </form>
                             <!-- END FORM-->
@@ -485,6 +487,13 @@ if ($num > 0) {
             }
         });
     }
+    $("#cancle_product_edit").click(function(){
+    window.location.href = "list_product.php";
+}); 
+
+function goBack() {
+    window.history.back()
+};
 </script>
 <!-- END JAVASCRIPTS -->   
 </body>

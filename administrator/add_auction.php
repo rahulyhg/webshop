@@ -395,7 +395,7 @@ if ($num > 0) {
                                     </div>
                                 </div>
 
-                                <div class="control-group">
+<!--                                <div class="control-group">
                                     <label class="control-label">City</label>
                                     <div class="controls" >
                                         <?php
@@ -416,7 +416,7 @@ if ($num > 0) {
                                         </div>
 
                                     </div>
-                                </div>
+                                </div>-->
 
 
                                 <div class="control-group">
@@ -443,13 +443,13 @@ if ($num > 0) {
                                     </div>
                                 </div>
 
-                                <div class="control-group">
+<!--                                <div class="control-group">
                                     <label class="control-label">Preferred Date</label>
                                     <div class="controls">
                                         <input type="text" class="form-control" placeholder="Enter preferred_date" id="" value="<?php echo $categoryRowset['preferred_date']; ?>"  readonly name="preferred_date" required>
 
                                     </div>
-                                </div>
+                                </div>-->
 
 
                                 <!--   <div class="control-group">

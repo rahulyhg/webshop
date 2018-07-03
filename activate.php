@@ -7,7 +7,7 @@ if(!empty($_GET['id'])){
 	$query = mysqli_query("UPDATE webshop_user SET email_verified = '1',verified_date='".$add_date."' WHERE id='".$_GET['id']."'");
 	if(!empty($query)){
 
-		echo "Your email has been verified.Your account is waiting for admin approval.Once your account has been activated you will be sent an email."
+		echo "Your email has been verified.Your account is waiting for admin approval.Once your account has been activated you will be sent an email.";
 	}else{
 
 		echo "Problem in verifying the email";

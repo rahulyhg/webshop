@@ -47,7 +47,9 @@ function inactive(aa)
    {
      location.href="list_product.php?cid="+aa+"&action=active";
    } 
-
+function goBack() {
+    window.history.back()
+};
    </script>
  <!-- Header Start -->
 <?php include ("includes/header.php"); ?>
@@ -100,6 +102,7 @@ function inactive(aa)
                        
                        
                    </ul>
+                   <button onclick="goBack()">Go Back</button>
                    <!-- END PAGE TITLE & BREADCRUMB-->
                </div>
             </div>

@@ -27,15 +27,16 @@
 									<div class="form-group">
 										<label for="staticEmail">{{language.gender}}</label>
                                                                                 
-                                                                                    <select class="form-control" ng-model="user.gender" name="gender" required>
+                                                                                    <select class="form-control" ng-model="user.gender" name="gender"  required>
                                                                                     <option value="" selected>{{language.please}} {{language.select}} {{language.your}} {{language.gender}}</option>
                                                                                     <option value="Male">{{language.male}}</option>
 											<option value="Female">{{language.female}}</option>
 										</select>  
+                                                                                 <span style="color:Red" ng-show="submitted && myaccountForm.gender.$error.required">{{language.this_field_is_required}} </span>
 									</div>
 									<div class="form-group">
 										<label for="staticEmail">{{language.mobile_number}}</label>
-                                                                                <input type="text" class="form-control" id="" ng-blur="verifyotp(user.phone)" value="" placeholder="9831635919" ng-model="user.phone" name="phone" ng-pattern="/^[1-9][0-9]*$/" required>
+                                                                                <input type="text" class="form-control" id="" ng-blur="openverifymodal(user.phone)" value="" placeholder="Mobile No" ng-model="user.phone" name="phone" ng-pattern="/^[1-9][0-9]*$/" required>
                                                                                  <span style="color:Red" ng-show="submitted && myaccountForm.phone.$error.required">{{language.this_field_is_required}} </span>
                                                                                 <span style="color:Red" ng-show="myaccountForm.phone.$dirty && myaccountForm.phone.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}} </span>
                                                                                 
@@ -56,23 +57,24 @@
 											<option  ng-repeat="countrylists in countrylist" value="{{countrylists.id}}">{{countrylists.name}}</option>
 										</select>
                                                                                 
-                                                                                
+                                                                                <span style="color:Red" ng-show="submitted && myaccountForm.country.$error.required">{{language.this_field_is_required}} </span>
 									</div>
                                                                     
                                                                     
                                                                     <div class="form-group">
 										<label for="staticEmail">{{language.state}}</label>
                                                                                 
-                                                                                   <select class="form-control" name="state" ng-model="user.state" ng-change="city(user.state)">
+                                                                                <select class="form-control" name="state" ng-model="user.state" ng-change="city(user.state)" required>
                                                                                     <option value="">{{language.please}} {{language.select}} {{language.a}} {{language.state}}</option>
 											<option  ng-repeat="statelists in statelist" value="{{statelists.id}}">{{statelists.name}}</option>
 										</select> 
+                                                                                <span style="color:Red" ng-show="submitted && myaccountForm.state.$error.required">{{language.this_field_is_required}}! </span>
                                                                     </div>
                                                                     
     
                                                                     <div class="form-group" tooltips tooltip-template="Contact your bank for the details" tooltip-side="top">
 										<label for="staticEmail">IBAN {{language.number}}</label>
-										<input type="text"   ng-minlength="20" ng-maxlength="34" class="form-control" id="" value="" placeholder="IBAN Number" ng-model="user.ibanno" name="ibanno" required>
+										<input type="text"   ng-minlength="20" ng-maxlength="34" class="form-control" id="" value="" placeholder="IBAN {{language.number}}" ng-model="user.ibanno" name="ibanno" required>
                                                                                 <span style="color:Red" ng-show="submitted && myaccountForm.ibanno.$error.required">{{language.this_field_is_required}}! </span>
                                                                                 
                                                                                 <!--<span style="color:Red" ng-show="myaccountForm.ibanno.$dirty && myaccountForm.ibanno.$error.pattern">Only Numbers Allowed</span>-->
@@ -80,15 +82,17 @@
 									</div>
                                                                     <div class="form-group">
 										<label for="staticEmail">{{language.Bank}} {{language.Name}}</label>
-										<input type="text" class="form-control" id="" value="" placeholder="Bank Name" ng-model="user.bankname" name="bankname" required>
+										<input type="text" class="form-control" id="" value="" placeholder="{{language.Bank}} {{language.Name}}" ng-model="user.bankname" name="bankname" required>
+                                                                                <span style="color:Red" ng-show="submitted && myaccountForm.bankname.$error.required">{{language.this_field_is_required}} </span>
 									</div>
                                                                    <div class="form-group">
 										<label for="staticEmail">{{language.preferred}} {{language.language}}</label>
-										<select class="form-control" ng-model="user.language_preference" name="language_preference">
+                                                                                <select class="form-control" ng-model="user.language_preference" name="language_preference" required>
                                                                                     <option value="" selected>{{language.please}} {{language.select}} {{language.your}} {{language.language}}</option>
 											<option value="Arabic">Arabic</option>
 											<option value="English">English</option>
 										</select>
+                                                                                 <span style="color:Red" ng-show="submitted && myaccountForm.language_preference.$error.required">{{language.this_field_is_required}} </span>
 									</div>
 
                                                                         <div class="form-group">
@@ -97,7 +101,7 @@
                                                                                     <option value="">{{language.please}} {{language.select}} {{language.preferred}} {{language.country}}</option>
 											<option  ng-repeat="countrylists in countrylist" value="{{countrylists.id}}">{{countrylists.name}}</option>
 										</select>
-                                                                                
+                                                                                <span style="color:Red" ng-show="submitted && myaccountForm.country_preference.$error.required">{{language.this_field_is_required}} </span>
                                                                                 
 									</div>
 
@@ -108,13 +112,13 @@
 										<option value="">{{language.please}} {{language.select}} {{language.preferred}} {{language.currency}}</option>	
                                                                                     <option  ng-repeat="currencylists in currencylist" value="{{currencylists.code}}">{{currencylists.name}}</option>
 										</select>
-                                                                                <span style="color:Red" ng-show="submitted && myaccountForm.currency.$error.required">{{language.please}} {{language.Choose}} {{language.currency}}</span>
+                                                                                <span style="color:Red" ng-show="submitted && myaccountForm.currency_preference.$error.required">{{language.please}} {{language.Choose}} {{language.currency}}</span>
 									</div>
                                                                             
                                                                     <div>
 									   <div class="form-group">
                                                                                <label for="staticEmail">{{language.Civil_ID}} {{language.Attachment}}</label>
-										<div class="btn btn-primary" accept="image/*" ngf-select ng-model="user.image" ngf-max-files="2" ngf-multiple="true" name="image" ngf-fix-orientation="true">{{language.add}} {{language.photos}}
+										<div class="btn btn-primary" accept="image/*" ngf-keep="true"  ngf-select ng-model="user.image" ngf-max-files="5" ngf-multiple="true" name="image" ngf-fix-orientation="true">{{language.add}} {{language.photos}}
 										</div>
 									</div>
 									<div class="form-group">
@@ -187,6 +191,46 @@
 	</section>
 	<div id="check_otp" class="modal fade" role="dialog">
     <div class="modal-dialog">
+        <form class="modal-content animate" ng-submit="verifyotp(mobileno)">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                    <h4 class="modal-title"></h4>
+                </div>
+
+                <div class="modal-body">
+<!--                    <h5>Please Enter Your OTP Below</h5>   
+                    <input type="text" class="input-field"  name="password" value="2" ng-model="pass.password" capitalize required>-->
+
+                    <h5>Your Mobile Number</h5>   
+                    <input type="text" class="input-field" name="password" value="2" ng-model="mobileno.mobile" capitalize required>                    <p ng-if="error" style="color:red" capitalize> {{error}}</p>
+
+                    <hr>
+<!--                    <h5>Confirm Your Mobile Number</h5>   
+                    <i ng-click="verifyotp(pass.phone)" class="fa fa-check"></i>-->
+
+                    <hr>
+                    <div>
+
+                        <div>
+                            <input type="submit" value="Confirm" >
+                             <!--<button ng-click="verifyotp(pass.phone)" type="button">Confirm</button>-->
+                        </div>
+                    </div>                                                  
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="check_otp1" class="modal fade" role="dialog">
+    <div class="modal-dialog">
         <form class="modal-content animate" ng-submit="check_otp(pass)">
             <!-- Modal content-->
             <div class="modal-content">
@@ -197,8 +241,9 @@
 
                 <div class="modal-body">
                     <h5>Please Enter Your OTP Below</h5>   
-                    <input type="password" class="input-field"  name="password" value="2" ng-model="pass.password" capitalize required>
-                    <p ng-if="error" style="color:red" capitalize> {{error}}</p>
+                    <input type="text" class="input-field"  name="password" value="2" ng-model="pass.password" capitalize required>
+
+<input type="text" class="input-field"  name="password" value="2" ng-model="pass.mobile" capitalize required>                    <p ng-if="error" style="color:red" capitalize> {{error}}</p>
                     <hr>
                     <div>
 

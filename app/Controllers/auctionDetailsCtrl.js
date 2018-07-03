@@ -30,7 +30,8 @@ $scope.isform1 =0;
 
 
  
-$scope.product_id=$stateParams.id;  
+$scope.product_id=$stateParams.id;
+$scope.product_id1=atob($stateParams.id);
  
  $scope.Showdetails = function(){
    //  alert('hi');
@@ -165,5 +166,27 @@ else {
        
     
     };                     
+
+    
+    userService.reviews($scope.product_id1).then(function(response) {
+
+	//$scope.isExists=response.Ack;
+		if(response.Ack == '1') {
+                    
+                    console.log('reviewss',response.reviews);
+	$scope.allreviews=response.reviews;
+        
+		//$scope.productLists=response.productList;
+                
+		
+		
+
+  } else {
+
+		}
 	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
 });

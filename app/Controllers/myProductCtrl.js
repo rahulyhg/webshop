@@ -8,6 +8,7 @@ app.controller('myProductCtrl', function ($rootScope, $scope, $http, $location,$
 $scope.data = {};
 $scope.user = {};
 //alert('a');
+ $window.scrollTo(0, 0);
 if ($window.localStorage["userInfo"]) {
 var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;

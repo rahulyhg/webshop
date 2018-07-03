@@ -232,10 +232,10 @@ while ($moreimage = mysqli_fetch_array($moreimage1)) {
                                         <td><?php echo $userRow['owner_number']; ?></td>
                                     </tr>
 
-                                    <tr>    
+<!--                                    <tr>    
                                         <td> Country</th>
                                         <td><?php echo $country['name']; ?></td>
-                                    </tr>
+                                    </tr>-->
 
                                     <tr>    
                                         <td> Size</th>

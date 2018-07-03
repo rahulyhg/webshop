@@ -543,6 +543,7 @@ if ($num > 0) {
                                                 jQuery(document).ready(function () {
                                                     EditableTable.init();
                                                 });
+
 </script>
 </body>
 <!-- END BODY -->
@@ -691,3 +692,27 @@ function test_mail1($to, $firstname) {
 
 //---------------------------------------------------------------------------
 ?>
+<script>
+//   $(document).ready(function() {
+//    $('#editable-sample').DataTable( {
+//        stateSave: true
+//    } );
+//} );
+/*
+$('#editable-sample').dataTable({
+    "bServerSide": true,
+    ....
+    "bDestroy": true
+});*/
+
+    $('#editable-sample').DataTable( {
+        "paging":   true,
+        "ordering": true,
+        "info":     false,
+        stateSave: true
+
+
+$(".table_link").on("click", function(){
+  $('#editable-sample').DataTable().state.clear();
+});
+</script>

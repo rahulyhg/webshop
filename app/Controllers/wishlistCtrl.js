@@ -7,7 +7,7 @@ app.controller('wishlistCtrl', function ($rootScope, $scope, $http, $location,$t
     
 $scope.data = {};
 $scope.user = {};
-//alert('a');
+ $window.scrollTo(0, 0);
 if ($window.localStorage["userInfo"]) {
 var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;

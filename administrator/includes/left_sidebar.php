@@ -186,19 +186,19 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
             <li class="sub-menu">
                 <a href="javascript:;" class="">
                     <i class="icon-tasks"></i>
-                    <span>User Subscription</span>
+                    <span>Product Packages</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub">
 
                     <li>
                         <a href="add_user_subscription.php">
-                            Add Subscription</a>
+                            Add Product Packages</a>
                     </li>
 
                     <li>
                         <a href="list_user_subscription.php">
-                            List Subscription</a>
+                            List Product Packages</a>
                     </li>
 
                 </ul>
@@ -207,19 +207,19 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
             <li class="sub-menu">
                 <a href="javascript:;" class="">
                     <i class="icon-tasks"></i>
-                    <span>Product Subscription</span>
+                    <span>Top Product Packages</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub">
 
                     <li>
                         <a href="add_top_subscription.php">
-                            Add Subscription</a>
+                            Add Top Product Packages</a>
                     </li>
 
                     <li>
                         <a href="list_top_subscription.php">
-                            List Subscription</a>
+                            List Top Product Packages</a>
                     </li>
 
                 </ul>
@@ -355,7 +355,7 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                     </a>
                     <ul class="sub">
 
-                                                                                                                                                                           </li>  -->
+                                                                                                                                                                           </li>
                         <li  <?php if ($pagename == 'list_user.php') { ?>  class="active" <?php } ?>>
                             <a href="list_user.php">
                                 <i class="icon-user"></i>
