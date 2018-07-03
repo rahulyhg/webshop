@@ -69,6 +69,50 @@ var otp= user.otp;
 
                  }else{
 
+                 swal("Please Check Your Mobile Number Along With Your Country .", "", "error")
+                .then((value) => {
+                    if(value == true){
+
+                            $window.location.reload();
+                    }
+                  //swal(`The returned value is: ${value}`);
+                });
+
+                 }
+	
+	
+	
+														   
+ }, function(err) {
+         console.log(err); 
+    }); 
+			
+}; 
+
+
+$scope.tomobileverifying1 = function(user){
+
+var otp= user.otp;
+
+
+   userService.tomobileverifying1(userid,otp).then(function(response) {
+	
+	//console.log("zzzdfdzsxfdz",response);  
+	 if(response.Ack == '1'){
+				  
+			//$scope.msg='There is problem in verifying your email.';
+				
+			 swal("Successfully Verified Your Mobile No.", "", "success")
+                .then((value) => {
+                    if(value == true){
+
+                            $window.location.href = '#/home';
+                    }
+
+                });	
+
+                 }else{
+
                  swal("There is problem in verifying your Mobile No.Please try again", "", "error")
                 .then((value) => {
                     if(value == true){
@@ -88,6 +132,7 @@ var otp= user.otp;
     }); 
 			
 }; 
+
 		
 $scope.resend = function(user){
    

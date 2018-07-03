@@ -3,7 +3,7 @@
  * controllers used for the login
  */
 app.controller('productDetailsCtrl', function ($rootScope, $scope,$interval, $http, $location,$timeout,$window, $state,$stateParams, userService) {
-
+  $window.scrollTo(0, 0); 
 
 //			$scope.ratings = [{
 //				title : 'Rating',
@@ -27,7 +27,14 @@ $scope.rating.basedOn =5;
 $scope.rating.showGrade = true;
 $scope.rating.rating =1;
 $scope.rating.title ='Rating';
-        
+$scope.bidhistory = false;
+   if($scope.is_fav){
+       $scope.is_fav1= $scope.is_fav;
+       alert();
+   }
+   else{
+       $scope.is_fav1=0;
+   }
 			
 
 		
@@ -271,7 +278,7 @@ else {
 		
 
   } else {
-
+       $scope.Showdetails();
 		}
 	
 				   
@@ -382,7 +389,7 @@ swal("Mail can not be sent",'','error');
          
         
         userService.checkauctionvalidity($scope.product_id1,userInfo.user_id).then(function(response) {
-            alert($scope.product_id1);
+            //alert($scope.product_id1);
              if(response.Ack == '1') { 
                  $('#password').modal('show');
                  
@@ -585,7 +592,7 @@ swal("Mail can not be sent",'','error');
 		
 
   } else {
-
+ $scope.Showdetails();
 		}
 	
 				   
@@ -612,7 +619,7 @@ swal("Mail can not be sent",'','error');
 				//$state.go('frontend.wishlist');
               //  $window.location.reload();                
                                 
-                              
+                  $scope.is_fav1= response.is_fav;            
                                 
                 }
                 
@@ -621,16 +628,50 @@ swal("Mail can not be sent",'','error');
 //alert ('Already Added in your wishlist'); 
               //alert('Error !!!!');
             //  $window.location.reload();  
+            $scope.is_fav1= response.is_fav;
               }
 																	
 	}, function(err) {
            // alert ('Already Added in your wishlist');
-            $window.location.reload();
+           // $window.location.reload();
          console.log(err); 
     });
 	 
 } 
+ $scope.addwishlist3 = function(product_id,owner_id){
+	 
+  	var userInfo = JSON.parse($window.localStorage["userInfo"]);	
+	$scope.user_id=userInfo.user_id;
+	 
 
+    userService.addFavWishlist(userInfo.user_id,product_id,owner_id).then(function(response) {
+		
+                
+	 if(response.Ack == '1') {
+				//alert (response.msg);
+                //alert ('Added to your Watchlist');
+				//$state.go('frontend.wishlist');
+              //  $window.location.reload();                
+                                
+                  $scope.is_fav1= response.is_fav;            
+                                
+                }
+                
+        
+        else {
+//alert ('Already Added in your wishlist'); 
+              //alert('Error !!!!');
+            //  $window.location.reload();  
+            $scope.is_fav1= response.is_fav;
+              }
+																	
+	}, function(err) {
+           // alert ('Already Added in your wishlist');
+           // $window.location.reload();
+         console.log(err); 
+    });
+	 
+} 
 $scope.addlike2 = function(product_id,owner_id){
 	 
   	var userInfo = JSON.parse($window.localStorage["userInfo"]);	
@@ -664,5 +705,19 @@ $scope.addlike2 = function(product_id,owner_id){
     });
 	 
 }
+
+
+$scope.a = function() {
+        
+       $scope.bidhistory =true; 
+       $scope.Showdetails();
+    }
+    
+    $scope.b = function() {
+        
+       $scope.bidhistory =false; 
+       $scope.Showdetails();
+
+    }
 });
 

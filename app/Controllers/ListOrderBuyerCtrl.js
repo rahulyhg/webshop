@@ -22,7 +22,9 @@ return input;
 
 });
 app.controller('ListOrderBuyerCtrl', function ($rootScope, $scope, $http,$window, $location,$timeout,$stateParams,userService) {
-
+ 
+    
+    $window.scrollTo(0, 0);
 $scope.data = {};
 $scope.user = {};
 //alert('a');

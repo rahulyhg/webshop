@@ -8,7 +8,7 @@ app.controller('messagelistCtrl', function ($rootScope, $scope, $http, $location
     
 $scope.data = {};
 $scope.user = {};
-
+ $window.scrollTo(0, 0);
 $window.scrollTo(0, 0);
 $scope.getCurrentUserType();
 

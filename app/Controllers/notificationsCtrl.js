@@ -23,7 +23,8 @@ return input;
 app.controller('notificationsCtrl', function ($rootScope, $scope, $http, $location, $timeout, $window, userService, $stateParams, $state) {
     
 $scope.data = {};
-$scope.user = {};    
+$scope.user = {}; 
+ $window.scrollTo(0, 0);
      $scope.getCurrentUserType();
 
 	var userInfo = JSON.parse($window.localStorage["userInfo"]);	

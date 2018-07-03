@@ -13,7 +13,7 @@ app.controller("RootScopeCtrl", function ($scope,$rootScope, $location, $rootSco
 //        $location.path("/home");
 //    }
 
-
+$scope.is_fav='';
     //$scope.mobileverify = '';
     if($window.localStorage["language"] == 2){
     $window.localStorage["language"] = 2;
@@ -609,11 +609,11 @@ userService.homeSettingsSection().then(function(response) {
 		
                 
 	 if(response.Ack == '1') {
-				//alert (response.msg);
+				lert ('response.msg');
                 //alert ('Added to your Watchlist');
 				//$state.go('frontend.wishlist');
-                $window.location.reload();                
-                                
+               // $window.location.reload();                
+                $scope.is_fav1= response.is_fav;             
                               
                                 
                 }
@@ -622,12 +622,13 @@ userService.homeSettingsSection().then(function(response) {
         else {
 //alert ('Already Added in your wishlist'); 
               //alert('Error !!!!');
-              $window.location.reload();  
+             // $window.location.reload();  
+             $scope.is_fav1= response.is_fav;
               }
 																	
 	}, function(err) {
            // alert ('Already Added in your wishlist');
-            $window.location.reload();
+            //$window.location.reload();
          console.log(err); 
     });
 	 
@@ -958,23 +959,29 @@ userService.listcountry().then(function(response) {
      $scope.sendtoproduct = function(link){
          if(link == 'sp_auction'){
           $scope.is_special_auction='1'; 
+         // $window.localStorage["keyword"] ='';
           $state.go('frontend.searchListing');
+          $window.scrollTo(0, 0);
          }
          
          if(link == 'top_product'){
           $scope.top_prodct='1';
             //$windos.location.href='#/productlisting/';
           $state.go('frontend.productlisting');
+          $window.scrollTo(0, 0);
          }
          
          if(link == 'top_seller'){
-          $scope.top_user_vendor='1'; 
-          $state.go('frontend.productlisting');
+          //$scope.top_user_vendor='1'; 
+          $window.localStorage["top_user_vendor"] ='1';
+          $state.go('frontend.allshopDetails');
+          $window.scrollTo(0, 0);
          }
          
          if(link == 'Female'){
-          $scope.$scope.gender='Female'; 
+          $scope.gender='Female'; 
           $state.go('frontend.productlisting');
+           $window.scrollTo(0, 0);
          }
          
     };    

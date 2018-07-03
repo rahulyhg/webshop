@@ -4,7 +4,7 @@
  */
 app.controller('allshopDetailsCtrl', function ($rootScope, $scope,$interval, $http, $location,$timeout,$window, $state,$stateParams, userService) {
 
-    
+    $window.scrollTo(0, 0);
 $scope.data = {};
 $scope.user = {};
 $scope.checkboxstr=[];
@@ -20,7 +20,11 @@ $scope.checkboxstrmove =[];
  $scope.minprice=0;
  $scope.search = { price_min : '', price_max : '', amount_min : '', amount_max : '' };
 $scope.shop_id=$stateParams.id; 
-  
+ /* if($scope.top_user_vendor){
+     $scope.top_user_vendor=$scope.top_user_vendor 
+  }else{
+      $scope.top_user_vendor='';
+  }*/
 	
        
 //alert('a');
@@ -145,6 +149,14 @@ if($window.localStorage["sellerListing"]){
 	$scope.sellerListing='';
 }
 
+if($window.localStorage["top_user_vendor"]){
+	$scope.top_user_vendor=$window.localStorage["top_user_vendor"];
+        $window.localStorage["top_user_vendor"]='';
+}else{
+	$scope.top_user_vendor='';
+        $window.localStorage["top_user_vendor"]='';
+}
+ //$window.localStorage["top_user_vendor"] ='1';
 if($window.localStorage["selected_value"]){
 	$scope.selected_value=$window.localStorage["selected_value"];
 }else{
@@ -242,7 +254,7 @@ userService.listbracelet().then(function(response) {
  //spandan end     
 
 //console.log('amount',$scope.amount_max);
- userService.allShopListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword,$scope.categorylisting,$scope.movementListing,$scope.shop_id).then(function(response) {
+ userService.allShopListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword,$scope.categorylisting,$scope.movementListing,$scope.shop_id,$scope.top_user_vendor).then(function(response) {
     // alert();
 
 		//alert($scope.movementListing);

@@ -4,7 +4,7 @@
  */
 app.controller('productlistingCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService,$stateParams) {
 
-    
+  $window.scrollTo(0, 0);   
 $scope.data = {};
 $scope.user = {};
 $scope.checkboxstr=[];
@@ -12,8 +12,11 @@ $scope.checkboxstrcat=[];
  $scope.user.brand=[];
   $scope.user.category=[];
  $scope.checkboxstr2=[];
+ $scope.checkboxstrstatus=[];
+ $scope.status=[];
  $scope.movements=[];
  $scope.user.shop=[];
+  $scope.user.status=[];
   $scope.user.movement=[];
  $scope.maxprice =0;
  $scope.minprice=0;
@@ -21,7 +24,8 @@ $scope.checkboxstrcat=[];
    $scope.size_amount_max=0;
    $scope.count =0;
    $scope.count1 =0;
-    
+   
+    $scope.user_id='';
  $scope.search = { price_min : '', price_max : '', amount_min : '', amount_max : '' };
 
   
@@ -66,6 +70,7 @@ $scope.brand='';
 if($stateParams.id){
     //alert($scope.brand);
 $scope.brand=$stateParams.id;
+ $window.localStorage["brandListing"]=$scope.brand;
 }
 
 if ($window.localStorage["userInfo"]) {
@@ -89,7 +94,7 @@ $scope.isform1 =0;
 
 //$scope.brand=$stateParams.brand;
 
-userService.getmaxprice(2).then(function(response) {
+userService.getmaxprice(1,$scope.user_id).then(function(response) {
      //alert('getmaxprice');
 
 		
@@ -165,6 +170,11 @@ if($window.localStorage["sellerListing"]){
 }else{
 	$scope.sellerListing='';
 }
+if($window.localStorage["statuslist"]){
+	$scope.statuslisting=$window.localStorage["statuslist"];
+}else{
+	$scope.statuslisting='';
+}
 
 if($window.localStorage["selected_value"]){
 	$scope.selected_value=$window.localStorage["selected_value"];
@@ -210,6 +220,7 @@ if($scope.amount_min){
     $('#min_price').html($scope.amount_min);
 }	
 if($scope.amount_max){
+    //alert()
     $scope.amount_max = $scope.amount_max;
     $('#max_price').html($scope.amount_max);
 }else{
@@ -298,7 +309,7 @@ userService.listbracelet().then(function(response) {
  //spandan end     
 
 //console.log('amount',$scope.amount_max);
- userService.searchproductListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword,$scope.categorylisting,$scope.movementListing,$scope.size_amount_max,$scope.size_amount_min,$scope.top_prodct).then(function(response) {
+ userService.searchproductListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword,$scope.categorylisting,$scope.movementListing,$scope.size_amount_max,$scope.size_amount_min,$scope.top_prodct,$scope.statuslisting).then(function(response) {
     // alert();
 
 		//alert($scope.movementListing+'d');
@@ -564,28 +575,7 @@ $scope.updatecheckbox23 = function(select,movement2){
 
 
 
-$scope.updatecheckboxmovement = function(select,movement2){
-//alert(select);
-	      if (select)
-        {
-            $scope.user.movement.push(select);
-            //alert(select);
-        } else {
-            $scope.deleteitem = $scope.user.movement.indexOf(movement2);
-           // alert($scope.deleteitem);
-            $scope.user.movement.splice($scope.deleteitem, 1);
 
-        }
-
-         $scope.movements = $scope.user.movement.toString();
-        $window.localStorage["movementListing"]=$scope.movements;
-        //console.log("Checkbox List2",$scope.checkboxstr23);
-       $scope.searchListing()
-
-
-
-
-}
 
 //spandan
 
@@ -706,5 +696,67 @@ $scope.top_productss2 = function () {
         $scope.searchListing();
 
     }
+    
+    $scope.getstatuswatch = function(){
+
+	userService.liststatus().then(function(response) {
+		if(response.Ack == '1') {
+		$scope.statuslist=response.statuslist;
+console.log('checkboxstrstatus',response);
+  } else {
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+
+}
+
+$scope.updatecheckbox3 = function(select,status){
+
+//alert(status);
+	      if (select)
+        {
+            $scope.user.status.push(select);
+            //alert(select);
+        } else {
+            $scope.deleteitem = $scope.user.status.indexOf(status);
+           // alert($scope.deleteitem);
+            $scope.user.status.splice($scope.deleteitem, 1);
+
+        }
+
+         $scope.status = $scope.user.status.toString();
+        $window.localStorage["statuslist"]=$scope.status;
+       // console.log("checkboxstrstatus",$scope.checkboxstrstatus);
+        $scope.searchListing();
+
+
+
+}
+
+$scope.updatecheckboxmovement = function(select,movement2){
+//alert(select);
+	      if (select)
+        {
+            $scope.user.movement.push(select);
+            //alert(select);
+        } else {
+            $scope.deleteitem = $scope.user.movement.indexOf(movement2);
+           // alert($scope.deleteitem);
+            $scope.user.movement.splice($scope.deleteitem, 1);
+
+        }
+
+         $scope.movements = $scope.user.movement.toString();
+        $window.localStorage["movementListing"]=$scope.movements;
+        //console.log("Checkbox List2",$scope.checkboxstr23);
+       $scope.searchListing()
+
+
+
+
+}
 });
 

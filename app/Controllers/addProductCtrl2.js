@@ -4,6 +4,8 @@
  */
 app.controller('addProductCtrl2', function ($rootScope, $state, $scope, $http, $location,$timeout, $q, userService,$window,Upload) {
 
+
+ $window.scrollTo(0, 0);
 $scope.data = {};
 $scope.user = {};
 $scope.user2 = {};
@@ -262,6 +264,8 @@ $scope.countrylist =''	;
         
         
              
+             
+            
         $scope.sub = function(cat_id){
           // alert(cat_id);
            // return false;
@@ -471,10 +475,28 @@ $scope.selectedstatus = function(status){
     $scope.user2.status = status;
    // alert($scope.user2.status);
  }
+ 
+ /*
+ $scope.selectFiles=function(event)
+ {
+      debugger;
+      console.log(event);
+     console.log($scope.user2);
+     if(!$scope.filesArray)
+     {
+         $scope.filesArray=[];
+     }
+     $scope.filesArray.push(event);
+     $scope.user2.image=$scope.filesArray;
+     $scope.$apply();
+   
+    
+ }*/
 
 $scope.deleteFile = function(idx) {
    
      //var filename = idx;
+     
      $scope.user2.image.splice(idx, 1);
 //     if (filename) {
 //          $http.delete('/api/files/'+file.id).then(function(response){

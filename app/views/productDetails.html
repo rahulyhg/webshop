@@ -4,8 +4,8 @@
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Watches</li>
+                <li class="breadcrumb-item"><a href="#">{{language.home}}</a></li>
+                <li class="breadcrumb-item active">{{language.watches}}</li>
             </ol>
         </nav>
         <div class="details-wrap p-3">
@@ -38,17 +38,17 @@
                         <h4>{{productLists.productname}}</h4>
                         <p class="text-secondary">{{productLists.brands}}/{{productLists.category}}({{productLists.gender}})</p>
 
-                        <div ng-if="user_id && productLists.interest == 0">
+                        <div ng-if="user_id && productLists.interest == 0 && productLists.type == 1">
                                 <ng-rating ng-model="productLists.averagerating" icon-class="rating.iconClass" editable="false" stars-count="rating.starsCount" based-on="rating.basedOn"></ng-rating>
                             ({{productLists.averagerating}})</div>
 
 
-                        <div ng-if="!user_id && productLists.interest == 0">
+                        <div ng-if="!user_id && productLists.interest == 0 && productLists.type == 1">
                                 <ng-rating ng-model="productLists.averagerating" icon-class="rating.iconClass" editable="false" stars-count="rating.starsCount" based-on="rating.basedOn"></ng-rating>
                              ({{productLists.averagerating}})<a href="" data-toggle="modal" data-target="#login" class="d-inline-block pl-3">Write a review</a></div>
 
 
-                        <div ng-if="user_id && productLists.interest == 1">
+                        <div ng-if="user_id && productLists.interest == 1 && productLists.type == 1">
                                 <ng-rating ng-model="productLists.averagerating" icon-class="rating.iconClass" editable="false" stars-count="rating.starsCount" based-on="rating.basedOn"></ng-rating>
                             ({{productLists.averagerating}})<a href="" data-toggle="modal" data-target="#myModal1" class="d-inline-block pl-3" >Write a review</a></div>
 
@@ -59,28 +59,28 @@
 
                         <hr>
 
-                        <h5>Product Description</h5>
+                        <h5>{{language.product_description}}</h5>
 
                         <p ng-if="productLists.description != ''">{{productLists.description}}</p>
-                        <p ng-if="productLists.description == ''">No description found.</p>
+                        <p ng-if="productLists.description == ''">{{language.no_description}}</p>
                         <!-----31/05/2018---->
                         <hr>
 
-                        <h5>Product Bracelet Type</h5>
+                        <h5>{{language.product}} {{language.bracelet}} {{language.type}}</h5>
 
                         <p>{{productLists.breslet_type}}</p>
 
 
                         <hr>
 
-                        <h5>Product Size</h5>
+                        <h5>{{language.product}}  {{language.size}}</h5>
 
                         <p>{{productLists.size}}</p>
 
 
                         <!-----31/05/2018----> 
                         <hr>
-                        <h5 ng-if="productLists.seller_id != user_id && productLists.type == 2">Auction Start Date</h5>
+                        <h5 ng-if="productLists.seller_id != user_id && productLists.type == 2">{{language.auction}} {{language.start}} {{language.date}}</h5>
 
                         <p ng-if="productLists.seller_id != user_id && productLists.type == 2">{{productLists.action_date}}&nbsp;{{productLists.action_time}}</p>
 
@@ -97,10 +97,11 @@
                                 <ul class="like-links list-unstyled p-0 float-right m-0">
                                     <!--<li ng-if="user_id && productLists.userlike==0" class="d-inline-block mr-2"><a href="" ng-click="addlike(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>-->
                                     <!--<li ng-if="user_id && productLists.userlike==1" class="d-inline-block mr-2"><a href="" ng-click="addlike(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i style="color:red" class="ion-thumbsup"></i></a></li>-->
-                                    <li ng-if="!user_id" class="d-inline-block mr-2"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>
-                                    <!--                                                                                <li class="d-inline-block mr-2"><a ng-if="current_user_login!='1'  && quantity!='0'" ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-android-cart"></i></a></li>-->
-                                    <li class="d-inline-block"><a ng-if="user_id && productLists.is_fav == 0" ng-click="addwishlist2(productLists.id, productLists.seller_id)" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
-                                    <li class="d-inline-block"><a ng-if="user_id && productLists.is_fav == 1" ng-click="addwishlist(productLists.id, productLists.seller_id)" class="d-block rounded-circle"><i style="color:red" class="ion-heart"></i></a></li>
+                                    <!--<li ng-if="!user_id" class="d-inline-block mr-2"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>-->
+                                    <!--               {{is_fav1}}                                                                 <li class="d-inline-block mr-2"><a ng-if="current_user_login!='1'  && quantity!='0'" ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-android-cart"></i></a></li>-->
+                                    
+                                    <li class="d-inline-block"><a ng-if="user_id && is_fav1 == 0 && user_id != productLists.seller_id" ng-click="addwishlist2(productLists.id, productLists.seller_id)" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
+                                    <li class="d-inline-block"><a ng-if="user_id && is_fav1 == 1 && user_id != productLists.seller_id" ng-click="addwishlist3(productLists.id, productLists.seller_id)" class="d-block rounded-circle"><i style="color:red" class="ion-heart"></i></a></li>
                                     <li ng-if="!user_id" class="d-inline-block"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
                                 </ul>
                             </div>
@@ -109,8 +110,8 @@
                         <div class="row">
                             <div class="col-sm-6">
                                     
-                                <p class="mb-4" ng-if="loader1 && productLists.interest == 0"><a href="" class="btn btn-primary btn-block" ng-click="emailtothevendorinterest(productLists.seller_id, productLists.type)">Show Interest and Seller Details .</a></p>
-                                <p class="mb-4" ng-if="user_id && loader1 && productLists.interest == 1"><a href="" class="btn btn-primary btn-block" href="javascript:void(0)">Already interestd</a></p>
+                                <p class="mb-4" ng-if="user_id && loader1 && productLists.interest == 0 && user_id != productLists.seller_id && productLists.type != 2"><a href="" class="btn btn-primary btn-block" ng-click="emailtothevendorinterest(productLists.seller_id, productLists.type)">Show Interest and Seller Details .</a></p>
+                                <p class="mb-4" ng-if="user_id && loader1 && productLists.interest == 1 && user_id != productLists.seller_id && productLists.type != 2"><a href="" class="btn btn-primary btn-block" href="javascript:void(0)">Already interestd</a></p>
                             </div>
                             <div class="col-sm-6" ng-if="user_id && productLists.ctime > productLists.start_time">
 
@@ -138,31 +139,34 @@
                     <!--<div class="share-prod mb-2">Share this product : <a href="" class="d-inline-block text-secondary"><i class="fa fa-facebook"></i></a> <a href="" class="d-inline-block mx-2 text-secondary"><i class="fa fa-twitter"></i></a><a href="" class="d-inline-block text-secondary"><i class="fa fa-google-plus"></i></a></div>-->
                     <div class="seller-info p-3 border-secondary border rounded mb-3">
                         <div ng-if="user_id && productLists.interest == 1">
-                            <h6 class="card-title">Seller Info:</h6>
-                            <p class="mb-1">{{productLists.seller_name}}</p>
-                            <p class="text-secondary mb-0"><i class="fa fa-map-marker"></i> {{productLists.seller_address}}</p>
+                            <h6 class="card-title">{{language.seller}} Info:</h6>
+                            <div ng-if="productLists.seller_name"> Seller Name<p ng-if="productLists.seller_name"  class="mb-1">{{productLists.seller_name}}</p></div>
+                            <div ng-if="productLists.seller_phone">Seller Phone Number<p ng-if="productLists.seller_phone" class="mb-1">{{productLists.seller_phone}}</p></div>
+                          <div ng-if="productLists.seller_email">Seller Emailid<p class="mb-1">{{productLists.seller_email}}</p></div>
+                         <div ng-if="productLists.working_hours">  Working Hours  <p class="mb-1">{{productLists.working_hours}}</p></div>
+                           <div ng-if="productLists.seller_address">  Address   <p class="text-secondary mb-0">{{productLists.seller_address}}</p></div>
                         </div>
                         <!--              <p class="text-secondary mb-2"><i class="fa fa-phone"></i> {{productLists.seller_address}}</p>-->
                         <h5><b>{{productLists.currency_code}} {{productLists.price}} </b></h5>
                         <p class="text-success">{{productLists.quantity}}pcs. Available. </p>
-                        <p style="color:black">Model year :{{productLists.model_year}}</p>
-                        <p style="color:black">Movement :{{productLists.movement}}</p>
+                        <p style="color:black">{{language.model}} {{language.year}} :{{productLists.model_year}}</p>
+                        <p style="color:black">{{language.movement}} :{{productLists.movement}}</p>
                         <p style="color:black" ng-if="productLists.date_purchase">Date of Purchased :{{productLists.date_purchase}}</p>
                         <p style="color:black">Status of the watch :{{productLists.status_watch}}</p>
-                        <p ng-if="productLists.quantity == '0'" class="text-success">Out of stock.</p>
+                        <p ng-if="productLists.quantity == '0'" class="text-success">{{language.top_products}}Out of stock.</p>
                         <div ng-if="user_id && productLists.interest == 1">       
                             <hr>
 
-                            <button ng-if="is_hide == 0 && productLists.interest == 1" type="button" ng-click="is_clicked()" class="btn btn-primary btn-block">Contact Seller</button>
-                            <button ng-if="user_id && productLists.interest == 0" type="button" ng-click="is_clicked()" disabled class="btn btn-primary btn-block">Contact Seller</button>
-                            <button ng-if="!user_id && productLists.interest == 0" type="button" ng-click="is_clicked()" class="btn btn-primary btn-block">Contact Seller</button>
+                            <button ng-if="is_hide == 0 && productLists.interest == 1 && productLists.type != 2" type="button" ng-click="is_clicked()" class="btn btn-primary btn-block">Contact Seller</button>
+                            <button ng-if="user_id && productLists.interest == 0 && user_id != productLists.seller_id" type="button" ng-click="is_clicked()" disabled class="btn btn-primary btn-block">Contact Seller</button>
+                            <button ng-if="!user_id && productLists.interest == 0 && user_id != productLists.seller_id" type="button" ng-click="is_clicked()" class="btn btn-primary btn-block">Contact Seller</button>
                             
                             
                             <div ng-if="user_id && productLists.interest == 1 && is_click == 1">
 
                                 <!--<form class="modal-content animate" name="contacttoseller" ng-submit="contactseller(sellercontact)">-->
                                 <form class="modal-content animate"  ng-submit="addmessage(sellercontact)">
-                                    <h5>Your Message</h5>   
+                                    <h5>{{language.your}} {{language.messages}}</h5>   
 
                                     <textarea class="form-control" id="" value="" placeholder="" ng-model="sellercontact.message" name="message" capitalize required></textarea>
 
@@ -185,7 +189,7 @@
                     
                     <div ng-if="user_id && productLists.interest == 1">
                         <hr>
-                        <h6 class="card-title">Reviews</h6>
+                        <h6 class="card-title">{{language.reviews}}</h6>
                         <div class="reviews-holder">
                             <div ng-repeat="reviewsss in allreviews" class="media">
                                 <div class="media-left mr-2">
@@ -208,7 +212,7 @@
                                         {{reviewsss.username}} <span class="date d-inline-block ml-2">- {{reviewsss.date}}&nbsp days ago</span></h6>
                                     <p class="mb-2">{{reviewsss.review}}</p>
                                     <div ng-if="reviewsss.recomend == 1">
-                                        <p><i class="fa fa-check"></i> Yes, I recommend this product. </p>
+                                        <p><i class="fa fa-check"></i> {{language.recomend_product}} </p>
                                     </div>
 
 
@@ -216,8 +220,8 @@
                             </div>
 
                             <p class="text-right"  ng-if="!user_id && productLists.interest == 0"><a href="" data-toggle="modal" data-target="#login" class="btn btn-primary btn-block">Add Review</a></p>
-                            <p class="text-right"  ng-if="user_id && productLists.interest == 0"><button disabled class="btn btn-primary btn-block">Add Review</button></p>
-                            <p class="text-right"  ng-if="user_id && productLists.interest == 1"><a href="" data-toggle="modal" data-target="#myModal1" class="btn btn-primary btn-block">Add Review</a></p>
+                            <p class="text-right"  ng-if="user_id && productLists.interest == 0 && user_id != productLists.seller_id"><button disabled class="btn btn-primary btn-block">Add Review</button></p>
+                            <p class="text-right"  ng-if="user_id && productLists.interest == 1 user_id != productLists.seller_id"><a href="" data-toggle="modal" data-target="#myModal1" class="btn btn-primary btn-block">Add Review</a></p>
                         </div>
                     </div>
                 </div>
@@ -250,21 +254,21 @@
                         <!--<img src="{{productLists.image}}" alt="Auction cap" height="200" width="200">-->
 
                        
-                        	<div class="slider_n">
+                        	<div class="slider_n new_slider_n">
 
         <!-- enumerate all photos -->
-        <!--<img ng-repeat="photo in productLists.image" class="slide_n" ng-swipe-right="showPrev()" ng-swipe-left="showNext()" ng-show="isActive($index)" ng-src="{{photo.src}}" />-->
+        <img ng-repeat="photo in productLists.image" class="slide_n" ng-swipe-right="showPrev()" ng-swipe-left="showNext()" ng-show="isActive($index)" ng-src="{{photo.src}}" />
 
         <!-- prev / next controls -->
-<!--        <a class="arrow prev"  ng-click="showPrev()"></a>
+<!--<a class="arrow prev"  ng-click="showPrev()"></a>
         <a class="arrow next"  ng-click="showNext()"></a>-->
 
         <!-- extra navigation controls -->
-<!--        <ul class="nav_n">
+		<ul class="nav_n new_nav_n">
             <li ng-repeat="photo in productLists.image" ng-class="{'active':isActive($index)}">
                 <img src="{{photo.src}}" alt="{{photo.desc}}" title="{{photo.desc}}" ng-click="showPhoto($index);" />
             </li>
-        </ul>-->
+        </ul>
 
     
                         <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
@@ -283,23 +287,24 @@
                     <h5>Total No Of Bid(s) : &nbsp; <p>{{productLists.bidcount}}</p></h5>
                     <!--            <h5>Total No User Bidding : &nbsp; <p>{{productLists.countuniquebids}}</p></h5>-->
                     <h5> Highest Bidder Name : 
-                        <p ng-if="!productLists.higestbidderbid">No bid yet</p>
+                        <p ng-if="!productLists.higestbidderbid">{{language.top_products}}No bid yet</p>
                         <p ng-if="productLists.higestbidderbid">{{productLists.maxbiddername}}({{productLists.higestbidderbid}})</p>
                     </h5>
 
 
-                    <h5>Your Highest Bid : 
-                        <p ng-if="!productLists.maxbid">You have not bid yet</p>
+                    <h5>{{language.your_higest_bid}}  : 
+                        <p ng-if="!productLists.maxbid">{{language.top_products}}You have not bid yet</p>
                         <p ng-if="productLists.maxbid">{{productLists.currency_code}}&nbsp;{{productLists.maxbid}}</p>
                     </h5>
 
 
                     <h5> 
                         <!--<span onclick="a()">Bid History</span>-->
-                        <a ng-click="a()" class="btn btn-primary btn-dark" href="javascript:void(0)">Bid History</a>
+                        <a ng-if="!bidhistory" ng-click="a()" class="btn btn-primary btn-dark" href="javascript:void(0)">Bid History</a>
+                         <a ng-if="bidhistory" ng-click="b()" class="btn btn-primary btn-dark" href="javascript:void(0)">Bid History</a>
                     </h5>
 
-                    <div id="history" style="display: none">
+                    <div ng-if="bidhistory" id="history">
                         <p ng-repeat="bidlist in productLists.bidhistory">{{bidlist.name}} ({{bidlist.bidprice}})</p>
                     </div>
 
@@ -471,11 +476,11 @@
 </div>
 <script>
 
-    function a() {
-
+   /* function a() {
+        alert();
         $('#history').toggle();
 
-    }
+    }*/
 
 </script>
 <style>

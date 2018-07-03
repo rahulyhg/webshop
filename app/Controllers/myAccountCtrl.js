@@ -3,14 +3,18 @@
  * controllers used for the My Account
  */
 app.controller('myAccountCtrl', function ($rootScope, $scope, $http, $location,$timeout, $q, userService,$window,Upload) {
-
+ 
+    $window.scrollTo(0, 0);
 $scope.data = {};
 $scope.user = {};
+$scope.pass = {};
+$scope.mobileno = {};
 // $scope.latlng = [-25.363882,131.044922];
 // 
 // 
 //  $scope.getpos = function(event){
 $scope.phonecheck='';
+$scope.checkverify=false;
 //  };
 
 $scope.getCurrentUserType();   
@@ -34,6 +38,8 @@ $scope.getCurrentUserType();
 				$scope.user.address=response.UserDetails.address;
 				$scope.user.user_id=response.UserDetails.user_id;
 				$scope.user.phone=response.UserDetails.phone;
+                                $scope.pass.mobile=response.UserDetails.phone;
+                                //$scope.user.phone =
                                 $scope.phonecheck = response.UserDetails.phone;
 				$scope.user.location=response.UserDetails.location;
                                 $scope.user.business_type=response.UserDetails.business_type;
@@ -49,7 +55,18 @@ $scope.getCurrentUserType();
                                 $scope.user.language_preference=response.UserDetails.language_preference;
                                 //$scope.user.civilid1=response.UserDetails.civilid1;
                                 //$scope.user.civilid2=response.UserDetails.civilid2;
-                                $scope.user.image=response.UserDetails.images;
+                                let imagesArray=response.UserDetails.images;
+                                $scope.user.image=[];
+                                if(imagesArray && imagesArray.length && imagesArray.length>0)
+                                {
+                                    for(let i=0;i<imagesArray.length;i++)
+                                    {
+                                        if(imagesArray[i])
+                                        {
+                                            $scope.user.image.push(imagesArray[i]);
+                                        }
+                                    }
+                                }
                                 $scope.user.country_preference=response.UserDetails.country_preference;
                                 $scope.user.currency_preference=response.UserDetails.currency_preference;
                                 
@@ -263,16 +280,19 @@ userService.listcountry().then(function(response) {
 } 
 
 
-$scope.verifyotp = function(phoneno) {
-
-    if(phoneno && phoneno !='undefined' && phoneno != $scope.phonecheck){
+$scope.verifyotp = function(mobileno) {
+    //alert(mobileno.mobile);
+    if(mobileno.mobile && mobileno.mobile !='undefined' && mobileno.mobile != $scope.phonecheck){
         
-        userService.resend1($scope.user_id,phoneno).then(function(response) {
+        userService.resend1($scope.user_id,mobileno.mobile).then(function(response) {
            // alert(response.Ack);
         if(response.Ack == '1'){
-            	 $('#check_otp').modal('show');
+             $('#check_otp').modal('hide');
+            	 $('#check_otp1').modal('show');
+                //$scope.checkverify=true;
+                
         }else{
-            swal("There is problem to send OTP to your Mobile.Please try again", "", "error")
+            swal("Please Check Your Mobile Number Along With Your Country .", "", "error")
               
         }
    														   
@@ -286,18 +306,32 @@ $scope.verifyotp = function(phoneno) {
        
     }
 }
-
+$scope.openverifymodal = function(phoneno) {
+     if(phoneno && phoneno !='undefined' && phoneno != $scope.phonecheck){
+    $('#check_otp').modal('show');
+    $scope.pass.mobile=phoneno;
+    $scope.mobileno.mobile=phoneno;
+     }
+}
+/*
+$scope.openverifymodal = function(phoneno) {
+   $scope.pass.mobile=phoneno;
+   $('#check_otp1').modal('show');
+}*/
  $scope.check_otp = function(pass){
         
        
          
         pass.password=pass.password;
-        var userInfo = JSON.parse($window.localStorage["userInfo"]);
+        //alert($scope.user_id);
+       // alert($scope.user.phone);
+        //console.log("pass",pass.password); 
+        //var userInfo = JSON.parse($window.localStorage["userInfo"]);
         //pass.user_id=userInfo.user_id; 
         
-        userService.tomobileverifying(pass.user_id,$scope.user_id).then(function(response) {
+        userService.tomobileverifying($scope.user_id,pass.password,$scope.user.phone).then(function(response) {
 	
-	console.log("zzzdfdzsxfdz",response);  
+	//console.log("zzzdfdzsxfdz",response);  
 	 if(response.Ack == '1'){
 				  
 			//$scope.msg='There is problem in verifying your email.';
@@ -306,7 +340,7 @@ $scope.verifyotp = function(phoneno) {
                 .then((value) => {
                     if(value == true){
 
-                            $('#check_otp').modal('hide');
+                            $('#check_otp1').modal('hide');
                     }
 
                 });	

@@ -91,9 +91,9 @@ function userSignup() {
         $newpass = md5($password);
        $is_mobile_verified =  0;
        $sms_verify_number = $smsotopcode;
-//$status=1;
-
-        $sql = "INSERT INTO  webshop_user (fname,lname, email, password, type, device_type, device_token_id, add_date, address, my_latitude,my_longitude,city,phone,is_mobile_verified,country,sms_verify_number) VALUES (:fname,:lname, :email, :password, :type, :device_type, :device_token_id, :add_date, :address, :my_latitude, :my_longitude, :city, :phone,:is_mobile_verified,:country,:sms_verify_number)";
+        $status= 1;
+        $is_admin_approved= 1;
+        $sql = "INSERT INTO  webshop_user (fname,lname, email, password, type, device_type, device_token_id, add_date, address, my_latitude,my_longitude,city,phone,is_mobile_verified,country,sms_verify_number,status,is_admin_approved) VALUES (:fname,:lname, :email, :password, :type, :device_type, :device_token_id, :add_date, :address, :my_latitude, :my_longitude, :city, :phone,:is_mobile_verified,:country,:sms_verify_number,:status,:is_admin_approved)";
         try {
 
             $stmt = $db->prepare($sql);
@@ -108,12 +108,13 @@ function userSignup() {
             $stmt->bindParam("is_mobile_verified", $is_mobile_verified);
              $stmt->bindParam("country", $country);
             $stmt->bindParam("sms_verify_number", $sms_verify_number);
-// $stmt->bindParam("status", $status);
+            $stmt->bindParam("status", $status);
             $stmt->bindParam("address", $address);
             $stmt->bindParam("my_latitude", $lat);
             $stmt->bindParam("my_longitude", $long);
             $stmt->bindParam("city", $city);
             $stmt->bindParam("phone", $phone);
+            $stmt->bindParam("is_admin_approved", $is_admin_approved);
             $stmt->execute();
 
 
@@ -1045,14 +1046,16 @@ function ProductsDetails() {
     $product_id = isset($body->product_id) ? $body->product_id : '';
      $product_id = urldecode ( base64_decode($product_id) );
     $user_id = isset($body->user_id) ? $body->user_id : '';
-
+    $seller_name ='';
+    $seller_address='';
     $sql = "SELECT * from  webshop_products WHERE id=:id ";
     $db = getConnection();
     $stmt = $db->prepare($sql);
     $stmt->bindParam("id", $product_id);
     $stmt->execute();
     $product = $stmt->fetchObject();
-
+    $price=0;
+    $bidincrement =5;
     $sqlinterest = "SELECT * from  webshop_interested WHERE userid=:userid and productid='" . $product_id . "'";
 
     $stmtinterest = $db->prepare($sqlinterest);
@@ -1124,8 +1127,10 @@ function ProductsDetails() {
                         
                         if (!empty($getUserdetails1)) {
                              
-                                $userselected_currency = $getUserdetails1->currency_preference;
-                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'USD' AND currency_code ='$getUserdetails1->currency_preference' ";
+                        $userselected_currency = $getUserdetails1->currency_preference;
+                        if($getUserdetails1->currency_preference != 'KWD'){
+                            // $getUserdetails1->currency_preference;
+                          $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'KWD' AND currency_code ='$getUserdetails1->currency_preference' ";
                         $stmtcurrency = $db->prepare($sqlcurrency);
                        // $stmt1->bindParam("id", $product->uploader_id);
                         $stmtcurrency->execute();
@@ -1133,14 +1138,21 @@ function ProductsDetails() {
                         //print_r($getallcurrency);exit;
                         if(!empty($getallcurrency)){
                            foreach($getallcurrency as $currency){
-                            $price = $product->price * $currency['currency_rate_to_usd'];
+                               // $currency['currency_rate_to_usd'];
+                            $price = $price * $currency['currency_rate_to_usd'];
+                            $price = round($price);
+                            $bidincrement = $product->bidincrement * $currency['currency_rate_to_usd'];
+                            $bidincrement = round($bidincrement);
                             //echo 'yes';
                         }  
                         }else{
                             $price = $product->price;
                            // echo 'NO';
-                        }
-                              
+                        }  
+                        }else{
+                            $price = $product->price;
+                           // echo 'NO';
+                        }      
                             
                         } else {
                            $price = $product->price;
@@ -1149,7 +1161,8 @@ function ProductsDetails() {
                         $price = $product->price;
                     } 
         
-        
+        //echo $price;exit;
+                   // exit;
         $sqlproduct_imaget = "SELECT * FROM  webshop_product_image WHERE product_id=:product_id ";
         $stmtproduct_imaget = $db->prepare($sqlproduct_imaget);
         $stmtproduct_imaget->bindParam("product_id", $product->id);
@@ -1204,7 +1217,7 @@ function ProductsDetails() {
 //            $subcategoryname = $getsubcategory->name;
 //        }
 //Seller Information
-
+       // echo $product->uploader_id;exit;
         $sql1 = "SELECT * FROM webshop_user WHERE id=:id ";
         $stmt1 = $db->prepare($sql1);
         $stmt1->bindParam("id", $product->uploader_id);
@@ -1279,9 +1292,41 @@ function ProductsDetails() {
 //print_r($naxbid);
         $yourmaxbid = '';
         if ($naxbid->maxbid != '') {
-            $yourmaxbid = $naxbid->maxbid;
-// echo 'hi';
-        }
+            
+            $sqlnewusermaxbid = "SELECT * FROM webshop_user WHERE id=$user_id ";
+                        $stmtnewusermaxbid = $db->prepare($sqlnewusermaxbid);
+                        //$stmt1->bindParam("id", $product->uploader_id);
+                        $stmtnewusermaxbid->execute();
+                        $getUserdetailsmaxbid = $stmtnewusermaxbid->fetchObject();
+                        
+                        if (!empty($getUserdetailsmaxbid)) {
+                            if($getUserdetailsmaxbid->currency_preference != 'KWD'){
+                                $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'KWD' AND currency_code ='$getUserdetailsmaxbid->currency_preference' ";
+                                $stmtcurrency = $db->prepare($sqlcurrency);
+                                // $stmt1->bindParam("id", $product->uploader_id);
+                                $stmtcurrency->execute();
+                                $getallcurrency = $stmtcurrency->fetchall();
+                                 if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                            $yourmaxbid = $naxbid->maxbid * $currency['currency_rate_to_usd'];
+                            $yourmaxbid = round($yourmaxbid);
+                            
+                            //echo 'yes';
+                        }  
+                        }else{
+                            $yourmaxbid = $naxbid->maxbid;
+                        }
+                               // $yourmaxbid = $naxbid->maxbid * ;
+                            }else{
+                            $yourmaxbid = $naxbid->maxbid;
+                        }
+                                
+                                        }else{
+                            $yourmaxbid = $naxbid->maxbid;
+                        }
+           
+    // echo 'hi';
+            }
 
 
         $sqlbidmax = "SELECT * FROM webshop_biddetails WHERE bidprice=$product->lastbidvalue AND productid=:productid";
@@ -1371,16 +1416,53 @@ function ProductsDetails() {
         $bidhistory = $stmtbidhistory->fetchAll(PDO::FETCH_OBJ);
         if (!empty($bidhistory)) {
             foreach ($bidhistory as $history) {
-
+                
+                
+                $sqlnewusermaxbidbidprice = "SELECT * FROM webshop_user WHERE id=$user_id ";
+                        $stmtnewusermaxbidbidprice = $db->prepare($sqlnewusermaxbidbidprice);
+                        //$stmt1->bindParam("id", $product->uploader_id);
+                        $stmtnewusermaxbidbidprice->execute();
+                        $getUserdetailsmaxbid = $stmtnewusermaxbidbidprice->fetchObject();
+                        
+                        if (!empty($getUserdetailsmaxbidbidprice)) {
+                            if($getUserdetailsmaxbidbidprice->currency_preference != 'KWD'){
+                                $sqlcurrencybidprice = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'KWD' AND currency_code ='$getUserdetailsmaxbid->currency_preference' ";
+                                $stmtcurrencybidprice = $db->prepare($sqlcurrencybidprice);
+                                // $stmt1->bindParam("id", $product->uploader_id);
+                                $stmtcurrencybidprice->execute();
+                                $getallcurrencybidprice = $stmtcurrencybidprice->fetchall();
+                                 if(!empty($getallcurrencybidprice)){
+                           foreach($getallcurrencybidprice as $currency){
+                            $historybidprice = $history->bidprice * $currency['currency_rate_to_usd'];
+                            $historybidprice = round($historybidprice);
+                            
+                            //echo 'yes';
+                        }  
+                        }else{
+                            $historybidprice = $history->bidprice;
+                        }
+                               // $yourmaxbid = $naxbid->maxbid * ;
+                            }else{
+                            $historybidprice = $history->bidprice;
+                        }
+                                
+                     }else{
+                            $historybidprice = $history->bidprice;
+                        }
+                         
+                
+                
 
                 $allhistory[] = array(
-                    "bidprice" => stripslashes($history->bidprice),
+                    "bidprice" => stripslashes($historybidprice),
                     "name" => stripslashes($history->fname . " " . $history->lname)
                 );
             }
         } else {
             $allhistory = array();
         }
+        
+        
         $baseauctionprice = $product->baseauctionprice;
         $thresholdprice = $product->thresholdprice;
         $bidincrement = $product->bidincrement;
@@ -1397,9 +1479,9 @@ function ProductsDetails() {
                         $getUserdetails1 = $stmtnewuser->fetchObject();
                         
                         if (!empty($getUserdetails1)) {
-                             
-                                $userselected_currency = $getUserdetails1->currency_preference;
-                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'USD' AND currency_code ='$getUserdetails1->currency_preference' ";
+                             if($getUserdetails1->currency_preference != 'KWD'){
+                                    $userselected_currency = $getUserdetails1->currency_preference;
+                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'KWD' AND currency_code ='$getUserdetails1->currency_preference' ";
                         $stmtcurrency = $db->prepare($sqlcurrency);
                        // $stmt1->bindParam("id", $product->uploader_id);
                         $stmtcurrency->execute();
@@ -1407,38 +1489,73 @@ function ProductsDetails() {
                         //print_r($getallcurrency);exit;
                         if(!empty($getallcurrency)){
                            foreach($getallcurrency as $currency){
-                                $currency['currency_rate_to_usd'].'<br>';
-                                $currency['currency_code'].'<br>';
+                               // $currency['currency_rate_to_usd'].'<br>';
+                               // $currency['currency_code'].'<br>';
                             $baseauctionprice = $product->baseauctionprice * $currency['currency_rate_to_usd'];
+                            $baseauctionprice = round($baseauctionprice);
                             $thresholdprice = $product->thresholdprice * $currency['currency_rate_to_usd'];
+                            $thresholdprice = round($thresholdprice);
                             $bidincrement = $product->bidincrement * $currency['currency_rate_to_usd'];
+                            $bidincrement = round($bidincrement);
                             $nextbidprice = $product->nextbidprice * $currency['currency_rate_to_usd'];
+                            $nextbidprice = round($nextbidprice);
                             $lastbidvalue = $product->lastbidvalue * $currency['currency_rate_to_usd'];
+                            $lastbidvalue = round($lastbidvalue);
                             //echo 'yes';
                         }  
                         }else{
                             $baseauctionprice = $product->baseauctionprice;
+                            $baseauctionprice = round($baseauctionprice);
                             $thresholdprice = $product->thresholdprice;
+                            $thresholdprice = round($thresholdprice);
                             $bidincrement = $product->bidincrement;
+                             $bidincrement = round($bidincrement);
                              $nextbidprice = $product->nextbidprice;
+                             $nextbidprice = round($nextbidprice);
                              $lastbidvalue = $product->lastbidvalue;
+                             $lastbidvalue = round($lastbidvalue);
+                           // echo 'NO';
+                        }  
+                             }else{
+                            $baseauctionprice = $product->baseauctionprice;
+                            $baseauctionprice = round($baseauctionprice);
+                            $thresholdprice = $product->thresholdprice;
+                           $thresholdprice = round($thresholdprice);
+                            $bidincrement = $product->bidincrement;
+                            $bidincrement = round($bidincrement);
+                             $nextbidprice = $product->nextbidprice;
+                             $nextbidprice = round($nextbidprice);
+                             $lastbidvalue = $product->lastbidvalue;
+                             $lastbidvalue = round($lastbidvalue);
                            // echo 'NO';
                         }
+                           
                               
                             
                         } else {
                            $baseauctionprice = $product->baseauctionprice;
-                           $thresholdprice = $product->thresholdprice;
-                           $bidincrement = $product->bidincrement;
-                            $nextbidprice = $product->nextbidprice;
-                            $lastbidvalue = $product->lastbidvalue;
+                            $baseauctionprice = round($baseauctionprice);
+                            $thresholdprice = $product->thresholdprice;
+                           $thresholdprice = round($thresholdprice);
+                            $bidincrement = $product->bidincrement;
+                            $bidincrement = round($bidincrement);
+                             $nextbidprice = $product->nextbidprice;
+                             $nextbidprice = round($nextbidprice);
+                             $lastbidvalue = $product->lastbidvalue;
+                             $lastbidvalue = round($lastbidvalue);
+                            
                         }
                     }else{
                         $baseauctionprice = $product->baseauctionprice;
-                        $thresholdprice = $product->thresholdprice;
-                        $thresholdprice = $product->bidincrement;
-                         $nextbidprice = $product->nextbidprice;
-                         $lastbidvalue = $product->lastbidvalue;
+                            $baseauctionprice = round($baseauctionprice);
+                            $thresholdprice = $product->thresholdprice;
+                           $thresholdprice = round($thresholdprice);
+                            $bidincrement = $product->bidincrement;
+                            $bidincrement = round($bidincrement);
+                             $nextbidprice = $product->nextbidprice;
+                             $nextbidprice = round($nextbidprice);
+                             $lastbidvalue = $product->lastbidvalue;
+                             $lastbidvalue = round($lastbidvalue);
                     }
         }
         
@@ -1447,12 +1564,12 @@ function ProductsDetails() {
 //$aucshowtime=
 //$count = $stmtproduct->rowCount();
 //$date_purchase = $product->date_purchase;
-$date_purchase = date('dS M,Y', strtotime($product->date_purchase));
+ $date_purchase = date('dS M,Y', strtotime($product->date_purchase));
         $data['productList'] = array(
             "id" => stripslashes($product->id),
             "image" => $image,
             "price" => stripslashes($price),
-           // "is_fav" => stripslashes($is_fav),
+            "is_fav" => stripslashes($is_fav),
             "description" => strip_tags(stripslashes($product->description)),
             "category_name" => stripslashes($categoryname),
             // "subcategory_name" => stripslashes($subcategoryname),
@@ -1487,7 +1604,7 @@ $date_purchase = date('dS M,Y', strtotime($product->date_purchase));
             'interest' => $interested,
             'totallike' => $totallike,
             'userlike' => $userlike,
-            //'is_fav' => $is_fav,
+            'is_fav' => $is_fav,
             'maxbiddername' => $higestbiddername,
             'higestbidderbid' => $higestbidderbid,
             'bidhistory' => $allhistory,
@@ -1608,6 +1725,7 @@ function addFavoriteProduct() {
         $stmtdeletefab->execute();
 // $contactdetails = $stmt->fetchObject();
 // $count = $stmt->rowCount();
+        $data['Ack'] = '1';
         $data['is_fav'] = '0';
     }
 
@@ -2076,6 +2194,51 @@ function listmyProducts() {
                 $profile_image = '';
             }
             $id = urlencode ( base64_encode($product->id));
+            
+             if($user_id){
+                              
+                        $sqlnewuser = "SELECT * FROM webshop_user WHERE id=$user_id ";
+                        $stmtnewuser = $db->prepare($sqlnewuser);
+                        //$stmt1->bindParam("id", $product->uploader_id);
+                        $stmtnewuser->execute();
+                        $getUserdetails1 = $stmtnewuser->fetchObject();
+                        
+                        if (!empty($getUserdetails1)) {
+                             
+                        $userselected_currency = $getUserdetails1->currency_preference;
+                        if($getUserdetails1->currency_preference != 'KWD'){
+                            // $getUserdetails1->currency_preference;
+                          $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'KWD' AND currency_code ='$getUserdetails1->currency_preference' ";
+                        $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                               // $currency['currency_rate_to_usd'];
+                            $price = $price * $currency['currency_rate_to_usd'];
+                            $price = round($price);
+                            $bidincrement = $product->bidincrement * $currency['currency_rate_to_usd'];
+                            $bidincrement = round($bidincrement);
+                            //echo 'yes';
+                        }  
+                        }else{
+                            $price = $product->price;
+                           // echo 'NO';
+                        }  
+                        }else{
+                            $price = $product->price;
+                           // echo 'NO';
+                        }      
+                            
+                        } else {
+                           $price = $product->price;
+                        }
+                    }else{
+                        $price = $product->price;
+                    }
+            
             $data['productList'][] = array(
                 "id" => stripslashes($product->id),
                 "product_id"=> stripslashes($id),
@@ -3713,7 +3876,7 @@ function addProductNew() {
     $get_status = '0';
     $status = 0;
     $quantity = 1;
-    $nextbidprice = $price;
+    
     
     $db = getConnection();
     $sqlusd = "SELECT * from webshop_currency_rates where currency_code='$currency'";
@@ -3721,7 +3884,11 @@ function addProductNew() {
     //$stmtusd->bindParam("user_id", $user_id);
     $stmtusd->execute();
     $getusd = $stmtusd->fetchObject();
+    if($currency != 'KWD'){
     $price = $price * $getusd->currency_rate_to_usd;
+    $price = round($price);
+    }
+    $nextbidprice = $price;
 // $baseauctionprice = isset($body["baseauctionprice"]) ? $body["baseauctionprice"] : '';
 //$thresholdprice = isset($body["thresholdprice"]) ? $body["thresholdprice"] : '';
 
@@ -4630,6 +4797,7 @@ function listmyAuctions() {
                 $seller_address = $getUserdetails->address;
                 $seller_phone = $getUserdetails->phone;
                 $email = $getUserdetails->email;
+                //$working_hours = $getUserdetails->email;
 
                 if ($getUserdetails->image != '') {
                     $profile_image = SITE_URL . 'upload/user_image/' . $getUserdetails->image;
@@ -4639,11 +4807,57 @@ function listmyAuctions() {
             } else {
                 $profile_image = '';
             }
-
+            $id = urlencode ( base64_encode($product->id));
+             $price = $product->price;
+             if($user_id){
+                              
+                        $sqlnewuser = "SELECT * FROM webshop_user WHERE id=$user_id ";
+                        $stmtnewuser = $db->prepare($sqlnewuser);
+                        //$stmt1->bindParam("id", $product->uploader_id);
+                        $stmtnewuser->execute();
+                        $getUserdetails1 = $stmtnewuser->fetchObject();
+                        
+                        if (!empty($getUserdetails1)) {
+                             
+                        $userselected_currency = $getUserdetails1->currency_preference;
+                        if($getUserdetails1->currency_preference != 'KWD'){
+                            // $getUserdetails1->currency_preference;
+                          $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'KWD' AND currency_code ='$getUserdetails1->currency_preference' ";
+                        $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                               // $currency['currency_rate_to_usd'];
+                            $price = $price * $currency['currency_rate_to_usd'];
+                            $price = round($price);
+                            $bidincrement = $product->bidincrement * $currency['currency_rate_to_usd'];
+                            $bidincrement = round($bidincrement);
+                            //echo 'yes';
+                        }  
+                        }else{
+                            $price = $product->price;
+                           // echo 'NO';
+                        }  
+                        }else{
+                            $price = $product->price;
+                           // echo 'NO';
+                        }      
+                            
+                        } else {
+                           $price = $product->price;
+                        }
+                    }else{
+                        $price = $product->price;
+                    }
+            
             $data['productList'][] = array(
                 "id" => stripslashes($product->id),
+                "product_id"=>$id,
                 "image" => stripslashes($image),
-                "price" => stripslashes($product->price),
+                "price" => stripslashes($price),
                 "description" => strip_tags(stripslashes(substr($product->description, 0, 50))),
                 "category_name" => $categoryname,
                 //"subcategory_name" => $subcategoryname,
@@ -4652,10 +4866,13 @@ function listmyAuctions() {
                 "seller_name" => stripslashes($seller_name),
                 "seller_address" => stripslashes($seller_address),
                 "seller_phone" => stripslashes($seller_phone),
+                "seller_email" => stripslashes($email),
+                "working_hours"=>stripslashes($product->work_hours),
                 "productname" => stripslashes($product->name),
                 "auction_fee_paid" => stripslashes($product->auction_fee_paid),
                 "auction_fee" => stripslashes($product->auction_fee),
-                "approved" => stripslashes($product->approved)
+                "approved" => stripslashes($product->approved),
+                "status"=>stripslashes($product->status)
             );
         }
 
@@ -4760,8 +4977,8 @@ function emailverified() {
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
     $email_verified = '1';
-    $admin_approve = '0';
-    $status = '0';
+    $admin_approve = '1';
+    $status = '1';
     $verified_date = date('Y-m-d');
 
 
@@ -4790,7 +5007,7 @@ function emailverified() {
         $stmt->bindParam("id", $user_id);
         $stmt->execute();
 
-        $msg = 'Email Verified Successfully.Your account is awaiting for the admin approval.You will be notified via email once activated.';
+        $msg = 'Email Verified Successfully.Your account is awaiting for the admin approval.';
         if ($getUserdetails->type == 1) {
             $msg = 'Email Verified Successfully. You can login now.';
             
@@ -5483,8 +5700,10 @@ function auctionListSearch() {
     
     $size_amount_max = isset($body->size_amount_max) ? $body->size_amount_max : '';
     $size_amount_min = isset($body->size_amount_min) ? $body->size_amount_min : '';
+     $is_special_auction = isset($body->is_special_auction) ? $body->is_special_auction : '';
+     $statuslist = isset($body->statuslisting) ? $body->statuslisting : '';
 //print_r($body);exit;
-
+$currency_pref ='KWD';
     $productIds = array();
 
     if ($selected_value == '4') {
@@ -5553,8 +5772,19 @@ function auctionListSearch() {
 
         $sql .= " AND `uploader_id` IN (" . $sellerListing . ")";
     }
+    
+    if ($statuslist != '') {
 
+        $sql .= " AND `status_watch`='" . $statuslist . "' ";
+    }
 
+if ($is_special_auction != '') {
+
+       // $sql .= " AND `cat_id` = '" . $category . "'";
+         $sql .= " AND `is_special_auction` IN (" . $is_special_auction . ")";
+    }
+    
+    
 //spandan
 if ($category != '') {
 
@@ -5698,20 +5928,23 @@ if ($category != '') {
                         if(!empty($getallcurrency)){
                            foreach($getallcurrency as $currency){
                             $price = $product->price * $currency['currency_rate_to_usd'];
-                            //echo 'yes';
+                            $currency_pref =$getUserdetails1->currency_preference;
                         }  
                         }else{
                             $price = $product->price;
-                            //echo 'NO';
+                           $currency_pref ='KWD';
                         }
                               
                             
                         } else {
                            $price = $product->price;
+                           $currency_pref ='KWD';
                         }
                     }else{
                         $price = $product->price;
+                        $currency_pref ='KWD';
                     }
+                    $price=round($price);
                 $product_encoded_id =  urlencode ( base64_encode($product->id));
                 $data['productList'][] = array(
                     "id" => stripslashes($product_encoded_id),
@@ -5721,7 +5954,8 @@ if ($category != '') {
                     "category_name" => $categoryname,
                     "brand_name" => $subcategoryname,
 // "preferred_date" => $product->preferred_date,
-                    "currency" => stripslashes($product->currency_code),
+                    "product_currency" => stripslashes($product->currency_code),
+                    "currency" => stripslashes($currency_pref),
                     "seller_id" => stripslashes($product->uploader_id),
                     "seller_image" => $profile_image,
                     "seller_name" => stripslashes($seller_name),
@@ -5837,7 +6071,8 @@ function bidsubmit() {
     $userid = isset($body->userid) ? $body->userid : '';
     $productid = isset($body->productid) ? $body->productid : '';
     $bidprice = isset($body->bidprice) ? $body->bidprice : '';
-    $nextbidprice = isset($body->nextbidprice) ? $body->nextbidprice : '';
+    $bidincrement = isset($body->bidincrement) ? $body->bidincrement : '';
+    $nextbidprice = '';
     $uploaderid = isset($body->uploaderid) ? $body->uploaderid : '';
  $db = getConnection();
     if($userid){
@@ -5851,25 +6086,33 @@ function bidsubmit() {
                         if (!empty($getUserdetails1)) {
                              
                                 $userselected_currency = $getUserdetails1->currency_preference;
-                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'USD' AND currency_code ='$getUserdetails1->currency_preference' ";
-                        $stmtcurrency = $db->prepare($sqlcurrency);
-                       // $stmt1->bindParam("id", $product->uploader_id);
-                        $stmtcurrency->execute();
-                        $getallcurrency = $stmtcurrency->fetchall();
-                        //print_r($getallcurrency);exit;
-                        if(!empty($getallcurrency)){
-                           foreach($getallcurrency as $currency){
-                            $bidprice = $bidprice / $currency['currency_rate_to_usd'];
-                            $nextbidprice = $nextbidprice / $currency['currency_rate_to_usd'];
-                            //echo 'yes';
-                        }  
-                        }
+                                if( $getUserdetails1->currency_preference != 'KWD'){
+                                    $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'KWD' AND currency_code ='$getUserdetails1->currency_preference' ";
+                                    $stmtcurrency = $db->prepare($sqlcurrency);
+                                   // $stmt1->bindParam("id", $product->uploader_id);
+                                    $stmtcurrency->execute();
+                                    $getallcurrency = $stmtcurrency->fetchall();
+                                    //print_r($getallcurrency);exit;
+                                            if(!empty($getallcurrency)){
+                                                        foreach($getallcurrency as $currency){
+                                                         $bidprice = $bidprice * $currency['currency_rate_to_usd'];
+                                                         $bidprice = round($bidprice);
+                                                         $bidincrement = $bidincrement * $currency['currency_rate_to_usd'];
+                                                         $bidincrement = round($bidincrement);
+                                                         
+                                                     }  
+                                            }else{
+                                                
+                                            }
+                                }
+                           
                               
                             
                         } 
                     }
     
-    
+    $nextbidprice = $bidprice + $bidincrement;
+    $nextbidprice = round($nextbidprice);
     
     $sql = "INSERT INTO  webshop_biddetails (userid,productid,bidprice,nextbidprice,uploaderid,date) VALUES (:userid,:productid,:bidprice,:nextbidprice,:uploaderid,:date)";
    
@@ -6397,6 +6640,8 @@ function ProductListSearch() {
     $size_amount_max = isset($body->size_amount_max) ? $body->size_amount_max : '';
     $size_amount_min = isset($body->size_amount_min) ? $body->size_amount_min : '';
     $top_product = isset($body->top_product) ? $body->top_product : '';
+    $statuslist = isset($body->statuslist) ? $body->statuslist : '';
+    $currency_pref='KWD';
 //print_r($body);
 //-----------------------------------------------------------
     $productIds = array();
@@ -6480,7 +6725,10 @@ if ($movement != '') {
 
         $sql .= " AND `top_product_status`='" . $top_product . "' ";
     }
+if ($statuslist != '') {
 
+        $sql .= " AND `status_watch`='" . $statuslist . "' ";
+    }
     if ($breslettype != '') {
 
         $sql .= " AND `breslet_type` = '" . $breslettype . "'";
@@ -6717,20 +6965,25 @@ if ($keyword != '' && $keyword != 'undefined') {
                         if(!empty($getallcurrency)){
                            foreach($getallcurrency as $currency){
                             $price = $product->price * $currency['currency_rate_to_usd'];
+                            $currency_pref=$getUserdetails1->currency_preference;
                             //echo 'yes';
                         }  
                         }else{
                             $price = $product->price;
+                            $currency_pref='KWD';
                             //echo 'NO';
                         }
                               
                             
                         } else {
                            $price = $product->price;
+                           $currency_pref='KWD';
                         }
                     }else{
                         $price = $product->price;
+                        $currency_pref='KWD';
                     }
+                    $price=round($price);
                     $product_encoded_id =  urlencode ( base64_encode($product->id));
                         $data['productList'][] = array(
                             "id" => stripslashes($product_encoded_id),
@@ -6746,7 +6999,8 @@ if ($keyword != '' && $keyword != 'undefined') {
                             "seller_address" => stripslashes($seller_address),
                             "seller_phone" => stripslashes($seller_phone),
                             "productname" => '',
-                            "currency_code" => stripslashes($product->currency_code),
+                           "product_currency_code" => stripslashes($product->currency_code),
+                            "currency_code" => stripslashes($currency_pref),
                             
                             "top" => stripslashes($top),
                             "top_product" => stripslashes($top_product_status),
@@ -6919,7 +7173,8 @@ function listproductMessages() {
 //    exit;
         try {
 
-            $sql = "SELECT *, (r.from_id + r.to_id) AS dist FROM (SELECT * FROM `webshop_message` as t WHERE ( (t.from_id =:to_id OR t.to_id =:to_id) and product_id!= 0 and to_id!= 0 and from_id!= 0 ) ORDER BY t.add_date ASC) as r  ORDER BY r.add_date ASC ";
+            //$sql = "SELECT *, (r.from_id + r.to_id) AS dist FROM (SELECT * FROM `webshop_message` as t WHERE ( (t.from_id =:to_id OR t.to_id =:to_id) and product_id!= 0 and to_id!= 0 and from_id!= 0 ) ORDER BY t.add_date ASC) as r  ORDER BY r.add_date ASC ";
+            $sql = "SELECT *, (r.from_id + r.to_id) AS dist FROM (SELECT * FROM `webshop_message` as t WHERE ( (t.from_id =:to_id OR t.to_id =:to_id) and product_id!= 0 and to_id!= 0 and from_id!= 0 ) ORDER BY t.add_date ASC) as r  GROUP BY r.add_date,r.product_id,r.from_id ASC ";
 // $sql = "SELECT * from webshop_message WHERE to_id=:to_id or from_id=:to_id ";
 
 
@@ -7114,8 +7369,9 @@ function addmessage() {
         $stmtttadmin = $db->prepare($sqladmin);
         $stmtttadmin->execute();
         $getuser = $stmtttadmin->fetchObject();
-        if ($getuser->new_message_notify == 1) {
-            $messagefornoti = 'You have a new message from' . $getuser->fname . ' ' . $getuser->lname;
+//        if ($getuser->new_message_notify == 1) {
+            if (!empty($getuser)) {
+            $messagefornoti = 'You have a new message from ' . $getuser->fname . ' ' . $getuser->lname;
             $type = 'Customer Message';
             $stmtnoti = $db->prepare($sqlnoti);
             $stmtnoti->bindParam("msg", $messagefornoti);
@@ -7148,7 +7404,7 @@ function addmessage() {
 
         $app->response->setStatus(401);
     }
-
+//exit;
     $app->response->write(json_encode($data));
 }
 
@@ -7169,7 +7425,7 @@ function getfullMessages() {
 //exit;
     try {
 
-        $sql = "SELECT * from webshop_message WHERE from_id=:from_id AND to_id=:to_id OR from_id=:to_id AND to_id=:from_id AND product_id=:product_id";
+        $sql = "SELECT * from webshop_message WHERE product_id=:product_id AND from_id=:from_id AND to_id=:to_id OR from_id=:to_id AND to_id=:from_id";
         
         $stmt = $db->prepare($sql);
         $stmt->bindParam("to_id", $from_id);
@@ -7393,7 +7649,7 @@ function UserSubscriptionpayment() {
     $subscriptionprice = $getSubscriptionValue->price;
 //payment gateway
 
-    $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
+ /*   $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
 
     $user = "testapi@myfatoorah.com"; // Will Be Provided by Myfatoorah
     $password = "E55D0"; // Will Be Provided by Myfatoorah
@@ -7469,9 +7725,10 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
           $PayTxnID = $doc->getElementsByTagName("PayTxnID");
           $PayTxnID = $PayTxnID->item(0)->nodeValue;
          */
-    }
+ /*   }*/
 //end
-
+    
+    $paymentUrl= SITE_URL . '#/success/' . $paymentId . '/';
     $data['url'] = $paymentUrl;
     $data['Ack'] = 1;
 
@@ -8716,7 +8973,7 @@ function UserAuctionpayment() {
         $productprice = ($getProductValue->bidprice - $loyalty_redeem);
 //payment gateway
 
-        $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
+     /*   $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
 
         $user = "testapi@myfatoorah.com"; // Will Be Provided by Myfatoorah
         $password = "E55D0"; // Will Be Provided by Myfatoorah
@@ -8785,15 +9042,11 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
             $paymentUrl = $paymentUrl->item(0)->nodeValue;
 //echo $paymentUrl;exit;
 
-            /* $OrderID = $doc->getElementsByTagName("OrderID");
-              $OrderID = $OrderID->item(0)->nodeValue;
-              $Paymode = $doc->getElementsByTagName("Paymode");
-              $Paymode = $Paymode->item(0)->nodeValue;
-              $PayTxnID = $doc->getElementsByTagName("PayTxnID");
-              $PayTxnID = $PayTxnID->item(0)->nodeValue;
-             */
-        }
+           
+        }*/
 //end
+        
+        $paymentUrl= SITE_URL . '#/successAuctionpayment/' . $paymentId . '/';
         if($productprice== 0){
             $data['url'] = SITE_URL . '#/successAuctionpayment/' . $paymentId .'/123';
             $data['Ack'] = 1;
@@ -9365,7 +9618,7 @@ function auctionuploapayment() {
 
 //payment gateway
 
-    $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
+  /*  $url = "https://test.myfatoorah.com/pg/PayGatewayService.asmx";
 
     $user = "testapi@myfatoorah.com"; // Will Be Provided by Myfatoorah
     $password = "E55D0"; // Will Be Provided by Myfatoorah
@@ -9434,15 +9687,11 @@ xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/200
         $paymentUrl = $paymentUrl->item(0)->nodeValue;
 //echo $paymentUrl;exit;
 
-        /* $OrderID = $doc->getElementsByTagName("OrderID");
-          $OrderID = $OrderID->item(0)->nodeValue;
-          $Paymode = $doc->getElementsByTagName("Paymode");
-          $Paymode = $Paymode->item(0)->nodeValue;
-          $PayTxnID = $doc->getElementsByTagName("PayTxnID");
-          $PayTxnID = $PayTxnID->item(0)->nodeValue;
-         */
-    }
+        
+    }*/
 //end
+    
+    $paymentUrl=SITE_URL . '#/successAuctionuploadpayment/' . $paymentId . '/';
     if ($loyalty_redeem > $checkloyalty->total_loyalty) {
 
         $data['Ack'] = 2;
@@ -11154,18 +11403,19 @@ function getmaxprice() {
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
     $type = isset($body->type) ? $body->type : '';
+    $user_id = isset($body->user_id) ? $body->user_id : '';
     $db = getConnection();
 
     
 
     try {
 
-        $sqlmin = "SELECT MIN(price) from webshop_products WHERE `type` =$type";
+        $sqlmin = "SELECT MIN(price) from webshop_products WHERE `type` ='$type'";
         $stmtmin = $db->prepare($sqlmin);
         $stmtmin->execute();
         $getminprice = $stmtmin->fetchAll();
         
-        $sqlmax = "SELECT MAX(price) from webshop_products WHERE `type` =$type";
+        $sqlmax = "SELECT MAX(price) from webshop_products WHERE `type` ='$type'";
         $stmtmax = $db->prepare($sqlmax);
         $stmtmax->execute();
         $getmaxprice = $stmtmax->fetchAll();
@@ -11186,6 +11436,36 @@ function getmaxprice() {
             $maxprice ='';
         } 
        
+        
+//        if($user_id && $maxprice !='' && $minprice !='' ){
+//                        $sqlnewuser = "SELECT * FROM webshop_user WHERE id=$user_id ";
+//                        $stmtnewuser = $db->prepare($sqlnewuser);
+//                        //$stmt1->bindParam("id", $product->uploader_id);
+//                        $stmtnewuser->execute();
+//                        $getUserdetails1 = $stmtnewuser->fetchObject();
+//                        
+//                        if (!empty($getUserdetails1)) {
+//                             
+//                                $userselected_currency = $getUserdetails1->currency_preference;
+//                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'USD' AND currency_code ='$getUserdetails1->currency_preference' ";
+//                        $stmtcurrency = $db->prepare($sqlcurrency);
+//                       // $stmt1->bindParam("id", $product->uploader_id);
+//                        $stmtcurrency->execute();
+//                        $getallcurrency = $stmtcurrency->fetchall();
+//                        //print_r($getallcurrency);exit;
+//                        if(!empty($getallcurrency)){
+//                           foreach($getallcurrency as $currency){
+//                            $minprice = $minprice * $currency['currency_rate_to_usd'];
+//                            $maxprice = $maxprice * $currency['currency_rate_to_usd'];
+//                        }  
+//                        }
+//                              
+//                            
+//                        }
+//                    }
+                    
+                    //$maxprice= round($maxprice);
+                   //  $maxprice= round($minprice);
             $data['minprice']=$minprice;
             $data['maxprice']=$maxprice;
             
@@ -11198,7 +11478,7 @@ function getmaxprice() {
         $data['msg'] = $e->getMessage();
         $app->response->setStatus(401);
     }
-
+    
     $app->response->write(json_encode($data));
 }
 
@@ -11584,6 +11864,7 @@ $movement = isset($body->movement) ? $body->movement : '';
 
 $size_amount_max = isset($body->size_amount_max) ? $body->size_amount_max : '';
     $size_amount_min = isset($body->size_amount_min) ? $body->size_amount_min : '';
+    $currency_pref ='KWD';
 //print_r($body);
 //-----------------------------------------------------------
     $productIds = array();
@@ -11851,24 +12132,26 @@ if ($gender != '') {
                         if(!empty($getallcurrency)){
                            foreach($getallcurrency as $currency){
                             $price = $product->price * $currency['currency_rate_to_usd'];
-                            //echo 'yes';
+                           $currency_pref =$getUserdetails1->currency_preference;
                         }  
                         }else{
                             $price = $product->price;
-                           // echo 'NO';
+                           $currency_pref ='KWD';
                         }
                               
                             
                         } else {
                            $price = $product->price;
+                           $currency_pref ='KWD';
                         }
                     }else{
                         $price = $product->price;
+                        $currency_pref ='KWD';
                     }
                        
                         
 
-
+                        $price=round($price);
                         $product_encoded_id =  urlencode ( base64_encode($product->id));
                         $data['productList'][] = array(
                             "id" => stripslashes($product_encoded_id),
@@ -11883,7 +12166,8 @@ if ($gender != '') {
                             "seller_address" => stripslashes($seller_address),
                             "seller_phone" => stripslashes($seller_phone),
                             "productname" => '',
-                            "currency_code" => stripslashes($product->currency_code),
+                            "currency_code" => stripslashes($currency_pref),
+                            "products_currency_code" => stripslashes($currency_pref),
                             
                             "top" => stripslashes($top),
                             "top_product" => stripslashes($top_product_status),
@@ -12153,6 +12437,7 @@ function ShopListSearch() {
 $category = isset($body->category) ? $body->category : '';
 $movement = isset($body->movement) ? $body->movement : '';
 $shop_id = isset($body->shop_id) ? $body->shop_id : '';
+$currency_pref='KWD';
 //print_r($body);
 //-----------------------------------------------------------
     $productIds = array();
@@ -12369,20 +12654,23 @@ if ($movement != '') {
                         if(!empty($getallcurrency)){
                            foreach($getallcurrency as $currency){
                             $price = $product->price * $currency['currency_rate_to_usd'];
-                            //echo 'yes';
+                           $currency_pref=$getUserdetails1->currency_preference;
                         }  
                         }else{
                             $price = $product->price;
-                            //echo 'NO';
+                             $currency_pref='KWD';
                         }
                               
                             
                         } else {
                            $price = $product->price;
+                           $currency_pref='KWD';
                         }
                     }else{
                         $price = $product->price;
+                        $currency_pref='KWD';
                     }
+                        $price=round($price);
                         $product_encoded_id =  urlencode ( base64_encode($product->id));
                         $data['productList'][] = array(
                             "id" => stripslashes($product_encoded_id),
@@ -12397,7 +12685,8 @@ if ($movement != '') {
                             "seller_address" => stripslashes($seller_address),
                             "seller_phone" => stripslashes($seller_phone),
                             "productname" => '',
-                            "currency_code" => stripslashes($product->currency_code),
+                            "currency_code" => stripslashes($currency_pref),
+                            "_product_currency_code" => stripslashes($product->currency_code),
                             
                             "top" => stripslashes($top),
                         );
@@ -12561,6 +12850,7 @@ function allShopListing() {
 $category = isset($body->category) ? $body->category : '';
 $movement = isset($body->movement) ? $body->movement : '';
 $shop_id = isset($body->shop_id) ? $body->shop_id : '';
+$top_user_vendor = isset($body->top_user_vendor) ? $body->top_user_vendor : '';
 //print_r($body);
 //-----------------------------------------------------------
 
@@ -12577,7 +12867,10 @@ $shop_id = isset($body->shop_id) ? $body->shop_id : '';
         $sql .= " AND `gender`='" . $gender . "' ";
     }
    
+  if ($top_user_vendor != '') {
 
+        $sql .= " AND `top_user_vendor`='" . $top_user_vendor . "' ";
+    }
 
     if ($country_id != '') {
 
@@ -12868,10 +13161,11 @@ function tomobileverifying() {
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
     $otp = isset($body->otp) ? $body->otp : '';
-    $user_id=base64_decode($user_id);
+    $phone = isset($body->mobile) ? $body->mobile : '';
+   //echo $user_id=base64_decode($user_id);
     $is_mobile_verified = '1';
-    $admin_approve = '0';
-    $status = '0';
+    $admin_approve = '1';
+    $status = '1';
     $verified_date = date('Y-m-d');
 
 
@@ -12885,7 +13179,7 @@ function tomobileverifying() {
 if(!empty($getUserdetails)){
     if($getUserdetails->sms_verify_number == $otp)
     {
-    $sql = "UPDATE webshop_user set is_mobile_verified=:is_mobile_verified,verified_date=:verified_date,is_admin_approved=:is_admin_approved,status=:status WHERE id=:id";
+    $sql = "UPDATE webshop_user set is_mobile_verified=:is_mobile_verified,verified_date=:verified_date,is_admin_approved=:is_admin_approved,status=:status,phone=:phone WHERE id=:id";
     try {
 
         $db = getConnection();
@@ -12894,6 +13188,7 @@ if(!empty($getUserdetails)){
         $stmt->bindParam("verified_date", $verified_date);
         $stmt->bindParam("is_admin_approved", $admin_approve);
         $stmt->bindParam("status", $status);
+        $stmt->bindParam("phone", $phone);
         $stmt->bindParam("id", $user_id);
         $stmt->execute();
 
@@ -13091,7 +13386,7 @@ if(!empty($getUserdetails)){
             $data['smsstatus']='0';
         }
         else{
-             $data['smsstatus'] ='1';
+            $data['smsstatus'] ='1';
         }
     $sms_verify_number = $smsotopcode;
     $sql = "UPDATE webshop_user set sms_verify_number=:sms_verify_number WHERE id=:id";
@@ -13125,6 +13420,7 @@ if(!empty($getUserdetails)){
     $data['Ack'] = '0';
 $app->response->setStatus(200);
 }
+  $data['Ack'];
 
     $app->response->write(json_encode($data));
 }
@@ -13462,24 +13758,26 @@ function currency_rates() {
     $stmtuser = $db->prepare($sqluser);
     $stmtuser->execute();
     $getCurrencydetails = $stmtuser->fetchAll(PDO::FETCH_OBJ);
- 
+    $amount='1';
     //$data['Ack'] = 0;
 if(!empty($getCurrencydetails)){
     
   
         foreach($getCurrencydetails as $currency){
-            $smslink ='http://free.currencyconverterapi.com/api/v5/convert?q=USD_'.$currency->code.'&compact=y';
+            if($currency->code !='KWD'){
+            $smslink ='http://free.currencyconverterapi.com/api/v5/convert?q=KWD_'.$currency->code.'&compact=y';
             $curl_handle=curl_init();
         curl_setopt($curl_handle,CURLOPT_URL,$smslink);
         curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
         curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
         $amount = curl_exec($curl_handle);
         curl_close($curl_handle);
-        
-        $aa='USD_'.$currency->code;
+        $aa='KWD_'.$currency->code;
         $a=json_decode($amount);
         $array = json_decode( json_encode($a), true);
         $amount= $array[$aa]['val'];
+            }
+        
 
         if (!empty($amount)){
            $sql = "UPDATE webshop_currency_rates set currency_rate_to_usd='".$amount."' WHERE currency_code= '$currency->code'";
@@ -13497,7 +13795,7 @@ if(!empty($getCurrencydetails)){
     $data['Ack'] = '0';
 $app->response->setStatus(200);
 }
-
+//xit;
     $app->response->write(json_encode($data));
 }
 
@@ -13788,6 +14086,79 @@ function get_total_messages() {
         $data['msg'] = $e->getMessage();
         $app->response->setStatus(401);
     }
+
+    $app->response->write(json_encode($data));
+}
+
+function tomobileverifying1() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $otp = isset($body->otp) ? $body->otp : '';
+    //if($body->mobile){
+    //$phone = isset($body->mobile) ? $body->mobile : '';
+    
+    $user_id=base64_decode($user_id);
+    $is_mobile_verified = '1';
+    $admin_approve = '1';
+    $status = '1';
+    $verified_date = date('Y-m-d');
+
+
+    $sqluser = "SELECT * FROM  webshop_user WHERE id=:user_id ";
+    $stmtuser = $db->prepare($sqluser);
+    $stmtuser->bindParam("user_id", $user_id);
+    $stmtuser->execute();
+    $getUserdetails = $stmtuser->fetchObject();
+
+    //$data['Ack'] = 0;
+if(!empty($getUserdetails)){
+    if($getUserdetails->sms_verify_number == $otp)
+    {
+    $sql = "UPDATE webshop_user set is_mobile_verified=:is_mobile_verified,verified_date=:verified_date,is_admin_approved=:is_admin_approved,status=:status WHERE id=:id";
+    try {
+
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("is_mobile_verified", $is_mobile_verified);
+        $stmt->bindParam("verified_date", $verified_date);
+        $stmt->bindParam("is_admin_approved", $admin_approve);
+        $stmt->bindParam("status", $status);
+        //$stmt->bindParam("phone", $phone);
+        $stmt->bindParam("id", $user_id);
+        $stmt->execute();
+
+        $data['Ack'] = '1';
+        //$data['msg'] = $msg;
+
+
+        $app->response->setStatus(200);
+        $db = null;
+    } catch (PDOException $e) {
+        $data['last_id'] = '';
+        $data['Ack'] = '0';
+       
+        echo '{"error":{"text":' . $e->getMessage() . '}}';
+        $app->response->setStatus(401);
+    }
+    
+}else{
+    $data['Ack'] = '0';
+$app->response->setStatus(200);
+}
+}else{
+    $data['Ack'] = '0';
+$app->response->setStatus(200);
+}
 
     $app->response->write(json_encode($data));
 }

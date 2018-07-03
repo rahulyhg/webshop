@@ -4,7 +4,7 @@
  */
 app.controller('latestdealCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService,$stateParams) {
 
-    
+    $window.scrollTo(0, 0);
 $scope.data = {};
 $scope.user = {};
 $scope.checkboxstr=[];
@@ -22,6 +22,8 @@ $scope.checkboxstrcat=[];
  $scope.checkboxstrmove =[];
    $scope.user.movements=[];
      $scope.user.movement=[];
+      $scope.user.statuswatch=[];
+   $scope.statuswatch=[];
  $scope.search = { price_min : '', price_max : '', amount_min : '', amount_max : '' };
   
 	
@@ -258,8 +260,14 @@ if($scope.size_amount_min){
    // alert();
     $('#min_size_price').html($scope.size_amount_min);
 }
+
+if($window.localStorage["statuslist"]){
+	$scope.statuslisting=$window.localStorage["statuslist"];
+}else{
+	$scope.statuslisting='';
+}
 //console.log('amount',$scope.amount_max);
- userService.searchproductListinglatest($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword,$scope.categorylisting,$scope.movementListing,$scope.size_amount_max,$scope.size_amount_min).then(function(response) {
+ userService.searchproductListinglatest($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword,$scope.categorylisting,$scope.movementListing,$scope.size_amount_max,$scope.size_amount_min,$scope.statuslisting).then(function(response) {
     // alert();
 
 		
@@ -629,7 +637,44 @@ userService.listcountry().then(function(response) {
     }
 
 
+  $scope.getstatuswatch = function(){
 
+	userService.liststatus().then(function(response) {
+		if(response.Ack == '1') {
+		$scope.statuslist=response.statuslist;
+console.log('checkboxstrstatus',response);
+  } else {
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+
+}
+
+$scope.updatecheckbox3 = function(select,status){
+
+//alert(status);
+	      if (select)
+        {
+            $scope.user.status.push(select);
+            //alert(select);
+        } else {
+            $scope.deleteitem = $scope.user.status.indexOf(status);
+           // alert($scope.deleteitem);
+            $scope.user.statuswatch.splice($scope.deleteitem, 1);
+
+        }
+
+         $scope.statuswatch = $scope.user.status.toString();
+        $window.localStorage["statuslist"]=$scope.statuswatch;
+       // console.log("checkboxstrstatus",$scope.checkboxstrstatus);
+        $scope.searchListing();
+
+
+
+}
 
 });
 

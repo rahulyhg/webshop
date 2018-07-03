@@ -4,6 +4,7 @@
  */
 app.controller('addProductCtrl', function ($rootScope,$stateParams, $state, $scope, $http, $location,$timeout, $q, userService,$window,Upload) {
 
+$window.scrollTo(0, 0); 
 $scope.data = {};
 $scope.user = {};
 $scope.user2 = {};

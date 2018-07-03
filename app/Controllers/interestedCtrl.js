@@ -4,10 +4,10 @@
  */
 app.controller('interestedCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService) {
 
-    
+  $window.scrollTo(0, 0);   
 $scope.data = {};
 $scope.user = {};
-//alert('a');
+
 if ($window.localStorage["userInfo"]) {
 var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;

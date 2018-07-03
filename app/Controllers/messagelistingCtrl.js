@@ -4,7 +4,7 @@
  */
 app.controller('messagelistingCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService,$stateParams) {
 
-    
+  $window.scrollTo(0, 0);   
 $scope.data = {};
 $scope.user = {};
 $scope.checkboxstr=[];
@@ -12,6 +12,7 @@ $scope.checkboxstr=[];
  $scope.checkboxstr2=[];
  $scope.user.shop=[];
   $scope.admin_id =0;
+  
 if ($window.localStorage["userInfo"]) {
 var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;

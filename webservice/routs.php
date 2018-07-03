@@ -189,6 +189,6 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/listtopSubscriptions', 'listtopSubscriptions');
     $app->get('/get_total_subcriptions', 'get_total_subcriptions');
     $app->get('/get_total_messages', 'get_total_messages');
-
+    $app->post('/tomobileverifying1', 'tomobileverifying1');
 });
 ?>

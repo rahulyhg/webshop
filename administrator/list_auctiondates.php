@@ -112,6 +112,7 @@ if ($_REQUEST['action'] == 'edit') {
                                     <tr>
 
                                         <th> Date</th>
+                                        <th> Time</th>
                                         <!--<th>  Time</th>--> 
                                         <th>Quick Links</th>
                                     </tr>
@@ -130,8 +131,21 @@ if ($_REQUEST['action'] == 'edit') {
                                                 <td>
                                                     <?php echo stripslashes($subscription['date']); ?>
                                                 </td>
-
-                                                                        <!--                                                <td>
+                                                <?php 
+                                               // echo "select * from webshop_auctiondates where date=".$subscription['date'];
+                                                $fetch_subscription1 = mysqli_query($con, "select * from webshop_auctiondates where date='".$subscription['date']."'");
+                                                while ($subscription1 = mysqli_fetch_array($fetch_subscription1)) {
+                                                    $strtime = explode(' ',$subscription1['start_time']);
+                                                    $endtime = explode(' ',$subscription1['end_time']);
+                                                    $time[] = ' '.$strtime[1].'-'.$endtime[1].' ';
+                                                    // $subscription1['start_time'].'-'.$subscription1['end_time'];
+                                                }
+                                                $timestring = implode(",",$time);
+                                                
+                                                ?>
+                                                   <td>
+                                                    <?php echo stripslashes($timestring); ?>
+                                                </td>                     <!--                                                <td>
                                                 <?php echo stripslashes($subscription['start_time']); ?>
                                                                                                                         </td>-->
 

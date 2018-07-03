@@ -4,7 +4,7 @@
  */
 app.controller('shopDetailsCtrl', function ($rootScope, $scope,$interval, $http, $location,$timeout,$window, $state,$stateParams, userService) {
 
-    
+  $window.scrollTo(0, 0);  
 $scope.data = {};
 $scope.user = {};
 $scope.checkboxstr=[];
