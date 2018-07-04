@@ -4,21 +4,21 @@
 			<div class="row">
 				<div class="col-lg-3 col-md-4"  data-ng-include=" 'app/views/partials/sidebar.html' " ></div>
 				<div class="col-lg-9 col-md-8">
-					<h5 class="common-title p-3 mb-0">Add Product</h5>
+					<h5 class="common-title p-3 mb-0">{{language.add}} {{language.product}}</h5>
 					<div class="edit-pro p-3">
 						<div class="row">
 							<div class="col-lg-7 col-md-12">
 								<form name="addProductForm" ng-submit="addProductForm.$valid && addProduct(user2)" novalidate>
 									 <div class="form-group">
-										<label for="staticEmail"> Movement*</label>
+										<label for="staticEmail"> {{language.movement}}*</label>
                                                                                 <select class="form-control" name="movement" ng-model="user2.movement"  required>
-                                                                                    <option value="" selected>Please choose a movement</option>
-                                                                                    <option value="Automatic Movement">Automatic</option>
-                                                                                    <option value="Quartz Movement">Quartz</option>
-                                                                                    <option value="Other Movement">Other</option>
+                                                                                    <option value="" selected>{{language.please}} {{language.Choose}} {{language.a}} {{language.movement}}</option>
+                                                                                    <option value="Automatic Movement">{{language.automatic}}</option>
+                                                                                    <option value="Quartz Movement">{{language.quartz}}</option>
+                                                                                    <option value="Other Movement">{{language.other}}</option>
 										</select>
 										<!--<input type="text" class="form-control" id="" value="" ng-model="user2.movement" ng-pattern="/^[a-z A-Z]+$/" name="movement" required>-->
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.movement.$error.required"> This Field Is Required! </span>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.movement.$error.required"> {{language.this_field_is_required}}! </span>
                                                                                 
 									</div>
 
@@ -35,10 +35,10 @@
           </div> 
             <div class="custom-control custom-radio col-sm-4">
             <input type="radio" id="customRadio3" name="gender" class="custom-control-input" value="Unisex" ng-model="user2.gender" required>
-            <label class="custom-control-label" for="customRadio3">Unisex</label>
+            <label class="custom-control-label" for="customRadio3">{{language.unisex}}</label>
           </div> 
                     <span class="icon"></span>
-                                                </br><span style="color:Red" ng-show="submitted && addProductForm.gender.$error.required"> Please Choose Your Gender </span>
+                                                </br><span style="color:Red" ng-show="submitted && addProductForm.gender.$error.required"> {{language.please}} {{language.Choose}} {{language.your}} {{language.gender}} </span>
             </div>
             </div>                                                            
                                                                     
@@ -52,18 +52,18 @@
 <span>Unisex</span>
 			              		
 			              		<span class="icon"></span>
-                                                </br><span style="color:Red" ng-show="submitted && addProductForm.gender.$error.required"> Please Choose Your Gender </span>
+                                                </br><span style="color:Red" ng-show="submitted && addProductForm.gender.$error.required"> {{language.please}} {{language.Choose}} {{language.your}} Gender </span>
 									</div>-->
                                                                     
                                      <div class="form-group">
-										<label for="staticEmail"> Reference Code*</label>
+										<label for="staticEmail"> {{language.reference_code}}*</label>
 										<input type="text" class="form-control"  value="" ng-model="user2.reference" name="reference" required>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.reference.$error.required"> This Field Is Required! </span>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.reference.$error.required"> {{language.this_field_is_required}}! </span>
                                                                                
-<!--                                                                                <span style="color:Red" ng-show="addProductForm.reference.$dirty && addProductForm.reference.$error.pattern">Only Number Allowed</span>-->
+<!--                                                                                <span style="color:Red" ng-show="addProductForm.reference.$dirty && addProductForm.reference.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>-->
 									</div>
 									<div class="form-group">
-										<label for="staticEmail">Date of Purchased</label>
+										<label for="staticEmail"> {{language.date_of_purchased}}</label>
 										<input type="date" class="form-control" max="{{preferred_date}}" id="" value="" placeholder="" ng-model="user2.date_of_purchase" name="date_of_purchase">
                                                                                 
                                                                                 
@@ -79,22 +79,22 @@
                                                                                 
                                                                                 
                                                                                 
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.status.$error.required">Please Choose A Status</span>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.status.$error.required">{{language.please}} {{language.Choose}} A Status</span>
 									</div>-->
                                                                         <div class="form-group">
-                                                                            <label for="staticEmail"> Status of the watch*</label>
+                                                                            <label for="staticEmail"> {{language.status_of_the_watch}}*</label>
                                                                            <div class="dropdown status-watch-wrap">
                                                                                 <!--<p class="btn btn-outline-dark btn-block dropdown-toggle" data-toggle="dropdown"> Status of the watch</p>-->
                                                                                 <!--<div class="dropdown-menu">-->
 
                                                                                     <ul class="list-unstyled status-watch">
-                                                                                        <li class="init"><a href="javascript:void(0)"><span>Please Select Your Watch Status</span> <p></p></a></li>
-                                                                                        <li data-value="Mint"> <a  ng-click="selectedstatus('New')" href="javascript:void(0)"><span>New</span> <p></p></a></li>
-                                                                                        <li data-value="Mint"> <a  ng-click="selectedstatus('Mint')" href="javascript:void(0)"><span>Mint</span> <p><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></p></a></li>
-                                                                                        <li data-value="Excellent"> <a  ng-click="selectedstatus('Excellent')" href="javascript:void(0)"><span>Excellent</span> <p><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></p></a></li>
-                                                                                        <li data-value="Good"> <a  ng-click="selectedstatus('Good')" href="javascript:void(0)"><span>Good </span> <p><i class="fa fa-star"></i> <i class="fa fa-star"></i><i class="fa fa-star"></i></p></a></li>
-                                                                                        <li data-value="Fair"> <a ng-click="selectedstatus('Fair')" href="javascript:void(0)"><span>Fair</span> <p><i class="fa fa-star"></i> <i class="fa fa-star"></i></p></a></li>
-                                                                                        <li data-value="Poor"> <a  ng-click="selectedstatus('Poor')" href="javascript:void(0)"><span>Poor</span> <p><i class="fa fa-star"></i></p></a></li>
+                                                                                        <li class="init"><a href="javascript:void(0)"><span>{{language.please}} {{language.select}} {{language.your}} {{language.watch_status}}</span> <p></p></a></li>
+                                                                                        <li data-value="Mint"> <a  ng-click="selectedstatus('New')" href="javascript:void(0)"><span>{{language.new}}</span> <p></p></a></li>
+                                                                                        <li data-value="Mint"> <a  ng-click="selectedstatus('Mint')" href="javascript:void(0)"><span>{{language.Mint}}</span> <p><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></p></a></li>
+                                                                                        <li data-value="Excellent"> <a  ng-click="selectedstatus('Excellent')" href="javascript:void(0)"><span>{{language.Excellent}}</span> <p><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></p></a></li>
+                                                                                        <li data-value="Good"> <a  ng-click="selectedstatus('Good')" href="javascript:void(0)"><span>{{language.Good}} </span> <p><i class="fa fa-star"></i> <i class="fa fa-star"></i><i class="fa fa-star"></i></p></a></li>
+                                                                                        <li data-value="Fair"> <a ng-click="selectedstatus('Fair')" href="javascript:void(0)"><span>{{language.Fair}}</span> <p><i class="fa fa-star"></i> <i class="fa fa-star"></i></p></a></li>
+                                                                                        <li data-value="Poor"> <a  ng-click="selectedstatus('Poor')" href="javascript:void(0)"><span>{{language.Poor}}</span> <p><i class="fa fa-star"></i></p></a></li>
                                                                                         
                                                                                     </ul>
                                                                                   
@@ -144,37 +144,37 @@
 <!--                                                                        <div class="form-group">
 										<label for="staticEmail"> Status of the watch</label>
 										<input type="text" class="form-control" id="" value="" ng-model="user2.status" name="status" required>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.status.$error.required"> This Field Is Required! </span>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.status.$error.required"> {{language.this_field_is_required}}! </span>
                                                                                 
                                                                                 
 									</div>-->
 									
 									<div class="form-group">
-										<label for="staticEmail">Owner Number*</label>
+										<label for="staticEmail">{{language.Owner}} {{language.number}}*</label>
                                        <input type="text" class="form-control" id="Owner_number"  ng-model="user2.owner_number" ng-pattern="/^[1-9][0-9]*$/" name="owner_number"  required>
-                                       <span style="color:Red" ng-show="submitted && addProductForm.owner_number.$error.required"> This Field Is Required! </span>
+                                       <span style="color:Red" ng-show="submitted && addProductForm.owner_number.$error.required"> {{language.this_field_is_required}}! </span>
                                                                                 
-                                                                                <span style="color:Red" ng-show="addProductForm.owner_number.$dirty && addProductForm.owner_number.$error.pattern">Only Number Allowed</span>
+                                                                                <span style="color:Red" ng-show="addProductForm.owner_number.$dirty && addProductForm.owner_number.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>
 									</div>
                                                                     <div class="form-group">
-										<label for="staticEmail">Country*</label>
+										<label for="staticEmail">{{language.country}}*</label>
                                                                                 
 										<select class="form-control" name="country" ng-model="user2.country" ng-change="state(user2.country)" required>
 											<option  ng-repeat="country_list in countrylist" value="{{country_list.id}}">{{country_list.name}}</option>
 										</select>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.country.$error.required">Please Choose A Country</span>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.country.$error.required">{{language.please}} {{language.Choose}} {{language.a}} {{language.country}}</span>
 									</div>
 
 
 
 
                                                                         <div class="form-group">
-										<label for="staticEmail">Governorate*</label>
+										<label for="staticEmail">{{language.state}}*</label>
                                                                                 
 										<select class="form-control" name="state" ng-model="user2.state" ng-change="city(user2.state)" required>
 											<option  ng-repeat="statelists in statelist" value="{{statelists.id}}">{{statelists.name}}</option>
 										</select>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.state.$error.required">Please Choose A State</span>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.state.$error.required">{{language.please}} {{language.Choose}} {{language.a}} {{language.state}}</span>
 									</div>
 
 <!--                                                                        <div class="form-group">
@@ -183,7 +183,7 @@
 										<select class="form-control" name="city" ng-model="user2.city"  required>
 											<option  ng-repeat="citylists in citylist" value="{{citylists.id}}">{{citylists.name}}</option>
 										</select>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.city.$error.required">Please Choose A City</span>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.city.$error.required">{{language.please}} {{language.Choose}} A City</span>
 									</div>-->
 
 
@@ -196,15 +196,15 @@
 <!--									<div class="form-group">
 										<label for="staticEmail">Country</label>
 										<input type="text" class="form-control" id="" value="" ng-pattern="/^[a-z A-Z]+$/" placeholder="" ng-model="user2.country" name="country" required>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.country.$error.required">  This Field Is Required!</span>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.country.$error.required">  {{language.this_field_is_required}}!</span>
                                                                                 
                                                                                 <span style="color:Red" ng-show="addProductForm.country.$dirty && addProductForm.country.$error.pattern">Only Letters Allowed</span>
 									</div>-->
                                                                     <div class="form-group">
-										<label for="staticEmail">Size*</label>
+										<label for="staticEmail">{{language.size}}*</label>
 										<input type="text" class="form-control" id="" value="" ng-pattern="/^[1-9][0-9]*$/" placeholder="" ng-model="user2.size" name="size" required>
-                                                                                    <span style="color:Red" ng-show="submitted && addProductForm.size.$error.required">This Field Is Required! </span>                                                                          
-                                                                                <span style="color:Red" ng-show="addProductForm.size.$dirty && addProductForm.size.$error.pattern">Only Number Allowed</span>
+                                                                                    <span style="color:Red" ng-show="submitted && addProductForm.size.$error.required">{{language.this_field_is_required}}! </span>                                                                          
+                                                                                <span style="color:Red" ng-show="addProductForm.size.$dirty && addProductForm.size.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>
 									</div>
                                                                     
                                                                     
@@ -228,17 +228,17 @@
                                                                        
 
 									<div class="form-group">
-										<label for="staticEmail">Work Hours</label>
+										<label for="staticEmail">{{language.Work_Hours}}</label>
 										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user2.work_hours"  name="work_hours">
                                                                                 
                                                                                <!-- <span style="color:Red" ng-show="addProductForm.work_hours.$dirty && addProductForm.work_hours.$error.pattern">Only Letters Allowed</span>-->
 									</div>
 
-									   <label>Upload the image*</label>
+									   <label>{{language.upload}} {{language.the_image}}*</label>
 
                                                                            <div>
 									   <div class="form-group">
-                                                                               <div class="btn btn-primary" accept="image/*" name="image" ngf-select ng-model="user2.image" ngf-keep="true" ngf-multiple="true" ngf-max-files="5" ngf-fix-orientation="true">Add Photos
+                                                                               <div class="btn btn-primary" accept="image/*" name="image" ngf-select ng-model="user2.image" ngf-keep="true" ngf-multiple="true" ngf-max-files="5" ngf-fix-orientation="true">{{language.add}} {{language.photos}}
 										</div>
 <!--                                                                                 <div class="btn btn-primary" ngf-change="selectFiles($files)"   accept="image/*" name="image" ngf-select ng-model="user2.image" ngf-multiple="true" ngf-max-files="5" ngf-fix-orientation="true">Add Photos
 										</div>-->
@@ -258,7 +258,7 @@
 											</div>
 										</div>
 									</div>
-                                                                               <span style="color:Red" ng-show="addProductForm.image.$error.maxFiles">Can upload only five images.</span>
+                                                                               <span style="color:Red" ng-show="addProductForm.image.$error.maxFiles">{{language.can}} {{language.upload}} {{language.only}} {{language.five}}  {{language.images}}.</span>
                                                                            </div>
 
                                                                            
@@ -271,7 +271,7 @@
                                                                            </div>
                                                                            
                                                                            <div class="form-group">
-										<label for="staticEmail">Location</label>
+										<label for="staticEmail">{{language.location}}</label>
 										<input type="text" class="form-control" id="address" value="" placeholder="" ng-pattern="/^[a-z A-Z]+$/" ng-model="user2.location" name="location" readonly>
                                                                                 
                                                                                 
@@ -289,7 +289,7 @@
                             
                                       </div>  -->
                                                                 
-									<button ng-if="loader" class="btn btn-primary" ng-click="submitted=true">Save</button>
+									<button ng-if="loader" class="btn btn-primary" ng-click="submitted=true">{{language.save}}</button>
 								</form>
 							</div>
 						</div>
@@ -317,7 +317,7 @@
 			  
 			  
 			  <div class="form-group">
-			  	<button type="submit" class="btn btn-block btn-primary">Ok</button>
+			  	<button type="submit" class="btn btn-block btn-primary">{{language.ok}}</button>
 			  </div>
 			
 			
@@ -325,10 +325,10 @@
 	    </div>
 	  </div>
 	</div>
-<div ng-if='!loader' class="loading">Loading&#8230;</div>
+<div ng-if='!loader' class="loading">{{language.Loading}}&#8230;</div>
 
 
-<div ng-if='!loader' class="content">Wait for a while..</div>
+<div ng-if='!loader' class="content">{{language.Wait_for_a_while}}..</div>
 <style>
    /* Absolute Center Spinner */
 .loading {

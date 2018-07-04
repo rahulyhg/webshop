@@ -1139,9 +1139,9 @@ function ProductsDetails() {
                         if(!empty($getallcurrency)){
                            foreach($getallcurrency as $currency){
                                // $currency['currency_rate_to_usd'];
-                            $price = $price / $currency['currency_rate_to_usd'];
+                            $price = $price * $currency['currency_rate_to_usd'];
                             $price = round($price);
-                            $bidincrement = $product->bidincrement / $currency['currency_rate_to_usd'];
+                            $bidincrement = $product->bidincrement * $currency['currency_rate_to_usd'];
                             $bidincrement = round($bidincrement);
                             //echo 'yes';
                         }  
@@ -1308,7 +1308,7 @@ function ProductsDetails() {
                                 $getallcurrency = $stmtcurrency->fetchall();
                                  if(!empty($getallcurrency)){
                            foreach($getallcurrency as $currency){
-                            $yourmaxbid = $naxbid->maxbid / $currency['currency_rate_to_usd'];
+                            $yourmaxbid = $naxbid->maxbid * $currency['currency_rate_to_usd'];
                             $yourmaxbid = round($yourmaxbid);
                             
                             //echo 'yes';
@@ -1433,7 +1433,7 @@ function ProductsDetails() {
                                 $getallcurrencybidprice = $stmtcurrencybidprice->fetchall();
                                  if(!empty($getallcurrencybidprice)){
                            foreach($getallcurrencybidprice as $currency){
-                            $historybidprice = $history->bidprice / $currency['currency_rate_to_usd'];
+                            $historybidprice = $history->bidprice * $currency['currency_rate_to_usd'];
                             $historybidprice = round($historybidprice);
                             
                             //echo 'yes';
@@ -1491,15 +1491,15 @@ function ProductsDetails() {
                            foreach($getallcurrency as $currency){
                                // $currency['currency_rate_to_usd'].'<br>';
                                // $currency['currency_code'].'<br>';
-                            $baseauctionprice = $product->baseauctionprice / $currency['currency_rate_to_usd'];
+                            $baseauctionprice = $product->baseauctionprice * $currency['currency_rate_to_usd'];
                             $baseauctionprice = round($baseauctionprice);
-                            $thresholdprice = $product->thresholdprice / $currency['currency_rate_to_usd'];
+                            $thresholdprice = $product->thresholdprice * $currency['currency_rate_to_usd'];
                             $thresholdprice = round($thresholdprice);
-                            $bidincrement = $product->bidincrement / $currency['currency_rate_to_usd'];
+                            $bidincrement = $product->bidincrement * $currency['currency_rate_to_usd'];
                             $bidincrement = round($bidincrement);
-                            $nextbidprice = $product->nextbidprice / $currency['currency_rate_to_usd'];
+                            $nextbidprice = $product->nextbidprice * $currency['currency_rate_to_usd'];
                             $nextbidprice = round($nextbidprice);
-                            $lastbidvalue = $product->lastbidvalue / $currency['currency_rate_to_usd'];
+                            $lastbidvalue = $product->lastbidvalue * $currency['currency_rate_to_usd'];
                             $lastbidvalue = round($lastbidvalue);
                             //echo 'yes';
                         }  
@@ -2107,11 +2107,9 @@ function listmyProducts() {
     $body = json_decode($body2);
 
 
-$price='';
-
     $price ='';
-
-
+    $brand='';
+    $currency='KWD';
     $user_id = isset($body->user_id) ? $body->user_id : '';
 
     $sql = "SELECT * from  webshop_products WHERE uploader_id=:user_id and type = '1' and is_discard=0 order by id desc";
@@ -2224,8 +2222,9 @@ $price='';
                                // $currency['currency_rate_to_usd'];
                             $price = $price * $currency['currency_rate_to_usd'];
                             $price = round($price);
-                            $bidincrement = $product->bidincrement * $currency['currency_rate_to_usd'];
-                            $bidincrement = round($bidincrement);
+                            $currency = $getUserdetails1->currency_preference;
+                            //$bidincrement = $product->bidincrement * $currency['currency_rate_to_usd'];
+                           // $bidincrement = round($bidincrement);
                             //echo 'yes';
                         }  
                         }else{
@@ -2263,7 +2262,8 @@ $price='';
                 "approved" => $product->approved,
                 "live_status" => $product->status,
                 "expiry_date" => $expirydate,
-                "top_product" => $product->top_product
+                "top_product" => $product->top_product,
+                "user_currency"=>$currency
             );
         }
 
@@ -3890,7 +3890,7 @@ function addProductNew() {
     $stmtusd->execute();
     $getusd = $stmtusd->fetchObject();
     if($currency != 'KWD'){
-    $price = $price * $getusd->currency_rate_to_usd;
+    $price = $price / $getusd->currency_rate_to_usd;
     $price = round($price);
     }
     $nextbidprice = $price;
@@ -5973,7 +5973,7 @@ if ($category != '') {
                         //print_r($getallcurrency);exit;
                         if(!empty($getallcurrency)){
                            foreach($getallcurrency as $currency){
-                            $price = $product->price / $currency['currency_rate_to_usd'];
+                            $price = $product->price * $currency['currency_rate_to_usd'];
                             $currency_pref =$getUserdetails1->currency_preference;
                         }  
                         }else{
@@ -7035,7 +7035,7 @@ if ($keyword != '' && $keyword != 'undefined') {
                         //print_r($getallcurrency);exit;
                         if(!empty($getallcurrency)){
                            foreach($getallcurrency as $currency){
-                            $price = $product->price / $currency['currency_rate_to_usd'];
+                            $price = $product->price * $currency['currency_rate_to_usd'];
                             $currency_pref=$getUserdetails1->currency_preference;
                             //echo 'yes';
                         }  
@@ -11535,12 +11535,13 @@ function getmaxprice() {
                         }
                     }
                     
-                   echo $maxprice= round($maxprice);
-                    echo $maxprice= round($minprice);
-                    exit;
+                  $minprice= round($minprice);
+                   $maxprice= round($maxprice);
+                    //exit;
             $data['minprice']=$minprice;
             $data['maxprice']=$maxprice;
-            
+            //print_r($data);
+           // exit;
             $data['Ack'] = '1';
             $app->response->setStatus(200);
        
@@ -12203,7 +12204,7 @@ if ($gender != '') {
                         //print_r($getallcurrency);exit;
                         if(!empty($getallcurrency)){
                            foreach($getallcurrency as $currency){
-                            $price = $product->price * $currency['currency_rate_to_usd'];
+                            $price = $product->price / $currency['currency_rate_to_usd'];
                            $currency_pref =$getUserdetails1->currency_preference;
                         }  
                         }else{
@@ -12725,7 +12726,7 @@ if ($movement != '') {
                         //print_r($getallcurrency);exit;
                         if(!empty($getallcurrency)){
                            foreach($getallcurrency as $currency){
-                            $price = $product->price / $currency['currency_rate_to_usd'];
+                            $price = $product->price * $currency['currency_rate_to_usd'];
                            $currency_pref=$getUserdetails1->currency_preference;
                         }  
                         }else{

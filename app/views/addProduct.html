@@ -34,15 +34,15 @@
                                                                                     <option value="" selected>{{language.please}} {{language.Choose}} {{language.a}} {{language.brands}}</option>
 											<option  ng-repeat="brandlists in brandlist" value="{{brandlists.id}}">{{brandlists.name}}</option>
 										</select>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.brand.$error.required"> Please Choose A Brand </span>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.brand.$error.required"> {{language.please}} {{language.Choose}} {{language.a}} Brand </span>
                                                                                 
 									</div>
 									<div class="form-group">
-										<label for="staticEmail">Category*</label>
+										<label for="staticEmail">{{language.category}}*</label>
 										<select class="form-control" name="category" ng-model="user2.cat_id"  required>
 											<option  ng-repeat="categorylists in categorylist" value="{{categorylists.id}}">{{categorylists.name}}</option>
 										</select>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.category.$error.required"> Please Choose A Category </span>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.category.$error.required"> {{language.please}} {{language.Choose}} {{language.a}} {{language.category}} </span>
 									</div>
                                                                     
                                                                   <!--  <div class="form-group">
@@ -52,7 +52,7 @@
                                                                                         
                                                                                        <option  ng-repeat="subcategorylists in subcategorylist" value="{{subcategorylists.subcat_id}}">{{subcategorylists.name}}</option>  
 										</select>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.subcategory.$error.required"> Please Choose A Subcategory </span>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.subcategory.$error.required"> {{language.please}} {{language.Choose}} A Subcategory </span>
 									</div> -->
                                                                     
 <!--                                                                    <div class="form-group">
@@ -63,7 +63,7 @@
                                                                                        <option   value="M">{{language.metal}}</option>  
                                                                                         <option   value="L">{{language.leather}}</option>  
 										</select>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.breslet_type.$error.required"> Please Choose A Bracelet Type </span>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.breslet_type.$error.required"> {{language.please}} {{language.Choose}} A Bracelet Type </span>
 									</div>-->
 
 
@@ -72,14 +72,14 @@
 
 
 <div class="form-group">
-    <label for="staticEmail">{{language.bracelet}} Type*</label>
+    <label for="staticEmail">{{language.bracelet}} {{language.type}}*</label>
     <select class="form-control" name="breslet_type" ng-model="user2.breslet_type" required>
-        <option  value="">Please Select</option>  
+        <option  value=""> {{language.please}} {{language.select}}</option>  
 
         <option ng-repeat="braceletlists in braceletlist" value="{{braceletlists.id}}">{{braceletlists.type}}</option>  
         
     </select>
-    <span style="color:Red" ng-show="submitted && addProductForm.breslet_type.$error.required"> Please Choose A Bracelet Type </span>
+    <span style="color:Red" ng-show="submitted && addProductForm.breslet_type.$error.required"> {{language.please}} {{language.Choose}} {{language.a}} {{language.bracelet}} {{language.type}} </span>
 </div>
 
 
@@ -97,23 +97,23 @@
 
                                                                     
                                                                     <div class="form-group" >
-										<label for="staticEmail">Model Year*</label>
+										<label for="staticEmail">{{language.model}} {{language.year}}*</label>
 										<select class="form-control" name="model_year" ng-model="user2.model_year"  required>
-											<option  value="">Please Select</option>  
+											<option  value="">{{language.please}} {{language.select}}</option>  
                                                                                       <option  ng-repeat="year in YearsList" value="{{year}}">{{year}}</option>    
                                                                                      <!--  <option  ng-repeat="subcategorylists in subcategorylist" value="{{subcategorylists.subcat_id}}">{{subcategorylists.name}}</option>  -->
 										</select>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.model_year.$error.required"> Please Choose Model year </span>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.model_year.$error.required"> {{language.please}} {{language.Choose}} {{language.model}} {{language.year}} </span>
 									</div>
 									<div class="form-group">
-										<label for="staticEmail">Currency*</label>
+										<label for="staticEmail">{{language.currency}}*</label>
 										<select class="form-control" name="currency" ng-model="user2.currency"  required>
 											<option  ng-repeat="currencylists in currencylist" value="{{currencylists.code}}">{{currencylists.name}}</option>
 										</select>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.currency.$error.required">Please Choose Currency</span>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.currency.$error.required">{{language.please}} {{language.Choose}} {{language.currency}}</span>
 									</div>
                                                                     <div class="form-group" ng-if="drpmodel=='2'">
-										<label for="staticEmail">{{language.auction}} Date*</label>
+										<label for="staticEmail">{{language.auction}} {{language.date}}*</label>
 										<!--<input type="text" class="form-control" id="datepicker" value="" placeholder="" ng-model="user2.preferred_date" name="preferred_date" required>-->
                                                                                 <!--<input type="text" class="form-control" ng-model="user2.preferred_date" date="{{listAuctionDtates}}" name="preferred_date" required datepicker />-->
 <!--                                                                                <datepicker date-format="yyyy-MM-dd" selector="form-control" ng-click="getAuctionTime(user2.preferred_date)" date-enabled-dates="{{listAuctionDtates}}">-->
@@ -121,7 +121,7 @@
                                                                                     
                                                                                 
                                                                                     <input class="form-control"  ng-model="user2.preferred_date" name="preferred_date" required placeholder="Choose a date" readonly/>
-                                                                                    <span style="color:Red" ng-show="addProductForm.preferred_date.$touched && addProductForm.preferred_date.$error.required"> This Field Is Required! </span>
+                                                                                    <span style="color:Red" ng-show="addProductForm.preferred_date.$touched && addProductForm.preferred_date.$error.required"> {{language.this_field_is_required}}! </span>
                                                                                     <span style="color:Red" ng-show="addProductForm.preferred_date.$error.required"> </span>
                                                                                 
                                                                         
@@ -141,17 +141,17 @@
                                                                                  </div>
                                                                                 </div>
                                                                                 </span>
-                                                                                <span ng-if="drpmodel=='2' style="color:Red" ng-show="addProductForm.time_slot_id.$touched && addProductForm.time_slot_id.$error.required"> This Field Is Required! </span>
-                                                                                <span ng-if="drpmodel=='2' style="color:Red" ng-show="submitted && addProductForm.time_slot_id.$error.required">Please Choose Currency</span>
+                                                                                <span ng-if="drpmodel=='2' style="color:Red" ng-show="addProductForm.time_slot_id.$touched && addProductForm.time_slot_id.$error.required"> {{language.this_field_is_required}}! </span>
+                                                                                <span ng-if="drpmodel=='2' style="color:Red" ng-show="submitted && addProductForm.time_slot_id.$error.required">{{language.please}} {{language.Choose}} {{language.currency}}</span>
                                                                                 <!--<span style="color:Red" ng-show="addProductForm.name.$dirty && addProductForm.name.$error.pattern">Only Letters Allowed</span>-->
 									</div>
 
 								 	
                                                                     
 									<div class="form-group">
-										<label for="staticEmail">Description</label>
+										<label for="staticEmail">{{language.description}}</label>
                                                                                 <textarea type="text" class="form-control"   ng-model="user2.description" name="description" ></textarea>
-<!--                                                                                <span style="color:Red" ng-show="submitted && addProductForm.description.$error.required"> This Field Is Required! </span>-->
+<!--                                                                                <span style="color:Red" ng-show="submitted && addProductForm.description.$error.required"> {{language.this_field_is_required}}! </span>-->
                                                                                 
 									</div>
 									<div class="form-group">
@@ -159,16 +159,16 @@
 										<label for="staticEmail">{{language.price}}*</label>
 										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user2.price" name="price"  ng-pattern="/^[1-9][0-9]*$/" required>
 
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.price.$error.required">This Field Is Required! </span>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.price.$error.required">{{language.this_field_is_required}}! </span>
                                                                                 
-                                                                                <span style="color:Red" ng-show="addProductForm.price.$dirty && addProductForm.price.$error.pattern">Only Numbers Allowed</span>
+                                                                                <span style="color:Red" ng-show="addProductForm.price.$dirty && addProductForm.price.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>
 									</div>
                                                                     
 <!--                                                                    <div class="form-group">
 										<label for="staticEmail">Quantity</label>
 										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user2.quantity" ng-pattern="/^[0-9]/" name="quantity" required>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.quantity.$error.required">This Field Is Required! </span>
-                                                                                <span style="color:Red" ng-show="addProductForm.quantity.$dirty && addProductForm.quantity.$error.pattern">Only Numbers Allowed</span>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.quantity.$error.required">{{language.this_field_is_required}}! </span>
+                                                                                <span style="color:Red" ng-show="addProductForm.quantity.$dirty && addProductForm.quantity.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>
 									</div>-->
                                       
                                                                         
@@ -183,7 +183,7 @@
                                         
                                       </div> -->
 									
-									<button class="btn btn-primary" ng-click="submitted=true">Next</button>
+									<button class="btn btn-primary" ng-click="submitted=true">{{language.next}}</button>
 								</form>
 							</div>
 						</div>
