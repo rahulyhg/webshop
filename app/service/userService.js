@@ -5902,6 +5902,47 @@ reject(response);
 });
 });
 };
+
+
+
+   var autofield = function(word) {
+    return $q(function(resolve, reject) {
+
+      var encodedString ='{"word":"'+ word +'"}';
+    //alert(encodedString);
+    $http({
+    method: 'POST',
+    url: $rootScope.serviceurl+"autofield",
+    data: encodedString,
+    headers: {'Content-Type': 'application/json'}
+    }).then(function (response) {
+
+       if(response.data.Ack == "1") {
+                       
+          resolve(response.data); 
+       } else {
+                        
+            resolve(response);
+       }
+
+
+            },function(response) {
+    console.log(response);  
+    reject(response);
+    });
+    });
+    };
+
+
+
+    
+
+
+
+
+
+
+
  return {
      
        // homeSettingsSection:homeSettingsSection,
@@ -6092,6 +6133,7 @@ reject(response);
         topsubscriptions:topsubscriptions,
         get_total_messages:get_total_messages,
         tomobileverifying1:tomobileverifying1,
+        autofield:autofield
 
 };
 });
