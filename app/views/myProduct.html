@@ -15,7 +15,7 @@
 								<div class="wishlist-content w-100 float-left">
 									<!--<h6>{{ProductList.productname}} <span><i class=""></i></span></h6>-->
 									<p class="mb-1">{{ProductList.description}}</p>
-									<b class="d-block mb-2">KWD {{ProductList.price}}</b>
+									<b class="d-block mb-2">{{ProductList.user_currency}} {{ProductList.price}}</b>
                                                                         <b ng-if="ProductList.approved==1 && ProductList.live_status==1" class="d-block mb-2">{{language.Expired}} {{language.on}}: {{ProductList.expiry_date}}</b>
 									<!--<p><button type="button" class="btn btn-primary"><i class="ion-android-cart"></i> Buy It</button>-->
                                                                         
@@ -60,7 +60,7 @@
                                                                        <div ng-if="ProductList.approved==1 && ProductList.live_status== 0 && current_user_type== 1">
                                                                             <p><div class="row">
                                                                             <div class="col-md-6">    
-                                                                                <button type="button" ng-click="pay(ProductList.id)" class="btn btn-primary btn-dark"><i class="ion-attach"></i> Pay Now</button>
+                                                                                <button type="button" ng-click="pay(ProductList.id)" class="btn btn-primary btn-dark"><i class="ion-attach"></i> {{language.pay_now}}</button>
                                                                             </div>
                                                                                 
                                                                             </div></p>
@@ -72,7 +72,7 @@
                                                                         <div ng-if="ProductList.approved==0 ">
                                                                             <p><div class="row">
                                                                             <div class="col-md-6">    
-                                                                                <button type="button" class="btn btn-primary btn-dark" disabled="disabled"> Awaiting Admin Approval</button>
+                                                                                <button type="button" class="btn btn-primary btn-dark" disabled="disabled"> {{language.Awaiting_Admin_Approval}}</button>
                                                                             </div>
                                                                                 
                                                                             </div></p>
