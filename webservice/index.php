@@ -2220,7 +2220,7 @@ function listmyProducts() {
                         if(!empty($getallcurrency)){
                            foreach($getallcurrency as $currency){
                                // $currency['currency_rate_to_usd'];
-                            $price = $price * $currency['currency_rate_to_usd'];
+                            $price = $product->price * $currency['currency_rate_to_usd'];
                             $price = round($price);
                             $currency = $getUserdetails1->currency_preference;
                             //$bidincrement = $product->bidincrement * $currency['currency_rate_to_usd'];
@@ -10677,19 +10677,14 @@ function updateProfile_app() {
 
 function addProductNew_app() {
 
-
     $data = array();
-
     $app = \Slim\Slim::getInstance();
     $request = $app->request();
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
 
-
     $user_id = isset($body->user_id) ? $body->user_id : '';
-//echo $user_id;exit;
     $category = isset($body->cat_id) ? $body->cat_id : '';
-
     $name = isset($body->name) ? $body->name : '';
     $description = isset($body->description) ? $body->description : '';
     $currency = isset($body->currency) ? $body->currency : '';
@@ -10711,15 +10706,26 @@ function addProductNew_app() {
     $model_year = isset($body->model_year) ? $body->model_year : '';
     $breslet_type = isset($body->breslet_type) ? $body->breslet_type : '';
     $time_slot_id = isset($body->time_slot_id) ? $body->time_slot_id : '';
-
     $state = isset($body->state) ? $body->state : '';
     $city = isset($body->city) ? $body->city : '';
+    $latitude = isset($body->my_latitude) ? $body->my_latitude : '';
+    $longitude = isset($body->my_longitude) ? $body->my_longitude : '';
     $get_status = '0';
     $status = 0;
     $quantity = 1;
+    
+    
+    $db = getConnection();
+    $sqlusd = "SELECT * from webshop_currency_rates where currency_code='$currency'";
+    $stmtusd = $db->prepare($sqlusd);
+    //$stmtusd->bindParam("user_id", $user_id);
+    $stmtusd->execute();
+    $getusd = $stmtusd->fetchObject();
+    if($currency != 'KWD'){
+    $price = $price / $getusd->currency_rate_to_usd;
+    $price = round($price);
+    }
     $nextbidprice = $price;
-// $baseauctionprice = isset($body["baseauctionprice"]) ? $body["baseauctionprice"] : '';
-//$thresholdprice = isset($body["thresholdprice"]) ? $body["thresholdprice"] : '';
 
     /* conversion of date format starts */
 
@@ -10733,7 +10739,7 @@ function addProductNew_app() {
 
     $date = date("Y-m-d");
 
-    $db = getConnection();
+    
 
 
     $sqlsubscription = "SELECT ws.id as sid,wu.id,wu.type,ws.expiry_date,wu.slot_no FROM webshop_subscribers as ws inner join webshop_user as wu on wu.id=ws.user_id where ws.user_id=:user_id order by ws.id desc limit 1";
@@ -10748,7 +10754,8 @@ function addProductNew_app() {
     $stmtty->bindParam("user_id", $user_id);
     $stmtty->execute();
     $gettype = $stmtty->fetchObject();
-
+    
+    
 
 
     if ($gettype->type == 2) {
@@ -10760,7 +10767,7 @@ function addProductNew_app() {
                         $sid = $getUserDetails->sid;
 
 
-                        $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,status,size,location,work_hours,subscription_id,state,city,approved,breslet_type,model_year) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:status,:size,:location,:work_hours,:subscription_id,:state,:city,:approved,:breslet_type,:model_year)";
+                        $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,status,size,location,work_hours,subscription_id,state,city,approved,breslet_type,model_year,my_latitude,my_longitude) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:status,:size,:location,:work_hours,:subscription_id,:state,:city,:approved,:breslet_type,:model_year,:my_latitude,:my_longitude)";
 
 
 
@@ -10812,6 +10819,8 @@ function addProductNew_app() {
                             $stmt->bindParam("approved", $approved);
                             $stmt->bindParam("breslet_type", $breslet_type);
                             $stmt->bindParam("model_year", $model_year);
+                            $stmt->bindParam("my_latitude", $latitude);
+                            $stmt->bindParam("my_longitude", $longitude);
                             $stmt->execute();
                             $lastID = $db->lastInsertId();
 
@@ -10885,6 +10894,7 @@ function addProductNew_app() {
 
                             $data['Ack'] = 1;
                             $data['msg'] = 'Product added successfully.';
+                            $data['lastid']=$lastID;
                             $data['type'] = $type;
                             $data['utype'] = 2;
 
@@ -10912,11 +10922,19 @@ function addProductNew_app() {
                 $app->response->setStatus(200);
             }
         } else {
+            
+            
+            $sqlsetting = "SELECT * FROM webshop_sitesettings WHERE id=1";
+            $db = getConnection();
+            $stmtsetting = $db->prepare($sqlsetting);
+            $stmtsetting->execute();
+            $getsetting = $stmtsetting->fetchObject();
 
-            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city)";
-
-
-
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city,approved,auction_fee,my_latitude,my_longitude) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city,:approved,:auction_fee,:my_latitude,:my_longitude)";
+            
+            $approved=1;
+            $payment_amount = ceil(($price * $getsetting->threshold_price_percent) / 100);
+            
             try {
 
                 $db = getConnection();
@@ -10952,6 +10970,10 @@ function addProductNew_app() {
                 $stmt->bindParam("location", $location);
                 $stmt->bindParam("work_hours", $work_hours);
                 $stmt->bindParam("status", $get_status);
+                $stmt->bindParam("approved", $approved);
+                $stmt->bindParam("auction_fee", $payment_amount);
+                $stmt->bindParam("my_latitude", $latitude);
+                $stmt->bindParam("my_longitude", $longitude);
                 $stmt->execute();
 
                 $lastID = $db->lastInsertId();
@@ -10959,31 +10981,11 @@ function addProductNew_app() {
 
 
 
-                /*  if (!empty($_FILES['image'])) {
-
-                  if ($_FILES['image']['tmp_name'] != '') {
-
-                  $target_path = "../upload/product_image/";
-
-                  $userfile_name = $_FILES['image']['name'];
-
-                  $userfile_tmp = $_FILES['image']['tmp_name'];
-
-                  $img = $target_path . $userfile_name;
-
-                  move_uploaded_file($userfile_tmp, $img);
-
-                  $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
-
-                  $stmt1 = $db->prepare($sqlimg);
-                  $stmt1->bindParam("image", $userfile_name);
-                  $stmt1->execute();
-                  }
-                  } */
+               
 
                 if (!empty($_FILES['image'])) {
 
-//print_r($_FILES['image']);exit;
+
                     foreach ($_FILES['image']['name'] as $key1 => $file) {
 
 
@@ -11041,6 +11043,7 @@ function addProductNew_app() {
 
                 $data['Ack'] = 1;
                 $data['msg'] = 'Auction added successfully.';
+                $data['lastid']=$lastID;
                 $data['type'] = $type;
                 $data['utype'] = 2;
                 $app->response->setStatus(200);
@@ -11063,6 +11066,8 @@ function addProductNew_app() {
             $stmtfreeno->execute();
             $getfree_no = $stmtfreeno->fetchObject();
             $free_no = $getfree_no->free_bid;
+            $free_status = $getfree_no->free_bid_status;
+            $free_valid_days = $getfree_no->valid_days;
 
             $sqluserpay_product = "SELECT * FROM webshop_products WHERE uploader_id=:user_id and type=1 and status=1 and user_free_product='P'";
             $db = getConnection();
@@ -11073,7 +11078,7 @@ function addProductNew_app() {
 
 
 
-            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,location,work_hours,approved,state,city,status,breslet_type,model_year) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:location,:work_hours,:approved,:state,:city,:status,:breslet_type,:model_year)";
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,location,work_hours,approved,state,city,status,breslet_type,model_year,my_latitude,my_longitude) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:location,:work_hours,:approved,:state,:city,:status,:breslet_type,:model_year,:my_latitude,:my_longitude)";
 
 
 
@@ -11086,7 +11091,7 @@ function addProductNew_app() {
             $count = $stmtcheck->rowCount();
 
 
-            if ($pcount == $free_no) {
+            if ($pcount >= $free_no && $free_status==1 && $free_no > 0) {
 
                 $payment_status = "1";
             } else {
@@ -11140,9 +11145,11 @@ function addProductNew_app() {
                 $stmt->bindParam("work_hours", $work_hours);
                 $stmt->bindParam("approved", $get_status);
                 $stmt->bindParam("status", $payment_status);
+                $stmt->bindParam("my_latitude", $latitude);
+                $stmt->bindParam("my_longitude", $longitude);
                 $stmt->execute();
                 $lastID = $db->lastInsertId();
-
+                $product_id=$lastID;
 
 
                 if (!empty($_FILES['image'])) {
@@ -11182,6 +11189,38 @@ function addProductNew_app() {
                     $sqlupdatefree = "UPDATE webshop_products SET user_free_product='F' WHERE type=1 and status=1 and uploader_id=$user_id ";
                     $stmtupdatefree = $db->prepare($sqlupdatefree);
                     $stmtupdatefree->execute();
+                    
+                    
+                   //free product duration 
+                    
+                    $sql4 = "INSERT INTO  webshop_subscribers (user_id,subscription_date,expiry_date,transaction_id) VALUES (:user_id,:subscription_date,:expiry_date,:transaction_id)";
+                    
+                    $days = $free_valid_days;
+                    $date = date('Y-m-d');
+                    $cdate = date_create($date);
+                    date_add($cdate, date_interval_create_from_date_string("$days days"));
+                    $expiry_date = date_format($cdate, "Y-m-d");
+                    $transaction_id = "pay-12376";
+
+
+                    $stmt4 = $db->prepare($sql4);
+                    $stmt4->bindParam("user_id", $user_id);
+                    $stmt4->bindParam("subscription_date", $date);
+                    $stmt4->bindParam("expiry_date", $expiry_date);
+                    $stmt4->bindParam("transaction_id", $transaction_id);
+                
+                    $stmt4->execute();
+                    $lastIDs = $db->lastInsertId();
+
+                    $sqlproductupdate = "UPDATE webshop_products SET status=1, subscription_id=:subscription_id WHERE id=:pid";
+                    $stmtproduct = $db->prepare($sqlproductupdate);
+                    $stmtproduct->bindParam("subscription_id", $lastIDs);
+                    $stmtproduct->bindParam("pid", $product_id);
+                    $stmtproduct->execute();
+
+                   //end free product duration 
+                    
+                   
                 }
 
 
@@ -11219,11 +11258,17 @@ function addProductNew_app() {
                 $app->response->setStatus(401);
             }
         } else {
+            
+            $sqlsetting = "SELECT * FROM webshop_sitesettings WHERE id=1";
+            $db = getConnection();
+            $stmtsetting = $db->prepare($sqlsetting);
+            $stmtsetting->execute();
+            $getsetting = $stmtsetting->fetchObject();
 
-            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city)";
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city,approved,auction_fee,my_latitude,my_longitude) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city,:approved,:auction_fee,:my_latitude,:my_longitude)";
 
-
-
+            $approved= 1;
+            $payment_amount = ceil(($price * $getsetting->threshold_price_percent) / 100);
             try {
 
                 $db = getConnection();
@@ -11231,7 +11276,6 @@ function addProductNew_app() {
 
                 $stmt->bindParam("user_id", $user_id);
                 $stmt->bindParam("cat_id", $category);
-//$stmt->bindParam("subcat_id", $subcategory);
                 $stmt->bindParam("name", $brand);
                 $stmt->bindParam("description", $description);
                 $stmt->bindParam("currency_code", $currency);
@@ -11258,6 +11302,10 @@ function addProductNew_app() {
                 $stmt->bindParam("thresholdprice", $price);
                 $stmt->bindParam("state", $state);
                 $stmt->bindParam("city", $city);
+                $stmt->bindParam("approved", $approved);
+                $stmt->bindParam("auction_fee", $payment_amount);
+                $stmt->bindParam("my_latitude", $latitude);
+                $stmt->bindParam("my_longitude", $longitude);
 
                 $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
 
@@ -11286,32 +11334,9 @@ function addProductNew_app() {
 
 
 
-
-                /* if (!empty($_FILES['image'])) {
-
-                  if ($_FILES['image']['tmp_name'] != '') {
-
-                  $target_path = "../upload/product_image/";
-
-                  $userfile_name = $_FILES['image']['name'];
-
-                  $userfile_tmp = $_FILES['image']['tmp_name'];
-
-
-                  $img = $target_path . $userfile_name;
-                  move_uploaded_file($userfile_tmp, $img);
-
-
-                  $sqlimg = "UPDATE webshop_products SET image=:image WHERE id=$lastID";
-
-                  $stmt1 = $db->prepare($sqlimg);
-                  $stmt1->bindParam("image", $userfile_name);
-                  $stmt1->execute();
-                  }
-                  } */
                 if (!empty($_FILES['image'])) {
 
-//print_r($_FILES['image']);exit;
+
                     foreach ($_FILES['image']['name'] as $key1 => $file) {
 
                         if ($_FILES['image']['tmp_name'][$key1] != '') {
@@ -11343,6 +11368,7 @@ function addProductNew_app() {
 
                 $data['Ack'] = 1;
                 $data['msg'] = 'Auction added successfully.';
+                $data['lastid']=$lastID;
                 $data['type'] = $type;
                 $data['utype'] = 1;
                 $app->response->setStatus(200);
