@@ -26,8 +26,15 @@ $scope.isform1 =0;
 
 }
 
-
-
+ $scope.selectedlanguageNo= 1;
+if($window.localStorage["language"] == 2 ){
+   $scope.selectedlanguageNo= 2; 
+   
+   
+}else if($window.localStorage["language"] == 1){
+    $scope.selectedlanguageNo= 1;
+   
+}
  
   userService.gethome().then(function(response) {
        // alert('OK');
@@ -36,10 +43,11 @@ $scope.isform1 =0;
 	
 	if(response.Ack=='1'){
 		
-		console.log('homesite',response);
+		console.log('footertextList',response.footertextList);
 		$scope.brandList=response.brandList;
 		$scope.topmodellist=response.topmodellist;
                 $scope.launchedproductList=response.launchedproductList;
+                $scope.footertextList=response.footertextList;
                 
 		}
 		else{
