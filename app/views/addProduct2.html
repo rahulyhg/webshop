@@ -1,484 +1,457 @@
-
-	<section class="innerbody">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3 col-md-4"  data-ng-include=" 'app/views/partials/sidebar.html' " ></div>
-				<div class="col-lg-9 col-md-8">
-					<h5 class="common-title p-3 mb-0">{{language.add}} {{language.product}}</h5>
-					<div class="edit-pro p-3">
-						<div class="row">
-							<div class="col-lg-7 col-md-12">
-								<form name="addProductForm" ng-submit="addProductForm.$valid && addProduct(user2)" novalidate>
-									 <div class="form-group">
-										<label for="staticEmail"> {{language.movement}}*</label>
-                                                                                <select class="form-control" name="movement" ng-model="user2.movement"  required>
-                                                                                    <option value="" selected>{{language.please}} {{language.Choose}} {{language.a}} {{language.movement}}</option>
-                                                                                    <option value="Automatic Movement">{{language.automatic}}</option>
-                                                                                    <option value="Quartz Movement">{{language.quartz}}</option>
-                                                                                    <option value="Other Movement">{{language.other}}</option>
-										</select>
-										<!--<input type="text" class="form-control" id="" value="" ng-model="user2.movement" ng-pattern="/^[a-z A-Z]+$/" name="movement" required>-->
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.movement.$error.required"> {{language.this_field_is_required}}! </span>
-                                                                                
-									</div>
-
-									 
-            <div class="form-group">                                                        
-                <label for="staticEmail">{{language.gender}}*</label>                                                  <div class="row m-0">    
-         <div class="custom-control custom-radio col-sm-4">
-            <input type="radio" id="customRadio1" name="gender" class="custom-control-input" value="Male" ng-model="user2.gender" required>
-            <label class="custom-control-label" for="customRadio1">{{language.male}}</label>
-          </div> 
-            <div class="custom-control custom-radio col-sm-4">
-            <input type="radio" id="customRadio2" name="gender" class="custom-control-input" value="Female" ng-model="user2.gender" required>
-            <label class="custom-control-label" for="customRadio2">{{language.female}}</label>
-          </div> 
-            <div class="custom-control custom-radio col-sm-4">
-            <input type="radio" id="customRadio3" name="gender" class="custom-control-input" value="Unisex" ng-model="user2.gender" required>
-            <label class="custom-control-label" for="customRadio3">{{language.unisex}}</label>
-          </div> 
+<section class="innerbody">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-4" data-ng-include=" 'app/views/partials/sidebar.html' "></div>
+      <div class="col-lg-9 col-md-8">
+        <h5 class="common-title p-3 mb-0">{{language.add}} {{language.product}}</h5>
+        <div class="edit-pro p-3">
+          <div class="row">
+            <div class="col-lg-7 col-md-12">
+              <form name="addProductForm" ng-submit="addProductForm.$valid && addProduct(user2)" novalidate>
+                <div class="form-group">
+                  <label for="staticEmail"> {{language.movement}}*</label>
+                  <select class="form-control" name="movement" ng-model="user2.movement" required>
+                    <option value="" selected>{{language.please}} {{language.Choose}} {{language.a}} {{language.movement}}</option>
+                    <option value="Automatic Movement">{{language.automatic}}</option>
+                    <option value="Quartz Movement">{{language.quartz}}</option>
+                    <option value="Other Movement">{{language.other}}</option>
+                  </select>
+                  <!--<input type="text" class="form-control" id="" value="" ng-model="user2.movement" ng-pattern="/^[a-z A-Z]+$/" name="movement" required>-->
+                  <span style="color:Red" ng-show="submitted && addProductForm.movement.$error.required"> {{language.this_field_is_required}}! </span>
+                </div>
+                <div class="form-group">
+                  <label for="staticEmail">{{language.gender}}*</label>
+                  <div class="row m-0">
+                    <div class="custom-control custom-radio col-sm-4">
+                      <input type="radio" id="customRadio1" name="gender" class="custom-control-input" value="Male" ng-model="user2.gender" required>
+                      <label class="custom-control-label" for="customRadio1">{{language.male}}</label>
+                    </div>
+                    <div class="custom-control custom-radio col-sm-4">
+                      <input type="radio" id="customRadio2" name="gender" class="custom-control-input" value="Female" ng-model="user2.gender" required>
+                      <label class="custom-control-label" for="customRadio2">{{language.female}}</label>
+                    </div>
+                    <div class="custom-control custom-radio col-sm-4">
+                      <input type="radio" id="customRadio3" name="gender" class="custom-control-input" value="Unisex" ng-model="user2.gender" required>
+                      <label class="custom-control-label" for="customRadio3">{{language.unisex}}</label>
+                    </div>
                     <span class="icon"></span>
-                                                </br><span style="color:Red" ng-show="submitted && addProductForm.gender.$error.required"> {{language.please}} {{language.Choose}} {{language.your}} {{language.gender}} </span>
+                    </br>
+                    <span style="color:Red" ng-show="submitted && addProductForm.gender.$error.required"> {{language.please}} {{language.Choose}} {{language.your}} {{language.gender}} </span>
+                  </div>
+                </div>
+                <!--                                                                    <div class="form-group">
+                           <label for="staticEmail">{{language.gender}}</label>
+                           <input type="radio" class="input-field"  name="gender" value="Male" ng-model="user2.gender" required>
+                           <span>{{language.male}}</span>
+                           <input type="radio" class="input-field"  name="gender" value="Female" ng-model="user2.gender" required>
+                           <span>{{language.female}}</span>
+                           <input type="radio" class="input-field"  name="gender" value="Unisex" ng-model="user2.gender" required>
+                           <span>Unisex</span>
+                                                             
+                                                             <span class="icon"></span>
+                                                                           </br><span style="color:Red" ng-show="submitted && addProductForm.gender.$error.required"> {{language.please}} {{language.Choose}} {{language.your}} Gender </span>
+                                                               </div>-->
+                <div class="form-group">
+                  <label for="staticEmail"> {{language.reference_code}}*</label>
+                  <input type="text" class="form-control" value="" ng-model="user2.reference" name="reference" required>
+                  <span style="color:Red" ng-show="submitted && addProductForm.reference.$error.required"> {{language.this_field_is_required}}! </span>
+                  <!--                                                                                <span style="color:Red" ng-show="addProductForm.reference.$dirty && addProductForm.reference.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>-->
+                </div>
+                <div class="form-group">
+                  <label for="staticEmail"> {{language.date_of_purchased}}</label>
+                  <input type="date" class="form-control" max="{{preferred_date}}" id="" value="" placeholder="" ng-model="user2.date_of_purchase"
+                    name="date_of_purchase">
+                </div>
+                <!--                                                                    <div class="form-group">
+                           <label for="staticEmail"> Status of the watch*</label>
+                                                                                                 
+                           <select class="form-control" name="status" ng-model="user2.status"  required>
+                                                                                                     <option  ng-repeat="status_list in statuslist" value="{{status_list.name}}">{{status_list.name}} </option>
+                           </select>
+                                                                                                 
+                                                                                                 
+                                                                                                 
+                                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.status.$error.required">{{language.please}} {{language.Choose}} A Status</span>
+                           </div>-->
+                <div class="form-group">
+                  <label for="staticEmail"> {{language.status_of_the_watch}}*</label>
+                  <div class="dropdown status-watch-wrap">
+                    <!--<p class="btn btn-outline-dark btn-block dropdown-toggle" data-toggle="dropdown"> Status of the watch</p>-->
+                    <!--<div class="dropdown-menu">-->
+                    <ul class="list-unstyled status-watch">
+                      <li class="init">
+                        <a href="javascript:void(0)">
+                          <span>{{language.please}} {{language.select}} {{language.your}} {{language.watch_status}}</span>
+                          <p></p>
+                        </a>
+                      </li>
+                      <li data-value="Mint">
+                        <a ng-click="selectedstatus('New')" href="javascript:void(0)">
+                          <span>{{language.new}}</span>
+                          <p></p>
+                        </a>
+                      </li>
+                      <li data-value="Mint">
+                        <a ng-click="selectedstatus('Mint')" href="javascript:void(0)">
+                          <span>{{language.Mint}}</span>
+                          <p>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                          </p>
+                        </a>
+                      </li>
+                      <li data-value="Excellent">
+                        <a ng-click="selectedstatus('Excellent')" href="javascript:void(0)">
+                          <span>{{language.Excellent}}</span>
+                          <p>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                          </p>
+                        </a>
+                      </li>
+                      <li data-value="Good">
+                        <a ng-click="selectedstatus('Good')" href="javascript:void(0)">
+                          <span>{{language.Good}} </span>
+                          <p>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                          </p>
+                        </a>
+                      </li>
+                      <li data-value="Fair">
+                        <a ng-click="selectedstatus('Fair')" href="javascript:void(0)">
+                          <span>{{language.Fair}}</span>
+                          <p>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                          </p>
+                        </a>
+                      </li>
+                      <li data-value="Poor">
+                        <a ng-click="selectedstatus('Poor')" href="javascript:void(0)">
+                          <span>{{language.Poor}}</span>
+                          <p>
+                            <i class="fa fa-star"></i>
+                          </p>
+                        </a>
+                      </li>
+                    </ul>
+                    <!--</div>-->
+                  </div>
+                </div>
+                <!--                                <div class="form-group">
+                           <label for="exampleInputEmail1">Status of the watch*</label>
+                           
+                            <div class="dropdown select-dropdown">
+                                                      <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">Choose watch status
+                                                      <span class="caret"></span></button>
+                           
+                                                      <ul class="dropdown-menu">
+                                                                  
+                           
+                           <li ng-repeat="status_list in statuslist"><label> <input type="checkbox" name="" value=""><span>{{status_list.name}}</span>
+                           <span ng-bind-html="status_list.rating"></span>
+                           </label></li>
+                           
+                                                      </ul>
+                                                    </div>
+                           </div>-->
+                <!--                                                                        <div class="form-group">
+                           <label for="staticEmail"> Status of the watch</label>
+                           <input type="text" class="form-control" id="" value="" ng-model="user2.status" name="status" required>
+                                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.status.$error.required"> {{language.this_field_is_required}}! </span>
+                                                                                                 
+                                                                                                 
+                           </div>-->
+                <div class="form-group">
+                  <label for="staticEmail">{{language.Owner}} {{language.number}}*</label>
+                  <input type="text" class="form-control" id="Owner_number" ng-model="user2.owner_number" ng-pattern="/^[1-9][0-9]*$/" name="owner_number"
+                    required>
+                  <span style="color:Red" ng-show="submitted && addProductForm.owner_number.$error.required"> {{language.this_field_is_required}}! </span>
+                  <span style="color:Red" ng-show="addProductForm.owner_number.$dirty && addProductForm.owner_number.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>
+                </div>
+                <div class="form-group">
+                  <label for="staticEmail">{{language.country}}*</label>
+                  <select class="form-control" name="country" ng-model="user2.country" ng-change="state(user2.country)" required>
+                    <option ng-repeat="country_list in countrylist" value="{{country_list.id}}">{{country_list.name}}</option>
+                  </select>
+                  <span style="color:Red" ng-show="submitted && addProductForm.country.$error.required">{{language.please}} {{language.Choose}} {{language.a}} {{language.country}}</span>
+                </div>
+                <div class="form-group">
+                  <label for="staticEmail">{{language.state}}*</label>
+                  <select class="form-control" name="state" ng-model="user2.state" ng-change="city(user2.state)" required>
+                    <option ng-repeat="statelists in statelist" value="{{statelists.id}}">{{statelists.name}}</option>
+                  </select>
+                  <span style="color:Red" ng-show="submitted && addProductForm.state.$error.required">{{language.please}} {{language.Choose}} {{language.a}} {{language.state}}</span>
+                </div>
+                <!--                                                                        <div class="form-group">
+                           <label for="staticEmail">City*</label>
+                                                                                                 
+                           <select class="form-control" name="city" ng-model="user2.city"  required>
+                               <option  ng-repeat="citylists in citylist" value="{{citylists.id}}">{{citylists.name}}</option>
+                           </select>
+                                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.city.$error.required">{{language.please}} {{language.Choose}} A City</span>
+                           </div>-->
+                <!--                                    <div class="form-group">
+                           <label for="staticEmail">Country</label>
+                           <input type="text" class="form-control" id="" value="" ng-pattern="/^[a-z A-Z]+$/" placeholder="" ng-model="user2.country" name="country" required>
+                                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.country.$error.required">  {{language.this_field_is_required}}!</span>
+                                                                                                 
+                                                                                                 <span style="color:Red" ng-show="addProductForm.country.$dirty && addProductForm.country.$error.pattern">Only Letters Allowed</span>
+                           </div>-->
+                <div class="form-group">
+                  <label for="staticEmail">{{language.size}}*</label>
+                  <input type="text" class="form-control" id="" value="" ng-pattern="/^[1-9][0-9]*$/" placeholder="" ng-model="user2.size"
+                    name="size" required>
+                  <span style="color:Red" ng-show="submitted && addProductForm.size.$error.required">{{language.this_field_is_required}}! </span>
+                  <span style="color:Red" ng-show="addProductForm.size.$dirty && addProductForm.size.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>
+                </div>
+                <!-- <div class="form-group">
+                           <label for="staticEmail">Base Auction Price</label>
+                           <input type="text" class="form-control" id="" value="" placeholder="" ng-model="user2.baseauctionprice" name="baseauctionprice" required>
+                           </div>
+                                                                                      <div class="form-group">
+                           <label for="staticEmail">Threshold Price</label>
+                           <input type="text" class="form-control" id="" value="" placeholder="" ng-model="user2.thresholdprice" name="thresholdprice" required>
+                           </div>-->
+                <input type="hidden" id="lat" ng-model="user2.my_latitude" name="my_latitude">
+                <input type="hidden" id="long" ng-model="user2.my_longitude" name="my_longitude">
+                <div class="form-group">
+                  <label for="staticEmail">{{language.Work_Hours}}</label>
+                  <input type="text" class="form-control" id="" value="" placeholder="" ng-model="user2.work_hours" name="work_hours">
+                  <!-- <span style="color:Red" ng-show="addProductForm.work_hours.$dirty && addProductForm.work_hours.$error.pattern">Only Letters Allowed</span>-->
+                </div>
+                <label>{{language.upload}} {{language.the_image}}*</label>
+                <div>
+                  <div class="form-group">
+                    <div class="btn btn-primary" accept="image/*" name="image" ngf-select ng-model="user2.image" ngf-keep="true" ngf-multiple="true"
+                      ngf-max-files="5" ngf-fix-orientation="true">{{language.add}} {{language.photos}}
+                    </div>
+                    <!--                                                                                 <div class="btn btn-primary" ngf-change="selectFiles($files)"   accept="image/*" name="image" ngf-select ng-model="user2.image" ngf-multiple="true" ngf-max-files="5" ngf-fix-orientation="true">Add Photos
+                                 </div>-->
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-3" ng-repeat="f in user2.image">
+                        <!--                                                {{f.name}} 
+                                       <i ng-click="f = null" ng-show="f" class="fa fa-times" aria-hidden="true"></i> 
+                                        <img ng-show="myForm.location.files.$valid" ngf-thumbnail="f" class="thumbnail img-responsive" style="height: 150px;"> -->
+                        <a class="deleteHandle" ng-click="deleteFile($index)">
+                          <i class="fa fa-close"></i>
+                        </a>
+                        <img style="width: 150px; height: 100px;" ng-show="addProductForm.user2.image.$valid" ngf-thumbnail="f" ngf-resize="{width: 100, height: 100}"
+                          class="thumbnail">
+                        <!--<video style="width: 150px; height: 100px;" controls ngf-src="f" ng-show="myForm.location.files.$valid" class="thumbnail"></video>-->
+                      </div>
+                    </div>
+                  </div>
+                  <span style="color:Red" ng-show="addProductForm.image.$error.maxFiles">{{language.can}} {{language.upload}} {{language.only}} {{language.five}} {{language.images}}.</span>
+                </div>
+                <div class="form-group">
+                  <div id="dvMap" style="width: 500px; height: 500px"></div>
+                </div>
+                <div class="form-group">
+                  <label for="staticEmail">{{language.location}}</label>
+                  <input type="text" class="form-control" id="address" value="" placeholder="" ng-pattern="/^[a-z A-Z]+$/" ng-model="user2.location"
+                    name="location" readonly>
+                </div>
+                <!--                                          <div ng-if="ptype == 2">
+                           <div class="btn btn-default" ngf-select ng-model="user2.image" name="image" ngf-pattern="'image/*'" ngf-accept="'image/*'"  ngf-min-height="100" ngf-validate="{ height: {min:420}, width: {min:420}}" ngf-resize="{width: 100, height: 100}" required>Browse</div>
+                                    <span style="color:Red" ng-if="addProductForm.movement.$error.required && !user2.image" >Upload Image with Minimum Height:420 And Minimum Width:420</span>
+                                    
+                           <img class="thumbnail_upload_img" ngf-thumbnail="user2.image"  style="width:50px;height:50px;">
+                           
+                           </div>  -->
+                <button ng-if="loader" class="btn btn-primary" ng-click="submitted=true">{{language.save}}</button>
+              </form>
             </div>
-            </div>                                                            
-                                                                    
-<!--                                                                    <div class="form-group">
-<label for="staticEmail">{{language.gender}}</label>
-<input type="radio" class="input-field"  name="gender" value="Male" ng-model="user2.gender" required>
-<span>{{language.male}}</span>
-<input type="radio" class="input-field"  name="gender" value="Female" ng-model="user2.gender" required>
-<span>{{language.female}}</span>
-<input type="radio" class="input-field"  name="gender" value="Unisex" ng-model="user2.gender" required>
-<span>Unisex</span>
-			              		
-			              		<span class="icon"></span>
-                                                </br><span style="color:Red" ng-show="submitted && addProductForm.gender.$error.required"> {{language.please}} {{language.Choose}} {{language.your}} Gender </span>
-									</div>-->
-                                                                    
-                                     <div class="form-group">
-										<label for="staticEmail"> {{language.reference_code}}*</label>
-										<input type="text" class="form-control"  ng-pattern="/^[A-Za-z0-9_][A-Za-z0-9\d_]*$/" ng-model="user2.reference" name="reference" required>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.reference.$error.required">{{language.this_field_is_required}}! </span>
-                                                                                 <span style="color:Red" ng-show="addProductForm.reference.$dirty && addProductForm.reference.$error.pattern">{{language.only}} {{language.english_word}} {{language.allowed}}</span>
-                                                                               
-<!--                                                                                <span style="color:Red" ng-show="addProductForm.reference.$dirty && addProductForm.reference.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>-->
-									</div>
-									<div class="form-group">
-										<label for="staticEmail"> {{language.date_of_purchased}}</label>
-										<input type="date" class="form-control" max="{{preferred_date}}" id="" value="" placeholder="" ng-model="user2.date_of_purchase" name="date_of_purchase">
-                                                                                
-                                                                                
-                                                                                
-									</div>
-                                                                    
-<!--                                                                    <div class="form-group">
-										<label for="staticEmail"> Status of the watch*</label>
-                                                                                
-										<select class="form-control" name="status" ng-model="user2.status"  required>
-                                                                                    <option  ng-repeat="status_list in statuslist" value="{{status_list.name}}">{{status_list.name}} </option>
-										</select>
-                                                                                
-                                                                                
-                                                                                
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.status.$error.required">{{language.please}} {{language.Choose}} A Status</span>
-									</div>-->
-                                                                        <div class="form-group">
-                                                                            <label for="staticEmail"> {{language.status_of_the_watch}}*</label>
-                                                                           <div class="dropdown status-watch-wrap">
-                                                                                <!--<p class="btn btn-outline-dark btn-block dropdown-toggle" data-toggle="dropdown"> Status of the watch</p>-->
-                                                                                <!--<div class="dropdown-menu">-->
-
-                                                                                    <ul class="list-unstyled status-watch">
-                                                                                        <li class="init"><a href="javascript:void(0)"><span>{{language.please}} {{language.select}} {{language.your}} {{language.watch_status}}</span> <p></p></a></li>
-                                                                                        <li data-value="Mint"> <a  ng-click="selectedstatus('New')" href="javascript:void(0)"><span>{{language.new}}</span> <p></p></a></li>
-                                                                                        <li data-value="Mint"> <a  ng-click="selectedstatus('Mint')" href="javascript:void(0)"><span>{{language.Mint}}</span> <p><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></p></a></li>
-                                                                                        <li data-value="Excellent"> <a  ng-click="selectedstatus('Excellent')" href="javascript:void(0)"><span>{{language.Excellent}}</span> <p><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></p></a></li>
-                                                                                        <li data-value="Good"> <a  ng-click="selectedstatus('Good')" href="javascript:void(0)"><span>{{language.Good}} </span> <p><i class="fa fa-star"></i> <i class="fa fa-star"></i><i class="fa fa-star"></i></p></a></li>
-                                                                                        <li data-value="Fair"> <a ng-click="selectedstatus('Fair')" href="javascript:void(0)"><span>{{language.Fair}}</span> <p><i class="fa fa-star"></i> <i class="fa fa-star"></i></p></a></li>
-                                                                                        <li data-value="Poor"> <a  ng-click="selectedstatus('Poor')" href="javascript:void(0)"><span>{{language.Poor}}</span> <p><i class="fa fa-star"></i></p></a></li>
-                                                                                        
-                                                                                    </ul>
-                                                                                  
-                                                                                 
-                                                                                <!--</div>-->
-                                                                              </div>
-                                                                        </div>
-                                      
-
-
-
-
-
-
-
-<!--								<div class="form-group">
-								   <label for="exampleInputEmail1">Status of the watch*</label>
-								 
-								    <div class="dropdown select-dropdown">
-                                      <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">Choose watch status
-                                      <span class="caret"></span></button>
-
-                                      <ul class="dropdown-menu">
-                                      			
-
-<li ng-repeat="status_list in statuslist"><label> <input type="checkbox" name="" value=""><span>{{status_list.name}}</span>
-        <span ng-bind-html="status_list.rating"></span>
-    </label></li>
-
-                                      </ul>
-                                    </div>
-								</div>-->
-							
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--                                                                        <div class="form-group">
-										<label for="staticEmail"> Status of the watch</label>
-										<input type="text" class="form-control" id="" value="" ng-model="user2.status" name="status" required>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.status.$error.required"> {{language.this_field_is_required}}! </span>
-                                                                                
-                                                                                
-									</div>-->
-									
-									<div class="form-group">
-										<label for="staticEmail">{{language.Owner}} {{language.number}}*</label>
-                                       <input type="text" class="form-control" id="Owner_number"  ng-model="user2.owner_number" ng-pattern="/^[1-9][0-9]*$/" name="owner_number"  required>
-                                       <span style="color:Red" ng-show="submitted && addProductForm.owner_number.$error.required"> {{language.this_field_is_required}}! </span>
-                                                                                
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.owner_number.$dirty && addProductForm.owner_number.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>
-									</div>
-                                                                    <div class="form-group">
-										<label for="staticEmail">{{language.country}}*</label>
-                                                                                
-										<select class="form-control" name="country" ng-model="user2.country" ng-change="state(user2.country)" required>
-											<option  ng-repeat="country_list in countrylist" value="{{country_list.id}}">{{country_list.name}}</option>
-										</select>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.country.$error.required">{{language.please}} {{language.Choose}} {{language.a}} {{language.country}}</span>
-									</div>
-
-
-
-
-                                                                        <div class="form-group">
-										<label for="staticEmail">{{language.state}}*</label>
-                                                                                
-										<select class="form-control" name="state" ng-model="user2.state" ng-change="city(user2.state)" required>
-											<option  ng-repeat="statelists in statelist" value="{{statelists.id}}">{{statelists.name}}</option>
-										</select>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.state.$error.required">{{language.please}} {{language.Choose}} {{language.a}} {{language.state}}</span>
-									</div>
-
-<!--                                                                        <div class="form-group">
-										<label for="staticEmail">City*</label>
-                                                                                
-										<select class="form-control" name="city" ng-model="user2.city"  required>
-											<option  ng-repeat="citylists in citylist" value="{{citylists.id}}">{{citylists.name}}</option>
-										</select>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.city.$error.required">{{language.please}} {{language.Choose}} A City</span>
-									</div>-->
-
-
-
-
-
-
-
-
-<!--									<div class="form-group">
-										<label for="staticEmail">Country</label>
-										<input type="text" class="form-control" id="" value="" ng-pattern="/^[a-z A-Z]+$/" placeholder="" ng-model="user2.country" name="country" required>
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.country.$error.required">  {{language.this_field_is_required}}!</span>
-                                                                                
-                                                                                <span style="color:Red" ng-show="addProductForm.country.$dirty && addProductForm.country.$error.pattern">Only Letters Allowed</span>
-									</div>-->
-                                                                    <div class="form-group">
-										<label for="staticEmail">{{language.size}}*</label>
-										<input type="text" class="form-control" id="" value="" ng-pattern="/^[1-9][0-9]*$/" placeholder="" ng-model="user2.size" name="size" required>
-                                                                                    <span style="color:Red" ng-show="submitted && addProductForm.size.$error.required">{{language.this_field_is_required}}! </span>                                                                          
-                                                                                <span style="color:Red" ng-show="addProductForm.size.$dirty && addProductForm.size.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>
-									</div>
-                                                                    
-                                                                    
-                                                                       <!-- <div class="form-group">
-										<label for="staticEmail">Base Auction Price</label>
-										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user2.baseauctionprice" name="baseauctionprice" required>
-									</div>
-                                                                     <div class="form-group">
-										<label for="staticEmail">Threshold Price</label>
-										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user2.thresholdprice" name="thresholdprice" required>
-									</div>-->
-									 
-                                                                       
-                                                                       
-                                                                       
-                <input type="hidden"  id="lat" ng-model="user2.my_latitude" name="my_latitude" >
-									
-                <input type="hidden"  id="long" ng-model="user2.my_longitude" name="my_longitude" >  
-                                                                       
-                                                                       
-                                                                       
-
-									<div class="form-group">
-										<label for="staticEmail">{{language.Work_Hours}}</label>
-										<input type="text" class="form-control" id="" ng-pattern="/^[A-Za-z0-9_][A-Za-z0-9\d_]*$/" placeholder="" ng-model="user2.work_hours"  name="work_hours">
-                                                                                <span style="color:Red" ng-show="submitted && addProductForm.work_hours.$dirty && addProductForm.work_hours.$error.pattern">{{language.only}} {{language.english_word}} {{language.allowed}}</span>
-                                                                                
-                                                                               <!-- <span style="color:Red" ng-show="addProductForm.work_hours.$dirty && addProductForm.work_hours.$error.pattern">Only Letters Allowed</span>-->
-									</div>
-
-									   <label>{{language.upload}} {{language.the_image}}*</label>
-
-                                                                           <div>
-									   <div class="form-group">
-                                                                               <div class="btn btn-primary" accept="image/*" name="image" ngf-select ng-model="user2.image" ngf-keep="true" ngf-multiple="true" ngf-max-files="5" ngf-fix-orientation="true">{{language.add}} {{language.photos}}
-										</div>
-<!--                                                                                 <div class="btn btn-primary" ngf-change="selectFiles($files)"   accept="image/*" name="image" ngf-select ng-model="user2.image" ngf-multiple="true" ngf-max-files="5" ngf-fix-orientation="true">Add Photos
-										</div>-->
-									</div>
-									<div class="form-group">
-										<div class="row">
-											<div class="col-sm-3" ng-repeat="f in user2.image">
-<!--												{{f.name}} 
-												<i ng-click="f = null" ng-show="f" class="fa fa-times" aria-hidden="true"></i> 
-												 <img ng-show="myForm.location.files.$valid" ngf-thumbnail="f" class="thumbnail img-responsive" style="height: 150px;"> -->
-			
-                                                                                                <a class="deleteHandle" ng-click="deleteFile($index)"><i class="fa fa-close"></i></a>
-												<img style="width: 150px; height: 100px;" ng-show="addProductForm.user2.image.$valid" ngf-thumbnail="f" ngf-resize="{width: 100, height: 100}" class="thumbnail">
-                                                                                                
-												<!--<video style="width: 150px; height: 100px;" controls ngf-src="f" ng-show="myForm.location.files.$valid" class="thumbnail"></video>-->
-
-											</div>
-										</div>
-									</div>
-                                                                               <span style="color:Red" ng-show="addProductForm.image.$error.maxFiles">{{language.can}} {{language.upload}} {{language.only}} {{language.five}}  {{language.images}}.</span>
-                                                                           </div>
-
-                                                                           
-                                                                           
-                                                                           
-                                                                           
-                                                                           <div class="form-group">
-										<div id="dvMap" style="width: 500px; height: 500px">
-</div>
-                                                                           </div>
-                                                                           
-                                                                           <div class="form-group">
-										<label for="staticEmail">{{language.location}}</label>
-										<input type="text" class="form-control" id="address" value="" placeholder="" ng-pattern="/^[A-Za-z0-9_][A-Za-z0-9\d_]*$/" ng-model="user2.location" name="location" readonly>
-                                                                                
-                                                                                
-									</div>
-                                                                           
-                                                                           
-                                                                           
-                                                                           
-<!--                                          <div ng-if="ptype == 2">
-						
-                                             <div class="btn btn-default" ngf-select ng-model="user2.image" name="image" ngf-pattern="'image/*'" ngf-accept="'image/*'"  ngf-min-height="100" ngf-validate="{ height: {min:420}, width: {min:420}}" ngf-resize="{width: 100, height: 100}" required>Browse</div>
-                                                      <span style="color:Red" ng-if="addProductForm.movement.$error.required && !user2.image" >Upload Image with Minimum Height:420 And Minimum Width:420</span>
-                                                      
-                        <img class="thumbnail_upload_img" ngf-thumbnail="user2.image"  style="width:50px;height:50px;">
-                            
-                                      </div>  -->
-                                                                
-									<button ng-if="loader" class="btn btn-primary" ng-click="submitted=true">{{language.save}}</button>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 <div class="modal fade" id="subscription" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog modal-dialog-centered" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title mx-auto" id="exampleModalLabel">Attention!</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body">
-	        	        
-			  <div class="form-group">
-			    
-                              {{msg}}
-			  </div>
-			  
-			  
-			  <div class="form-group">
-			  	<button type="submit" class="btn btn-block btn-primary">{{language.ok}}</button>
-			  </div>
-			
-			
-	      </div>
-	    </div>
-	  </div>
-	</div>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title mx-auto" id="exampleModalLabel">Attention!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          {{msg}}
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-block btn-primary">{{language.ok}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div ng-if='!loader' class="loading">{{language.Loading}}&#8230;</div>
-
-
 <div ng-if='!loader' class="content">{{language.Wait_for_a_while}}..</div>
 <style>
-   /* Absolute Center Spinner */
-.loading {
-  position: fixed;
-  z-index: 999;
-  height: 2em;
-  width: 2em;
-  overflow: show;
-  margin: auto;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
+  /* Absolute Center Spinner */
 
-/* Transparent Overlay */
-.loading:before {
-  content: '';
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-    background: radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0, .8));
+  .loading {
+    position: fixed;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    overflow: show;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
 
-  background: -webkit-radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0,.8));
-}
+  /* Transparent Overlay */
 
-/* :not(:required) hides these rules from IE9 and below */
-.loading:not(:required) {
-  /* hide "loading..." text */
-  font: 0/0 a;
-  color: transparent;
-  text-shadow: none;
-  background-color: transparent;
-  border: 0;
-}
+  .loading:before {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(rgba(20, 20, 20, .8), rgba(0, 0, 0, .8));
+    background: -webkit-radial-gradient(rgba(20, 20, 20, .8), rgba(0, 0, 0, .8));
+  }
 
-.loading:not(:required):after {
-  content: '';
-  display: block;
-  font-size: 10px;
-  width: 1em;
-  height: 1em;
-  margin-top: -0.5em;
-  -webkit-animation: spinner 1500ms infinite linear;
-  -moz-animation: spinner 1500ms infinite linear;
-  -ms-animation: spinner 1500ms infinite linear;
-  -o-animation: spinner 1500ms infinite linear;
-  animation: spinner 1500ms infinite linear;
-  border-radius: 0.5em;
-  -webkit-box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;
-box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;
-}
+  /* :not(:required) hides these rules from IE9 and below */
 
-/* Animation */
+  .loading:not(:required) {
+    /* hide "loading..." text */
+    font: 0/0 a;
+    color: transparent;
+    text-shadow: none;
+    background-color: transparent;
+    border: 0;
+  }
 
-@-webkit-keyframes spinner {
-  0% {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    transform: rotate(0deg);
+  .loading:not(:required):after {
+    content: '';
+    display: block;
+    font-size: 10px;
+    width: 1em;
+    height: 1em;
+    margin-top: -0.5em;
+    -webkit-animation: spinner 1500ms infinite linear;
+    -moz-animation: spinner 1500ms infinite linear;
+    -ms-animation: spinner 1500ms infinite linear;
+    -o-animation: spinner 1500ms infinite linear;
+    animation: spinner 1500ms infinite linear;
+    border-radius: 0.5em;
+    -webkit-box-shadow: rgba(255, 255, 255, 0.75) 1.5em 0 0 0, rgba(255, 255, 255, 0.75) 1.1em 1.1em 0 0, rgba(255, 255, 255, 0.75) 0 1.5em 0 0, rgba(255, 255, 255, 0.75) -1.1em 1.1em 0 0, rgba(255, 255, 255, 0.75) -1.5em 0 0 0, rgba(255, 255, 255, 0.75) -1.1em -1.1em 0 0, rgba(255, 255, 255, 0.75) 0 -1.5em 0 0, rgba(255, 255, 255, 0.75) 1.1em -1.1em 0 0;
+    box-shadow: rgba(255, 255, 255, 0.75) 1.5em 0 0 0, rgba(255, 255, 255, 0.75) 1.1em 1.1em 0 0, rgba(255, 255, 255, 0.75) 0 1.5em 0 0, rgba(255, 255, 255, 0.75) -1.1em 1.1em 0 0, rgba(255, 255, 255, 0.75) -1.5em 0 0 0, rgba(255, 255, 255, 0.75) -1.1em -1.1em 0 0, rgba(255, 255, 255, 0.75) 0 -1.5em 0 0, rgba(255, 255, 255, 0.75) 1.1em -1.1em 0 0;
   }
-  100% {
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@-moz-keyframes spinner {
-  0% {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@-o-keyframes spinner {
-  0% {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@keyframes spinner {
-  0% {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-    .fa{
-        position: absolute;
-left: 18%;
-top: 3%;
+
+  /* Animation */
+
+  @-webkit-keyframes spinner {
+    0% {
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
     }
+    100% {
+      -webkit-transform: rotate(360deg);
+      -moz-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+      -o-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+
+  @-moz-keyframes spinner {
+    0% {
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+      -moz-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+      -o-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+
+  @-o-keyframes spinner {
+    0% {
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+      -moz-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+      -o-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spinner {
+    0% {
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+      -moz-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+      -o-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+
+  .fa {
+    position: absolute;
+    left: 18%;
+    top: 3%;
+  }
 </style>
-
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyDnTqCZqlvuWG1KNrNh9slnA_EqiJmiX9g&callback=initMap" async defer></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyDnTqCZqlvuWG1KNrNh9slnA_EqiJmiX9g&callback=initMap"
+  async defer></script>
 <script>
-
-function initMap() {
+  function initMap() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else { 
-        x.innerHTML = "Geolocation is not supported by this browser.";
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+      x.innerHTML = "Geolocation is not supported by this browser.";
     }
-}
+  }
 
-    
-    function showPosition(position) {
-    var myLatLng = {lat: position.coords.latitude, lng: position.coords.longitude};
+
+  function showPosition(position) {
+    var myLatLng = { lat: position.coords.latitude, lng: position.coords.longitude };
 
     $('#lat').val(position.coords.latitude);
     $('#long').val(position.coords.longitude);
 
-    
+
     var map = new google.maps.Map(document.getElementById('dvMap'), {
       zoom: 17,
       center: myLatLng
@@ -488,55 +461,50 @@ function initMap() {
       position: myLatLng,
       map: map,
       title: address,
-      draggable:true,
+      draggable: true,
     });
 
 
-                google.maps.event.addListener(marker, 'dragend', function() 
-                    {
-                        geocodePosition(marker.getPosition());
-                    });
+    google.maps.event.addListener(marker, 'dragend', function () {
+      geocodePosition(marker.getPosition());
+    });
 
-                    function geocodePosition(pos) 
-                    {
-                        var lat, lng, address;
-                       geocoder = new google.maps.Geocoder();
-                       geocoder.geocode
-                        ({
-                            latLng: pos
-                        }, 
-                            function(results, status) 
-                            {
-                                if (status == google.maps.GeocoderStatus.OK) 
-                                {
-                                     lat = pos.lat();
-                                     lng = pos.lng();
-                                     address = results[0].formatted_address;
-                                    //alert("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + address);
-                                    $('#lat').val(lat);
-                                    $('#long').val(lng);
-                                    $('#address').val(address);
-                                } 
-                                else 
-                                {
-                                    $("#mapErrorMsg").html('Cannot determine address at this location.'+status).show(100);
-                                }
-                            }
-                        );
-                    }
+    function geocodePosition(pos) {
+      var lat, lng, address;
+      geocoder = new google.maps.Geocoder();
+      geocoder.geocode
+        ({
+          latLng: pos
+        },
+        function (results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            lat = pos.lat();
+            lng = pos.lng();
+            address = results[0].formatted_address;
+            //alert("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + address);
+            $('#lat').val(lat);
+            $('#long').val(lng);
+            $('#address').val(address);
+          }
+          else {
+            $("#mapErrorMsg").html('Cannot determine address at this location.' + status).show(100);
+          }
+        }
+        );
+    }
 
 
-}
- $("ul.status-watch").on("click", ".init", function() {
+  }
+  $("ul.status-watch").on("click", ".init", function () {
     $(this).closest("ul.status-watch").children('li:not(.init)').toggle();
-});
+  });
 
-var allOptions = $("ul.status-watch").children('li:not(.init)');
-$("ul.status-watch").on("click", "li:not(.init)", function() {
+  var allOptions = $("ul.status-watch").children('li:not(.init)');
+  $("ul.status-watch").on("click", "li:not(.init)", function () {
     allOptions.removeClass('selected');
     $(this).addClass('selected');
     $("ul.status-watch").children('.init').html($(this).html());
     allOptions.toggle();
-});
-    
+  });
+
 </script>

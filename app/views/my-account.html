@@ -47,9 +47,6 @@
 									</div>
                                                                     
                                                                     
-                                                                    
-                                                                    
-                                                                    
                                                                     <div class="form-group">
 										<label for="staticEmail">{{language.country}}</label>
 										<select class="form-control" name="country" ng-model="user.country" ng-change="state(user.country)"  required>
@@ -74,8 +71,8 @@
     
                                                                     <div class="form-group" tooltips tooltip-template="Contact your bank for the details" tooltip-side="top">
 										<label for="staticEmail">IBAN {{language.number}}</label>
-										<input type="text"   ng-minlength="20" ng-maxlength="34" class="form-control" id="" value="" placeholder="IBAN {{language.number}}" ng-model="user.ibanno" name="ibanno" required>
-                                                                                <span style="color:Red" ng-show="submitted && myaccountForm.ibanno.$error.required">{{language.this_field_is_required}}! </span>
+										<input type="text"   ng-minlength="20" ng-maxlength="34" class="form-control" id="" value="" placeholder="IBAN {{language.number}}" ng-model="user.ibanno" name="ibanno">
+                                                                                <!--<span style="color:Red" ng-show="submitted && myaccountForm.ibanno.$error.required">{{language.this_field_is_required}}! </span>-->
                                                                                 
                                                                                 <!--<span style="color:Red" ng-show="myaccountForm.ibanno.$dirty && myaccountForm.ibanno.$error.pattern">Only Numbers Allowed</span>-->
                                                                                 <span style="color:Red"  ng-show="((myaccountForm.ibanno.$error.minlength ||myaccountForm.ibanno.$error.maxlength) && myaccountForm.ibanno.$dirty) && !myaccountForm.ibanno.$error.pattern">IBAN No must be between 20-34 digits.</span>
