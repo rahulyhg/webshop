@@ -25,10 +25,10 @@
                                                                             </div><br>
                                                                             
                                                                              <div class="col-sm-12" ng-if="ProductList.approved == 0">
-                                                                <button type="button" ng-click="auctionFeesPayment(ProductList.id)" disabled="disabled" class="btn btn-primary btn-dark"> Awaiting Admin Approval</button>
+                                                                <button type="button"  disabled="disabled" class="btn btn-primary btn-dark"> Awaiting Admin Approval</button>
                                                                             </div>
                                                                            
-                                                                            <div class="col-sm-12" ng-if="ProductList.approved==0 || ProductList.status==0">
+                                                                            <div class="col-sm-12" ng-if="(ProductList.approved ==0 || ProductList.status==0) && ProductList.auction_fee_paid == 1">
                                                                             <p><div class="row">
                                                                             <div class="col-md-6">    
                                                                                 <button type="button" class="btn btn-primary btn-dark" disabled="disabled"> Awaiting Admin Approval</button>

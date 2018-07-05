@@ -196,7 +196,7 @@ if ($_REQUEST['action'] == 'edit') {
 
 <!-- <th>Owner Number</th>-->
                                         <th>Admin Approval</th>
-<!--                                        <th>Payment Status</th>-->
+                                        <th>Payment Status</th>
                                         <th>Quick Links</th>
                                         <!--<th>Details</th>-->
 
@@ -230,7 +230,8 @@ if ($_REQUEST['action'] == 'edit') {
                                         $actual_link = SITE_URL . "#/userpayment/" . $getProductName['id'];
 
                                         if ($getusertype['type'] == 1) {
-                                            $notification_msg = 'You Product is Approved by the Admin. Please Pay To Make It Live <p><a href="' . $actual_link . '"> Click here</a></p>';
+                                            //$notification_msg = 'You Product is Approved by the Admin. Please Pay To Make It Live <p><a href="' . $actual_link . '"> Click here</a></p>';
+                                            $notification_msg = 'You Product is Approved by the Admin.';
                                         } else {
                                             $notification_msg = 'Your Product is Approved by the Admin.';
                                         }
@@ -297,17 +298,15 @@ if ($_REQUEST['action'] == 'edit') {
                                                     <?php } ?>
                                                 </td>
 
-                                                                                                                                                                                                                                                                                                                                                        <!--                                                <td>
+                                                                                                                                                                                                                                                                                                                                                                                                        <td>
                                                 <?php
-                                                if ($tools_type['approved'] == '1' && $tools_type['auction_fee_paid'] == '0') {
+                                                if ($tools_type['status'] == '0') {
                                                     echo '<span style="color:#b00;text-align:center;">Payment Pending</span>';
-                                                } else if ($tools_type['approved'] == '1' && $tools_type['auction_fee_paid'] == '1') {
-                                                    echo '<span style="color:#468847;text-align:center;">Payment Done</span>';
                                                 } else {
-                                                    echo '<span style="color:#b94a48;text-align:center;">Admin Approval Required</span>';
-                                                }
+                                                    echo '<span style="color:#468847;text-align:center;">Payment Done</span>';
+                                                } 
                                                 ?>
-                                                                                                                                                                                                                                                                                                                                                                                                        </td>-->
+                                                                                                                                                                                                                                                                                                                                                                                                        </td>
 
                                                 <td>
                                                     <a  href="add_product.php?id=<?php echo $tools_type['id'] ?>&action=edit"  >

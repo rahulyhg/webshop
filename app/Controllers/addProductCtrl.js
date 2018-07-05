@@ -134,6 +134,10 @@ if( $window.localStorage["breslet_type"])
     $scope.user2.breslet_type = $window.localStorage["breslet_type"];
 }
 
+if( $window.localStorage["ibanno"])
+{
+    $scope.user2.ibanno = $window.localStorage["ibanno"];
+}
 
   	var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;
@@ -178,6 +182,7 @@ if( $window.localStorage["breslet_type"])
 				$scope.user.country=response.UserDetails.country;
 				$scope.user.zip=response.UserDetails.zip;
 				$scope.user.address=response.UserDetails.address;
+                                $scope.user2.ibanno=response.UserDetails.ibanno;
 				
               }else{
 				  
@@ -194,6 +199,7 @@ if( $window.localStorage["breslet_type"])
 				$scope.user.country="";
 				$scope.user.zip="";
 				$scope.user.address='';
+                                $scope.user.ibanno=""
 				
 				  
 			  }
@@ -407,6 +413,7 @@ $scope.addProduct = function(user2){
      $window.localStorage["model_year"]=user2.model_year;
      $window.localStorage["breslet_type"]=user2.breslet_type;
      $window.localStorage["time_slot_id"]=user2.time_slot_id;
+     $window.localStorage["ibanno"]=user2.ibanno;
     // $window.localStorage["baseauctionprice"]=$scope.baseauctionprice;
    //  $window.localStorage["thresholdprice"]=$scope.thresholdprice;
    
