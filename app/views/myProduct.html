@@ -57,7 +57,7 @@
                                                                         
                                                                       <!--for payment pending -->  
                                                                         
-                                                                       <div ng-if="ProductList.approved==1 && ProductList.live_status== 0 && current_user_type== 1">
+                                                                       <div ng-if="ProductList.live_status== 0 && current_user_type== 1">
                                                                             <p><div class="row">
                                                                             <div class="col-md-6">    
                                                                                 <button type="button" ng-click="pay(ProductList.id)" class="btn btn-primary btn-dark"><i class="ion-attach"></i> {{language.pay_now}}</button>
@@ -69,7 +69,7 @@
                                                                         
                                                                         <!--approval awaiting product-->
                                                                         
-                                                                        <div ng-if="ProductList.approved==0 ">
+                                                                        <div ng-if="ProductList.approved==0 && ProductList.live_status== 1">
                                                                             <p><div class="row">
                                                                             <div class="col-md-6">    
                                                                                 <button type="button" class="btn btn-primary btn-dark" disabled="disabled"> {{language.Awaiting_Admin_Approval}}</button>

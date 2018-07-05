@@ -321,6 +321,7 @@ $scope.addProduct = function(user2){
      user2.model_year= $window.localStorage["model_year"];
     user2.breslet_type= $window.localStorage["breslet_type"];
     user2.time_slot_id= $window.localStorage["time_slot_id"];
+    user2.ibanno= $window.localStorage["ibanno"];
    // user2.baseauctionprice= $window.localStorage["baseauctionprice"];
    // user2.thresholdprice= $window.localStorage["thresholdprice"];
     //console.log("Selected Value "+ user2.type);

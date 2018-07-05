@@ -121,8 +121,8 @@
                                                                                     
                                                                                 
                                                                                     <input class="form-control"  ng-model="user2.preferred_date" name="preferred_date" required placeholder="Choose a date" readonly/>
-                                                                                    <span style="color:Red" ng-show="addProductForm.preferred_date.$touched && addProductForm.preferred_date.$error.required"> {{language.this_field_is_required}}! </span>
-                                                                                    <span style="color:Red" ng-show="addProductForm.preferred_date.$error.required"> </span>
+                                                                                    <span style="color:Red" ng-show="submitted && addProductForm.preferred_date.$touched && addProductForm.preferred_date.$error.required"> {{language.this_field_is_required}}! </span>
+                                                                                    <span style="color:Red" ng-show="submitted && addProductForm.preferred_date.$error.required"> </span>
                                                                                 
                                                                         
                                                                             </datepicker>
@@ -141,8 +141,8 @@
                                                                                  </div>
                                                                                 </div>
                                                                                 </span>
-                                                                                <span ng-if="drpmodel=='2' style="color:Red" ng-show="addProductForm.time_slot_id.$touched && addProductForm.time_slot_id.$error.required"> {{language.this_field_is_required}}! </span>
-                                                                                <span ng-if="drpmodel=='2' style="color:Red" ng-show="submitted && addProductForm.time_slot_id.$error.required">{{language.please}} {{language.Choose}} {{language.currency}}</span>
+                                                                                <span ng-if="drpmodel=='2'" style="color:Red" ng-show="addProductForm.time_slot_id.$touched && addProductForm.time_slot_id.$error.required"> {{language.this_field_is_required}}! </span>
+                                                                                <span ng-if="drpmodel=='2'" style="color:Red" ng-show="submitted && addProductForm.time_slot_id.$error.required">{{language.please}} {{language.Choose}} {{language.currency}}</span>
                                                                                 <!--<span style="color:Red" ng-show="addProductForm.name.$dirty && addProductForm.name.$error.pattern">Only Letters Allowed</span>-->
 									</div>
 
@@ -154,6 +154,30 @@
 <!--                                                                                <span style="color:Red" ng-show="submitted && addProductForm.description.$error.required"> {{language.this_field_is_required}}! </span>-->
                                                                                 
 									</div>
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    <div class="form-group"  ng-if="drpmodel=='2'">
+                                                                        <label for="staticEmail">IBAN {{language.number}}</label><span tooltips tooltip-template="Details will be used for transfer of funds" tooltip-side="top">?</span>
+										<input type="text"   ng-minlength="20" ng-maxlength="34" class="form-control" ng-pattern="/^[A-Za-z0-9_][A-Za-z0-9\d_]*$/" id="" value="" placeholder="IBAN {{language.number}}" ng-model="user2.ibanno" name="ibanno" required>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.ibanno.$error.required">{{language.this_field_is_required}}! </span>
+                                                                                
+                                                                                <!--<span style="color:Red" ng-show="myaccountForm.ibanno.$dirty && myaccountForm.ibanno.$error.pattern">Only Numbers Allowed</span>-->
+                                                                                <span style="color:Red"  ng-show="((addProductForm.ibanno.$error.minlength ||addProductForm.ibanno.$error.maxlength) && addProductForm.ibanno.$dirty) && !addProductForm.ibanno.$error.pattern">IBAN No must be between 20-34 digits.</span>
+                                                                                <span style="color:Red" ng-show="addProductForm.ibanno.$dirty && addProductForm.ibanno.$error.pattern">{{language.only}} {{language.english_word}} {{language.allowed}}</span>
+									</div>
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
 									<div class="form-group">
 
 										<label for="staticEmail">{{language.price}}*</label>
@@ -163,6 +187,7 @@
                                                                                 
                                                                                 <span style="color:Red" ng-show="addProductForm.price.$dirty && addProductForm.price.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>
 									</div>
+                                                                    
                                                                     
 <!--                                                                    <div class="form-group">
 										<label for="staticEmail">Quantity</label>
