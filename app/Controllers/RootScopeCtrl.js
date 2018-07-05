@@ -19,11 +19,13 @@ $scope.is_fav='';
     $window.localStorage["language"] = 2;
     $scope.lang= 2 ;
     $scope.selectedlanguage = 'Arabic'
+  
     
     }else{
     $window.localStorage["language"]=1;
     $scope.lang= 1;
     $scope.selectedlanguage = 'English'
+   
     }
     
     if($window.localStorage["keyword"]){
@@ -867,8 +869,10 @@ userService.changeLaguage(laguage).then(function(response) {
                 //alert ('Language changed to english');
                 if(laguage == '1'){
                     $scope.selectedlanguage = 'English';
+                   
                 }else{
                   $scope.selectedlanguage = 'Arabic'  
+                  
                 }
                 $window.localStorage["language"]= laguage;
                  //$scope.langu= laguage;

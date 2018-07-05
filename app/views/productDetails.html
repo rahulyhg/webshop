@@ -1,425 +1,467 @@
+<link href="app/assets/css/flipclock.css" rel="stylesheet">
+
 <section class="innerbody search-list auction-details-pade" ng-init="Showdetails();">
-   <div class="container">
-      <nav aria-label="breadcrumb">
-         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">{{language.home}}</a></li>
-            <li class="breadcrumb-item active">{{language.watches}}</li>
-         </ol>
-      </nav>
-      <div class="details-wrap p-3">
-         <div class="row">
-            <div class="col-lg-7 col-md-6 col-sm-6">
-               <div class="details-top p-3 mb-3 position-relative">
-                  <div class="like">
-                     <p class="m-0"><i class="ion-thumbsup"></i> {{productLists.totallike}}</p>
-                  </div>
-                  <div class="slider_n">
-                     <!-- enumerate all photos -->
-                     <img ng-repeat="photo in productLists.image" class="slide_n" ng-swipe-right="showPrev()" ng-swipe-left="showNext()" ng-show="isActive($index)" ng-src="{{photo.src}}" />
-                     <!-- prev / next controls -->
-                     <!--        <a class="arrow prev"  ng-click="showPrev()"></a>
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">{{language.home}}</a>
+                </li>
+                <li class="breadcrumb-item active">{{language.watches}}</li>
+            </ol>
+        </nav>
+        <div class="details-wrap p-3">
+            <div class="row">
+                <div class="col-lg-7 col-md-6 col-sm-6">
+                    <div class="details-top p-3 mb-3 position-relative">
+                        <div class="like">
+                            <p class="m-0">
+                                <i class="ion-thumbsup"></i> {{productLists.totallike}}</p>
+                        </div>
+                        <div class="slider_n">
+                            <!-- enumerate all photos -->
+                            <img ng-repeat="photo in productLists.image" class="slide_n" ng-swipe-right="showPrev()" ng-swipe-left="showNext()" ng-show="isActive($index)"
+                                ng-src="{{photo.src}}" />
+                            <!-- prev / next controls -->
+                            <!--        <a class="arrow prev"  ng-click="showPrev()"></a>
                         <a class="arrow next"  ng-click="showNext()"></a>-->
-                     <!-- extra navigation controls -->
-                     <ul class="nav_n">
-                        <li ng-repeat="photo in productLists.image" ng-class="{'active':isActive($index)}">
-                           <img src="{{photo.src}}" alt="{{photo.desc}}" title="{{photo.desc}}" ng-click="showPhoto($index);" />
-                        </li>
-                     </ul>
-                  </div>
-                  
-                  <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
-                  <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
-               </div>
-               
-				<div class="new-detaildiv w-100 float-left"  ng-if="productLists">
-					<h5> {{productLists.brands}}/{{productLists.category}}({{productLists.gender}})</h5>
-					<ul class="list-unstyled new-ul">
-						<li>
-							<div ng-if="user_id && productLists.interest == 0 && productLists.type == 1">sss
-                                                            <ng-rating ng-model="productLists.averagerating" icon-class="rating.iconClass" editable="false" stars-count="rating.starsCount" based-on="rating.basedOn"></ng-rating>
-<!--								<a href="#">
-									<i class="fa fa-star text-muted"></i>
-									<i class="fa fa-star text-muted"></i>
-									<i class="fa fa-star text-muted"></i>
-									<i class="fa fa-star-o text-muted"></i>
-									<span>&#40;0.0&#41;</span>
-								</a>-->
-							</div>
-                                                    
-						</li>
-                                                <li>
-							<div ng-if="!user_id && productLists.interest == 0 && productLists.type == 1">
-                                                            <ng-rating ng-model="productLists.averagerating" icon-class="rating.iconClass" editable="false" stars-count="rating.starsCount" based-on="rating.basedOn"></ng-rating>
-
-							</div>
-                                                    
-						</li>
-                                                <li>
-							<div ng-if="user_id && productLists.interest == 1 && productLists.type == 1">
-                                                            <ng-rating ng-model="productLists.averagerating" icon-class="rating.iconClass" editable="false" stars-count="rating.starsCount" based-on="rating.basedOn"></ng-rating>
-
-							</div>
-                                                    
-						</li>
-						<li class="text-right" ng-if="!user_id && productLists.interest == 0 && productLists.type == 1">
-							<div >
-								<a href="javascript:void(0)" data-toggle="modal" data-target="#login" class="new-abtn">Write a review</a>
-							</div>
-						</li>	
-                                                <li class="text-right" ng-if="user_id && productLists.interest == 1 && productLists.type == 1"">
-							<div >
-								<a href="javascript:void(0)" data-toggle="modal" data-target="#myModal1" class="new-abtn">Write a review</a>
-							</div>
-						</li>
-					</ul>
-					<div class="table-responsive">
-						<table class="table table-bordered table-striped table-sm table-hover">
-							<tr>
-								<td>
-									<h6 class="mb-0">{{language.product}} {{language.bracelet}} {{language.type}}</h6>
-								</td>
-								<td>
-									<h6 class="mb-0">{{productLists.breslet_type}}</h6>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<h6 class="mb-0">{{language.product}}  {{language.size}}</h6>
-								</td>
-								<td>
-									<h6 class="mb-0">{{productLists.size}}</h6>
-								</td>
-							</tr>
-                                                        <tr>
-								<td>
-									<h6 class="mb-0" >{{language.product_description}}</h6>
-								</td>
-								<td>
-									<h6 class="mb-0" ng-if="productLists.description != ''">{{productLists.description}}</h6>
-                                                                        <h6 class="mb-0" ng-if="productLists.description == ''">{{language.no_description}}</h6>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<h6 class="mb-0"><strong>{{productLists.price}} {{productLists.currency_code}}</strong></h6>
-								</td>
-								<td>
-									<h6 class="mb-0">
-										<a ng-if="user_id && is_fav1 == 1 && user_id != productLists.seller_id" ng-click="addwishlist3(productLists.id, productLists.seller_id)" class="d-block rounded-circle"><i style="color:red" class="ion-heart"></i></a>
-                                                                                <a ng-if="user_id && is_fav1 == 0 && user_id != productLists.seller_id" ng-click="addwishlist2(productLists.id, productLists.seller_id)" class="d-block rounded-circle"><i class="ion-heart"></i></a>
-                                                                                <a ng-if="!user_id" ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
-									</h6>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2">
-                                                                    <p ng-if="!loader1" class="loader"></p>
-                                                                    <a href="" ng-if="user_id && loader1 && productLists.interest == 0 && user_id != productLists.seller_id && productLists.type != 2" ng-click="emailtothevendorinterest(productLists.seller_id, productLists.type)" class="btn btn-primary btn-block">Show Interest and Seller Details</a>
-                                                                    <a ng-if="user_id && loader1 && productLists.interest == 1 && user_id != productLists.seller_id && productLists.type != 2" href="javascript:void(0)" class="btn btn-primary btn-block">Already interestd</a>
-                                                                    <a ng-if="user_id && productLists.ctime > productLists.start_time && productLists.seller_id != user_id && productLists.type == 2" href="javascript:void(0)" ng-click="checkauctionvalidity()" class="btn btn-primary btn-block">Go Live Bidding</a> 
-                                                                    <a ng-if="!user_id && productLists.ctime > productLists.start_time && productLists.interest == 0 && productLists.type == 2" href="javascript:void(0)" data-toggle="modal" data-target="#login" class="btn btn-primary btn-block">Go Live Bidding</a> 
-                                                                </td>
-							</tr>														
-						</table>
-					</div>
-				</div>	
-
-            </div>
-            <div class="col-lg-5 col-md-7 col-sm-7">
-               <!--<div class="share-prod mb-2">Share this product : <a href="" class="d-inline-block text-secondary"><i class="fa fa-facebook"></i></a> <a href="" class="d-inline-block mx-2 text-secondary"><i class="fa fa-twitter"></i></a><a href="" class="d-inline-block text-secondary"><i class="fa fa-google-plus"></i></a></div>-->
-               <div class="seller-info p-3 border-secondary border rounded mb-3">
-                  <div ng-if="user_id && productLists.interest == 1">
-                     <h6 class="card-title">{{language.seller}} {{language.Info}}:</h6>
-                     <div ng-if="productLists.seller_name">
-                        {{language.Name}}
-                        <p ng-if="productLists.seller_name"  class="mb-1">{{productLists.seller_name}}</p>
-                     </div>
-                     <div ng-if="productLists.seller_phone">
-                        {{language.seller}} {{language.phone}} {{language.number}}
-                        <p ng-if="productLists.seller_phone" class="mb-1">{{productLists.seller_phone}}</p>
-                     </div>
-                     <div ng-if="productLists.seller_email">
-                        {{language.seller}} {{language.email}}
-                        <p class="mb-1">{{productLists.seller_email}}</p>
-                     </div>
-                     <div ng-if="productLists.working_hours">
-                        {{language.Work_Hours}}  
-                        <p class="mb-1">{{productLists.working_hours}}</p>
-                     </div>
-                     <div ng-if="productLists.seller_address">
-                        {{language.Address}}    
-                        <p class="text-secondary mb-0">{{productLists.seller_address}}</p>
-                     </div>
-                      <div ng-if="productLists.original_price">
-                        {{language.Original_Price}}   
-                        <p class="text-secondary mb-0">{{productLists.product_actual_currency}} {{productLists.original_price}}</p>
-                     </div>
-                  </div>
-                  <!--              <p class="text-secondary mb-2"><i class="fa fa-phone"></i> {{productLists.seller_address}}</p>-->
-                  <!--<h5>{{language.Original_Price}}<b>{{productLists.product_actual_currency}} {{productLists.original_price}} </b></h5>-->
-                  
-                  <p class="text-success">{{productLists.quantity}}pcs. Available. </p>
-                  <p style="color:black">{{language.model}} {{language.year}} :{{productLists.model_year}}</p>
-                  <p style="color:black">{{language.movement}} :{{productLists.movement}}</p>
-                  <p style="color:black" ng-if="productLists.date_purchase">Date of Purchased :{{productLists.date_purchase}}</p>
-                  <p style="color:black">Status of the watch :{{productLists.status_watch}}</p>
-                  <p ng-if="productLists.quantity == '0'" class="text-success">{{language.top_products}}Out of stock.</p>
-                  <div ng-if="user_id && productLists.interest == 1">
-                     <hr>
-                     <button ng-if="is_hide == 0 && productLists.interest == 1 && productLists.type != 2" type="button" ng-click="is_clicked()" class="btn btn-primary btn-block">Contact Seller</button>
-                     <button ng-if="user_id && productLists.interest == 0 && user_id != productLists.seller_id" type="button" ng-click="is_clicked()" disabled class="btn btn-primary btn-block">Contact Seller</button>
-                     <button ng-if="!user_id && productLists.interest == 0 && user_id != productLists.seller_id" type="button" ng-click="is_clicked()" class="btn btn-primary btn-block">Contact Seller</button>
-                     <div ng-if="user_id && productLists.interest == 1 && is_click == 1">
-                        <!--<form class="modal-content animate" name="contacttoseller" ng-submit="contactseller(sellercontact)">-->
-                        <form class="modal-content animate"  ng-submit="addmessage(sellercontact)">
-                           <h5>{{language.your}} {{language.messages}}</h5>
-                           <textarea class="form-control" id="" value="" placeholder="" ng-model="sellercontact.message" name="message" capitalize required></textarea>
-                           <input type="hidden" class="form-control" id="" value="" placeholder="" ng-model="sellercontact.seller_id = productLists.seller_id" name="uploaderid" required>
-                           <input ng-if="loader" type="submit" value="Send" class="btn-round">
-                        </form>
-                     </div>
-                  </div>
-                  <div ng-if="!loader" class="loader"></div>
-               </div>
-               <div>
-                  <div ng-if="user_id && productLists.interest == 1" id="dvMap" style="width: 400px; height: 400px"></div>
-               </div>
-               <div ng-if="user_id && productLists.interest == 1 && review_status == 1 ">
-                  <hr>
-                  <h6 class="card-title">{{language.reviews}}</h6>
-                  <div class="reviews-holder">
-                     <div ng-repeat="reviewsss in allreviews" class="media">
-                        <div class="media-left mr-2">
-                           <a href="#">
-                           <img class="media-object" src="{{reviewsss.userimage}}" alt="">
-                           </a>
+                            <!-- extra navigation controls -->
+                            <ul class="nav_n">
+                                <li ng-repeat="photo in productLists.image" ng-class="{'active':isActive($index)}">
+                                    <img src="{{photo.src}}" alt="{{photo.desc}}" title="{{photo.desc}}" ng-click="showPhoto($index);" />
+                                </li>
+                            </ul>
                         </div>
-                        <div class="media-body">
-                           <h6 class="media-heading">
-                              <span class="rating d-inline-block mr-2">
-                                 <ng-rating ng-model="reviewsss.rating"
-                                    icon-class="rating.iconClass"
-                                    editable="false"
-                                    stars-count="rating.starsCount"
-                                    based-on="rating.basedOn"
-                                    >
-                                 </ng-rating>
-                              </span>
-                              {{reviewsss.username}} <span class="date d-inline-block ml-2">- {{reviewsss.date}}&nbsp days ago</span>
-                           </h6>
-                           <p class="mb-2">{{reviewsss.review}}</p>
-                           <div ng-if="reviewsss.recomend == 1">
-                              <p><i class="fa fa-check"></i> {{language.recomend_product}} </p>
-                           </div>
+                        <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
+                        <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
+                    </div>
+                    <div class="new-detaildiv w-100 float-left" ng-if="productLists">
+                        <h5> {{productLists.brands}}/{{productLists.category}}({{productLists.gender}})</h5>
+                        <ul class="list-unstyled new-ul">
+                            <li>
+                                <div ng-if="user_id && productLists.interest == 0 && productLists.type == 1">
+                                    sss
+                                    <ng-rating ng-model="productLists.averagerating" icon-class="rating.iconClass" editable="false" stars-count="rating.starsCount"
+                                        based-on="rating.basedOn"></ng-rating>
+                                    <!--								<a href="#">
+                              <i class="fa fa-star text-muted"></i>
+                              <i class="fa fa-star text-muted"></i>
+                              <i class="fa fa-star text-muted"></i>
+                              <i class="fa fa-star-o text-muted"></i>
+                              <span>&#40;0.0&#41;</span>
+                              </a>-->
+                                </div>
+                            </li>
+                            <li>
+                                <div ng-if="!user_id && productLists.interest == 0 && productLists.type == 1">
+                                    <ng-rating ng-model="productLists.averagerating" icon-class="rating.iconClass" editable="false" stars-count="rating.starsCount"
+                                        based-on="rating.basedOn"></ng-rating>
+                                </div>
+                            </li>
+                            <li>
+                                <div ng-if="user_id && productLists.interest == 1 && productLists.type == 1">
+                                    <ng-rating ng-model="productLists.averagerating" icon-class="rating.iconClass" editable="false" stars-count="rating.starsCount"
+                                        based-on="rating.basedOn"></ng-rating>
+                                </div>
+                            </li>
+                            <li class="text-right" ng-if="!user_id && productLists.interest == 0 && productLists.type == 1">
+                                <div>
+                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#login" class="new-abtn">Write a review</a>
+                                </div>
+                            </li>
+                            <li class="text-right" ng-if="user_id && productLists.interest == 1 && productLists.type == 1" ">
+                        <div >
+                           <a href="javascript:void(0) " data-toggle="modal " data-target="#myModal1 " class="new-abtn ">Write a review</a>
                         </div>
-                     </div>
-                     <p class="text-right"  ng-if="!user_id && productLists.interest == 0"><a href="" data-toggle="modal" data-target="#login" class="btn btn-primary btn-block">Add Review</a></p>
-                     <p class="text-right"  ng-if="user_id && productLists.interest == 0 && user_id != productLists.seller_id"><button disabled class="btn btn-primary btn-block">Add Review</button></p>
-                     <p class="text-right"  ng-if="user_id && productLists.interest == 1 user_id != productLists.seller_id"><a href="" data-toggle="modal" data-target="#myModal1" class="btn btn-primary btn-block">Add Review</a></p>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-</section>
-<div id="myModal" class="modal fade" role="dialog">
-<div class="modal-dialog">
-   <form class="modal-content animate" ng-submit="checkauctionvaliditybeforeaddbid(bid)">
-      <!-- Modal content-->
-      <div class="modal-content">
-         <div class="modal-body">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <div class="top-bar-part">
-               <div class="left-count">
-                  <p><i class="fa fa-user"></i> <span>{{productLists.countuniquebids}}</span></p>
-               </div>
-               <div  class="right-icon-btn1" ng-if="productLists.lastbidvalue >= productLists.thresholdprice">
-                  <p> <span tooltips tooltip-template="Minimum bid price reached" tooltip-side="bottom"></span></p>
-               </div>
-               <div  class="right-icon-btn" ng-if="productLists.lastbidvalue < productLists.thresholdprice" >
-                  <p><span tooltips tooltip-template="Minimum bid price not reached" tooltip-side="bottom"></span></p>
-               </div>
-            </div>
-            <figure>
-               <!--<img src="{{productLists.image}}" alt="Auction cap" height="200" width="200">-->
-               <div class="slider_n new_slider_n">
-                  <!-- enumerate all photos -->
-                  <img ng-repeat="photo in productLists.image" class="slide_n" ng-swipe-right="showPrev()" ng-swipe-left="showNext()" ng-show="isActive($index)" ng-src="{{photo.src}}" />
-                  <!-- prev / next controls -->
-                  <!--<a class="arrow prev"  ng-click="showPrev()"></a>
-                     <a class="arrow next"  ng-click="showNext()"></a>-->
-                  <!-- extra navigation controls -->
-                  <ul class="nav_n new_nav_n">
-                     <li ng-repeat="photo in productLists.image" ng-class="{'active':isActive($index)}">
-                        <img src="{{photo.src}}" alt="{{photo.desc}}" title="{{photo.desc}}" ng-click="showPhoto($index);" />
                      </li>
                   </ul>
-                  <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
-                  <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
-            </figure>
-            <!-- <h5>Auction Date : 
-               <p ng-if="productLists.action_date">{{productLists.action_date}}</p>
-               
-               </h5>
-               <h5>Auction Time : 
-               <p ng-if="productLists.action_time">{{productLists.action_time}}</p>
-               
-               </h5>-->
-            <h5>Total No Of Bid(s) : &nbsp; <p>{{productLists.bidcount}}</p></h5>
-            <!--            <h5>Total No User Bidding : &nbsp; <p>{{productLists.countuniquebids}}</p></h5>-->
-            <h5> Highest Bidder {{language.Name}} : 
-            <p ng-if="!productLists.higestbidderbid">{{language.top_products}}No bid yet</p>
-            <p ng-if="productLists.higestbidderbid">{{productLists.maxbiddername}}({{productLists.higestbidderbid}})</p>
-            </h5>
-            <h5>{{language.your_higest_bid}}  : 
-            <p ng-if="!productLists.maxbid">{{language.You}} {{language.have_not}} {{language.bid}} {{language.yet}}</p>
-            <p ng-if="productLists.maxbid">{{productLists.currency_code}}&nbsp;{{productLists.maxbid}}</p>
-            </h5>
-            <h5> 
-            <!--<span onclick="a()">Bid History</span>-->
-            <a ng-if="!bidhistory" ng-click="a()" class="btn btn-primary btn-dark" href="javascript:void(0)">{{language.Bid_History}}</a>
-            <a ng-if="bidhistory" ng-click="b()" class="btn btn-primary btn-dark" href="javascript:void(0)">{{language.Bid_History}}</a>
-            </h5>
-            <div ng-if="bidhistory" id="history">
-            <p ng-repeat="bidlist in productLists.bidhistory">{{bidlist.name}} ({{bidlist.bidprice}})</p>
+                  <div class="table-responsive ">
+                     <table class="table table-bordered table-striped table-sm table-hover ">
+                        <tr>
+                           <td>
+                              <h6 class="mb-0 ">{{language.product}} {{language.bracelet}} {{language.type}}</h6>
+                           </td>
+                           <td>
+                              <h6 class="mb-0 ">{{productLists.breslet_type}}</h6>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>
+                              <h6 class="mb-0 ">{{language.product}}  {{language.size}}</h6>
+                           </td>
+                           <td>
+                              <h6 class="mb-0 ">{{productLists.size}}</h6>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>
+                              <h6 class="mb-0 " >{{language.product_description}}</h6>
+                           </td>
+                           <td>
+                              <h6 class="mb-0 " ng-if="productLists.description !='' ">{{productLists.description}}</h6>
+                              <h6 class="mb-0 " ng-if="productLists.description=='' ">{{language.no_description}}</h6>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>
+                              <h6 class="mb-0 "><strong>{{productLists.price}} {{productLists.currency_code}}</strong></h6>
+                           </td>
+                           <td>
+                              <h6 class="mb-0 ">
+                                 <a ng-if="user_id && is_fav1==1 && user_id !=p roductLists.seller_id " ng-click="addwishlist3(productLists.id,
+                                productLists.seller_id) " class="d-block rounded-circle "><i style="color:red " class="ion-heart "></i></a>
+                                 <a ng-if="user_id && is_fav1==0 && user_id !=p roductLists.seller_id " ng-click="addwishlist2(productLists.id,
+                                productLists.seller_id) " class="d-block rounded-circle "><i class="ion-heart "></i></a>
+                                 <a ng-if="!user_id " ng-click="checklogin() " class="d-block rounded-circle
+                                "><i class="ion-heart "></i></a></li>
+                              </h6>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td colspan="2 ">
+                              <p ng-if="!loader1 " class="loader "></p>
+                              <a href=" " ng-if="user_id && loader1 && productLists.interest==0 && user_id !=productLists.seller_id
+                                && productLists.type !=2 " ng-click="emailtothevendorinterest(productLists.seller_id, productLists.type)
+                                " class="btn btn-primary btn-block ">Show Interest and Seller Details</a>
+                              <a ng-if="user_id && loader1 && productLists.interest==1 && user_id !=p roductLists.seller_id
+                                && productLists.type !=2 " href="javascript:void(0) " class="btn btn-primary btn-block ">Already interestd</a>
+                              <a ng-if="user_id && productLists.ctime> productLists.start_time && productLists.seller_id != user_id && productLists.type == 2" href="javascript:void(0)"
+                                ng-click="checkauctionvalidity()" class="btn btn-primary btn-block">Go Live Bidding</a>
+                                <a ng-if="!user_id && productLists.ctime > productLists.start_time && productLists.interest == 0 && productLists.type == 2"
+                                    href="javascript:void(0)" data-toggle="modal" data-target="#login" class="btn btn-primary btn-block">Go Live Bidding</a>
+                                </td>
+                                </tr>
+                                </table>
+                    </div>
+                </div>
             </div>
-            <h5>Time Left :  
-            <div class='time-to' ng-if="productLists.preferred_date && productLists.type == 2">
-            <p countdown='' date='{{productLists.preferred_date}}' style="color:red">&nbsp;</p>
+            <div class="col-lg-5 col-md-7 col-sm-7">
+                <!--<div class="share-prod mb-2">Share this product : <a href="" class="d-inline-block text-secondary"><i class="fa fa-facebook"></i></a> <a href="" class="d-inline-block mx-2 text-secondary"><i class="fa fa-twitter"></i></a><a href="" class="d-inline-block text-secondary"><i class="fa fa-google-plus"></i></a></div>-->
+                <div class="seller-info p-3 border-secondary border rounded mb-3">
+                    <div ng-if="user_id && productLists.interest == 1">
+                        <h6 class="card-title">{{language.seller}} {{language.Info}}:</h6>
+                        <div ng-if="productLists.seller_name">
+                            {{language.Name}}
+                            <p ng-if="productLists.seller_name" class="mb-1">{{productLists.seller_name}}</p>
+                        </div>
+                        <div ng-if="productLists.seller_phone">
+                            {{language.seller}} {{language.phone}} {{language.number}}
+                            <p ng-if="productLists.seller_phone" class="mb-1">{{productLists.seller_phone}}</p>
+                        </div>
+                        <div ng-if="productLists.seller_email">
+                            {{language.seller}} {{language.email}}
+                            <p class="mb-1">{{productLists.seller_email}}</p>
+                        </div>
+                        <div ng-if="productLists.working_hours">
+                            {{language.Work_Hours}}
+                            <p class="mb-1">{{productLists.working_hours}}</p>
+                        </div>
+                        <div ng-if="productLists.seller_address">
+                            {{language.Address}}
+                            <p class="text-secondary mb-0">{{productLists.seller_address}}</p>
+                        </div>
+                        <div ng-if="productLists.original_price">
+                            {{language.Original_Price}}
+                            <p class="text-secondary mb-0">{{productLists.product_actual_currency}} {{productLists.original_price}}</p>
+                        </div>
+                    </div>
+                    <!--              <p class="text-secondary mb-2"><i class="fa fa-phone"></i> {{productLists.seller_address}}</p>-->
+                    <!--<h5>{{language.Original_Price}}<b>{{productLists.product_actual_currency}} {{productLists.original_price}} </b></h5>-->
+                    <p class="text-success">{{productLists.quantity}}pcs. Available. </p>
+                    <p style="color:black">{{language.model}} {{language.year}} :{{productLists.model_year}}</p>
+                    <p style="color:black">{{language.movement}} :{{productLists.movement}}</p>
+                    <p style="color:black" ng-if="productLists.date_purchase">Date of Purchased :{{productLists.date_purchase}}</p>
+                    <p style="color:black">Status of the watch :{{productLists.status_watch}}</p>
+                    <p ng-if="productLists.quantity == '0'" class="text-success">{{language.top_products}}Out of stock.</p>
+                    <div ng-if="user_id && productLists.interest == 1">
+                        <hr>
+                        <button ng-if="is_hide == 0 && productLists.interest == 1 && productLists.type != 2" type="button" ng-click="is_clicked()"
+                            class="btn btn-primary btn-block">Contact Seller</button>
+                        <button ng-if="user_id && productLists.interest == 0 && user_id != productLists.seller_id" type="button" ng-click="is_clicked()"
+                            disabled class="btn btn-primary btn-block">Contact Seller</button>
+                        <button ng-if="!user_id && productLists.interest == 0 && user_id != productLists.seller_id" type="button" ng-click="is_clicked()"
+                            class="btn btn-primary btn-block">Contact Seller</button>
+                        <div ng-if="user_id && productLists.interest == 1 && is_click == 1">
+                            <!--<form class="modal-content animate" name="contacttoseller" ng-submit="contactseller(sellercontact)">-->
+                            <form class="modal-content animate" ng-submit="addmessage(sellercontact)">
+                                <h5>{{language.your}} {{language.messages}}</h5>
+                                <textarea class="form-control" id="" value="" placeholder="" ng-model="sellercontact.message" name="message" capitalize required></textarea>
+                                <input type="hidden" class="form-control" id="" value="" placeholder="" ng-model="sellercontact.seller_id = productLists.seller_id"
+                                    name="uploaderid" required>
+                                <input ng-if="loader" type="submit" value="Send" class="btn-round">
+                            </form>
+                        </div>
+                    </div>
+                    <div ng-if="!loader" class="loader"></div>
+                </div>
+                <div>
+                    <div ng-if="user_id && productLists.interest == 1" id="dvMap" style="width: 400px; height: 400px"></div>
+                </div>
+                <div ng-if="user_id && productLists.interest == 1 && review_status == 1 ">
+                    <hr>
+                    <h6 class="card-title">{{language.reviews}}</h6>
+                    <div class="reviews-holder">
+                        <div ng-repeat="reviewsss in allreviews" class="media">
+                            <div class="media-left mr-2">
+                                <a href="#">
+                                    <img class="media-object" src="{{reviewsss.userimage}}" alt="">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h6 class="media-heading">
+                                    <span class="rating d-inline-block mr-2">
+                                        <ng-rating ng-model="reviewsss.rating" icon-class="rating.iconClass" editable="false" stars-count="rating.starsCount" based-on="rating.basedOn">
+                                        </ng-rating>
+                                    </span>
+                                    {{reviewsss.username}}
+                                    <span class="date d-inline-block ml-2">- {{reviewsss.date}}&nbsp days ago</span>
+                                </h6>
+                                <p class="mb-2">{{reviewsss.review}}</p>
+                                <div ng-if="reviewsss.recomend == 1">
+                                    <p>
+                                        <i class="fa fa-check"></i> {{language.recomend_product}} </p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-right" ng-if="!user_id && productLists.interest == 0">
+                            <a href="" data-toggle="modal" data-target="#login" class="btn btn-primary btn-block">Add Review</a>
+                        </p>
+                        <p class="text-right" ng-if="user_id && productLists.interest == 0 && user_id != productLists.seller_id">
+                            <button disabled class="btn btn-primary btn-block">Add Review</button>
+                        </p>
+                        <p class="text-right" ng-if="user_id && productLists.interest == 1 user_id != productLists.seller_id">
+                            <a href="" data-toggle="modal" data-target="#myModal1" class="btn btn-primary btn-block">Add Review</a>
+                        </p>
+                    </div>
+                </div>
             </div>
-            </h5>  
-            <hr>
-            <div class="p-nm">
-            <h5>{{productLists.brands}}/{{productLists.category}}<br> <small>({{productLists.gender}})</small></h5>
-            </div>
-            <!--                        <h6>Product Threshold Price : 
-               <p ng-if="productLists.lastbidvalue >= productLists.thresholdprice" style="color:red">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
-               <p ng-if="productLists.lastbidvalue < productLists.thresholdprice" style="color:green">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
-               </h6>-->
-            <h6>Highest {{language.bid}} : <p>{{productLists.currency_code}}&nbsp;{{productLists.lastbidvalue}}</p> </h6>
-            <h6> {{language.next}} {{language.Minimum}} {{language.bid}} : 
-            <p ng-if="productLists.nextbidprice > 0">{{productLists.currency_code}}&nbsp;{{productLists.nextbidprice}}</p>
-            <p ng-if="productLists.nextbidprice <= 0">{{productLists.currency_code}}&nbsp;{{productLists.baseauctionprice}}</p>
-            </h6>
-            <h6>                                         
-            <input type="number" class="form-control btn-round" id="" step="{{productLists.bidincrement}}" tooltips tooltip-template="Bid Increment is multiple of {{productLists.bidincrement}}" tooltip-side="up"  placeholder="Input {{language.your}} Bid" ng-model="bid.bidprice" name="bidprice" capitalize required>
-            <input type="hidden" class="form-control" id="" value="" placeholder="" ng-model="bid.uploaderid = productLists.uploader_id" name="uploaderid" required>
-            <input type="hidden" class="form-control" id="" placeholder="" ng-model="productLists.id" name="productid" required>
-            </h6>
-            <div ng-if="bid.bidprice < productLists.nextbidprice" class="submit-btn-btn">
-            <input type="submit" value="Bid Price should be greater than equals to Min Bid"  class="btn-round" disabled >
-            </div>
-            <!--<div ng-if="productLists.nextbidprice <= 0">-->
-            <div ng-if="bid.bidprice >= productLists.nextbidprice">
-            <input type="submit" value="Place Bid" class="btn-round">
-            </div>
-            <!--</div>-->
-            <!--                        <div ng-if="bid.bidprice >= productLists.nextbidprice">-->
-            <!--<input type="submit" value="Submit" class="btn-round">-->
-            <!--</div>-->
-            </div>
-            <!--
+        </div>
+    </div>
+    </div>
+</section>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <form class="modal-content animate" ng-submit="checkauctionvaliditybeforeaddbid(bid)">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="top-bar-part">
+                        <div class="left-count">
+                            <p>
+                                <i class="fa fa-user"></i>
+                                <span>{{productLists.countuniquebids}}</span>
+                            </p>
+                        </div>
+                        <div class="right-icon-btn1" ng-if="productLists.lastbidvalue >= productLists.thresholdprice">
+                            <p>
+                                <span tooltips tooltip-template="Minimum bid price reached" tooltip-side="bottom"></span>
+                            </p>
+                        </div>
+                        <div class="right-icon-btn" ng-if="productLists.lastbidvalue < productLists.thresholdprice">
+                            <p>
+                                <span tooltips tooltip-template="Minimum bid price not reached" tooltip-side="bottom"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <figure>
+                        <div class="my-imagepart">
+                            <img src="{{productLists.product_single_image}}" alt="Auction cap" height="100%" width="100%">
+                        </div>
+                        <!--               <div class="slider_n new_slider_n">
+                     enumerate all photos 
+                     <img ng-repeat="photo in productLists.image" class="slide_n" ng-swipe-right="showPrev()" ng-swipe-left="showNext()" ng-show="isActive($index)" ng-src="{{photo.src}}" />
+                     prev / next controls 
+                     <a class="arrow prev"  ng-click="showPrev()"></a>
+                       <a class="arrow next"  ng-click="showNext()"></a>
+                     extra navigation controls 
+                     <ul class="nav_n new_nav_n">
+                       <li ng-repeat="photo in productLists.image" ng-class="{'active':isActive($index)}">
+                          <img src="{{photo.src}}" alt="{{photo.desc}}" title="{{photo.desc}}" ng-click="showPhoto($index);" />
+                       </li>
+                     </ul>-->
+                        <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
+                        <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
+                    </figure>
+                    <!-- <h5>Auction Date : 
+                  <p ng-if="productLists.action_date">{{productLists.action_date}}</p>
+                  
+                  </h5>
+                  <h5>Auction Time : 
+                  <p ng-if="productLists.action_time">{{productLists.action_time}}</p>
+                  
+                  </h5>-->
+                    <h5>
+                        Total No Of Bid(s) : &nbsp;
+                        <p>{{productLists.bidcount}}</p>
+                    </h5>
+                    <!--            <h5>Total No User Bidding : &nbsp; <p>{{productLists.countuniquebids}}</p></h5>-->
+                    <h5>
+                        Highest Bidder {{language.Name}} :
+                        <p ng-if="!productLists.higestbidderbid">{{language.top_products}}No bid yet</p>
+                        <p ng-if="productLists.higestbidderbid">{{productLists.maxbiddername}}({{productLists.higestbidderbid}})</p>
+                    </h5>
+                    <h5>
+                        {{language.your_higest_bid}} :
+                        <p ng-if="!productLists.maxbid">{{language.You}} {{language.have_not}} {{language.bid}} {{language.yet}}</p>
+                        <p ng-if="productLists.maxbid">{{productLists.currency_code}}&nbsp;{{productLists.maxbid}}</p>
+                    </h5>
+                    <h5>
+                        <!--<span onclick="a()">Bid History</span>-->
+                        <a ng-if="!bidhistory" ng-click="a()" class="btn btn-primary btn-dark" href="javascript:void(0)">{{language.Bid_History}}</a>
+                        <a ng-if="bidhistory" ng-click="b()" class="btn btn-primary btn-dark" href="javascript:void(0)">{{language.Bid_History}}</a>
+                    </h5>
+                    <div ng-if="bidhistory" id="history">
+                        <p ng-repeat="bidlist in productLists.bidhistory">{{bidlist.name}} ({{bidlist.bidprice}})</p>
+                    </div>
+                    <h5>
+                        Time Left :
+                        <!-- <div class='time-to' ng-if="productLists.preferred_date && productLists.type == 2">
+                            <p countdown='' date='{{productLists.preferred_date}}' style="color:red">&nbsp;</p>
+                        </div> -->
+                        <input type='text' ng-model="auction.auction_time" id="auction_end_time">
+                        {{productLists.auction_end_time}}
+                        <div class="clock"></div>
+                        <div class="message"></div>
+                    </h5>
+                    <hr class="my-1">
+                    <div class="p-nm">
+                        <h5>{{productLists.brands}}/{{productLists.category}}
+                            <br>
+                            <small>({{productLists.gender}})</small>
+                        </h5>
+                    </div>
+                    <!--                        <h6>Product Threshold Price : 
+                  <p ng-if="productLists.lastbidvalue >= productLists.thresholdprice" style="color:red">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
+                  <p ng-if="productLists.lastbidvalue < productLists.thresholdprice" style="color:green">{{productLists.currency_code}} {{productLists.thresholdprice}}</p>
+                  </h6>-->
+                    <h6>
+                        Highest {{language.bid}} :
+                        <p>{{productLists.currency_code}}&nbsp;{{productLists.lastbidvalue}}</p>
+                    </h6>
+                    <h6>
+                        {{language.next}} {{language.Minimum}} {{language.bid}} :
+                        <p ng-if="productLists.nextbidprice > 0">{{productLists.currency_code}}&nbsp;{{productLists.nextbidprice}}</p>
+                        <p ng-if="productLists.nextbidprice <= 0">{{productLists.currency_code}}&nbsp;{{productLists.baseauctionprice}}</p>
+                    </h6>
+                    <h6>
+                        <input type="number" class="form-control btn-round" id="" step="{{productLists.bidincrement}}" tooltips tooltip-template="Bid Increment is multiple of {{productLists.bidincrement}}"
+                            tooltip-side="up" placeholder="Input {{language.your}} Bid" ng-model="bid.bidprice" name="bidprice"
+                            capitalize required>
+                        <input type="hidden" class="form-control" id="" value="" placeholder="" ng-model="bid.uploaderid = productLists.uploader_id"
+                            name="uploaderid" required>
+                        <input type="hidden" class="form-control" id="" placeholder="" ng-model="productLists.id" name="productid" required>
+                    </h6>
+                    <div ng-if="bid.bidprice < productLists.nextbidprice" class="submit-btn-btn">
+                        <input type="submit" value="Bid Price should be greater than equals to Min Bid" class="btn-round" disabled>
+                    </div>
+                    <!--<div ng-if="productLists.nextbidprice <= 0">-->
+                    <div ng-if="bid.bidprice >= productLists.nextbidprice">
+                        <input type="submit" value="Place Bid" class="btn-round">
+                    </div>
+                    <!--</div>-->
+                    <!--                        <div ng-if="bid.bidprice >= productLists.nextbidprice">-->
+                    <!--<input type="submit" value="Submit" class="btn-round">-->
+                    <!--</div>-->
+                </div>
+                <!--
                <div class="modal-footer">
                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                </div>-->
-         </div>
-   </form>
-   </div>
+            </div>
+        </form>
+    </div>
 </div>
 <div id="myModal1" class="modal fade" role="dialog">
-   <div class="modal-dialog">
-      <form class="modal-content animate" ng-submit="addreview(review)">
-         <!-- Modal content-->
-         <div class="modal-content">
-            <div class="modal-header">
-               <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
-               <h4 class="modal-title"></h4>
+    <div class="modal-dialog">
+        <form class="modal-content animate" ng-submit="addreview(review)">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-unstyled">
+                        <li style="margin-bottom:50px">
+                            <h1>{{rating.title}}</h1>
+                            <ng-rating ng-model="review.rating" icon-class="rating.iconClass" editable="rating.editableRating" stars-count="rating.starsCount"
+                                based-on="rating.basedOn" show-grade="false">
+                            </ng-rating>
+                        </li>
+                    </ul>
+                    <hr>
+                    <h5>{{language.reviews}}</h5>
+                    <textarea class="form-control" id="" value="" placeholder="" ng-model="review.review" name="review" capitalize required></textarea>
+                    <hr> Recommend this product ? &nbsp;
+                    <input type="radio" class="input-field" name="recomend" value="1" ng-model="review.recomend"
+                        required>
+                    <span>Yes</span>
+                    <input type="radio" class="input-field" name="recomend" value="2" ng-model="review.recomend" required>
+                    <span>No</span>
+                    <hr>
+                    <div>
+                        <div>
+                            <input type="submit" value="Submit">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{language.close}}</button>
+                </div>
             </div>
-            <div class="modal-body">
-               <ul class="list-unstyled">
-                  <li  style="margin-bottom:50px">
-                     <h1>{{rating.title}}</h1>
-                     <ng-rating ng-model="review.rating"
-                        icon-class="rating.iconClass"
-                        editable="rating.editableRating"
-                        stars-count="rating.starsCount"
-                        based-on="rating.basedOn"
-                        show-grade="false">
-                     </ng-rating>
-                  </li>
-               </ul>
-               <hr>
-               <h5>{{language.reviews}}</h5>
-               <textarea class="form-control" id="" value="" placeholder="" ng-model="review.review" name="review" capitalize required></textarea>
-               <hr>
-               Recommend this product ? &nbsp;<input type="radio" class="input-field"  name="recomend" value="1" ng-model="review.recomend" required>
-               <span>Yes</span>
-               <input type="radio" class="input-field"  name="recomend" value="2" ng-model="review.recomend" required>
-               <span>No</span>
-               <hr>
-               <div>
-                  <div>
-                     <input type="submit" value="Submit" >
-                  </div>
-               </div>
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">{{language.close}}</button>
-            </div>
-         </div>
-      </form>
-   </div>
+        </form>
+    </div>
 </div>
 <div id="password" class="modal fade" role="dialog">
-   <div class="modal-dialog">
-      <form class="modal-content animate" ng-submit="checkpassword(pass)">
-         <!-- Modal content-->
-         <div class="modal-content">
-            <div class="modal-header">
-               <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
-               <h4 class="modal-title"></h4>
+    <div class="modal-dialog">
+        <form class="modal-content animate" ng-submit="checkpassword(pass)">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <h5>{{language.please}} {{language.enter_your}} {{language.password}} Below</h5>
+                    <input type="password" class="input-field" name="password" value="2" ng-model="pass.password" capitalize required>
+                    <p ng-if="error" style="color:red" capitalize> {{error}}</p>
+                    <hr>
+                    <div>
+                        <div>
+                            <input type="submit" value="Continue">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{language.close}}</button>
+                </div>
             </div>
-            <div class="modal-body">
-               <h5>{{language.please}} {{language.enter_your}} {{language.password}} Below</h5>
-               <input type="password" class="input-field"  name="password" value="2" ng-model="pass.password" capitalize required>
-               <p ng-if="error" style="color:red" capitalize> {{error}}</p>
-               <hr>
-               <div>
-                  <div>
-                     <input type="submit" value="Continue" >
-                  </div>
-               </div>
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">{{language.close}}</button>
-            </div>
-         </div>
-      </form>
-   </div>
+        </form>
+    </div>
 </div>
 <div id="winner" class="modal fade" role="dialog">
-   <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-         <div class="modal-header">
-            <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
-            <h4 class="modal-title"></h4>
-         </div>
-         <div class="modal-body">
-            <h5>{{winnermsg}}</h5>
-         </div>
-         <div class="modal-body" ng-if="winnerlink == 2">
-            <a ng-if="winnerlink == 2" class="nav-link" ng-click="gotolink2(productLists.id)" href="javascript:void(0)">{{language.Click_Here}}</a> 
-         </div>
-         <div class="modal-body" ng-if="winnerlink == 1">
-            <a ng-if="winnerlink == 1" class="nav-link" ng-click="gotolink()" href="javascript:void(0)">{{language.Click_Here}}</a> 
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">{{language.close}}</button>
-         </div>
-      </div>
-   </div>
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <h5>{{winnermsg}}</h5>
+            </div>
+            <div class="modal-body" ng-if="winnerlink == 2">
+                <a ng-if="winnerlink == 2" class="nav-link" ng-click="gotolink2(productLists.id)" href="javascript:void(0)">{{language.Click_Here}}</a>
+            </div>
+            <div class="modal-body" ng-if="winnerlink == 1">
+                <a ng-if="winnerlink == 1" class="nav-link" ng-click="gotolink()" href="javascript:void(0)">{{language.Click_Here}}</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{language.close}}</button>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
    /* function a() {
@@ -427,51 +469,72 @@
         $('#history').toggle();
    
     }*/
-   
+
 </script>
 <style>
-   .loader {
-   height: 4px;
-   width: 100%;
-   position: relative;
-   overflow: hidden;
-   background-color: #ddd;
-   }
-   .loader:before{
-   display: block;
-   position: absolute;
-   content: "";
-   left: -200px;
-   width: 200px;
-   height: 4px;
-   background-color: #2980b9;
-   animation: loading 2s linear infinite;
-   }
-   @keyframes loading {
-   from {left: -200px; width: 30%;}
-   50% {width: 30%;}
-   70% {width: 70%;}
-   80% { left: 50%;}
-   95% {left: 120%;}
-   to {left: 100%;}
-   }  
-   #carousel img {
-   display: block;
-   opacity: .5;
-   cursor: pointer;
-   }
-   #carousel .flex-active-slide img {
-   opacity: 1;
-   cursor: default;
-   }
-   .flexslider .slides > li {
-   display: block;
-   -webkit-backface-visibility: hidden;
-   }
-   .ng-rating-group, .ng-rating-group--hover {
-   color: #D3D3D3;
-   }
-   /*#myModal .modal-dialog{
+    .loader {
+        height: 4px;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        background-color: #ddd;
+    }
+
+    .loader:before {
+        display: block;
+        position: absolute;
+        content: "";
+        left: -200px;
+        width: 200px;
+        height: 4px;
+        background-color: #2980b9;
+        animation: loading 2s linear infinite;
+    }
+
+    @keyframes loading {
+        from {
+            left: -200px;
+            width: 30%;
+        }
+        50% {
+            width: 30%;
+        }
+        70% {
+            width: 70%;
+        }
+        80% {
+            left: 50%;
+        }
+        95% {
+            left: 120%;
+        }
+        to {
+            left: 100%;
+        }
+    }
+
+    #carousel img {
+        display: block;
+        opacity: .5;
+        cursor: pointer;
+    }
+
+    #carousel .flex-active-slide img {
+        opacity: 1;
+        cursor: default;
+    }
+
+    .flexslider .slides>li {
+        display: block;
+        -webkit-backface-visibility: hidden;
+    }
+
+    .ng-rating-group,
+    .ng-rating-group--hover {
+        color: #D3D3D3;
+    }
+
+    /*#myModal .modal-dialog{
    overflow-y: initial !important
    }
    #myModal .modal-body{
@@ -479,15 +542,18 @@
    overflow-x: auto;
    }*/
 </style>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyDnTqCZqlvuWG1KNrNh9slnA_EqiJmiX9g&callback=initMap" async defer></script>
+   
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyDnTqCZqlvuWG1KNrNh9slnA_EqiJmiX9g&callback=initMap"
+    async defer></script>
 <script type="text/javascript">
-   var markers = [
-       {
-           "title": 'Alibaug',
-           "lat": '18.641400',
-           "lng": '72.872200',
-           "description": 'Alibaug is a coastal town and a municipal council in Raigad District in the Konkan region of Maharashtra, India.'
-       }/*,
+    var markers = [
+        {
+            "title": 'Alibaug',
+            "lat": '18.641400',
+            "lng": '72.872200',
+            "description": 'Alibaug is a coastal town and a municipal council in Raigad District in the Konkan region of Maharashtra, India.'
+        }/*,
        {
            "title": 'Lonavla',
            "lat": '18.750000',
@@ -518,55 +584,77 @@
            "lng": '73.033300',
            "description": 'Vashi'
        }*/
-   ];
-   
+    ];
+
     function initMap() {
-   
-       var mapOptions = {
-           center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
-           zoom: 3,
-           mapTypeId: google.maps.MapTypeId.ROADMAP
-       };
-       var infoWindow = new google.maps.InfoWindow();
-       var latlngbounds = new google.maps.LatLngBounds();
-       var geocoder = geocoder = new google.maps.Geocoder();
-       var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
-       for (var i = 0; i < markers.length; i++) {
-           var data = markers[i]
-           var myLatlng = new google.maps.LatLng(data.lat, data.lng);
-           var marker = new google.maps.Marker({
-               position: myLatlng,
-               map: map,
-               title: data.title,
-               draggable: true,
-               animation: google.maps.Animation.DROP
-           });
-           (function (marker, data) {
-               google.maps.event.addListener(marker, "click", function (e) {
-                   infoWindow.setContent(data.description);
-                   infoWindow.open(map, marker);
-               });
-               google.maps.event.addListener(marker, "dragend", function (e) {
-                   var lat, lng, address;
-                   geocoder.geocode({ 'latLng': marker.getPosition() }, function (results, status) {
-                       if (status == google.maps.GeocoderStatus.OK) {
-                           lat = marker.getPosition().lat();
-                           lng = marker.getPosition().lng();
-                           address = results[0].formatted_address;
-                           //alert("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + address);                           
-                           //document.getElementById("lat").value=lat;
-                          
-                           $('#lat').val(lat);
-                           $('#long').val(lng);
-                           $('#address').val(address);
-                       }
-                   });
-               });
-           })(marker, data);
-           latlngbounds.extend(marker.position);
-       }
-       var bounds = new google.maps.LatLngBounds();
-       map.setCenter(latlngbounds.getCenter());
-       map.fitBounds(latlngbounds);
-   }
+
+        var mapOptions = {
+            center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+            zoom: 3,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var infoWindow = new google.maps.InfoWindow();
+        var latlngbounds = new google.maps.LatLngBounds();
+        var geocoder = geocoder = new google.maps.Geocoder();
+        var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+        for (var i = 0; i < markers.length; i++) {
+            var data = markers[i]
+            var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: data.title,
+                draggable: true,
+                animation: google.maps.Animation.DROP
+            });
+            (function (marker, data) {
+                google.maps.event.addListener(marker, "click", function (e) {
+                    infoWindow.setContent(data.description);
+                    infoWindow.open(map, marker);
+                });
+                google.maps.event.addListener(marker, "dragend", function (e) {
+                    var lat, lng, address;
+                    geocoder.geocode({ 'latLng': marker.getPosition() }, function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            lat = marker.getPosition().lat();
+                            lng = marker.getPosition().lng();
+                            address = results[0].formatted_address;
+                            //alert("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + address);                           
+                            //document.getElementById("lat").value=lat;
+
+                            $('#lat').val(lat);
+                            $('#long').val(lng);
+                            $('#address').val(address);
+                        }
+                    });
+                });
+            })(marker, data);
+            latlngbounds.extend(marker.position);
+        }
+        var bounds = new google.maps.LatLngBounds();
+        map.setCenter(latlngbounds.getCenter());
+        map.fitBounds(latlngbounds);
+    }
+</script>
+<script src="app/assets/js/flipclock.js"></script>
+<script>
+    var clock;
+    $(document).ready(function () {
+        var clock;
+        //alert(productLists.preferred_date);
+        var   endtime=document.getElementById("auction_end_time").val();
+        alert(endtime);
+        clock = $('.clock').FlipClock({
+            clockFace: 'DailyCounter',
+            autoStart: false,
+            callbacks: {
+                stop: function () {
+                    $('.message').html('The clock has stopped!')
+                }
+            }
+        });
+        clock.setTime(endtime);
+        clock.setCountdown(true);
+        clock.start();
+    });
 </script>

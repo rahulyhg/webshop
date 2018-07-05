@@ -1056,6 +1056,7 @@ function ProductsDetails() {
     $product = $stmt->fetchObject();
     $price=0;
     $bidincrement =5;
+    $product_single_image='';
     $sqlinterest = "SELECT * from  webshop_interested WHERE userid=:userid and productid='" . $product_id . "'";
 
     $stmtinterest = $db->prepare($sqlinterest);
@@ -1184,6 +1185,14 @@ function ProductsDetails() {
             $image = SITE_URL . 'webservice/not-available.jpg';
         }
         
+        
+        if (!empty($product->image)) {
+           
+              $product_single_image=SITE_URL . 'upload/product_image/' .$product->image;
+             
+        }else{
+            $product_single_image = SITE_URL . 'webservice/not-available.jpg';
+        }
         
         $sqlbracelet = "SELECT * FROM  webshop_bracelet WHERE id=:id ";
         $stmtbracelet = $db->prepare($sqlbracelet);
@@ -1392,6 +1401,11 @@ function ProductsDetails() {
             $auctiondate = explode(' ', $naxtime_slot_id->start_time);
             $action_date = $auctiondate[0];
             $action_time = $auctiondate[1];
+            
+            $diff = strtotime($naxtime_slot_id->start_time) - strtotime($naxtime_slot_id->end_time);
+            $auction_end_time = intval(date('s', $diff));
+            
+           // $auction_end_time = strtotime($time);
 //$action_time = date('H:i', strtotime($action_time));
         } else {
             $starttime = '';
@@ -1418,11 +1432,11 @@ function ProductsDetails() {
         $stmtbidhistory->bindParam("productid", $product_id);
         $stmtbidhistory->execute();
         $bidhistory = $stmtbidhistory->fetchAll(PDO::FETCH_OBJ);
-        if (!empty($bidhistory)) {
+        if (!empty($bidhistory) && $user_id !='') {
             foreach ($bidhistory as $history) {
                 
                 
-                $sqlnewusermaxbidbidprice = "SELECT * FROM webshop_user WHERE id=$user_id ";
+                        $sqlnewusermaxbidbidprice = "SELECT * FROM webshop_user WHERE id=$user_id ";
                         $stmtnewusermaxbidbidprice = $db->prepare($sqlnewusermaxbidbidprice);
                         //$stmt1->bindParam("id", $product->uploader_id);
                         $stmtnewusermaxbidbidprice->execute();
@@ -1622,6 +1636,8 @@ function ProductsDetails() {
             'averagerating' => number_format($averagerating,1),
             'original_price'=>$product->price,
             'product_actual_currency' => $product->currency_code,
+            'product_single_image'=>$product_single_image,
+            'auction_end_time'=>$auction_end_time
         );
 
 
@@ -2048,6 +2064,28 @@ function homeSettings() {
        
     }
     
+    
+    $sqlfottertext = "SELECT * from  webshop_footer_text_management where id= '1' ";
+
+    $stmtfottertext = $db->prepare($sqlfottertext);
+    $stmtfottertext->execute();
+    $fottertext = $stmtfottertext->fetchAll(PDO::FETCH_OBJ);
+   // $categoryname ='';
+    if (!empty($fottertext)) {
+        foreach ($fottertext as $fotter_text) {
+
+           
+            
+            $footertextList = array(
+                "sub_heading_english" => stripslashes($fotter_text->sub_heading_english),
+                "sub_heading_arabic" => stripslashes($fotter_text->sub_heading_arabic),
+                "text_english" => stripslashes($fotter_text->text_english),
+                "text_arabic" => stripslashes($fotter_text->text_arabic),
+            );
+        }
+       
+    }
+    
     $sql3 = "SELECT * from  webshop_products where launched = 1 order by id";
 
     $stmt3 = $db->prepare($sql3);
@@ -2098,6 +2136,12 @@ function homeSettings() {
         $data['launchedproductList'] = $launchedproductList;
     } else {
         $data['launchedproductList'] = array();
+    }
+    
+    if (!empty($footertextList)) {
+        $data['footertextList'] = $footertextList;
+    } else {
+        $data['footertextList'] = array();
     }
     $data['Ack'] = '1';
     $app->response->setStatus(200);
@@ -6101,7 +6145,7 @@ function getYears() {
 
     $last_year = date("Y");
 
-    for ($year = $last_year; $year >= 2000; $year--) {
+    for ($year = $last_year; $year >= 1900; $year--) {
 
         array_push($allYears, $year);
     }

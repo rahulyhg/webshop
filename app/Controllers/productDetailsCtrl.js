@@ -18,6 +18,7 @@ app.controller('productDetailsCtrl', function ($rootScope, $scope,$interval, $ht
 $scope.rating = {};
 $scope.review = {};
 $scope.allreviews = {};
+$scope.auction = {};
 $scope.date = new Date('hh:mm:ss a');
 $scope.review.rating =0;
 $scope.rating.editableRating = true;
@@ -102,6 +103,7 @@ $scope._Index = 0;
                     //alert(response.productList);
 	
 		$scope.productLists=response.productList;
+                $scope.auction.auction_time=response.productList.auction_end_time;
                 $scope.is_hide=0;
 		
 		

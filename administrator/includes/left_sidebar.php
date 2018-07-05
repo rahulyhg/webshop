@@ -112,6 +112,12 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                                 <i class="icon-bulb"></i>
                                 Manage Contact Info</a>
                         </li>
+                        
+                        <li>
+                            <a href="manage_footer_text.php">
+                                <i class="icon-bulb"></i>
+                                Manage Footer Text</a>
+                        </li>
                     </ul>
                 </li>
 

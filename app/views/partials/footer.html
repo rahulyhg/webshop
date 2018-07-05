@@ -35,25 +35,25 @@
 			        		<!--<button class="btn btn-block btn-primary">Vendor</button>-->
 			        		<div class="btn btn-block btn-primary position-relative cust-radio">
 			        			<input type="radio" value="2" ng-model="user.type" name="type" class="position-absolute" required>
-			        			<span>Vendor</span>
+			        			<span>{{language.User}}</span>
 			        		</div>
 			        	</div>
 			        	<div class="col-md-6">
 			        		<!--<button class="btn btn-block btn-primary">User</button>-->
 			        		<div class="btn btn-block btn-primary position-relative cust-radio">
 			        			<input type="radio" value="1" ng-model="user.type" name="type" class="position-absolute" required>
-                                                         <span>User</span>
+                                                         <span>{{language.Vendor}}</span>
                                                        
 			        		</div>
                                                 
 			        	</div>
-                                    <span style="color:Red" ng-show="registerForm.type.$error.required"> Please Choose Vendor or User </span>
+                                    <span style="color:Red" ng-show="registerForm.type.$error.required"> {{language.please}} {{language.Choose}} {{language.Vendor}} {{language.or}} {{language.User}} </span>
                                     
                                         
                                     
 		        </div>
-                                    <span><div ng-if="user.type == '1'">{{language.signup}} as a User</div></span>
-                                    <span><div ng-if="user.type == '2'">{{language.signup}} as a Vendor</div></span>
+                                    <span><div ng-if="user.type == '1'">{{language.signup}} {{language.as_a}} {{language.User}}</div></span>
+                                    <span><div ng-if="user.type == '2'">{{language.signup}} {{language.as_a}} {{language.Vendor}}</div></span>
                     
                     </div>
                     
@@ -64,14 +64,14 @@
 			    <input type="text" class="form-control" id="name" aria-describedby="name" ng-pattern="/^[a-z A-Z]+$/" placeholder="Enter First name" ng-model="user.fname" name="fname" required >
                             <span style="color:Red" ng-show="registerForm.fname.$error.required">  </span>
 
-                            <span style="color:Red" ng-show="registerForm.fname.$dirty && registerForm.fname.$error.pattern">Only Letters Allowed</span>
+                            <span style="color:Red" ng-show="registerForm.fname.$dirty && registerForm.fname.$error.pattern">{{language.only}} {{language.Letters}} {{language.allowed}}</span>
 			  </div>
                     <div class="form-group">
 			    <label for="name">{{language.last_name}}</label>
 			    <input type="text" class="form-control" id="name" aria-describedby="name" ng-pattern="/^[a-z A-Z]+$/" placeholder="Enter last name" ng-model="user.lname" name="lname" required>
                             <span style="color:Red" ng-show="registerForm.lname.$error.required">  </span>
 
-                            <span style="color:Red" ng-show="registerForm.lname.$dirty && registerForm.lname.$error.pattern">Only Letters Allowed</span>
+                            <span style="color:Red" ng-show="registerForm.lname.$dirty && registerForm.lname.$error.pattern">{{language.only}} {{language.Letters}} {{language.allowed}}</span>
 			  </div>
                     
                      <div class="form-group">
@@ -90,13 +90,13 @@
 			    <input type="text" class="form-control" ng-blur="getotp(user.phone,user.country)" id="number" placeholder="Mobile number" ng-pattern="/^\d+$/" name="phone" ng-model="user.phone" required>
                             <span style="color:Red" ng-show="registerForm.phone.$error.required">  </span>
 
-                            <span style="color:Red" ng-show="registerForm.phone.$dirty && registerForm.phone.$error.pattern">Only Numbers Allowed</span>
+                            <span style="color:Red" ng-show="registerForm.phone.$dirty && registerForm.phone.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>
 			  </div>
 			  <div class="form-group">
 			    <label for="email">{{language.email_address}}</label>
 			    <input type="email" class="form-control" id="email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" placeholder="Enter email" name="email" ng-model="user.email" required>
                             <span style="color:Red" ng-show="registerForm.email.$error.required">  </span>
-                            <span style="color:Red" ng-show="registerForm.email.$dirty && registerForm.email.$error.pattern">Enter valid emailid</span>
+                            <span style="color:Red" ng-show="registerForm.email.$dirty && registerForm.email.$error.pattern">{{language.enter}} {{language.valid}} {{language.email_address}}</span>
 			  </div>
 			<div class="form-group">
 			    <label for="attachment">{{language.password}}</label>
@@ -123,7 +123,7 @@
 				<li class="googleplus"><a class="fa fa-google-plus"></a></li>
 			</ul>
 			<div class="footer">
-				<p>Already have account? <a href="#" data-toggle="modal" data-target="#login" data-dismiss="modal">Sign In</a></p>
+				<p>Already have account? <a href="#" data-toggle="modal" data-target="#login" data-dismiss="modal">{{language.Sign_In}}</a></p>
 			</div>
 	      </div>
 	    </div>
