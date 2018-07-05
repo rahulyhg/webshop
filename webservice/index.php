@@ -1063,6 +1063,8 @@ function ProductsDetails() {
     $stmtinterest->execute();
     $interest = $stmtinterest->fetchObject();
     $interested = '';
+    $actual_price='';
+    $product_actual_currency = '';
     if (!empty($interest)) {
         $interested = $interest->interested;
     } else {
@@ -1117,6 +1119,8 @@ function ProductsDetails() {
             $image = SITE_URL . 'webservice/not-available.jpg';
         } */
         $price = $product->price;
+        $actual_price=$product->price;
+        $product_actual_currency = $product->currency_code;
        if($user_id){
                               
                         $sqlnewuser = "SELECT * FROM webshop_user WHERE id=$user_id ";
@@ -1615,7 +1619,9 @@ function ProductsDetails() {
             'size' => stripslashes($product->size),
             'date_purchase' => stripslashes($date_purchase),
             'owner_number' => stripslashes($product->owner_number),
-            'averagerating' => number_format($averagerating,1)
+            'averagerating' => number_format($averagerating,1),
+            'original_price'=>$product->price,
+            'product_actual_currency' => $product->currency_code,
         );
 
 
@@ -8867,7 +8873,7 @@ function reviews() {
     $db = getConnection();
 
     $sql = "SELECT * from webshop_reviews where product_id =$productid group by id desc limit 2";
-
+    $review_status=0;
 
     try {
 
@@ -8903,13 +8909,16 @@ function reviews() {
                     "recomend" => stripslashes($r->recomend),
                     "username" => $name,
                     "userimage" => $profile_image,
+                    
                 );
+                $review_status = 1;
             }
         } else {
             $reviewss = array();
         }
 // exit;
         $data['reviews'] = $reviewss;
+        $data['review_status']=$review_status;
         $data['Ack'] = '1';
         $app->response->setStatus(200);
     } catch (PDOException $e) {
