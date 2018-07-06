@@ -1057,6 +1057,7 @@ function ProductsDetails() {
     $price=0;
     $bidincrement =5;
     $product_single_image='';
+    $auction_end_time='';
     $sqlinterest = "SELECT * from  webshop_interested WHERE userid=:userid and productid='" . $product_id . "'";
 
     $stmtinterest = $db->prepare($sqlinterest);
@@ -1581,7 +1582,7 @@ function ProductsDetails() {
         }
         
         
-        //echo $price;exit;
+        //echo $product->id;exit;
 //$aucshowtime=
 //$count = $stmtproduct->rowCount();
 //$date_purchase = $product->date_purchase;
