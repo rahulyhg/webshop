@@ -29,6 +29,8 @@ $scope.rating.showGrade = true;
 $scope.rating.rating =1;
 $scope.rating.title ='Rating';
 $scope.bidhistory = false;
+$scope.countview='';
+
    if($scope.is_fav){
        $scope.is_fav1= $scope.is_fav;
        alert();
@@ -89,6 +91,28 @@ $scope._Index = 0;
     $scope.showPhoto = function (index) {
         $scope._Index = index;
     };
+ 
+ 
+   userService.countview($scope.product_id1).then(function(response) {
+
+	//$scope.isExists=response.Ack;
+		if(response.Ack == '1') {
+                    $scope.countview=response.countview;
+                     $scope.Showdetails();
+		//$scope.productLists=response.productList;
+                
+		
+		
+
+  } else {
+        $scope.Showdetails();
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+ 
  
  $scope.Showdetails = function(){
    //  alert('hi');

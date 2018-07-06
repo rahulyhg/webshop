@@ -5934,7 +5934,36 @@ reject(response);
     };
 
 
+ var countview = function(product_id) {
+        return $q(function(resolve, reject) {
+                
+//var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+var encodedString ='{"product_id":"'+ product_id +'"}';
 
+         //alert(encodedString);
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"countview",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           console.log('encodedString',response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           }
+           
+           else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+ };
     
 
 
@@ -6133,7 +6162,8 @@ reject(response);
         topsubscriptions:topsubscriptions,
         get_total_messages:get_total_messages,
         tomobileverifying1:tomobileverifying1,
-        autofield:autofield
+        autofield:autofield,
+        countview:countview
 
 };
 });

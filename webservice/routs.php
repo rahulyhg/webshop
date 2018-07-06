@@ -191,5 +191,6 @@ $app->group('/frontend', function () use ($app) {
     $app->get('/get_total_messages', 'get_total_messages');
     $app->post('/tomobileverifying1', 'tomobileverifying1');
     $app->post('/autofield', 'autofield');
+    $app->post('/countview', 'countview');
 });
 ?>
