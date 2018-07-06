@@ -302,7 +302,7 @@ function inactive(aa)
                           <table class="table table-striped table-hover table-bordered" id="editable-sample">
                                      <thead>
                             <tr>
-                
+                 <th>Slno</th>
                  <th>User Image</th>           
                  <th>User Name</th>
                  <th>Price</th>
@@ -351,7 +351,7 @@ $getBrand = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_brands`
               
               <tr>
                   
-             
+                  <td><?php echo stripslashes($tools_type['id']);?></td>
                
                 <td>
                  <img src="<?php echo $image_link;?>" height="100" width="100" align="image">
@@ -364,7 +364,7 @@ $getBrand = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_brands`
                 
 
                 <td>
-                   $<?php echo stripslashes($tools_type['price']);?>
+                   KWD <?php echo stripslashes($tools_type['price']);?>
                 </td>
                 
                  <td>

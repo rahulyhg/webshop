@@ -305,7 +305,7 @@ if (isset($_POST['ExportCsv'])) {
                             <table class="table table-striped table-hover table-bordered" id="editable-sample">
                                 <thead>
                                     <tr>
-                                  <!--   <th>Webshop Id</th> -->
+                                        <th>Slno</th> 
                                         <th>Normal Vendor</th>
                                         <th>Image</th>
 
@@ -444,9 +444,9 @@ if (isset($_POST['ExportCsv'])) {
 
                                             <tr>
 
-                <!--       <td>
-                                                <?php echo stripslashes($landlord['webshop_id']); ?>
-                </td> -->
+                                               <td>
+                                                                                 <?php echo stripslashes($landlord['id']); ?>
+                                               </td> 
 
                                                 <td>
                                                     <?php if ($landlord['status'] == '1' AND $landlord['is_admin_approved'] == '1') { ?>

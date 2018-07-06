@@ -322,7 +322,7 @@ function disable(aa)
                           <table class="table table-striped table-hover table-bordered" id="editable-sample">
                                      <thead>
                             <tr>
-                          <!--   <th>Webshop Id</th> -->
+                             <th>Slno</th> 
                            <th>Certified User</th>
                                   <th>Image</th>
                                                             
@@ -414,9 +414,9 @@ if(isset($_GET['action']) && $_GET['action']=='top1')
               
               <tr>
                                                           
-            <!--       <td>
-                  <?php echo stripslashes($landlord['webshop_id']);?>
-                  </td> -->
+                   <td>
+                  <?php echo stripslashes($landlord['id']);?>
+                  </td> 
 
                  <td>
                      <input type="checkbox" checked onClick="javascript:top1('<?php echo $landlord['id'];?>');" />

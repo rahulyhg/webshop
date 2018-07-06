@@ -40,7 +40,7 @@
                         <ul class="list-unstyled new-ul">
                             <li>
                                 <div ng-if="user_id && productLists.interest == 0 && productLists.type == 1">
-                                    sss
+                                    
                                     <ng-rating ng-model="productLists.averagerating" icon-class="rating.iconClass" editable="false" stars-count="rating.starsCount"
                                         based-on="rating.basedOn"></ng-rating>
                                     <!--								<a href="#">
@@ -69,14 +69,14 @@
                                     <a href="javascript:void(0)" data-toggle="modal" data-target="#login" class="new-abtn">Write a review</a>
                                 </div>
                             </li>
-                            <li class="text-right" ng-if="user_id && productLists.interest == 1 && productLists.type == 1" ">
+                            <li class="text-right" ng-if="user_id && productLists.interest == 1 && productLists.type == 1">
                         <div >
-                           <a href="javascript:void(0) " data-toggle="modal " data-target="#myModal1 " class="new-abtn ">Write a review</a>
+                           <a href="javascript:void(0)" data-toggle="modal" data-target="#myModal1" class="new-abtn">Write a review</a>
                         </div>
                      </li>
                   </ul>
-                  <div class="table-responsive ">
-                     <table class="table table-bordered table-striped table-sm table-hover ">
+                  <div class="table-responsive">
+                     <table class="table table-bordered table-striped table-sm table-hover">
                         <tr>
                            <td>
                               <h6 class="mb-0 ">{{language.product}} {{language.bracelet}} {{language.type}}</h6>
@@ -93,6 +93,63 @@
                               <h6 class="mb-0 ">{{productLists.size}}</h6>
                            </td>
                         </tr>
+                        
+                        
+                        
+                        <tr>
+                           <td>
+                              <h6 class="mb-0 ">{{language.model}} {{language.year}}</h6>
+                           </td>
+                           <td>
+                              <h6 class="mb-0 ">{{productLists.model_year}}</h6>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>
+                              <h6 class="mb-0 ">{{language.movement}}</h6>
+                           </td>
+                           <td>
+                              <h6 class="mb-0 ">{{productLists.movement}}</h6>
+                           </td>
+                        </tr>
+                        <tr ng-if="productLists.date_purchase!='0000-00-00'">
+                           <td>
+                              <h6 class="mb-0 ">{{language.Date_of_Purchased}}</h6>
+                           </td>
+                           <td>
+                              <h6 class="mb-0 ">{{productLists.date_purchase}}</h6>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>
+                              <h6 class="mb-0 ">{{language.Status_of_watch}}</h6>
+                           </td>
+                           <td>
+                              <h6 class="mb-0 ">{{productLists.status_watch}} <span ng-if="productLists.status_watch== 'New'"></span>
+                              <span ng-if="productLists.status_watch== 'Mint'"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span>
+                              <span ng-if="productLists.status_watch== 'Excellent'"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span>
+                              <span ng-if="productLists.status_watch== 'Good'"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span>
+                              <span ng-if="productLists.status_watch== 'Fair'"><i class="fa fa-star"></i><i class="fa fa-star"></i></span>
+                              <span ng-if="productLists.status_watch== 'Poor'"><i class="fa fa-star"></i></span>
+                              
+                              
+                              </h6>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td>
+                              <h6 class="mb-0 ">{{language.quantity}}</h6>
+                           </td>
+                           <td>
+                              <h6 class="mb-0 ">{{productLists.quantity}} pcs. Available.</h6>
+                           </td>
+                        </tr>
+                        
+                        
+                        
+                        
+                        
+                        
                         <tr>
                            <td>
                               <h6 class="mb-0 " >{{language.product_description}}</h6>
@@ -108,27 +165,50 @@
                            </td>
                            <td>
                               <h6 class="mb-0 ">
-                                 <a ng-if="user_id && is_fav1==1 && user_id !=p roductLists.seller_id " ng-click="addwishlist3(productLists.id,
-                                productLists.seller_id) " class="d-block rounded-circle "><i style="color:red " class="ion-heart "></i></a>
-                                 <a ng-if="user_id && is_fav1==0 && user_id !=p roductLists.seller_id " ng-click="addwishlist2(productLists.id,
-                                productLists.seller_id) " class="d-block rounded-circle "><i class="ion-heart "></i></a>
-                                 <a ng-if="!user_id " ng-click="checklogin() " class="d-block rounded-circle
-                                "><i class="ion-heart "></i></a></li>
+                                 <a ng-if="user_id && is_fav1==1 && user_id !=productLists.seller_id" ng-click="addwishlist3(productLists.id,productLists.seller_id)" class="d-block rounded-circle "><i style="color:red " class="ion-heart "></i></a>
+                                 <a ng-if="user_id && is_fav1==0 && user_id !=productLists.seller_id" ng-click="addwishlist2(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-heart "></i></a>
+                                 <a ng-if="!user_id " ng-click="checklogin() " class="d-block rounded-circle"><i class="ion-heart"></i></a>
                               </h6>
                            </td>
                         </tr>
+                        
+                        
+                        
+                       
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
                         <tr>
-                           <td colspan="2 ">
-                              <p ng-if="!loader1 " class="loader "></p>
-                              <a href=" " ng-if="user_id && loader1 && productLists.interest==0 && user_id !=productLists.seller_id
-                                && productLists.type !=2 " ng-click="emailtothevendorinterest(productLists.seller_id, productLists.type)
-                                " class="btn btn-primary btn-block ">Show Interest and Seller Details</a>
-                              <a ng-if="user_id && loader1 && productLists.interest==1 && user_id !=p roductLists.seller_id
-                                && productLists.type !=2 " href="javascript:void(0) " class="btn btn-primary btn-block ">Already interestd</a>
-                              <a ng-if="user_id && productLists.ctime> productLists.start_time && productLists.seller_id != user_id && productLists.type == 2" href="javascript:void(0)"
-                                ng-click="checkauctionvalidity()" class="btn btn-primary btn-block">Go Live Bidding</a>
-                                <a ng-if="!user_id && productLists.ctime > productLists.start_time && productLists.interest == 0 && productLists.type == 2"
-                                    href="javascript:void(0)" data-toggle="modal" data-target="#login" class="btn btn-primary btn-block">Go Live Bidding</a>
+                           <td colspan="2">
+<!--                              <p ng-if="!loader1 " class="loader "></p>
+                              <a href="javascript:void(0)" ng-if="user_id && loader1 && productLists.interest==0 && user_id !=productLists.seller_id && productLists.type !=2" ng-click="emailtothevendorinterest(productLists.seller_id, productLists.type)" class="btn btn-primary btn-block">Show Interest and Seller Details</a>-->
+<!--                              <a ng-if="user_id && loader1 && productLists.interest==1 && user_id !=productLists.seller_id && productLists.type !=2" href="javascript:void(0)" class="btn btn-primary btn-block">Already interested</a>-->
+                              <a ng-if="user_id && productLists.ctime> productLists.start_time && productLists.seller_id != user_id && productLists.type == 2" href="javascript:void(0)" ng-click="checkauctionvalidity()" class="btn btn-primary btn-block">Go Live Bidding</a>
+                                <a ng-if="!user_id && productLists.ctime > productLists.start_time && productLists.interest == 0 && productLists.type == 2" href="javascript:void(0)" data-toggle="modal" data-target="#login" class="btn btn-primary btn-block">Go Live Bidding</a>
                                 </td>
                                 </tr>
                                 </table>
@@ -138,12 +218,16 @@
             <div class="col-lg-5 col-md-7 col-sm-7">
                 <!--<div class="share-prod mb-2">Share this product : <a href="" class="d-inline-block text-secondary"><i class="fa fa-facebook"></i></a> <a href="" class="d-inline-block mx-2 text-secondary"><i class="fa fa-twitter"></i></a><a href="" class="d-inline-block text-secondary"><i class="fa fa-google-plus"></i></a></div>-->
                 <div class="seller-info p-3 border-secondary border rounded mb-3">
+                    
+                    <p class="text-secondary mb-2 pp">{{language.price}}: {{productLists.price}} {{productLists.currency_code}}</p>
+                    <p class="text-secondary mb-2" ng-if="productLists.interest != 1">{{language.seller}} {{language.Name}} {{productLists.seller_name}} </p>
                     <div ng-if="user_id && productLists.interest == 1">
                         <h6 class="card-title">{{language.seller}} {{language.Info}}:</h6>
                         <div ng-if="productLists.seller_name">
                             {{language.Name}}
                             <p ng-if="productLists.seller_name" class="mb-1">{{productLists.seller_name}}</p>
                         </div>
+                        
                         <div ng-if="productLists.seller_phone">
                             {{language.seller}} {{language.phone}} {{language.number}}
                             <p ng-if="productLists.seller_phone" class="mb-1">{{productLists.seller_phone}}</p>
@@ -164,17 +248,30 @@
                             {{language.Original_Price}}
                             <p class="text-secondary mb-0">{{productLists.product_actual_currency}} {{productLists.original_price}}</p>
                         </div>
+                        
                     </div>
                     <!--              <p class="text-secondary mb-2"><i class="fa fa-phone"></i> {{productLists.seller_address}}</p>-->
                     <!--<h5>{{language.Original_Price}}<b>{{productLists.product_actual_currency}} {{productLists.original_price}} </b></h5>-->
-                    <p class="text-success">{{productLists.quantity}}pcs. Available. </p>
-                    <p style="color:black">{{language.model}} {{language.year}} :{{productLists.model_year}}</p>
-                    <p style="color:black">{{language.movement}} :{{productLists.movement}}</p>
-                    <p style="color:black" ng-if="productLists.date_purchase">Date of Purchased :{{productLists.date_purchase}}</p>
-                    <p style="color:black">Status of the watch :{{productLists.status_watch}}</p>
-                    <p ng-if="productLists.quantity == '0'" class="text-success">{{language.top_products}}Out of stock.</p>
+                   
+                    
+                    
+                    <div ng-if="user_id && productLists.interest != 1">
+                        <hr ng-if="user_id !=productLists.seller_id">
+                    <p ng-if="!loader1" class="loader "></p>
+                              <a href="javascript:void(0)" ng-if="user_id && loader1 && productLists.interest==0 && user_id !=productLists.seller_id && productLists.type !=2" ng-click="emailtothevendorinterest(productLists.seller_id, productLists.type)" class="btn btn-primary btn-block">Show Interest and Seller Details</a>
+                    </div>
+                              
+                              
+                              
+                              
+                              
+                              
+                              
                     <div ng-if="user_id && productLists.interest == 1">
                         <hr>
+                        
+                        
+                        
                         <button ng-if="is_hide == 0 && productLists.interest == 1 && productLists.type != 2" type="button" ng-click="is_clicked()"
                             class="btn btn-primary btn-block">Contact Seller</button>
                         <button ng-if="user_id && productLists.interest == 0 && user_id != productLists.seller_id" type="button" ng-click="is_clicked()"
@@ -197,7 +294,9 @@
                 <div>
                     <div ng-if="user_id && productLists.interest == 1" id="dvMap" style="width: 400px; height: 400px"></div>
                 </div>
-                <div ng-if="user_id && productLists.interest == 1 && review_status == 1 ">
+                
+                <div ng-if="user_id && productLists.interest == 1">
+                    
                     <hr>
                     <h6 class="card-title">{{language.reviews}}</h6>
                     <div class="reviews-holder">
@@ -229,8 +328,8 @@
                         <p class="text-right" ng-if="user_id && productLists.interest == 0 && user_id != productLists.seller_id">
                             <button disabled class="btn btn-primary btn-block">Add Review</button>
                         </p>
-                        <p class="text-right" ng-if="user_id && productLists.interest == 1 user_id != productLists.seller_id">
-                            <a href="" data-toggle="modal" data-target="#myModal1" class="btn btn-primary btn-block">Add Review</a>
+                        <p class="text-right" ng-if="user_id && productLists.interest == 1 && user_id != productLists.seller_id">
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#myModal1" class="btn btn-primary btn-block">Add Review</a>
                         </p>
                     </div>
                 </div>

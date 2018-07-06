@@ -91,7 +91,7 @@ require_once("includes/class.phpmailer.php");
                             <table class="table table-striped table-hover table-bordered" id="editable-sample">
                                 <thead>
                                     <tr>
-                                  <!--   <th>Webshop Id</th> -->
+                                        <th>Slno</th> 
                                         <th>Latest Deal</th>
                                         <th>Image</th>
                                         <th>Products Name</th>
@@ -153,7 +153,7 @@ require_once("includes/class.phpmailer.php");
 
                                             <tr>
 
-
+                                                <td><?php echo $landlord['id'];?></td>
                                                 <td>
 
                                                     <input type="checkbox" <?php if ($landlord['is_leatest_deal'] == '1') {

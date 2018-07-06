@@ -2548,6 +2548,7 @@ function listCurrency() {
                 "id" => stripslashes($currency->id),
                 "name" => stripslashes($currency->name),
                 "code" => stripslashes($currency->code),
+                "flag" => stripslashes($currency->flag),
                 //"symbol" => stripslashes($currency->symbol),
             );
         }

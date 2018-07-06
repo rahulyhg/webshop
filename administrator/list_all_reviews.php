@@ -242,6 +242,7 @@ if (isset($_POST['ExportCsv'])) {
                             <table class="table table-striped table-hover table-bordered" id="editable-sample">
                                 <thead>
                                     <tr>
+                                        <th>Slno</th>
                                         <th>From Image</th>
                                         <th>From Name</th>
                                         <th>To Name</th>
@@ -284,7 +285,9 @@ if (isset($_POST['ExportCsv'])) {
                                             ?>
 
                                             <tr>
-
+<td>
+                                                    <?php echo stripslashes($result['id']); ?>
+                                                </td> 
                                                 <td>
                                                     <img src="../upload/user_image/<?php echo $user_details['image']; ?>" height="70" width="70" align="image">
                                                 </td>  

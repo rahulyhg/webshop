@@ -934,7 +934,11 @@ ul.status-watch li:last-child{
 
 }
 
-
+.seller-info .pp {
+    font-size: 29px;
+    font-weight: 600;
+    color: #5d5959 !important;
+}
 
 
 
@@ -1212,6 +1216,12 @@ b.blink {
 .auction-details-pade .details-top .nav_n li img {height:100% !important; object-fit:cover!important}
 
 .modal-inner-wrap{height:170px; overflow-y: scroll;}
+
+//spandan
+
+
+
+
 
 @media (max-width: 900px) {
     .logo img {

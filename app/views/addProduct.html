@@ -108,105 +108,143 @@
                   
                   
                   
-                  <div class="form-group">
-                                    <label for="staticEmail">Flag</label>
+                  
+                  
+                  
+                  
+
+
+
+<div class="form-group">
+                                    <label for="staticEmail">{{language.currency}}*</label>
                                     <div class="dropdown status-watch-wrap">
                                         <ul class="list-unstyled status-watch">
-                                            <li class="init">
+<!--                                            <li class="init">
                                                 <a href="javascript:void(0)">
-                                                    <span class="ng-binding">Please Select Flags </span>
+                                                    <span class="ng-binding">Please Select Currency </span>
                                                     <p><i class="fa fa-flag"></i></p>
                                                 </a>
-                                            </li>
-                                            <li data-value="GBP">
-                                                <a ng-click="selectedstatus('GBP')" href="javascript:void(0)">
-                                                    <span class="ng-binding">GBP</span>
-                                                    <p>
-                                                    <img src="http://178.62.61.183/app/assets/images/en.gif" alt="">     
-                                                    </p>
-                                                </a>
-                                            </li>
-                                            <li data-value="KWD">
-                                                <a ng-click="selectedstatus('KWD')" href="javascript:void(0)">
-                                                    <span class="ng-binding">KWD</span>
+                                            </li>-->
+                                            
+                                            <li data-value="KWD" class="init">
+                                                <a ng-click="selectedcurrency('KWD')" href="javascript:void(0)">
+                                                    <span class="ng-binding">Kuwaiti dinar</span>
                                                     <p>
                                                         <img src="http://178.62.61.183/app/assets/images/kwd.jpg" alt="">
                                                     </p>
                                                 </a>
                                             </li>
-                                            <li data-value="BHD">
-                                                <a ng-click="selectedstatus('BHD')" href="javascript:void(0)">
-                                                    <span class="ng-binding">BHD</span>
-                                                    <p>
-                                                        <img src="http://178.62.61.183/app/assets/images/bhd.jpg" alt="">
-                                                    </p>
-                                                </a>
-                                            </li>
-                                            <li data-value="SAR">
-                                                <a ng-click="selectedstatus('SAR')" href="javascript:void(0)">
-                                                    <span class="ng-binding">SAR</span>
-                                                    <p>
-                                                        <img src="http://178.62.61.183/app/assets/images/sar.jpg" alt="">
-                                                    </p>
-                                                </a>
-                                            </li>
-                                            <li data-value="QAR">
-                                                <a ng-click="selectedstatus('QAR')" href="javascript:void(0)">
-                                                    <span class="ng-binding">QAR</span>
-                                                    <p>
-                                                        <img src="http://178.62.61.183/app/assets/images/qar.jpg" alt="">
-                                                    </p>
-                                                </a>
-                                            </li>
+                                            
                                             <li data-value="AED">
-                                                <a ng-click="selectedstatus('AED')" href="javascript:void(0)">
-                                                    <span class="ng-binding">AED</span>
+                                                <a ng-click="selectedcurrency('AED')" href="javascript:void(0)">
+                                                    <span class="ng-binding">Dirham</span>
                                                     <p>
                                                         <img src="http://178.62.61.183/app/assets/images/uae.jpg" alt="">
                                                     </p>
                                                 </a>
                                             </li>
+                                            <li data-value="USD">
+                                                <a ng-click="selectedcurrency('USD')" href="javascript:void(0)">
+                                                    <span class="ng-binding">Dollar</span>
+                                                    <p>
+                                                        <img src="http://178.62.61.183/app/assets/images/usd.jpg" alt="">
+                                                    </p>
+                                                </a>
+                                            </li>
                                             <li data-value="OMR">
-                                                <a ng-click="selectedstatus('OMR')" href="javascript:void(0)">
-                                                    <span class="ng-binding">OMR</span>
+                                                <a ng-click="selectedcurrency('OMR')" href="javascript:void(0)">
+                                                    <span class="ng-binding">Omani Rial</span>
                                                     <p>
                                                         <img src="http://178.62.61.183/app/assets/images/omr.jpg" alt="">
                                                     </p>
                                                 </a>
                                             </li>
-                                            <li data-value="USD">
-                                                <a ng-click="selectedstatus('USD')" href="javascript:void(0)">
-                                                    <span class="ng-binding">USD</span>
+                                            <li data-value="QAR">
+                                                <a ng-click="selectedcurrency('QAR')" href="javascript:void(0)">
+                                                    <span class="ng-binding">Qatar Rial</span>
                                                     <p>
-                                                        <img src="http://178.62.61.183/app/assets/images/usd.jpg" alt="">
+                                                        <img src="http://178.62.61.183/app/assets/images/qar.jpg" alt="">
                                                     </p>
                                                 </a>
-                                            </li>                                        
-                                            <li data-value="EURO">
-                                                <a ng-click="selectedstatus('EURO')" href="javascript:void(0)">
-                                                    <span class="ng-binding">EURO</span>
+                                            </li>
+                                            <li data-value="SAR">
+                                                <a ng-click="selectedcurrency('SAR')" href="javascript:void(0)">
+                                                    <span class="ng-binding">Saudi Riyal</span>
+                                                    <p>
+                                                        <img src="http://178.62.61.183/app/assets/images/sar.jpg" alt="">
+                                                    </p>
+                                                </a>
+                                            </li>
+                                                                                  
+                                            <li data-value="EUR">
+                                                <a ng-click="selectedcurrency('EUR')" href="javascript:void(0)">
+                                                    <span class="ng-binding">Euro</span>
                                                     <p>
                                                         <img src="http://178.62.61.183/app/assets/images/euro.png" alt="">
                                                     </p>
                                                 </a>
-                                            </li> 
+                                            </li>
+                                            <li data-value="GBP">
+                                                <a ng-click="selectedcurrency('GBP')" href="javascript:void(0)">
+                                                    <span class="ng-binding">Pound</span>
+                                                    <p>
+                                                    <img src="http://178.62.61.183/app/assets/images/en.gif" alt="">     
+                                                    </p>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                   
                   
                   
                   
-                  
-                  
-                  
-									<div class="form-group">
+<!--									<div class="form-group">
 										<label for="staticEmail">{{language.currency}}*</label>
 										<select class="form-control" name="currency" ng-model="user2.currency"  required>
 											<option  ng-repeat="currencylists in currencylist" value="{{currencylists.code}}">{{currencylists.name}}</option>
 										</select>
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.currency.$error.required">{{language.please}} {{language.Choose}} {{language.currency}}</span>
-									</div>
+									</div>-->
+
+
                                                                     <div class="form-group" ng-if="drpmodel=='2'">
 										<label for="staticEmail">{{language.auction}} {{language.date}}*</label>
 										<!--<input type="text" class="form-control" id="datepicker" value="" placeholder="" ng-model="user2.preferred_date" name="preferred_date" required>-->
@@ -314,4 +352,16 @@
 			</div>
 		</div>
 	</section>
-	
+<script>
+    $("ul.status-watch").on("click", ".init", function () {
+        $(this).closest("ul.status-watch").children('li:not(.init)').toggle();
+    });
+
+    var allOptions = $("ul.status-watch").children('li:not(.init)');
+    $("ul.status-watch").on("click", "li:not(.init)", function () {
+        allOptions.removeClass('selected');
+        $(this).addClass('selected');
+        $("ul.status-watch").children('.init').html($(this).html());
+        allOptions.toggle();
+    });    
+</script>	

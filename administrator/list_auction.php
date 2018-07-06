@@ -188,7 +188,7 @@ if ($_REQUEST['action'] == 'edit') {
                             <table class="table table-striped table-hover table-bordered" id="editable-sample">
                                 <thead>
                                     <tr>
-
+                                        <th>Slno</th>
                                         <th>Product Images</th>           
                                         <th>User Name</th>
                                         <th>Price</th>
@@ -267,7 +267,9 @@ if ($_REQUEST['action'] == 'edit') {
 
                                             <tr>
 
-
+                                                <td>
+                                                    <?php echo stripslashes($tools_type['id']); ?>
+                                                </td>
                                                 <td>
                                                     <img src="<?php echo $image_link; ?>" height="100" width="100" align="image">
                                                 </td>
@@ -279,7 +281,7 @@ if ($_REQUEST['action'] == 'edit') {
 
 
                                                 <td>
-                                                    $<?php echo stripslashes($tools_type['price']); ?>
+                                                    KWD <?php echo stripslashes($tools_type['price']); ?>
                                                 </td>
 
                                                 <td>
