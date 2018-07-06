@@ -14250,9 +14250,18 @@ $app->response->setStatus(200);
     $stmt->execute();
     $getResults = $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+    
     if(!empty($getResults)){
+        foreach($getResults as $r){
+//         print_r($r);
+//         exit;
+            $abc[]=$r->field;
+        }
+       
+       // print_r($abc);
+         $results = implode(",",$abc);
         
-        $data['autofieldlist'] = $getResults;
+        $data['autofieldlist'][] = $results;
         $data['Ack'] = 1;
         $app->response->setStatus(200);
 

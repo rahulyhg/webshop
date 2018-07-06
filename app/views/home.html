@@ -1,4 +1,6 @@
-	<div id="carouselExampleControls" class="carousel slide new_mt" data-ride="carousel">
+<link href="app/assets/css/slick.css" rel="stylesheet">
+<link href="app/assets/css/slick-theme.css" rel="stylesheet">	
+<div id="carouselExampleControls" class="carousel slide new_mt" data-ride="carousel">
 	  <div class="carousel-inner">
 	    <div class="carousel-item active">
 	      <img class="d-block w-100" src="{{banner.image}}" alt="First slide" style="height: 100vh;">
@@ -58,7 +60,7 @@
 	  </a>-->
 	</div>
 	
-	<section class="brand" id="section">
+<!--	<section class="brand" id="section">
 		<div class="container">
 			<h1>{{language.our_brands}}</h1>
                         
@@ -69,8 +71,153 @@
 			</ul>
 			
 		</div>
-	</section>
+	</section>-->
 
+<section class="brand" id="section">
+	<div class="container">
+		<h1>{{language.our_brands}}</h1>
+
+		<!-- <ul class="d-flex py-5 w-100 float-left">
+			<li ng-repeat="brandLists in brandList">
+				<a href='#/productlisting/{{brandLists.brand_id}}'>
+					<img src="{{brandLists.brand_image}}" alt="" />
+				</a>
+			</li>
+		</ul> -->
+
+		<div class="w-100 float-left py-4">
+			<div class="autoplay">
+				<div>
+					<a href="#/productlisting/1">
+						<img src="http://178.62.61.183/upload/brand_image/Audemars_Piguet_logo.png" alt="" class="img-fluid">
+					</a>
+				</div>
+
+				<div>
+					<a href="#/productlisting/2">
+						<img src="http://178.62.61.183/upload/brand_image/Breguet.png" alt="" class="img-fluid">
+					</a>
+				</div>
+
+				<div>
+					<a href="#/productlisting/3">
+						<img src="http://178.62.61.183/upload/brand_image/Breitling.png" alt="" class="img-fluid">
+					</a>
+				</div>
+
+				<div>
+					<a href="#/productlisting/4">
+						<img src="http://178.62.61.183/upload/brand_image/cartier.jpg" alt="" class="img-fluid">
+					</a>
+				</div>
+
+				<div>
+					<a href="#/productlisting/5">
+						<img src="http://178.62.61.183/upload/brand_image/Chopard.png" alt="" class="img-fluid">
+					</a>
+				</div>
+
+				<div>
+					<a href="#/productlisting/6">
+						<img src="http://178.62.61.183/upload/brand_image/Corum.png" alt="" class="img-fluid">
+					</a>
+				</div>
+
+				<div>
+					<a href="#/productlisting/7">
+						<img src="http://178.62.61.183/upload/brand_image/Dior.png" alt="" class="img-fluid">
+					</a>
+				</div>
+
+				<div>
+					<a href="#/productlisting/8">
+						<img src="http://178.62.61.183/upload/brand_image/Harry-Winston.png" alt="" class="img-fluid">
+					</a>
+				</div>
+
+				<div>
+					<a href="#/productlisting/9">
+						<img src="http://178.62.61.183/upload/brand_image/Hublot.png" alt="" class="img-fluid">
+					</a>
+				</div>
+
+				<div>
+					<a href="#/productlisting/10">
+						<img src="http://178.62.61.183/upload/brand_image/IWC-Schaffhausen.png" alt="" class="img-fluid">
+					</a>
+				</div>
+
+				<div>
+					<a href="#/productlisting/11">
+						<img src="http://178.62.61.183/upload/brand_image/jaeger-lecoultre.jpg" alt="" class="img-fluid">
+					</a>
+				</div>
+				<div>
+					<a href="#/productlisting/12">
+						<img src="http://178.62.61.183/upload/brand_image/Mont-Blanc.jpg" alt="" class="img-fluid">
+					</a>
+				</div>
+				<div>
+					<a href="#/productlisting/13">
+						<img src="http://178.62.61.183/upload/brand_image/Omega.png" alt="" class="img-fluid">
+					</a>
+				</div>
+				<div>
+					<a href="#/productlisting/14">
+						<img src="http://178.62.61.183/upload/brand_image/Paneri.png" alt="" class="img-fluid">
+					</a>
+				</div>
+				<div>
+					<a href="#/productlisting/15">
+						<img src="http://178.62.61.183/upload/brand_image/Patek-Philippe.png" alt="" class="img-fluid">
+					</a>
+				</div>
+				<div>
+					<a href="#/productlisting/16">
+						<img src="http://178.62.61.183/upload/brand_image/Richard-Mile.png" alt="" class="img-fluid">
+					</a>
+				</div>
+				<div>
+					<a href="#/productlisting/17">
+						<img src="http://178.62.61.183/upload/brand_image/Roger-Dubuis.png" alt="" class="img-fluid">
+					</a>
+				</div>
+				<div>
+					<a href="#/productlisting/18">
+						<img src="http://178.62.61.183/upload/brand_image/Rolex.png" alt="" class="img-fluid">
+					</a>
+				</div>
+				<div>
+					<a href="#/productlisting/19">
+						<img src="http://178.62.61.183/upload/brand_image/Tag-Heuer.png" alt="" class="img-fluid">
+					</a>
+				</div>
+				<div>
+					<a href="#/productlisting/20">
+						<img src="http://178.62.61.183/upload/brand_image/TUDOR.png" alt="" class="img-fluid">
+					</a>
+				</div>
+				<div>
+					<a href="#/productlisting/21">
+						<img src="http://178.62.61.183/upload/brand_image/Vacheron-Constantin.png" alt="" class="img-fluid">
+					</a>
+				</div>
+				<div>
+					<a href="#/productlisting/22">
+						<img src="http://178.62.61.183/upload/brand_image/Van-Cleef.jpg" alt="" class="img-fluid">
+					</a>
+				</div>
+				<div>
+					<a href="#/productlisting/23">
+						<img src="http://178.62.61.183/upload/brand_image/Zenith.jpg" alt="" class="img-fluid">
+					</a>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+</section>
 	<section class="new-collection">
 		<ul>
 			<li>
@@ -208,4 +355,17 @@
 		</div>
 	</section>
  
- 
+ <script src="app/assets/js/slick.js"></script>
+<script type="text/javascript">
+	$('.autoplay').slick({
+		dots: false,
+                arrows:true,
+                autoplay:true,
+                loop:true,
+		infinite:true,
+		speed: 1000,
+		slidesToShow: 4,
+		slidesToScroll: 1
+	});
+</script>
+

@@ -50,6 +50,8 @@ app.run(['$rootScope', '$state', '$stateParams',
     }]);
 
 
+
+
 //--------------------------------------
 
 app.directive('sliderRange', ['$document',function($document) {
@@ -325,7 +327,9 @@ angular.module('angularblank').filter('tel', function () {
 });
 
 
-
+   // angular.module('yourApp', ['rzModule']);
+    
+    
 
 app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$compileProvider', '$filterProvider', '$provide', '$ocLazyLoadProvider', 'JS_REQUIRES','$locationProvider',
     function ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvider, $filterProvider, $provide, $ocLazyLoadProvider, jsRequires,$locationProvider) {
