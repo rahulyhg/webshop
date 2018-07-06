@@ -3726,12 +3726,12 @@ reject(response);
         });
  };
  
- var addbid = function(userid,productid,bidprice,uploaderid,bidincrement) {
+ var addbid = function(userid,productid,bidprice,uploaderid,bidincrement,currency) {
 return $q(function(resolve, reject) {
     
   //var nextbidprice = parseInt(bidprice)+parseInt(bidincrement);
   //alert(bidprice);
-  var encodedString ='{"uploaderid":"'+ uploaderid +'","userid":"'+ userid +'","productid":"'+ productid +'","bidprice":"'+ bidprice +'","bidincrement":"'+ bidincrement +'"}';
+  var encodedString ='{"uploaderid":"'+ uploaderid +'","userid":"'+ userid +'","productid":"'+ productid +'","bidprice":"'+ bidprice +'","bidincrement":"'+ bidincrement +'","currency":"'+ currency +'"}';
 
 $http({
 method: 'POST',
@@ -5065,6 +5065,7 @@ var encodedString ='{"product_id":"'+ product_id +'"}';
  var getmaxprice = function(type,user_id) {
         return $q(function(resolve, reject) {
 var encodedString ='{"type":"'+ type +'","user_id":"'+ user_id +'"}';
+//alert(encodedString)
         $http({
          method: 'POST',
          url: $rootScope.serviceurl+"getmaxprice",
@@ -5258,7 +5259,7 @@ var encodedString ='{"shop_id":"'+ shop_id +'"}';
 
 var searchproductListinglatest = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,country_id,state_id,city_id,keyword,category,movement,size_amount_max,size_amount_min,currency) {
     return $q(function(resolve, reject) {
-        
+       // alert(currency)
         //var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'"}';
         var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","country_id":"'+country_id+'","state_id":"'+state_id+'","city_id":"'+city_id+'","keyword":"'+keyword+'","category":"'+category+'","movement":"'+movement+'","size_amount_max":"'+size_amount_max+'","size_amount_min":"'+size_amount_min+'","currency":"'+currency+'"}';
         

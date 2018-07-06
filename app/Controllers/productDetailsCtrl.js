@@ -296,7 +296,7 @@ else {
     $scope.checkauctionvalidity();
     //alert(bid.bidprice);
      //console.log('bidding',bid);
-      userService.addbid( bid.userid,bid.productid,bid.bidprice,bid.uploaderid,bid.bidincrement).then(function(response) {
+      userService.addbid( bid.userid,bid.productid,bid.bidprice,bid.uploaderid,bid.bidincrement,$scope.usersSelectedCurrency).then(function(response) {
 
 	//console.log("vv",response);
 		
@@ -610,7 +610,7 @@ swal("Mail can not be sent",'','error');
    // $scope.checkauctionvalidity();
     //alert(bid.bidprice);
      //console.log('bidding',bid);
-      userService.addbid( bid.userid,bid.productid,bid.bidprice,bid.uploaderid,bid.bidincrement).then(function(response) {
+      userService.addbid( bid.userid,bid.productid,bid.bidprice,bid.uploaderid,bid.bidincrement,$scope.usersSelectedCurrency).then(function(response) {
 
 	//console.log("vv",response);
 		
