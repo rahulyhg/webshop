@@ -475,7 +475,6 @@ function userlogin() {
                     "country" => stripslashes($user->country),
                     "state" => stripslashes($user->state),
                     "city" => stripslashes($user->city),
-                    "ibanno" => stripslashes($user->ibanno),
                 );
                 $app->response->setStatus(200);
             }
@@ -1402,10 +1401,13 @@ function ProductsDetails() {
             $auctiondate = explode(' ', $naxtime_slot_id->start_time);
             $action_date = $auctiondate[0];
             $action_time = $auctiondate[1];
-            
-            $diff = strtotime($naxtime_slot_id->start_time) - strtotime($naxtime_slot_id->end_time);
-            $auction_end_time = intval(date('s', $diff));
-            
+            $time_now = mktime(date('H') + 5, date('i') + 30, date('s'));
+            $ctime = date('Y-m-d H:i:s', $time_now);
+            //echo $ctime.'<br>';
+            //echo $naxtime_slot_id->end_time;
+            $auction_end_time = strtotime($naxtime_slot_id->end_time) - strtotime($ctime) ;
+            //$auction_end_time = (date('s', $diff));
+           // echo $auction_end_time;exit;
            // $auction_end_time = strtotime($time);
 //$action_time = date('H:i', strtotime($action_time));
         } else {
@@ -3923,7 +3925,6 @@ function addProductNew() {
     $model_year = isset($body["model_year"]) ? $body["model_year"] : '';
     $breslet_type = isset($body["breslet_type"]) ? $body["breslet_type"] : '';
     $time_slot_id = isset($body["time_slot_id"]) ? $body["time_slot_id"] : '';
-    $ibanno = isset($body["ibanno"]) ? $body["ibanno"] : '';
 
     $state = isset($body["state"]) ? $body["state"] : '';
     $city = isset($body["city"]) ? $body["city"] : '';
@@ -4151,7 +4152,7 @@ function addProductNew() {
             $stmtsetting->execute();
             $getsetting = $stmtsetting->fetchObject();
 
-            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city,approved,auction_fee,my_latitude,my_longitude,ibanno) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city,:approved,:auction_fee,:my_latitude,:my_longitude,:ibanno)";
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city,approved,auction_fee,my_latitude,my_longitude) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city,:approved,:auction_fee,:my_latitude,:my_longitude)";
             
             $approved=1;
             $payment_amount = ceil(($price * $getsetting->threshold_price_percent) / 100);
@@ -4184,8 +4185,6 @@ function addProductNew() {
                 $stmt->bindParam("breslet_type", $breslet_type);
                 $stmt->bindParam("model_year", $model_year);
                 $stmt->bindParam("time_slot_id", $time_slot_id);
-                $stmt->bindParam("ibanno", $ibanno);
-                
                 $stmt->bindParam("thresholdprice", $price);
                 $stmt->bindParam("state", $state);
                 $stmt->bindParam("city", $city);
@@ -4198,14 +4197,10 @@ function addProductNew() {
                 $stmt->bindParam("my_latitude", $latitude);
                 $stmt->bindParam("my_longitude", $longitude);
                 $stmt->execute();
+
                 $lastID = $db->lastInsertId();
 
-                
-                
-                $sqliban = "UPDATE webshop_user SET ibanno=:ibanno WHERE id=$user_id";
-                $stmti = $db->prepare($sqliban);
-                $stmti->bindParam("ibanno", $ibanno);
-                $stmti->execute();
+
 
 
                 /*  if (!empty($_FILES['image'])) {
@@ -4484,7 +4479,7 @@ function addProductNew() {
                     } else {
 
                         $data['Ack'] = 1;
-                        $data['msg'] = 'Product added successfully. Please pay then admin approve to live this product.';
+                        $data['msg'] = 'Product added successfully. Wait for admin approval to pay and live this product.';
                         $data['type'] = $type;
                         $data['utype'] = 1;
                         $data['lastid'] = $lastID;
@@ -4511,7 +4506,7 @@ function addProductNew() {
             $stmtsetting->execute();
             $getsetting = $stmtsetting->fetchObject();
 
-            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city,approved,auction_fee,my_latitude,my_longitude,ibanno) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city,:approved,:auction_fee,:my_latitude,:my_longitude,:ibanno)";
+            $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,preferred_date,location,work_hours,status,breslet_type,model_year,time_slot_id,thresholdprice,state,city,approved,auction_fee,my_latitude,my_longitude) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:preferred_date,:location,:work_hours,:status,:breslet_type,:model_year,:time_slot_id,:thresholdprice,:state,:city,:approved,:auction_fee,:my_latitude,:my_longitude)";
 
             $approved= 1;
             $payment_amount = ceil(($price * $getsetting->threshold_price_percent) / 100);
@@ -4553,7 +4548,6 @@ function addProductNew() {
                 $stmt->bindParam("auction_fee", $payment_amount);
                 $stmt->bindParam("my_latitude", $latitude);
                 $stmt->bindParam("my_longitude", $longitude);
-                $stmt->bindParam("ibanno", $ibanno);
 
                 $sqlFriend = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id)";
 
@@ -4577,12 +4571,10 @@ function addProductNew() {
                 $stmt->bindParam("work_hours", $work_hours);
                 $stmt->bindParam("status", $get_status);
                 $stmt->execute();
+
                 $lastID = $db->lastInsertId();
 
-                $sqliban = "UPDATE webshop_user SET ibanno=:ibanno WHERE id=$user_id";
-                $stmti = $db->prepare($sqliban);
-                $stmti->bindParam("ibanno", $ibanno);
-                $stmti->execute();
+
 
 
                 /* if (!empty($_FILES['image'])) {
@@ -14366,7 +14358,57 @@ $app->response->setStatus(200);
         $app->response->write(json_encode($data));
     }
 
+function countview() {
 
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    $product_id = isset($body->product_id) ? $body->product_id : '';
+    $count=1;
+    $countview=1;
+    $db = getConnection();
+    $getResults=array();
+  //  $word = isset($body->word) ? $body->word : '';
+    
+      //  $sql = "UPDATE  webshop_products SET countview='$count' WHERE id='$product_id'";
+    $sql = "SELECT countview FROM  webshop_products where id='$product_id'";
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+    $getResults = $stmt->fetchAll();
+    
+    if(!empty($getResults)){
+       
+      $count= $getResults[0]['countview'] + 1;
+      $sql2 = "UPDATE  webshop_products SET countview='$count' WHERE id='$product_id'";
+        //$sql1 = "SELECT countview FROM  webshop_products where id='$product_id'";
+        $stmt2 = $db->prepare($sql2);
+        $stmt2->execute();
+      
+    }
+    else{
+        $count++;
+        $sql1 = "UPDATE  webshop_products SET countview='$count' WHERE id='$product_id'";
+        //$sql1 = "SELECT countview FROM  webshop_products where id='$product_id'";
+        $stmt1 = $db->prepare($sql1);
+        $stmt1->execute();
+    }
+    
+    $countview = $count;
+ 
+
+       // exit;
+        $data['countview'] = $countview;
+        $data['Ack'] = 1;
+        $app->response->setStatus(200);
+
+    
+
+        $app->response->write(json_encode($data));
+    }
 
 
 

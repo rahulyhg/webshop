@@ -16,7 +16,7 @@
                     <div class="details-top p-3 mb-3 position-relative">
                         <div class="like">
                             <p class="m-0">
-                                <i class="ion-thumbsup"></i> {{productLists.totallike}}</p>
+                                <i class="ion-thumbsup"></i> {{productLists.totallike}} &nbsp;<i class="fa fa-eye"></i> {{countview}}</p>
                         </div>
                         <div class="slider_n">
                             <!-- enumerate all photos -->
@@ -319,8 +319,8 @@
                         <!-- <div class='time-to' ng-if="productLists.preferred_date && productLists.type == 2">
                             <p countdown='' date='{{productLists.preferred_date}}' style="color:red">&nbsp;</p>
                         </div> -->
-                        <input type='text' ng-model="auction.auction_time" id="auction_end_time">
-                        {{productLists.auction_end_time}}
+                        <input type='hidden' value="{{productLists.auction_end_time}}" class="auction_end_time">
+                        
                         <div class="clock"></div>
                         <div class="message"></div>
                     </h5>
@@ -429,7 +429,7 @@
                     <hr>
                     <div>
                         <div>
-                            <input type="submit" value="Continue">
+                            <input type="submit" value="Continue" class="gg">
                         </div>
                     </div>
                 </div>
@@ -639,13 +639,13 @@
 <script src="app/assets/js/flipclock.js"></script>
 <script>
     var clock;
-    $(document).ready(function () {
+    $(".gg").click(function () {
         var clock;
-        //alert(productLists.preferred_date);
-        var   endtime=document.getElementById("auction_end_time").val();
-        alert(endtime);
-        clock = $('.clock').FlipClock({
-            clockFace: 'DailyCounter',
+        
+        var   endtime= $(".auction_end_time").val();
+        //alert(endtime);
+        clock = $('.clock').FlipClock(endtime,{
+            //clockFace: 'DailyCounter',
             autoStart: false,
             callbacks: {
                 stop: function () {
@@ -653,8 +653,9 @@
                 }
             }
         });
-        clock.setTime(endtime);
+       // clock.setTime(endtime);
         clock.setCountdown(true);
         clock.start();
     });
+    
 </script>
