@@ -91,7 +91,7 @@ function inactive(aa)
                           <table class="table table-striped table-hover table-bordered" id="editable-sample">
                                      <thead>
                             <tr>
-                          <!--   <th>Webshop Id</th> -->
+                             <th>Slno</th> 
                            <th>Special auction</th>
                                   <th>Image</th>
                 <th>Special auction Name</th>
@@ -154,7 +154,7 @@ if(isset($_GET['action']) && $_GET['action']=='active')
            ?>
               
               <tr>
-                  
+                  <td><?php echo $landlord['id']?></td>
 
                  <td>
                     

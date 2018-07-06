@@ -263,6 +263,9 @@ if(isset($_REQUEST['bulk_delete_submit'])){
                           <table class="table table-striped table-hover table-bordered" id="editable-sample">
                                      <thead>
                                     <tr>
+                                        <th>
+                   Slno
+                </th>
                <th>
                    Image
                 </th>
@@ -318,7 +321,7 @@ while($row=mysqli_fetch_object($record))
 
               
             <tr>
-                                                             <!--<td align="center"><input type="checkbox" name="checked_id[]" class="checkbox" value="<?php echo $row->id ; ?>"/></td>-->
+                                                             <td align="center"><?php echo $row->id ; ?></td>
                 <td>
                   <img src="<?php echo stripslashes($img);?>" height="70" width="70" style="border:1px solid #666666" />
                 </td>

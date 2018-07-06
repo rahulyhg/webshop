@@ -481,7 +481,7 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
             ?>
 
             <?php if (in_array('6', $prevnameall)) { ?>
-                <li class="sub-menu">
+<!--                <li class="sub-menu">
                     <a href="javascript:;" class="">
                         <i class="icon-tags"></i>
                         <span>SubCategory<br>Management</span>
@@ -502,7 +502,7 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                                 List SubCategory</a>
                         </li> 
                     </ul>
-                </li>
+                </li>-->
                 <?php
             }
             ?>
@@ -546,7 +546,10 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                             Add Top Models</a>
                     </li>
 
-
+                    <li>
+                        <a href="list_top_models.php">
+                            List Top Models</a>
+                    </li>
                 </ul>
             </li>
 

@@ -240,7 +240,7 @@ function inactive(aa)
                           <table class="table table-striped table-hover table-bordered" id="editable-sample">
                                      <thead>
                             <tr>
-                                                          
+                 <th> Slno</th>                                         
                 <th> Name</th>
                <th> Price</th> 
                 <th> Slots</th> 
@@ -264,13 +264,15 @@ function inactive(aa)
               
               <tr>
                                                        
-                
+                <td>
+                  <?php echo stripslashes($subscription['id']);?>
+                </td>
                 <td>
                   <?php echo stripslashes($subscription['name']);?>
                 </td>
                 
                 <td>
-                  <?php echo stripslashes($subscription['price']);?>
+                 KWD  <?php echo stripslashes($subscription['price']);?>
                 </td>
                 
 

@@ -159,7 +159,12 @@ if( $window.localStorage["ibanno"])
 	console.log(err); 
 	});
 
-
+$scope.selectedcurrency = function(status){
+  console.log(status);
+     //Here you will get the selected location.
+    $scope.user2.currency = status;
+   // alert($scope.user2.status);
+ }
 
 	
    userService.getAccountDetails(userInfo.user_id).then(function(response) {
@@ -406,7 +411,7 @@ $scope.addProduct = function(user2){
      $window.localStorage["description"]=user2.description;
      $window.localStorage["brand"]=user2.brand;
      $window.localStorage["price"]=user2.price;
-     $window.localStorage["currency"]=user2.currency;
+     $window.localStorage["currency"]=$scope.user2.currency;
      $window.localStorage["quantity"]=user2.quantity;
      $window.localStorage["preferred_date"]=user2.preferred_date;
      $window.localStorage["user_id"]=$scope.user_id;

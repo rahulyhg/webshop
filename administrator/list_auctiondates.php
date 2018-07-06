@@ -110,7 +110,7 @@ if ($_REQUEST['action'] == 'edit') {
                             <table class="table table-striped table-hover table-bordered" id="editable-sample">
                                 <thead>
                                     <tr>
-
+                                        <th> Slno</th>
                                         <th> Date</th>
                                         <th> Time</th>
                                         <!--<th>  Time</th>--> 
@@ -126,7 +126,9 @@ if ($_REQUEST['action'] == 'edit') {
                                             ?>
 
                                             <tr>
-
+                                                <td>
+                                                    <?php echo stripslashes($subscription['id']); ?>
+                                                </td>
 
                                                 <td>
                                                     <?php echo stripslashes($subscription['date']); ?>

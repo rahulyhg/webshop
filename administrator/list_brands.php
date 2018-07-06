@@ -201,7 +201,8 @@ function inactive(aa)
                               <form name="bulk_action_form" action="" method="post" onsubmit="return deleteConfirm();"/>
                           <table class="table table-striped table-hover table-bordered" id="editable-sample">
                                      <thead>
-                            <tr>              
+                            <tr> 
+                                <th> Slno </th>
                 <th> Name </th>
                 <th>Image</th>          
                <th>Quick Links</th>
@@ -242,7 +243,10 @@ if(isset($_GET['action']) && $_GET['action']=='active')
                                                         ?>
               
               <tr>
-                
+                <td>
+              
+                   <?php echo stripslashes($tools_type['id']);?>
+                </td>
                <td>
               
                    <?php echo stripslashes($tools_type['name']);?>
