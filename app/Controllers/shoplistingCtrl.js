@@ -75,7 +75,11 @@ $scope.isform1 =0;
 //$scope.brand=$stateParams.brand;
 
 
-
+if($window.localStorage["currency"] != ''){
+   $scope.usersSelectedCurrency = $window.localStorage["currency"] ;
+}else{
+    $scope.usersSelectedCurrency = 'KWD';
+}
 
 // alert($scope.amount_max);
 $scope.searchListing = function(){
@@ -225,7 +229,7 @@ if($scope.city_id){
  //spandan end     
 
 //console.log('amount',$scope.amount_max);
- userService.searchproductListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword,$scope.categorylisting).then(function(response) {
+ userService.searchproductListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword,$scope.categorylisting,$scope.usersSelectedCurrency).then(function(response) {
     // alert();
 
 		
