@@ -21,6 +21,7 @@ $scope.is_fav='';
        $window.localStorage["currency"] = 'KWD';
       // alert();
     }else{
+       // $window.localStorage["currency"] = 'KWD'
         $scope.selectedCurr = $window.localStorage["currency"];
        // alert($window.localStorage["currency"]);
     }
