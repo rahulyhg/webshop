@@ -28,7 +28,18 @@ $scope.checkboxstrcat=[];
     $scope.user_id='';
  $scope.search = { price_min : '', price_max : '', amount_min : '', amount_max : '' };
 
+  //Range slider config
+  $scope.rangeSlider = {
+    minValue: 10,
+    maxValue: 90,
+    options: {
+      floor: 0,
+      ceil: 100,
+      step: 1,
+    },
+  }
   
+  $scope.priceSlider = 150;
 	
        
 //alert('a');
@@ -766,5 +777,10 @@ $scope.updatecheckboxmovement = function(select,movement2){
 
 
 }
+
+
+
+
+
 });
 

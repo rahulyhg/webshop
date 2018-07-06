@@ -1031,5 +1031,36 @@ userService.listcountry().then(function(response) {
            $window.scrollTo(0, 0);
          }
          
-    };    
+    }; 
+    
+    
+     $scope.autofield = function(word){
+        
+       // alert(word);
+    userService.autofield(word).then(function(response) {
+           
+		$scope.isExists=1;
+		if(response.Ack == 1) {
+                  
+                    $scope.isExistsfield=1;
+                    $scope.autofieldlist=response.autofieldlist;
+                    localStorage.setItem("autofieldlist", JSON.stringify( $scope.autofieldlist));
+              
+		} else {
+                    
+                    $scope.isExistsfield=0;
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+        
+     }
+    
+    
+    
+    
+    
+    
 });
