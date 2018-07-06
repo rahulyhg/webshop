@@ -144,6 +144,46 @@
                      <a class="dropdown-item" href="#">Offers</a>-->
                </div>
             </li>
+            <li class="nav-item dropdown" >
+<!--               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               USA (USD) <img src="app/assets/images/map.png" alt="" />
+               </a>-->
+                <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               {{selectedCurr}}
+               </a>
+               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+                   
+                  <a class="dropdown-item" ng-click="selectedCurrency('')" href="javascript:void(0)">Kuwaiti Dinar
+                  <img src="http://178.62.61.183/app/assets/images/kwd.jpg" alt="">
+                  </a>
+                  <a class="dropdown-item" ng-click="selectedCurrency('AED')" href="javascript:void(0)">
+                      Dirham/UAE Dirham  <img src="http://178.62.61.183/app/assets/images/uae.jpg" alt="">
+                  </a>
+                 <a class="nav-link dropdown-toggle" ng-click="selectedCurrency('OMR')" href="javascript:void(0)">
+               Omani Rial  <img src="http://178.62.61.183/app/assets/images/omr.jpg" alt=""> 
+               </a>
+                  
+                  <a class="nav-link dropdown-toggle" ng-click="selectedCurrency('QAR')" href="javascript:void(0)">
+               Qatar Rial <img src="http://178.62.61.183/app/assets/images/qar.jpg" alt="">
+               </a>
+                  
+                  <a class="nav-link dropdown-toggle" ng-click="selectedCurrency('USD')" href="javascript:void(0)">
+               Dollar <img src="http://178.62.61.183/app/assets/images/usd.jpg" alt="">
+               </a>
+                  
+                  <a class="nav-link dropdown-toggle" ng-click="selectedCurrency('SAR')" href="javascript:void(0)">
+               Saudi Riyal <img src="http://178.62.61.183/app/assets/images/sar.jpg" alt="">
+               </a>
+                  
+                  <a class="nav-link dropdown-toggle" ng-click="selectedCurrency('EUR')" href="javascript:void(0)">
+               EURO <img src="http://178.62.61.183/app/assets/images/euro.png" alt="">
+               </a>
+                  
+                  <a class="nav-link dropdown-toggle" ng-click="selectedCurrency('GBP')" href="javascript:void(0)">
+              POUND <img src="http://178.62.61.183/app/assets/images/en.gif" alt=""> 
+               </a>
+               </div>
+            </li>
          </ul>
       </div>
    </div>

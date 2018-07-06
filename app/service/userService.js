@@ -648,11 +648,11 @@ reject(response);
     };  
   
 
-    var searchListing = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,preferred_date,country_id,state_id,city_id,categorylisting,movement,size_amount_max,size_amount_min,is_special_auction,statuslisting) {
+    var searchListing = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,preferred_date,country_id,state_id,city_id,categorylisting,movement,size_amount_max,size_amount_min,is_special_auction,statuslisting,currency) {
     return $q(function(resolve, reject) {
         
         //var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'"}';
-        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","preferred_date":"'+preferred_date+'","country_id":"'+country_id+'","state_id":"'+state_id+'","city_id":"'+city_id+'","categorylisting":"'+categorylisting+'","movement":"'+movement+'","size_amount_max":"'+size_amount_max+'","size_amount_min":"'+size_amount_min+'","is_special_auction":"'+is_special_auction+'","statuslisting":"'+statuslisting+'"}';
+        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","preferred_date":"'+preferred_date+'","country_id":"'+country_id+'","state_id":"'+state_id+'","city_id":"'+city_id+'","categorylisting":"'+categorylisting+'","movement":"'+movement+'","size_amount_max":"'+size_amount_max+'","size_amount_min":"'+size_amount_min+'","is_special_auction":"'+is_special_auction+'","statuslisting":"'+statuslisting+'","currency":"'+currency+'"}';
          console.log(encodedString);
          //return false;
 //var encodedString ='{"user_id":"'+ userInfo.user_id +'","name":"'+ user.name +'","description":"'+ user.description +'","email":"'+ user.email +'","phone":"'+ user.phone +'","price":"'+ user.price +'","address":"'+ user.address +'","sundaytime":"'+ user.sundaytime +'","mondaytime":"'+ user.mondaytime +'","tuesdaytime":"'+ user.tuesdaytime +'","wednesdaytime":"'+ user.wednesdaytime +'","thursdaytime":"'+ user.thursdaytime +'","fridaytime":"'+ user.fridaytime +'","saturdaytime":"'+ user.saturdaytime +'"}';
@@ -724,10 +724,10 @@ reject(response);
     
     
     
-         var myproduct = function() {
+         var myproduct = function(currency) {
     return $q(function(resolve, reject) {
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
-        var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+        var encodedString ='{"user_id":"'+ userInfo.user_id +'","currency":"'+ currency +'"}';
 
 //var encodedString ='{"user_id":"'+ userInfo.user_id +'","name":"'+ user.name +'","description":"'+ user.description +'","email":"'+ user.email +'","phone":"'+ user.phone +'","price":"'+ user.price +'","address":"'+ user.address +'","sundaytime":"'+ user.sundaytime +'","mondaytime":"'+ user.mondaytime +'","tuesdaytime":"'+ user.tuesdaytime +'","wednesdaytime":"'+ user.wednesdaytime +'","thursdaytime":"'+ user.thursdaytime +'","fridaytime":"'+ user.fridaytime +'","saturdaytime":"'+ user.saturdaytime +'"}';
 
@@ -888,10 +888,10 @@ reject(response);
 
 
 
-           var myauction = function() {
+           var myauction = function(currency) {
     return $q(function(resolve, reject) {
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
-        var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+        var encodedString ='{"user_id":"'+ userInfo.user_id +'","currency":"'+ currency +'"}';
 
 //var encodedString ='{"user_id":"'+ userInfo.user_id +'","name":"'+ user.name +'","description":"'+ user.description +'","email":"'+ user.email +'","phone":"'+ user.phone +'","price":"'+ user.price +'","address":"'+ user.address +'","sundaytime":"'+ user.sundaytime +'","mondaytime":"'+ user.mondaytime +'","tuesdaytime":"'+ user.tuesdaytime +'","wednesdaytime":"'+ user.wednesdaytime +'","thursdaytime":"'+ user.thursdaytime +'","fridaytime":"'+ user.fridaytime +'","saturdaytime":"'+ user.saturdaytime +'"}';
 
@@ -3245,11 +3245,11 @@ var encodedString ='{"product_id":"'+ id +'","user_id":"'+ userInfo.user_id +'"}
         });
  };
  
-  var productDetails = function(product_id,user_id) {
+  var productDetails = function(product_id,user_id,currency) {
         return $q(function(resolve, reject) {
                 
 //var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
-var encodedString ='{"product_id":"'+ product_id +'","user_id":"'+ user_id +'"}';
+var encodedString ='{"product_id":"'+ product_id +'","user_id":"'+ user_id +'","currency":"'+ currency +'"}';
 
            // alert(encodedString);
         $http({
@@ -3962,11 +3962,11 @@ var registernewsletter = function(email) {
     
 };
 
-var searchproductListing = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,country_id,state_id,city_id,keyword,category,movement,size_amount_max,size_amount_min,top_product,statuslist) {
+var searchproductListing = function(user_id,brand,brandList,sellerList,selected_value,amount_min,amount_max,gender,breslettype,year,country_id,state_id,city_id,keyword,category,movement,size_amount_max,size_amount_min,top_product,statuslist,currency) {
     return $q(function(resolve, reject) {
         
         //var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'"}';
-        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","country_id":"'+country_id+'","state_id":"'+state_id+'","city_id":"'+city_id+'","keyword":"'+keyword+'","category":"'+category+'","movement":"'+movement+'","size_amount_max":"'+size_amount_max+'","size_amount_min":"'+size_amount_min+'","top_product":"'+top_product+'","statuslist":"'+statuslist+'"}';
+        var encodedString ='{"user_id":"'+ user_id +'","brand":"'+ brand +'","brandList":"'+ brandList +'","sellerList":"'+ sellerList +'","selected_value":"'+ selected_value +'","amount_min":"'+amount_min+'","amount_max":"'+amount_max+'","gender":"'+gender+'","breslettype":"'+breslettype+'","year":"'+year+'","country_id":"'+country_id+'","state_id":"'+state_id+'","city_id":"'+city_id+'","keyword":"'+keyword+'","category":"'+category+'","movement":"'+movement+'","size_amount_max":"'+size_amount_max+'","size_amount_min":"'+size_amount_min+'","top_product":"'+top_product+'","statuslist":"'+statuslist+'","currency":"'+currency+'"}';
         
          console.log('productlist',encodedString);
          //return false;

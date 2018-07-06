@@ -1,17 +1,5 @@
 app.controller("RootScopeCtrl", function ($scope,$rootScope, $location, $rootScope, $http, $state, $window, $q, $templateCache, $interval, userService,Upload,$timeout) {
-//    $scope.loggedindetails = myAuth.getAdminAuthorisation();
-//
-//    if ($scope.loggedindetails) {
-//        if ($scope.loggedindetails.roleName.toLowerCase() == 'admin') {
-//            $location.path("/admin/home");
-//        }
-//        else if ($scope.loggedindetails.roleName.toLowerCase() == 'staff') {
-//            $location.path("/staff/home");
-//        }
-//    }
-//    else {
-//        $location.path("/home");
-//    }
+
 
 $scope.is_fav='';
     //$scope.mobileverify = '';
@@ -26,6 +14,15 @@ $scope.is_fav='';
     $scope.lang= 1;
     $scope.selectedlanguage = 'English'
    
+    }
+    
+    if($window.localStorage["currency"] == '' || $window.localStorage["currency"] == undefined){
+       $scope.selectedCurr = 'KWD';
+       $window.localStorage["currency"] = 'KWD';
+      // alert();
+    }else{
+        $scope.selectedCurr = $window.localStorage["currency"];
+       // alert($window.localStorage["currency"]);
     }
     
     if($window.localStorage["keyword"]){
@@ -899,6 +896,52 @@ userService.changeLaguage(laguage).then(function(response) {
          
     };
 
+
+$scope.selectedCurrency = function(currency){
+     
+	
+                if(currency == 'KWD'){
+                     $window.localStorage["currency"] = 'KWD';
+                     $scope.selectedCurr = $window.localStorage["currency"];
+                   
+                }else if(currency == 'AED'){
+                 $window.localStorage["currency"] = 'AED';
+                 $scope.selectedCurr = $window.localStorage["currency"];
+                  
+                }else if(currency == 'USD'){
+                 $window.localStorage["currency"] = 'USD';
+                 $scope.selectedCurr = $window.localStorage["currency"];
+                  
+                }else if(currency == 'OMR'){
+                  $window.localStorage["currency"] = 'OMR'; 
+                  $scope.selectedCurr = $window.localStorage["currency"];
+                  
+                }else if(currency == 'QAR'){
+                  $window.localStorage["currency"] = 'QAR'; 
+                  $scope.selectedCurr = $window.localStorage["currency"];
+                  
+                }else if(currency == 'SAR'){
+                 $window.localStorage["currency"] = 'SAR';
+                 $scope.selectedCurr = $window.localStorage["currency"];
+                  
+                }else if(currency == 'EUR'){
+                 $window.localStorage["currency"] = 'EUR'; 
+                 $scope.selectedCurr = $window.localStorage["currency"];
+                  
+                }
+                else if(currency == 'GBP'){
+                 $window.localStorage["currency"] = 'GBP'; 
+                 $scope.selectedCurr = $window.localStorage["currency"];
+                  
+                }else{
+                     $window.localStorage["currency"] = 'KWD'; 
+                     $scope.selectedCurr = $window.localStorage["currency"];
+                }
+              
+                 $window.location.reload();            
+          
+         
+    };
 
 userService.sociallinks().then(function(response) {
 	 if(response.Ack == '1') {

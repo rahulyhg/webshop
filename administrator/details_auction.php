@@ -137,7 +137,7 @@ if ($_REQUEST['action'] == 'details') {
 
                                     <tr>    
                                         <td>Auction Price </th>
-                                        <td><?php echo "$" . $userRow['price']; ?></td>
+                                        <td><?php echo "KWD " . $userRow['price']; ?></td>
                                     </tr>
 
                                     <tr>    

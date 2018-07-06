@@ -17,6 +17,11 @@ $scope.phonecheck='';
 $scope.checkverify=false;
 //  };
 
+if($window.localStorage["currency"] != ''){
+   $scope.usersSelectedCurrency = $window.localStorage["currency"] ;
+}else{
+    $scope.usersSelectedCurrency = 'KWD';
+}
 $scope.getCurrentUserType();   
 //console.log($scope.current_user_type);
 
