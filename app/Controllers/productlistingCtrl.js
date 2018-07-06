@@ -49,7 +49,11 @@ $scope.drpmodel='0';
 //}else{
 //   alert(); 
 //}
-
+if($window.localStorage["currency"] != ''){
+   $scope.usersSelectedCurrency = $window.localStorage["currency"] ;
+}else{
+    $scope.usersSelectedCurrency = 'KWD';
+}
 var limitStep = 5;
 $scope.limit = limitStep;
 //alert($scope.limit);
@@ -305,11 +309,15 @@ userService.listbracelet().then(function(response) {
 	console.log(err); 
 	});
 
-
+if($window.localStorage["currency"] != ''){
+   $scope.usersSelectedCurrency = $window.localStorage["currency"] ;
+}else{
+    $scope.usersSelectedCurrency = 'KWD';
+}
  //spandan end     
 
 //console.log('amount',$scope.amount_max);
- userService.searchproductListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword,$scope.categorylisting,$scope.movementListing,$scope.size_amount_max,$scope.size_amount_min,$scope.top_prodct,$scope.statuslisting).then(function(response) {
+ userService.searchproductListing($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword,$scope.categorylisting,$scope.movementListing,$scope.size_amount_max,$scope.size_amount_min,$scope.top_prodct,$scope.statuslisting,$scope.usersSelectedCurrency).then(function(response) {
     // alert();
 
 		//alert($scope.movementListing+'d');

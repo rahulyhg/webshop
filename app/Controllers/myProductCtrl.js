@@ -8,6 +8,13 @@ app.controller('myProductCtrl', function ($rootScope, $scope, $http, $location,$
 $scope.data = {};
 $scope.user = {};
 //alert('a');
+
+if($window.localStorage["currency"] != ''){
+   $scope.usersSelectedCurrency = $window.localStorage["currency"] ;
+}else{
+    $scope.usersSelectedCurrency = 'KWD';
+}
+
  $window.scrollTo(0, 0);
 if ($window.localStorage["userInfo"]) {
 var userInfo = JSON.parse($window.localStorage["userInfo"]);	
@@ -33,7 +40,7 @@ $scope.isform1 =0;
 $scope.myproduct = function(){
    // alert('hii');
 
- userService.myproduct().then(function(response) {
+ userService.myproduct($scope.usersSelectedCurrency).then(function(response) {
      
     
 		

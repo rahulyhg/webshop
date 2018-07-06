@@ -8,6 +8,12 @@ $window.scrollTo(0, 0);
 $scope.data = {};
 $scope.user = {};
 
+if($window.localStorage["currency"] != ''){
+   $scope.usersSelectedCurrency = $window.localStorage["currency"] ;
+}else{
+    $scope.usersSelectedCurrency = 'KWD';
+}
+
 if ($window.localStorage["userInfo"]) {
 var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;
@@ -30,7 +36,7 @@ $scope.isform1 =0;
 $scope.myauction = function(){
    // alert('hii');
 
- userService.myauction().then(function(response) {
+ userService.myauction($scope.usersSelectedCurrency).then(function(response) {
      
     
 		

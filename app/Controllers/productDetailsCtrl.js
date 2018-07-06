@@ -113,12 +113,16 @@ $scope._Index = 0;
 	console.log(err); 
 	});
  
- 
+ if($window.localStorage["currency"] != ''){
+   $scope.usersSelectedCurrency = $window.localStorage["currency"] ;
+}else{
+    $scope.usersSelectedCurrency = 'KWD';
+}
  $scope.Showdetails = function(){
    //  alert('hi');
  
 
-        userService.productDetails($scope.product_id,userInfo.user_id).then(function(response) {
+        userService.productDetails($scope.product_id,userInfo.user_id,$scope.usersSelectedCurrency).then(function(response) {
 
 	console.log("vv",response);
 		
