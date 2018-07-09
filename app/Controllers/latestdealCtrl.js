@@ -13,7 +13,8 @@ $scope.checkboxstrcat=[];
   $scope.user.category=[];
  $scope.checkboxstr2=[];
  $scope.user.shop=[];
- 
+  $scope.count =0;
+   $scope.count1 =0;
  $scope.maxprice =0;
  $scope.minprice=0;
   $scope.size_amount_min=0;
@@ -24,6 +25,7 @@ $scope.checkboxstrcat=[];
      $scope.user.movement=[];
       $scope.user.statuswatch=[];
    $scope.statuswatch=[];
+   
  $scope.search = { price_min : '', price_max : '', amount_min : '', amount_max : '' };
   
 	
@@ -65,12 +67,12 @@ $scope.drpmodel='0';
 var limitStep = 5;
 $scope.limit = limitStep;
 $scope.incrementLimit = function() {
-    $scope.limit = '';
+    $scope.limit = $scope.limit+5;
 };
 var limitStep1 = 5;
 $scope.limit1 = limitStep;
 $scope.incrementLimit1 = function() {
-    $scope.limit1 = '';
+   $scope.limit1 = $scope.limit1+5;
 };
 $scope.brand='';
 if($stateParams.id){
@@ -189,6 +191,13 @@ if($scope.year){
     $scope.year="";
 }
 
+if($window.localStorage["currency"]){
+   $scope.usersSelectedCurrency = $window.localStorage["currency"] ;
+  // alert($window.localStorage["currency"]);
+}else{
+    $scope.usersSelectedCurrency = 'KWD';
+   // alert('KWD');
+}
 
 if($scope.amount_min){
     $scope.amount_min = $scope.amount_min;
@@ -266,8 +275,11 @@ if($window.localStorage["statuslist"]){
 }else{
 	$scope.statuslisting='';
 }
+if($scope.usersSelectedCurrency){
+$scope.usersSelectedCurrency1=$scope.usersSelectedCurrency;
+}
 //console.log('amount',$scope.amount_max);
- userService.searchproductListinglatest($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword,$scope.categorylisting,$scope.movementListing,$scope.size_amount_max,$scope.size_amount_min,$scope.statuslisting).then(function(response) {
+ userService.searchproductListinglatest($scope.user_id,$scope.brand,$scope.brandListing,$scope.sellerListing,$scope.selected_value,$scope.amount_min,$scope.amount_max,$scope.gender,$scope.breslettype,$scope.year,$scope.country_id,$scope.state_id,$scope.city_id,$scope.keyword,$scope.categorylisting,$scope.movementListing,$scope.size_amount_max,$scope.size_amount_min,$scope.statuslisting,$scope.usersSelectedCurrency1).then(function(response) {
     // alert();
 
 		
@@ -348,7 +360,7 @@ $scope.getBrands = function(){
 		//$scope.isExists=response.Ack;
 		if(response.Ack == '1') {
 		$scope.brandlist=response.brandlist;
-		
+		$scope.count = response.count;
 
   } else {
 		}
@@ -386,6 +398,7 @@ $scope.getcategory = function(){
 		//$scope.isExists=response.Ack;
 		if(response.Ack == '1') {
 		$scope.categorylist=response.categorylist;
+                $scope.count1 = response.count1;
                 //alert();
 		//$scope.listbrands=response.brandList;
 		 console.log("categorylist "+response.categorylist);

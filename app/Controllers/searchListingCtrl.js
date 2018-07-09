@@ -11,7 +11,8 @@ $scope.checkboxstr=[];
  $scope.user.brand=[];
  $scope.checkboxstr2=[];
  $scope.user.shop=[];
-  
+  $scope.count =0;
+   $scope.count1 =0;
  $scope.user.category=[];
    $scope.checkboxstrcat=[];
    $scope.checkboxstrmove =[];
@@ -61,12 +62,12 @@ userService.listbracelet().then(function(response) {
 var limitStep = 5;
 $scope.limit = limitStep;
 $scope.incrementLimit = function() {
-    $scope.limit = '';
+      $scope.limit = $scope.limit+5;
 };
 var limitStep1 = 5;
 $scope.limit1 = limitStep;
 $scope.incrementLimit1 = function() {
-    $scope.limit1 = '';
+   $scope.limit1 = $scope.limit1+5;
 };
 $scope.brand='';
 if($stateParams.brand){
@@ -308,6 +309,7 @@ $scope.getcategory = function(){
 		//$scope.isExists=response.Ack;
 		if(response.Ack == '1') {
 		$scope.categorylist=response.categorylist;
+                $scope.count1 = response.count1;
                 //alert();
 		//$scope.listbrands=response.brandList;
 		 console.log("categorylist "+response.categorylist);
@@ -369,6 +371,7 @@ $scope.getBrands = function(){
 		//$scope.isExists=response.Ack;
 		if(response.Ack == '1') {
 		$scope.brandlist=response.brandlist;
+                $scope.count = response.count;
 		//$scope.listbrands=response.brandList;
 		// console.log("ppag "+response.brandList);
 

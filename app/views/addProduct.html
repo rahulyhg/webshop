@@ -71,27 +71,16 @@
 
 
 
-<div class="form-group">
-    <label for="staticEmail">{{language.bracelet}} {{language.type}}*</label>
-    <select class="form-control" name="breslet_type" ng-model="user2.breslet_type" required>
-        <option  value=""> {{language.please}} {{language.select}}</option>  
+                                                                            <div class="form-group">
+                                                                                <label for="staticEmail">{{language.bracelet}} {{language.type}}*</label>
+                                                                                <select class="form-control" name="breslet_type" ng-model="user2.breslet_type" required>
+                                                                                    <option  value=""> {{language.please}} {{language.select}}</option>  
 
-        <option ng-repeat="braceletlists in braceletlist" value="{{braceletlists.id}}">{{braceletlists.type}}</option>  
-        
-    </select>
-    <span style="color:Red" ng-show="submitted && addProductForm.breslet_type.$error.required"> {{language.please}} {{language.Choose}} {{language.a}} {{language.bracelet}} {{language.type}} </span>
-</div>
+                                                                                    <option ng-repeat="braceletlists in braceletlist" value="{{braceletlists.id}}">{{braceletlists.type}}</option>  
 
-
-
-
-
-
-
-
-
-
-
+                                                                                </select>
+                                                                                <span style="color:Red" ng-show="submitted && addProductForm.breslet_type.$error.required"> {{language.please}} {{language.Choose}} {{language.a}} {{language.bracelet}} {{language.type}} </span>
+                                                                            </div>
 
 
 
@@ -106,135 +95,89 @@
                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.model_year.$error.required"> {{language.please}} {{language.Choose}} {{language.model}} {{language.year}} </span>
 									</div>
                   
-                  
-                  
-                  
-                  
-                  
-                  
 
 
+                                                            <div class="form-group">
+                                                                <label for="staticEmail">{{language.currency}}*</label>
+                                                                <div class="dropdown status-watch-wrap">
+                                                                    <ul class="list-unstyled status-watch">
+                            <!--                                            <li class="init">
+                                                                            <a href="javascript:void(0)">
+                                                                                <span class="ng-binding">Please Select Currency </span>
+                                                                                <p><i class="fa fa-flag"></i></p>
+                                                                            </a>
+                                                                        </li>-->
 
-<div class="form-group">
-                                    <label for="staticEmail">{{language.currency}}*</label>
-                                    <div class="dropdown status-watch-wrap">
-                                        <ul class="list-unstyled status-watch">
-<!--                                            <li class="init">
-                                                <a href="javascript:void(0)">
-                                                    <span class="ng-binding">Please Select Currency </span>
-                                                    <p><i class="fa fa-flag"></i></p>
-                                                </a>
-                                            </li>-->
-                                            
-                                            <li data-value="KWD" class="init">
-                                                <a ng-click="selectedcurrency('KWD')" href="javascript:void(0)">
-                                                    <span class="ng-binding">Kuwaiti dinar</span>
-                                                    <p>
-                                                        <img src="http://178.62.61.183/app/assets/images/kwd.jpg" alt="">
-                                                    </p>
-                                                </a>
-                                            </li>
-                                            
-                                            <li data-value="AED">
-                                                <a ng-click="selectedcurrency('AED')" href="javascript:void(0)">
-                                                    <span class="ng-binding">Dirham</span>
-                                                    <p>
-                                                        <img src="http://178.62.61.183/app/assets/images/uae.jpg" alt="">
-                                                    </p>
-                                                </a>
-                                            </li>
-                                            <li data-value="USD">
-                                                <a ng-click="selectedcurrency('USD')" href="javascript:void(0)">
-                                                    <span class="ng-binding">Dollar</span>
-                                                    <p>
-                                                        <img src="http://178.62.61.183/app/assets/images/usd.jpg" alt="">
-                                                    </p>
-                                                </a>
-                                            </li>
-                                            <li data-value="OMR">
-                                                <a ng-click="selectedcurrency('OMR')" href="javascript:void(0)">
-                                                    <span class="ng-binding">Omani Rial</span>
-                                                    <p>
-                                                        <img src="http://178.62.61.183/app/assets/images/omr.jpg" alt="">
-                                                    </p>
-                                                </a>
-                                            </li>
-                                            <li data-value="QAR">
-                                                <a ng-click="selectedcurrency('QAR')" href="javascript:void(0)">
-                                                    <span class="ng-binding">Qatar Rial</span>
-                                                    <p>
-                                                        <img src="http://178.62.61.183/app/assets/images/qar.jpg" alt="">
-                                                    </p>
-                                                </a>
-                                            </li>
-                                            <li data-value="SAR">
-                                                <a ng-click="selectedcurrency('SAR')" href="javascript:void(0)">
-                                                    <span class="ng-binding">Saudi Riyal</span>
-                                                    <p>
-                                                        <img src="http://178.62.61.183/app/assets/images/sar.jpg" alt="">
-                                                    </p>
-                                                </a>
-                                            </li>
-                                                                                  
-                                            <li data-value="EUR">
-                                                <a ng-click="selectedcurrency('EUR')" href="javascript:void(0)">
-                                                    <span class="ng-binding">Euro</span>
-                                                    <p>
-                                                        <img src="http://178.62.61.183/app/assets/images/euro.png" alt="">
-                                                    </p>
-                                                </a>
-                                            </li>
-                                            <li data-value="GBP">
-                                                <a ng-click="selectedcurrency('GBP')" href="javascript:void(0)">
-                                                    <span class="ng-binding">Pound</span>
-                                                    <p>
-                                                    <img src="http://178.62.61.183/app/assets/images/en.gif" alt="">     
-                                                    </p>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                                                        <li data-value="KWD" class="init">
+                                                                            <a ng-click="selectedcurrency('KWD')" href="javascript:void(0)">
+                                                                                <span class="ng-binding">Kuwaiti dinar</span>
+                                                                                <p>
+                                                                                    <img src="http://178.62.61.183/app/assets/images/kwd.jpg" alt="">
+                                                                                </p>
+                                                                            </a>
+                                                                        </li>
 
+                                                                        <li data-value="AED">
+                                                                            <a ng-click="selectedcurrency('AED')" href="javascript:void(0)">
+                                                                                <span class="ng-binding">Dirham</span>
+                                                                                <p>
+                                                                                    <img src="http://178.62.61.183/app/assets/images/uae.jpg" alt="">
+                                                                                </p>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li data-value="USD">
+                                                                            <a ng-click="selectedcurrency('USD')" href="javascript:void(0)">
+                                                                                <span class="ng-binding">Dollar</span>
+                                                                                <p>
+                                                                                    <img src="http://178.62.61.183/app/assets/images/usd.jpg" alt="">
+                                                                                </p>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li data-value="OMR">
+                                                                            <a ng-click="selectedcurrency('OMR')" href="javascript:void(0)">
+                                                                                <span class="ng-binding">Omani Rial</span>
+                                                                                <p>
+                                                                                    <img src="http://178.62.61.183/app/assets/images/omr.jpg" alt="">
+                                                                                </p>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li data-value="QAR">
+                                                                            <a ng-click="selectedcurrency('QAR')" href="javascript:void(0)">
+                                                                                <span class="ng-binding">Qatar Rial</span>
+                                                                                <p>
+                                                                                    <img src="http://178.62.61.183/app/assets/images/qar.jpg" alt="">
+                                                                                </p>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li data-value="SAR">
+                                                                            <a ng-click="selectedcurrency('SAR')" href="javascript:void(0)">
+                                                                                <span class="ng-binding">Saudi Riyal</span>
+                                                                                <p>
+                                                                                    <img src="http://178.62.61.183/app/assets/images/sar.jpg" alt="">
+                                                                                </p>
+                                                                            </a>
+                                                                        </li>
 
+                                                                        <li data-value="EUR">
+                                                                            <a ng-click="selectedcurrency('EUR')" href="javascript:void(0)">
+                                                                                <span class="ng-binding">Euro</span>
+                                                                                <p>
+                                                                                    <img src="http://178.62.61.183/app/assets/images/euro.png" alt="">
+                                                                                </p>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li data-value="GBP">
+                                                                            <a ng-click="selectedcurrency('GBP')" href="javascript:void(0)">
+                                                                                <span class="ng-binding">Pound</span>
+                                                                                <p>
+                                                                                <img src="http://178.62.61.183/app/assets/images/en.gif" alt="">     
+                                                                                </p>
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  
-                  
-                  
                   
 <!--									<div class="form-group">
 										<label for="staticEmail">{{language.currency}}*</label>
@@ -303,14 +246,6 @@
 									</div>
                                                                     
                                                                     
-                                                                    
-                                                                    
-                                                                    
-                                                                    
-                                                                    
-                                                                    
-                                                                    
-                                                                    
 									<div class="form-group">
 
 										<label for="staticEmail">{{language.price}}*</label>
@@ -364,4 +299,6 @@
         $("ul.status-watch").children('.init').html($(this).html());
         allOptions.toggle();
     });    
+    
+    
 </script>	

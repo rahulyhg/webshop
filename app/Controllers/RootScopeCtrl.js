@@ -403,7 +403,7 @@ userService.notiCount(userInfo.user_id).then(function(response) {
 $scope.signup = function(user) {
 $scope.loader = false;
     userService.signup(user).then(function(response) {
-         
+         console.log('responsesss',response)
         if(response.Ack == '1') {
            
             $scope.loader = true;

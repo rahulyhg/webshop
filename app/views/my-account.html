@@ -102,12 +102,12 @@
                                                                                 
 									</div>
 
-
+                                                                        
                                                                         <div class="form-group">
 										<label for="staticEmail">{{language.preferred}} {{language.currency}}</label>
 										<select class="form-control" name="currency_preference" ng-model="user.currency_preference"  required>
 										<option value="">{{language.please}} {{language.select}} {{language.preferred}} {{language.currency}}</option>	
-                                                                                    <option  ng-repeat="currencylists in currencylist" value="{{currencylists.code}}">{{currencylists.name}}</option>
+                                                                                    <option  ng-repeat="currencylists in currencylist" value="{{currencylists.code}}">{{currencylists.code}}</option>
 										</select>
                                                                                 <span style="color:Red" ng-show="submitted && myaccountForm.currency_preference.$error.required">{{language.please}} {{language.Choose}} {{language.currency}}</span>
 									</div>

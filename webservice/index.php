@@ -2504,7 +2504,7 @@ function listCurrency() {
                 "id" => stripslashes($currency->id),
                 "name" => stripslashes($currency->name),
                 "code" => stripslashes($currency->code),
-                "flag" => stripslashes($currency->flag),
+                //"flag" => stripslashes($currency->flag),
                 //"symbol" => stripslashes($currency->symbol),
             );
         }
@@ -6668,6 +6668,7 @@ function ProductListSearch() {
     $size_amount_min = isset($body->size_amount_min) ? $body->size_amount_min : '';
     $top_product = isset($body->top_product) ? $body->top_product : '';
     $statuslist = isset($body->statuslist) ? $body->statuslist : '';
+    
     $currency_pref='KWD';
 //print_r($body);
 //-----------------------------------------------------------
@@ -11934,7 +11935,7 @@ function searchproductListinglatest() {
     $country_id = isset($body->country_id) ? $body->country_id : '';
     $state_id = isset($body->state_id) ? $body->state_id : '';
     $city_id = isset($body->city_id) ? $body->city_id : '';
-    
+    $statuslist = isset($body->statuslisting) ? $body->statuslisting : '';
 $category = isset($body->category) ? $body->category : '';
 $movement = isset($body->movement) ? $body->movement : '';
 
@@ -12022,7 +12023,10 @@ if ($movement != '') {
 //        $sql .= " AND `gender`='" . $gender . "' ";
 //    }
    
+if ($statuslist != '') {
 
+        $sql .= " AND `status_watch`='" . $statuslist . "' ";
+    }
     if ($brand != '') {
 
         $sql .= " AND `brands` = '" . $brand . "'";
@@ -12508,6 +12512,7 @@ function ShopListSearch() {
 $category = isset($body->category) ? $body->category : '';
 $movement = isset($body->movement) ? $body->movement : '';
 $shop_id = isset($body->shop_id) ? $body->shop_id : '';
+$statuslist = isset($body->statuslisting) ? $body->statuslisting : '';
 $currency_pref='KWD';
 //print_r($body);
 //-----------------------------------------------------------
@@ -12563,6 +12568,11 @@ $currency_pref='KWD';
 if ($movement != '') {
 
         $sql .= " AND `movement` IN ('" . $movement . "')";
+    }
+    
+    if ($statuslist != '') {
+
+        $sql .= " AND `status_watch`='" . $statuslist . "' ";
     }
     
     if ($shop_id != '') {
