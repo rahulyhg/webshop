@@ -77,7 +77,7 @@ $scope.isform1 =0;
 
 //$scope.brand=$stateParams.brand;
 
-userService.getmaxprice(2).then(function(response) {
+userService.getmaxprice(1,$scope.user_id).then(function(response) {
     // alert();
 
 		
@@ -89,13 +89,36 @@ userService.getmaxprice(2).then(function(response) {
                 //$scope.amount_min = response.maxprice;
                 
                 //$scope.search.amount_min=$scope.minprice;
-                 $scope.minprice=response.minprice;
-                $scope.search.amount_max=$scope.maxprice;
+                 //$scope.minprice=response.minprice;
+               // $scope.search.amount_max=$scope.maxprice;
                // $scope.amount_min = $scope.search.amount_min;
-                $scope.amount_max = $scope.search.amount_max;
+               // $scope.amount_max = $scope.search.amount_max;
 		//console.log($scope.alljobs);
                 //$window.localStorage["userzip"]='';
 		
+                
+                if($scope.maxprice){
+                        //alert($scope.maxprice);
+                     $scope.amount_max=$scope.maxprice;
+                    }else{
+                        $scope.amount_max=100000;
+                    }
+                    if($scope.minprice){
+                       $scope.amount_min = $scope.minprice;
+                    }else{
+
+                     $scope.amount_min=0;
+                    }
+                    
+                     $scope.visSlider = {
+                        options: {
+                          floor: $scope.amount_min,
+                          ceil: $scope.amount_max,
+                          step: 10
+                        }
+                      };
+                
+                
 		} else {
                     
                      $scope.exists=0;
