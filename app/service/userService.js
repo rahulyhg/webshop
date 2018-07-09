@@ -5062,9 +5062,9 @@ var encodedString ='{"product_id":"'+ product_id +'"}';
         });
  };
  
- var getmaxprice = function(type,user_id) {
+ var getmaxprice = function(type,user_id,currency) {
         return $q(function(resolve, reject) {
-var encodedString ='{"type":"'+ type +'","user_id":"'+ user_id +'"}';
+var encodedString ='{"type":"'+ type +'","user_id":"'+ user_id +'","currency":"'+ currency +'"}';
 //alert(encodedString)
         $http({
          method: 'POST',
@@ -5668,10 +5668,10 @@ reject(response);
 });
 };
 
-var resend = function(user_id) {
+var resend = function(user_id,mobile_no) {
 return $q(function(resolve, reject) {
 
-  var encodedString ='{"user_id":"'+ user_id +'"}';
+  var encodedString ='{"user_id":"'+ user_id +'","mobile_no":"'+ mobile_no +'"}';
 //alert(encodedString);
 $http({
 method: 'POST',
@@ -5876,10 +5876,10 @@ var encodedString ='{"user_id":"'+ user_id +'"}';
         
  };
  
-var tomobileverifying1 = function(userid,otp) {
+var tomobileverifying1 = function(userid,otp,mobileno) {
 return $q(function(resolve, reject) {
 
-  var encodedString ='{"user_id":"'+ userid +'","otp":"'+ otp +'"}';
+  var encodedString ='{"user_id":"'+ userid +'","otp":"'+ otp +'","mobileno":"'+ mobileno +'"}';
 //alert(encodedString);
 $http({
 method: 'POST',

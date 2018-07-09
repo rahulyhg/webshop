@@ -102,7 +102,7 @@ $scope.isform1 =0;
 
 //$scope.brand=$stateParams.brand;
 
-userService.getmaxprice(1,$scope.user_id).then(function(response) {
+userService.getmaxprice(1,$scope.user_id,$scope.usersSelectedCurrency).then(function(response) {
      //alert(response.maxprice);
 
 		
