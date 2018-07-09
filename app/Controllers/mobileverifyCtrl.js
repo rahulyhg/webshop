@@ -111,6 +111,17 @@ var otp= user.otp;
 
                 });	
 
+                 }else if(response.Ack == '0'){
+
+                 swal("There is problem in verifying your Mobile No.Please try again", "", "error")
+                .then((value) => {
+                    if(value == true){
+
+                            $window.location.reload();
+                    }
+                  //swal(`The returned value is: ${value}`);
+                });
+
                  }else{
 
                  swal("There is problem in verifying your Mobile No.Please try again", "", "error")
