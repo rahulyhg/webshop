@@ -322,7 +322,7 @@ function inactive(aa)
                            // echo "select * from  webshop_auction where `status`=1 and (`start_date_time` <= '".$curdate."' && `end_date_time` >='".$curdate."')";
                            //exit;
                                                      // $fetch_tools_type=mysqli_query($con,"select * from  webshop_auction where `status`=1 and (`start_date_time` <= '".$curdate."' && `end_date_time` >='".$curdate."')");
-                                                      $fetch_tools_type=mysqli_query($con,"select * from  webshop_products as p inner join webshop_subscribers as s on p.subscription_id=s.id where p.status=1 and p.type= 1 and s.expiry_date >= '".$curdate."'");
+                                                      $fetch_tools_type=mysqli_query($con,"select *,@a:=@a+1 serial_number from  webshop_products as p inner join webshop_subscribers as s on p.subscription_id=s.id,(SELECT @a:= 0) AS a where p.status=1 and p.type= 1 and s.expiry_date >= '".$curdate."'");
                                                         $num=mysqli_num_rows($fetch_tools_type);
                                                         if($num>0)
                                                         {
@@ -351,7 +351,7 @@ $getBrand = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_brands`
               
               <tr>
                   
-                  <td><?php echo stripslashes($tools_type['id']);?></td>
+                  <td><?php echo stripslashes($tools_type['serial_number']);?></td>
                
                 <td>
                  <img src="<?php echo $image_link;?>" height="100" width="100" align="image">

@@ -65,7 +65,7 @@ $scope.myauction = function(){
  $scope.deleteProduct = function(id){
           // alert(cat_id);
            // return false;
-             userService.deleteProduct(id).then(function(response) {
+             userService.removeAuction(id).then(function(response) {
 		//console.log(response.Ack);
 	
 		if(response.Ack == '1') {

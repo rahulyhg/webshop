@@ -192,5 +192,6 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/tomobileverifying1', 'tomobileverifying1');
     $app->post('/autofield', 'autofield');
     $app->post('/countview', 'countview');
+    $app->post('/deleteAuction', 'deleteAuction');
 });
 ?>

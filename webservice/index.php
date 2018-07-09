@@ -2336,6 +2336,55 @@ function deleteProduct() {
     $app->response->write(json_encode($data));
 }
 
+
+
+function deleteAuction() {
+
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $product_id = isset($body->product_id) ? $body->product_id : '';
+
+    $status = 0;
+
+    $db = getConnection();
+
+    $sql = "DELETE FROM `webshop_products` WHERE id=:product_id and uploader_id=:user_id";
+
+    try {
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("product_id", $product_id);
+        $stmt->bindParam("user_id", $user_id);
+        $stmt->execute();
+
+        $data['product_id'] = $product_id;
+        $data['Ack'] = '1';
+        $data['msg'] = 'Product deleted successfully';
+
+        $app->response->setStatus(200);
+        $db = null;
+    } catch (PDOException $e) {
+
+        $data['product_id'] = '';
+        $data['Ack'] = 0;
+        $data['msg'] = 'Deletion Error!!!';
+
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+
+
+
 function editProduct() {
 
 
@@ -11580,11 +11629,11 @@ function getmaxprice() {
     $selected_currency = isset($body->currency) ? $body->currency : 'KWD';
     $db = getConnection();
 
-    
+    $cdate=date('Y-m-d');
 
     try {
 
-        $sqlprice = "SELECT MIN(price) as minp, MAX(price) as maxp from webshop_products WHERE `type` = $type";
+        $sqlprice = "SELECT MIN(wp.price) as minp, MAX(wp.price) as maxp from webshop_products as wp inner join webshop_subscribers as ws on wp.subscription_id=ws.id WHERE wp.type = $type and ws.expiry_date >= '$cdate'";
        
         $stmtprice = $db->prepare($sqlprice);
         $stmtprice->execute();

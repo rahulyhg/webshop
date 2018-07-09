@@ -159,9 +159,9 @@
                               <h6 class="mb-0 " ng-if="productLists.description=='' ">{{language.no_description}}</h6>
                            </td>
                         </tr>
-                        <tr>
+                        <tr ng-if="user_id && user_id !=productLists.seller_id">
                            <td>
-                              <h6 class="mb-0 "><strong>{{productLists.price}} {{productLists.currency_code}}</strong></h6>
+                              <h6 class="mb-0 "><strong>Favourite</strong></h6>
                            </td>
                            <td>
                               <h6 class="mb-0 ">

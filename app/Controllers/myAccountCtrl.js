@@ -28,7 +28,13 @@ $scope.getCurrentUserType();
 
   	var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;
-
+        
+        if($scope.user_id){
+            //alert($scope.user_id);
+            
+        }
+        
+        
 	//console.log("spandan",userInfo);  
 
 	
