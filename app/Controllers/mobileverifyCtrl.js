@@ -6,11 +6,13 @@ app.controller('mobileverifyCtrl', function($rootScope, $scope, $http, $location
     
 $scope.data = {};
 $scope.user = {}; 
+$scope.user.mobileno = $stateParams.mobileno;
+$scope.user.code = $stateParams.code;
 var userid='';
 if($scope.mobileverify){
    // alert($scope.mobileverify);
      userid = $scope.mobileverify;
-     userService.resend(userid).then(function(response) {
+     userService.resend(userid,$scope.user.mobileno).then(function(response) {
         if(response.Ack == '1'){
             	 swal("OTP Sent To Your Mobile.", "", "success")
                 .then((value) => {
@@ -93,9 +95,9 @@ var otp= user.otp;
 $scope.tomobileverifying1 = function(user){
 
 var otp= user.otp;
+var mobileno = user.mobileno; 
 
-
-   userService.tomobileverifying1(userid,otp).then(function(response) {
+   userService.tomobileverifying1(userid,otp,mobileno).then(function(response) {
 	
 	//console.log("zzzdfdzsxfdz",response);  
 	 if(response.Ack == '1'){

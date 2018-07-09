@@ -425,12 +425,22 @@ $scope.loader = false;
 //            $window.location.href = response.smslink;
         }
         else{
-             swal("Please Signup Again.", "", "error");
-             $window.location.reload();
-        }
+            
+            swal("Please Signup Again.", "", "error").then((value) => {
+            if(value == true){
+                //$('#exampleModal').modal('hide');
+                    $state.go('frontend.signup');
+                    // $window.location.reload();
+                   // $window.location.href = response.smslink;
+            }
+            
+            // swal("Please Signup Again.", "", "error");
+            
+        });
             
 	 //$window.location.reload();
 		} 
+            }
                 else
                 {
                   swal(response.msg,'','success');   

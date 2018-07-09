@@ -1249,7 +1249,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
             })
             
             .state('frontend.mobileverify', {
-                url: '/mobileverify/:id',
+                url: '/mobileverify/:id/:mobileno/:code',
                 templateUrl: 'app/views/mobileverify.html',
                 title: 'mobileverify',
                 controller: 'mobileverifyCtrl',

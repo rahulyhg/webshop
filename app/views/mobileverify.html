@@ -11,11 +11,17 @@
 								<form name="change_pass" ng-submit="tomobileverifying1(user)" novalidate>
 									
 									<div class="form-group">
+										<label for="staticEmail">{{language.your}} {{language.mobile_number}}</label>
+                                                                                <input tepe="text" class="form-control" name="mobile" ng-model="user.mobileno" required>
+                                                                                 <input tepe="hidden" class="form-control" name="mobile" ng-model="user.code" required>
+										<!--<input type="text"  id="" value=""  name="otp" ng-model="user.otp" required>-->
+									</div>
+                                                                    
+                                                                        <div class="form-group">
 										<label for="staticEmail">{{language.enter_your}} OTP</label>
 										<input type="text" class="form-control" id="" value=""  name="otp" ng-model="user.otp" required>
 									</div>
-                                                                    
-									
+                                                                         
 									<button class="btn btn-primary" ng-disabled="change_pass.$invalid">{{language.verify}}</button>
                                                                         <button class="btn btn-primary" ng-click="resend()">{{language.resend}} OTP</button>
 								</form>
