@@ -9,17 +9,17 @@ $scope.data = {};
 $scope.user = {};
 $scope.checkboxstr=[];
 $scope.checkboxstrcat=[];
- $scope.user.brand=[];
-  $scope.user.category=[];
- $scope.checkboxstr2=[];
- $scope.checkboxstrstatus=[];
- $scope.status=[];
- $scope.movements=[];
- $scope.user.shop=[];
-  $scope.user.status=[];
-  $scope.user.movement=[];
- $scope.maxprice =0;
- $scope.minprice=0;
+$scope.user.brand=[];
+$scope.user.category=[];
+$scope.checkboxstr2=[];
+$scope.checkboxstrstatus=[];
+$scope.status=[];
+$scope.movements=[];
+$scope.user.shop=[];
+$scope.user.status=[];
+$scope.user.movement=[];
+ //$scope.maxprice =0;
+ //$scope.minprice=0;
   $scope.size_amount_min=0;
    $scope.size_amount_max=0;
    $scope.count =0;
@@ -28,19 +28,12 @@ $scope.checkboxstrcat=[];
     $scope.user_id='';
  $scope.search = { price_min : '', price_max : '', amount_min : '', amount_max : '' };
 
-  //Range slider config
-  $scope.rangeSlider = {
-    minValue: 10,
-    maxValue: 90,
-    options: {
-      floor: 0,
-      ceil: 100,
-      step: 1,
-    },
-  }
-  
-  $scope.priceSlider = 150;
-	
+//alert($scope.maxprice);
+//spandan slider
+ 
+ 
+ 
+//slider end	
        
 //alert('a');
  
@@ -110,7 +103,7 @@ $scope.isform1 =0;
 //$scope.brand=$stateParams.brand;
 
 userService.getmaxprice(1,$scope.user_id).then(function(response) {
-     //alert('getmaxprice');
+     //alert(response.maxprice);
 
 		
 		//$scope.isExists=response.Ack;
@@ -121,12 +114,33 @@ userService.getmaxprice(1,$scope.user_id).then(function(response) {
                 //$scope.amount_min = response.maxprice;
                 // $scope.search = { price_min : '', price_max : '', amount_min : $scope.minprice, amount_max : $scope.maxprice };
                 //$scope.search.amount_min=$scope.minprice;
-                 $scope.minprice=response.minprice;
-                $scope.amount_max=$scope.maxprice;
+                 //$scope.minprice=response.minprice;
+                //$scope.amount_max=$scope.maxprice;
                // $scope.amount_min = $scope.search.amount_min;
                 //$scope.amount_min = $scope.minprice;
 		//console.log($scope.alljobs);
                 //$window.localStorage["userzip"]='';
+                
+                if($scope.maxprice){
+                        //alert($scope.maxprice);
+                     $scope.amount_max=$scope.maxprice;
+                    }else{
+                        $scope.amount_max=100000;
+                    }
+                    if($scope.minprice){
+                       $scope.amount_min = $scope.minprice;
+                    }else{
+
+                     $scope.amount_min=0;
+                    }
+                    
+                     $scope.visSlider = {
+                        options: {
+                          floor: $scope.amount_min,
+                          ceil: $scope.amount_max,
+                          step: 10
+                        }
+                      };
 		
 		} else {
                     

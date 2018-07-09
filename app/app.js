@@ -54,7 +54,7 @@ app.run(['$rootScope', '$state', '$stateParams',
 
 //--------------------------------------
 
-app.directive('sliderRange', ['$document',function($document) {
+/*app.directive('sliderRange', ['$document',function($document) {
 
 // Move slider handle and range line
   var moveHandle = function(handle, elem, posX) {
@@ -195,7 +195,7 @@ return {
         };
     }
   };
-}]);
+}]);*/
 
 
 //image upload

@@ -17,8 +17,8 @@ $scope.checkboxstr=[];
    $scope.checkboxstrmove =[];
    $scope.user.movements=[];
    $scope.categorylisting='';
-    $scope.maxprice =0;
- $scope.minprice=0;
+    //$scope.maxprice =0;
+ //$scope.minprice=0;
   $scope.size_amount_min=0;
    $scope.size_amount_max=0;
    if($scope.is_special_auction){
@@ -95,7 +95,7 @@ $scope.brand=$stateParams.brand;
 $scope.amount_min = $scope.search.amount_min;
 $scope.amount_max = $scope.search.amount_max;
 
-userService.getmaxprice(2).then(function(response) {
+userService.getmaxprice(2,$scope.user_id).then(function(response) {
      //alert('getmaxprice');
 
 		
@@ -107,13 +107,37 @@ userService.getmaxprice(2).then(function(response) {
                 //$scope.amount_min = response.maxprice;
                 // $scope.search = { price_min : '', price_max : '', amount_min : $scope.minprice, amount_max : $scope.maxprice };
                 //$scope.search.amount_min=$scope.minprice;
-                 $scope.minprice=response.minprice;
-                $scope.amount_max=$scope.maxprice;
+                 //$scope.minprice=response.minprice;
+               // $scope.amount_max=$scope.maxprice;
                // $scope.amount_min = $scope.search.amount_min;
                // $scope.amount_min = $scope.minprice;
 		//console.log($scope.alljobs);
                 //$window.localStorage["userzip"]='';
-		
+		//spandan
+                if($scope.maxprice){
+                        //alert($scope.maxprice);
+                     $scope.amount_max=$scope.maxprice;
+                    }else{
+                        $scope.amount_max=100000;
+                    }
+                    if($scope.minprice){
+                       $scope.amount_min = $scope.minprice;
+                    }else{
+
+                     $scope.amount_min=0;
+                    }
+                    
+                     $scope.visSlider = {
+                        options: {
+                          floor: $scope.amount_min,
+                          ceil: $scope.amount_max,
+                          step: 10
+                        }
+                      };
+                
+                
+                
+                
 		} else {
                     
                      $scope.exists=0;

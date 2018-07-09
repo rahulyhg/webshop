@@ -206,15 +206,23 @@
                                                     
                                                     
                                                     <hr>
-                                                    <div class="in collapse show" id="collapseOneprice" >
+<!--                                                    <div class="in collapse show" id="collapseOneprice" >
                                                     <p>{{language.amount_min}} : <span id="min_price">{{amount_min}}</span>
                                                         <input type="hidden"  ng-model="amount_min" readonly/> </p>
                                                         <p>{{language.amount_max}} : <span id="max_price">{{amount_max}}</span>
                                                         <input type="hidden" ng-model="amount_min" readonly/> </p>
     <slider-range min="{{amount_min}}" max="{{amount_max}}" step="10" ng-mouseup="searchListing()" value-min="amount_min" value-max="amount_max"></slider-range>
     <hr>
-                                                    </div>	
-							
+                                                    </div>	-->
+							<div class="in collapse show" id="collapseOneprice">
+                                                      
+                                                        <p>{{language.amount_min}} :  <span id="min_price">{{selectedCurr}} {{amount_min}}</span></p>
+                                                        <p>{{language.amount_max}} : <span id="max_price">{{selectedCurr}} {{amount_max}}</span></p>
+                                                          <rzslider rz-slider-model="amount_min" rz-slider-high="amount_max" ng-mouseup="searchListing()" rz-slider-options="visSlider.options"></rzslider>
+
+                                                          <input type="hidden" ng-model="amount_min">
+                                                          <input type="hidden" ng-model="amount_max">
+                                                        </div>
 					   </div>
                                                 
                                                 <div class="filter-holder">					    
