@@ -1125,14 +1125,16 @@ reject(response);
 var removeAuction = function(auction_id) {
 	return $q(function(resolve, reject) {
 	
-	var encodedString ='{"auction_id":"'+ auction_id +'"}';			   
+        var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+        var encodedString ='{"product_id":"'+ auction_id +'","user_id":"'+ userInfo.user_id +'"}';
+	//var encodedString ='{"auction_id":"'+ auction_id +'"}';			   
 		console.log(encodedString);	
 //return false;
 	
 	
 	$http({
 	method: 'POST',
-	url: $rootScope.serviceurl+"users/deleteAuction",
+	url: $rootScope.serviceurl+"deleteAuction",
 	data: encodedString,
 	headers: {'Content-Type': 'application/json'}
 	}).then(function (response) {
@@ -3244,6 +3246,41 @@ var encodedString ='{"product_id":"'+ id +'","user_id":"'+ userInfo.user_id +'"}
             });
         });
  };
+ 
+ 
+ 
+ var deleteAuction = function(id) {
+        return $q(function(resolve, reject) {
+                
+var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+var encodedString ='{"product_id":"'+ id +'","user_id":"'+ userInfo.user_id +'"}';
+
+            
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"deleteProduct",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           //console.log(response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           } else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+ };
+ 
+ 
+ 
+ 
  
   var productDetails = function(product_id,user_id,currency) {
         return $q(function(resolve, reject) {
@@ -6164,7 +6201,8 @@ var encodedString ='{"product_id":"'+ product_id +'"}';
         get_total_messages:get_total_messages,
         tomobileverifying1:tomobileverifying1,
         autofield:autofield,
-        countview:countview
+        countview:countview,
+        
 
 };
 });

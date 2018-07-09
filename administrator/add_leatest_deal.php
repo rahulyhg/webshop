@@ -124,7 +124,7 @@ require_once("includes/class.phpmailer.php");
                                     }
 
 
-                                    $fetch_landlord = mysqli_query($con, "SELECT * from  webshop_products where status=1 and approved='1' and type='1' and is_discard='0'");
+                                    $fetch_landlord = mysqli_query($con, "SELECT *,@a:=@a+1 serial_number from  webshop_products,(SELECT @a:= 0) AS a where status=1 and approved='1' and type='1' and is_discard='0'");
                                     $num = mysqli_num_rows($fetch_landlord);
 
                                     if ($num > 0) {
@@ -153,7 +153,7 @@ require_once("includes/class.phpmailer.php");
 
                                             <tr>
 
-                                                <td><?php echo $landlord['id'];?></td>
+                                                <td><?php echo $landlord['serial_number'];?></td>
                                                 <td>
 
                                                     <input type="checkbox" <?php if ($landlord['is_leatest_deal'] == '1') {

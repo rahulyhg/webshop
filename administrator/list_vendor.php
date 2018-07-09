@@ -430,7 +430,7 @@ if (isset($_POST['ExportCsv'])) {
                                     }
 
 
-                                    $fetch_landlord = mysqli_query($con, "select * from webshop_user WHERE `type`='2' and top_user_vendor =0 and email_verified=1");
+                                    $fetch_landlord = mysqli_query($con, "select *,@a:=@a+1 serial_number from webshop_user,(SELECT @a:= 0) AS a WHERE `type`='2' and top_user_vendor =0 and email_verified=1");
                                     $num = mysqli_num_rows($fetch_landlord);
                                     if ($num > 0) {
                                         while ($landlord = mysqli_fetch_array($fetch_landlord)) {
@@ -445,7 +445,7 @@ if (isset($_POST['ExportCsv'])) {
                                             <tr>
 
                                                <td>
-                                                                                 <?php echo stripslashes($landlord['id']); ?>
+                                                                                 <?php echo stripslashes($landlord['serial_number']); ?>
                                                </td> 
 
                                                 <td>
