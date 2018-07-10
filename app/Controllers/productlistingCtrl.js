@@ -159,12 +159,25 @@ userService.getmaxprice(1,$scope.user_id,$scope.usersSelectedCurrency).then(func
 $rootScope.searchListing = function(){
     
     
-    var   brand=angular.element(document.getElementById("brandname")).val();
-    //alert(brand)
-if( brand !='')
+//    var   brand=angular.element(document.getElementById("brandname")).val();
+//    alert(brand)
+//if( brand !='')
+//{
+//    $scope.keyword=brand;
+//        $window.localStorage["keyword"] =brand;
+//}
+
+if( $scope.searchsubmitvariable =='')
 {
-    $scope.keyword=brand;
-        $window.localStorage["keyword"] =brand;
+    //alert($scope.searchsubmitvariable);
+    $scope.keyword='';
+    $scope.searchsubmitvariable ='';
+        $window.localStorage["keyword"] =$scope.searchsubmitvariable;
+}else if( $scope.searchsubmitvariable !='')
+{
+    //alert($scope.searchsubmitvariable);
+    $scope.keyword=$scope.searchsubmitvariable;
+        $window.localStorage["keyword"] =$scope.searchsubmitvariable;
 }
 else if($scope.keyword){
     

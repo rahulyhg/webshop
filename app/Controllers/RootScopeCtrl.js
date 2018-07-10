@@ -1,20 +1,21 @@
 app.controller("RootScopeCtrl", function ($scope,$rootScope, $location, $rootScope, $http, $state, $window, $q, $templateCache, $interval, userService,Upload,$timeout) {
 
-
+$scope.search={};
+$scope.searchsubmitvariable='';
 $scope.is_fav='';
     //$scope.mobileverify = '';
     if($window.localStorage["language"] == 2){
     $window.localStorage["language"] = 2;
     $scope.lang= 2 ;
     $scope.selectedlanguage = 'Arabic'
-  
-    
+ 
     }else{
     $window.localStorage["language"]=1;
     $scope.lang= 1;
     $scope.selectedlanguage = 'English'
    
     }
+     $scope.myVar ='';
     
     if($window.localStorage["currency"] == '' || $window.localStorage["currency"] == undefined){
        $scope.selectedCurr = 'KWD';
@@ -27,10 +28,10 @@ $scope.is_fav='';
     }
     
     if($window.localStorage["keyword"]){
-	$scope.brandName=$window.localStorage["keyword"];
+	$scope.search.brandName=$window.localStorage["keyword"];
         $window.localStorage["keyword"] ='';
 }else{
-	$scope.brandName='';
+	$scope.search.brandName='';
         $window.localStorage["keyword"]='';
 }
     //alert($scope.lang);
@@ -1089,12 +1090,26 @@ userService.listcountry().then(function(response) {
      }
     
     $scope.selectvalue = function(status){
-        alert(status);
-    $scope.brandName = status;
+       // alert(status);
+    $scope.search.brandName = status;
+    //$scope.myVar = status;
    
  }
     
-    
+     $scope.searchsubmit = function(search){
+        var search_submit = search.brandName;
+    //$scope.search.brandName = status;
+    //$scope.myVar = status;
+    if($state.current.name != 'frontend.productlisting'){
+        $scope.searchsubmitvariable = search_submit;
+        $state.go('frontend.productlisting'); 
+        //alert('on product listing1')
+    }else{
+       $scope.searchsubmitvariable = search_submit;
+       $scope.searchListing();
+    }
+   
+ } 
     
    
        
