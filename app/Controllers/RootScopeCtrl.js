@@ -1045,7 +1045,7 @@ userService.listcountry().then(function(response) {
     }; 
     
     
-     $scope.autofield = function(word){
+       $scope.autofield = function(word){
         
        // alert(word);
     userService.autofield(word).then(function(response) {
@@ -1055,7 +1055,6 @@ userService.listcountry().then(function(response) {
                   
                     $scope.isExistsfield=1;
                     $scope.autofieldlist=response.autofieldlist;
-                    localStorage.setItem("autofieldlist", JSON.stringify( $scope.autofieldlist));
               
 		} else {
                     
@@ -1069,9 +1068,49 @@ userService.listcountry().then(function(response) {
         
      }
     
+    $scope.selectvalue = function(status){
+        alert(status);
+    $scope.brandName = status;
+   
+ }
     
     
     
+   
+       
+      /*  $scope.stateName = null;
+        
+        $scope.autoCompleteOptions = {
+            minimumChars: 1,
+            data: function (searchText) {
+                
+                
+                 userService.autofield(searchText).then(function(response) {
+           
+                    console.log('sp',response);
+		
+                        searchText = searchText.toUpperCase();
+
+                        // ideally filtering should be done on the server
+                        var states = _.filter(response.autofieldlist, function (state) {
+                            console.log('sp11',state);
+                            return state.field.startsWith(searchText);
+                        });
+                        
+                        return _.map(states, 'field');
+				   
+                    });
+
+                        }
+                    }*/
+
+    
+    
+    
+    
+    
+    
+   
     
     
 });
