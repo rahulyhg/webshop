@@ -9,9 +9,27 @@
 			</nav>
 			<div class="details-wrap p-3">
 				<div class="details-top p-3 mb-3 position-relative">
-					<div class="like"><p class="m-0"><i class="ion-thumbsup"></i> {{productLists.totallike}}</p></div>
-					<img src="{{productLists.image}}" style="height:300px;width:300px;" class="ml-auto mr-auto d-block img-fluid">
-				</div>
+                        <div class="like">
+                            <p class="m-0">
+                                <i class="ion-thumbsup"></i> {{productLists.totallike}} &nbsp;<i class="fa fa-eye"></i> {{countview}}</p>
+                        </div>
+                        <div class="slider_n">
+                            <!-- enumerate all photos -->
+                            <img ng-repeat="photo in productLists.image" class="slide_n" ng-swipe-right="showPrev()" ng-swipe-left="showNext()" ng-show="isActive($index)"
+                                ng-src="{{photo.src}}" />
+                            <!-- prev / next controls -->
+                            <!--        <a class="arrow prev"  ng-click="showPrev()"></a>
+                        <a class="arrow next"  ng-click="showNext()"></a>-->
+                            <!-- extra navigation controls -->
+                            <ul class="nav_n">
+                                <li ng-repeat="photo in productLists.image" ng-class="{'active':isActive($index)}">
+                                    <img src="{{photo.src}}" alt="{{photo.desc}}" title="{{photo.desc}}" ng-click="showPhoto($index);" />
+                                </li>
+                            </ul>
+                        </div>
+                        <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
+                        <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
+                    </div>
 				<div class="row">
 					<div class="col-lg-9 col-md-9 col-sm-8">
 						<div class="details-left">

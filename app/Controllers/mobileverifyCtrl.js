@@ -12,6 +12,7 @@ var userid='';
 if($scope.mobileverify){
    // alert($scope.mobileverify);
      userid = $scope.mobileverify;
+     $scope.user.mobileno = $scope.mobilenoforlogin;
      userService.resend(userid,$scope.user.mobileno).then(function(response) {
         if(response.Ack == '1'){
             	 swal("OTP Sent To Your Mobile.", "", "success")
@@ -148,14 +149,15 @@ var mobileno = user.mobileno;
 
 		
 $scope.resend = function(user){
-   
-   userService.resend(userid).then(function(response) {
+   var mobileno = $scope.user.mobileno;
+   alert(mobileno);
+   userService.resend(userid,mobileno).then(function(response) {
         if(response.Ack == '1'){
-            	 swal("Successfully Verified Your Mobile No.", "", "success")
+            	 swal("Your OTP Sent Successfully  .", "", "success")
                 .then((value) => {
                     if(value == true){
 
-                            $window.location.reload();
+                           // $window.location.reload();
                     }
 
                 });
@@ -164,7 +166,7 @@ $scope.resend = function(user){
                 .then((value) => {
                     if(value == true){
 
-                            $window.location.reload();
+                            //$window.location.reload();
                     }
                   //swal(`The returned value is: ${value}`);
                 });

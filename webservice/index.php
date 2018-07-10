@@ -452,6 +452,7 @@ function userlogin() {
                     $data['Ack'] = '4';
                      $data['msg'] = 'Please Verify Your Mobile Number ';
                     $data['mobileverify'] =base64_encode($usermobile4->id) ; 
+                    $data['mobilenoforlogin'] = $usermobile4->phone ; 
                    
                
                 }else{
@@ -13543,6 +13544,7 @@ function resend() {
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
     $mobile_no = isset($body->mobile_no) ? $body->mobile_no : '';
+    //echo $mobile_no;exit;
    // $otp = isset($body->otp) ? $body->otp : '';
     $user_id=base64_decode($user_id);
   
@@ -13588,13 +13590,13 @@ if(!empty($getUserdetails)){
         $t=explode(':',$buffer);
         if ($t[0]=='ERR'){
             $data['smsstatus']='0';
-            $data['Ack'] = '1';
+            $data['Ack'] = '0';
            // echo 'No Send';exit;
         }
         else{
            // echo 'Send';
              $data['smsstatus'] ='1';
-             $data['Ack'] = '0';
+             $data['Ack'] = '1';
         }
     $sms_verify_number = $smsotopcode;
     $sql = "UPDATE webshop_user set sms_verify_number=:sms_verify_number WHERE id=:id";

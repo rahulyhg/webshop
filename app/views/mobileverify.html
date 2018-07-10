@@ -8,12 +8,12 @@
 					<div class="edit-pro p-3">
 						<div class="row">
 							<div class="col-lg-7 col-md-12">
-								<form name="change_pass" ng-submit="tomobileverifying1(user)" novalidate>
+								<form name="change_pass"  novalidate>
 									
 									<div class="form-group">
 										<label for="staticEmail">{{language.your}} {{language.mobile_number}}</label>
-                                                                                <input tepe="text" class="form-control" name="mobile" ng-model="user.mobileno" required>
-                                                                                 <input tepe="hidden" class="form-control" name="mobile" ng-model="user.code" required>
+                                                                                <input type="text" class="form-control" name="mobile" ng-model="user.mobileno" required>
+                                                                                 <input type="hidden" class="form-control" name="mobile" ng-model="user.code" required>
 										<!--<input type="text"  id="" value=""  name="otp" ng-model="user.otp" required>-->
 									</div>
                                                                     
@@ -22,7 +22,7 @@
 										<input type="text" class="form-control" id="" value=""  name="otp" ng-model="user.otp" required>
 									</div>
                                                                          
-									<button class="btn btn-primary" ng-disabled="change_pass.$invalid">{{language.verify}}</button>
+									<button class="btn btn-primary" ng-disabled="change_pass.$invalid" ng-click="tomobileverifying1(user)">{{language.verify}}</button>
                                                                         <button class="btn btn-primary" ng-click="resend()">{{language.resend}} OTP</button>
 								</form>
 							</div>

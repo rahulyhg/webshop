@@ -110,7 +110,7 @@
 
                                                                         <li data-value="KWD" class="init">
                                                                             <a ng-click="selectedcurrency('KWD')" href="javascript:void(0)">
-                                                                                <span class="ng-binding">Kuwaiti dinar</span>
+                                                                                <span class="ng-binding">KWD</span>
                                                                                 <p>
                                                                                     <img src="http://178.62.61.183/app/assets/images/kwd.jpg" alt="">
                                                                                 </p>
@@ -119,7 +119,7 @@
 
                                                                         <li data-value="AED">
                                                                             <a ng-click="selectedcurrency('AED')" href="javascript:void(0)">
-                                                                                <span class="ng-binding">Dirham</span>
+                                                                                <span class="ng-binding">AED</span>
                                                                                 <p>
                                                                                     <img src="http://178.62.61.183/app/assets/images/uae.jpg" alt="">
                                                                                 </p>
@@ -127,7 +127,7 @@
                                                                         </li>
                                                                         <li data-value="USD">
                                                                             <a ng-click="selectedcurrency('USD')" href="javascript:void(0)">
-                                                                                <span class="ng-binding">Dollar</span>
+                                                                                <span class="ng-binding">USD</span>
                                                                                 <p>
                                                                                     <img src="http://178.62.61.183/app/assets/images/usd.jpg" alt="">
                                                                                 </p>
@@ -135,7 +135,7 @@
                                                                         </li>
                                                                         <li data-value="OMR">
                                                                             <a ng-click="selectedcurrency('OMR')" href="javascript:void(0)">
-                                                                                <span class="ng-binding">Omani Rial</span>
+                                                                                <span class="ng-binding">OMR</span>
                                                                                 <p>
                                                                                     <img src="http://178.62.61.183/app/assets/images/omr.jpg" alt="">
                                                                                 </p>
@@ -143,7 +143,7 @@
                                                                         </li>
                                                                         <li data-value="QAR">
                                                                             <a ng-click="selectedcurrency('QAR')" href="javascript:void(0)">
-                                                                                <span class="ng-binding">Qatar Rial</span>
+                                                                                <span class="ng-binding">QAR</span>
                                                                                 <p>
                                                                                     <img src="http://178.62.61.183/app/assets/images/qar.jpg" alt="">
                                                                                 </p>
@@ -151,7 +151,7 @@
                                                                         </li>
                                                                         <li data-value="SAR">
                                                                             <a ng-click="selectedcurrency('SAR')" href="javascript:void(0)">
-                                                                                <span class="ng-binding">Saudi Riyal</span>
+                                                                                <span class="ng-binding">SAR</span>
                                                                                 <p>
                                                                                     <img src="http://178.62.61.183/app/assets/images/sar.jpg" alt="">
                                                                                 </p>
@@ -160,7 +160,7 @@
 
                                                                         <li data-value="EUR">
                                                                             <a ng-click="selectedcurrency('EUR')" href="javascript:void(0)">
-                                                                                <span class="ng-binding">Euro</span>
+                                                                                <span class="ng-binding">EUR</span>
                                                                                 <p>
                                                                                     <img src="http://178.62.61.183/app/assets/images/euro.png" alt="">
                                                                                 </p>
@@ -168,7 +168,7 @@
                                                                         </li>
                                                                         <li data-value="GBP">
                                                                             <a ng-click="selectedcurrency('GBP')" href="javascript:void(0)">
-                                                                                <span class="ng-binding">Pound</span>
+                                                                                <span class="ng-binding">GBP</span>
                                                                                 <p>
                                                                                 <img src="http://178.62.61.183/app/assets/images/en.gif" alt="">     
                                                                                 </p>
@@ -197,8 +197,9 @@
                                                                                     
                                                                                 
                                                                                     <input class="form-control"  ng-model="user2.preferred_date" name="preferred_date" required placeholder="Choose a date" readonly/>
-                                                                                    <span style="color:Red" ng-show="submitted && addProductForm.preferred_date.$touched && addProductForm.preferred_date.$error.required"> {{language.this_field_is_required}}! </span>
-                                                                                    <span style="color:Red" ng-show="submitted && addProductForm.preferred_date.$error.required"> </span>
+                                                                                    <span style="color:Red" ng-show="drpmodel=='2' && submitted && addProductForm.preferred_date.$touched && addProductForm.preferred_date.$error.required"> {{language.this_field_is_required}}! </span>
+                                                                                    <span style="color:Red" ng-show="drpmodel=='2'&& submitted && addProductForm.preferred_date.$error.required"> </span>
+                                                                                <span style="color:Red" ng-show="drpmodel=='2'&& submitted && addProductForm.preferred_date.$error.required"> {{language.this_field_is_required}}!</span>
                                                                                 
                                                                         
                                                                             </datepicker>
