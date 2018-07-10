@@ -521,7 +521,7 @@ function forgetpassword() {
         $getUserdetails = $stmt->fetchObject();
 
         $to = $email;
-        $password = rand(1111, 9999);
+        $password = rand(111111, 999999);
         $forgot_pass_otp = md5($password);
 
         $sql = "UPDATE  webshop_user SET password=:password WHERE email=:email";
@@ -529,15 +529,19 @@ function forgetpassword() {
         $stmt->bindParam("password", $forgot_pass_otp);
         $stmt->bindParam("email", $email);
         $stmt->execute();
-
-        $MailTo = $email;
-        $MailFrom = 'info@webshop.com';
-        $subject = "webshop.com- Your Password Request";
+        
         $TemplateMessage = "Hello " . $getUserdetails->fname . "<br /><br / >";
-        $TemplateMessage .= "You have asked for your new password. Your Password is OTP below :<br />";
+        $TemplateMessage .= "You have asked for your new password. Your Password is below :<br />";
         $TemplateMessage .= "<br />Password :" . $password;
         $TemplateMessage .= "<br /><br />Thanks,<br />";
-        $TemplateMessage .= "webshop.com<br />";
+        $TemplateMessage .= "GMT24.com<br />";
+        send_smtpmail($email, "GMT24", $TemplateMessage);
+        
+        
+       /* $MailTo = $email;
+        $MailFrom = 'info@webshop.com';
+        $subject = "webshop.com- Your Password Request";
+        
         $mail = new PHPMailer(true);
         $IsMailType = 'SMTP';
         $MailFrom = 'mail@natitsolved.com';  
@@ -583,7 +587,7 @@ function forgetpassword() {
             $mail->Send();
         } catch (phpmailerException $e) {
             echo $e->errorMessage(); //Pretty error messages from PHPMailer
-        }
+        }*/
 
         $db = null;
         $data['Ack'] = '1';

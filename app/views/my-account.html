@@ -1,192 +1,194 @@
 
-	<section class="innerbody">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3 col-md-4" data-ng-include=" 'app/views/partials/sidebar.html' " ></div>
-				<div class="col-lg-9 col-md-8">
-					<h5 class="common-title p-3 mb-0">{{language.edit}} {{language.profile}}</h5>
-					<div class="edit-pro p-3">
-						<div class="row">
-							<div class="col-lg-7 col-md-12">
-								<form name="myaccountForm" ng-submit="myaccountForm.$valid && updateProfile(user)" novalidate>
-									<div class="form-group" ng-if="current_user_type=='2'">
-										<label for="staticEmail">{{language.shop_or_individual}}</label>
-										<select class="form-control" ng-model="user.business_type" name="business_type">
-											<option value="1">{{language.individual}}</option>
-                                                                                        <option value="2">{{language.shop}}</option>
-										</select>
-									</div>
-									<div class="form-group">
-										<label for="staticEmail">{{language.first_name}}</label>
-										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user.fname" name="fname" required>
-									</div>
-                                                                    <div class="form-group">
-										<label for="staticEmail">{{language.last_name}}</label>
-										<input type="text" class="form-control" id="" value="" placeholder="" ng-model="user.lname" name="lname" required>
-									</div>
-									<div class="form-group">
-										<label for="staticEmail">{{language.gender}}</label>
-                                                                                
-                                                                                    <select class="form-control" ng-model="user.gender" name="gender"  required>
-                                                                                    <option value="" selected>{{language.please}} {{language.select}} {{language.your}} {{language.gender}}</option>
-                                                                                    <option value="Male">{{language.male}}</option>
-											<option value="Female">{{language.female}}</option>
-										</select>  
-                                                                                 <span style="color:Red" ng-show="submitted && myaccountForm.gender.$error.required">{{language.this_field_is_required}} </span>
-									</div>
-									<div class="form-group">
-										<label for="staticEmail">{{language.mobile_number}}</label>
-                                                                                <input type="text" class="form-control" id="" ng-blur="openverifymodal(user.phone)" value="" placeholder="Mobile No" ng-model="user.phone" name="phone" ng-pattern="/^[1-9][0-9]*$/" required>
-                                                                                 <span style="color:Red" ng-show="submitted && myaccountForm.phone.$error.required">{{language.this_field_is_required}} </span>
-                                                                                <span style="color:Red" ng-show="myaccountForm.phone.$dirty && myaccountForm.phone.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}} </span>
-                                                                                
-									</div>
-									<div class="form-group">
-										<label for="staticEmail">{{language.email}}</label>
-										<input type="text" class="form-control" id="" value="" placeholder="christnknight@gmail.com" ng-model="user.email" name="email" readonly required>
-									</div>
-                                                                    
-                                                                    
-                                                                    <div class="form-group">
-										<label for="staticEmail">{{language.country}}</label>
-										<select class="form-control" name="country" ng-model="user.country" ng-change="state(user.country)"  required>
-                                                                                    <option value="">{{language.please}} {{language.select}} {{language.a}} {{language.country}}</option>
-											<option  ng-repeat="countrylists in countrylist" value="{{countrylists.id}}">{{countrylists.name}}</option>
-										</select>
-                                                                                
-                                                                                <span style="color:Red" ng-show="submitted && myaccountForm.country.$error.required">{{language.this_field_is_required}} </span>
-									</div>
-                                                                    
-                                                                    
-                                                                    <div class="form-group">
-										<label for="staticEmail">{{language.state}}</label>
-                                                                                
-                                                                                <select class="form-control" name="state" ng-model="user.state" ng-change="city(user.state)" required>
-                                                                                    <option value="">{{language.please}} {{language.select}} {{language.a}} {{language.state}}</option>
-											<option  ng-repeat="statelists in statelist" value="{{statelists.id}}">{{statelists.name}}</option>
-										</select> 
-                                                                                <span style="color:Red" ng-show="submitted && myaccountForm.state.$error.required">{{language.this_field_is_required}}! </span>
-                                                                    </div>
-                                                                    
-    
-                                                                    <div class="form-group" tooltips tooltip-template="Contact your bank for the details" tooltip-side="top">
-										<label for="staticEmail">IBAN {{language.number}}</label>
-										<input type="text"   ng-minlength="20" ng-maxlength="34" class="form-control" id="" value="" placeholder="IBAN {{language.number}}" ng-model="user.ibanno" name="ibanno">
-                                                                                <!--<span style="color:Red" ng-show="submitted && myaccountForm.ibanno.$error.required">{{language.this_field_is_required}}! </span>-->
-                                                                                
-                                                                                <!--<span style="color:Red" ng-show="myaccountForm.ibanno.$dirty && myaccountForm.ibanno.$error.pattern">Only Numbers Allowed</span>-->
-                                                                                <span style="color:Red"  ng-show="((myaccountForm.ibanno.$error.minlength ||myaccountForm.ibanno.$error.maxlength) && myaccountForm.ibanno.$dirty) && !myaccountForm.ibanno.$error.pattern">IBAN No must be between 20-34 digits.</span>
-									</div>
-                                                                    <div class="form-group">
-										<label for="staticEmail">{{language.Bank}} {{language.Name}}</label>
-										<input type="text" class="form-control" id="" value="" placeholder="{{language.Bank}} {{language.Name}}" ng-model="user.bankname" name="bankname" required>
-                                                                                <span style="color:Red" ng-show="submitted && myaccountForm.bankname.$error.required">{{language.this_field_is_required}} </span>
-									</div>
-                                                                   <div class="form-group">
-										<label for="staticEmail">{{language.preferred}} {{language.language}}</label>
-                                                                                <select class="form-control" ng-model="user.language_preference" name="language_preference" required>
-                                                                                    <option value="" selected>{{language.please}} {{language.select}} {{language.your}} {{language.language}}</option>
-											<option value="Arabic">Arabic</option>
-											<option value="English">English</option>
-										</select>
-                                                                                 <span style="color:Red" ng-show="submitted && myaccountForm.language_preference.$error.required">{{language.this_field_is_required}} </span>
-									</div>
+<section class="innerbody">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-4" data-ng-include=" 'app/views/partials/sidebar.html'" ></div>
+            <div class="col-lg-9 col-md-8">
+                <h5 class="common-title p-3 mb-0">{{language.edit}} {{language.profile}}</h5>
+                <div class="edit-pro p-3">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-12">
+                            <form name="myaccountForm" ng-submit="myaccountForm.$valid && updateProfile(user)" novalidate>
+                                <div class="form-group" ng-if="current_user_type == '2'">
+                                    <label for="staticEmail">{{language.shop_or_individual}}</label>
+                                    <select class="form-control" ng-model="user.business_type" name="business_type">
+                                        <option value="1">{{language.individual}}</option>
+                                        <option value="2">{{language.shop}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="staticEmail">{{language.first_name}}</label>
+                                    <input type="text" class="form-control" id="" value="" placeholder="" ng-model="user.fname" name="fname" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="staticEmail">{{language.last_name}}</label>
+                                    <input type="text" class="form-control" id="" value="" placeholder="" ng-model="user.lname" name="lname" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="staticEmail">{{language.gender}}</label>
 
-                                                                        <div class="form-group">
-										<label for="staticEmail">{{language.preferred}} {{language.country}}</label>
-										<select class="form-control" name="country_preference" ng-model="user.country_preference" required>
-                                                                                    <option value="">{{language.please}} {{language.select}} {{language.preferred}} {{language.country}}</option>
-											<option  ng-repeat="countrylists in countrylist" value="{{countrylists.id}}">{{countrylists.name}}</option>
-										</select>
-                                                                                <span style="color:Red" ng-show="submitted && myaccountForm.country_preference.$error.required">{{language.this_field_is_required}} </span>
-                                                                                
-									</div>
+                                    <select class="form-control" ng-model="user.gender" name="gender"  required>
+                                        <option value="" selected>{{language.please}} {{language.select}} {{language.your}} {{language.gender}}</option>
+                                        <option value="Male">{{language.male}}</option>
+                                        <option value="Female">{{language.female}}</option>
+                                    </select>  
+                                    <span style="color:Red" ng-show="submitted && myaccountForm.gender.$error.required">{{language.this_field_is_required}} </span>
+                                </div>
 
-                                                                        
-                                                                        <div class="form-group">
-										<label for="staticEmail">{{language.preferred}} {{language.currency}}</label>
-										<select class="form-control" name="currency_preference" ng-model="user.currency_preference"  required>
-										<option value="">{{language.please}} {{language.select}} {{language.preferred}} {{language.currency}}</option>	
-                                                                                    <option  ng-repeat="currencylists in currencylist" value="{{currencylists.code}}">{{currencylists.code}}</option>
-										</select>
-                                                                                <span style="color:Red" ng-show="submitted && myaccountForm.currency_preference.$error.required">{{language.please}} {{language.Choose}} {{language.currency}}</span>
-									</div>
-                                                                            
-                                                                    <div>
-									   <div class="form-group">
-                                                                               <label for="staticEmail">{{language.Civil_ID}} {{language.Attachment}}</label>
-										<div class="btn btn-primary" accept="image/*" ngf-keep="true"  ngf-select ng-model="user.image" ngf-max-files="5" ngf-multiple="true" name="image" ngf-fix-orientation="true">{{language.add}} {{language.photos}}
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="row">
-                                                                                    
-											<div class="col-sm-3" ng-repeat="f in user.image">
-<!--												{{f.name}} 
-												<i ng-click="f = null" ng-show="f" class="fa fa-times" aria-hidden="true"></i> 
-												 <img ng-show="myForm.location.files.$valid" ngf-thumbnail="f" class="thumbnail img-responsive" style="height: 150px;"> -->
-                                                                                                 
-                                                                                                <a ng-if="f" class="deleteHandle" ng-click="deleteFile($index,f)"><i class="fa fa-close"></i>{{f.name}}</a>
-												<img ng-if="f" style="width: 150px; height: 100px;" ng-show="myaccountForm.user.image.$valid" ngf-thumbnail="f" ngf-resize="{width: 100, height: 100}" class="thumbnail">
-												<!--<video style="width: 150px; height: 100px;" controls ngf-src="f" ng-show="myForm.location.files.$valid" class="thumbnail"></video>-->
+                                <div class="form-group">
+                                    <label for="staticEmail">{{language.email}}</label>
+                                    <input type="text" class="form-control" id="" value="" placeholder="christnknight@gmail.com" ng-model="user.email" name="email" readonly required>
+                                </div>
 
-											</div>
-										</div>
-                                                                            <span style="color:Red" ng-show="myaccountForm.image.$error.maxFiles">{{language.can}} {{language.upload}} {{language.only}} {{language.two_images}}.</span>
-                                                                            
-                                                                            
-									</div>
-                                                                           </div>
-                                                                    	<div class="form-group">
-										<div id="dvMap" style="width: 500px; height: 500px">
-</div>
-                                                                           </div>
-                                                                    
-                                                                    <div class="form-group">
-										<label for="staticEmail">{{language.location}}</label>
-										<input type="text" class="form-control" id="address"  ng-model="user.address" name="address" readonly>
-									</div>
-                                                                    
-                                                                    
-                                                                    
-                                                                    
-                <input type="hidden"  id="lat" ng-model="user.my_latitude" name="my_latitude" >
-									
-                  <input type="hidden"  id="long" ng-model="user.my_longitude" name="my_longitude" >                                                  
-                                                                    
-                   <!--<input type="hidden" id="address" value="" placeholder="" ng-model="user.address" name="address" >-->                                                  
-                                                                    
-                                                                    
-                                                                    
-                                                                    
-                                                                    
-<!--                                                                <div class="form-group">
-                                                                    <label for="staticEmail">Civil ID Attachment1</label>
-                                                                <div class="btn btn-default" ngf-select ng-model="user.civilid1" name="civilid1" ngf-pattern="'image/*'"
-                        ngf-accept="'image/*'"  ngf-min-height="100"  required>Browse</div>
-                                                      <span style="color:Red" ng-if="myaccountForm.movement.$error.required && !user.image" >Upload Image with Minimum Height:420 And Minimum Width:420</span>
-                                                      
-                        <img class="thumbnail_upload_img" ngf-thumbnail="user.civilid1"  style="width:50px;height:50px;">
+
+                                <div class="form-group">
+                                    <label for="staticEmail">{{language.country}}</label>
+                                    <select class="form-control" name="country" ng-model="user.country" ng-change="state(user.country)"  required>
+                                        <option value="">{{language.please}} {{language.select}} {{language.a}} {{language.country}}</option>
+                                        <option  ng-repeat="countrylists in countrylist" value="{{countrylists.id}}">{{countrylists.name}}</option>
+                                    </select>
+
+                                    <span style="color:Red" ng-show="submitted && myaccountForm.country.$error.required">{{language.this_field_is_required}} </span>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="staticEmail">{{language.state}}</label>
+
+                                    <select class="form-control" name="state" ng-model="user.state" ng-change="city(user.state)" required>
+                                        <option value="">{{language.please}} {{language.select}} {{language.a}} {{language.state}}</option>
+                                        <option  ng-repeat="statelists in statelist" value="{{statelists.id}}">{{statelists.name}}</option>
+                                    </select> 
+                                    <span style="color:Red" ng-show="submitted && myaccountForm.state.$error.required">{{language.this_field_is_required}}! </span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="staticEmail">{{language.mobile_number}}</label>
+                                    <input type="text" ng-model="user.countrycode" name="phone" readonly>
+                                    <input type="text" class="form-control" id="" ng-blur="openverifymodal(user.phone)" value="" placeholder="Mobile No" ng-model="user.phone" name="phone" ng-pattern="/^[1-9][0-9]*$/" required>
+                                    <span style="color:Red" ng-show="submitted && myaccountForm.phone.$error.required">{{language.this_field_is_required}} </span>
+                                    <span style="color:Red" ng-show="myaccountForm.phone.$dirty && myaccountForm.phone.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}} </span>
+
+                                </div>
+
+                                <div class="form-group" tooltips tooltip-template="Contact your bank for the details" tooltip-side="top">
+                                    <label for="staticEmail">IBAN {{language.number}}</label>
+                                    <input type="text"   ng-minlength="20" ng-maxlength="34" class="form-control" id="" value="" placeholder="IBAN {{language.number}}" ng-model="user.ibanno" name="ibanno">
+                                    <!--<span style="color:Red" ng-show="submitted && myaccountForm.ibanno.$error.required">{{language.this_field_is_required}}! </span>-->
+
+                                    <!--<span style="color:Red" ng-show="myaccountForm.ibanno.$dirty && myaccountForm.ibanno.$error.pattern">Only Numbers Allowed</span>-->
+                                    <span style="color:Red"  ng-show="((myaccountForm.ibanno.$error.minlength || myaccountForm.ibanno.$error.maxlength) && myaccountForm.ibanno.$dirty) && !myaccountForm.ibanno.$error.pattern">IBAN No must be between 20-34 digits.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="staticEmail">{{language.Bank}} {{language.Name}}</label>
+                                    <input type="text" class="form-control" id="" value="" placeholder="{{language.Bank}} {{language.Name}}" ng-model="user.bankname" name="bankname" required>
+                                    <span style="color:Red" ng-show="submitted && myaccountForm.bankname.$error.required">{{language.this_field_is_required}} </span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="staticEmail">{{language.preferred}} {{language.language}}</label>
+                                    <select class="form-control" ng-model="user.language_preference" name="language_preference" required>
+                                        <option value="" selected>{{language.please}} {{language.select}} {{language.your}} {{language.language}}</option>
+                                        <option value="Arabic">Arabic</option>
+                                        <option value="English">English</option>
+                                    </select>
+                                    <span style="color:Red" ng-show="submitted && myaccountForm.language_preference.$error.required">{{language.this_field_is_required}} </span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="staticEmail">{{language.preferred}} {{language.country}}</label>
+                                    <select class="form-control" name="country_preference" ng-model="user.country_preference" required>
+                                        <option value="">{{language.please}} {{language.select}} {{language.preferred}} {{language.country}}</option>
+                                        <option  ng-repeat="countrylists in countrylist" value="{{countrylists.id}}">{{countrylists.name}}</option>
+                                    </select>
+                                    <span style="color:Red" ng-show="submitted && myaccountForm.country_preference.$error.required">{{language.this_field_is_required}} </span>
+
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="staticEmail">{{language.preferred}} {{language.currency}}</label>
+                                    <select class="form-control" name="currency_preference" ng-model="user.currency_preference"  required>
+                                        <option value="">{{language.please}} {{language.select}} {{language.preferred}} {{language.currency}}</option>	
+                                        <option  ng-repeat="currencylists in currencylist" value="{{currencylists.code}}">{{currencylists.code}}</option>
+                                    </select>
+                                    <span style="color:Red" ng-show="submitted && myaccountForm.currency_preference.$error.required">{{language.please}} {{language.Choose}} {{language.currency}}</span>
+                                </div>
+
+                                <div>
+                                    <div class="form-group">
+                                        <label for="staticEmail">{{language.Civil_ID}} {{language.Attachment}}</label>
+                                        <div class="btn btn-primary" accept="image/*" ngf-keep="true"  ngf-select ng-model="user.image" ngf-max-files="5" ngf-multiple="true" name="image" ngf-fix-orientation="true">{{language.add}} {{language.photos}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+
+                                            <div class="col-sm-3" ng-repeat="f in user.image">
+                                                <!--												{{f.name}} 
+                                                                                                                                                <i ng-click="f = null" ng-show="f" class="fa fa-times" aria-hidden="true"></i> 
+                                                                                                                                                 <img ng-show="myForm.location.files.$valid" ngf-thumbnail="f" class="thumbnail img-responsive" style="height: 150px;"> -->
+
+                                                <a ng-if="f" class="deleteHandle" ng-click="deleteFile($index, f)"><i class="fa fa-close"></i>{{f.name}}</a>
+                                                <img ng-if="f" style="width: 150px; height: 100px;" ng-show="myaccountForm.user.image.$valid" ngf-thumbnail="f" ngf-resize="{width: 100, height: 100}" class="thumbnail">
+                                                <!--<video style="width: 150px; height: 100px;" controls ngf-src="f" ng-show="myForm.location.files.$valid" class="thumbnail"></video>-->
+
+                                            </div>
+                                        </div>
+                                        <span style="color:Red" ng-show="myaccountForm.image.$error.maxFiles">{{language.can}} {{language.upload}} {{language.only}} {{language.two_images}}.</span>
+
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div id="dvMap" style="width: 500px; height: 500px">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="staticEmail">{{language.location}}</label>
+                                    <input type="text" class="form-control" id="address"  ng-model="user.address" name="address" readonly>
+                                </div>
+
+
+
+
+                                <input type="hidden"  id="lat" ng-model="user.my_latitude" name="my_latitude" >
+
+                                <input type="hidden"  id="long" ng-model="user.my_longitude" name="my_longitude" >                                                  
+
+                                <!--<input type="hidden" id="address" value="" placeholder="" ng-model="user.address" name="address" >-->                                                  
+
+
+
+
+
+                                <!--                                                                <div class="form-group">
+                                                                                                    <label for="staticEmail">Civil ID Attachment1</label>
+                                                                                                <div class="btn btn-default" ngf-select ng-model="user.civilid1" name="civilid1" ngf-pattern="'image/*'"
+                                                        ngf-accept="'image/*'"  ngf-min-height="100"  required>Browse</div>
+                                                                                      <span style="color:Red" ng-if="myaccountForm.movement.$error.required && !user.image" >Upload Image with Minimum Height:420 And Minimum Width:420</span>
+                                                                                      
+                                                        <img class="thumbnail_upload_img" ngf-thumbnail="user.civilid1"  style="width:50px;height:50px;">
+                                                        </div>
+                                                                                         <div class="form-group">
+                                                                                                    <label for="staticEmail">Civil ID Attachment2</label>
+                                                                                                <div class="btn btn-default" ngf-select ng-model="user.civilid2" name="civilid2" ngf-pattern="'image/*'"
+                                                        ngf-accept="'image/*'"  ngf-min-height="100"  required>Browse</div>
+                                                                                      <span style="color:Red" ng-if="myaccountForm.movement.$error.required && !user.image" >Upload Image with Minimum Height:420 And Minimum Width:420</span>
+                                                                                      
+                                                        <img class="thumbnail_upload_img" ngf-thumbnail="user.civilid2"  style="width:50px;height:50px;">
+                                                        </div>       -->
+                                <!------------------------------->
+                                <button class="btn btn-primary" ng-click="submitted = true">{{language.save_changes}}</button>
+                            </form>
                         </div>
-                                                         <div class="form-group">
-                                                                    <label for="staticEmail">Civil ID Attachment2</label>
-                                                                <div class="btn btn-default" ngf-select ng-model="user.civilid2" name="civilid2" ngf-pattern="'image/*'"
-                        ngf-accept="'image/*'"  ngf-min-height="100"  required>Browse</div>
-                                                      <span style="color:Red" ng-if="myaccountForm.movement.$error.required && !user.image" >Upload Image with Minimum Height:420 And Minimum Width:420</span>
-                                                      
-                        <img class="thumbnail_upload_img" ngf-thumbnail="user.civilid2"  style="width:50px;height:50px;">
-                        </div>       -->
-                                                                <!------------------------------->
-									<button class="btn btn-primary" ng-click="submitted=true">{{language.save_changes}}</button>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<div id="check_otp" class="modal fade" role="dialog">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="check_otp" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <form class="modal-content animate" ng-submit="verifyotp(mobileno)">
             <!-- Modal content-->
@@ -197,29 +199,29 @@
                 </div>
 
                 <div class="modal-body">
-<!--                    <h5>Please Enter Your OTP Below</h5>   
-                    <input type="text" class="input-field"  name="password" value="2" ng-model="pass.password" capitalize required>-->
+                    <!--                    <h5>Please Enter Your OTP Below</h5>   
+                                        <input type="text" class="input-field"  name="password" value="2" ng-model="pass.password" capitalize required>-->
 
                     <h5>Your Mobile Number</h5>   
                     <input type="text" class="input-field" name="password" value="2" ng-model="mobileno.mobile" capitalize required>                    <p ng-if="error" style="color:red" capitalize> {{error}}</p>
 
                     <hr>
-<!--                    <h5>Confirm Your Mobile Number</h5>   
-                    <i ng-click="verifyotp(pass.phone)" class="fa fa-check"></i>-->
+                    <!--                    <h5>Confirm Your Mobile Number</h5>   
+                                        <i ng-click="verifyotp(pass.phone)" class="fa fa-check"></i>-->
 
                     <hr>
                     <div>
 
                         <div>
                             <input type="submit" value="Confirm" >
-                             <!--<button ng-click="verifyotp(pass.phone)" type="button">Confirm</button>-->
+                            <!--<button ng-click="verifyotp(pass.phone)" type="button">Confirm</button>-->
                         </div>
                     </div>                                                  
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    
+
                 </div>
             </div>
         </form>
@@ -240,196 +242,104 @@
                     <h5>Please Enter Your OTP Below</h5>   
                     <input type="text" class="input-field"  name="password" value="2" ng-model="pass.password" capitalize required>
 
-<input type="text" class="input-field"  name="password" value="2" ng-model="pass.mobile" capitalize required>                    <p ng-if="error" style="color:red" capitalize> {{error}}</p>
+                    <input type="text" class="input-field"  name="password" value="2" ng-model="pass.mobile" capitalize required>                    <p ng-if="error" style="color:red" capitalize> {{error}}</p>
                     <hr>
                     <div>
 
                         <div>
                             <input type="submit" value="Continue" >
-                             <button ng-click="resendotp()" type="button">Resend</button>
+                            <button ng-click="resendotp()" type="button">Resend</button>
                         </div>
                     </div>                                                  
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    
+
                 </div>
             </div>
         </form>
     </div>
 </div>
 <style>
-    
+
     .fa{
         position: absolute;
-left: 18%;
-top: 3%;
+        left: 18%;
+        top: 3%;
     }
 </style>
 
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyDnTqCZqlvuWG1KNrNh9slnA_EqiJmiX9g&callback=initMap" async defer></script>
 
 
-<!--<script type="text/javascript">
-    var markers = [
-        {
-            "title": 'Alibaug',
-            "lat": '18.641400',
-            "lng": '72.872200',
-            "description": 'Alibaug is a coastal town and a municipal council in Raigad District in the Konkan region of Maharashtra, India.'
-        }/*,
-        {
-            "title": 'Lonavla',
-            "lat": '18.750000',
-            "lng": '73.416700',
-            "description": 'Lonavla'
-        },
-        {
-            "title": 'Mumbai',
-            "lat": '18.964700',
-            "lng": '72.825800',
-            "description": 'Mumbai formerly Bombay, is the capital city of the Indian state of Maharashtra.'
-        },
-        {
-            "title": 'Pune',
-            "lat": '18.523600',
-            "lng": '73.847800',
-            "description": 'Pune is the seventh largest metropolis in India, the second largest in the state of Maharashtra after Mumbai.'
-        },
-        {
-            "title": 'Thane',
-            "lat": '19.182800',
-            "lng": '72.961200',
-            "description": 'Thane'
-        },
-        {
-            "title": 'Vashi',
-            "lat": '18.750000',
-            "lng": '73.033300',
-            "description": 'Vashi'
-        }*/
-    ];
-
-     function initMap() {
-
-        var mapOptions = {
-            center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
-            zoom: 3,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        var infoWindow = new google.maps.InfoWindow();
-        var latlngbounds = new google.maps.LatLngBounds();
-        var geocoder = geocoder = new google.maps.Geocoder();
-        var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
-        for (var i = 0; i < markers.length; i++) {
-            var data = markers[i]
-            var myLatlng = new google.maps.LatLng(data.lat, data.lng);
-            var marker = new google.maps.Marker({
-                position: myLatlng,
-                map: map,
-                title: data.title,
-                draggable: true,
-                animation: google.maps.Animation.DROP
-            });
-            (function (marker, data) {
-                google.maps.event.addListener(marker, "click", function (e) {
-                    infoWindow.setContent(data.description);
-                    infoWindow.open(map, marker);
-                });
-                google.maps.event.addListener(marker, "dragend", function (e) {
-                    var lat, lng, address;
-                    geocoder.geocode({ 'latLng': marker.getPosition() }, function (results, status) {
-                        if (status == google.maps.GeocoderStatus.OK) {
-                            lat = marker.getPosition().lat();
-                            lng = marker.getPosition().lng();
-                            address = results[0].formatted_address;
-                            //alert("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + address);                           
-                            //document.getElementById("lat").value=lat;
-                           
-                            $('#lat').val(lat);
-                            $('#long').val(lng);
-                            $('#address').val(address);
-                        }
-                    });
-                });
-            })(marker, data);
-            latlngbounds.extend(marker.position);
-        }
-        var bounds = new google.maps.LatLngBounds();
-        map.setCenter(latlngbounds.getCenter());
-        map.fitBounds(latlngbounds);
-    }
-</script>-->
-
-
 <script>
 
-function initMap() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else { 
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
-}
-
-    
-    function showPosition(position) {
-    var myLatLng = {lat: position.coords.latitude, lng: position.coords.longitude};
-
-    $('#lat').val(position.coords.latitude);
-    $('#long').val(position.coords.longitude);
-    //$('#address').val(address);
+                                 function initMap() {
+                                     if (navigator.geolocation) {
+                                         navigator.geolocation.getCurrentPosition(showPosition);
+                                     } else {
+                                         x.innerHTML = "Geolocation is not supported by this browser.";
+                                     }
+                                 }
 
 
-    var map = new google.maps.Map(document.getElementById('dvMap'), {
-      zoom: 17,
-      center: myLatLng
-    });
+                                 function showPosition(position) {
+                                     var myLatLng = {lat: position.coords.latitude, lng: position.coords.longitude};
 
-    var marker = new google.maps.Marker({
-      position: myLatLng,
-      map: map,
-      title: address,
-      draggable:true,
-    });
+                                     $('#lat').val(position.coords.latitude);
+                                     $('#long').val(position.coords.longitude);
+                                     //$('#address').val(address);
 
 
-                google.maps.event.addListener(marker, 'dragend', function() 
-                    {
-                        geocodePosition(marker.getPosition());
-                    });
+                                     var map = new google.maps.Map(document.getElementById('dvMap'), {
+                                         zoom: 17,
+                                         center: myLatLng
+                                     });
 
-                    function geocodePosition(pos) 
-                    {
-                        var lat, lng, address;
-                       geocoder = new google.maps.Geocoder();
-                       geocoder.geocode
-                        ({
-                            latLng: pos
-                        }, 
-                            function(results, status) 
-                            {
-                                if (status == google.maps.GeocoderStatus.OK) 
-                                {
-                                     lat = pos.lat();
-                                     lng = pos.lng();
-                                     address = results[0].formatted_address;
-                                    //alert("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + address);
-                                    $('#lat').val(lat);
-                                    $('#long').val(lng);
-                                    $('#address').val(address);
-                                } 
-                                else 
-                                {
-                                    $("#mapErrorMsg").html('Cannot determine address at this location.'+status).show(100);
-                                }
-                            }
-                        );
-                    }
+                                     var marker = new google.maps.Marker({
+                                         position: myLatLng,
+                                         map: map,
+                                         title: address,
+                                         draggable: true,
+                                     });
 
 
-}
- 
-    
+                                     google.maps.event.addListener(marker, 'dragend', function ()
+                                     {
+                                         geocodePosition(marker.getPosition());
+                                     });
+
+                                     function geocodePosition(pos)
+                                     {
+                                         var lat, lng, address;
+                                         geocoder = new google.maps.Geocoder();
+                                         geocoder.geocode
+                                                 ({
+                                                     latLng: pos
+                                                 },
+                                                 function (results, status)
+                                                 {
+                                                     if (status == google.maps.GeocoderStatus.OK)
+                                                     {
+                                                         lat = pos.lat();
+                                                         lng = pos.lng();
+                                                         address = results[0].formatted_address;
+                                                         //alert("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + address);
+                                                         $('#lat').val(lat);
+                                                         $('#long').val(lng);
+                                                         $('#address').val(address);
+                                                     }
+                                                     else
+                                                     {
+                                                         $("#mapErrorMsg").html('Cannot determine address at this location.' + status).show(100);
+                                                     }
+                                                 }
+                                                 );
+                                     }
+
+
+                                 }
+
+
 </script>
