@@ -2,6 +2,7 @@ app.controller("RootScopeCtrl", function ($scope,$rootScope, $location, $rootSco
 
 $scope.search={};
 $scope.searchsubmitvariable='';
+$scope.myVarhide=false;
 $scope.is_fav='';
     //$scope.mobileverify = '';
     if($window.localStorage["language"] == 2){
@@ -1075,6 +1076,7 @@ userService.listcountry().then(function(response) {
 		if(response.Ack == 1) {
                   
                     $scope.isExistsfield=1;
+                    $scope.myVarhide=true;
                     $scope.autofieldlist=response.autofieldlist;
               
 		} else {
@@ -1093,7 +1095,8 @@ userService.listcountry().then(function(response) {
        // alert(status);
     $scope.search.brandName = status;
     //$scope.myVar = status;
-   
+   $scope.myVarhide=false;
+   //alert($scope.myVarhide);
  }
     
      $scope.searchsubmit = function(search){
@@ -1101,6 +1104,7 @@ userService.listcountry().then(function(response) {
     //$scope.search.brandName = status;
     //$scope.myVar = status;
     if($state.current.name != 'frontend.productlisting'){
+        
         $scope.searchsubmitvariable = search_submit;
         $state.go('frontend.productlisting'); 
         //alert('on product listing1')

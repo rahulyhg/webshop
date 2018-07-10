@@ -3,7 +3,7 @@
       
    <div class="container">
       <a class="navbar-brand" href="#"><img src="app/assets/images/logo.png" alt="" /></a>
-      <div class="input-group col-lg-6 ml-auto">
+      <div class="input-group col-lg-6 ml-auto drop-down-wrap">
         
         <input type="text" class="form-control" style="color:white"  placeholder="{{language.search}} {{language.your}} {{language.product}}" ng-change="autofield(search.brandName)" ng-model="search.brandName" id="brandname" aria-label="Recipient's username"  aria-describedby="basic-addon2"> 
      
@@ -11,18 +11,19 @@
 <!--            <button ng-if="$state.current.name != 'frontend.productlisting'" class="btn btn-outline-secondary" type="button" ng-click="getbrandname()"><i class="fa fa-search"></i></button>-->
           <button  class="btn btn-outline-secondary" type="submit"><i class="fa fa-search"></i></button>
          </div>
-        
+         <div ng-show="myVarhide">
+        <ul class="dropdown-menu1" ng-if="isExistsfield==1">
+
+            <li ng-repeat="bradslst in autofieldlist">
+                <a class="dropdown-item" ng-click="selectvalue(bradslst.field)" href="javascript:void(0)">{{bradslst.field}} </a>
+
+        </ul>
+         </div>
       </div>
       
    </div>
 </nav>
     </form>
-<ul class="dropdown-menu1" ng-if="isExistsfield==1">
-
-            <li ng-repeat="bradslst in autofieldlist">
-                <a class="dropdown-item" ng-click="selectvalue(bradslst.field)" href="javascript:void(0)">{{bradslst.field}} </a>
-
-    </ul>
 <nav class="navbar navbar-expand-lg navbar-light bg-gary fixed-top mt-5">
    <div class="container">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
