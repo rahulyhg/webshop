@@ -279,8 +279,8 @@ if($scope.size_amount_max){
     $('#max_size_price').html($scope.size_amount_max);
 }else{
     //alert('max');
-    $scope.size_amount_max= 1000;
-    $('#max_size_price').html(1000);
+    $scope.size_amount_max= 100;
+    $('#max_size_price').html(100);
 }
 
 if($scope.size_amount_min){

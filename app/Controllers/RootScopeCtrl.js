@@ -381,6 +381,7 @@ userService.notiCount(userInfo.user_id).then(function(response) {
 }
  }else if(response.Ack == '4'){
      $scope.mobileverify = response.mobileverify;
+     $scope.mobilenoforlogin= response.mobilenoforlogin;
      $('#login').modal('hide'); 
      $state.go('frontend.mobileverify');
  }
@@ -466,10 +467,29 @@ $scope.forget = function(user) {
         
         
             if(response.Ack == '1') {
-                swal('Mail Send Successfully','','success');
-                 $window.location.reload();
+               
+                
+                  swal('Mail Send Successfully','','success')
+                .then((value) => {
+                    if(value == true){
+
+                           $window.location.reload();
+                    }
+
+                });
+                
+                // $window.location.reload();
             } else {
-                swal('Email not found in our database','','error');
+                
+                 swal('Email not found in our database','','error')
+                .then((value) => {
+                    if(value == true){
+
+                           $window.location.reload();
+                    }
+
+                });
+                //swal('Email not found in our database','','error');
             }
         
             
