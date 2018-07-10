@@ -14480,7 +14480,7 @@ $app->response->setStatus(200);
 
 
 
-    function autofield() {
+   /* function autofield() {
 
     $data = array();
 
@@ -14511,6 +14511,47 @@ $app->response->setStatus(200);
          $results = implode(",",$abc);
         
         $data['autofieldlist'][] = $results;
+        $data['Ack'] = 1;
+        $app->response->setStatus(200);
+
+    }else{
+        $data['autofieldlist'] = "";
+        $data['Ack'] = 0;
+        $app->response->setStatus(200);
+
+    }
+
+        $app->response->write(json_encode($data));
+    }*/
+
+
+
+
+function autofield() {
+
+    $data = "";
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+    $getResults=array();
+    $word = isset($body->word) ? $body->word : '';
+    if($word!=""){
+    $sql = "SELECT description as field FROM  webshop_products where  description like '%$word%' union select name as field from webshop_brands WHERE name like '%$word%' union select fname as field from webshop_user WHERE fname like '%$word%' or lname like '%$word%'";
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+    $getResults = $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+    
+    if(!empty($getResults)){
+       
+       
+        
+        $data['autofieldlist'] = $getResults;
         $data['Ack'] = 1;
         $app->response->setStatus(200);
 
