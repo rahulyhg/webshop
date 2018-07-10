@@ -250,7 +250,7 @@ function inactive(aa)
                             </thead>
                         <tbody>
                             <?php
-                                                        $fetch_subscription=mysqli_query($con,"select * from webshop_subscription where subscription_for=1");
+                                                        $fetch_subscription=mysqli_query($con,"select *,@a:=@a+1 serial_number from webshop_subscription,(SELECT @a:= 0) AS a where subscription_for=1");
                                                         $num=mysqli_num_rows($fetch_subscription);
                                                         if($num>0)
                                                         {
@@ -262,7 +262,7 @@ function inactive(aa)
               
               <tr>
                   <td>
-                  <?php echo stripslashes($subscription['id']);?>
+                  <?php echo stripslashes($subscription['serial_number']);?>
                 </td>                                     
                 
                 <td>

@@ -64,7 +64,7 @@
 
                                 <div class="form-group">
                                     <label for="staticEmail">{{language.mobile_number}}</label>
-                                    <input type="text" ng-model="user.countrycode" name="phone" readonly>
+                                    <!--<input type="text" ng-model="user.countrycode" name="phone" readonly>-->
                                     <input type="text" class="form-control" id="" ng-blur="openverifymodal(user.phone)" value="" placeholder="Mobile No" ng-model="user.phone" name="phone" ng-pattern="/^[1-9][0-9]*$/" required>
                                     <span style="color:Red" ng-show="submitted && myaccountForm.phone.$error.required">{{language.this_field_is_required}} </span>
                                     <span style="color:Red" ng-show="myaccountForm.phone.$dirty && myaccountForm.phone.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}} </span>

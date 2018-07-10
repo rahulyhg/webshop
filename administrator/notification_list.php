@@ -288,7 +288,8 @@ if (isset($_POST['ExportCsv'])) {
                             <table class="table table-striped table-hover table-bordered" id="editable-sample">
                                 <thead>
                                     <tr>
-                     <!--     <th> Trending </th>                  -->                          
+                     <!--     <th> Trending </th>                  --> 
+                                        <th> Slno </th>
                                         <th> User Name </th>
                                         <th> User Image</th>          
                                         <th>Message</th>
@@ -310,7 +311,7 @@ if (isset($_POST['ExportCsv'])) {
                                         exit();
                                     }
 
-                                    $fetch_tools_type = mysqli_query($con, "select * from webshop_notification where to_id = 0 group by id desc");
+                                    $fetch_tools_type = mysqli_query($con, "select *,@a:=@a+1 serial_number from webshop_notification,(SELECT @a:= 0) AS a where to_id = 0 group by id desc");
                                     $num = mysqli_num_rows($fetch_tools_type);
                                     if ($num > 0) {
                                         while ($tools_type = mysqli_fetch_array($fetch_tools_type)) {
@@ -330,7 +331,12 @@ if (isset($_POST['ExportCsv'])) {
 
                                             <tr>
 
-
+                                                <td>
+                                                    <?php echo $tools_type['serial_number']; ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $user_noti_details['fname'].' '.$user_noti_details['lname']; ?>
+                                                </td>
 
                                                 <td>
                                                     <img src="<?php echo $image_link; ?>" height="100" width="100" align="image">

@@ -119,7 +119,7 @@ if ($_REQUEST['action'] == 'edit') {
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $fetch_subscription = mysqli_query($con, "select * from webshop_auctiondates group by (date)");
+                                    $fetch_subscription = mysqli_query($con, "select *,@a:=@a+1 serial_number from webshop_auctiondates,(SELECT @a:= 0) AS a group by (date)");
                                     $num = mysqli_num_rows($fetch_subscription);
                                     if ($num > 0) {
                                         while ($subscription = mysqli_fetch_array($fetch_subscription)) {
@@ -127,7 +127,7 @@ if ($_REQUEST['action'] == 'edit') {
 
                                             <tr>
                                                 <td>
-                                                    <?php echo stripslashes($subscription['id']); ?>
+                                                    <?php echo stripslashes($subscription['serial_number']); ?>
                                                 </td>
 
                                                 <td>
