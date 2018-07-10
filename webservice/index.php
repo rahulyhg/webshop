@@ -1510,6 +1510,9 @@ function ProductsDetails() {
                             $nextbidprice = round($nextbidprice);
                             $lastbidvalue = $product->lastbidvalue * $currency['currency_rate_to_usd'];
                             $lastbidvalue = round($lastbidvalue);
+                            $higestbidderbid = $higestbidderbid * $currency['currency_rate_to_usd'];
+                            $higestbidderbid = round($higestbidderbid);
+                            
                            // echo 'yes';
                         }  
                         }else{
