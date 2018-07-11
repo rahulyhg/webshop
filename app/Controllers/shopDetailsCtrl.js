@@ -27,7 +27,11 @@ $scope.shop_id=$stateParams.id;
        
 //alert('a');
  
-  
+  if($window.localStorage["currency"] != ''){
+   $scope.usersSelectedCurrency = $window.localStorage["currency"] ;
+}else{
+    $scope.usersSelectedCurrency = 'KWD';
+}
   //alert('h'+$scope.maxprice);
  //console.log('search_obj',$scope.search);
 $scope.drpmodel='0';
@@ -77,7 +81,7 @@ $scope.isform1 =0;
 
 //$scope.brand=$stateParams.brand;
 
-userService.getmaxprice(1,$scope.user_id).then(function(response) {
+userService.getmaxprice(1,$scope.user_id,$scope.usersSelectedCurrency).then(function(response) {
     // alert();
 
 		

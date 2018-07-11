@@ -198,7 +198,7 @@ if (isset($_POST['ExportCsv'])) {
         location.href = "list_vendor.php?cid=" + aa + "&action=top1"
 
     }
-    function del(aa, bb)
+    function del(aa)
     {
         var a = confirm("Are you sure, you want to delete this?")
         if (a)
@@ -316,7 +316,9 @@ if (isset($_POST['ExportCsv'])) {
                                    <!--      <th> View Bookings</th> -->
                                      <!--   <th>Quick Links</th> -->
                                         <th>Status</th>
+                                        <th>Delete</th>
                                         <th>Approve/Reject</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -513,7 +515,13 @@ if (isset($_POST['ExportCsv'])) {
                                                         <a  onClick="javascript:inactive('<?php echo $landlord['id']; ?>');">Click to deactivate</a>
                                                     <?php } ?>
                                                 </td>
-
+                                                
+                                                 <td>
+                                                    <a onClick="javascript:void(0)">
+                                                        <i class="icon-trash"></i></a>
+                                                </td>
+                                                
+                                                
                                                 <td>
                                                     <?php
                                                     if ($landlord['is_admin_approved'] == '0') {

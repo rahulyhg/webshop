@@ -1263,6 +1263,7 @@ function ProductsDetails() {
         $stmtfav->bindParam("user_id", $user_id);
         $stmtfav->execute();
         $getfav = $stmtfav->fetchObject();
+        //print_r($getfav);exit;
         if (!empty($getfav)) {
             $is_fav = 1;
         } else {
@@ -11658,11 +11659,13 @@ function getmaxprice() {
         
         if (!empty($getprice)) {
             $minprice = $getprice->minp;
+          // echo '<br>'   ;
             $maxprice =$getprice->maxp;
         }else{
             
             $minprice = 0;
-            $minprice = 100000;
+           // echo '<br>'   ;
+            $maxprice = 100000;
         }
         
         
@@ -11670,7 +11673,7 @@ function getmaxprice() {
         if ($selected_currency != 'KWD') {
                              
                                 $userselected_currency = $selected_currency;
-                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'USD' AND currency_code ='$selected_currency' ";
+                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'KWD' AND currency_code ='$selected_currency' ";
                         $stmtcurrency = $db->prepare($sqlcurrency);
                        // $stmt1->bindParam("id", $product->uploader_id);
                         $stmtcurrency->execute();
@@ -11684,6 +11687,7 @@ function getmaxprice() {
                         }  
                         }else{
                             $minprice = $getprice->minp;
+                            
                             $maxprice =$getprice->maxp;
                         }
                               
@@ -11693,39 +11697,13 @@ function getmaxprice() {
                            $maxprice =$getprice->maxp;
                         }
         
-       //echo $maxprice.'<br>'.$minprice;exit;
-        /*
-        if($user_id!=""){
-                         $sqlnewuser = "SELECT * FROM webshop_user WHERE id=$user_id ";
-                        
-                        $stmtnewuser = $db->prepare($sqlnewuser);
-                        //$stmt1->bindParam("id", $product->uploader_id);
-                        $stmtnewuser->execute();
-                        $getUserdetails1 = $stmtnewuser->fetchObject();
-                        
-                        if (!empty($getUserdetails1)) {
-                             
-                                $userselected_currency = $getUserdetails1->currency_preference;
-                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'KWD' AND currency_code ='$getUserdetails1->currency_preference' ";
-                        $stmtcurrency = $db->prepare($sqlcurrency);
-                       
-                        $stmtcurrency->execute();
-                        $getallcurrency = $stmtcurrency->fetchall();
-                        
-                        if(!empty($getallcurrency)){
-                           foreach($getallcurrency as $currency){
-                            $minprice = $minprice * $currency['currency_rate_to_usd'];
-                            $maxprice = $maxprice * $currency['currency_rate_to_usd'];
-                        }  
-                        }
-                              
-                            
-                        }
-                    }*/
-                    
+       
+                       // echo '===============';
+                // echo '<br>'   ;
                   $minprice= round($minprice);
+                 //echo '<br>'   ;
                   $maxprice= round($maxprice);
-                    
+                   // exit;
             $data['minprice']=$minprice;
             $data['maxprice']=$maxprice;
             //print_r($data);
@@ -14648,6 +14626,96 @@ function checkuserlogin() {
    
 }
 
+
+function getmaxpriceauction() {
+
+    
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    $type = isset($body->type) ? $body->type : '';
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    $selected_currency = isset($body->currency) ? $body->currency : 'KWD';
+    $db = getConnection();
+
+    $cdate=date('Y-m-d');
+    $auctioned =0;
+    try {
+
+        $sqlprice = "SELECT MIN(price) as minp, MAX(price) as maxp from webshop_products WHERE type = '$type' and auctioned = '$auctioned' and status= '1' ";
+       
+        $stmtprice = $db->prepare($sqlprice);
+        $stmtprice->execute();
+        $getprice = $stmtprice->fetchObject();
+        
+        //print_r($getprice);exit;
+        
+        if (!empty($getprice)) {
+            $minprice = $getprice->minp;
+          // echo '<br>'   ;
+            $maxprice =$getprice->maxp;
+        }else{
+            
+            $minprice = 0;
+           // echo '<br>'   ;
+            $maxprice = 100000;
+        }
+        
+        
+        
+        if ($selected_currency != 'KWD') {
+                             
+                                $userselected_currency = $selected_currency;
+                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'KWD' AND currency_code ='$selected_currency' ";
+                        $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                            $minprice = $minprice * $currency['currency_rate_to_usd'];
+                            $maxprice = $maxprice * $currency['currency_rate_to_usd'];
+                          // $currency_pref=$selected_currency;
+                        }  
+                        }else{
+                            $minprice = $getprice->minp;
+                            
+                            $maxprice =$getprice->maxp;
+                        }
+                              
+                            
+                        } else {
+                           $minprice = $getprice->minp;
+                           $maxprice =$getprice->maxp;
+                        }
+        
+       
+                       // echo '===============';
+                // echo '<br>'   ;
+                  $minprice= round($minprice);
+                 //echo '<br>'   ;
+                  $maxprice= round($maxprice);
+                   // exit;
+            $data['minprice']=$minprice;
+            $data['maxprice']=$maxprice;
+            //print_r($data);
+           // exit;
+            $data['Ack'] = '1';
+            $app->response->setStatus(200);
+       
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+    
+    $app->response->write(json_encode($data));
+}
 
 $app->run();
 ?>
