@@ -194,5 +194,6 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/countview', 'countview');
     $app->post('/deleteAuction', 'deleteAuction');
      $app->post('/checkuserlogin', 'checkuserlogin');
+     $app->post('/getmaxpriceauction', 'getmaxpriceauction');
 });
 ?>

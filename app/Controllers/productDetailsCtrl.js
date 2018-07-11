@@ -638,7 +638,7 @@ swal("Mail can not be sent",'','error');
 	 
   	var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;
-	 
+	 alert();
 
     userService.addFavWishlist(userInfo.user_id,product_id,owner_id).then(function(response) {
 		
@@ -672,7 +672,7 @@ swal("Mail can not be sent",'','error');
 	 
   	var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;
-	 
+	 alert();
 
     userService.addFavWishlist(userInfo.user_id,product_id,owner_id).then(function(response) {
 		

@@ -6035,7 +6035,31 @@ var encodedString ='{"user_id":"'+ user_id +'"}';
  };
 
 
-
+var getmaxpriceauction = function(type,user_id,currency) {
+        return $q(function(resolve, reject) {
+var encodedString ='{"type":"'+ type +'","user_id":"'+ user_id +'","currency":"'+ currency +'"}';
+//alert(encodedString)
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"getmaxpriceauction",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           //console.log(response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           } else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+ };
 
 
 
@@ -6232,6 +6256,7 @@ var encodedString ='{"user_id":"'+ user_id +'"}';
         autofield:autofield,
         countview:countview,
         checkuserlogin:checkuserlogin,
+        getmaxpriceauction:getmaxpriceauction,
 
 };
 });

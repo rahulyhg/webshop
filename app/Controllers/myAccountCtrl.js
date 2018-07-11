@@ -37,35 +37,28 @@ $scope.getCurrentUserType();
 //          alert();
 //        }
        
-        var name = 'Arun Banik';
-
-        if ($window.localStorage["userInfo"] != '') {
-            alert('yes');
-        }
-        else{
-            alert('no');
-    }
-         userService.checkuserlogin($scope.user_id).then(function(response) {
-       // alert('OK');
-        //exit;
-	
-	
-	if(response.Ack=='1'){
-		
-		//console.log('brandsList',response);
-		alert('yes');
-		
-                
-		}
-		else{
- 		alert('no');
-		}
-	
-	
-																  
-	}, function(err) {
-         console.log(err); 
-    });
+  
+//         userService.checkuserlogin($scope.user_id).then(function(response) {
+//       // alert('OK');
+//        //exit;
+//	
+//	
+//	if(response.Ack=='1'){
+//		
+//		//console.log('brandsList',response);
+//		alert('yes');
+//		
+//                
+//		}
+//		else{
+// 		alert('no');
+//		}
+//	
+//	
+//																  
+//	}, function(err) {
+//         console.log(err); 
+//    });
 	//console.log("spandan",userInfo);  
 
 	
