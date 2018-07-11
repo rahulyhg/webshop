@@ -4,7 +4,7 @@
  */
 app.controller('auctionDetailsCtrl', function ($rootScope, $scope,$http, $location,$timeout,$window, $state,$stateParams, userService) {
 
-    
+  $window.scrollTo(0, 0);    
 $scope.data = {};
 $scope.user = {};
 //alert('a');
@@ -18,7 +18,11 @@ else {
 	userInfo.user_id ="";
 	//$scope.user_id=userInfo.user_id;
 }
-
+ if($window.localStorage["currency"] != ''){
+   $scope.usersSelectedCurrency = $window.localStorage["currency"] ;
+}else{
+    $scope.usersSelectedCurrency = 'KWD';
+}
 $scope.isform1 =0;
 	$scope.form1 = function(user) {
 
@@ -56,7 +60,7 @@ $scope.product_id1=atob($stateParams.id);
    //  alert('hi');
  
 
-        userService.productDetails($scope.product_id,userInfo.user_id).then(function(response) {
+        userService.productDetails($scope.product_id,userInfo.user_id,$scope.usersSelectedCurrency).then(function(response) {
 
 	console.log("vv",response);
 		
@@ -160,7 +164,7 @@ else {
     bid.productid =$scope.product_id;
     bid.userid = $scope.user_id; */
      //console.log(bid);
-      userService.getauctiondetails( userid,productid).then(function(response) {
+      userService.getauctiondetails( userid,productid,$scope.usersSelectedCurrency).then(function(response) {
 
 	console.log("vv",response);
 		

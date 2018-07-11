@@ -13,21 +13,21 @@
                             <p class="m-0">
                                 <i class="ion-thumbsup"></i> {{productLists.totallike}} &nbsp;<i class="fa fa-eye"></i> {{countview}}</p>
                         </div>
-                        <div class="slider_n">
-                            <!-- enumerate all photos -->
+<!--                        <div class="slider_n">
+                             enumerate all photos 
                             <img ng-repeat="photo in productLists.image" class="slide_n" ng-swipe-right="showPrev()" ng-swipe-left="showNext()" ng-show="isActive($index)"
                                 ng-src="{{photo.src}}" />
-                            <!-- prev / next controls -->
-                            <!--        <a class="arrow prev"  ng-click="showPrev()"></a>
-                        <a class="arrow next"  ng-click="showNext()"></a>-->
-                            <!-- extra navigation controls -->
+                             prev / next controls 
+                                    <a class="arrow prev"  ng-click="showPrev()"></a>
+                        <a class="arrow next"  ng-click="showNext()"></a>
+                             extra navigation controls 
                             <ul class="nav_n">
                                 <li ng-repeat="photo in productLists.image" ng-class="{'active':isActive($index)}">
                                     <img src="{{photo.src}}" alt="{{photo.desc}}" title="{{photo.desc}}" ng-click="showPhoto($index);" />
                                 </li>
                             </ul>
-                        </div>
-                        <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
+                        </div>-->
+                        <img src="{{productLists.product_single_image}}" class="ml-auto mr-auto d-block img-fluid">
                         <!--<img src="{{productLists.image}}" class="ml-auto mr-auto d-block img-fluid">-->
                     </div>
 				<div class="row">
@@ -80,7 +80,7 @@
 							<p class="mb-1">{{productLists.seller_name}}</p>
 							<p class="text-secondary mb-0"><i class="fa fa-map-marker"></i> {{productLists.seller_address}}</p>
 							<p class="text-secondary mb-2"><i class="fa fa-phone"></i> {{productLists.seller_address}}</p>
-							<h5><b>{{productLists.currency_code}}{{productLists.price}} </b></h5>
+							<h5><b>{{selectedCurr}}{{productLists.price}} </b></h5>
 							<p class="text-success">{{productLists.quantity}}pcs. Available. </p>
                                                         <p ng-if="productLists.quantity=='0'" class="text-success">Out of stock.</p>
 							<hr>
@@ -228,7 +228,7 @@
                         <div class="col-sm-3">    <img class="thumbnail_upload_img" ngf-thumbnail="UserDetail.image"  style="width:50px;height:50px;"></div>
 			<div class="col-sm-3">{{UserDetail.user_name}}</div>	
                          
-			<div class="col-sm-3"> {{productLists.currency_code}}  {{UserDetail.bidprice}} </div>	
+			<div class="col-sm-3"> {{UserDetail.currency_code}}  {{UserDetail.bidprice}} </div>	
                         
 			<div class="col-sm-3"> {{UserDetail.date}} </div>	
 			
@@ -262,7 +262,13 @@
 </div>
     </div>
 
-
+<style>
+    
+    .img-fluid {
+    max-width: 50%;
+    height: auto;
+}
+</style>
 
 
 

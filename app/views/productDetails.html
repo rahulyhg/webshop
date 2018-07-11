@@ -153,7 +153,7 @@
                               <h6 class="mb-0 "><strong>Favourite</strong></h6>
                            </td>
                            <td>
-                              <h6 class="mb-0 ">{{is_fav1}}
+                              <h6 class="mb-0 ">
                                  <a ng-if="user_id && is_fav1==1 && user_id !=productLists.seller_id" ng-click="addwishlist3(productLists.id,productLists.seller_id)" class="d-block rounded-circle "><i style="color:red " class="ion-heart "></i></a>
                                  <a ng-if="user_id && is_fav1==0 && user_id !=productLists.seller_id" ng-click="addwishlist2(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-heart "></i></a>
                                  <a ng-if="!user_id " ng-click="checklogin() " class="d-block rounded-circle"><i class="ion-heart"></i></a>

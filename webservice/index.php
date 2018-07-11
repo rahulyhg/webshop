@@ -6020,7 +6020,7 @@ if ($category != '') {
                 }
                 
                  $userselected_currency =$userSelectedcurrency;
-                         $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'USD' AND currency_code ='$userSelectedcurrency' ";
+                         $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'KWD' AND currency_code ='$userSelectedcurrency' ";
                          $stmtcurrency = $db->prepare($sqlcurrency);
                        // $stmt1->bindParam("id", $product->uploader_id);
                         $stmtcurrency->execute();
@@ -6434,6 +6434,7 @@ function getauctiondetails() {
 
     $userid = isset($body->userid) ? $body->userid : '';
     $productid = isset($body->productid) ? $body->productid : '';
+   $userSelectedcurrency = isset($body->currency) ? $body->currency : 'KWD';
 
 
 
@@ -6464,14 +6465,35 @@ function getauctiondetails() {
                 $profile_image = SITE_URL . 'webservice/no-user.png';
             }
 
+            $bidprice='';
+            $userselected_currency =$userSelectedcurrency;
+                         $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'KWD' AND currency_code ='$userSelectedcurrency' ";
+                         $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                            $bidprice = $auction->bidprice * $currency['currency_rate_to_usd'];
+                            $currency_pref=$userSelectedcurrency;
+                            //echo 'yes';
+                        }  
+                        }else{
+                            $price = $auction->bidprice;
+                            $currency_pref='KWD';
+                            //echo 'NO';
+                        }
+            
             $data['UserDetails'][] = array(
                 "userid" => stripslashes($auction->userid),
                 "productid" => stripslashes($auction->productid),
-                "bidprice" => stripslashes($auction->bidprice),
+                "bidprice" => stripslashes($bidprice),
                 "uploaderid" => stripslashes($auction->uploaderid),
                 "date" => stripslashes($auction->date),
                 "user_name" => stripslashes($getUserdetails->fname),
                 "image" => stripslashes($profile_image),
+                "currency_pref"=>$currency_pref
             );
         }
     }
