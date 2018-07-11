@@ -3795,10 +3795,10 @@ reject(response);
 };
  
  
- var getauctiondetails = function(userid, productid) {
+ var getauctiondetails = function(userid, productid,currency) {
 return $q(function(resolve, reject) {
 
-  var encodedString ='{"userid":"'+ userid +'","productid":"'+ productid +'"}';
+  var encodedString ='{"userid":"'+ userid +'","productid":"'+ productid +'","currency":"'+ currency +'"}';
 
 $http({
 method: 'POST',
