@@ -80,10 +80,10 @@ $scope.getCurrentUserType();
                                 }
                                 $scope.user.country_preference=response.UserDetails.country_preference;
                                 $scope.user.currency_preference=response.UserDetails.currency_preference;
-                                
+                                $scope.currency=response.UserDetails.currency_preference;
                                 $scope.state($scope.user.country);
                                 $scope.city($scope.user.state);
-				
+				//alert();
               }else{
 				  
 				$scope.user.fname='';
@@ -128,7 +128,7 @@ $scope.getCurrentUserType();
         $scope.user_id = userInfo.user_id;
 
         //alert(user.my_latitude);
-        
+        //user.currency_preference=$scope.user.currency_preference;
         user.my_latitude = angular.element('#lat').val();
         user.my_longitude = angular.element('#long').val();
         user.address = angular.element('#address').val();
@@ -193,6 +193,7 @@ userService.listcountry().then(function(response) {
                 $scope.isExists = 1;
                
                 $scope.statelist = response.statelist;
+                $scope.phonecode = response.phonecode;
               
 
             } else {
@@ -394,5 +395,18 @@ $scope.resendotp = function(phoneno) {
         
   
 }
+
+
+$scope.selectedcurrency = function(status){
+  console.log(status);
+     //Here you will get the selected location.
+    $scope.user.currency_preference = status;
+   // alert($scope.user2.status);
+ }
+
+
+
+
+
 });
 
