@@ -88,7 +88,15 @@
                     
 			  <div class="form-group">
 			    <label for="number">{{language.mobile_number}}</label>
+			    <div class="input-group">
+			    	<div class="input-group-prepend">
+			    		<span class="input-group-text2">
+			    			+91 
+			    		</span>
+			    	</div>
 			    <input type="text" class="form-control" ng-blur="getotp(user.phone,user.country)" id="number" placeholder="Mobile number" ng-pattern="/^\d+$/" name="phone" ng-model="user.phone" required>
+			    </div>
+			    
                             <span style="color:Red" ng-show="registerForm.phone.$error.required">  </span>
 
                             <span style="color:Red" ng-show="registerForm.phone.$dirty && registerForm.phone.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>
