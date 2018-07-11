@@ -30,6 +30,11 @@ $scope.checkboxstr=[];
    
     $scope.user.status=[];
    $scope.status=[];
+   if($window.localStorage["currency"] != ''){
+   $scope.usersSelectedCurrency = $window.localStorage["currency"] ;
+}else{
+    $scope.usersSelectedCurrency = 'KWD';
+}
 //alert('a');
  $scope.search = { price_min : '', price_max : '', amount_min : 0, amount_max : 10000 };
 $scope.drpmodel='0';
@@ -96,7 +101,7 @@ $scope.brand=$stateParams.brand;
 $scope.amount_min = $scope.search.amount_min;
 $scope.amount_max = $scope.search.amount_max;
 
-userService.getmaxprice(2,$scope.user_id).then(function(response) {
+userService.getmaxpriceauction(2,$scope.user_id,$scope.usersSelectedCurrency).then(function(response) {
      //alert('getmaxprice');
 
 		

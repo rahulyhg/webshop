@@ -26,6 +26,12 @@ $scope.checkboxstrcat=[];
       $scope.user.statuswatch=[];
    $scope.statuswatch=[];
    
+   if($window.localStorage["currency"] != ''){
+   $scope.usersSelectedCurrency = $window.localStorage["currency"] ;
+}else{
+    $scope.usersSelectedCurrency = 'KWD';
+}
+   
  $scope.search = { price_min : '', price_max : '', amount_min : '', amount_max : '' };
   
 	
@@ -101,7 +107,7 @@ $scope.isform1 =0;
 
 //$scope.brand=$stateParams.brand;
 
-userService.getmaxprice(2,$scope.user_id).then(function(response) {
+userService.getmaxprice(2,$scope.user_id,$scope.usersSelectedCurrency).then(function(response) {
     // alert();
 
 		

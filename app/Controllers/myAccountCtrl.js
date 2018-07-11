@@ -49,6 +49,7 @@ $scope.getCurrentUserType();
 //          alert();
 //        }
        
+
         
 
 
@@ -71,6 +72,7 @@ $scope.getCurrentUserType();
             }, function(err) {
              console.log(err); 
         });*/
+
 	//console.log("spandan",userInfo);  
 
 	
