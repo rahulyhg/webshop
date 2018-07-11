@@ -25,16 +25,47 @@ if($window.localStorage["currency"] != ''){
 $scope.getCurrentUserType();   
 //console.log($scope.current_user_type);
 
-
+//alert($scope.user_id);
   	var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;
         
-        if($scope.user_id){
-            //alert($scope.user_id);
-            
+       
+        
+//        if($scope.user_id == undefined){
+//            $window.location.href='google.com';
+//        }else{
+//          alert();
+//        }
+       
+        var name = 'Arun Banik';
+
+        if ($window.localStorage["userInfo"] != '') {
+            alert('yes');
         }
-        
-        
+        else{
+            alert('no');
+    }
+         userService.checkuserlogin($scope.user_id).then(function(response) {
+       // alert('OK');
+        //exit;
+	
+	
+	if(response.Ack=='1'){
+		
+		//console.log('brandsList',response);
+		alert('yes');
+		
+                
+		}
+		else{
+ 		alert('no');
+		}
+	
+	
+																  
+	}, function(err) {
+         console.log(err); 
+    });
 	//console.log("spandan",userInfo);  
 
 	

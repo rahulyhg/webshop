@@ -193,5 +193,6 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/autofield', 'autofield');
     $app->post('/countview', 'countview');
     $app->post('/deleteAuction', 'deleteAuction');
+     $app->post('/checkuserlogin', 'checkuserlogin');
 });
 ?>
