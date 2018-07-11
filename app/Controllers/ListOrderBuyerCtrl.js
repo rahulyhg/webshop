@@ -21,9 +21,12 @@ return input;
   }
 
 });
-app.controller('ListOrderBuyerCtrl', function ($rootScope, $scope, $http,$window, $location,$timeout,$stateParams,userService) {
+app.controller('ListOrderBuyerCtrl', function ($rootScope, $scope, $http,$window, $location,$timeout,$stateParams,userService,$state) {
  
-    
+    if(!localStorage.getItem("userInfo"))
+{
+   $state.go('frontend.home', {reload:true})
+}
     $window.scrollTo(0, 0);
 $scope.data = {};
 $scope.user = {};

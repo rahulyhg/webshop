@@ -2,8 +2,14 @@
 /** 
  * controllers used for the My Account
  */
-app.controller('myAccountCtrl', function ($rootScope, $scope, $http, $location,$timeout, $q, userService,$window,Upload) {
- 
+app.controller('myAccountCtrl', function ($rootScope, $scope, $http, $location,$timeout, $q, userService,$window,Upload,$state) {
+
+
+
+if(!localStorage.getItem("userInfo"))
+{
+   $state.go('frontend.home', {reload:true})
+}
     $window.scrollTo(0, 0);
 $scope.data = {};
 $scope.user = {};
@@ -26,8 +32,14 @@ $scope.getCurrentUserType();
 //console.log($scope.current_user_type);
 
 //alert($scope.user_id);
-  	var userInfo = JSON.parse($window.localStorage["userInfo"]);	
+
+  	var userInfo = JSON.parse($window.localStorage["userInfo"]);
+        
+        if(userInfo.user_id){
 	$scope.user_id=userInfo.user_id;
+    }else{
+        $scope.user_id="";
+    }
         
        
         
@@ -37,28 +49,30 @@ $scope.getCurrentUserType();
 //          alert();
 //        }
        
-  
-//         userService.checkuserlogin($scope.user_id).then(function(response) {
-//       // alert('OK');
-//        //exit;
-//	
-//	
-//	if(response.Ack=='1'){
-//		
-//		//console.log('brandsList',response);
-//		alert('yes');
-//		
-//                
-//		}
-//		else{
-// 		alert('no');
-//		}
-//	
-//	
-//																  
-//	}, function(err) {
-//         console.log(err); 
-//    });
+
+        
+
+
+        /* userService.checkuserlogin($scope.user_id).then(function(response) {
+      
+            if(response.Ack== 1){
+
+                    //console.log('brandsList',response);
+                    alert('yes');
+
+
+                    }
+                    else{
+                        
+                    alert('no');
+                    }
+
+
+
+            }, function(err) {
+             console.log(err); 
+        });*/
+
 	//console.log("spandan",userInfo);  
 
 	

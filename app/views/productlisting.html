@@ -311,16 +311,53 @@
 								Status Watch
 							</a>
 							<div id="collapseOnestatus" class="in collapse show" ng-init = "getstatuswatch();">
-								 <div  ng-repeat="status in statuslist">
-								<div class="form-check">
-                                                                    
-								  <input class="form-check-input" type="checkbox" ng-model="status.Selected" ng-click="updatecheckbox3(status.Selected,status.name)" ng-checked="user.status.indexOf(status.name)>=0" ng-true-value="'{{status.name.replace('\'', '\\\'')}}'" id="test{{status.id}}">
-                                                                  <!--<input class="form-check-input" type="checkbox" ng-model="move.Selected" ng-click="updatecheckboxmovement(move.Selected,move.name)" ng-checked="user.move.indexOf(move.name)>=0" ng-true-value="'{{move.name.replace('\'', '\\\'')}}'" id="test{{move.id}}">-->
-								  <label class="form-check-label" for="shop{{shops.id}}">
-								    {{status.name}}
-								  </label>
-								</div>
-							</div>
+                                                <div  ng-repeat="status in statuslist">
+                                                    <div class="form-check">
+
+                                                      <input class="form-check-input" type="checkbox" ng-model="status.Selected" ng-click="updatecheckbox3(status.Selected,status.name)" ng-checked="user.status.indexOf(status.name)>=0" ng-true-value="'{{status.name.replace('\'', '\\\'')}}'" id="test{{status.id}}">
+
+                                                      <label class="form-check-label" for="shop{{shops.id}}">
+                                                        {{status.name}} <i class="fa fa-star"></i>
+                                                      </label>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+
+<!--                                                <div>
+                                                    <div class="form-check">
+
+                                                      <input class="form-check-input" type="checkbox" ng-model="New.Selected" ng-click="updatecheckbox3(New.Selected,New)" ng-checked="user.status.indexOf(New)>=0" ng-true-value="'{{New.replace('\'', '\\\'')}}'" id="test1">
+
+                                                      <label class="form-check-label" for="shop1">
+                                                        New <i class="fa fa-star"></i>
+                                                      </label>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="form-check">
+
+                                                      <input class="form-check-input" type="checkbox" ng-model="Mint.Selected" ng-click="updatecheckbox3(Mint.Selected,Mint)" ng-checked="user.status.indexOf(Mint)>=0" ng-true-value="'{{Mint.replace('\'', '\\\'')}}'" id="test2">
+
+                                                      <label class="form-check-label" for="shop2">
+                                                        Mint <i class="fa fa-star"></i>
+                                                      </label>
+                                                    </div>
+                                                </div>-->
+
+
+
+
+
+
+
+
+
+
+
 							</div>
                                                       </div>
                                                          

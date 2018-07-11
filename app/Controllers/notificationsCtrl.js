@@ -22,6 +22,10 @@ return input;
 });
 app.controller('notificationsCtrl', function ($rootScope, $scope, $http, $location, $timeout, $window, userService, $stateParams, $state) {
     
+        if(!localStorage.getItem("userInfo"))
+{
+   $state.go('frontend.home', {reload:true})
+}
 $scope.data = {};
 $scope.user = {}; 
  $window.scrollTo(0, 0);

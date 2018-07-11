@@ -170,7 +170,7 @@ if ($_REQUEST['action'] == 'edit') {
 
                                 <div class="form-actions">
                                     <button type="submit" class="btn blue" name="submit"><i class="icon-ok"></i> Save</button>
-                                    <button type="reset" class="btn"><i class=" icon-remove"></i> Cancel</button>
+                                    <button type="reset" class="btn"><i class=" icon-remove"></i> Reset</button>
                                 </div>
                             </form>
                             <!-- END FORM-->

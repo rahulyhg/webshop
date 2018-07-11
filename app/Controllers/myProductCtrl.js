@@ -4,6 +4,10 @@
  */
 app.controller('myProductCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService) {
 
+if(!localStorage.getItem("userInfo"))
+{
+   $state.go('frontend.home', {reload:true})
+}
     
 $scope.data = {};
 $scope.user = {};

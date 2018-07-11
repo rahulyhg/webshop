@@ -4,7 +4,10 @@
  */
 app.controller('addProductCtrl2', function ($rootScope, $state, $scope, $http, $location,$timeout, $q, userService,$window,Upload) {
 
-
+if(!localStorage.getItem("userInfo"))
+{
+   $state.go('frontend.home', {reload:true})
+}
  $window.scrollTo(0, 0);
 $scope.data = {};
 $scope.user = {};
