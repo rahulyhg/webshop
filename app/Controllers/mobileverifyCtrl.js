@@ -150,7 +150,7 @@ var mobileno = user.mobileno;
 		
 $scope.resend = function(user){
    var mobileno = $scope.user.mobileno;
-   alert(mobileno);
+   //alert(mobileno);
    userService.resend(userid,mobileno).then(function(response) {
         if(response.Ack == '1'){
             	 swal("Your OTP Sent Successfully  .", "", "success")

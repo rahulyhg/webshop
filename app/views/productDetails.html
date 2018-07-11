@@ -7,7 +7,8 @@
                 <li class="breadcrumb-item">
                     <a href="#">{{language.home}}</a>
                 </li>
-                <li class="breadcrumb-item active">{{language.watches}}</li>
+                <li ng-if="productLists.type == 1" class="breadcrumb-item active">{{language.watches}}</li>
+                <li ng-if="productLists.type == 2" class="breadcrumb-item active">{{language.auction}}</li>
             </ol>
         </nav>
         <div class="details-wrap p-3">
@@ -171,36 +172,7 @@
                               </h6>
                            </td>
                         </tr>
-                        
-                        
-                        
-                       
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
+                    
                         
                         <tr>
                            <td colspan="2">

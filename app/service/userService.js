@@ -6003,7 +6003,36 @@ var encodedString ='{"product_id":"'+ product_id +'"}';
         });
  };
     
+var checkuserlogin = function(user_id) {
+        return $q(function(resolve, reject) {
+                
+//var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+var encodedString ='{"user_id":"'+ user_id +'"}';
 
+         //alert(encodedString);
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"checkuserlogin",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           console.log('encodedString',response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           }
+           
+           else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+ };
 
 
 
@@ -6202,7 +6231,7 @@ var encodedString ='{"product_id":"'+ product_id +'"}';
         tomobileverifying1:tomobileverifying1,
         autofield:autofield,
         countview:countview,
-        
+        checkuserlogin:checkuserlogin,
 
 };
 });

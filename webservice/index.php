@@ -642,7 +642,7 @@ function updateProfile() {
     $fname = isset($body["fname"]) ? $body["fname"] : '';
     $lname = isset($body["lname"]) ? $body["lname"] : '';
     $address = isset($body["address"]) ? $body["address"] : '';
-    $phone = isset($body["phone"]) ? $body["phone"] : '';
+    //$phone = isset($body["phone"]) ? $body["phone"] : '';
     $email = isset($body["email"]) ? $body["email"] : '';
     $business_type = isset($body["business_type"]) ? $body["business_type"] : '';
     $gender = isset($body["gender"]) ? $body["gender"] : '';
@@ -693,14 +693,14 @@ function updateProfile() {
     $date = date('Y-m-d');
 
 
-    $sql = "UPDATE webshop_user set fname=:fname,lname=:lname ,secret_key=:secret_key,publish_key=:publish_key,email=:email,address=:address,phone=:phone,gender=:gender,business_type=:business_type,my_latitude=:lat,my_longitude=:lang,bankname=:bankname,ibanno=:ibanno,language_preference=:language_preference,country=:country,state=:state,city=:city,country_preference=:country_preference,currency_preference=:currency_preference WHERE id=:id";
+    $sql = "UPDATE webshop_user set fname=:fname,lname=:lname ,secret_key=:secret_key,publish_key=:publish_key,email=:email,address=:address,gender=:gender,business_type=:business_type,my_latitude=:lat,my_longitude=:lang,bankname=:bankname,ibanno=:ibanno,language_preference=:language_preference,country=:country,state=:state,city=:city,country_preference=:country_preference,currency_preference=:currency_preference WHERE id=:id";
     try {
 
         $db = getConnection();
         $stmt = $db->prepare($sql);
         $stmt->bindParam("fname", $fname);
         $stmt->bindParam("lname", $lname);
-        $stmt->bindParam("phone", $phone);
+       // $stmt->bindParam("phone", $phone);
         $stmt->bindParam("email", $email);
         $stmt->bindParam("business_type", $business_type);
         $stmt->bindParam("address", $address);
@@ -14624,7 +14624,22 @@ function countview() {
         $app->response->write(json_encode($data));
     }
 
+function checkuserlogin() {
+    $data = array();
 
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body = ($request->post());
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+    $user_id = isset($body->user_id) ? $body->user_id : '';
+    echo 'hi';
+    print_r($user_id);exit;
+    $count=1;
+    $countview=1;
+    $db = getConnection();
+   
+}
 
 
 $app->run();
