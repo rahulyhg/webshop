@@ -77,7 +77,7 @@
                     
                      <div class="form-group">
 			    <label for="name">{{language.country}}</label>
-			    <select class="form-control" name="country" ng-model="user.country" required>
+			    <select class="form-control" name="country" ng-model="user.country" ng-change="state(user.country)" required>
                                                                      <option value="">{{language.select}} {{language.country}}</option>
                                                                     <option  ng-repeat="countrylists in countrylist" value="{{countrylists.id}}">{{countrylists.name}}</option>
                                                                 </select>
@@ -91,7 +91,7 @@
 			    <div class="input-group">
 			    	<div class="input-group-prepend">
 			    		<span class="input-group-text2">
-			    			+91 
+			    			+{{phonecode}} 
 			    		</span>
 			    	</div>
 			    <input type="text" class="form-control" ng-blur="getotp(user.phone,user.country)" id="number" placeholder="Mobile number" ng-pattern="/^\d+$/" name="phone" ng-model="user.phone" required>

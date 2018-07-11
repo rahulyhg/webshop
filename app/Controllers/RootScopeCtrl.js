@@ -1034,7 +1034,35 @@ userService.listcountry().then(function(response) {
 	}, function(err) {
 	console.log(err); 
 	});
+       
+    
+    
+    
+     $scope.state = function (c_id) {
         
+        userService.liststate(c_id).then(function (response) {
+           
+            $scope.isExists = 1;
+            if (response.Ack == '1') {
+                console.log(response);
+               
+                $scope.isExists = 1;
+               
+                $scope.statelist = response.statelist;
+                $scope.phonecode = response.phonecode;
+              
+
+            } else {
+                console.log('ppp');
+                $scope.isExists = 0;
+            }
+
+        }, function (err) {
+            console.log(err);
+        });
+
+    }
+    
         
      $scope.sendtoproduct = function(link){
          if(link == 'sp_auction'){
