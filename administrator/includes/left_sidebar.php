@@ -50,11 +50,11 @@ $prevnameall = explode(',', $_SESSION['privilege_name']);
                     </a>
                     <ul class="sub">
 
-                        <li>
+<!--                        <li>
                             <a href="site_logo.php">
                                 <i class="icon-bulb"></i>
                                 Manage Logo</a>
-                        </li>
+                        </li>-->
 
                         <li>
 

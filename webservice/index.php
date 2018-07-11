@@ -92,7 +92,11 @@ function userSignup() {
        $is_mobile_verified =  0;
        $sms_verify_number = $smsotopcode;
         $status= 1;
+        if($type==1){
         $is_admin_approved= 1;
+        }else{
+           $is_admin_approved=0; 
+        }
         $sql = "INSERT INTO  webshop_user (fname,lname, email, password, type, device_type, device_token_id, add_date, address, my_latitude,my_longitude,city,phone,is_mobile_verified,country,sms_verify_number,status,is_admin_approved) VALUES (:fname,:lname, :email, :password, :type, :device_type, :device_token_id, :add_date, :address, :my_latitude, :my_longitude, :city, :phone,:is_mobile_verified,:country,:sms_verify_number,:status,:is_admin_approved)";
         try {
 
@@ -181,14 +185,14 @@ function userSignup() {
             $MailTo = $email;
           
             $actual_link = SITE_URL . "#/emailverify/" . $lastID;
-            $MailFrom = 'webshop.com';
-            $subject = "webshop.com- Thank you for registering";
+            $MailFrom = 'GMT24';
+            $subject = "GMT24- Thank you for registering";
 
             $TemplateMessage = "Welcome and thank you for registering at webshop.com!<br />";
             $TemplateMessage .= "Your account has now been created and you can login using your email address and password by visiting our App<br />";
             $TemplateMessage .= "<br/>Click this link to verify your email <a href='" . $actual_link . "'> Click here</a><br/>";
             $TemplateMessage .= "Thanks,<br />";
-            $TemplateMessage .= "webshop.com<br />";
+            $TemplateMessage .= "GMT24.com<br />";
 
 
             $mail = new PHPMailer(true);
@@ -197,7 +201,7 @@ function userSignup() {
 
             $MailFrom = 'mail@natitsolved.com';    //  Your email password
 
-            $MailFromName = 'Webshop';
+            $MailFromName = 'GMT24';
             $MailToName = '';
 
             $YourEamilPassword = "Natit#2019";   //Your email password from which email you send.
@@ -261,14 +265,14 @@ function userSignup() {
 
                 if ($MailTo != $getUserdetails->email) {
 
-                    $MailFrom = 'webshop.com';
-                    $subject = "webshop.com- Vendor Registered";
+                    $MailFrom = 'GMT24';
+                    $subject = "GMT24- Vendor Registered";
 
                     $TemplateMessage = "Hello Admin,<br />";
                     $TemplateMessage .= "Vendor named " . $getUserdetails->fname . " " . $getUserdetails->lname . " has successfully signed the account.Please login and activate the account.<br />";
 
                     $TemplateMessage .= "Thanks,<br />";
-                    $TemplateMessage .= "webshop.com<br />";
+                    $TemplateMessage .= "GMT24.com<br />";
 
 
                     $mail = new PHPMailer(true);
@@ -277,7 +281,7 @@ function userSignup() {
 
                     $MailFrom = 'mail@natitsolved.com';    //  Your email password
 
-                    $MailFromName = 'Webshop';
+                    $MailFromName = 'GMT24';
                     $MailToName = '';
 
                     $YourEamilPassword = "Natit#2019";   //Your email password from which email you send.
@@ -14639,13 +14643,16 @@ function checkuserlogin() {
     $body = ($request->post());
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
-    $user_id = isset($body->user_id) ? $body->user_id : '';
-    echo 'hi';
-    print_r($user_id);exit;
-    $count=1;
-    $countview=1;
-    $db = getConnection();
-   
+    $user_id = $body->user_id;
+    
+    if($user_id!="" && isset($user_id)){
+        
+        $data['Ack']=1;
+    }else{
+        
+        $data['Ack']=0;
+    }
+   $app->response->write(json_encode($data));
 }
 
 

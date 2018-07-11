@@ -2,7 +2,13 @@
 /** 
  * controllers used for the My Account
  */
-app.controller('NotificationSettingCtrl', function ($rootScope, $scope, $http, $location,$timeout, $q, userService,$window,Upload) {
+app.controller('NotificationSettingCtrl', function ($rootScope, $scope, $http, $location,$timeout, $q, userService,$window,Upload,$state) {
+    
+    if(!localStorage.getItem("userInfo"))
+{
+   $state.go('frontend.home', {reload:true})
+}
+    
  $window.scrollTo(0, 0);
 $scope.data = {};
 $scope.user2 = {};

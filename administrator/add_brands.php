@@ -218,9 +218,10 @@ $categoryRowset = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_b
                               
                                 <div class="form-actions">
                                     <button type="submit" class="btn blue" name="submit"><i class="icon-ok"></i> Save</button>
-                                    <button type="reset" class="btn"><i class=" icon-remove"></i> Cancel</button>
+                                    <button type="reset" class="btn"><i class=" icon-remove"></i> Reset</button>
                                 </div>
                             </form>
+                            <a href="list_brands.php"><button class="btn"> Back</button></a>
                             <!-- END FORM-->
                         </div>
                     </div>

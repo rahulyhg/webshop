@@ -4,7 +4,10 @@
  */
 app.controller('paymentCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService,$stateParams) {
 
-    
+ if(!localStorage.getItem("userInfo"))
+{
+   $state.go('frontend.home', {reload:true})
+}   
 $scope.data = {};
 $scope.user = {};
 //alert('a');

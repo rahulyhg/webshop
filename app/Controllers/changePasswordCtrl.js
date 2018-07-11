@@ -3,6 +3,14 @@
  * controllers used for the login
  */
 app.controller('changePasswordCtrl', function ($rootScope, $scope, $http, $location, $timeout, $window, userService, $stateParams, $state) {
+ 
+    
+    if(!localStorage.getItem("userInfo"))
+{
+   $state.go('frontend.home', {reload:true})
+}
+    
+    
     
 $scope.data = {};
 $scope.user = {};    
