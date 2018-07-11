@@ -4,7 +4,7 @@
  */
 app.controller('expiredProductCtrl', function ($rootScope, $scope, $http, $location,$timeout,$window, $state, userService) {
 
-    
+ $window.scrollTo(0, 0);     
 $scope.data = {};
 $scope.user = {};
 //alert('a');
