@@ -191,7 +191,7 @@
                 <!--<div class="share-prod mb-2">Share this product : <a href="" class="d-inline-block text-secondary"><i class="fa fa-facebook"></i></a> <a href="" class="d-inline-block mx-2 text-secondary"><i class="fa fa-twitter"></i></a><a href="" class="d-inline-block text-secondary"><i class="fa fa-google-plus"></i></a></div>-->
                 <div class="seller-info p-3 border-secondary border rounded mb-3">
                     
-                    <p class="text-secondary mb-2 pp">{{language.price}}: {{productLists.price}} {{productLists.currency_code}}</p>
+                    <p class="text-secondary mb-2 pp">{{language.price}}: {{productLists.price}} {{productLists.currency_code}}</p><span class="disclaimer" tooltips tooltip-template="These are approx conversions as taken from 'currencyconverterapi.com'" tooltip-side="top">?</span>
                     <p class="text-secondary mb-2" ng-if="productLists.interest != 1">{{language.seller}} {{language.Name}} {{productLists.seller_name}} </p>
                     <div ng-if="user_id && productLists.interest == 1">
                         <h6 class="card-title">{{language.seller}} {{language.Info}}:</h6>
@@ -216,10 +216,10 @@
                             {{language.Address}}
                             <p class="text-secondary mb-0">{{productLists.seller_address}}</p>
                         </div>
-                        <div ng-if="productLists.original_price">
+<!--                        <div ng-if="productLists.original_price">
                             {{language.Original_Price}}
                             <p class="text-secondary mb-0">{{productLists.product_actual_currency}} {{productLists.original_price}}</p>
-                        </div>
+                        </div>-->
                         
                     </div>
                     <!--              <p class="text-secondary mb-2"><i class="fa fa-phone"></i> {{productLists.seller_address}}</p>-->
@@ -298,12 +298,12 @@
                         <p class="text-right" ng-if="!user_id && productLists.interest == 0">
                             <a href="" data-toggle="modal" data-target="#login" class="btn btn-primary btn-block">Add Review</a>
                         </p>
-                        <p class="text-right" ng-if="user_id && productLists.interest == 0 && user_id != productLists.seller_id">
+<!--                        <p class="text-right" ng-if="user_id && productLists.interest == 0 && user_id != productLists.seller_id">
                             <button disabled class="btn btn-primary btn-block">Add Review</button>
                         </p>
                         <p class="text-right" ng-if="user_id && productLists.interest == 1 && user_id != productLists.seller_id">
                             <a href="javascript:void(0)" data-toggle="modal" data-target="#myModal1" class="btn btn-primary btn-block">Add Review</a>
-                        </p>
+                        </p>-->
                     </div>
                 </div>
             </div>

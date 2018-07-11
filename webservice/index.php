@@ -10138,7 +10138,8 @@ function listcountry() {
 
             $allbrand[] = array(
                 "id" => stripslashes($brand->id),
-                "name" => stripslashes($brand->name)
+                "name" => stripslashes($brand->name),
+                "phonecode" => stripslashes($brand->phonecode)
             );
         }
 
@@ -10169,6 +10170,11 @@ function liststate() {
     $c_id = isset($body->c_id) ? $body->c_id : '';
 
     try {
+        
+        $sqlc = "SELECT * from webshop_countries where id = '" . $c_id . "' ";
+        $stmtc = $db->prepare($sqlc);
+        $stmtc->execute();
+        $getcountryCode = $stmtc->fetchObject();
 
         $sql = "SELECT * from webshop_states where country_id = '" . $c_id . "' ";
         $stmt = $db->prepare($sql);
@@ -10185,6 +10191,7 @@ function liststate() {
         }
         if (!empty($allsubcategory)) {
             $data['statelist'] = $allsubcategory;
+            $data['phonecode'] = $getcountryCode->phonecode;
             $data['Ack'] = '1';
             $app->response->setStatus(200);
         } else {

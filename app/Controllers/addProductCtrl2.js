@@ -433,7 +433,7 @@ $scope.state = function (c_id) {
                 $scope.isExists = 1;
                
                 $scope.statelist = response.statelist;
-              
+                $scope.phonecode = response.phonecode;
 
             } else {
                 console.log('ppp');

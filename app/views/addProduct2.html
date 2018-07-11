@@ -169,13 +169,7 @@
                                                                                                  
                                                                                                  
                            </div>-->
-                <div class="form-group">
-                  <label for="staticEmail">{{language.Owner}} {{language.number}}*</label>
-                  <input type="text" class="form-control" id="Owner_number" ng-model="user2.owner_number" ng-pattern="/^[1-9][0-9]*$/" name="owner_number"
-                    required>
-                  <span style="color:Red" ng-show="submitted && addProductForm.owner_number.$error.required"> {{language.this_field_is_required}}! </span>
-                  <span style="color:Red" ng-show="addProductForm.owner_number.$dirty && addProductForm.owner_number.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>
-                </div>
+                
                 <div class="form-group">
                   <label for="staticEmail">{{language.country}}*</label>
                   <select class="form-control" name="country" ng-model="user2.country" ng-change="state(user2.country)" required>
@@ -189,6 +183,14 @@
                     <option ng-repeat="statelists in statelist" value="{{statelists.id}}">{{statelists.name}}</option>
                   </select>
                   <span style="color:Red" ng-show="submitted && addProductForm.state.$error.required">{{language.please}} {{language.Choose}} {{language.a}} {{language.state}}</span>
+                </div>
+                
+                <div class="form-group">
+                  <label for="staticEmail">{{language.Owner}} {{language.number}}*</label>
+                  <span>{{phonecode}}</span><input type="text" class="form-control" id="Owner_number" ng-model="user2.owner_number" ng-pattern="/^[1-9][0-9]*$/" name="owner_number"
+                    required>
+                  <span style="color:Red" ng-show="submitted && addProductForm.owner_number.$error.required"> {{language.this_field_is_required}}! </span>
+                  <span style="color:Red" ng-show="addProductForm.owner_number.$dirty && addProductForm.owner_number.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>
                 </div>
                 <!--                                                                        <div class="form-group">
                            <label for="staticEmail">City*</label>
