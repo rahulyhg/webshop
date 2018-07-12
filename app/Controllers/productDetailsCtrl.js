@@ -30,14 +30,14 @@ $scope.rating.rating =1;
 $scope.rating.title ='Rating';
 $scope.bidhistory = false;
 $scope.countview='';
+//$scope.is_fav="";
+//$scope.is_favourite= '';
 
-   if($scope.is_fav){
-       $scope.is_fav1= $scope.is_fav;
-       alert();
-   }
-   else{
-       $scope.is_fav1=0;
-   }
+//   if($scope.is_favourite){
+//       $scope.is_fav= $scope.is_favourite;
+//      
+//   }
+   
 			
 
 		
@@ -133,6 +133,7 @@ $scope._Index = 0;
 		$scope.productLists=response.productList;
                 $scope.auction.auction_time=response.productList.auction_end_time;
                 $scope.is_hide=0;
+                $scope.is_fav= response.productList.is_fav;
 		
 		
 
@@ -376,7 +377,7 @@ swal("Mail can not be sent",'','error');
 		if(response.Ack == '1') {
 		 $scope.Showdetails();
                  $('#myModal1').modal('hide');
-                 swal('Secessfully submitted your Reviwe','','success');
+                 swal('Successfully submited your Reviwe','','success');
 		
 		
 
@@ -638,19 +639,15 @@ swal("Mail can not be sent",'','error');
 	 
   	var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;
-	 alert();
+	 //alert();
 
     userService.addFavWishlist(userInfo.user_id,product_id,owner_id).then(function(response) {
 		
                 
 	 if(response.Ack == '1') {
-				//alert (response.msg);
-                //alert ('Added to your Watchlist');
-				//$state.go('frontend.wishlist');
-              //  $window.location.reload();                
-                                
-                  $scope.is_fav1= response.is_fav;            
-                                
+				
+                  $scope.is_favourite= response.is_fav;            
+                   $scope.Showdetails();            
                 }
                 
         
@@ -658,7 +655,7 @@ swal("Mail can not be sent",'','error');
 //alert ('Already Added in your wishlist'); 
               //alert('Error !!!!');
             //  $window.location.reload();  
-            $scope.is_fav1= response.is_fav;
+            //$scope.is_fav1= response.is_fav;
               }
 																	
 	}, function(err) {
@@ -672,19 +669,16 @@ swal("Mail can not be sent",'','error');
 	 
   	var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;
-	 alert();
+	// alert();
 
     userService.addFavWishlist(userInfo.user_id,product_id,owner_id).then(function(response) {
 		
                 
 	 if(response.Ack == '1') {
-				//alert (response.msg);
-                //alert ('Added to your Watchlist');
-				//$state.go('frontend.wishlist');
-              //  $window.location.reload();                
+				            
                                 
-                  $scope.is_fav1= response.is_fav;            
-                                
+                  $scope.is_favourite= response.is_fav;            
+                  $scope.Showdetails();             
                 }
                 
         
@@ -692,7 +686,7 @@ swal("Mail can not be sent",'','error');
 //alert ('Already Added in your wishlist'); 
               //alert('Error !!!!');
             //  $window.location.reload();  
-            $scope.is_fav1= response.is_fav;
+            //$scope.is_fav1= response.is_fav;
               }
 																	
 	}, function(err) {

@@ -304,7 +304,7 @@ $curdate = date('Y-m-d');
 // echo "select * from  webshop_auction where `status`=1 and (`start_date_time` <= '".$curdate."' && `end_date_time` >='".$curdate."')";
 //exit;
 // $fetch_tools_type=mysqli_query($con,"select * from  webshop_auction where `status`=1 and (`start_date_time` <= '".$curdate."' && `end_date_time` >='".$curdate."')");
-$fetch_tools_type = mysqli_query($con, "select * from  webshop_products where `status`=1 and auctioned = '0' and type=2");
+$fetch_tools_type = mysqli_query($con, "select *,@a:=@a+1 serial_number from  webshop_products,(SELECT @a:= 0) AS a where `status`=1 and auctioned = '0' and type=2");
 $num = mysqli_num_rows($fetch_tools_type);
 if ($num > 0) {
     while ($tools_type = mysqli_fetch_array($fetch_tools_type)) {
@@ -329,7 +329,7 @@ if ($num > 0) {
                                             <tr>
 
                                                 <td>
-                                                    <?php echo stripslashes($tools_type['id']); ?>
+                                                    <?php echo stripslashes($tools_type['serial_number']); ?>
                                                 </td>
 
                                                 <td>

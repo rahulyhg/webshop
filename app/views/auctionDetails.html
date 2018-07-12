@@ -4,7 +4,7 @@
 			<nav aria-label="breadcrumb">
 			  <ol class="breadcrumb">
 			    <li class="breadcrumb-item"><a href="#">Home</a></li>
-			    <li class="breadcrumb-item active">Watches</li>
+			    <li class="breadcrumb-item active">Auction</li>
 			  </ol>
 			</nav>
 			<div class="details-wrap p-3">
@@ -35,7 +35,7 @@
 						<div class="details-left">
 							<h4></h4>
 							<p class="text-secondary">{{productLists.brands}}/{{productLists.category}}({{productLists.gender}})</p>
-							<p><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)<a href="" class="d-inline-block pl-3" ng-if="productLists.seller_id!=user_id">Write a review</a></p>
+<!--							<p><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i><i class="ion-android-star"></i> (4.3)<a href="" class="d-inline-block pl-3" ng-if="productLists.seller_id!=user_id">Write a review</a></p>-->
 							<hr>
 							<h5>Product Description</h5>
                                                        
@@ -59,13 +59,13 @@
 								
 								</div>
 								<div class="col-sm-6 col-6 py-1">
-									<ul class="like-links list-unstyled p-0 float-right m-0">
-										<!--<li class="d-inline-block mr-2"><a href="" class="d-block rounded-circle"><i class="ion-thumbsup"></i></a></li>-->
+<!--									<ul class="like-links list-unstyled p-0 float-right m-0">
+										
 										<li class="d-inline-block mr-2"><a ng-if="current_user_login=='1' && current_user_type=='1' && quantity!='0'" ng-click="addTocart(productLists.id,productLists.cartquantity)" class="d-block rounded-circle"><i class="ion-android-cart"></i></a></li>
                                                                                 <li class="d-inline-block mr-2"><a ng-if="current_user_login!='1'  && quantity!='0'" ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-android-cart"></i></a></li>
 										<li class="d-inline-block"><a ng-if="current_user_login=='1' && current_user_type=='1'" ng-click="addwishlist(productLists.id,productLists.seller_id)" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
                                                                                 <li ng-if="current_user_login!='1'" class="d-inline-block"><a ng-click="checklogin()" class="d-block rounded-circle"><i class="ion-heart"></i></a></li>
-									</ul>
+									</ul>-->
 								</div>
 							</div>
 							<hr>
@@ -73,8 +73,8 @@
 							<p class="mb-4" ng-if="productLists.seller_id!=user_id"><a href="" class="btn btn-primary">I am Interested</a></p>
 						</div>
 					</div>
-					<div class="col-lg-3 col-md-4 col-sm-4">
-						<div class="share-prod mb-2">Share this product : <a href="" class="d-inline-block text-secondary"><i class="fa fa-facebook"></i></a> <a href="" class="d-inline-block mx-2 text-secondary"><i class="fa fa-twitter"></i></a><a href="" class="d-inline-block text-secondary"><i class="fa fa-google-plus"></i></a></div>
+<!--					<div class="col-lg-3 col-md-4 col-sm-4">
+
 						<div class="seller-info p-3 border-secondary border rounded mb-3"  ng-if="productLists.seller_id!=user_id">
 							<h6>Seller Info:</h6>
 							<p class="mb-1">{{productLists.seller_name}}</p>
@@ -84,10 +84,10 @@
 							<p class="text-success">{{productLists.quantity}}pcs. Available. </p>
                                                         <p ng-if="productLists.quantity=='0'" class="text-success">Out of stock.</p>
 							<hr>
-							<!--<button type="button" class="btn btn-primary btn-block">Contact Seller</button>-->
+							<button type="button" class="btn btn-primary btn-block">Contact Seller</button>
                                                         
 						</div>
-					</div>
+					</div>-->
 				</div>
                             <p class="mb-4"><a href="" class="btn btn-primary" ng-click="auctiondetail(user_id,productLists.id)" data-toggle="modal" data-target="#winner">Check Bidding Details</a></p>
 				<div class="row">
@@ -152,40 +152,44 @@
 									</div>
 
 					            </div>-->
-					            <div class="card-header collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+
+
+
+
+<!--					            <div class="card-header collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
 					                <a class="card-title">{{language.reviews}}</a>
-					            </div>																					<div id="collapseTwo" class="card-body collapse" data-parent="#accordion" >
-					                <div class="reviews-holder">
-										<div ng-repeat="reviewsss in allreviews" class="media">
-                                                                                        <div class="media-left mr-2">
-                                                                                            <a href="#">
-                                                                                                <img class="media-object" src="{{reviewsss.userimage}}" alt="">
-                                                                                            </a>
-                                                                                        </div>
-                                                                                        <div class="media-body">
-                                                                                            <h6 class="media-heading">
-                                                                                                <span class="rating d-inline-block mr-2">
-                                                                                                    <ng-rating ng-model="reviewsss.rating"
-                                                                                                               icon-class="rating.iconClass"
-                                                                                                               editable="false"
-                                                                                                               stars-count="rating.starsCount"
-                                                                                                               based-on="rating.basedOn"
-                                                                                                               >
-                                                                                                    </ng-rating>
+					            </div>																					<div id="collapseTwo" class="card-body collapse" data-parent="#accordion" >-->
+<!--<div class="reviews-holder">
+    <div ng-repeat="reviewsss in allreviews" class="media">
+        <div class="media-left mr-2">
+            <a href="#">
+                <img class="media-object" src="{{reviewsss.userimage}}" alt="">
+            </a>
+        </div>
+        <div class="media-body">
+            <h6 class="media-heading">
+                <span class="rating d-inline-block mr-2">
+                    <ng-rating ng-model="reviewsss.rating"
+                               icon-class="rating.iconClass"
+                               editable="false"
+                               stars-count="rating.starsCount"
+                               based-on="rating.basedOn"
+                               >
+                    </ng-rating>
 
-                                                                                                </span>
-                                                                                                {{reviewsss.username}} <span class="date d-inline-block ml-2">- {{reviewsss.date}}&nbsp days ago</span></h6>
-                                                                                            <p class="mb-2">{{reviewsss.review}}</p>
-                                                                                            <div ng-if="reviewsss.recomend == 1">
-                                                                                                <p><i class="fa fa-check"></i> {{language.recomend_product}} </p>
-                                                                                            </div>
+                </span>
+                {{reviewsss.username}} <span class="date d-inline-block ml-2">- {{reviewsss.date}}&nbsp days ago</span></h6>
+            <p class="mb-2">{{reviewsss.review}}</p>
+            <div ng-if="reviewsss.recomend == 1">
+                <p><i class="fa fa-check"></i> {{language.recomend_product}} </p>
+            </div>
 
 
-                                                                                        </div>
-                                                                                    </div>
-										
-										<!--<p class="text-right"><a href="" class="btn btn-primary">Add Review</a></p>-->
-									</div>
+        </div>
+    </div>
+
+
+</div>-->
 					            </div>
 					        </div>
 					    </div>

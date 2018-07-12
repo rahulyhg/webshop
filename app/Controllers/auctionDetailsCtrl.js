@@ -4,9 +4,15 @@
  */
 app.controller('auctionDetailsCtrl', function ($rootScope, $scope,$http, $location,$timeout,$window, $state,$stateParams, userService) {
 
+    if(!localStorage.getItem("userInfo"))
+{
+   $state.go('frontend.home', {reload:true})
+}
+
   $window.scrollTo(0, 0);    
 $scope.data = {};
 $scope.user = {};
+$scope.countview="";
 //alert('a');
 if ($window.localStorage["userInfo"]) {
 var userInfo = JSON.parse($window.localStorage["userInfo"]);	
@@ -212,4 +218,32 @@ else {
 	}, function(err) {
 	console.log(err); 
 	});
+        
+        
+        
+         userService.countview($scope.product_id1).then(function(response) {
+
+	//$scope.isExists=response.Ack;
+		if(response.Ack == '1') {
+                    $scope.countview=response.countview;
+                     $scope.Showdetails();
+		//$scope.productLists=response.productList;
+                
+		
+		
+
+  } else {
+        $scope.Showdetails();
+		}
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+        
+        
+        
+        
+        
+        
 });

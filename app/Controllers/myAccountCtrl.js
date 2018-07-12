@@ -160,7 +160,7 @@ $scope.getCurrentUserType();
         
 	
     $scope.updateProfile = function (user) {
-
+        $window.scrollTo(0, 0);
         //console.log('hellouser',user); return false;
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
         $scope.user_id = userInfo.user_id;

@@ -246,7 +246,7 @@ if ($_REQUEST['action'] == 'edit') {
 
 
 // $fetch_tools_type=mysqli_query($con,"select * from  webshop_auction where status = 0");
-                                    $fetch_tools_type = mysqli_query($con, "select * from  webshop_products where status = '0' and type = '2' order by id desc");
+                                    $fetch_tools_type = mysqli_query($con, "select *,@a:=@a+1 serial_number from  webshop_products,(SELECT @a:= 0) AS a where status = '0' and type = '2' order by id desc");
                                     $num = mysqli_num_rows($fetch_tools_type);
                                     if ($num > 0) {
                                         while ($tools_type = mysqli_fetch_array($fetch_tools_type)) {
@@ -268,7 +268,7 @@ if ($_REQUEST['action'] == 'edit') {
                                             <tr>
 
                                                 <td>
-                                                    <?php echo stripslashes($tools_type['id']); ?>
+                                                    <?php echo stripslashes($tools_type['serial_number']); ?>
                                                 </td>
                                                 <td>
                                                     <img src="<?php echo $image_link; ?>" height="100" width="100" align="image">
