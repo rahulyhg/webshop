@@ -13,18 +13,18 @@
                             <thead class="thead-inverse">
                                 <tr>
                                   <!--<th scope="col">Sl No.</th>-->
-                                  <th scope="col">Product</th>
-                                  <th scope="col">Total Amount</th>
-                                  <th scope="col" class="text-center">Auction Date</th>
-                                  <th scope="col" class="text-center">Status</th>
-                                  <th scope="col" class="text-center">View</th>
+                                  <th scope="col">{{language.product}}</th>
+                                  <th scope="col">{{language.total}} {{language.amount}}</th>
+                                  <th scope="col" class="text-center">{{language.auction}} {{language.date}}</th>
+                                  <th scope="col" class="text-center">{{language.status}}</th>
+                                  <th scope="col" class="text-center">{{language.view}}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                     <tr ng-repeat="allorder in allorders">
                                       <!--<th scope="row">{{allorder.id}}</th>-->
                                       <td><img src="{{allorder.product_image}}" height="50"></td>
-                                      <td scope="row">KWD {{allorder.total_price}}</td>
+                                      <td scope="row">{{selectedCurr}} {{allorder.total_price}}</td>
                                       <td class="text-center">{{allorder.date}}</td>
                                       <td class="text-center" ng-if="allorder.status==0">Not Purchase</td>
                                       <td class="text-center" ng-if="allorder.status==1">Purchased</td>

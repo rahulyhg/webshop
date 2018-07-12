@@ -27,7 +27,7 @@ app.controller('ListOrderBuyerCtrl', function ($rootScope, $scope, $http,$window
 {
    $state.go('frontend.home', {reload:true})
 }
-    $window.scrollTo(0, 0);
+$window.scrollTo(0, 0);
 $scope.data = {};
 $scope.user = {};
 //alert('a');
@@ -45,11 +45,17 @@ var userInfo={};
 userInfo.user_id ="";
 }
 
-
+if($window.localStorage["currency"] != ''){
+   $scope.usersSelectedCurrency = $window.localStorage["currency"] ;
+   //alert($scope.usersSelectedCurrency+'yy');
+}else{
+    $scope.usersSelectedCurrency = 'KWD';
+   // alert($scope.usersSelectedCurrency+'kk');
+}
   
  $scope.myPurchase = function(){
          
-             userService.myPurchase($scope.user_id).then(function(response) {
+             userService.myPurchase($scope.user_id,$scope.usersSelectedCurrency).then(function(response) {
 		
 		$scope.isExists=1;
 		if(response.Ack == '1') {

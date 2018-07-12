@@ -388,7 +388,9 @@
                   <p ng-if="productLists.nextbidprice <= 0">{{productLists.currency_code}}&nbsp;{{productLists.baseauctionprice}}</p>
                </h6>
                <h6>
-                  <input type="number" class="form-control btn-round" id="" step="{{productLists.bidincrement}}" tooltips tooltip-template="Bid Increment is multiple of {{productLists.bidincrement}}"
+                   
+                  <input type="number" class="form-control btn-round" min="{{productLists.nextbidprice}}" id="" step="{{productLists.bidincrement}}" tooltips tooltip-template="Bid Increment is multiple of {{productLists.bidincrement}}"
+                   
                      tooltip-side="up" placeholder="Input {{language.your}} Bid" ng-model="bid.bidprice" name="bidprice"
                      capitalize required>
                   <input type="hidden" class="form-control" id="" value="" placeholder="" ng-model="bid.uploaderid = productLists.uploader_id"

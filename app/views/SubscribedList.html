@@ -9,7 +9,7 @@
                   <li class="p-3 ng-scope col-md-4 float-left ml-1 new-partli" ng-repeat="subscription in subscribedLists">
                      <div class="wishlist-content w-100 float-left">
                         <h6>Package: {{subscription.name}} <span><i class=""></i></span></h6>
-                        <b class="d-block mb-2">Price:$ {{subscription.price}}</b>
+                        <b class="d-block mb-2">Price:{{subscription.prefferd_currency}} {{subscription.price}}</b>
                         <b class="d-block mb-2" ng-if="subscription.subscribed_id==subscription.active">Slots Remain: {{subscription.slot_remain}} ({{subscription.slots}})</b>
                         <b class="d-block mb-2" ng-if="subscription.subscribed_id!=subscription.active">Slots:{{subscription.slots}}</b>
                         <b class="d-block mb-2">Subscription Date: {{subscription.subscription_date}}</b>

@@ -10,7 +10,7 @@
 			<div class="details-wrap p-3">
 				<div class="details-top p-3 mb-3 position-relative">
 					<!--<div class="like"><p class="m-0"><i class="ion-thumbsup"></i> {{productLists.totallike}}</p></div>-->
-					<img src="{{productLists.image}}" style="height:300px;width:300px;" class="ml-auto mr-auto d-block img-fluid">
+					<img src="{{productLists.product_single_image}}" style="height:300px;width:300px;" class="ml-auto mr-auto d-block img-fluid">
 				</div>
 				<div class="row">
 					<div class="col-lg-9 col-md-9 col-sm-8">
@@ -73,51 +73,7 @@
 					</div>
 				</div>
                             <p class="mb-4"></p>
-				<div class="row">
-					<div class="col-lg-12">
-						<div id="accordion" class="accordion mt-2">
-					        <div class="card mb-0">
-					            
-					            
-					            <div class="card-header collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-					                <a class="card-title">Reviews</a>
-					            </div>
-							
-        
-
-			            																									<div id="collapseTwo" class="card-body collapse" data-parent="#accordion" >
-					                <div class="reviews-holder">
-                                                            <div ng-repeat="reviewsss in allreviews">
-										<div class="media">
-											<div class="media-left mr-2">
-												<a href="#">
-													<img class="media-object" src="app/assets/images/user2.jpg" alt="">
-												</a>
-											</div>
-											<span class="rating d-inline-block mr-2">
-                                                                                <ng-rating ng-model="reviewsss.rating"
-                                                                                           icon-class="rating.iconClass"
-                                                                                           editable="false"
-                                                                                           stars-count="rating.starsCount"
-                                                                                           based-on="rating.basedOn"
-                                                                                           >
-                                                                                </ng-rating>
-                       
-                                                                            </span>
-                                                                            {{reviewsss.username}} <span class="date d-inline-block ml-2">- {{reviewsss.date}}&nbsp days ago</span></h6>
-                  <p class="mb-2">{{reviewsss.review}}</p>
-                                                                        <div ng-if="reviewsss.recomend == 1">
-                  <p><i class="fa fa-check"></i> Yes, I recommend this product. </p>
-                                                                        </div>
-										</div>
-										
-									</div>	
-									</div>
-					            </div>
-					        </div>
-					    </div>
-					</div>
-				</div>
+				
 			</div>
 		</div>
 	</section>

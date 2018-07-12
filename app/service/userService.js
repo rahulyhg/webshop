@@ -760,10 +760,10 @@ reject(response);
     };
 
 
-             var subscriptions = function() {
+             var subscriptions = function(currency) {
     return $q(function(resolve, reject) {
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
-    var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+    var encodedString ='{"user_id":"'+ userInfo.user_id +'","currency":"'+ currency +'"}';
     
     $http({
     method: 'POST',
@@ -789,10 +789,10 @@ reject(response);
     
     //spandan
     
-    var subscribedlist = function() {
+    var subscribedlist = function(currency) {
     return $q(function(resolve, reject) {
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
-    var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+    var encodedString ='{"user_id":"'+ userInfo.user_id +'","currency":"'+ currency +'"}';
     
     $http({
     method: 'POST',
@@ -3371,12 +3371,12 @@ reject(response);
 };
 
 
- var myPurchase = function(userid) {
+ var myPurchase = function(userid,currency) {
         return $q(function(resolve, reject) {
                 
 //var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
-var encodedString ='{"userid":"'+ userid +'"}';
-
+var encodedString ='{"userid":"'+ userid +'","currency":"'+ currency +'"}';
+//alert(encodedString)
           console.log(encodedString);  
         $http({
          method: 'POST',
@@ -4565,10 +4565,10 @@ var purchaseAuctionproduct = function(value) {
     };
 
 
-    var interestinproduct = function() {
+    var interestinproduct = function(currency) {
     return $q(function(resolve, reject) {
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
-        var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+        var encodedString ='{"user_id":"'+ userInfo.user_id +'","currency":"'+ currency +'"}';
 
     
     $http({

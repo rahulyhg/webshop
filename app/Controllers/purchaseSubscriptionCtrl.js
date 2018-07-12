@@ -29,12 +29,18 @@ $scope.isform1 =0;
 
 }
 
-
+if($window.localStorage["currency"] != ''){
+   $scope.usersSelectedCurrency = $window.localStorage["currency"] ;
+   //alert($scope.usersSelectedCurrency+'yy');
+}else{
+    $scope.usersSelectedCurrency = 'KWD';
+   // alert($scope.usersSelectedCurrency+'kk');
+}
 
  
 $scope.allsubscriptions = function(){
 
- userService.subscriptions().then(function(response) {
+ userService.subscriptions($scope.usersSelectedCurrency).then(function(response) {
      
     
 		if(response.Ack == '1') {
