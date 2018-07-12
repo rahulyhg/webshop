@@ -1557,13 +1557,19 @@ function ProductsDetails() {
 //$aucshowtime=
 //$count = $stmtproduct->rowCount();
 //$date_purchase = $product->date_purchase;cu
+        
+         $description='';
+            if($product->description != 'undefined'){
+                $description = $product->description;
+            }
+            
  $date_purchase = date('dS M,Y', strtotime($product->date_purchase));
         $data['productList'] = array(
             "id" => stripslashes($product->id),
             "image" => $image,
             "price" => stripslashes($price),
             "is_fav" => stripslashes($is_fav),
-            "description" => strip_tags(stripslashes($product->description)),
+            "description" => strip_tags(stripslashes($description)),
             "category_name" => stripslashes($categoryname),
             // "subcategory_name" => stripslashes($subcategoryname),
             "seller_id" => stripslashes($product->uploader_id),
@@ -2986,7 +2992,7 @@ function ListOrderBuyer() {
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
     $userid = isset($body->userid) ? $body->userid : '';
-
+    $userSelectedcurrency = isset($body->currency) ? $body->currency : 'KWD';
     try {
 
         $sql = "SELECT * FROM webshop_auction_winner WHERE user_id=:user_id  order by `id` DESC";
@@ -3021,11 +3027,31 @@ function ListOrderBuyer() {
                 $orderlst = $stmt3->fetchObject();
                 $count = $stmt3->rowCount();
 
-
-
+                $total_price='';
+            $userselected_currency =$userSelectedcurrency;
+                         $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'KWD' AND currency_code ='$userSelectedcurrency' ";
+                         $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                            $total_price = $orderlst->bidprice * $currency['currency_rate_to_usd'];
+                            $currency_pref=$userSelectedcurrency;
+                            //echo 'yes';
+                        }  
+                        }else{
+                            $total_price = $orderlst->bidprice;
+                            $currency_pref='KWD';
+                           // echo 'NO';
+                        }
+                        $total_price = round($total_price);
+                        $product_id = base64_encode ($orders->product_id);
+                     // exit;
                 $allorders[] = array(
-                    "id" => stripslashes($orders->product_id),
-                    "total_price" => stripslashes($orderlst->bidprice),
+                    "id" => stripslashes($product_id),
+                    "total_price" => stripslashes($total_price),
                     "date" => date('dS M Y', strtotime($orders->date)),
                     "status" => $orders->is_paid,
                     "product_image" => $pro_image,
@@ -5529,7 +5555,7 @@ function listSubscriptions() {
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
     $user_id = isset($body->user_id) ? $body->user_id : '';
-
+    $selected_currency = isset($body->currency) ? $body->currency : 'KWD';
     $db = getConnection();
 
     $sql1 = "SELECT * from webshop_user where id='" . $user_id . "'";
@@ -5554,7 +5580,35 @@ function listSubscriptions() {
         $getSubscriptions = $stmt->fetchAll(PDO::FETCH_OBJ);
 
         foreach ($getSubscriptions as $subscription) {
-
+            
+            $userselected_currency = $selected_currency;
+            $currency_pref='KWD';
+                        if($selected_currency != 'KWD'){
+                            // $getUserdetails1->currency_preference;
+                          $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'KWD' AND currency_code ='$selected_currency' ";
+                        $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                               // $currency['currency_rate_to_usd'];
+                            $price = $subscription->price * $currency['currency_rate_to_usd'];
+                            $price = round($subscription->price);
+                            $currency_pref =$selected_currency;
+                            
+                            //echo 'yes';
+                        }  
+                        }else{
+                            $price = $subscription->price;
+                           // echo 'NO';
+                        }  
+                        }else{
+                            $price = $subscription->price;
+                           // echo 'NO';
+                        }
+                        //$price=round($price);
             $allsubscriptions[] = array(
                 "id" => stripslashes($subscription->id),
                 "name" => stripslashes($subscription->name),
@@ -5562,6 +5616,7 @@ function listSubscriptions() {
                 "slots" => stripslashes($subscription->slots),
                 "duration" => stripslashes($subscription->duration),
                 "type" => stripslashes($subscription->type),
+                "prefered_currency"=>stripslashes($currency_pref),
             );
         }
 
@@ -5590,7 +5645,7 @@ function listSubscribed() {
     $body2 = $app->request->getBody();
     $body = json_decode($body2);
     $user_id = isset($body->user_id) ? $body->user_id : '';
-
+    $selected_currency = isset($body->currency) ? $body->currency : 'KWD';
     $db = getConnection();
 
     //$allsubscriptions[]=array();
@@ -5611,19 +5666,56 @@ function listSubscribed() {
         $stmt->bindParam("user_id", $user_id);
         $stmt->execute();
         $getSubscriptions = $stmt->fetchAll(PDO::FETCH_OBJ);
+        //print_r($getSubscriptions);exit;
         if(!empty($getSubscriptions)){
+           
         foreach ($getSubscriptions as $subscription) {
-
+            //$subscription->price;exit;
+            $userselected_currency = $selected_currency;
+            $currency_pref='KWD';
+                        if($selected_currency != 'KWD'){
+                            // $getUserdetails1->currency_preference;
+                          $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'KWD' AND currency_code ='$selected_currency' ";
+                        $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                               // $currency['currency_rate_to_usd'];
+                              $currency['currency_rate_to_usd']; 
+                             // echo '<br>';
+                            $price = $subscription->price * ($currency['currency_rate_to_usd']);
+                           // echo 'curr'.$price;
+                            //$price = round($subscription->price);
+                            $currency_pref =$selected_currency;
+                           // echo '<br>';
+                           // echo 'yes';
+                        }  
+                        }else{
+                            $price = $subscription->price;
+                           // echo 'NO1';
+                        }  
+                        }else{
+                            $price = $subscription->price;
+                            //echo 'NO2';
+                        }
+                         $price = round($price);
+                        // echo 'round'.$price;
+                        // echo '<br>';
+                       // echo $price;
             $allsubscriptions[] = array(
                 "id" => stripslashes($subscription->id),
                 "name" => stripslashes($subscription->name),
-                "price" => stripslashes($subscription->price),
+                "price" => stripslashes($price),
                 "slots" => stripslashes($subscription->slots),
                 "subscription_date" => date('d M, Y', strtotime($subscription->subscription_date)),
                 "expiry_date" => date('d M, Y', strtotime($subscription->expiry_date)),
                 "subscribed_id" => $subscription->sid,
                 "active" => $active,
                 "slot_remain" => $slotremain,
+                "prefferd_currency"=>$currency_pref
             );
         }
 
@@ -6188,7 +6280,9 @@ function bidsubmit() {
                                             if(!empty($getallcurrency)){
                                                         foreach($getallcurrency as $currency){
                                                          $bidprice = $bidprice / $currency['currency_rate_to_usd'];
+                                                         $bidincrement =$bidincrement / $currency['currency_rate_to_usd'];
                                                          $bidprice = round($bidprice);
+                                                          $bidincrement = round($bidincrement);
                                                          //$bidincrement = $bidincrement / $currency['currency_rate_to_usd'];
                                                          //$bidincrement = round($bidincrement);
                                                          
@@ -6480,11 +6574,11 @@ function getauctiondetails() {
                             //echo 'yes';
                         }  
                         }else{
-                            $price = $auction->bidprice;
+                            $bidprice = $auction->bidprice;
                             $currency_pref='KWD';
                             //echo 'NO';
                         }
-            
+            $bidprice=round($bidprice);
             $data['UserDetails'][] = array(
                 "userid" => stripslashes($auction->userid),
                 "productid" => stripslashes($auction->productid),
@@ -6499,7 +6593,7 @@ function getauctiondetails() {
     }
 
 
-
+//exit;
 
     $data['Ack'] = '1';
     $data['Years'] = 'hello';
@@ -9548,7 +9642,8 @@ function interestinproduct() {
 
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
-
+    $selected_currency = isset($body->currency) ? $body->currency : 'KWD';
+    
     $sql = "SELECT * from  webshop_interested WHERE userid=:user_id and interested = '1' order by id desc";
     $db = getConnection();
     $stmt = $db->prepare($sql);
@@ -9567,7 +9662,7 @@ function interestinproduct() {
             $stmt1->execute();
             $getProductdetails = $stmt1->fetchObject();
 
-
+            
 
             if ($getProductdetails->image != '') {
                 $image = SITE_URL . 'upload/product_image/' . $getProductdetails->image;
@@ -9575,17 +9670,49 @@ function interestinproduct() {
                 $image = SITE_URL . 'webservice/not-available.jpg';
             }
 
-
-
-
+            $description='';
+            if($getProductdetails->description != 'undefined'){
+                $description = substr($getProductdetails->description, 0, 50);
+            }
+            
+            $userselected_currency = $selected_currency;
+            $currency_pref='KWD';
+            $price ='';
+                        if($selected_currency != 'KWD'){
+                            // $getUserdetails1->currency_preference;
+                          $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'KWD' AND currency_code ='$selected_currency' ";
+                        $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                               // $currency['currency_rate_to_usd'];
+                            $price = $getProductdetails->price * $currency['currency_rate_to_usd'];
+                            //$price = round($subscription->price);
+                            $currency_pref =$selected_currency;
+                            
+                            //echo 'yes';
+                        }  
+                        }else{
+                            $price = $getProductdetails->price;
+                           // echo 'NO';
+                        }  
+                        }else{
+                            $price = $getProductdetails->price;
+                           // echo 'NO';
+                        }
+// base64_encode($product->id)
             $data['productList'][] = array(
                 "id" => stripslashes($product->id),
                 "image" => stripslashes($image),
-                "price" => stripslashes($getProductdetails->price),
-                "description" => strip_tags(stripslashes(substr($getProductdetails->description, 0, 50))),
+                "price" => stripslashes($price),
+                "description" => strip_tags(stripslashes($description)),
                 "seller_id" => stripslashes($product->seller_id),
-                "product_id" => stripslashes($getProductdetails->id),
-            );
+                "product_id" => stripslashes(base64_encode($getProductdetails->id)),
+                "currency_pref"=>$currency_pref,
+                );
         }
 
 
