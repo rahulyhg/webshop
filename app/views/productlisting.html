@@ -317,7 +317,7 @@
                                                       <input class="form-check-input" type="checkbox" ng-model="status.Selected" ng-click="updatecheckbox3(status.Selected,status.name)" ng-checked="user.status.indexOf(status.name)>=0" ng-true-value="'{{status.name.replace('\'', '\\\'')}}'" id="test{{status.id}}">
 
                                                       <label class="form-check-label" for="shop{{shops.id}}">
-                                                        {{status.name}} <i class="fa fa-star"></i>
+                                                        {{status.name}} <span ng-bind-html="status.rating"> </span>
                                                       </label>
                                                     </div>
                                                 </div>

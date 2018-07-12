@@ -6578,7 +6578,7 @@ function liststatus() {
             $allstatus[] = array(
                 'name' => stripslashes($status->status),
                 'id' => stripslashes($status->id),
-                'rating'=>stripslashes($status->rating),
+                'rating'=>$status->rating,
             );
         }
 //print_r($data);
