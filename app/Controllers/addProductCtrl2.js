@@ -8,7 +8,7 @@ if(!localStorage.getItem("userInfo"))
 {
    $state.go('frontend.home', {reload:true})
 }
- $window.scrollTo(0, 0);
+$window.scrollTo(0, 0);
 $scope.data = {};
 $scope.user = {};
 $scope.user2 = {};
@@ -305,6 +305,7 @@ $scope.addProduct = function(user2){
     
     //console.log('he',user2);
     //return false;
+    $window.scrollTo(0, 0);
         $scope.loader = false;
     
      var userInfo = JSON.parse($window.localStorage["userInfo"]);	

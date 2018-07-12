@@ -64,8 +64,12 @@
 
                                 <div class="form-group">
                                     <label for="staticEmail">{{language.mobile_number}}</label>
-                                    
-                                    <span>{{phonecode}}</span><input type="text" class="form-control" id="" ng-blur="openverifymodal(user.phone)" value="" placeholder="Mobile No" ng-model="user.phone" name="phone" ng-pattern="/^[1-9][0-9]*$/" required>
+                                    <div class="input-group">
+                                    <div class="input-group-prepend">
+                                 <span class="input-group-text"> + {{phonecode}}</span>
+                                    </div>
+                                   <input type="text" class="form-control" id="" ng-blur="openverifymodal(user.phone)" value="" placeholder="Mobile No" ng-model="user.phone" name="phone" ng-pattern="/^[1-9][0-9]*$/" required>
+                                    </div>
                                     <span style="color:Red" ng-show="submitted && myaccountForm.phone.$error.required">{{language.this_field_is_required}} </span>
                                     <span style="color:Red" ng-show="myaccountForm.phone.$dirty && myaccountForm.phone.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}} </span>
 

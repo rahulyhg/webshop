@@ -313,11 +313,12 @@ function inactive(aa)
                           <table class="table table-striped table-hover table-bordered" id="editable-sample">
                                      <thead>
                 	<tr>
+                 <th>Slno</th>            
                  <th>Image</th>           
-                 <th>Name</th>
+                 <th>Brand</th>
                  <th>Price</th>
                  <th>Category</th>
-                 <th>Sub Category</th>
+                 <!--<th>Sub Category</th>-->
                  <th>Uploader Name</th>
                  <th>Quick Links</th> 
               </tr>
@@ -343,7 +344,7 @@ if(isset($_GET['action']) && $_GET['action']=='active')
 // print_r($_SESSION['filtered_ids']);
 
                                                  
-                                                        $fetch_tools_type=mysqli_query($con,"select * from webshop_products where auctioned = 0");
+                                                        $fetch_tools_type=mysqli_query($con,"select *,@a:=@a+1 serial_number from webshop_products,(SELECT @a:= 0) AS a where type=1");
                                                         $num=mysqli_num_rows($fetch_tools_type);
                                                         if($num>0)
                                                         {
@@ -355,6 +356,9 @@ if(isset($_GET['action']) && $_GET['action']=='active')
 $category = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_category` WHERE `id`='".$tools_type['cat_id']."'"));
 
 $subcategory = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_subcategory` WHERE `id`='".$tools_type['subcat_id']."'"));
+
+$brands_name = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `webshop_brands` WHERE `id`='" . $tools_type['brands'] . "'"));
+
 
 $currency = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_currency` WHERE `code`='".$tools_type['currency_code']."'"));
 
@@ -372,29 +376,29 @@ $uploader = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `webshop_user` W
               
               <tr>
                   
-              <!--     <td>
-                   <?php echo stripslashes($tools_type['product_code']);?>
-                </td> -->
+                   <td>
+                   <?php echo stripslashes($tools_type['serial_number']);?>
+                </td> 
                
                 <td>
                  <img src="<?php echo $image_link;?>" height="100" width="100" align="image">
                 </td>
 
                <td>
-                   <?php echo stripslashes($tools_type['name']);?>
+                   <?php echo stripslashes($brands_name['name']);?>
                 </td>
 
                  <td>
-                   <?php echo stripslashes("(".$currency['code'].")".$tools_type['price']);?>
+                   <?php echo stripslashes("KWD ".$tools_type['price']);?>
                 </td>
 
                 <td>
                    <?php echo stripslashes($category['name']);?>
                 </td>
                 
-                 <td>
+<!--                 <td>
                    <?php echo stripslashes($subcategory['name']);?>
-                </td>
+                </td>-->
 
                 <td>
                    <?php echo stripslashes($uploader['fname']." ".$uploader['lname'] );?>
