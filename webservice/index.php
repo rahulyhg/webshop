@@ -4187,7 +4187,36 @@ function addProductNew() {
                                 $stmttt->bindParam("is_read", $is_read);
                                 $stmttt->execute();
                             }
+                           
+                            
+                        $sqlowneruser = "SELECT * FROM webshop_user WHERE id=$user_id";
 
+                        $stmtowneruser = $db->prepare($sqlowneruser);
+                        $stmtowneruser->execute();
+                        $getowneruser = $stmtowneruser->fetchObject();
+
+                        if ($getowneruser->add_product_notify == 1) {
+                            $sqlFriendnotiuser = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id,date) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id,:date)";
+                            $date = date('Y-m-d H:i:s');
+                            $is_read = '0';
+                            $last_id = '0';
+                            $from_id = '0';
+                            $message = 'Congrats Product added successfully.';
+                            //$type = '2';
+                            $stmtttnotiuser = $db->prepare($sqlFriendnotiuser);
+                            $stmtttnotiuser->bindParam("from_id", $from_id);
+                            $stmtttnotiuser->bindParam("to_id", $getowneruser->id);
+                            $stmtttnotiuser->bindParam("type", $type);
+                            $stmtttnotiuser->bindParam("msg", $message);
+                            $stmtttnotiuser->bindParam("date", $date);
+                            $stmtttnotiuser->bindParam("last_id", $last_id);
+                            $stmtttnotiuser->bindParam("is_read", $is_read);
+                            $stmtttnotiuser->execute();
+                        }
+                            
+                            
+                            
+                            
                             $data['Ack'] = 1;
                             $data['msg'] = 'Product added successfully.';
                             $data['type'] = $type;
@@ -4355,6 +4384,31 @@ function addProductNew() {
                     $stmttt->bindParam("is_read", $is_read);
                     $stmttt->execute();
                 }
+                
+                        $sqlowneruser = "SELECT * FROM webshop_user WHERE id=$user_id";
+
+                        $stmtowneruser = $db->prepare($sqlowneruser);
+                        $stmtowneruser->execute();
+                        $getowneruser = $stmtowneruser->fetchObject();
+
+                        if ($getowneruser->auction_notify == 1) {
+                            $sqlFriendnotiuser = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id,date) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id,:date)";
+                            $date = date('Y-m-d H:i:s');
+                            $is_read = '0';
+                            $last_id = '0';
+                            $from_id = '0';
+                            $message = 'Auction added successfully.';
+                            //$type = '2';
+                            $stmtttnotiuser = $db->prepare($sqlFriendnotiuser);
+                            $stmtttnotiuser->bindParam("from_id", $from_id);
+                            $stmtttnotiuser->bindParam("to_id", $getowneruser->id);
+                            $stmtttnotiuser->bindParam("type", $type);
+                            $stmtttnotiuser->bindParam("msg", $message);
+                            $stmtttnotiuser->bindParam("date", $date);
+                            $stmtttnotiuser->bindParam("last_id", $last_id);
+                            $stmtttnotiuser->bindParam("is_read", $is_read);
+                            $stmtttnotiuser->execute();
+                        }
 
                 $data['Ack'] = 1;
                 $data['msg'] = 'Auction added successfully.';
@@ -4541,6 +4595,38 @@ function addProductNew() {
 
                 if ($payment_status == 0) {
                     if ($certified_user == 1) {
+                        
+                        
+                        
+                        $sqlowneruser = "SELECT * FROM webshop_user WHERE id=$user_id";
+
+                        $stmtowneruser = $db->prepare($sqlowneruser);
+                        $stmtowneruser->execute();
+                        $getowneruser = $stmtowneruser->fetchObject();
+
+                        if ($getowneruser->add_product_notify == 1) {
+                            $sqlFriendnotiuser = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id,date) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id,:date)";
+                            $date = date('Y-m-d H:i:s');
+                            $is_read = '0';
+                            $last_id = '0';
+                            $from_id = '0';
+                            $message = 'Product added successfully. To get product live please make payment.';
+                            //$type = '2';
+                            $stmtttnotiuser = $db->prepare($sqlFriendnotiuser);
+                            $stmtttnotiuser->bindParam("from_id", $from_id);
+                            $stmtttnotiuser->bindParam("to_id", $getowneruser->id);
+                            $stmtttnotiuser->bindParam("type", $type);
+                            $stmtttnotiuser->bindParam("msg", $message);
+                            $stmtttnotiuser->bindParam("date", $date);
+                            $stmtttnotiuser->bindParam("last_id", $last_id);
+                            $stmtttnotiuser->bindParam("is_read", $is_read);
+                            $stmtttnotiuser->execute();
+                        }
+                        
+                        
+                        
+                        
+                        
                         $data['Ack'] = 1;
                         $data['msg'] = 'Product added successfully. To get product live please make payment.';
                         $data['type'] = $type;
@@ -4550,6 +4636,32 @@ function addProductNew() {
                         $app->response->setStatus(200);
                         $db = null;
                     } else {
+                        
+                        
+                        $sqlowneruser = "SELECT * FROM webshop_user WHERE id=$user_id";
+
+                        $stmtowneruser = $db->prepare($sqlowneruser);
+                        $stmtowneruser->execute();
+                        $getowneruser = $stmtowneruser->fetchObject();
+
+                        if ($getowneruser->add_product_notify == 1) {
+                            $sqlFriendnotiuser = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id,date) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id,:date)";
+                            $date = date('Y-m-d H:i:s');
+                            $is_read = '0';
+                            $last_id = '0';
+                            $from_id = '0';
+                            $message = 'Product added successfully. Wait for admin approval to pay and live this product.';
+                            //$type = '2';
+                            $stmtttnotiuser = $db->prepare($sqlFriendnotiuser);
+                            $stmtttnotiuser->bindParam("from_id", $from_id);
+                            $stmtttnotiuser->bindParam("to_id", $getowneruser->id);
+                            $stmtttnotiuser->bindParam("type", $type);
+                            $stmtttnotiuser->bindParam("msg", $message);
+                            $stmtttnotiuser->bindParam("date", $date);
+                            $stmtttnotiuser->bindParam("last_id", $last_id);
+                            $stmtttnotiuser->bindParam("is_read", $is_read);
+                            $stmtttnotiuser->execute();
+                        }
 
                         $data['Ack'] = 1;
                         $data['msg'] = 'Product added successfully. Wait for admin approval to pay and live this product.';
@@ -4559,6 +4671,32 @@ function addProductNew() {
                         $data['certified_user'] = $certified_user;
                     }
                 } else {
+                    
+                    
+                        $sqlowneruser = "SELECT * FROM webshop_user WHERE id=$user_id";
+
+                        $stmtowneruser = $db->prepare($sqlowneruser);
+                        $stmtowneruser->execute();
+                        $getowneruser = $stmtowneruser->fetchObject();
+
+                        if ($getowneruser->add_product_notify == 1) {
+                            $sqlFriendnotiuser = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id,date) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id,:date)";
+                            $date = date('Y-m-d H:i:s');
+                            $is_read = '0';
+                            $last_id = '0';
+                            $from_id = '0';
+                            $message = 'Congrats Product added successfully. It Was free.';
+                            //$type = '2';
+                            $stmtttnotiuser = $db->prepare($sqlFriendnotiuser);
+                            $stmtttnotiuser->bindParam("from_id", $from_id);
+                            $stmtttnotiuser->bindParam("to_id", $getowneruser->id);
+                            $stmtttnotiuser->bindParam("type", $type);
+                            $stmtttnotiuser->bindParam("msg", $message);
+                            $stmtttnotiuser->bindParam("date", $date);
+                            $stmtttnotiuser->bindParam("last_id", $last_id);
+                            $stmtttnotiuser->bindParam("is_read", $is_read);
+                            $stmtttnotiuser->execute();
+                        }
 
                     $data['Ack'] = 1;
                     $data['msg'] = 'Congrats Product added successfully. It Was free.';
@@ -4703,7 +4841,36 @@ function addProductNew() {
                         }
                     }
                 }
+                
+                
+                
+                        $sqlowneruser = "SELECT * FROM webshop_user WHERE id=$user_id";
 
+                        $stmtowneruser = $db->prepare($sqlowneruser);
+                        $stmtowneruser->execute();
+                        $getowneruser = $stmtowneruser->fetchObject();
+
+                        if ($getowneruser->auction_notify == 1) {
+                            $sqlFriendnotiuser = "INSERT INTO webshop_notification (from_id, to_id, type, msg, is_read,last_id,date) VALUES (:from_id, :to_id, :type, :msg, :is_read,:last_id,:date)";
+                            $date = date('Y-m-d H:i:s');
+                            $is_read = '0';
+                            $last_id = '0';
+                            $from_id = '0';
+                            $message = 'Auction added successfully.';
+                            //$type = '2';
+                            $stmtttnotiuser = $db->prepare($sqlFriendnotiuser);
+                            $stmtttnotiuser->bindParam("from_id", $from_id);
+                            $stmtttnotiuser->bindParam("to_id", $getowneruser->id);
+                            $stmtttnotiuser->bindParam("type", $type);
+                            $stmtttnotiuser->bindParam("msg", $message);
+                            $stmtttnotiuser->bindParam("date", $date);
+                            $stmtttnotiuser->bindParam("last_id", $last_id);
+                            $stmtttnotiuser->bindParam("is_read", $is_read);
+                            $stmtttnotiuser->execute();
+                        }
+                
+                
+                
                 $data['Ack'] = 1;
                 $data['msg'] = 'Auction added successfully.';
                 $data['type'] = $type;
@@ -5686,7 +5853,7 @@ function listSubscribed() {
         $active = $getuser->current_subscription_id;
         $slotremain = $getuser->slot_no;
 
-        $sql = "SELECT w.id,w.name,w.slots,ws.price,ws.subscription_date,ws.expiry_date,ws.id as sid from webshop_subscribers as ws inner join webshop_subscription as w on w.id=ws.subscription_id where ws.user_id=:user_id order by ws.id desc";
+        $sql = "SELECT w.id,w.name,w.slots,ws.price,ws.subscription_date,ws.expiry_date,ws.id as sid,w.status from webshop_subscribers as ws inner join webshop_subscription as w on w.id=ws.subscription_id where ws.user_id=:user_id and w.subscription_for=2 order by ws.id desc";
         $stmt = $db->prepare($sql);
         $stmt->bindParam("user_id", $user_id);
         $stmt->execute();
@@ -5740,7 +5907,8 @@ function listSubscribed() {
                 "subscribed_id" => $subscription->sid,
                 "active" => $active,
                 "slot_remain" => $slotremain,
-                "prefferd_currency"=>$currency_pref
+                "prefferd_currency"=>$currency_pref,
+                "package_status"=>$subscription->status
             );
         }
 
@@ -7018,6 +7186,14 @@ if ($keyword != '' && $keyword != 'undefined') {
         }
         //print_r($getkeywordbrand->id);
     }
+    
+    
+   
+    
+    
+    
+    
+    
    // exit;
     if ($keyword != '' && $keyword != 'undefined') {
 
@@ -14711,7 +14887,7 @@ function autofield() {
     $getResults=array();
     $word = isset($body->word) ? $body->word : '';
     if($word!=""){
-    $sql = "SELECT description as field FROM  webshop_products where  description like '%$word%' union select name as field from webshop_brands WHERE name like '%$word%' union select fname as field from webshop_user WHERE fname like '%$word%' or lname like '%$word%'";
+    $sql = "SELECT description as field FROM webshop_products where  description like '%$word%' union select name as field from webshop_brands WHERE name like '%$word%' union select fname as field from webshop_user WHERE fname like '%$word%' or lname like '%$word%' union SELECT reference_number as field FROM webshop_products where reference_number like '%$word%' union SELECT name as field FROM webshop_category where name like '%$word%'";
     $stmt = $db->prepare($sql);
     $stmt->execute();
     $getResults = $stmt->fetchAll(PDO::FETCH_OBJ);

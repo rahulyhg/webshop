@@ -14,7 +14,7 @@
                         <b class="d-block mb-2" ng-if="subscription.subscribed_id!=subscription.active">Slots:{{subscription.slots}}</b>
                         <b class="d-block mb-2">Subscription Date: {{subscription.subscription_date}}</b>
                         <b class="d-block mb-2">Expiry Date: {{subscription.expiry_date}}</b>
-                        <p><button type="button" class="btn btn-primary" ng-click="renew(subscription.id)"> Renew</button> </p>
+                        <p><button type="button" class="btn btn-primary" ng-click="renew(subscription.id,subscription.package_status)"> Renew</button> </p>
                         <b class="blink" ng-if="subscription.subscribed_id==subscription.active">Active</b>
                      </div>
                   </li>
