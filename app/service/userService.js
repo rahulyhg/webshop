@@ -3502,7 +3502,7 @@ reject(response);
     
 return $q(function(resolve, reject) {
 
-var encodedString ='{"user_id":"'+ user_id +'","sale_notify":"'+ user2.sale_notify +'","new_message_notify":"'+ user2.new_message_notify +'","review_notify":"'+ user2.review_notify +'","subscription_notify":"'+ user2.subscription_notify +'"}';
+var encodedString ='{"user_id":"'+ user_id +'","sale_notify":"'+ user2.sale_notify +'","new_message_notify":"'+ user2.new_message_notify +'","review_notify":"'+ user2.review_notify +'","auction_notify":"'+ user2.auction_notify +'","add_product_notify":"'+ user2.add_product_notify +'"}';
 
 console.log(encodedString);
 
