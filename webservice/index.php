@@ -1618,7 +1618,8 @@ function ProductsDetails() {
             'original_price'=>$product->price,
             'product_actual_currency' => $product->currency_code,
             'product_single_image'=>$product_single_image,
-            'auction_end_time'=>$auction_end_time
+            'auction_end_time'=>$auction_end_time,
+            'reference_no' =>$product->reference_number
         );
 
 

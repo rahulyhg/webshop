@@ -741,7 +741,7 @@ $interval(function () {
 
     }
     else {
-        $rootScope.appTitle = "Webshop";
+        $rootScope.appTitle = "GMT24";
     }
 	
 	
