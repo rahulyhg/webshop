@@ -90,12 +90,14 @@ $scope.allsubscriptions = function(){
 }
 
 
-$scope.renew = function(id){
+$scope.renew = function(id,status){
      //alert(id);
-        
+        if(status==0){
+            swal("Sorry! This package is not available now.",'','error');
+        }else{
            $state.go('frontend.payment',{subscription_id:id});
 
-              
+    }     
 }
 
 
