@@ -743,5 +743,12 @@ $scope.a = function() {
        $scope.Showdetails();
 
     }
+    
+    $scope.demo = function() {
+        
+      alert('sp');
+    }
+    
+    
 });
 
