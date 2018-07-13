@@ -3931,14 +3931,22 @@ function notifysettings() {
     $sale_notify = isset($body->sale_notify) ? $body->sale_notify : '';
     $new_message_notify = isset($body->new_message_notify) ? $body->new_message_notify : '';
     $review_notify = isset($body->review_notify) ? $body->review_notify : '';
+    $add_product_notify = isset($body->add_product_notify) ? $body->add_product_notify : '';
+    $auction_notify = isset($body->auction_notify) ? $body->auction_notify : '';
+    
+    
     $subscription_notify = isset($body->subscription_notify) ? $body->subscription_notify : '';
 
-    $sql = "UPDATE webshop_user set sale_notify=:sale_notify ,new_message_notify=:new_message_notify , review_notify=:review_notify, subscription_notify=:subscription_notify WHERE id=:id";
+    $sql = "UPDATE webshop_user set sale_notify=:sale_notify ,new_message_notify=:new_message_notify , review_notify=:review_notify, subscription_notify=:subscription_notify,add_product_notify=:add_product_notify,auction_notify=:auction_notify WHERE id=:id";
     try {
 
         $db = getConnection();
         $stmt = $db->prepare($sql);
         $stmt->bindParam("sale_notify", $sale_notify);
+        
+        $stmt->bindParam("add_product_notify", $add_product_notify);
+        $stmt->bindParam("auction_notify", $auction_notify);
+        
         $stmt->bindParam("new_message_notify", $new_message_notify);
         $stmt->bindParam("review_notify", $review_notify);
         $stmt->bindParam("subscription_notify", $subscription_notify);
