@@ -4,6 +4,11 @@
 			  <ol class="breadcrumb">
 			    <li class="breadcrumb-item"><a href="#">{{language.home}}</a></li>
 			    <li class="breadcrumb-item active">{{language.watches}}</li>
+                            <li class="breadcrumb-item active" ng-if="top_prodct != '1'">{{language.all}} {{language.product}}</li>
+                            <li class="breadcrumb-item active" ng-if="top_prodct == '1'">{{language.top_products}}</li>
+                            
+                            
+                            
 			  </ol>
 			</nav>
 			<div class="search-header widte-bg py-3 px-4 mb-3">
@@ -207,7 +212,7 @@
                                                       
                                                         <p>{{language.amount_min}} :  <span id="min_price">{{selectedCurr}} {{amount_min}}</span></p>
                                                         <p>{{language.amount_max}} : <span id="max_price">{{selectedCurr}} {{amount_max}}</span></p>
-                                                          <rzslider rz-slider-model="amount_min" rz-slider-high="amount_max" ng-mouseup="searchListing()" rz-slider-options="visSlider.options"></rzslider>
+                                                          <rzslider rz-slider-model="amount_min" rz-slider-high="amount_max"  rz-slider-options="visSlider.options"></rzslider>
 
                                                           <input type="hidden" ng-model="amount_min">
                                                           <input type="hidden" ng-model="amount_max">
@@ -279,14 +284,33 @@
                                                     
                                                     
                                                     <hr>
-                                                    <div class="in collapse show" id="collapseOnesize" >{{size_amount_max}}
+                                                    <div class="in collapse show" id="collapseOnesize" >
                                                     <p>{{language.size}} {{language.amount_max}} : <span id="min_size_price">{{size_amount_min}}</span>
                                                         <input type="hidden"  ng-model="size_amount_min" readonly/> </p>
                                                         <p>{{language.size}} {{language.amount_min}} : <span id="max_size_price">{{size_amount_max}}</span>
                                                         <input type="hidden" ng-model="size_amount_max" readonly/> </p>
-    <slider-range min="0" max="100" step="5" ng-mouseup="searchListing()" value-min="size_amount_min" value-max="size_amount_max"></slider-range>
+    <slider-range min="0" max="100" step="5" ng-mouseup="searchListing()"  value-min="size_amount_min" value-max="size_amount_max"></slider-range>
     <hr>
                                                     </div>
+
+
+
+
+
+<!--                                                    <div class="in collapse show" id="collapseOneprice">
+                                                      
+                                                        <p>{{language.size}} {{language.amount_max}} : <span id="min_size_price">{{size_amount_min}}</span>
+                                                        
+                                                        <p>{{language.size}} {{language.amount_min}} : <span id="max_size_price">{{size_amount_max}}</span>
+                                                          <rzslider rz-slider-model="size_amount_min" rz-slider-high="size_amount_max"  rz-slider-options="visSlider1.options"></rzslider>
+
+                                                          <input type="hidden" ng-model="size_amount_min">
+                                                          <input type="hidden" ng-model="size_amount_max">
+                                                        </div>-->
+
+
+
+
                                                       </div>
                                                          
                                                          <div class="form-group">
@@ -483,8 +507,8 @@
 							    <label for="inputPassword6">{{language.short_by}} </label>							    
 							    <select class="custom-select form-control mx-sm-3" id="inputGroupSelect01" ng-model="drpmodel" ng-change="cobchange()">
 								    <option value="0" selected="selected">{{language.relevance}}</option>
-								    <option value="1">{{language.price}}: {{language.low_to_high}}</option>
-								    <option value="2">{{language.price}}: {{language.high_to_low}}</option>
+								    <option value="1">{{language.price}}  {{language.low_to_high}}</option>
+								    <option value="2">{{language.price}}  {{language.high_to_low}}</option>
 								    <option value="3">{{language.newest}}</option>
 								    <option value="4">{{language.popularity}}</option>
 								 </select>		

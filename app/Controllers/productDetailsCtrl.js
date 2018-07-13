@@ -745,8 +745,28 @@ $scope.a = function() {
     }
     
     $scope.demo = function() {
-        
-      alert('sp');
+        alert('s');
+      userService.checkauctionvaliditybeforeaddbid($scope.product_id1,userInfo.user_id).then(function(response) {
+          alert('p');
+              if(response.Ack == '2'){
+         $scope.winnermsg ='Congratulation , You Win This Auction. PLease Pay Now';
+         $scope.winnerlink = '2';
+         $('#password').modal('hide');
+          $('#myModal').modal('hide');
+           $('#winner').modal('show'); 
+           
+    }else if(response.Ack == '3'){
+         $scope.winnermsg ='Better Luck Next Time.';
+         $scope.winnerlink = '1';
+         $('#password').modal('hide');
+          $('#myModal').modal('hide');
+           $('#winner').modal('show'); 
+           
+    }
+            
+        }, function(err) {
+	console.log(err); 
+	});
     }
     
     
