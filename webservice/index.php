@@ -1407,7 +1407,7 @@ function ProductsDetails() {
             $auctiondate = explode(' ', $naxtime_slot_id->start_time);
             $action_date = $auctiondate[0];
             $action_time = $auctiondate[1];
-            $time_now = mktime(date('H') + 5, date('i') + 30, date('s'));
+            $time_now = mktime(date('H') + 3, date('i') , date('s'));
             $ctime = date('Y-m-d H:i:s', $time_now);
             //echo $ctime.'<br>';
             //echo $naxtime_slot_id->end_time;
@@ -1427,7 +1427,7 @@ function ProductsDetails() {
         $ctime = '';
 
         if ($product->type == '2') {
-            $time_now = mktime(date('H') + 5, date('i') + 30, date('s'));
+            $time_now = mktime(date('H') + 3, date('i') , date('s'));
 
             $ctime = date('Y-m-d H:i:s', $time_now);
         } else {
@@ -2199,11 +2199,35 @@ function listmyProducts() {
                 $stmt4->bindParam("id", $product->subscription_id);
                 $stmt4->execute();
                 $getexpiry = $stmt4->fetchObject();
+                
                 if (!empty($getexpiry)) {
-                    $expirydate = date('dS M,Y', strtotime($getexpiry->expiry_date));
+                 if($product->top_product_status ==1){
+                        
+                    $sqlsubs_top = "SELECT * FROM  webshop_subscribers WHERE id=:id ";
+                    $stmtsubs_top = $db->prepare($sqlsubs_top);
+                    $stmtsubs_top->bindParam("id", $product->top_product);
+                    $stmtsubs_top->execute();
+                    $getsubs_top = $stmtsubs_top->fetchObject();
+                      
+                    if($getsubs_top->expiry_date > $getexpiry->expiry_date){
+                       
+                        $expirydate= date('dS M,Y', strtotime($getsubs_top->expiry_date));
+                        
+                    }else{
+                        
+                        $expirydate= date('dS M,Y', strtotime($getexpiry->expiry_date));
+                        
+                    }
+                        
+                    }else{
+                        
+                        $expirydate= date('dS M,Y', strtotime($getexpiry->expiry_date));
+                    }
+                
                 }
-            } else {
-                $expirydate = "Free product";
+            }else{
+                
+                $expirydate= "Free product";
             }
 
 
@@ -5595,7 +5619,7 @@ function listSubscriptions() {
                            foreach($getallcurrency as $currency){
                                // $currency['currency_rate_to_usd'];
                             $price = $subscription->price * $currency['currency_rate_to_usd'];
-                            $price = round($subscription->price);
+                            //$price = round($price);
                             $currency_pref =$selected_currency;
                             
                             //echo 'yes';
@@ -5608,11 +5632,11 @@ function listSubscriptions() {
                             $price = $subscription->price;
                            // echo 'NO';
                         }
-                        //$price=round($price);
+                        $price=round($price);
             $allsubscriptions[] = array(
                 "id" => stripslashes($subscription->id),
                 "name" => stripslashes($subscription->name),
-                "price" => stripslashes($subscription->price),
+                "price" => stripslashes($price),
                 "slots" => stripslashes($subscription->slots),
                 "duration" => stripslashes($subscription->duration),
                 "type" => stripslashes($subscription->type),
@@ -8925,7 +8949,7 @@ function auctionWinner() {
             $auction_id = $auction->id;
             $thresholdprice = $auction->thresholdprice;
 
-            $time_now = mktime(date('H') + 5, date('i') + 30, date('s'));
+            $time_now = mktime(date('H') + 3, date('i'), date('s'));
             $current_datetime = date('Y-m-d H:i:s', $time_now);
 
 
