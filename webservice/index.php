@@ -1407,7 +1407,7 @@ function ProductsDetails() {
             $auctiondate = explode(' ', $naxtime_slot_id->start_time);
             $action_date = $auctiondate[0];
             $action_time = $auctiondate[1];
-            $time_now = mktime(date('H') + 3, date('i') , date('s'));
+            $time_now = mktime(date('H') + 5, date('i') + 30, date('s'));
             $ctime = date('Y-m-d H:i:s', $time_now);
             //echo $ctime.'<br>';
             //echo $naxtime_slot_id->end_time;
@@ -1427,7 +1427,7 @@ function ProductsDetails() {
         $ctime = '';
 
         if ($product->type == '2') {
-            $time_now = mktime(date('H') + 3, date('i') , date('s'));
+            $time_now = mktime(date('H') + 5, date('i') +30, date('s'));
 
             $ctime = date('Y-m-d H:i:s', $time_now);
         } else {
@@ -8949,7 +8949,7 @@ function auctionWinner() {
             $auction_id = $auction->id;
             $thresholdprice = $auction->thresholdprice;
 
-            $time_now = mktime(date('H') + 3, date('i'), date('s'));
+            $time_now = mktime(date('H') + 5, date('i') +30, date('s'));
             $current_datetime = date('Y-m-d H:i:s', $time_now);
 
 

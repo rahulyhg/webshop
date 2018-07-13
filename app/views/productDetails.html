@@ -173,7 +173,7 @@
                	  <h5 class="pp1"> {{productLists.brands}}/{{productLists.category}}({{productLists.gender}})</h5>
                	  
                   <p class="text-secondary mb-2 pp">{{language.price}}: {{productLists.price}} {{productLists.currency_code}}</p>
-                  <span class="disclaimer" tooltips tooltip-template="These are approx conversions as taken from 'currencyconverterapi.com'" tooltip-side="top">?</span>
+                  <span class="disclaimer" tooltips tooltip-template="These are approx conversions as taken from 'currencyconverterapi.com'" tooltip-side="top">i</span>
                   <p class="text-secondary mb-2 w-100 floa-left d-table" ng-if="productLists.interest != 1">{{language.seller}} {{language.Name}} {{productLists.seller_name}} </p>
                   <div ng-if="user_id && productLists.interest == 1">
                      <h6 class="card-title">{{language.seller}} {{language.Info}}:</h6>
@@ -396,7 +396,7 @@
                      <p countdown='' date='{{productLists.preferred_date}}' style="color:red">&nbsp;</p>
                      </div> -->
                   <input type='hidden' value="{{productLists.auction_end_time}}" class="auction_end_time">
-                  <div class="clock"></div>
+                  <div class="clock" id="divID"></div>
                   <div class="message"></div>
                </h5>
                <hr class="my-1">
@@ -721,7 +721,7 @@
 
                    //demo();
                    //$("#myModal").hide();
-
+                   angular.element(document.getElementById('divID')).scope().demo();
                    $('.message').html('The clock has stopped!')
                }
            }
