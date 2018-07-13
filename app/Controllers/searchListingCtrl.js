@@ -172,6 +172,7 @@ $scope.searchListing = function(){
 
 if($window.localStorage["categorylisting"]){
 	$scope.categorylisting=$window.localStorage["categorylisting"];
+        $window.localStorage["categorylisting"]='';
         //alert();
 }else{
 	$scope.categorylisting='';
@@ -179,18 +180,21 @@ if($window.localStorage["categorylisting"]){
 
 if($window.localStorage["brandListing"]){
 	$scope.brandListing=$window.localStorage["brandListing"];
+        $window.localStorage["brandListing"]='';
 }else{
 	$scope.brandListing='';
 }
 
 if($window.localStorage["sellerListing"]){
 	$scope.sellerListing=$window.localStorage["sellerListing"];
+        $window.localStorage["sellerListing"]='';
 }else{
 	$scope.sellerListing='';
 }
 
 if($window.localStorage["selected_value"]){
 	$scope.selected_value=$window.localStorage["selected_value"];
+        $window.localStorage["selected_value"]='';
 }else{
 	$scope.selected_value='';
 }
@@ -198,6 +202,7 @@ if($window.localStorage["selected_value"]){
 
 if($window.localStorage["currency"] != ''){
    $scope.usersSelectedCurrency = $window.localStorage["currency"] ;
+   
 }else{
     $scope.usersSelectedCurrency = 'KWD';
 }
@@ -266,7 +271,7 @@ if($scope.city_id){
 
 if($window.localStorage["movementListing"]){
 	$scope.movementListing=$window.localStorage["movementListing"];
-        
+        $window.localStorage["movementListing"]='';
 }else{
 	$scope.movementListing='';
 }
@@ -296,6 +301,7 @@ if($scope.size_amount_min){
 
 if($window.localStorage["statuslist"]){
 	$scope.statuslisting=$window.localStorage["statuslist"];
+        $window.localStorage["statuslist"]='';
 }else{
 	$scope.statuslisting='';
 }

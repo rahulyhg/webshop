@@ -25,6 +25,26 @@ app.controller('productlistingCtrl', function ($rootScope, $scope, $http, $locat
     $scope.count = 0;
     $scope.count1 = 0;
 
+            $scope.keyword = '';
+            $scope.brandListing = '';
+            $scope.categorylisting = '';
+            $scope.sellerListing = '';
+        
+            $scope.statuslisting = '';
+
+            $scope.selected_value = '';
+            $scope.movementListing = '';
+            $scope.gender = "";
+            $scope.breslettype = "";
+            $scope.year = "";
+            $scope.country_id = '';
+            $scope.state_id = '';
+
+            $scope.city_id = "";
+
+            $scope.top_prodct = "";
+        
+        
     $scope.user_id = '';
     $scope.search = {price_min: '', price_max: '', amount_min: '', amount_max: ''};
 
@@ -187,28 +207,33 @@ app.controller('productlistingCtrl', function ($rootScope, $scope, $http, $locat
 
         if ($window.localStorage["brandListing"]) {
             $scope.brandListing = $window.localStorage["brandListing"];
+            $window.localStorage["brandListing"]='';
         } else {
             $scope.brandListing = '';
         }
         if ($window.localStorage["categorylisting"]) {
             $scope.categorylisting = $window.localStorage["categorylisting"];
+            $window.localStorage["categorylisting"]='';
             //alert();
         } else {
             $scope.categorylisting = '';
         }
         if ($window.localStorage["sellerListing"]) {
             $scope.sellerListing = $window.localStorage["sellerListing"];
+            $window.localStorage["sellerListing"]='';
         } else {
             $scope.sellerListing = '';
         }
         if ($window.localStorage["statuslist"]) {
             $scope.statuslisting = $window.localStorage["statuslist"];
+            $window.localStorage["statuslist"]='';
         } else {
             $scope.statuslisting = '';
         }
 
         if ($window.localStorage["selected_value"]) {
             $scope.selected_value = $window.localStorage["selected_value"];
+            $window.localStorage["selected_value"]='';
         } else {
             $scope.selected_value = '';
         }
@@ -216,7 +241,7 @@ app.controller('productlistingCtrl', function ($rootScope, $scope, $http, $locat
 
         if ($window.localStorage["movementListing"]) {
             $scope.movementListing = $window.localStorage["movementListing"];
-
+            $window.localStorage["movementListing"]='';
         } else {
             $scope.movementListing = '';
         }
@@ -719,13 +744,57 @@ app.controller('productlistingCtrl', function ($rootScope, $scope, $http, $locat
 
 
         $scope.top_prodct = '1';
-
+         
         $scope.searchListing();
 
     }
     $scope.top_productss2 = function () {
 
+            $scope.keyword = '';
+            $window.localStorage["keyword"] = '';
+            
+            
+            $scope.brandListing = '';
+            $window.localStorage["brandListing"]='';
+       
+            $scope.categorylisting = '';
+            $window.localStorage["categorylisting"]='';
+     
+            $scope.sellerListing = '';
+             $window.localStorage["sellerListing"]='';
+      
+        
+            $scope.statuslisting = '';
+            $window.localStorage["statuslist"]='';
+        
 
+            $scope.selected_value = '';
+            $window.localStorage["selected_value"]='';
+       
+
+            $scope.movementListing = '';
+            $window.localStorage["movementListing"]='';
+        
+     
+            $scope.gender = "";
+        
+
+            $scope.breslettype = "";
+        
+            $scope.year = "";
+      
+
+            $scope.country_id = '';
+      
+            $scope.state_id = '';
+       
+
+            $scope.city_id = "";
+      
+
+            $scope.top_prodct = "";
+        
+        
         $scope.top_prodct = '';
 
         $scope.searchListing();
