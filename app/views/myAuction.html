@@ -67,29 +67,4 @@ is simply dumy text of the  watch printing and typesetting industry.</p>
 		</div>
 	</section>
 
-<script>
-   var clock;
-   $(".gg").click(function () {
-       var clock;
-       
-       var   endtime= $(".auction_end_time").val();
-       //alert(endtime);
-       clock = $('.clock').FlipClock(endtime,{
-           //clockFace: 'DailyCounter',
-           autoStart: false,
-           callbacks: {
-               stop: function () {
-
-                   //demo();
-                   //$("#myModal").hide();
-                  // angular.element(document.getElementById('divID')).scope().TestAngularMethod();
-                   $('.message').html('The clock has stopped!')
-               }
-           }
-       });
-      // clock.setTime(endtime);
-       clock.setCountdown(true);
-       clock.start();
-   });
-   
-</script>	
+	
