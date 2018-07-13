@@ -2199,11 +2199,35 @@ function listmyProducts() {
                 $stmt4->bindParam("id", $product->subscription_id);
                 $stmt4->execute();
                 $getexpiry = $stmt4->fetchObject();
+                
                 if (!empty($getexpiry)) {
-                    $expirydate = date('dS M,Y', strtotime($getexpiry->expiry_date));
+                 if($product->top_product_status ==1){
+                        
+                    $sqlsubs_top = "SELECT * FROM  webshop_subscribers WHERE id=:id ";
+                    $stmtsubs_top = $db->prepare($sqlsubs_top);
+                    $stmtsubs_top->bindParam("id", $product->top_product);
+                    $stmtsubs_top->execute();
+                    $getsubs_top = $stmtsubs_top->fetchObject();
+                      
+                    if($getsubs_top->expiry_date > $getexpiry->expiry_date){
+                       
+                        $expirydate= date('dS M,Y', strtotime($getsubs_top->expiry_date));
+                        
+                    }else{
+                        
+                        $expirydate= date('dS M,Y', strtotime($getexpiry->expiry_date));
+                        
+                    }
+                        
+                    }else{
+                        
+                        $expirydate= date('dS M,Y', strtotime($getexpiry->expiry_date));
+                    }
+                
                 }
-            } else {
-                $expirydate = "Free product";
+            }else{
+                
+                $expirydate= "Free product";
             }
 
 

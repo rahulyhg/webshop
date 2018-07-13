@@ -1444,6 +1444,19 @@ section {
 	margin-bottom: 20px;
 }
 
+.wish-list li.new-prodiv {
+	min-height: 477px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	margin-bottom: 20px;
+}
+.wish-list li.new-auodiv{
+	min-height: 314px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	margin-bottom: 20px;
+}
+
 .wish-list li:last-child {
 	margin-bottom: 0px
 }

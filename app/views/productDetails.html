@@ -131,14 +131,7 @@
                               </h6>
                            </td>
                         </tr>
-                        <tr>
-                           <td>
-                              <h6 class="mb-0 ">{{language.quantity}}</h6>
-                           </td>
-                           <td>
-                              <h6 class="mb-0 ">{{productLists.quantity}} pcs. Available.</h6>
-                           </td>
-                        </tr>
+                       
                         <tr>
                            <td>
                               <h6 class="mb-0 " >{{language.product_description}}</h6>
@@ -686,6 +679,8 @@
            autoStart: false,
            callbacks: {
                stop: function () {
+                   //demo();
+                   //$("#myModal").hide();
                    $('.message').html('The clock has stopped!')
                }
            }
