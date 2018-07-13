@@ -745,9 +745,9 @@ $scope.a = function() {
     }
     
     $scope.demo = function() {
-        alert('s');
+        //alert('s');
       userService.checkauctionvaliditybeforeaddbid($scope.product_id1,userInfo.user_id).then(function(response) {
-          alert('p');
+          //alert('p');
               if(response.Ack == '2'){
          $scope.winnermsg ='Congratulation , You Win This Auction. PLease Pay Now';
          $scope.winnerlink = '2';
