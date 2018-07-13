@@ -17,7 +17,7 @@
                               <option value="Other Movement">{{language.other}}</option>
                            </select>
                            <!--<input type="text" class="form-control" id="" value="" ng-model="user2.movement" ng-pattern="/^[a-z A-Z]+$/" name="movement" required>-->
-                           <span style="color:Red" ng-show="submitted && addProductForm.movement.$error.required"> {{language.this_field_is_required}}! </span>
+                           <span style="color:Red" ng-show="addProductForm.$submitted && addProductForm.movement.$error.required"> {{language.this_field_is_required}}! </span>
                         </div>
                         <div class="form-group">
                            <label for="staticEmail">{{language.gender}}*</label>
@@ -36,7 +36,7 @@
                               </div>
                               <span class="icon"></span>
                               </br>
-                              <span style="color:Red" ng-show="submitted && addProductForm.gender.$error.required"> {{language.please}} {{language.Choose}} {{language.your}} {{language.gender}} </span>
+                              <span style="color:Red" ng-show="addProductForm.$submitted && addProductForm.gender.$error.required"> {{language.please}} {{language.Choose}} {{language.your}} {{language.gender}} </span>
                            </div>
                         </div>
                         <!--                                                                    <div class="form-group">
@@ -49,12 +49,12 @@
                            <span>Unisex</span>
                                                              
                                                              <span class="icon"></span>
-                                                                           </br><span style="color:Red" ng-show="submitted && addProductForm.gender.$error.required"> {{language.please}} {{language.Choose}} {{language.your}} Gender </span>
+                                                                           </br><span style="color:Red" ng-show="addProductForm.$submitted && addProductForm.gender.$error.required"> {{language.please}} {{language.Choose}} {{language.your}} Gender </span>
                                                                </div>-->
                         <div class="form-group">
                            <label for="staticEmail"> {{language.reference_code}}*</label>
                            <input type="text" class="form-control" value="" ng-model="user2.reference" name="reference" required>
-                           <span style="color:Red" ng-show="submitted && addProductForm.reference.$error.required"> {{language.this_field_is_required}}! </span>
+                           <span style="color:Red" ng-show="addProductForm.$submitted && addProductForm.reference.$error.required"> {{language.this_field_is_required}}! </span>
                            <!--                                                                                <span style="color:Red" ng-show="addProductForm.reference.$dirty && addProductForm.reference.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>-->
                         </div>
                         <div class="form-group">
@@ -71,7 +71,7 @@
                                                                                                  
                                                                                                  
                                                                                                  
-                                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.status.$error.required">{{language.please}} {{language.Choose}} A Status</span>
+                                                                                                 <span style="color:Red" ng-show="addProductForm.$submitted && addProductForm.status.$error.required">{{language.please}} {{language.Choose}} A Status</span>
                            </div>-->
                         <div class="form-group">
                            <label for="staticEmail"> {{language.status_of_the_watch}}*</label>
@@ -165,7 +165,7 @@
                         <!--                                                                        <div class="form-group">
                            <label for="staticEmail"> Status of the watch</label>
                            <input type="text" class="form-control" id="" value="" ng-model="user2.status" name="status" required>
-                                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.status.$error.required"> {{language.this_field_is_required}}! </span>
+                                                                                                 <span style="color:Red" ng-show="addProductForm.$submitted && addProductForm.status.$error.required"> {{language.this_field_is_required}}! </span>
                                                                                                  
                                                                                                  
                            </div>-->
@@ -174,14 +174,14 @@
                            <select class="form-control" name="country" ng-model="user2.country" ng-change="state(user2.country)" required>
                               <option ng-repeat="country_list in countrylist" value="{{country_list.id}}">{{country_list.name}}</option>
                            </select>
-                           <span style="color:Red" ng-show="submitted && addProductForm.country.$error.required">{{language.please}} {{language.Choose}} {{language.a}} {{language.country}}</span>
+                           <span style="color:Red" ng-show="addProductForm.$submitted && addProductForm.country.$error.required">{{language.please}} {{language.Choose}} {{language.a}} {{language.country}}</span>
                         </div>
                         <div class="form-group">
                            <label for="staticEmail">{{language.state}}*</label>
                            <select class="form-control" name="state" ng-model="user2.state" ng-change="city(user2.state)" required>
                               <option ng-repeat="statelists in statelist" value="{{statelists.id}}">{{statelists.name}}</option>
                            </select>
-                           <span style="color:Red" ng-show="submitted && addProductForm.state.$error.required">{{language.please}} {{language.Choose}} {{language.a}} {{language.state}}</span>
+                           <span style="color:Red" ng-show="addProductForm.$submitted && addProductForm.state.$error.required">{{language.please}} {{language.Choose}} {{language.a}} {{language.state}}</span>
                         </div>
                         <div class="form-group">
                            <label for="staticEmail">{{language.Owner}} {{language.number}}*</label>
@@ -191,7 +191,7 @@
                               </div>
                               <input type="text" class="form-control" id="Owner_number" ng-model="user2.owner_number" ng-pattern="/^[1-9][0-9]*$/" name="owner_number" required>
                            </div>
-                           <span style="color:Red" ng-show="submitted && addProductForm.owner_number.$error.required"> {{language.this_field_is_required}}! </span>
+                           <span style="color:Red" ng-show="addProductForm.$submitted && addProductForm.owner_number.$error.required"> {{language.this_field_is_required}}! </span>
                            <span style="color:Red" ng-show="addProductForm.owner_number.$dirty && addProductForm.owner_number.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>
                         </div>
                         <!--                                                                        <div class="form-group">
@@ -200,12 +200,12 @@
                            <select class="form-control" name="city" ng-model="user2.city"  required>
                                <option  ng-repeat="citylists in citylist" value="{{citylists.id}}">{{citylists.name}}</option>
                            </select>
-                                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.city.$error.required">{{language.please}} {{language.Choose}} A City</span>
+                                                                                                 <span style="color:Red" ng-show="addProductForm.$submitted && addProductForm.city.$error.required">{{language.please}} {{language.Choose}} A City</span>
                            </div>-->
                         <!--                                    <div class="form-group">
                            <label for="staticEmail">Country</label>
                            <input type="text" class="form-control" id="" value="" ng-pattern="/^[a-z A-Z]+$/" placeholder="" ng-model="user2.country" name="country" required>
-                                                                                                 <span style="color:Red" ng-show="submitted && addProductForm.country.$error.required">  {{language.this_field_is_required}}!</span>
+                                                                                                 <span style="color:Red" ng-show="addProductForm.$submitted && addProductForm.country.$error.required">  {{language.this_field_is_required}}!</span>
                                                                                                  
                                                                                                  <span style="color:Red" ng-show="addProductForm.country.$dirty && addProductForm.country.$error.pattern">Only Letters Allowed</span>
                            </div>-->
@@ -213,7 +213,7 @@
                            <label for="staticEmail">{{language.size}}*</label>
                            <input type="text" class="form-control" id="" value="" ng-pattern="/^[1-9][0-9]*$/" placeholder="" ng-model="user2.size"
                               name="size" required="required">
-                           <span style="color:Red" ng-show="submitted && addProductForm.size.$error.required">{{language.this_field_is_required}}! </span>
+                           <span style="color:Red" ng-show="addProductForm.$submitted && addProductForm.size.$error.required">{{language.this_field_is_required}}! </span>
                            <span style="color:Red" ng-show="addProductForm.size.$dirty && addProductForm.size.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>
                         </div>
                         <!-- <div class="form-group">
@@ -256,7 +256,7 @@
                                  </div>
                               </div>
                            </div>
-                           <span style="color:Red" ng-show="addProductForm.image.$error.maxFiles">{{language.can}} {{language.upload}} {{language.only}} {{language.five}} {{language.images}}.</span>
+                           <span style="color:Red" ng-if="addProductForm.image.$error.maxFiles">{{language.can}} {{language.upload}} {{language.only}} {{language.five}} {{language.images}}.</span>
                         </div>
                         <div class="form-group">
                            <div id="dvMap" style="width: 500px; height: 500px"></div>
