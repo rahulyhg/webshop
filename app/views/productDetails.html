@@ -271,6 +271,45 @@
                         </p>-->
                   </div>
                </div>
+               
+               <div ng-if="user_id == productLists.seller_id">
+                  <hr>
+                  <h6 class="card-title">{{language.reviews}}</h6>
+                  <div class="reviews-holder">
+                     <div ng-repeat="reviewsss in allreviews" class="media">
+                        <div class="media-left mr-2">
+                           <a href="#">
+                           <img class="media-object" src="{{reviewsss.userimage}}" alt="">
+                           </a>
+                        </div>
+                        <div class="media-body">
+                           <h6 class="media-heading">
+                              <span class="rating d-inline-block mr-2">
+                                 <ng-rating ng-model="reviewsss.rating" icon-class="rating.iconClass" editable="false" stars-count="rating.starsCount" based-on="rating.basedOn">
+                                 </ng-rating>
+                              </span>
+                              {{reviewsss.username}}
+                              <span class="date d-inline-block ml-2">- {{reviewsss.date}}&nbsp days ago</span>
+                           </h6>
+                           <p class="mb-2">{{reviewsss.review}}</p>
+                           <div ng-if="reviewsss.recomend == 1">
+                              <p>
+                                 <i class="fa fa-check"></i> {{language.recomend_product}} 
+                              </p>
+                           </div>
+                        </div>
+                     </div>
+                     <p class="text-right" ng-if="!user_id && productLists.interest == 0">
+                        <a href="" data-toggle="modal" data-target="#login" class="btn btn-primary btn-block">Add Review</a>
+                     </p>
+                     <!--                        <p class="text-right" ng-if="user_id && productLists.interest == 0 && user_id != productLists.seller_id">
+                        <button disabled class="btn btn-primary btn-block">Add Review</button>
+                        </p>
+                        <p class="text-right" ng-if="user_id && productLists.interest == 1 && user_id != productLists.seller_id">
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#myModal1" class="btn btn-primary btn-block">Add Review</a>
+                        </p>-->
+                  </div>
+               </div>
             </div>
          </div>
       </div>
