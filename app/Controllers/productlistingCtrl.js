@@ -25,24 +25,24 @@ app.controller('productlistingCtrl', function ($rootScope, $scope, $http, $locat
     $scope.count = 0;
     $scope.count1 = 0;
 
-            $scope.keyword = '';
-            $scope.brandListing = '';
-            $scope.categorylisting = '';
-            $scope.sellerListing = '';
-        
-            $scope.statuslisting = '';
+    $scope.keyword = '';
+    $scope.brandListing = '';
+    $scope.categorylisting = '';
+    $scope.sellerListing = '';
 
-            $scope.selected_value = '';
-            $scope.movementListing = '';
-            $scope.gender = "";
-            $scope.breslettype = "";
-            $scope.year = "";
-            $scope.country_id = '';
-            $scope.state_id = '';
+    $scope.statuslisting = '';
 
-            $scope.city_id = "";
+    $scope.selected_value = '';
+    $scope.movementListing = '';
+    $scope.gender = "";
+    $scope.breslettype = "";
+    $scope.year = "";
+    $scope.country_id = '';
+    $scope.state_id = '';
 
-            $scope.top_prodct = "";
+    $scope.city_id = "";
+
+    $scope.top_prodct = "";
         
         
     $scope.user_id = '';
@@ -447,7 +447,7 @@ app.controller('productlistingCtrl', function ($rootScope, $scope, $http, $locat
 
     }
 
-    userService.listcategoryproduct().then(function (response) {
+    /*userService.listcategoryproduct().then(function (response) {
         // console.log("ppa "+response.brandlist);
 
         //$scope.isExists=response.Ack;
@@ -464,9 +464,9 @@ app.controller('productlistingCtrl', function ($rootScope, $scope, $http, $locat
 
     }, function (err) {
         console.log(err);
-    });
+    });*/
 
-    $scope.getcategory = function () {
+   /* $scope.getcategory = function () {
 
         userService.listcategoryproduct().then(function (response) {
             // console.log("ppa "+response.brandlist);
@@ -487,7 +487,7 @@ app.controller('productlistingCtrl', function ($rootScope, $scope, $http, $locat
             console.log(err);
         });
 
-    }
+    }*/
 
     $scope.changeYearValue = function (selectedYear) {
 
@@ -550,6 +550,7 @@ app.controller('productlistingCtrl', function ($rootScope, $scope, $http, $locat
             $scope.user.brand.splice($scope.deleteitem, 1);
 
         }
+        
 
         $scope.checkboxstr = $scope.user.brand.toString();
         $window.localStorage["brandListing"] = $scope.checkboxstr;
@@ -557,6 +558,23 @@ app.controller('productlistingCtrl', function ($rootScope, $scope, $http, $locat
         $scope.searchListing();
 
 
+        
+        userService.listSubcategorysearch($scope.checkboxstr).then(function(response) {
+            
+		$scope.isExists=1;
+		if(response.Ack == '1') {
+                   
+                    $scope.isExists=1;
+                    console.log('spandansubcat',response);
+                    $scope.categorylist=response.subcategorylist;
+                    $scope.count1 = response.count1;
+               
+		} else {
+                    $scope.isExists=0;
+		}
+			   
+	}); 
+      
 
     }
 
