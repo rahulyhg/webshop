@@ -15,11 +15,14 @@ include_once("includes/functions.php");
    
    $free_bid = isset($_POST['free_bid']) ? $_POST['free_bid'] : '';
    $free_bid_status = isset($_POST['free_bid_status']) ? $_POST['free_bid_status'] : '';
+   $first_product_free = isset($_POST['first_product_free']) ? $_POST['first_product_free'] : '';
    $valid_days = isset($_POST['valid_days']) ? $_POST['valid_days'] : '';
+   
    //$publishable_key = isset($_POST['publishable_key']) ? $_POST['publishable_key'] : '';
    
    $fields = array('free_bid' => mysqli_real_escape_string($con,$free_bid),
        'free_bid_status' => mysqli_real_escape_string($con,$free_bid_status),
+       'first_product_free' => mysqli_real_escape_string($con,$first_product_free),
        'valid_days' => mysqli_real_escape_string($con,$valid_days)
                   );
      $fieldsList = array();
@@ -224,7 +227,7 @@ include_once("includes/functions.php");
                            
                                 
                                 <div class="control-group">
-                                <label class="control-label">No of Product Upload to get free</label>
+                                <label class="control-label">No of Product Upload to get 1 free</label>
                                 <div class="controls">
                                 <input type="text" class="form-control" placeholder="Enter text" value="<?php echo $row['free_bid'];?>" name="free_bid" >
                                 </div>
@@ -255,6 +258,16 @@ include_once("includes/functions.php");
                                 </div>
                               
                               
+                              <div class="control-group">
+                                <label class="control-label">1st product upload free</label>
+                                <div class="controls">
+                                    <select class="form-control" name="first_product_free">
+                                        <option value="1" <?php if($row['first_product_free']==1){echo "selected";}?> >Active</option>
+                                        <option value="0" <?php if($row['first_product_free']==0){echo "selected";}?>>Inactive</option>
+                                    </select>
+                                    
+                                </div>
+                                </div>
                               
                                 
                                 <!-- <div class="control-group">
