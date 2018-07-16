@@ -113,6 +113,14 @@
                             <span style="color:Red" ng-show="registerForm.password.$error.required">  </span>
                             <span style="color:Red" ng-show="registerForm.password.$dirty && registerForm.password.$error.pattern">Atleast 6 character nedded</span>
 			  </div>
+                    
+                        <div class="form-group">
+			    <label for="attachment">{{language.confirm_password}}</label>
+                            <input type="password" class="form-control" name="confirm_password" id="attachment" placeholder="Confirm Password" ng-model="user.confirm_password" ng-change="checkpassword(user.confirm_password,user.password)" required>
+                            <span style="color:Red" ng-show="registerForm.password.$error.required">  </span>
+                            <span style="color:Red" ng-if="!okpassword" >Confirm password should be matched with password</span>
+                            
+			  </div>
 			  <div class="form-check form-group">
 			    <input type="checkbox" class="form-check-input" ng-model="selectVal" id="exampleCheck1" name="exampleCheck1" required>
                             <label class="form-check-label" for="exampleCheck1">{{language.i_accept_terms_condition}}</label></br>
