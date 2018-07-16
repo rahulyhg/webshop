@@ -4446,6 +4446,7 @@ function addProductNew() {
             $free_no = $getfree_no->free_bid;
             $free_status = $getfree_no->free_bid_status;
             $free_valid_days = $getfree_no->valid_days;
+            $first_product_free = $getfree_no->first_product_free;
 
             $sqluserpay_product = "SELECT * FROM webshop_products WHERE uploader_id=:user_id and type=1 and status=1 and user_free_product='P'";
             $db = getConnection();
@@ -4454,7 +4455,17 @@ function addProductNew() {
             $stmtpayno->execute();
             $pcount = $stmtpayno->rowCount();
 
-
+            
+            $sqlfirst_product = "SELECT * FROM webshop_products WHERE uploader_id=:user_id and type=1";
+            $db = getConnection();
+            $stmtfirst = $db->prepare($sqlfirst_product);
+            $stmtfirst->bindParam("user_id", $user_id);
+            $stmtfirst->execute();
+            $firstcount = $stmtfirst->rowCount();
+            
+            
+            
+            
 
             $sql = "INSERT INTO webshop_products (uploader_id, cat_id,currency_code,type,name, description, price, add_date,quantity,brands,movement,gender,reference_number,date_purchase,status_watch,owner_number,country,size,location,work_hours,approved,state,city,status,breslet_type,model_year,my_latitude,my_longitude) VALUES (:user_id, :cat_id, :currency_code, :type, :name, :description, :price, :add_date,:quantity,:brand,:movement,:gender,:reference_number,:date_purchase,:status_watch,:owner_number,:country,:size,:location,:work_hours,:approved,:state,:city,:status,:breslet_type,:model_year,:my_latitude,:my_longitude)";
 
@@ -4472,6 +4483,11 @@ function addProductNew() {
             if ($pcount >= $free_no && $free_status==1 && $free_no > 0) {
 
                 $payment_status = "1";
+                
+            }elseif ($first_product_free == 1 && $firstcount == 0) {
+                
+                $payment_status = "1";
+                
             } else {
 
                 $payment_status = "0";
