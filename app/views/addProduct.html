@@ -103,7 +103,7 @@
                                                                     <ul class="list-unstyled status-watch">
                                                                         <li class="init">
                                                                             <a href="javascript:void(0)">
-                                                                                <span class="ng-binding">Please Select Currency </span>
+                                                                                <span class="ng-binding">{{language.please}} {{language.select}} {{language.Currency}} </span>
                                                                                 <p><i class="fa fa-flag"></i></p>
                                                                             </a>
                                                                         </li>
@@ -125,14 +125,7 @@
                                                                                 </p>
                                                                             </a>
                                                                         </li>
-                                                                        <li data-value="USD">
-                                                                            <a ng-click="selectedcurrency('USD')" href="javascript:void(0)">
-                                                                                <span class="ng-binding">USD</span>
-                                                                                <p>
-                                                                                    <img src="http://178.62.61.183/app/assets/images/usd.jpg" alt="">
-                                                                                </p>
-                                                                            </a>
-                                                                        </li>
+                                                                        
                                                                         <li data-value="OMR">
                                                                             <a ng-click="selectedcurrency('OMR')" href="javascript:void(0)">
                                                                                 <span class="ng-binding">OMR</span>
@@ -154,6 +147,24 @@
                                                                                 <span class="ng-binding">SAR</span>
                                                                                 <p>
                                                                                     <img src="http://178.62.61.183/app/assets/images/sar.jpg" alt="">
+                                                                                </p>
+                                                                            </a>
+                                                                        </li>
+                                                                        
+                                                                        <li data-value="USD">
+                                                                            <a ng-click="selectedcurrency('BHD')" href="javascript:void(0)">
+                                                                                <span class="ng-binding">BHD</span>
+                                                                                <p>
+                                                                                    <img src="http://178.62.61.183/app/assets/images/usd.jpg" alt="">
+                                                                                </p>
+                                                                            </a>
+                                                                        </li>
+                                                                        
+                                                                        <li data-value="USD">
+                                                                            <a ng-click="selectedcurrency('USD')" href="javascript:void(0)">
+                                                                                <span class="ng-binding">USD</span>
+                                                                                <p>
+                                                                                    <img src="http://178.62.61.183/app/assets/images/usd.jpg" alt="">
                                                                                 </p>
                                                                             </a>
                                                                         </li>
