@@ -10510,7 +10510,7 @@ function listcountry() {
 
     try {
 
-        $sql = "SELECT * from webshop_countries where 1";
+         $sql = "SELECT * from webshop_countries WHERE status='1'";
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $getBrand = $stmt->fetchAll(PDO::FETCH_OBJ);

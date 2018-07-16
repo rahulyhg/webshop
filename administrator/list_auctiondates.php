@@ -134,15 +134,20 @@ if ($_REQUEST['action'] == 'edit') {
                                                     <?php echo stripslashes($subscription['date']); ?>
                                                 </td>
                                                 <?php 
-                                               // echo "select * from webshop_auctiondates where date=".$subscription['date'];
+                                                //echo "select * from webshop_auctiondates where date='".$subscription['date']."'";
+                                                $timestring ='';
+                                                $i=1;
+                                                $time='';
                                                 $fetch_subscription1 = mysqli_query($con, "select * from webshop_auctiondates where date='".$subscription['date']."'");
                                                 while ($subscription1 = mysqli_fetch_array($fetch_subscription1)) {
+                                                    
                                                     $strtime = explode(' ',$subscription1['start_time']);
                                                     $endtime = explode(' ',$subscription1['end_time']);
                                                     $time[] = ' '.$strtime[1].'-'.$endtime[1].' ';
+                                                    $timestring = implode(",",$time);
                                                     // $subscription1['start_time'].'-'.$subscription1['end_time'];
                                                 }
-                                                $timestring = implode(",",$time);
+                                                
                                                 
                                                 ?>
                                                    <td>

@@ -240,7 +240,7 @@ $count=1;
     <!-- BEGIN JAVASCRIPTS -->
    <!-- Load javascripts at bottom, this will reduce page load time -->
    <script src="js/jquery-1.8.3.min.js"></script>
-  <!--  <script src="js/jquery.nicescroll.js" type="text/javascript"></script> -->
+    <!--<script src="js/jquery.nicescroll.js" type="text/javascript"></script>--> 
    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
    <script src="js/jquery.blockui.js"></script>
    <!-- ie8 fixes -->
