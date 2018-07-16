@@ -687,10 +687,10 @@ reject(response);
     
     
     
-        var wishlist = function() {
+        var wishlist = function(currency) {
     return $q(function(resolve, reject) {
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
-        var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+        var encodedString ='{"user_id":"'+ userInfo.user_id +'","currency":"'+ currency +'"}';
 
 //var encodedString ='{"user_id":"'+ userInfo.user_id +'","name":"'+ user.name +'","description":"'+ user.description +'","email":"'+ user.email +'","phone":"'+ user.phone +'","price":"'+ user.price +'","address":"'+ user.address +'","sundaytime":"'+ user.sundaytime +'","mondaytime":"'+ user.mondaytime +'","tuesdaytime":"'+ user.tuesdaytime +'","wednesdaytime":"'+ user.wednesdaytime +'","thursdaytime":"'+ user.thursdaytime +'","fridaytime":"'+ user.fridaytime +'","saturdaytime":"'+ user.saturdaytime +'"}';
 
