@@ -4,6 +4,7 @@ $scope.search={};
 $scope.searchsubmitvariable='';
 $scope.myVarhide=false;
 $scope.is_fav='';
+$scope.okpassword =false;
     //$scope.mobileverify = '';
     if($window.localStorage["language"] == 2){
     $window.localStorage["language"] = 2;
@@ -1175,7 +1176,16 @@ userService.listcountry().then(function(response) {
     
     
     
-    
+        $scope.checkpassword = function(cp,p){
+        //alert(cp);
+        if(cp==p){
+            $scope.okpassword = true;
+        }else{
+           $scope.okpassword = false;
+        }
+        
+        
+        }
     
    
     
