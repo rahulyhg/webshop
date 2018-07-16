@@ -31,11 +31,18 @@ $scope.isform1 =0;
 
 
 
- 
+ if($window.localStorage["currency"] != ''){
+   $scope.usersSelectedCurrency = $window.localStorage["currency"] ;
+   //alert($scope.usersSelectedCurrency+'yy');
+}else{
+    $scope.usersSelectedCurrency = 'KWD';
+   // alert($scope.usersSelectedCurrency+'kk');
+}
+
 $scope.wishlist = function(){
    // alert('hii');
 
- userService.wishlist().then(function(response) {
+ userService.wishlist($scope.usersSelectedCurrency).then(function(response) {
      
     
 		

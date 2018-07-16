@@ -1749,6 +1749,7 @@ function myFavoriteProduct() {
     $body = json_decode($body2);
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
+    $selected_currency = isset($body->currency) ? $body->currency : '';
     $status = 1;
 
 
@@ -1801,7 +1802,35 @@ function myFavoriteProduct() {
             } else {
                 $pro_image = SITE_URL . 'webservice/not-available.jpg';
             }
-
+            $currency_pref ='KWD';
+            $price = $productdetails->price;
+            if ($selected_currency != 'KWD') {
+                             
+                                $userselected_currency = $selected_currency;
+                            $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'KWD' AND currency_code ='$selected_currency' ";
+                        $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                            $price = $productdetails->price * $currency['currency_rate_to_usd'];
+                           
+                           $currency_pref=$selected_currency;
+                        }  
+                        }else{
+                            
+                            
+                            $price =$productdetails->price;
+                        }
+                              
+                            
+                        } else {
+                           $price = $productdetails->price;
+                           
+                        }
+        
 
             $favouriteProductList[] = array(
 //"clinic_id" => stripslashes($favourites->favorite_clinicid),
@@ -1811,11 +1840,12 @@ function myFavoriteProduct() {
                 "pro_name" => '',
                 "product_description" => strip_tags(stripslashes($productdetails->description)),
                 "id" => stripslashes($favourites->id),
-                "pro_price" => stripslashes($productdetails->price),
+                "pro_price" => stripslashes($price),
                 "quantity" => stripslashes($productdetails->quantity),
                 "product_id" => stripslashes($productdetails->id),
                 "user_image" => $profile_image,
-                "pro_image" => $pro_image
+                "pro_image" => $pro_image,
+                "currency_pref" =>$currency_pref
             );
         }
 
