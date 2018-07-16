@@ -418,7 +418,7 @@ $scope.getBrands = function(){
 
 }
 
-userService.listcategoryproduct().then(function(response) {
+/*userService.listcategoryproduct().then(function(response) {
 		// console.log("ppa "+response.brandlist);
 
 		//$scope.isExists=response.Ack;
@@ -434,9 +434,9 @@ userService.listcategoryproduct().then(function(response) {
 				   
 	}, function(err) {
 	console.log(err); 
-	});
+	});*/
 
-$scope.getcategory = function(){
+/*$scope.getcategory = function(){
 
 	userService.listcategoryproduct().then(function(response) {
 		// console.log("ppa "+response.brandlist);
@@ -456,7 +456,7 @@ $scope.getcategory = function(){
 	console.log(err); 
 	});
 
-}
+}*/
 
 $scope.changeYearValue = function(selectedYear){
 
@@ -541,9 +541,24 @@ $scope.updatecheckbox = function(select,brand_id){
 
          $scope.checkboxstr = $scope.user.brand.toString();
         $window.localStorage["brandListing"]=$scope.checkboxstr;
-        console.log("Checkbox List",$scope.checkboxstr);
+        //console.log("Checkbox List",$scope.checkboxstr);
         $scope.searchListing();
-
+        
+         userService.listSubcategorysearch($scope.checkboxstr).then(function(response) {
+            
+		$scope.isExists=1;
+		if(response.Ack == '1') {
+                   
+                    $scope.isExists=1;
+                    console.log('spandansubcat',response);
+                    $scope.categorylist=response.subcategorylist;
+                    $scope.count1 = response.count1;
+               
+		} else {
+                    $scope.isExists=0;
+		}
+			   
+	});
 
 
 }

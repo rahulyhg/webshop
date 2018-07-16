@@ -2581,6 +2581,62 @@ function listSubcategory() {
     $app->response->write(json_encode($data));
 }
 
+
+function listSubcategorysearch() {
+
+    $data = array();
+
+    $app = \Slim\Slim::getInstance();
+    $request = $app->request();
+    $body2 = $app->request->getBody();
+    $body = json_decode($body2);
+
+    $db = getConnection();
+
+    $cat_ids =explode(',',$body->cat_id);
+
+    try {
+        foreach($cat_ids as $cat_id){
+        $sql = "SELECT * from webshop_category where brand_id = '" . $cat_id . "' and status=1";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $getSubcategory = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $count1 = $stmt->rowCount();
+
+        foreach ($getSubcategory as $subcategory) {
+
+
+            $allsubcategory[] = array(
+                "brand_id" => stripslashes($subcategory->brand_id),
+                "id" => stripslashes($subcategory->id),
+                "name" => stripslashes($subcategory->name)
+            );
+        }
+        $count1 = $count1+$count1;
+        }
+        if (!empty($allsubcategory)) {
+            $data['subcategorylist'] = $allsubcategory;
+            $data['count1'] = $count1;
+            $data['Ack'] = '1';
+            $app->response->setStatus(200);
+        } else {
+
+            $data['subcategorylist'] = '';
+            $data['Ack'] = '1';
+            $app->response->setStatus(200);
+        }
+    } catch (PDOException $e) {
+
+        $data['Ack'] = 0;
+        $data['msg'] = $e->getMessage();
+        $app->response->setStatus(401);
+    }
+
+    $app->response->write(json_encode($data));
+}
+
+
+
 function listCurrency() {
 
     $data = array();

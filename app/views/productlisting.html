@@ -122,7 +122,7 @@
 							<a class="card-link" data-toggle="collapse" data-parent="#accordion1" data-target="#collapseOne41" href="javascript:void(0)">
 								{{language.category}}
 							</a>
-							<div id="collapseOne41" class="in collapse show" ng-init = "getcategory();">
+                                                    <div id="collapseOne41" class="in collapse show"  ng-if="isExists==1">
 								 <div  ng-repeat="category in categorylist| limitTo: limit1">
 								<div class="form-check">
 								  <input class="form-check-input" type="checkbox" ng-model="category.Selected" ng-click="updatecheckboxcat(category.Selected,category.id)" ng-checked="user.category.indexOf(category.id)>=0" ng-true-value="'{{category.id.replace('\'', '\\\'')}}'" id="test{{category.id}}">

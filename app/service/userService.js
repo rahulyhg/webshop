@@ -2751,6 +2751,37 @@ var encodedString ='{"cat_id":"'+ cat_id +'"}';
  };
  
  
+ var listSubcategorysearch = function(cat_id) {
+        return $q(function(resolve, reject) {
+                
+//var userInfo = JSON.parse($window.localStorage["userInfo"]); //16.5.2017
+//var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+var encodedString ='{"cat_id":"'+ cat_id +'"}';
+            
+        $http({
+         method: 'POST',
+         url: $rootScope.serviceurl+"listSubcategorysearch",
+         data: encodedString,
+         headers: {'Content-Type': 'application/json'}
+         }).then(function (response) {
+           //console.log(response.data);  
+           if(response.data.Ack == "1") {
+         //console.log('ok');
+              resolve(response.data); 
+           } else {
+          //console.log('ok2');
+              resolve(response.data); 
+           }
+           //console.log(response); 
+        },function(response) {
+                     //console.log(response);  
+          reject(response);
+            });
+        });
+ };
+ 
+ 
+ 
  var addproduct = function(user) {
     
     
@@ -6257,6 +6288,7 @@ var encodedString ='{"type":"'+ type +'","user_id":"'+ user_id +'","currency":"'
         countview:countview,
         checkuserlogin:checkuserlogin,
         getmaxpriceauction:getmaxpriceauction,
+        listSubcategorysearch:listSubcategorysearch
 
 };
 });

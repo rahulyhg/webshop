@@ -197,7 +197,9 @@ $app->group('/frontend', function () use ($app) {
     $app->post('/checkuserlogin', 'checkuserlogin');
 
     
-     $app->post('/getmaxpriceauction', 'getmaxpriceauction');
+    $app->post('/getmaxpriceauction', 'getmaxpriceauction');
+    $app->post('/listSubcategorysearch', 'listSubcategorysearch');
+     
 
 });
 ?>
