@@ -37,7 +37,7 @@ $scope.getCurrentUserType();
 				$scope.user2.user_id=response.UserDetails.user_id;
 				$scope.user2.phone=response.UserDetails.phone;
 				$scope.user2.location=response.UserDetails.location;
-                $scope.user.business_type=response.UserDetails.business_type;
+                                $scope.user.business_type=response.UserDetails.business_type;
 				$scope.user2.city=response.UserDetails.city;
 				$scope.user2.state=response.UserDetails.state;
 				$scope.user2.country=response.UserDetails.country;
@@ -47,7 +47,11 @@ $scope.getCurrentUserType();
 				$scope.user2.sale_notify=response.UserDetails.sale_notify;
 				$scope.user2.new_message_notify=response.UserDetails.new_message_notify;
 				$scope.user2.review_notify=response.UserDetails.review_notify;
+                                $scope.user2.auction_notify=response.UserDetails.auction_notify;
+                                $scope.user2.add_product_notify=response.UserDetails.add_product_notify;
 				$scope.user2.subscription_notify=response.UserDetails.subscription_notify;
+                                
+                                
               }else{
 				  
 				$scope.user2.fname='';
@@ -88,7 +92,7 @@ $scope.notificationsetting = function(user2){
 		$scope.isExists=1;
 		if(response.Ack == '1') {
                     swal('Updated Successfully.','','success');
-                    $window.location.reload()
+                    //$window.location.reload()
                     $scope.isExists=1;
 		
 		} else {
