@@ -6817,7 +6817,7 @@ function listcuntry() {
 
     try {
 
-        $sql = "SELECT * from webshop_countries";
+        $sql = "SELECT * from webshop_countries WHERE status='1'";
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $getCountry = $stmt->fetchAll(PDO::FETCH_OBJ);
