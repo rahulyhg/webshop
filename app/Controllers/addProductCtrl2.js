@@ -318,7 +318,7 @@ $scope.addProduct = function(user2){
     user2.description=$window.localStorage["description"];
     user2.brand=$window.localStorage["brand"];
     user2.price= $window.localStorage["price"];
-      user2.currency= $window.localStorage["currency"];
+      user2.currency= $window.localStorage["currency_product"];
      user2.quantity= $window.localStorage["quantity"];
      user2.preferred_date= $window.localStorage["preferred_date"];
     user2.user_id= $window.localStorage["user_id"];
@@ -504,7 +504,33 @@ $scope.deleteFile = function(idx) {
 
 
 }
+
+/*
+$scope.getPurchaseDate = function(date){
+    if(date){
+       //alert(date);
+   userService.getTimeslot(date).then(function(response) {
+           // alert('hii');
+		//console.log('kkkkk',response.Ack);
+		$scope.isExists=1;
+		if(response.Ack == '1') {
+                  
+                    $scope.timeslot=response.time;
+                   	
+		
+		} else {
+                    console.log('ppp');	
+                    $scope.isExists=0;
+		}
 	
+	
+	
+				   
+	}, function(err) {
+	console.log(err); 
+	}); 
+    }
+}*/
 
 });
 

@@ -15,7 +15,7 @@
 								<div class="wishlist-content w-100 float-left">
 									<!--<h6>{{ProductList.productname}} <span><i class=""></i></span></h6>-->
 									<p class="mb-1">{{ProductList.description}}</p>
-									<b class="d-block mb-2">{{ProductList.user_currency}} {{ProductList.price}}</b>
+									<b class="d-block mb-2">{{usersSelectedCurrency}} {{ProductList.price}}</b>
                                                                         <b ng-if="ProductList.approved==1 && ProductList.live_status==1" class="d-block mb-2">{{language.Expired}} {{language.on}}: {{ProductList.expiry_date}}</b>
 									<!--<p><button type="button" class="btn btn-primary"><i class="ion-android-cart"></i> Buy It</button>-->
                                                                         

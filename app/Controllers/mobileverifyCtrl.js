@@ -7,10 +7,33 @@ app.controller('mobileverifyCtrl', function($rootScope, $scope, $http, $location
 $scope.data = {};
 $scope.user = {}; 
 $scope.user.mobileno = $stateParams.mobileno;
+//$window.localStorage["registermobile_no"] ='';
+if($scope.mobilenoforlogin){
+   // alert($scope.mobilenoforlogin);
+    $window.localStorage["registermobile_no"] = $scope.mobilenoforlogin;
+}
+
+if($scope.mobileverify){
+     alert($window.localStorage["mobileverify"]+''+'if');
+    $window.localStorage["mobileverify"] = $scope.mobileverify;
+}else{
+   // alert($window.localStorage["mobileverify"]+''+'else');
+    $scope.mobileverify = $window.localStorage["mobileverify"];
+}
+
+if($window.localStorage["registermobile_no"] != '' && $window.localStorage["registermobile_no"] !='undefined'){
+   // alert($window.localStorage["registermobile_no"]);
+    $scope.user.mobileno = $window.localStorage["registermobile_no"];
+    $scope.mobilenoforlogin = $window.localStorage["registermobile_no"];
+}else{
+   $window.localStorage["registermobile_no"] = $window.localStorage["registermobile_no"]; 
+   
+}
+//alert($window.localStorage["registermobile_no"]);
 $scope.user.code = $stateParams.code;
 var userid='';
 if($scope.mobileverify){
-   // alert($scope.mobileverify);
+    //alert($scope.mobilenoforlogin+'k');
      userid = $scope.mobileverify;
      $scope.user.mobileno = $scope.mobilenoforlogin;
      userService.resend(userid,$scope.user.mobileno).then(function(response) {

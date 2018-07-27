@@ -57,10 +57,21 @@
                            <span style="color:Red" ng-show="addProductForm.$submitted && addProductForm.reference.$error.required"> {{language.this_field_is_required}}! </span>
                            <!--                                                                                <span style="color:Red" ng-show="addProductForm.reference.$dirty && addProductForm.reference.$error.pattern">{{language.only}} {{language.numbers}} {{language.allowed}}</span>-->
                         </div>
-                        <div class="form-group">
+<!--                        <div class="form-group">
                            <label for="staticEmail"> {{language.date_of_purchased}}</label>
                            <input type="date" class="form-control" max="{{preferred_date}}" id="" value="" placeholder="" ng-model="user2.date_of_purchase"
                               name="date_of_purchase">
+                        </div>-->
+
+                        <div class="form-group mb-5">
+                           <label for="staticEmail"> {{language.date_of_purchased}}</label>
+<!--                           <input type="date" class="form-control" max="{{preferred_date}}" id="" value="" placeholder="" ng-model="user2.date_of_purchase"
+                              name="date_of_purchase">-->
+                        <datepicker date-format="yyyy-MM-dd" selector="form-control">
+                                                                                    
+                                                                                
+                        <input class="form-control"  ng-model="user2.date_of_purchase" name="preferred_date" required placeholder="Choose a date" readonly/>
+                        </datepicker>
                         </div>
                         <!--                                                                    <div class="form-group">
                            <label for="staticEmail"> Status of the watch*</label>
@@ -143,6 +154,8 @@
                                  </li>
                               </ul>
                               <!--</div>-->
+                              <input type="hidden" class="form-control" id="" value="" ng-model="user2.status" name="hidden2" required>
+                              <span style="color:Red" ng-show="addProductForm.$submitted && addProductForm.hidden2.$error.required">{{language.this_field_is_required}}! </span>
                            </div>
                         </div>
                         <!--                                <div class="form-group">
@@ -250,8 +263,9 @@
                                     <a class="deleteHandle" ng-click="deleteFile($index)">
                                     <i class="fa fa-close new-close"></i>
                                     </a>
-                                    <img style="width: 100%; height: 100%;" ng-show="addProductForm.user2.image.$valid" ngf-thumbnail="f" ngf-resize="{width: 100, height: 100}"
-                                       class="thumbnail">
+                                       
+                                    <img width="100%" height="90" ng-show="addProductForm.user2.image.$valid" ngf-thumbnail="f" ngf-resize="{width: 100, height: 100}" class="thumbnail" />
+
                                     <!--<video style="width: 150px; height: 100px;" controls ngf-src="f" ng-show="myForm.location.files.$valid" class="thumbnail"></video>-->
                                  </div>
                               </div>
@@ -302,6 +316,29 @@
       </div>
    </div>
 </div>
+
+<div id="nosubscriptionerror" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+         <div class="modal-header">
+            <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+            <h4 class="modal-title"></h4>
+         </div>
+         <div class="modal-body">
+            <h5>{{subscriptionerrormsg}}</h5>
+         </div>
+         <div class="modal-body">
+            <a class="nav-link" ng-click="gotosubscriptionlink()" href="javascript:void(0)">{{language.Click_Here}} To Buy Subscriptions </a>
+         </div>
+         
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{language.close}}</button>
+         </div>
+      </div>
+   </div>
+</div>
+
 <div ng-if='!loader' class="loading">{{language.Loading}}&#8230;</div>
 <div ng-if='!loader' class="content">{{language.Wait_for_a_while}}..</div>
 <style>

@@ -236,8 +236,9 @@
                                                                                                                                                 <i ng-click="f = null" ng-show="f" class="fa fa-times" aria-hidden="true"></i> 
                                                                                                                                                  <img ng-show="myForm.location.files.$valid" ngf-thumbnail="f" class="thumbnail img-responsive" style="height: 150px;"> -->
 
-                                                <a ng-if="f" class="deleteHandle" ng-click="deleteFile($index, f)"><i class="fa fa-close"></i>{{f.name}}</a>
-                                                <img ng-if="f" style="width: 150px; height: 100px;" ng-show="myaccountForm.user.image.$valid" ngf-thumbnail="f" ngf-resize="{width: 100, height: 100}" class="thumbnail">
+                                                <a ng-if="f" class="deleteHandle" ng-click="deleteFile($index, f)"><i class="fa fa-close new-close"></i>
+                                                <!-- {{f.name}} --></a>
+                                                <img ng-if="f" width="100%" height="90" ng-show="myaccountForm.user.image.$valid" ngf-thumbnail="f" ngf-resize="{width: 100, height: 100}" class="thumbnail">
                                                 <!--<video style="width: 150px; height: 100px;" controls ngf-src="f" ng-show="myForm.location.files.$valid" class="thumbnail"></video>-->
 
                                             </div>
@@ -254,7 +255,7 @@
 
                                 <div class="form-group">
                                     <label for="staticEmail">{{language.location}}</label>
-                                    <input type="text" class="form-control" id="address"  ng-model="user.address" name="address" readonly>
+                                    <input type="text" class="form-control" id="address"  ng-model="user.address" name="address" readonly> 
                                 </div>
 
 

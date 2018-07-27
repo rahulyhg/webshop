@@ -94,8 +94,10 @@ function userSignup() {
         $status= 1;
         if($type==1){
         $is_admin_approved= 1;
+        $status = 1;
         }else{
-           $is_admin_approved=0; 
+           $is_admin_approved=0;
+           //$status = 0;
         }
         $sql = "INSERT INTO  webshop_user (fname,lname, email, password, type, device_type, device_token_id, add_date, address, my_latitude,my_longitude,city,phone,is_mobile_verified,country,sms_verify_number,status,is_admin_approved) VALUES (:fname,:lname, :email, :password, :type, :device_type, :device_token_id, :add_date, :address, :my_latitude, :my_longitude, :city, :phone,:is_mobile_verified,:country,:sms_verify_number,:status,:is_admin_approved)";
         try {
@@ -119,6 +121,7 @@ function userSignup() {
             $stmt->bindParam("city", $city);
             $stmt->bindParam("phone", $phone);
             $stmt->bindParam("is_admin_approved", $is_admin_approved);
+            $stmt->bindParam("status", $status);
             $stmt->execute();
 
 
@@ -346,7 +349,7 @@ function userSignup() {
        $smsphoneno = (int)$smsphoneno;
             $otpverifylink = "#/mobileverify/" .  base64_encode($lastID)."/".$phone."/".$getCode->phonecode;
        $mobilemessage= "Your+Mobile+Verification+Code+Is:+$smsotopcode";
-        $smslink ='http://www.kwtsms.com/API/send/?username=gmt24&password=aljassar&sender=KWT-MESSAGE&mobile='.$smsphoneno.'&lang=2&message='.$mobilemessage;
+        $smslink ='http://www.kwtsms.com/API/send/?username=gmt24&password=aljassar&sender=GMT24&mobile='.$smsphoneno.'&lang=2&message='.$mobilemessage;
        //$data['smslink']=$smslink;
        //ob_start();
        $curl_handle=curl_init();
@@ -416,16 +419,76 @@ function userlogin() {
     //if()
 
     $sql = "SELECT * FROM webshop_user WHERE email='" . $email . "' AND password='" . $password . "' AND status='" . $status . "' AND is_admin_approved ='" . $is_admin_approved . "' AND email_verified='" . $email_verified . "'";
-
+    
+    $sqlcheckemail = "SELECT * FROM webshop_user WHERE email='" . $email . "' AND email_verified='" . $email_verified . "'";
+    $sqlcheckmobile = "SELECT * FROM webshop_user WHERE email='" . $email .  "' AND is_mobile_verified='" . $email_verified . "'";
+    $sqlcheckadminapprove = "SELECT * FROM webshop_user WHERE email='" . $email .  "' AND is_mobile_verified='" . $email_verified . "' AND status='" . $status . "' AND is_admin_approved ='" . $is_admin_approved . "'";
+    
+    
+        
+       
+    
     try {
-
+        
         $db = getConnection();
+        
+        
+        $stmtemail = $db->prepare($sqlcheckemail);
+        $stmtemail->execute();
+        $useremail = $stmtemail->fetchObject();
+        $userCountemail = $stmtemail->rowCount();
+        
+       
+        $stmtmobile = $db->prepare($sqlcheckmobile);
+        $stmtmobile->execute();
+        $usermobile = $stmtmobile->fetchObject();
+        $userCountmobile = $stmtmobile->rowCount();
+//        
+//        echo $userCountmobile;exit;
+        
+        $stmtadminapprove = $db->prepare($sqlcheckadminapprove);
+        $stmtadminapprove->execute();
+        $useradminapprove = $stmtadminapprove->fetchObject();
+        $userCountadminapprove = $stmtadminapprove->rowCount();
+//        
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $user = $stmt->fetchObject();
         $userCount = $stmt->rowCount();
-
-        if ($userCount == 0) {
+       // echo $userCountemail;exit;
+         if ($userCountemail == 0) {
+            $data['Ack'] = '0';
+            $data['msg'] = 'Please Verify Your Emailid';
+            $app->response->setStatus(200);
+        }else if ($userCountmobile == 0) {
+         $sql1= "SELECT * FROM webshop_user WHERE email='" . $email . "' AND is_mobile_verified='1'";
+                $stmt123 = $db->prepare($sql1);
+                $stmt123->execute();
+                $usermobile = $stmt123->fetchObject();
+                //print_r($usermobile);
+                //exit;
+                $usermobileCount = $stmt123->rowCount();
+                if($usermobileCount == 0){
+                    
+                    $sql12= "SELECT * FROM webshop_user WHERE email='" . $email . "'";
+                $stmt1234 = $db->prepare($sql12);
+                $stmt1234->execute();
+                $usermobile4 = $stmt1234->fetchObject();
+                    
+                    $data['Ack'] = '4';
+                     $data['msg'] = 'Please Verify Your Mobile Number ';
+                    $data['mobileverify'] =base64_encode($usermobile4->id) ; 
+                    $data['mobilenoforlogin'] = $usermobile4->phone ; 
+                   
+               
+                }
+            $app->response->setStatus(200);
+        }else if ($userCountadminapprove == 0) {
+            
+            $data['Ack'] = '0';
+            $data['msg'] = 'Please Wait For Admin Approval';
+            $app->response->setStatus(200);
+        }else if ($userCount == 0) {
             $data['Ack'] = '0';
             $data['msg'] = 'Username Or Password Is Invalid !!!';
             
@@ -5409,7 +5472,7 @@ function emailverified() {
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
     $email_verified = '1';
-    $admin_approve = '1';
+   // $admin_approve = '1';
     $status = '1';
     $verified_date = date('Y-m-d');
 
@@ -5422,19 +5485,19 @@ function emailverified() {
     $type =$getUserdetails->type;
      //print_r($getUserdetails);exit;
     if ($getUserdetails->type == 1) {
-        $admin_approve = '1';
+        //$admin_approve = '1';
         $status = '1';
     }
 
 
-    $sql = "UPDATE webshop_user set email_verified=:email_verified,verified_date=:verified_date,is_admin_approved=:is_admin_approved,status=:status WHERE id=:id";
+    $sql = "UPDATE webshop_user set email_verified=:email_verified,verified_date=:verified_date,status=:status WHERE id=:id";
     try {
 
         $db = getConnection();
         $stmt = $db->prepare($sql);
         $stmt->bindParam("email_verified", $email_verified);
         $stmt->bindParam("verified_date", $verified_date);
-        $stmt->bindParam("is_admin_approved", $admin_approve);
+        //$stmt->bindParam("is_admin_approved", $admin_approve);
         $stmt->bindParam("status", $status);
         $stmt->bindParam("id", $user_id);
         $stmt->execute();
@@ -5470,8 +5533,8 @@ function emailverified() {
         }
         $data['last_id'] = $user_id;
         $data['Ack'] = '1';
-        $data['msg'] = 'Email Verified Successfully.Your account is awaiting for the admin approval.You will be notified via email once activated.';
-
+//        $data['msg'] = 'Email Verified Successfully.Your account is awaiting for the admin approval.You will be notified via email once activated.';
+$data['msg'] = 'Email Verified Successfully.Your account is awaiting for the admin approval.';
 
         $app->response->setStatus(200);
         $db = null;
@@ -5499,6 +5562,7 @@ function auctionapproval() {
     $db = getConnection();
 
     $product_id = isset($body->product_id) ? $body->product_id : '';
+    //echo $product_id;exit;
     //$bid = isset($body->bid) ? $body->bid : '';
     //$preferred_date2 = isset($body->preferred_date) ? $body->preferred_date : '';
     $comments = isset($body->comments) ? $body->comments : '';
@@ -5518,10 +5582,11 @@ function auctionapproval() {
 
         $stmt1 = $db->prepare($sql1);
         $stmt1->execute();
-        $price = $stmt1->fetchObject();
-        $price = $price->price;
-
-
+        $pro_price = $stmt1->fetchObject();
+        
+        $price = $pro_price->price;
+       // print_r($price);exit;
+        
         $stmt = $db->prepare($sql);
         $stmt->bindParam("type", $type);
         $stmt->bindParam("thresholdprice", $price);
@@ -5543,7 +5608,7 @@ function auctionapproval() {
         $message = 'New auction added';
 //$type = '2';
         $stmttt = $db->prepare($sqlFriend);
-        $stmttt->bindParam("from_id", $price->uploader_id);
+        $stmttt->bindParam("from_id", $pro_price->uploader_id);
         $stmttt->bindParam("to_id", $from_id);
         $stmttt->bindParam("type", $type);
         $stmttt->bindParam("msg", $message);
@@ -10092,7 +10157,7 @@ function interestedproduct() {
 
 
     $user_id = isset($body->user_id) ? $body->user_id : '';
-
+    $selected_currency = isset($body->currency) ? $body->currency : 'KWD';
     $sql = "SELECT * from  webshop_interested WHERE seller_id=:user_id and interested = '1' order by id desc";
     $db = getConnection();
     $stmt = $db->prepare($sql);
@@ -10118,17 +10183,46 @@ function interestedproduct() {
             } else {
                 $image = SITE_URL . 'webservice/not-available.jpg';
             }
+            
+            $userselected_currency = $selected_currency;
+            $currency_pref='KWD';
+            $price ='';
+                        if($selected_currency != 'KWD'){
+                            // $getUserdetails1->currency_preference;
+                          $sqlcurrency = "SELECT * FROM webshop_currency_rates WHERE currency_code != 'KWD' AND currency_code ='$selected_currency' ";
+                        $stmtcurrency = $db->prepare($sqlcurrency);
+                       // $stmt1->bindParam("id", $product->uploader_id);
+                        $stmtcurrency->execute();
+                        $getallcurrency = $stmtcurrency->fetchall();
+                        //print_r($getallcurrency);exit;
+                        if(!empty($getallcurrency)){
+                           foreach($getallcurrency as $currency){
+                               // $currency['currency_rate_to_usd'];
+                            $price = $getProductdetails->price * $currency['currency_rate_to_usd'];
+                            //$price = round($subscription->price);
+                            $currency_pref =$selected_currency;
+                            
+                            //echo 'yes';
+                        }  
+                        }else{
+                            $price = $getProductdetails->price;
+                           // echo 'NO';
+                        }  
+                        }else{
+                            $price = $getProductdetails->price;
+                           // echo 'NO';
+                        }
 
-
-
+            
 
             $data['productList'][] = array(
                 "id" => stripslashes($product->id),
                 "image" => stripslashes($image),
-                "price" => stripslashes($getProductdetails->price),
+                "price" => stripslashes($price),
                 "description" => strip_tags(stripslashes(substr($getProductdetails->description, 0, 50))),
                 "seller_id" => stripslashes($product->seller_id),
-                "product_id" => stripslashes($getProductdetails->id),
+                //"product_id" => stripslashes($getProductdetails->id),
+                "product_id" => stripslashes(base64_encode($getProductdetails->id)),
             );
         }
 
@@ -13924,8 +14018,8 @@ function tomobileverifying() {
     $phone = isset($body->mobile) ? $body->mobile : '';
    //echo $user_id=base64_decode($user_id);
     $is_mobile_verified = '1';
-    $admin_approve = '1';
-    $status = '1';
+    //$admin_approve = '1';
+   // $status = '1';
     $verified_date = date('Y-m-d');
 
 
@@ -13939,15 +14033,15 @@ function tomobileverifying() {
 if(!empty($getUserdetails)){
     if($getUserdetails->sms_verify_number == $otp)
     {
-    $sql = "UPDATE webshop_user set is_mobile_verified=:is_mobile_verified,verified_date=:verified_date,is_admin_approved=:is_admin_approved,status=:status,phone=:phone WHERE id=:id";
+    $sql = "UPDATE webshop_user set is_mobile_verified=:is_mobile_verified,verified_date=:verified_date,phone=:phone WHERE id=:id";
     try {
 
         $db = getConnection();
         $stmt = $db->prepare($sql);
         $stmt->bindParam("is_mobile_verified", $is_mobile_verified);
         $stmt->bindParam("verified_date", $verified_date);
-        $stmt->bindParam("is_admin_approved", $admin_approve);
-        $stmt->bindParam("status", $status);
+       // $stmt->bindParam("is_admin_approved", $admin_approve);
+       // $stmt->bindParam("status", $status);
         $stmt->bindParam("phone", $phone);
         $stmt->bindParam("id", $user_id);
         $stmt->execute();
@@ -14035,7 +14129,7 @@ if(!empty($getUserdetails)){
 
            // $otpverifylink = "#/mobileverify/" .  base64_encode($lastID);
        $mobilemessage= "Your+Mobile+Verification+Code+Is:+$smsotopcode";
-        $smslink ='http://www.kwtsms.com/API/send/?username=gmt24&password=aljassar&sender=KWT-MESSAGE&mobile='.$smsphoneno.'&lang=2&message='.$mobilemessage;
+        $smslink ='http://www.kwtsms.com/API/send/?username=gmt24&password=aljassar&sender=GMT24&mobile='.$smsphoneno.'&lang=2&message='.$mobilemessage;
        //$data['smslink']=$smslink;
           
        $curl_handle=curl_init();
@@ -14049,6 +14143,7 @@ if(!empty($getUserdetails)){
         if ($t[0]=='ERR'){
             $data['smsstatus']='0';
             $data['Ack'] = '0';
+            
            // echo 'No Send';exit;
         }
         else{
@@ -14139,7 +14234,7 @@ if(!empty($getUserdetails)){
 
            // $otpverifylink = "#/mobileverify/" .  base64_encode($lastID);
        $mobilemessage= "Your+Mobile+Verification+Code+Is:+$smsotopcode";
-        $smslink ='http://www.kwtsms.com/API/send/?username=gmt24&password=aljassar&sender=KWT-MESSAGE&mobile='.$smsphoneno.'&lang=2&message='.$mobilemessage;
+        $smslink ='http://www.kwtsms.com/API/send/?username=gmt24&password=aljassar&sender=GMT24&mobile='.$smsphoneno.'&lang=2&message='.$mobilemessage;
        //$data['smslink']=$smslink;
           
        $curl_handle=curl_init();
@@ -14893,15 +14988,15 @@ function tomobileverifying1() {
 if(!empty($getUserdetails)){
     if($getUserdetails->sms_verify_number == $otp)
     {
-    $sql = "UPDATE webshop_user set is_mobile_verified=:is_mobile_verified,verified_date=:verified_date,is_admin_approved=:is_admin_approved,status=:status,phone=:phone WHERE id=:id";
+    $sql = "UPDATE webshop_user set is_mobile_verified=:is_mobile_verified,verified_date=:verified_date,phone=:phone WHERE id=:id";
     try {
 
         $db = getConnection();
         $stmt = $db->prepare($sql);
         $stmt->bindParam("is_mobile_verified", $is_mobile_verified);
         $stmt->bindParam("verified_date", $verified_date);
-        $stmt->bindParam("is_admin_approved", $admin_approve);
-        $stmt->bindParam("status", $status);
+        //$stmt->bindParam("is_admin_approved", $admin_approve);
+        //$stmt->bindParam("status", $status);
         $stmt->bindParam("phone", $mobileno);
         //$stmt->bindParam("phone", $phone);
         $stmt->bindParam("id", $user_id);

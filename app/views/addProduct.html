@@ -96,17 +96,23 @@
 									</div>
                   
 
-
-                                                            <div class="form-group">
+                                                                        
+                                                                        
+                                                            <div  class="form-group"  >
                                                                 <label for="staticEmail">{{language.currency}}*</label>
+                                                                 
                                                                 <div class="dropdown status-watch-wrap">
-                                                                    <ul class="list-unstyled status-watch">
-                                                                        <li class="init">
+                                                                    <dl class="select list-unstyled status-watch">
+                                                                        <dt><span id="vegetables"></span></dt>
+                                                                        <dd>
+                                                                   <!--<ul class="list-unstyled status-watch">-->
+                                                                   <ul>
+<!--                                                                        <li class="init">
                                                                             <a href="javascript:void(0)">
                                                                                 <span class="ng-binding">{{language.please}} {{language.select}} {{language.Currency}} </span>
                                                                                 <p><i class="fa fa-flag"></i></p>
                                                                             </a>
-                                                                        </li>
+                                                                        </li>-->
 
                                                                         <li data-value="KWD">
                                                                             <a ng-click="selectedcurrency('KWD')" href="javascript:void(0)">
@@ -186,7 +192,12 @@
                                                                             </a>
                                                                         </li>
                                                                     </ul>
+                                                                             </dd>
+                                                                        </dl>
+                                                                    <input type="hidden" class="form-control" id="" value="" ng-model="user2.currency" name="hidden" required>
+                                                                    <span style="color:Red" ng-show="submitted && addProductForm.hidden.$error.required">{{language.please}} {{language.Choose}} {{language.currency}}</span>
                                                                 </div>
+                                                              
                                                             </div>
 
                   
@@ -312,5 +323,116 @@
         allOptions.toggle();
     });    
     
+    $(document).ready(function() {
+
+    $(".select dt").click(function(e) {
+        e.stopPropagation();
+        var select = $(this).closest('.select');
+        // close all other selects
+        $('.select').not(select).find('ul').hide();
+      
+        select.find('ul').toggle();
+        select.find("dt, dd ul").css('border-color', 'rgb(128,128,128)')
+
+        select.find("dt, span, dd ul").css('background-color', 'rgb(255,255,196)')
+
+
+    });
+
+    $(".select dd ul li a").click(function(e) {
+        var text = $(this).html();
+        var select = $(this).closest('.select');
+
+        if ((select.data('val') == 'multiple') && (e.ctrlKey)) {
+            e.stopPropagation()
+            $(this).addClass('selected');
+            select.find('dt span').html("(" + select.find('a.selected').length + ")");
+
+        }
+        else {
+            var text = $(this).html();
+            select.find("dd a").removeClass('selected');
+            $(this).addClass('selected');
+            select.find("dt span").html(text);
+            //select.find("dt a").css("background-color", "");
+            select.find("dd ul").hide();
+        }
+    });
+
+    $(document).bind('click', function() {
+        $(".select dd ul").hide();
+        $(".select dt, .select dd ul").css('border-color', '');
+    });
+
+});
+</script>
+<style>
+    .select {
+  margin: 0;
+  padding: 0;
+}
+.select dd, .select dt, .select ul {
+  margin: 0px;
+  padding: 0px;
+}
+.select dd {
+  position: relative;
+}
+.select a, .select a:visited {
+  color: #000;
+  text-decoration: none;
+  outline: none;
+}
+.select dt:hover, .select dd ul:hover {
+  border-color: rgb(128,128,128);
+}
+.select dd ul li a:hover {
+  background-color: rgb(112, 146, 190);
+  color: #FFF;
+}
+.select dt {
+  background: url(arrow.png) no-repeat scroll right center;
+  display: block;
+  padding-right: 20px;
+  border: 1px solid rgb(170, 170, 170);
+  width: 180px;
+  overflow: hidden;
+}
+.select dt span {
+  cursor: pointer;
+  display: block;
+  padding: 4px;
+  height: 15px;
+}
+.select dd ul {
+  background: #fff none repeat scroll 0 0;
+  border-bottom: 1px solid rgb(170, 170, 170);
+  border-left: 1px solid rgb(170, 170, 170);
+  border-right: 1px solid rgb(170, 170, 170);
+  border-top: 0;
+  display: none;
+  left: 0px;
+  padding: 5px 0px;
+  position: absolute;
+  top: -1px;
+  width: auto;
+  min-width: 200px;
+  list-style: none;
+}
+.select dd ul li a {
+  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  display: block;
+}
+.selected {
+  background: rgb(195, 195, 195);
+}
+.header-list, .header-list:hover {
+  padding-left: 3px;
+  font-weight: bold;
+  font-style: italic;
+  cursor: pointer;
+}
     
-</script>	
+</style>

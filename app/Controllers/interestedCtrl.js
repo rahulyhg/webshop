@@ -30,13 +30,19 @@ $scope.isform1 =0;
 
 }
 
-
+if($window.localStorage["currency"] != ''){
+   $scope.usersSelectedCurrency = $window.localStorage["currency"] ;
+   //alert($scope.usersSelectedCurrency+'yy');
+}else{
+    $scope.usersSelectedCurrency = 'KWD';
+   // alert($scope.usersSelectedCurrency+'kk');
+}
 
  
 $scope.interestedproduct = function(){
    // alert('hii');
 
- userService.interestedproduct().then(function(response) {
+ userService.interestedproduct($scope.usersSelectedCurrency).then(function(response) {
      
     
 		

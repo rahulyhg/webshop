@@ -377,7 +377,7 @@ swal("Mail can not be sent",'','error');
 		if(response.Ack == '1') {
 		 $scope.Showdetails();
                  $('#myModal1').modal('hide');
-                 swal('Successfully submited your Reviwe','','success');
+                 swal('Successfully submited your Review','','success');
 		
 		
 

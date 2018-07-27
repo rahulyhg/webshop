@@ -26,6 +26,7 @@ $scope.drpmodel='1';
 
   }
 //$scope.id=$stateParams.id;
+/*
 if($stateParams.id){
    	userService.getproductdetailsforedit($stateParams.id).then(function(response) {
 		
@@ -37,7 +38,7 @@ if($stateParams.id){
                 $window.localStorage["currency"]=response.allproduct.currency;
                 $window.localStorage["quantity"]=response.allproduct.quantity;
                 $window.localStorage["brand"]=response.allproduct.brands;
-                $window.localStorage["currency"]=response.allproduct.currency_code;
+                $window.localStorage["currency_product"]=response.allproduct.currency_code;
                  $window.localStorage["description"]=response.allproduct.description;
                 $window.localStorage["movement"]=response.allproduct.movement;
                 $window.localStorage["gender"]=response.allproduct.gender;
@@ -62,18 +63,18 @@ if($stateParams.id){
 	}, function(err) {
 	console.log(err); 
 	});
-}
+}*/
 
 
 
 
 
 
- 
+ /*
 
-if( $window.localStorage["currency"])
+if( $window.localStorage["currency_product"])
 {
-    $scope.user2.currency = $window.localStorage["currency"];
+    $scope.user2.currency = $window.localStorage["currency_product"];
     //alert($scope.user2.brand);
 }
 if( $window.localStorage["price"])
@@ -111,9 +112,9 @@ if( $window.localStorage["brand"])
     //$scope.user2.brand = $window.localStorage["brand"];
      //$scope.sub($scope.user2.brand);
 }
-if( $window.localStorage["currency"])
+if( $window.localStorage["currency_product"])
 {
-    $scope.user2.currency = $window.localStorage["currency"];
+    $scope.user2.currency = $window.localStorage["currency_product"];
 }
 
 if( $window.localStorage["quantity"])
@@ -146,7 +147,7 @@ if( $window.localStorage["ibanno"])
     $scope.user2.ibanno = $window.localStorage["ibanno"];
 }
 
-  	var userInfo = JSON.parse($window.localStorage["userInfo"]);	
+ */ 	var userInfo = JSON.parse($window.localStorage["userInfo"]);	
 	$scope.user_id=userInfo.user_id;
 
 	
@@ -418,7 +419,7 @@ $scope.addProduct = function(user2){
      $window.localStorage["description"]=user2.description;
      $window.localStorage["brand"]=user2.brand;
      $window.localStorage["price"]=user2.price;
-     $window.localStorage["currency"]=$scope.user2.currency;
+     $window.localStorage["currency_product"]=$scope.user2.currency;
      $window.localStorage["quantity"]=user2.quantity;
      $window.localStorage["preferred_date"]=user2.preferred_date;
      $window.localStorage["user_id"]=$scope.user_id;

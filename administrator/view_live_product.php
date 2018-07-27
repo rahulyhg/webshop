@@ -2,9 +2,11 @@
 include_once("./includes/config.php");
 include_once('includes/session.php');
 ?>
+
 <?php
 if (isset($_REQUEST['submit'])) {
     $price = isset($_POST['price']) ? $_POST['price'] : '';
+    $name = isset($_POST['name']) ? $_POST['name'] : '';
     $movement = isset($_POST['movement']) ? $_POST['movement'] : '';
     $gender = isset($_POST['gender']) ? $_POST['gender'] : '';
     $brand = isset($_POST['brand']) ? $_POST['brand'] : '';
@@ -13,41 +15,34 @@ if (isset($_REQUEST['submit'])) {
     $status_watch = isset($_POST['status_watch']) ? $_POST['status_watch'] : '';
     $owner_number = isset($_POST['owner_number']) ? $_POST['owner_number'] : '';
     $country = isset($_POST['country']) ? $_POST['country'] : '';
+     $state = isset($_POST['state']) ? $_POST['state'] : '';
+      $date_purchase = isset($_POST['date_purchase']) ? $_POST['date_purchase'] : '';
+         $city = isset($_POST['city']) ? $_POST['city'] : '';
     $size = isset($_POST['size']) ? $_POST['size'] : '';
+   $model_year = isset($_POST['model_year']) ? $_POST['model_year'] : '';
+    $currency_code= isset($_POST['currency_code']) ? $_POST['currency_code'] : '';
     $location = isset($_POST['location']) ? $_POST['location'] : '';
-    $preferred_date = isset($_POST['preferred_date']) ? $_POST['preferred_date'] : '';
-    $baseauctionprice = isset($_POST['baseauctionprice']) ? $_POST['baseauctionprice'] : '';
-    $thresholdprice = isset($_POST['thresholdprice']) ? $_POST['thresholdprice'] : '';
-    $bidincrement = isset($_POST['bidincrement']) ? $_POST['bidincrement'] : '';
-    $state = isset($_POST['state']) ? $_POST['state'] : '';
-    $city = isset($_POST['city']) ? $_POST['city'] : '';
-    // $start_date_time = isset($_POST['start_date_time']) ? $_POST['start_date_time'] : '';
-    // $end_date_time = isset($_POST['end_date_time']) ? $_POST['end_date_time'] : '';
-
-
+    $description = isset($_POST['description']) ? $_POST['description'] : '';
 
 
     $fields = array(
         'price' => mysqli_real_escape_string($con, $price),
+        'name' => mysqli_real_escape_string($con, $name),
         'movement' => mysqli_real_escape_string($con, $movement),
         'gender' => mysqli_real_escape_string($con, $gender),
         'brands' => mysqli_real_escape_string($con, $brand),
+          'owner_number' => mysqli_real_escape_string($con, $owner_number),
         'reference_number' => mysqli_real_escape_string($con, $reference_number),
         'date_purchase' => mysqli_real_escape_string($con, $date_purchase),
         'status_watch' => mysqli_real_escape_string($con, $status_watch),
         'country' => mysqli_real_escape_string($con, $country),
         'size' => mysqli_real_escape_string($con, $size),
-        'location' => mysqli_real_escape_string($con, $location),
-        'preferred_date' => mysqli_real_escape_string($con, $preferred_date),
-        'baseauctionprice' => mysqli_real_escape_string($con, $baseauctionprice),
-        'thresholdprice' => mysqli_real_escape_string($con, $thresholdprice),
-        'bidincrement' => mysqli_real_escape_string($con, $bidincrement),
-        'nextbidprice' => mysqli_real_escape_string($con, $baseauctionprice),
-        'is_edited' => 1,
-        // 'start_date_time' => mysqli_real_escape_string($con,$start_date_time),
-        //  'end_date_time' => mysqli_real_escape_string($con,$end_date_time),
-        'owner_number' => mysqli_real_escape_string($con, $owner_number),
         'state' => mysqli_real_escape_string($con, $state),
+          'date_purchase' => mysqli_real_escape_string($con, $date_purchase),
+         'model_year' => mysqli_real_escape_string($con, $model_year),
+         'currency_code' => mysqli_real_escape_string($con, $currency_code),
+         'location' => mysqli_real_escape_string($con, $location),
+        'description' => mysqli_real_escape_string($con, $description),
         'city' => mysqli_real_escape_string($con, $city),
     );
 
@@ -56,7 +51,7 @@ if (isset($_REQUEST['submit'])) {
         $fieldsList[] = '`' . $field . '`' . '=' . "'" . $value . "'";
     }
 
-    if ($_REQUEST['action'] == 'edit') {
+    if ($_REQUEST['action'] == 'edit' && $_REQUEST['page'] == 'Request') {
 
         $getuploaderid = mysqli_fetch_array(mysqli_query($con, "SELECT * from webshop_products where id='" . mysqli_real_escape_string($con, $_REQUEST['id']) . "'"));
         $isFeePaid = $getuploaderid['auction_fee_paid'];
@@ -66,78 +61,34 @@ if (isset($_REQUEST['submit'])) {
                 . " WHERE `id` = '" . mysqli_real_escape_string($con, $_REQUEST['id']) . "'";
 
 
-
-        if (mysqli_query($con, $editQuery)) {
-
-
-            if (!empty($_FILES['imagee']['tmp_name'])) {
-
-                $target_path = "../upload/product_image/";
-                $userfile_name = $_FILES['imagee']['name'];
-                $userfile_tmp = $_FILES['imagee']['tmp_name'];
-                $img_name = $userfile_name;
-                $img = $target_path . $img_name;
-                move_uploaded_file($userfile_tmp, $img);
-
-                $image = mysqli_query($con, "UPDATE `webshop_products` SET `image`='" . $img_name . "' WHERE `id` = '" . mysqli_real_escape_string($con, $_REQUEST['id']) . "'");
-                // exit;
-            }
+        mysqli_query($con, $editQuery);
 
 
-
-            $get_current_date = date('Y-m-d');
-
-            //   if($preferred_date!='' && $isFeePaid == '1'  && $preferred_date >=$get_current_date)
-            //   {
-            //       // $auctionstatus =mysqli_query($con,"UPDATE `webshop_products` SET `status`='1' WHERE `id` = '" . mysqli_real_escape_string($con,$_REQUEST['id']) . "'"); 
-            //         $get_current_date =date('Y-m-d');
-            // $getuploaderid = mysqli_fetch_array(mysqli_query($con,"SELECT * from webshop_products where id='".mysqli_real_escape_string($con,$_REQUEST['id'])."'"));
-            // $requestor_id = $getuploaderid['uploader_id'];
-            // $getProductName = mysqli_fetch_array(mysqli_query($con,"SELECT * from webshop_products where id='" .$getuploaderid['product_id']. "'"));
-            //   $productName = $getProductName['name'];
-            //   mysqli_query($con,"INSERT into webshop_notification(from_id,to_id,type,msg,date,is_read,last_id) VALUES ('0','".$requestor_id."','Auction Product Live','Your Product ".$productName." is Live. The Product will stay live for 24 hours.','".$get_current_date."','0','".$_REQUEST['id']."')");
-            //      $getAllUsers = mysqli_query($con,"SELECT * from webshop_user where type= '1'");
-            //   $getrows = mysqli_num_rows($getAllUsers);
-            //    if($getrows > 0){
-            //     while($get_all_users = mysqli_fetch_array($getAllUsers)){
-            //       mysqli_query($con,"INSERT into webshop_notification(from_id,to_id,type,msg,date,is_read,last_id) VALUES ('0','".$get_all_users['id']."','Product Added for Auction','A Product ".$productName." has been added for auction.The Auction Date is ".$preferred_date." .The Product will stay live for 24 hours from now.','".$get_current_date."','0','0')");
-            //     }
-            //   }
-            //   }
-            $_SESSION['msg'] = "Category Updated Successfully";
-        } else {
-            $_SESSION['msg'] = "Error occuried while updating Category";
-        }
-
-        header('Location:list_auction.php');
+        header('Location:list_product.php');
         exit();
     }
-    //       else
-    //       {
-    //  $insertQuery = "INSERT INTO `webshop_products` (`" . implode('`,`', array_keys($fields)) . "`)"
-    //   . " VALUES ('" . implode("','", array_values($fields)) . "')";
-    //    mysqli_query($con,$insertQuery);
-    //                       $last_id=mysqli_insert_id($con);
-    //                      if($_FILES['imagee']['tmp_name']!='')
-    // {
-    // $target_path="../upload/product_image/";
-    // $userfile_name = $_FILES['imagee']['name'];
-    // $userfile_tmp = $_FILES['imagee']['tmp_name'];
-    // $img_name =$userfile_name;
-    // $img=$target_path.$img_name;
-    // move_uploaded_file($userfile_tmp, $img);
-    // $image =mysqli_query($con,"UPDATE `webshop_products` SET `image`='".$img_name."' WHERE `id` = '" . $last_id . "'");
-    // }
-    //    header('Location:list_auction.php');
-    //    exit();
-    //       }
+    
+    else if ($_REQUEST['action'] == 'edit' && $_REQUEST['page'] == 'live') {
+
+        $getuploaderid = mysqli_fetch_array(mysqli_query($con, "SELECT * from webshop_products where id='" . mysqli_real_escape_string($con, $_REQUEST['id']) . "'"));
+        $isFeePaid = $getuploaderid['auction_fee_paid'];
+
+
+        $editQuery = "UPDATE `webshop_products` SET " . implode(', ', $fieldsList)
+                . " WHERE `id` = '" . mysqli_real_escape_string($con, $_REQUEST['id']) . "'";
+
+
+        mysqli_query($con, $editQuery);
+
+
+        header('Location:list_live_product.php');
+        exit();
+    }
 }
 
 
 if ($_REQUEST['action'] == 'edit') {
     $categoryRowset = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `webshop_products` WHERE `id`='" . mysqli_real_escape_string($con, $_REQUEST['id']) . "'"));
-    $getallcountry = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `webshop_countries`"));
-    
 }
 
 
@@ -194,7 +145,7 @@ if ($num > 0) {
                     <!-- END THEME CUSTOMIZER-->
                     <!-- BEGIN PAGE TITLE & BREADCRUMB-->
                     <h3 class="page-title">
-                        Auction <small><?php echo $_REQUEST['action'] == 'edit' ? "Edit" : "Add"; ?>  Auction</small>
+                        Product <small><?php echo $_REQUEST['action'] == 'edit' ? "Edit" : "Add"; ?>  Product</small>
                     </h3>
                     <ul class="breadcrumb">
                         <li>
@@ -202,12 +153,12 @@ if ($num > 0) {
                             <span class="divider">/</span>
                         </li>
                         <li>
-                            <a href="#"> Auction</a>
+                            <a href="#"> Product</a>
                             <span class="divider">/</span>
                         </li>
 
                         <li>
-                            <span><?php echo $_REQUEST['action'] == 'edit' ? "Edit" : "Add"; ?> Auction</span>
+                            <span><?php echo $_REQUEST['action'] == 'edit' ? "Edit" : "Add"; ?> Product</span>
 
                         </li>
 
@@ -216,6 +167,8 @@ if ($num > 0) {
 
 
                     </ul>
+                    
+                   <button onclick="goBack()">Go Back</button>
                     <!-- END PAGE TITLE & BREADCRUMB-->
                 </div>
             </div>
@@ -226,7 +179,7 @@ if ($num > 0) {
                     <!-- BEGIN SAMPLE FORMPORTLET-->
                     <div class="widget green">
                         <div class="widget-title">
-                            <h4><i class="icon-reorder"></i>Edit Auction</h4>
+                            <h4><i class="icon-reorder"></i>Edit Product</h4>
                             <span class="tools">
                                 <a href="javascript:;" class="icon-chevron-down"></a>
                                 <a href="javascript:;" class="icon-remove"></a>
@@ -234,15 +187,20 @@ if ($num > 0) {
                         </div>
                         <div class="widget-body">
                             <!-- BEGIN FORM-->
-                            <form class="form-horizontal" id="adminaddauction" method="post" enctype="multipart/form-data">
-
-
+                            <form class="form-horizontal" method="post" enctype="multipart/form-data">
+                                
+                                
+<!--                                <div class="control-group">
+                                    <label class="control-label">Name</label>
+                                    <div class="controls">
+                                        <input type="text" class="form-control" placeholder="Enter name" value="<?php echo $categoryRowset['name']; ?>" name="name" readonly>
+                                    </div>
+                                </div>-->
 
                                 <div class="control-group">
                                     <label class="control-label">Price</label>
                                     <div class="controls">
-                                        <input type="text" class="form-control" placeholder="Enter price" value="<?php echo $categoryRowset['price']; ?>" name="price" id="price" required>
-
+                                        <input type="text" class="form-control" placeholder="Enter price" value="<?php echo $categoryRowset['price']; ?>" name="price"  readonly>
                                     </div>
                                 </div>
 
@@ -259,8 +217,7 @@ if ($num > 0) {
                                 <div class="control-group">
                                     <label class="control-label">Movement</label>
                                     <div class="controls">
-                                        <input type="text" class="form-control" placeholder="Enter movement" value="<?php echo $categoryRowset['movement']; ?>" name="movement" required>
-
+                                        <input type="text" class="form-control" placeholder="Enter movement" value="<?php echo $categoryRowset['movement']; ?>" name="movement" readonly>
                                     </div>
                                 </div>
 
@@ -268,20 +225,19 @@ if ($num > 0) {
                                 <div class="control-group">
                                     <label class="control-label">Gender</label>
                                     <div class="controls">
-                                        <input type="radio" name="gender" value="Female" <?php if ('Female' == $categoryRowset['gender']) { ?> checked <?php } ?>>Female&nbsp;
-                                        <input type="radio" name="gender" value="Male" <?php if ('Male' == $categoryRowset['gender']) { ?> checked <?php } ?>>Male<br>
-                                        <input type="radio" name="gender" value="Male" <?php if ('Unisex' == $categoryRowset['gender']) { ?> checked <?php } ?>>Unisex<br>
-
+                                        <input type="radio" name="gender" value="Female" <?php if ('Female' == $categoryRowset['gender']) { ?> checked <?php } ?> disabled='disabled'>Female&nbsp;
+                                        <input type="radio" name="gender" value="Male" <?php if ('Male' == $categoryRowset['gender']) { ?> checked <?php } ?> disabled='disabled'>Male<br>
+                                        <input type="radio" name="gender" value="Unisex" <?php if ('Unisex' == $categoryRowset['gender']) { ?> checked <?php } ?> disabled='disabled'>Unisex<br>
                                     </div>
                                 </div>
 
                                 <!--   <div class="control-group">
                                      <label class="control-label">Brand</label>
                                      <div class="controls">
-                                     <input type="text" class="form-control" placeholder="Enter brand" value="<?php echo $getBrands['name']; ?>" name="brand" required>
+                                     <input type="text" class="form-control" placeholder="Enter brand" value="<?php echo $getBrands['name']; ?>" name="brand" readonly>
                                      </div>
                                  </div> -->
-
+                                
                                 <div class="control-group">
                                     <label class="control-label">Brand</label>
                                     <div class="controls">
@@ -289,7 +245,7 @@ if ($num > 0) {
                                         $sql = "SELECT * FROM webshop_brands";
                                         $result = mysqli_query($con, $sql);
                                         ?>
-                                        <select name='brand'>
+                                        <select name='brand' onchange="getCategory(this.value)" disabled='disabled'>
                                             <option value=''> Select Brand</option>
                                             <?php
                                             while ($row = mysqli_fetch_array($result)) {
@@ -299,59 +255,99 @@ if ($num > 0) {
                                             ?>
 
                                         </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="control-group">
+                                    <label class="control-label">Category</label>
+                                    <div class="controls">
+                                        <?php
+                                        $sql = "SELECT * FROM webshop_category";
+                                        $result = mysqli_query($con, $sql);
+                                        ?>
+                                        <select name="category_id" id="category_id" disabled='disabled'>
+                                            <option value=''> Select Category</option>
+                                            <?php
+                                            while ($row = mysqli_fetch_array($result)) {
+                                                ?>
+                                                <option value='<?php echo $row['id']; ?>'  <?php if ($row['id'] == $categoryRowset['cat_id']) { ?> selected="selected"<?php } ?>><?php echo $row['name']; ?></option>
+                                            <?php }
+                                            ?>
 
+                                        </select>
                                     </div>
                                 </div>
 
+                                
+                                
+                                <div class="control-group">
+                                    <label class="control-label">Bracelet</label>
+                                    <div class="controls">
+                                        <?php
+                                        $sql = "SELECT * FROM webshop_bracelet";
+                                        $result = mysqli_query($con, $sql);
+                                        ?>
+                                        <select name='breslet_type' disabled='disabled'>
+                                            <option value=''> Select Bracelet</option>
+                                            <?php
+                                            while ($row = mysqli_fetch_array($result)) {
+                                                ?>
+                                                <option value='<?php echo $row['id']; ?>'  <?php if ($row['id'] == $categoryRowset['breslet_type']) { ?> selected="selected"<?php } ?>><?php echo $row['type']; ?></option>
+                                            <?php }
+                                            ?>
 
+                                        </select>
+                                    </div>
+                                </div>
+
+                                
                                 <div class="control-group">
                                     <label class="control-label">Reference Number</label>
                                     <div class="controls">
-                                        <input type="text" class="form-control" placeholder="Enter reference number" value="<?php echo $categoryRowset['reference_number']; ?>" name="reference_number" required>
-
+                                        <input type="text" readonly class="form-control" placeholder="Enter reference number" value="<?php echo $categoryRowset['reference_number']; ?>" name="reference_number">
                                     </div>
                                 </div>
-
-                                <!--                                <div class="control-group">
-                                                                    <label class="control-label">Date of Purchase</label>
-                                                                    <div class="controls">
-                                                                        <input type="text" class="form-control" placeholder="Enter purchase date" value="<?php echo $categoryRowset['date_purchase']; ?>" id="datepickerpurchase" name="date_purchase" required>
                                 
-                                                                    </div>
-                                                                </div>-->
-
-                                <div class="control-group">
-                                    <label class="control-label">Watch Status</label>
-                                    <div class="controls">
-                                        <input type="text" class="form-control" placeholder="Enter purchase date" value="<?php echo $categoryRowset['status_watch']; ?>" name="status_watch" required>
-
-                                    </div>
-                                </div>
-
                                 <div class="control-group">
                                     <label class="control-label">Owner Number</label>
                                     <div class="controls">
-                                        <input type="text" class="form-control" placeholder="Enter owner number" value="<?php echo $categoryRowset['owner_number']; ?>" name="owner_number" required>
-
+                                        <input type="text" class="form-control" placeholder="Enter owner number" value="<?php echo $categoryRowset['owner_number']; ?>" name="owner_number" readonly>
                                     </div>
                                 </div>
 
-<!--                                <div class="control-group">
-                                    <label class="control-label">Country</label>
+                             <div class="control-group">
+                                    <label class="control-label">Date of Purchase</label>
                                     <div class="controls">
-                                        <input type="text" class="form-control" placeholder="Enter country" value="<?php echo $categoryRowset['country']; ?>" name="country" required>
-
+                                        <input type="text" class="form-control" placeholder="Enter purchase date" value="<?php echo $categoryRowset['date_purchase']; ?>" id="datepickerpurchase" name="date_purchase" readonly>
                                     </div>
-                                </div>-->
+                                </div>
 
                                 <div class="control-group">
-                                    <label class="control-label">Size</label>
+                                    <label class="control-label">Model Year</label>
                                     <div class="controls">
-                                        <input type="text" class="form-control" placeholder="Enter size" value="<?php echo $categoryRowset['size']; ?>" name="size" required>
-
+                                        <input type="text" class="form-control" placeholder="Enter Model Year" value="<?php echo $categoryRowset['model_year']; ?>" name="model_year" readonly>
                                     </div>
                                 </div>
 
+                                 <div class="control-group">
+                                     <label class="control-label">Currency Code</label>
+                                     <div class="controls">
+                                         <input type="text" class="form-control" placeholder="Enter currency code" value="<?php echo $categoryRowset['currency_code']; ?>" name="currency_code" readonly>
+                                     </div>
+                                 </div>
+                                 <div class="control-group">
+                                     <label class="control-label">Location</label>
+                                     <div class="controls">
+                                         <input type="text" class="form-control" placeholder="Enter location" value="<?php echo $categoryRowset['location']; ?>" name="location" readonly>
+                                     </div>
+                                 </div>
+                                
+                                <div class="control-group">
+                                <label class="control-label">Description</label>
+                                <div class="controls">
+                                <textarea rows="4" cols="50" class="ckeditor form-control" placeholder="Enter text" name ="description" readonly><?php echo $categoryRowset['description'];?></textarea>
+                                </div> 
+                                </div>
 
                                 <div class="control-group">
                                     <label class="control-label">Country</label>
@@ -360,7 +356,7 @@ if ($num > 0) {
                                         $sql = "SELECT * FROM webshop_countries";
                                         $resultcountry = mysqli_query($con, $sql);
                                         ?>
-                                        <select name='country' id="country" disabled>
+                                        <select name='country' id="country" onchange="getState(this.value)" disabled='disabled'>
                                             <option value=''> Select Country</option>
                                             <?php
                                             while ($row = mysqli_fetch_array($resultcountry)) {
@@ -378,10 +374,10 @@ if ($num > 0) {
                                     <label class="control-label">State</label>
                                     <div class="controls">
                                         <?php
-                                        $sql = "SELECT * FROM 	webshop_states";
+                                        $sql = "SELECT * FROM `webshop_states`";
                                         $resultstates = mysqli_query($con, $sql);
                                         ?>
-                                        <select name='state' id="state" disabled>
+                                        <select name='state' id="state" disabled='disabled'>
                                             <option value=''> Select State</option>
                                             <?php
                                             while ($row = mysqli_fetch_array($resultstates)) {
@@ -418,53 +414,42 @@ if ($num > 0) {
                                     </div>
                                 </div>-->
 
-
                                 <div class="control-group">
-                                    <label class="control-label">Base Auction Price</label>
+                                    <label class="control-label">Size</label>
                                     <div class="controls">
-                                        <input  type="number" class="form-control" placeholder="Enter base auction price" value="<?php echo $categoryRowset['baseauctionprice']; ?>" name="baseauctionprice" id="baseauctionprice" required>
-
+                                        <input type="text" class="form-control" placeholder="Enter size" value="<?php echo $categoryRowset['size']; ?>" name="size" readonly>
                                     </div>
                                 </div>
 
-                                <div class="control-group">
-                                    <label class="control-label">Threshold Price</label>
-                                    <div class="controls">
-                                        <input type="number" readonly class="form-control" placeholder="Enter threshold price" value="<?php echo $categoryRowset['thresholdprice']; ?>" name="thresholdprice" required>
 
-                                    </div>
-                                </div>
-
-                                <div class="control-group">
-                                    <label class="control-label">Bid Increment</label>
-                                    <div class="controls">
-                                        <input type="number" class="form-control" placeholder="Enter bid increment price" value="<?php echo $categoryRowset['bidincrement']; ?>" name="bidincrement" required>
-
-                                    </div>
-                                </div>
-
-<!--                                <div class="control-group">
-                                    <label class="control-label">Preferred Date</label>
-                                    <div class="controls">
-                                        <input type="text" class="form-control" placeholder="Enter preferred_date" id="" value="<?php echo $categoryRowset['preferred_date']; ?>"  readonly name="preferred_date" required>
-
-                                    </div>
-                                </div>-->
-
-
+                                <!--    <div class="control-group">
+                                       <label class="control-label">Location</label>
+                                       <div class="controls">
+                                           <input type="text" class="form-control" placeholder="Enter location" value="<?php echo $categoryRowset['location']; ?>" name="location" readonly>
+                                       </div>
+                                   </div>
+   
+                                   <div class="control-group">
+                                       <label class="control-label">Preferred Date</label>
+                                       <div class="controls">
+                                           <input type="text" class="form-control" placeholder="Enter preferred_date" id="datepicker" value="<?php echo $categoryRowset['preferred_date']; ?>" name="preferred_date" readonly>
+                                       </div>
+                                   </div>
+   
+   
                                 <!--   <div class="control-group">
                                       <label class="control-label">Start Date</label>
                                       <div class="controls">
-                                      <input type="text" class="form-control" placeholder="Enter start date" id="datepicker" value="<?php echo $categoryRowset['start_date_time']; ?>" name="start_date_time" required>
+                                      <input type="text" class="form-control" placeholder="Enter start date" id="datepicker" value="<?php echo $categoryRowset['start_date_time']; ?>" name="start_date_time" readonly>
                                       </div>
                                   </div>
   
                                   <div class="control-group">
                                       <label class="control-label">End Date</label>
                                       <div class="controls">
-                                      <input type="text" class="form-control" placeholder="Enter end date" id="datepickerr" value="<?php echo $categoryRowset['end_date_time']; ?>" name="end_date_time" required>
+                                      <input type="text" class="form-control" placeholder="Enter end date" id="datepickerr" value="<?php echo $categoryRowset['end_date_time']; ?>" name="end_date_time" readonly>
                                       </div>
-                                  </div> -->
+                                  </div> 
 
                                 <div class="control-group">
                                     <label class="control-label">Image Upload</label>
@@ -472,11 +457,11 @@ if ($num > 0) {
                                         <input type="file" name="imagee" class=" btn blue"  ><?php if ($categoryRowset['image'] != '') { ?><br><a href="../upload/product_image/<?php echo $categoryRowset['image']; ?>" target="_blank">View</a><?php } ?>
                                     </div>
                                 </div>
-
-                                <div class="form-actions">
-                                    <button type="submit" class="btn blue" name="submit" onclick="return validateForm()"><i class="icon-ok"></i> Save</button>
-                                    <button type="reset" class="btn"><i class=" icon-remove"></i> Cancel</button>
-                                </div>
+                                -->
+<!--                                <div class="form-actions">
+                                    <button type="submit" class="btn blue" name="submit"><i class="icon-ok"></i> Save</button>
+                                    <button type="reset" id="cancle_product_edit" class="btn"><i class=" icon-remove"></i> Cancel</button>
+                                </div>-->
                             </form>
                             <!-- END FORM-->
                         </div>
@@ -530,16 +515,6 @@ if ($num > 0) {
 
 <!--script for this page only-->
 
-<script src=" https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/additional-methods.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/additional-methods.js"></script>
-
-
-
-
-
-
 <script src="js/easy-pie-chart.js"></script>
 <script src="js/sparkline-chart.js"></script>
 <script src="js/home-page-calender.js"></script>
@@ -547,19 +522,20 @@ if ($num > 0) {
 
 <script>
 
-                                        jQuery(function () {
-                                            //alert();
-                                            var enableDays = <?php echo json_encode($datefordatepicker); ?>;
-                                            function enableAllTheseDays(date) {
-                                                var sdate = $.datepicker.formatDate('dd-mm-yy', date)
-                                                if ($.inArray(sdate, enableDays) != -1) {
-                                                    return [true, 'event'];
-                                                }
-                                                return [false];
-                                            }
+    jQuery(function () {
 
-                                            $('#datepicker').datepicker({dateFormat: 'dd-mm-yy', beforeShowDay: enableAllTheseDays});
-                                        })</script>
+        var enableDays = <?php echo json_encode($datefordatepicker); ?>;
+
+        function enableAllTheseDays(date) {
+            var sdate = $.datepicker.formatDate('dd-mm-yy', date)
+            if ($.inArray(sdate, enableDays) != -1) {
+                return [true, 'event'];
+            }
+            return [false];
+        }
+
+        $('#datepicker').datepicker({dateFormat: 'dd-mm-yy', beforeShowDay: enableAllTheseDays});
+    })</script>
 <script>
     $(document).ready(function () {
         $("#datepickerr").datepicker({dateFormat: 'yy-mm-dd'});
@@ -579,6 +555,35 @@ if ($num > 0) {
             }
         });
     }
+    
+     function getState(val) {
+        $.ajax({
+            type: "POST",
+            url: "get_state.php",
+            data: 'country=' + val,
+            success: function (data) {
+                $("#state").html(data);
+            }
+        });
+    }
+    
+    function getCategory(val) {
+        $.ajax({
+            type: "POST",
+            url: "get_brand.php",
+            data: 'brand_id=' + val,
+            success: function (data) {
+                $("#category_id").html(data);
+            }
+        });
+    }
+    $("#cancle_product_edit").click(function(){
+    window.location.href = "list_product.php";
+}); 
+
+function goBack() {
+    window.history.back()
+};
 </script>
 <!-- END JAVASCRIPTS -->   
 </body>
@@ -594,97 +599,4 @@ if ($num > 0) {
         color: #696969 ;
         background: ghostwhite;
     }
-
-    .error {
-        color:#FF0000;
-    }
 </style>
-<script>
-
-    jQuery.validator.addMethod("lettersonly", function (value, element) {
-        return this.optional(element) || /^[a-zA-Z ]*$/.test(value);
-    }, "Only Letters allowed");
-    $.validator.addMethod('positiveNumber',
-            function (value, element) {
-                return this.optional(element) || /^(0*[0-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[0-9][0-9]*)$/.test(value);
-            }, 'Only number allowed.');
-    jQuery.validator.addMethod("noSpace", function (value, element) {
-        return value == '' || value.trim().length != 0;
-    }, "No space please and don't leave it empty");
-    jQuery.validator.addMethod("lessThan", function (value, element, params) {
-
-        if (!/Invalid|NaN/.test(new Date(value))) {
-            return new Date(value) < new Date($(params).val());
-        }
-
-        return isNaN(value) && isNaN($(params).val())
-                || (Number(value) < Number($(params).val()));
-    }, 'Must be less than Preffered Date.');
-
-    $.validator.addMethod('greaterNumber', function (value, element, param) {
-        return this.optional(element) || parseInt(value) < parseInt($(param).val());
-    }, 'Invalid value');
-
-    $("#adminaddauction").validate({
-        rules: {
-            price: {
-                noSpace: true,
-                positiveNumber: true,
-            },
-            movement: {
-                noSpace: true,
-                lettersonly: true,
-            },
-            brand: {
-                required: true,
-            },
-            gender: {
-                required: true,
-            },
-            preferred_date: {
-                required: true,
-            },
-            date_purchase: {
-                required: true,
-                lessThan: '#datepicker',
-            },
-            status_watch: {
-                required: true,
-                lettersonly: true,
-            },
-            size: {
-                required: true,
-                positiveNumber: true,
-            },
-            baseauctionprice: {
-                required: true,
-                positiveNumber: true,
-                greaterNumber: '#price',
-            },
-            owner_number: {
-                required: true,
-                positiveNumber: true,
-            },
-            country: {
-                required: true,
-                
-            },
-            bidincrement: {
-                required: true,
-                positiveNumber: true,
-            },
-            reference_number: {
-                required: true,
-            },
-        },
-        messages: {
-            baseauctionprice: {
-                greaterNumber: 'Base auction price must be less than price',
-            },
-        }
-    });
-    
-//    $("#country").click(function(){
-//    alert("The paragraph was clicked.");
-//});
-</script>

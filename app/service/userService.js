@@ -4689,10 +4689,10 @@ reject(response);
 
 
 
-    var interestedproduct = function() {
+    var interestedproduct = function(currency) {
     return $q(function(resolve, reject) {
         var userInfo = JSON.parse($window.localStorage["userInfo"]);
-        var encodedString ='{"user_id":"'+ userInfo.user_id +'"}';
+        var encodedString ='{"user_id":"'+ userInfo.user_id +'","currency":"'+ currency +'"}';
 
     
     $http({

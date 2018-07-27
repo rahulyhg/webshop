@@ -4,6 +4,12 @@
  */
 app.controller('sendForAuctionCtrl', function ($rootScope, $state, $scope, $http, $location,$timeout, $q, userService, $stateParams, $window,Upload) {
 
+if(!localStorage.getItem("userInfo"))
+{
+   $state.go('frontend.home', {reload:true})
+}
+$window.scrollTo(0, 0);
+
 $scope.data = {};
 $scope.user = {};
 
@@ -93,6 +99,25 @@ $scope.getCurrentUserType();
 	}, function(err) {
 	console.log(err); 
 	}); 
+        
+            userService.listbracelet().then(function(response) {
+          
+		$scope.isExists=1;
+		if(response.Ack == '1') {
+                   
+                    $scope.isExists=1;
+                 
+		$scope.braceletlist=response.braceletlist;
+               
+		} else {
+                   
+                    $scope.isExists=0;
+		}
+				   
+	}, function(err) {
+	console.log(err); 
+	});
+        
         
         userService.listcurrency().then(function(response) {
            // alert('hii');
@@ -209,13 +234,23 @@ user2.model_year=user2.model_year;
 		console.log(response.Ack);
 		$scope.isExists=1;
 		if(response.Ack == '1') {
-                    swal('Added Successfully.','','success');
-                   window.location.reload()
-                    $scope.isExists=1;
-		
-		} else {
-                    console.log('ppp');	
-                    $scope.isExists=0;
+                    
+                     swal("Added Successfully.", "", "success")
+                .then((value) => {
+                    if(value == true){
+
+                         $state.go('frontend.myAuction');
+                    }
+
+                });
+                    
+//                    
+//                    swal('Added Successfully.','','success');
+//                   window.location.reload()
+//                    $scope.isExists=1;
+//		
+//		} else {
+//                    console.log('ppp');	
 		}
 	
 	
